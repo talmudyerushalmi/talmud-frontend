@@ -4,7 +4,6 @@ export {
   requestCompositions,
   requestTractates,
   setCurrentLocation,
-  setCurrentTractate,
   setNavigationToRoute,
   selectTractate,
   selectChapter,

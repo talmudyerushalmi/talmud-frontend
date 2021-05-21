@@ -1,10 +1,7 @@
 import React from "react"
-import Layout from "../layout"
-import SEO from "../seo"
 import { Container, Grid } from "@material-ui/core"
 import MainText from "./MainText"
-import { navigate } from "gatsby"
-import ChooseMishnaBar from "../shared/ChooseMishnaBar"
+//import ChooseMishnaBar from "../shared/ChooseMishnaBar"
 import MishnaText from "./MishnaText"
 import { connect } from "react-redux"
 import { selectExcerpt } from "../../store/actions"
@@ -28,17 +25,15 @@ const TalmudPage = props => {
   const { mishna, loading, currentMishna } = props
 
 
-  const onLineSelected = link => {
-    if (link) {
-      navigate(`/talmud/${link.tractate}/${link.chapter}/${link.mishna}`)
-    }
-  }
+  // const onLineSelected = link => {
+  //   if (link) {
+  //     navigate(`/talmud/${link.tractate}/${link.chapter}/${link.mishna}`)
+  //   }
+  // }
 
   return (
-    <Layout loading={loading}>
-      <SEO title="Page client" />
+   
       <Container style={{ direction: "rtl" }}>
-        <ChooseMishnaBar onNavigationSelected={onLineSelected} />
         <Grid container spacing={2}>
           <MishnaViewOptions/>
           <Grid container justify="center" item sm={12}>
@@ -54,7 +49,7 @@ const TalmudPage = props => {
           </Grid>
         </Grid>
       </Container>
-    </Layout>
+  
   )
 }
 
