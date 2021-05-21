@@ -1,0 +1,234 @@
+import PageService from "../../services/pageService"
+
+export const REQUEST_START = "REQUEST_START"
+export const REQUEST_COMPOSITIONS = "REQUEST_COMPOSITIONS"
+export const RECEIVE_COMPOSITIONS = "RECEIVE_COMPOSITIONS"
+export const RECEIVE_TRACTATES = "RECEIVE_TRACTATES"
+export const REQUEST_TRACTATES = "REQUEST_TRACTATES"
+export const REQUEST_MISHNA = "REQUEST_MISHNA"
+export const RECEIVE_MISHNA = "RECEIVE_MISHNA"
+export const SET_CURRENT_TRACTATE = "SET_CURRENT_TRACTATE"
+export const RECEIVED_CURRENT_LOCATION = "RECEIVED_CURRENT_LOCATION"
+export const RECEIVED_CURRENT_SELECTION = "RECEIVED_CURRENT_SELECTION"
+export const SET_SELECTED_FOR_ROUTE = "SET_SELECTED_FOR_ROUTE"
+export const SELECT_TRACTATE = "SELECT_TRACTATE"
+export const SELECT_CHAPTER = "SELECT_CHAPTER"
+export const SELECT_MISHNA = "SELECT_MISHNA"
+export const SELECT_LINE = "SELECT_LINE"
+export const SET_CURRENT_MISHNA = "SET_CURRENT_MISHNA"
+
+export const startRequest = () => ({
+  type: REQUEST_START,
+})
+
+export const receivedCompositions = compositions => ({
+  type: RECEIVE_COMPOSITIONS,
+  compositions
+})
+export const receivedTractates = tractates => ({
+    type: RECEIVE_TRACTATES,
+    tractates,
+  })
+
+export const receivedMishna = currentMishna => ({
+    type: RECEIVE_MISHNA,
+    currentMishna,
+  })
+
+export const receivedCurrentLocation = (currentTractate,currentChapter,currentMishna,currentLine) => ({
+  type: RECEIVED_CURRENT_LOCATION,
+  currentTractate,
+  currentChapter,
+  currentMishna,
+  currentLine
+});
+
+export const receivedCurrentSelection = (tractateData,chapterData,mishnaData,lineData) => ({
+  type: RECEIVED_CURRENT_SELECTION,
+  selectedTractateData:tractateData,
+  selectedChapterData:chapterData,
+  selectedMishnaData:mishnaData,
+  selectedLineData: lineData
+});
+
+export const setSelectedForRoute = (selectedTractate, selectedChapter, selectedMishna, selectedLine) => ({
+  type: SET_SELECTED_FOR_ROUTE,
+  selectedTractate,
+  selectedChapter,
+  selectedMishna,
+  selectedLine
+});
+
+export const setCurrentMishna = (mishnaDoc) => ({
+  type: SET_CURRENT_MISHNA,
+  currentMishna: mishnaDoc
+
+})
+// export const setCurrentTractate = tractate => ({
+//   type: SET_CURRENT_TRACTATE,
+//     tractate
+// });  
+
+export function getCurrentTractate() {
+  return function (dispatch) {
+    dispatch(requestTractates());
+  }
+}
+
+
+export function setNavigationToRoute(tractate, chapter, mishna, line) {
+  return async function (dispatch,getState) {
+    let state = getState();
+    if (state.general.tractates.length===0) {
+      await dispatch(requestTractates())
+      state = getState();
+   }
+   let mishnaData;
+   let lineData;
+   if (state.general.currentMishna?.id !== mishna) {
+    mishnaData = await PageService.getMishna(tractate, chapter, mishna);
+   }
+   if (line!==undefined) {
+    lineData = mishnaData.lines.find(l=>l.lineNumber===line);
+    // if (lineData === undefined) {
+    //   lineData = mishnaData.lines[0];
+    // }
+
+   }
+
+   
+   const tractateData = state.general.tractates.find(t => t.id === tractate);
+   const chapterData =  tractateData?.chapters.find(c => c.id === chapter);
+   dispatch(setSelectedForRoute(tractateData,chapterData,mishnaData,lineData));
+   dispatch(setCurrentMishna(mishnaData));
+   
+  }
+}
+
+export function selectTractate(selectedTractate) {
+  return async function (dispatch,getState) {
+    dispatch({
+      type: SELECT_TRACTATE,
+      selectedTractate,
+    });
+    dispatch(selectChapter(selectedTractate?.chapters[0]))
+  }
+}
+
+export function selectChapter(selectedChapter) {
+
+  return async function (dispatch,getState) {    
+    dispatch({
+      type: SELECT_CHAPTER,
+      selectedChapter,
+    });
+    dispatch(selectMishna(selectedChapter?.mishnaiot[0]))
+  }
+}
+
+export function selectMishna(selectedMishna) {
+  return async function (dispatch,getState) { 
+    if (!(selectedMishna)) {return}
+    let state = getState();
+    if (state.general.selectedLine) {
+      if (!selectedMishna?.lines) {
+          selectedMishna = await PageService.getMishna(state.general.selectedTractate.id,
+          state.general.selectedChapter.id, selectedMishna.mishna);
+      }
+      const firstLine = selectedMishna?.lines[0];
+      dispatch({
+        type: SELECT_MISHNA,
+        selectedMishna,
+        selectedLine: firstLine
+      });
+    } else {
+      dispatch({
+        type: SELECT_MISHNA,
+        selectedMishna,
+      });
+     
+    }
+  }
+}
+
+export function selectLine(selectedLine) {
+  return async function (dispatch,getState) {  
+    dispatch({
+      type: SELECT_LINE,
+      selectedLine,
+    });
+   
+  }
+}
+
+export function requestCompositions() {
+  return function (dispatch) {
+    dispatch(startRequest())
+    return PageService.getSettings("compositions").then(
+      response => dispatch(receivedCompositions(response)),
+      error => console.log("An error occurred.", error)
+    )
+  }
+}
+
+export function requestMishna(tractate, chapter, mishna) {
+  return function (dispatch) {
+    dispatch(startRequest())
+    return PageService.getMishnaEdit(tractate, chapter, mishna).then(
+      data => dispatch(receivedMishna(data.data)),
+      error => console.log("An error occurred.", error)
+    )
+  }
+}
+
+export function setCurrentLocation(type='location',tractate,chapter,mishna,line) {
+  return  async (dispatch,getState)=> {
+    console.log('here')
+
+    dispatch(startRequest())
+    let state = getState();
+    if (state.general.tractates.length===0) {
+       await dispatch(requestTractates())
+    }
+    state = getState();
+    const tractateData = state.general.tractates.find(t => t.id === tractate);
+    const chapterData =  tractateData?.chapters.find(c => c.id === chapter);
+    const foundMishna =  chapterData.mishnaiot.find(m => m.mishna === mishna);
+    let mishnaData = null;
+    let lineData = null;
+    // instead found mishna
+    if (foundMishna && state.general.currentMishna.id === foundMishna.id) {
+      mishnaData = state.general.currentMishna;
+      // mishnaData = await PageService.getMishna(tractate, chapter, mishna);
+      lineData = mishnaData.lines.find(l=>l.lineNumber===line);
+      if (lineData === undefined) {
+        lineData = mishnaData.lines[0];
+      }
+    } else {
+      mishnaData = await PageService.getMishna(tractate, chapter, '001');
+      lineData = mishnaData.lines[0];
+    }
+    if (type==='location') {
+      console.log('updated selected mishna')
+      dispatch(receivedCurrentLocation(tractateData,chapterData,mishnaData,lineData));
+    }
+    if (type==='selection') {
+      dispatch(receivedCurrentSelection(tractateData,chapterData,mishnaData,lineData));
+    }
+    state = getState();
+
+    console.log('state',state);
+  }
+}
+
+
+export function requestTractates() {
+    return function (dispatch) {
+      dispatch(startRequest())
+      return PageService.getAllTractates().then(
+        data => dispatch(receivedTractates(data.tractates)),
+        error => console.log("An error occurred.", error)
+      )
+    }
+  }
+  

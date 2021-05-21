@@ -1,25 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Route } from 'react-router-dom';
+
 import './App.css';
+import Talmud from './pages/Talmud';
+import { Admin } from './pages/Admin';
+import { Header } from './layout/Header';
+import { Provider } from 'react-redux';
+import store from './store';
+
 
 function App() {
   return (
+    <Provider store={store}>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+      <Header/>
+
+        <div>
+        <Route path="/" exact component={Talmud}/>
+        <Route path="/admin" component={Admin}/>
+        </div>
+
+        
+       </BrowserRouter>
+    
     </div>
+    </Provider>
   );
 }
 
