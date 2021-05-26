@@ -7,7 +7,6 @@ export const Header = () => {
    
       <header className="App-header">
           <MainMenu/> 
-          Header menu
       </header>
  
   );

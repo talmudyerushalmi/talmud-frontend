@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useField } from "formik"
-import TextEditor from "./textEditor"
+import TextEditor from "./TextEditor"
 
 
 const FieldMainLineEditor = (props) => {

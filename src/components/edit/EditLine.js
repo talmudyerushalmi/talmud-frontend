@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../layout';
 import EditLineForm from './editlineForm';
 import { Container } from '@material-ui/core';
 import PageService from '../../services/pageService';
-import { navigate } from "gatsby"
 import { requestCompositions, requestTractates } from "../../store/actions"
 
 import { connect } from "react-redux"
 import ChooseMishnaBar from '../shared/ChooseMishnaBar';
+import { useHistory, useParams } from 'react-router';
 
 const mapStateToProps = state => ({
   tractates:state.general.tractates,
@@ -29,8 +28,10 @@ const EditLine = (props) => {
       synopsisAllowed:[],
       synopsisList:[]
     });
-    const { tractate, chapter, mishna, line, tractates, getTractates,getCompositions,
+    const { tractates, getTractates,getCompositions,
       currentMishna} = props;
+    const { tractate, chapter, mishna, line } = useParams();
+    const history = useHistory();
 
     useEffect(() => {
       getTractates();
@@ -46,8 +47,6 @@ const EditLine = (props) => {
         setLineObj(lineObj);
       }
        fetch();
-      return ()=>{
-      }
 
     }, [line]);
 
@@ -56,13 +55,12 @@ const EditLine = (props) => {
  
     const onLineSelected = link => {
       if (link) {
-        navigate(`/admin/edit/${link.tractate}/${link.chapter}/${link.mishna}/${link.line}`)
+        history.push(`/admin/edit/${link.tractate}/${link.chapter}/${link.mishna}/${link.line}`)
       }
     }
   
 
     return (
-        <Layout>
             <Container>
           <ChooseMishnaBar
             onNavigationSelected={onLineSelected}
@@ -76,7 +74,6 @@ const EditLine = (props) => {
             </Container>
           
 
-        </Layout>
     );
 
 }

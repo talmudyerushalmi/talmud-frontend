@@ -32,7 +32,6 @@ export default function MainMenu() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-          <NavLink to='/' style={{...themeConstants.links.noStyle}}>red</NavLink>
           <NavLink to='/'>
             תלמוד ירושלמי
             </NavLink>
