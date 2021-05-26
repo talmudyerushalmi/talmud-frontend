@@ -6,18 +6,21 @@ import Talmud from './pages/Talmud';
 import { Admin } from './pages/Admin';
 import { Header } from './layout/Header';
 import TalmudPage from './components/MishnaView/TalmudPage';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from './ui/Theme';
 
 
 function App() {
   return (
 
+    <ThemeProvider theme={theme}>
     <div className="App">
       <BrowserRouter>
       <Header/>
 
         <div>
         <Route path="/" exact component={Talmud}/>
-        <Route path="/talmud/:tractate/:page/:mishna" exact component={TalmudPage}/>
+        <Route path="/talmud/:tractate/:chapter/:mishna" exact component={TalmudPage}/>
         <Route path="/admin" component={Admin}/>
         </div>
 
@@ -25,6 +28,7 @@ function App() {
        </BrowserRouter>
     
     </div>
+    </ThemeProvider>
   );
 }
 

@@ -1,5 +1,4 @@
 import { Button, makeStyles, TextField, Grid } from "@material-ui/core"
-import { useParams } from "@reach/router"
 
 import { Autocomplete } from "@material-ui/lab"
 import React, { useEffect, useState } from "react"
@@ -14,6 +13,7 @@ import {
 import { connect } from "react-redux"
 import { editorInEventPath } from "../../inc/editorUtils"
 import { getNextLine, getPreviousLine, hebrewMap } from "../../inc/utils"
+import { useParams } from "react-router"
 
 const mapStateToProps = state => ({
   tractates: state.general.tractates,
@@ -24,7 +24,7 @@ const mapStateToProps = state => ({
   currentMishna: state.general.currentMishna
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   setNavigationToRoute: (tractate, chapter, mishna, line)=>{
     dispatch(setNavigationToRoute(tractate, chapter, mishna, line))
   },
@@ -58,7 +58,7 @@ const useStyles = makeStyles({
 })
 
 const ChooseMishnaBar = props => {
-  const { tractate, chapter, mishna, line } = useParams()
+  const { tractate, chapter, mishna, line } = useParams();
   const classes = useStyles()
   const {
     tractates,

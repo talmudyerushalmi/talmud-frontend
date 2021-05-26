@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default class PageService {
-  static host = process.env.DB_HOST;
+  static host = process.env.REACT_APP_DB_HOST;
 
   static async getPage(tractate, chapter, mishna ){
     const url = `${PageService.host}/mishna/${tractate}/${chapter}/${mishna}`;

@@ -1,12 +1,13 @@
 import React from "react"
 import { Container, Grid } from "@material-ui/core"
 import MainText from "./MainText"
-//import ChooseMishnaBar from "../shared/ChooseMishnaBar"
+import ChooseMishnaBar from "../shared/ChooseMishnaBar"
 import MishnaText from "./MishnaText"
 import { connect } from "react-redux"
 import { selectExcerpt } from "../../store/actions"
 import ExcerptsSection from "./ExcerptsSection"
 import MishnaViewOptions from "./MishnaViewOptions"
+import { useHistory, useParams } from "react-router"
 
 const mapStateToProps = state => ({
   currentMishna: state.general.currentMishna,
@@ -22,18 +23,21 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 })
 const TalmudPage = props => {
-  const { mishna, loading, currentMishna } = props
+  const { loading, currentMishna } = props
+  const { mishna } = useParams();
+  const history = useHistory();
+  
 
-
-  // const onLineSelected = link => {
-  //   if (link) {
-  //     navigate(`/talmud/${link.tractate}/${link.chapter}/${link.mishna}`)
-  //   }
-  // }
+  const onLineSelected = link => {
+    if (link) {
+      history.push(`/talmud/${link.tractate}/${link.chapter}/${link.mishna}`)
+    }
+  }
 
   return (
    
       <Container style={{ direction: "rtl" }}>
+        <ChooseMishnaBar onNavigationSelected={onLineSelected} />
         <Grid container spacing={2}>
           <MishnaViewOptions/>
           <Grid container justify="center" item sm={12}>
