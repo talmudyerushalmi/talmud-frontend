@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import Layout from "../../layout"
 import { Container, Grid, makeStyles } from "@material-ui/core"
 import PageService from "../../../services/pageService"
 import TextEditorMishna from "./TextEditorMishna"
@@ -18,10 +17,10 @@ import {
   getSelectionStateFromExcerpt,
 } from "../../../inc/editorUtils"
 import ExcerptService from "../../../services/excerpt.service"
-import { navigate } from "gatsby"
 import ChooseMishnaBar from "../../shared/ChooseMishnaBar"
 import { connect } from "react-redux"
 import { requestCompositions, requestTractates } from "../../../store/actions"
+import { useHistory, useParams } from "react-router"
 
 const mapStateToProps = state => ({
    compositions: state.general.compositions
@@ -50,14 +49,13 @@ const useStyles = makeStyles(theme => {
 })
 const EditMishna = props => {
   const {
-    tractate,
-    chapter,
-    mishna,
     compositions,
     getCompositions,
   } = props
+  const { tractate, chapter, mishna} = useParams();
  
   const [mishnaDoc, setMishnaDoc] = useState({})
+  const history = useHistory();
   const [mishnaEditor, setMishnaEditor] = useState(EditorState.createEmpty())
   const [excerpt, setExcerpt] = useState({})
   const [excerpts, setExcerpts] = useState([])
@@ -176,7 +174,7 @@ const EditMishna = props => {
   }
 
   const onNavigateTo = link => {
-    navigate(`/admin/edit/${link.tractate}/${link.chapter}/${link.mishna}`)
+    history.push(`/admin/edit/${link.tractate}/${link.chapter}/${link.mishna}`)
   }
 
   const getEntities = (editorState, entityType = null) => {
@@ -284,7 +282,6 @@ const EditMishna = props => {
   }
   return (
     <>
-      <Layout>
         <Container>
           <ChooseMishnaBar
             onNavigationSelected={onMishnaSelected}
@@ -344,7 +341,6 @@ const EditMishna = props => {
             </Grid>
           </Grid>
         </Container>
-      </Layout>
     </>
   )
 }
