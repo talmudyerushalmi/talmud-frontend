@@ -9,11 +9,12 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from './ui/Theme';
 import EditLine from './components/edit/EditLine';
 import EditMishna from './components/edit/EditMishna/EditMishna';
+import { RTL } from './ui/RTL';
 
 
 function App() {
   return (
-
+    <RTL>
     <ThemeProvider theme={theme}>
     <div className="App">
       <BrowserRouter>
@@ -32,6 +33,7 @@ function App() {
     
     </div>
     </ThemeProvider>
+    </RTL>
   );
 }
 
