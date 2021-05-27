@@ -7,25 +7,22 @@ import { Header } from './layout/Header';
 import TalmudPage from './components/MishnaView/TalmudPage';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './ui/Theme';
-import EditLine from './components/edit/EditLine';
-import EditMishna from './components/edit/EditMishna/EditMishna';
 import { RTL } from './ui/RTL';
+import { AdminRoutes } from './routes/AdminRoutes';
 
 
 function App() {
   return (
     <RTL>
     <ThemeProvider theme={theme}>
-    <div className="App">
+    <div className="App" style={{direction:'rtl'}}>
       <BrowserRouter>
       <Header/>
 
         <div>
         <Route path="/" exact component={Talmud}/>
         <Route path="/talmud/:tractate/:chapter/:mishna" exact component={TalmudPage}/>
-        <Route path="/admin/edit/:tractate/:chapter/:mishna/:line" exact component={EditLine}/>
-        <Route path="/admin/edit/:tractate/:chapter/:mishna" exact component={EditMishna}/>
-        
+        <AdminRoutes/>        
         </div>
 
         
