@@ -2,6 +2,8 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import EditLine from '../components/edit/EditLine';
 import EditMishna from '../components/edit/EditMishna/EditMishna';
+import { Greetings,ConfirmSignIn, ForgotPassword, RequireNewPassword, SignIn, withAuthenticator } from 'aws-amplify-react';
+import theme from '../ui/Theme';
 
 export const AdminRoutes = () => {
 
@@ -12,3 +14,11 @@ export const AdminRoutes = () => {
         </>
     );
 }
+
+export default withAuthenticator(AdminRoutes,true, [
+    <SignIn/>,
+    <ConfirmSignIn/>,
+    <ForgotPassword/>,
+    <RequireNewPassword />,
+    <Greetings/>
+],null, theme)

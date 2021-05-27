@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
 import Talmud from './pages/Talmud';
@@ -8,7 +8,7 @@ import TalmudPage from './components/MishnaView/TalmudPage';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './ui/Theme';
 import { RTL } from './ui/RTL';
-import { AdminRoutes } from './routes/AdminRoutes';
+import AdminRoutes  from './routes/AdminRoutes';
 
 
 function App() {
@@ -19,11 +19,11 @@ function App() {
       <BrowserRouter>
       <Header/>
 
-        <div>
+        <Switch>
         <Route path="/" exact component={Talmud}/>
         <Route path="/talmud/:tractate/:chapter/:mishna" exact component={TalmudPage}/>
         <AdminRoutes/>        
-        </div>
+        </Switch>
 
         
        </BrowserRouter>
