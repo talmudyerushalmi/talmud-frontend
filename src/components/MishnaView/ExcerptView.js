@@ -1,7 +1,6 @@
 import {
   Accordion,
   AccordionDetails,
-  Button,
   IconButton,
   makeStyles,
   Typography,

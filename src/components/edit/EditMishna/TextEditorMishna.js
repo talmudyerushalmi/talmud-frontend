@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Editor, EditorState, Modifier, RichUtils, ContentState, SelectionState , getDefaultKeyBinding, DefaultDraftBlockRenderMap} from "draft-js"
+import { Editor, getDefaultKeyBinding, DefaultDraftBlockRenderMap} from "draft-js"
 import "../text.css"
 import { Map } from "immutable";
 import { makeStyles } from "@material-ui/core";

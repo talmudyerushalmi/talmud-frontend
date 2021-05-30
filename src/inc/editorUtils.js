@@ -1,4 +1,4 @@
-import { CharacterMetadata, convertToRaw, Modifier, SelectionState } from "draft-js"
+import { CharacterMetadata, convertToRaw, SelectionState } from "draft-js"
 
 export function getRawText(editorState) {
   const content = editorState.getCurrentContent()
@@ -62,8 +62,6 @@ const getWord = (text, offset, startSelection = true) => {
 
 export function getSelectionObject(editorState) {
   const selectionState = editorState.getSelection()
-  const anchorKey = selectionState.getAnchorKey()
-  const focusKey = selectionState.getFocusKey()
   const currentContent = editorState.getCurrentContent()
   const startKey = selectionState.getStartKey()
   const fromOffset = selectionState.getStartOffset()
@@ -80,9 +78,6 @@ export function getSelectionObject(editorState) {
   const fromLine = blockMap.findIndex(b => b.key === startKey)
   const toLine = blockMap.findIndex(b => b.key === endKey)
 
-  //console.log("from ", fromWord)
-  //console.log("to ", toWord)
-  //console.log("fromLine", fromLine)
 
   return {
     fromLine,
@@ -108,7 +103,6 @@ export function editorInEventPath(event) {
 export function getSelectionStateFromExcerpt(excerpt,contentState) {
   let selectionState = SelectionState.createEmpty();
   const blocks = contentState.getBlocksAsArray();
-  const blockStart = blocks[excerpt.selection.fromLine];
   const selectionStartKey = blocks[excerpt.selection.fromLine].key;
 
   selectionState = selectionState.merge({

@@ -1,5 +1,5 @@
 export function getTextForSynopsis(str) {
-  const step1 = /(\(שם\)|''|\(.*?,.*?\)|\<.*?\>|\|.*?\||[\.\+:\?\!"{},])/g
+  const step1 = /(\(שם\)|''|\(.*?,.*?\)|<.*?>|\|.*?\||[.+:?!"{},])/g
   const step2 = /[-]/g
   const step3 = /\s+/g
   return str
@@ -7,7 +7,7 @@ export function getTextForSynopsis(str) {
     : ""
 }
 export function clearPunctutationFromText(str) {
-  const step1 = /(''|\|.*?\||[\.\+:\?\!"{},])/g
+  const step1 = /(''|\|.*?\||[.+:?!"{},])/g
   const step2 = /[-]/g
   const step3 = /\s+/g
   return str
@@ -16,7 +16,7 @@ export function clearPunctutationFromText(str) {
 }
 
 export function hideSourceFromText(str) {
-  const step1 = /(\(שם\)|\(.+,.+\)|''|\(.*?,.*?\)|\<.*?,.*?\>)/g
+  const step1 = /(\(שם\)|\(.+,.+\)|''|\(.*?,.*?\)|<.*?,.*?>)/g
   return str
     ? str.replace(step1, "").trim()
     : ""

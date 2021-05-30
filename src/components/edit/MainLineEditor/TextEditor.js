@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { Editor, EditorState, Modifier, RichUtils, ContentState, SelectionState } from "draft-js"
+import { Editor } from "draft-js"
 import "../text.css"
-//import Editor from 'draft-js-plugins-editor';
 
-const plugins = [];
 
 const TextEditor = (props) => {
   const { onChange, initialState } = props;

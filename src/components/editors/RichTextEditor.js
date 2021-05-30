@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {Editor, EditorState, RichUtils, getDefaultKeyBinding} from 'draft-js';
+import React from 'react';
+import {Editor, RichUtils, getDefaultKeyBinding} from 'draft-js';
 
 const RichTextEditor = (props) => {
 

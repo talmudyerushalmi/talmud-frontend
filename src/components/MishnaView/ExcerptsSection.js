@@ -1,4 +1,4 @@
-import { Card, makeStyles } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core"
 import React, { useEffect, useRef } from "react"
 import { connect } from "react-redux"
 import { selectExcerpt } from "../../store/actions"
@@ -19,19 +19,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 })
 
-const useStyles = makeStyles(theme => ({
-  selectedExcerptRoot: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-    width: "100%",
-    height: "100%",
-    background: "red",
-  },
-}))
 
 const ExcerptsSection = props => {
-  const classes = useStyles()
   const {
     expanded,
     filteredExcerpts,
