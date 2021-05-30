@@ -15,7 +15,7 @@ const getToken = async (): Promise<string> => {
     return token;
 }
 
-axiosInstance.interceptors.request.use(async (config)=> {  
+axiosInstance.interceptors.request.use(async (config)=> {
     const token = await getToken();
     config.headers['Authorization'] = `Basic ${token}`;
     return config;

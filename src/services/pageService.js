@@ -22,8 +22,14 @@ export default class PageService {
 
   static async getMishnaEdit(tractate, chapter, mishna ){
     const url = `/edit/mishna/${tractate}/${chapter}/${mishna}`;
-    const s =  await axiosInstance.get(url);
-    return s;
+    let response;
+    try {
+      response =  await axiosInstance.get(url);
+    }
+    catch(e){
+      alert(e);
+    }
+    return response;
   }
 
   static async getAllTractates(){

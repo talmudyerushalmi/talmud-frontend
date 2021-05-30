@@ -251,14 +251,18 @@ const EditMishna = props => {
     return RichUtils.toggleLink(newEditorState, selectionForExcerpt, entityKey)
   }
   const deleteExcerpt = async excerptKey => {
-    const afterDelete = await ExcerptService.deleteExcerpt(
-      tractate,
-      chapter,
-      mishna,
-      excerptKey
-    )
-    setExcerpt({})
-    setExcerpts(afterDelete.excerpts)
+    try {
+      const afterDelete = await ExcerptService.deleteExcerpt(
+        tractate,
+        chapter,
+        mishna,
+        excerptKey
+      )
+      setExcerpt({})
+      setExcerpts(afterDelete.excerpts)
+    } catch (e) {
+      alert(e);
+    }
   }
 
   const onUpdateSelectionForExcerpt = excerpt => {
