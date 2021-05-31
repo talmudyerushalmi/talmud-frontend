@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
@@ -9,9 +9,22 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from './ui/Theme';
 import { RTL } from './ui/RTL';
 import AdminRoutes  from './routes/AdminRoutes';
+import { getUserAuth } from './store/actions/authActions';
+import { connect } from 'react-redux';
 
+const mapDispatchToProps = (dispatch:any) => ({
+  getUserAuth: () => {
+    dispatch(getUserAuth())
+  },
+})
 
-function App() {
+function App(props:any) {
+  const { getUserAuth } = props;
+
+  useEffect(()=>{
+    getUserAuth();
+  });
+
   return (
     <RTL>
     <ThemeProvider theme={theme}>
@@ -34,4 +47,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect(null, mapDispatchToProps)(App);

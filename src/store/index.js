@@ -1,15 +1,18 @@
 import { createStore, applyMiddleware, combineReducers } from "redux"
 import thunk from "redux-thunk"
+import authReducer from "./reducers/authReducer"
 import mishnaViewReducer from "./reducers/mishnaViewReducer"
 import navigationReducer from "./reducers/navigationReducer"
 
 const rootReducer = combineReducers(
   {
     general: navigationReducer,
+    authentication: authReducer,
     mishnaView: mishnaViewReducer
   })
 
 export const initialState = {
+  authentication: {},
   general: {
     compositions: [],
     tractates: [],
