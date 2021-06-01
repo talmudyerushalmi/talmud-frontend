@@ -5,8 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { themeConstants } from '../ui/Theme';
-import { NavLink } from 'react-router-dom';
+import theme, { themeConstants } from '../ui/Theme';
+import SignOut from '../components/Menu/SignOut';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,10 +31,8 @@ export default function MainMenu() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-          <NavLink to='/'>
-            תלמוד ירושלמי
-            </NavLink>
           </Typography>
+          <SignOut/>
         </Toolbar>
       </AppBar>
     </div>

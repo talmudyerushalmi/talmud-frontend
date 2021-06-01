@@ -14,7 +14,6 @@ import {
 } from "../actions/navigationActions"
 
 const mishnaViewReducer = (state = {}, action) => {
-  console.log("reducer view", action)
   switch (action.type) {
     case SET_CURRENT_MISHNA:
       const excerpts = action.currentMishna?.excerpts?.sort(
