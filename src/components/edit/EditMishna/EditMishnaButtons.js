@@ -4,7 +4,7 @@ import React from 'react';
 const useStyles = makeStyles(theme => ({
     root: {
         position: 'fixed',
-        top: '12rem',
+        top: '10.5rem',
         background: 'white',
         zIndex: 1
     },

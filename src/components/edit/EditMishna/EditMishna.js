@@ -290,9 +290,6 @@ const EditMishna = props => {
           <ChooseMishnaBar
             onNavigationSelected={onMishnaSelected}
           />
-          <EditMishnaButtons
-            onAddNewExcerpt={onAddNewExcerpt}
-          />
           <ExcerptDialog
             mishna={{ tractate, chapter, mishna }}
             compositions={compositions}
@@ -304,7 +301,10 @@ const EditMishna = props => {
             dialogOpen={dialogOpen}
             onAdd={addExcerpt}
           ></ExcerptDialog>
-          <Grid container>
+          <Grid style={{marginTop: '4rem'}} container>
+          <EditMishnaButtons
+            onAddNewExcerpt={onAddNewExcerpt}
+          />
             <Grid item md={8}>
               <TextEditorMishna
                 initialState={mishnaEditor}
