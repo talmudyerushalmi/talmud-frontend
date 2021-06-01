@@ -1,8 +1,6 @@
 {
-    "identityPoolName": "talmudfrontendv27f0f25a7_identitypool_7f0f25a7",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "talmud7f0f25a7",
-    "userPoolName": "talmudfrontendv27f0f25a7_userpool_7f0f25a7",
+    "resourceNameTruncated": "talmude5718dc1",
+    "userPoolName": "talmud_users",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -18,21 +16,24 @@
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
-        "email"
+        "email",
+        "family_name",
+        "given_name",
+        "name"
     ],
     "userpoolClientGenerateSecret": false,
-    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientRefreshTokenValidity": "60",
     "userpoolClientWriteAttributes": [
         "email"
     ],
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "talmud7f0f25a7_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "talmude5718dc1_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "7f0f25a7",
-    "resourceName": "talmudfrontendv27f0f25a7",
-    "authSelections": "identityPoolAndUserPool",
+    "sharedId": "e5718dc1",
+    "resourceName": "talmudfrontendv2e5718dc1e5718dc1",
+    "authSelections": "userPoolOnly",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -45,12 +46,21 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "manual",
     "usernameAttributes": [
-        "email"
+        "email, phone_number"
     ],
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": "{}",
+    "hostedUI": false,
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "breakCircularDependency": true,
+    "permissions": [],
     "dependsOn": []
 }

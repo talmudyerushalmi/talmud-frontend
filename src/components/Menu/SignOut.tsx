@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
-import { signOut } from "../../store/actions/authActions";
-import { Hub } from 'aws-amplify';
+import { setUserAuth, signOut } from "../../store/actions/authActions";
+import { Hub } from "aws-amplify";
 
 const mapStateToProps = (state: any) => ({
   username: state.authentication.username,
@@ -12,18 +12,20 @@ const mapDispatchToProps = (dispatch: any) => ({
   signOut: () => {
     dispatch(signOut());
   },
+  setUserAuth: (userAuth:any) => {
+      dispatch(setUserAuth(userAuth))
+  }
 });
 
-
-
 const SignOut = (props: any) => {
-  const { username, signOut } = props;
+  const { username, signOut, setUserAuth } = props;
 
-  Hub.listen('auth', (data) => {
+  Hub.listen("auth", (data) => {
     const { payload } = data;
-    console.log('data',payload)
-    console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
-})
+    if (payload.event === "signIn") {
+      setUserAuth(payload.data.signInUserSession);
+    }
+  });
 
   async function handlerSignOut() {
     try {

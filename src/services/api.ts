@@ -8,10 +8,8 @@ const axiosInstance = axios.create({
 });
 
 const getToken = async (): Promise<string> => {
-    const p = performance.now();
     const userTokens = await Auth.currentSession()
     const token = userTokens.getIdToken().getJwtToken();
-    console.log('p', performance.now()-p)
     return token;
 }
 

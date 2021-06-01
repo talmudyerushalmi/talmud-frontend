@@ -11,8 +11,7 @@ import {
       case GET_USER_AUTH:
         return state;
       case SET_USER_AUTH:
-        console.log(action.userAuth)
-        const username = action.userAuth.idToken.payload.email;
+        const username = action.userAuth.idToken.payload.name;
         return { ...state, userAuth: action.userAuth, username }
       case SET_SIGN_OUT:
         return { ...state, userAuth: null, username: null}  
