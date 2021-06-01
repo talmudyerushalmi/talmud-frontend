@@ -7,6 +7,12 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import theme, { themeConstants } from '../ui/Theme';
 import SignOut from '../components/Menu/SignOut';
+import AdminMenu from './AdminMenu';
+import { connect } from 'react-redux';
+
+const mapStateToProps = (state: any) => ({
+  username: state.authentication.username,
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +26,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MainMenu() {
+const MainMenu = (props: any) => {
+  const { username } = props;
+
+
   const classes = useStyles();
 
   return (
@@ -32,9 +41,18 @@ export default function MainMenu() {
           </IconButton>
           <Typography variant="h6" className={classes.title}>
           </Typography>
-          <SignOut/>
+          {
+            username ? 
+            <>
+            <AdminMenu/>
+            <SignOut/>
+            </>
+          : null
+          }
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+export default connect(mapStateToProps, null)(MainMenu);

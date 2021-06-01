@@ -12,8 +12,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   signOut: () => {
     dispatch(signOut());
   },
-  setUserAuth: (userAuth:any) => {
-      dispatch(setUserAuth(userAuth))
+  setUserAuth: (userAuth: any) => {
+    dispatch(setUserAuth(userAuth));
   }
 });
 
@@ -37,12 +37,8 @@ const SignOut = (props: any) => {
 
   return (
     <>
-      {username ? (
-        <>
-          <Button onClick={handlerSignOut}>Sign out</Button>
-          <Typography>Hello, {username}</Typography>
-        </>
-      ) : null}
+      <Button onClick={handlerSignOut}>Sign out</Button>
+      <Typography>Hello, {username}</Typography>
     </>
   );
 };

@@ -11,6 +11,7 @@ export const AdminRoutes = () => {
         <>
         <Route path="/admin/edit/:tractate/:chapter/:mishna/:line" exact component={EditLine}/>
         <Route path="/admin/edit/:tractate/:chapter/:mishna" exact component={EditMishna}/>
+        <Route path="/admin" />
         </>
     );
 }
