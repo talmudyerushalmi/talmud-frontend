@@ -10,6 +10,11 @@
       "StackName": "amplify-talmudfrontend-dev-173743",
       "StackId": "arn:aws:cloudformation:eu-west-1:424334533647:stack/amplify-talmudfrontend-dev-173743/43f92360-c479-11eb-ac61-06df0d66bfc3",
       "AmplifyAppId": "d2qg7d3h9yflxe"
+    },
+    "categories": {
+      "auth": {
+        "talmudfrontendpool": {}
+      }
     }
   }
 }
