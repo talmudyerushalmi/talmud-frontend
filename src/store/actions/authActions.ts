@@ -12,8 +12,11 @@ export function signOut(){
 
 export function getUserAuth() {
     return async function (dispatch: any) {
+      try{
       const userAuth = await Auth.currentSession();
       dispatch(setUserAuth({...userAuth}))
+      }catch(e){
+      }
      }
     }
   
