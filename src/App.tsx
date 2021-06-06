@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import './App.css';
-import Talmud from './pages/Talmud';
 import { Header } from './layout/Header';
 import TalmudPage from './components/MishnaView/TalmudPage';
 import { ThemeProvider } from '@material-ui/styles';
@@ -31,16 +30,12 @@ function App(props:any) {
     <div className="App" style={{direction:'rtl'}}>
       <BrowserRouter>
       <Header/>
-
         <Switch>
-        <Route path="/" exact component={Talmud}/>
+        <Route path="/" exact  render={() => <Redirect to="/talmud/yevamot/001/001" />}/>
         <Route path="/talmud/:tractate/:chapter/:mishna" exact component={TalmudPage}/>
         <AdminRoutes/>        
         </Switch>
-
-        
        </BrowserRouter>
-    
     </div>
     </ThemeProvider>
     </RTL>
