@@ -1,15 +1,15 @@
-import { createStore, applyMiddleware, combineReducers } from "redux"
-import thunk from "redux-thunk"
-import authReducer from "./reducers/authReducer"
-import mishnaViewReducer from "./reducers/mishnaViewReducer"
-import navigationReducer from "./reducers/navigationReducer"
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import thunk from "redux-thunk";
+import authReducer from "./reducers/authReducer";
+import mishnaViewReducer from "./reducers/mishnaViewReducer";
+import navigationReducer from "./reducers/navigationReducer";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-const rootReducer = combineReducers(
-  {
-    general: navigationReducer,
-    authentication: authReducer,
-    mishnaView: mishnaViewReducer
-  })
+const rootReducer = combineReducers({
+  general: navigationReducer,
+  authentication: authReducer,
+  mishnaView: mishnaViewReducer,
+});
 
 export const initialState = {
   authentication: {},
@@ -22,7 +22,6 @@ export const initialState = {
     selectedMishna: null,
     selectedLine: null,
     currentMishna: null,
-
   },
   mishnaView: {
     loading: false,
@@ -35,9 +34,13 @@ export const initialState = {
     detailsExcerptPopup: false,
     divideToLines: true,
     showPunctuation: true,
-    showSources: true
+    showSources: true,
   },
-}
+};
 
-const store = createStore(rootReducer, initialState, applyMiddleware(thunk))
-export default store
+const store = createStore(
+  rootReducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(thunk))
+);
+export default store;
