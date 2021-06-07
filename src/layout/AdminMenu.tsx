@@ -2,9 +2,19 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getFirstLine } from '../inc/utils';
 
-export default function AdminMenu() {
+const mapStateToProps = (state:any) => ({
+    currentTractate: state.general.currentTractate,
+    currentChapter: state.general.currentChapter,
+    currentMishna: state.general.currentMishna,
+    currentLine: state.general.currentLine,
+})
+
+const AdminMenu = (props:any) => {
+  const { currentTractate, currentChapter, currentMishna, currentLine  } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const history = useHistory();
 
@@ -17,12 +27,20 @@ export default function AdminMenu() {
   };
 
   const handleEditLine = () => {
-      history.push("/admin/edit/yevamot/001/001/00001");
+      console.log(currentTractate)
+      const tractate = currentTractate ? currentTractate.id : 'yevamot';
+      const chapter = currentChapter ? currentChapter.id : '001';
+      const mishna = currentMishna ? currentMishna.mishna : '001';
+      const line = currentLine ? currentLine.lineNumber : getFirstLine(currentMishna)
+      history.push(`/admin/edit/${tractate}/${chapter}/${mishna}/${line}`);
       handleClose();
   }
 
   const handleEditMishna = () => {
-    history.push("/admin/edit/yevamot/001/001");
+    const tractate = currentTractate ? currentTractate.id : 'yevamot';
+    const chapter = currentChapter ? currentChapter.id : '001';
+    const mishna = currentMishna ? currentMishna.mishna : '001';
+    history.push(`/admin/edit/${tractate}/${chapter}/${mishna}`);
     handleClose();
 }
 
@@ -45,3 +63,5 @@ export default function AdminMenu() {
     </>
   );
 }
+
+export default connect(mapStateToProps)(AdminMenu);

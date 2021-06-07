@@ -16,6 +16,7 @@ export const SELECT_CHAPTER = "SELECT_CHAPTER"
 export const SELECT_MISHNA = "SELECT_MISHNA"
 export const SELECT_LINE = "SELECT_LINE"
 export const SET_CURRENT_MISHNA = "SET_CURRENT_MISHNA"
+export const SET_CURRENT_ROUTE = "SET_CURRENT_ROUTE"
 
 export const startRequest = () => ({
   type: REQUEST_START,
@@ -64,6 +65,14 @@ export const setCurrentMishna = (mishnaDoc) => ({
   currentMishna: mishnaDoc
 
 })
+
+export const setCurrentRoute = (currentTractate, currentChapter, currentMishna, currentLine) => ({
+  type: SET_CURRENT_ROUTE,
+  currentTractate,
+  currentChapter,
+  currentMishna, 
+  currentLine
+})
 // export const setCurrentTractate = tractate => ({
 //   type: SET_CURRENT_TRACTATE,
 //     tractate
@@ -100,7 +109,7 @@ export function setNavigationToRoute(tractate, chapter, mishna, line) {
    const tractateData = state.general.tractates.find(t => t.id === tractate);
    const chapterData =  tractateData?.chapters.find(c => c.id === chapter);
    dispatch(setSelectedForRoute(tractateData,chapterData,mishnaData,lineData));
-   dispatch(setCurrentMishna(mishnaData));
+   dispatch(setCurrentRoute(tractateData, chapterData, mishnaData));
    
   }
 }

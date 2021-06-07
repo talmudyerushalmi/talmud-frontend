@@ -21,7 +21,10 @@ export const initialState = {
     selectedChapter: null,
     selectedMishna: null,
     selectedLine: null,
+    currentTractate: null,
+    currentChapter: null,
     currentMishna: null,
+    currentLine: null
   },
   mishnaView: {
     loading: false,

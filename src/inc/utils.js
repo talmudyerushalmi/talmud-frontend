@@ -17,9 +17,10 @@ export function getNextLine(tractate, chapter, mishna, line,mishnaDoc){
         } else return null; 
 
     }
+}
 
-  
-
+export function getFirstLine(selectedMishna) {
+    return selectedMishna.lines[0].lineNumber;
 }
 
 export function getPreviousLine(tractate, chapter, mishna, line,mishnaDoc){

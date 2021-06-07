@@ -10,6 +10,7 @@ import {
   SELECT_MISHNA,
   SELECT_TRACTATE,
   SET_CURRENT_MISHNA,
+  SET_CURRENT_ROUTE,
   SET_CURRENT_TRACTATE,
   SET_SELECTED_FOR_ROUTE,
 } from "../actions/navigationActions"
@@ -36,7 +37,9 @@ const navigationReducer = (state = {}, action) => {
       return { ...state, selectedLine: action.selectedLine }
     case SET_CURRENT_MISHNA:
       return { ...state, currentMishna: action.currentMishna}  
-
+    case SET_CURRENT_ROUTE:
+      return { ...state, currentTractate: action.currentTractate, 
+        currentChapter: action.currentChapter, currentMishna: action.currentMishna, currentLine: action.currentLine}  
     case RECEIVE_COMPOSITIONS:
       console.log('got ',action)
       return { ...state, compositions: action.compositions, loading: false }
