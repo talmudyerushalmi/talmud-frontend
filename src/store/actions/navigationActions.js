@@ -110,6 +110,7 @@ export function setNavigationToRoute(tractate, chapter, mishna, line) {
    const chapterData =  tractateData?.chapters.find(c => c.id === chapter);
    dispatch(setSelectedForRoute(tractateData,chapterData,mishnaData,lineData));
    dispatch(setCurrentRoute(tractateData, chapterData, mishnaData));
+   dispatch(setCurrentMishna(mishnaData));
    
   }
 }
