@@ -5,43 +5,48 @@ import {
   Modifier,
   RichUtils,
   ContentState,
-  SelectionState,
   convertFromRaw,
   convertToRaw,
 } from "draft-js"
 import "./text.css"
-import { getTextForSynopsis } from "../../inc/synopsisUtils"
+import { CSSProperties } from "@material-ui/core/styles/withStyles";
+import { EditedText, iSource } from "../../types/types";
+import { getTextForSynopsis } from "../../inc/synopsisUtils";
 //import Editor from 'draft-js-plugins-editor';
 
-const plugins = []
 
-const calculateEditorState = (value,source) => {
-  if (value?.content) {
+const calculateEditorState = (value: EditedText,source: iSource): EditorState => {
+  if (value.content) {
     const content = convertFromRaw(value.content)
     return EditorState.createWithContent(content)
-  } else {
+  }
+  if (value.simpleText) {
     const allowedSourcesForAutoCalculate = ["leiden","dfus_rishon"];
-    if (allowedSourcesForAutoCalculate.includes(source.id)) {
+    if (allowedSourcesForAutoCalculate.includes(source?.id)) {
       return EditorState.createWithContent(
-        ContentState.createFromText(getTextForSynopsis(value))
+        ContentState.createFromText(getTextForSynopsis(value.simpleText))
       )
-    } else {
-      return EditorState.createWithContent(
-        ContentState.createFromText("")
-      )
-    }
+  }}
+  return EditorState.createEmpty();
 }
+
+interface Props {
+  onChange: Function;
+  value: EditedText;
+  source: iSource;
 }
-const SynopsisTextEditor = props => {
+const SynopsisTextEditor = (props: Props) => {
   const { onChange, value, source } = props
 
-
-
+    // return (
+    //   <pre>{JSON.stringify(value)}</pre>
+    // )
   const [editorState, setEditorState] = useState(calculateEditorState(value,source))
+
 
   useEffect(()=>{
     setEditorState(calculateEditorState(value,source))
-  },[source]);
+  },[source,value]);
 
 
   const _onChange = editorState => {
@@ -49,7 +54,7 @@ const SynopsisTextEditor = props => {
   }
   const collectSublineDetails = () => {
     const text = editorState.getCurrentContent().getPlainText()
-    const js = convertToRaw(editorState.getCurrentContent())
+    //const js = convertToRaw(editorState.getCurrentContent())
 
     return {
       text,
@@ -109,6 +114,7 @@ const SynopsisTextEditor = props => {
     // Unset style override for current color.
     if (selection.isCollapsed()) {
       nextEditorState = currentStyle.reduce((state, color) => {
+        //@ts-ignore
         return RichUtils.toggleInlineStyle(state, color)
       }, nextEditorState)
     }
@@ -142,7 +148,6 @@ const SynopsisTextEditor = props => {
         //   onFocus={e => moveSelectionToEnd()}
         preserveSelectionOnBlur={true}
         textAlignment="right"
-        plugins={plugins}
       />
     </div>
   )
@@ -183,10 +188,11 @@ var COLORS = [
 const ColorControls = props => {
   var currentStyle = props.editorState.getCurrentInlineStyle()
   return (
-    <div style={styles.controls}>
+    <div style={styles.controls as CSSProperties}>
       {COLORS.map(type => (
         <StyleButton
           key={type.label}
+          //@ts-ignore
           active={currentStyle.has(type.style)}
           label={type.label}
           onToggle={props.onToggle}
@@ -198,17 +204,21 @@ const ColorControls = props => {
 }
 
 class StyleButton extends React.Component {
+  onToggle: (e: any) => void;
   constructor(props) {
     super(props)
     this.onToggle = e => {
       e.preventDefault()
+      //@ts-ignore
       this.props.onToggle(this.props.style)
     }
   }
 
   render() {
     let style
+    //@ts-ignore
     if (this.props.active) {
+      //@ts-ignore
       style = { ...styles.styleButton, ...colorStyleMap[this.props.style] }
     } else {
       style = styles.styleButton
@@ -216,7 +226,10 @@ class StyleButton extends React.Component {
 
     return (
       <span style={style} onMouseDown={this.onToggle}>
-        {this.props.label}
+        {
+        //@ts-ignore */
+        this.props.label
+        }
       </span>
     )
   }

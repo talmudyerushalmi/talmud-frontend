@@ -1,15 +1,20 @@
 import React, { useState } from "react"
 import * as Yup from "yup"
-import { withFormik, FieldArray } from "formik"
+import { withFormik, FieldArray, FormikProps, FormikValues } from "formik"
 import FieldMainLineEditor from "./MainLineEditor/MainLineEditor"
 import { EditorState, ContentState } from "draft-js"
 import SourceButtons from "./MainLineEditor/SourceButtons"
 import SublineField from "./SublineField"
 import LineService from "../../services/line.service"
+import { iLine, iSource, iSubline, iSynopsis } from "../../types/types"
 
+interface Props {
+  line: iLine;
+  currentMishna: any;
 
+}
 const formikEnhancer = withFormik({
-  mapPropsToValues: props => {
+  mapPropsToValues: (props: Props) => {
     const { line, currentMishna } = props
     const textForEditor = line.sublines
       ? line.sublines
@@ -19,13 +24,13 @@ const formikEnhancer = withFormik({
       : line.mainLine
 
       // todo  - sublines init
-      let initSublines = line?.sublines || [];
-      initSublines = initSublines.map(s => {
-        return {
-        text: s.text,
-        synopsis:{}
-        }
-      });
+      // let initSublines = line?.sublines || [];
+      // initSublines = initSublines.map(s => {
+      //   return {
+      //   text: s.text,
+      //   synopsis:{}
+      //   }
+      // });
     return {
       mainLine: EditorState.createWithContent(
         ContentState.createFromText(textForEditor || "")
@@ -49,7 +54,7 @@ const formikEnhancer = withFormik({
 
       }
       )
-    
+
     setTimeout(() => {
       // you probably want to transform draftjs state to something else, but I'll leave that to you.
       console.log("submitted ", values)
@@ -61,21 +66,37 @@ const formikEnhancer = withFormik({
   enableReinitialize: true,
 })
 
-const EditLineForm = ({
-  values,
-  touched,
-  dirty,
-  errors,
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  handleReset,
-  setFieldValue,
-  isSubmitting,
-  tractateSettings,
-  currentMishna
-}) => {
-  const [sources, setSources] = useState([])
+ // Shape of form values
+ interface FormValues {
+  sublines: iSubline[]
+  email: string;
+  password: string;
+}
+
+interface OtherProps {
+  message: string;
+  tractateSettings: any;
+  currentMishna: any;
+}
+interface Props {
+  props: FormikProps<FormValues>
+}
+const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
+  const {
+    values,
+    touched,
+    dirty,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    handleReset,
+    setFieldValue,
+    isSubmitting,
+    tractateSettings,
+    currentMishna
+  } = props;
+  const [sources, setSources] = useState<iSource[]>([])
   const changeSublines = e => {
     //console.log("change sub", e)
     // check value of field
@@ -102,12 +123,13 @@ const EditLineForm = ({
   }
   const onAddSource = (source) => {
     console.log('add',source,'to',values.sublines);
-    
+
     values.sublines.forEach((subline)=>{
-      subline.synopsis.push({
+      const addedSynopsis: iSynopsis = {
         ...source,
-        text:subline.text // later remove special chars from text
-      })
+        text: { simpleText: subline.text}
+      }
+      subline.synopsis.push(addedSynopsis)
     });
    setFieldValue('sublines',values.sublines)
   }
@@ -155,5 +177,5 @@ const EditLineForm = ({
     </form>
   )
 }
-
+//@ts-ignore // todo fix later
 export default formikEnhancer(EditLineForm)
