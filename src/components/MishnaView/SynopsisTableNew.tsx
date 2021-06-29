@@ -7,8 +7,9 @@ import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 import Paper from "@material-ui/core/Paper"
-import { synopsisMap } from "../../inc/synopsisUtils"
+import { getSynopsisRaw, synopsisMap } from "../../inc/synopsisUtils"
 import { Tooltip } from "@material-ui/core"
+import { iSynopsis } from "../../types/types"
 
 const useStyles = makeStyles({
   table: {
@@ -30,11 +31,15 @@ const useStyles = makeStyles({
   },
 })
 
+interface Props {
+  synopsis: iSynopsis[];
+}
 
-export default function SynopsisTableNew(props) {
+export default function SynopsisTableNew(props: Props) {
   const classes = useStyles()
   const { synopsis } = props
 
+  console.log('synopsis ',synopsis)
   if (!synopsis) {
     return null
   }
@@ -51,15 +56,7 @@ export default function SynopsisTableNew(props) {
 
     return name
   }
-  const getText = synopsis => {
-    if (synopsis.text?.text) {
-      return synopsis.text?.text
-    }
-    if (typeof synopsis?.text === "string") {
-        return synopsis.text
-    }
-    return null;
-  }
+
 
   return (
     <TableContainer component={Paper}>
@@ -67,20 +64,24 @@ export default function SynopsisTableNew(props) {
         <TableHead></TableHead>
         <TableBody>
           {synopsis
-             .filter(row => row.text.text?.trim().length>0)
-            .map(row => (
-              <TableRow key={row.name}>
+            .map(synopsisRow => {
+              const rawText = getSynopsisRaw(synopsisRow);
+              return (
+                rawText ?
+              <TableRow key={synopsisRow.name}>
                 <Tooltip enterDelay={800} leaveDelay={200}
-                title={sourceFullName(row)}>
+                title={sourceFullName(synopsisRow)}>
                 <TableCell 
                 style={{fontWeight:'bold'}}
                 component="td" scope="row">
-                  {sourceName(row)}
+                  {sourceName(synopsisRow)}
                 </TableCell>
                 </Tooltip>  
-                <TableCell align="left">{getText(row)}</TableCell>
-              </TableRow>
-            ))}
+                <TableCell align="left">{rawText}</TableCell>
+              </TableRow> : null
+            )}
+            )}
+      
         </TableBody>
       </Table>
     </TableContainer>
