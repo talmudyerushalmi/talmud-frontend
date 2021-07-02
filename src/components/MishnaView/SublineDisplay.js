@@ -11,7 +11,7 @@ import { connect } from "react-redux"
 import { selectSubline } from "../../store/actions"
 import MarkedText from "../shared/MarkedText"
 import { excerptSelection } from "../../inc/excerptUtils"
-import SynopsisTableNew from "./SynopsisTableNew"
+import SynopsisTable from "./SynopsisTable"
 import { clearPunctutationFromText, hideSourceFromText } from "../../inc/synopsisUtils"
 
 const mapStateToProps = state => ({
@@ -148,11 +148,7 @@ const SublineDisplay = props => {
           </p>
         </AccordionSummary>
         <AccordionDetails className={classes.expansion}>
-          <SynopsisTableNew synopsis={subline?.synopsis} />
-          {/* <SynopsisTable
-                line={subline.text}
-                synopsis={subline.synopsis}
-              /> */}
+          <SynopsisTable synopsis={subline?.synopsis} />
         </AccordionDetails>
       </Accordion>
     </>

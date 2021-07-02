@@ -4,9 +4,11 @@ import {
     SET_USER_AUTH,
   } from "../actions/authActions"
   
+const defaultAuthState = {
+  userAuth: null
+}
 
-
-  const authReducer = (state = {}, action: any) => {
+  const authReducer = (state = defaultAuthState, action: any) => {
     switch (action.type) {
       case GET_USER_AUTH:
         return state;

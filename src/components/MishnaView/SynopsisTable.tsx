@@ -35,11 +35,10 @@ interface Props {
   synopsis: iSynopsis[];
 }
 
-export default function SynopsisTableNew(props: Props) {
+export default function SynopsisTable(props: Props) {
   const classes = useStyles()
   const { synopsis } = props
 
-  console.log('synopsis ',synopsis)
   if (!synopsis) {
     return null
   }
@@ -64,11 +63,11 @@ export default function SynopsisTableNew(props: Props) {
         <TableHead></TableHead>
         <TableBody>
           {synopsis
-            .map(synopsisRow => {
+            .map((synopsisRow,i) => {
               const rawText = getSynopsisRaw(synopsisRow);
               return (
                 rawText ?
-              <TableRow key={synopsisRow.name}>
+              <TableRow key={i}>
                 <Tooltip enterDelay={800} leaveDelay={200}
                 title={sourceFullName(synopsisRow)}>
                 <TableCell 

@@ -1,12 +1,12 @@
 import React from "react"
 import { Container, Grid } from "@material-ui/core"
-import MainText from "./MainText"
-import ChooseMishnaBar from "../shared/ChooseMishnaBar"
-import MishnaText from "./MishnaText"
+import MainText from "../components/MishnaView/MainText"
+import ChooseMishnaBar from "../components/shared/ChooseMishnaBar"
+import MishnaText from "../components/MishnaView/MishnaText"
 import { connect } from "react-redux"
-import { selectExcerpt } from "../../store/actions"
-import ExcerptsSection from "./ExcerptsSection"
-import MishnaViewOptions from "./MishnaViewOptions"
+import { selectExcerpt } from "../store/actions"
+import ExcerptsSection from "../components/MishnaView/ExcerptsSection"
+import MishnaViewOptions from "../components/MishnaView/MishnaViewOptions"
 import { useHistory, useParams } from "react-router"
 
 const mapStateToProps = state => ({
@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(selectExcerpt(excerpt))
   },
 })
-const TalmudPage = props => {
+const MishnaPage = props => {
   const { loading, currentMishna } = props
   const { mishna } = useParams();
   const history = useHistory();
@@ -57,4 +57,4 @@ const TalmudPage = props => {
   )
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(TalmudPage)
+export default connect(mapStateToProps,mapDispatchToProps)(MishnaPage)

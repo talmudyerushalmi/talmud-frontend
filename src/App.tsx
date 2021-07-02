@@ -3,7 +3,7 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import './App.css';
 import { Header } from './layout/Header';
-import TalmudPage from './components/MishnaView/TalmudPage';
+import MishnaPage from './pages/MishnaPage';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './ui/Theme';
 import { RTL } from './ui/RTL';
@@ -32,7 +32,7 @@ function App(props:any) {
       <Header/>
         <Switch>
         <Route path="/" exact  render={() => <Redirect to="/talmud/yevamot/001/001" />}/>
-        <Route path="/talmud/:tractate/:chapter/:mishna" exact component={TalmudPage}/>
+        <Route path="/talmud/:tractate/:chapter/:mishna" exact component={MishnaPage}/>
         <AdminRoutes/>        
         </Switch>
        </BrowserRouter>

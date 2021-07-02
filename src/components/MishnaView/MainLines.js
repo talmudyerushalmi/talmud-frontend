@@ -3,8 +3,7 @@ import {
   Typography,
 } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
-import { MainLine } from "./MainLine"
-import { MainLineNew } from "./MainLineNew"
+import MainLine from "./MainLine"
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -49,7 +48,7 @@ const MainLines = props => {
         return (
           <div key={line.lineNumber}>
             {newSectionTitle}
-            <MainLineNew 
+            <MainLine 
             lineIndex={index}
             line={line} />
           </div>
