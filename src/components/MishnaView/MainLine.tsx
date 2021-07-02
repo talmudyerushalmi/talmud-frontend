@@ -1,14 +1,16 @@
-import { Box, IconButton, makeStyles } from "@material-ui/core";
-import React from "react";
-import EditIcon from "@material-ui/icons/Edit";
+import { Box } from "@material-ui/core";
+import React, { lazy, ReactElement } from "react";
 import SublineDisplay from "./SublineDisplay";
 import { connect } from "react-redux";
+import { useEffect } from "react";
+import { useState } from "react";
 
-const useStyles = makeStyles({
-  editLineButton: {
-    display: "block",
-  },
-});
+
+const importView = component =>
+  lazy(() =>
+    import(`./${component}`)
+  );
+
 
 const mapStateToProps = (state) => ({
   userAuth: state.authentication.userAuth,
@@ -16,15 +18,32 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({});
 const MainLine = (props) => {
   const { line, lineIndex, userAuth } = props;
-  const classes = useStyles();
+  const [dynamicComponents, setdynamicComponents] = useState<ReactElement[]>([]);
+
+
+  useEffect(() => {
+    let dynamicComponentsToLoad = userAuth ? ['NosachDialog'] : [];
+    async function loadViews() {
+      const componentPromises =
+      dynamicComponentsToLoad.map(async (component, index)=> {
+          const View = await importView(component);
+          return <View key={index}/>;
+        });
+
+      Promise.all(componentPromises).then(
+        loaded =>{setdynamicComponents(loaded)}
+      );
+    }
+
+    loadViews();
+  }, [userAuth]);
+
   return (
     <>
       <Box style={{ position: "relative" }}>
-        {userAuth ? (
-          <IconButton className={classes.editLineButton} aria-label="edit">
-            <EditIcon fontSize="small" />
-          </IconButton>
-        ) : null}
+        <React.Suspense fallback="">
+          <div className="container">{dynamicComponents}</div>
+        </React.Suspense>
         {line?.sublines
           ? line.sublines.map((subline, index) => {
               return (
