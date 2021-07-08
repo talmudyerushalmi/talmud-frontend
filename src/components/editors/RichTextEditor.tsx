@@ -1,5 +1,5 @@
 import React from 'react';
-import {Editor, RichUtils, getDefaultKeyBinding} from 'draft-js';
+import {Editor, RichUtils, getDefaultKeyBinding, ContentBlock, DraftHandleValue} from 'draft-js';
 
 const RichTextEditor = (props) => {
 
@@ -20,13 +20,13 @@ const RichTextEditor = (props) => {
         //refs.editor.focus();
     }
    
-    const handleKeyCommand = (command, editorState) => {
+    const handleKeyCommand = (command, editorState): DraftHandleValue => {
       const newState = RichUtils.handleKeyCommand(editorState, command);
       if (newState) {
         onChange(newState);
-        return true;
+        return 'handled';
       }
-      return false;
+      return 'not-handled';
     }
   
     const mapKeyToEditorCommand = (e) => {
@@ -39,7 +39,7 @@ const RichTextEditor = (props) => {
         if (newEditorState !== editorState) {
           onChange(newEditorState);
         }
-        return;
+        return null;
       }
       return getDefaultKeyBinding(e);
     }
@@ -90,7 +90,6 @@ const RichTextEditor = (props) => {
               handleKeyCommand={handleKeyCommand}
               keyBindingFn={mapKeyToEditorCommand}
               onChange={onChange}
-            //  ref="editor"
               spellCheck={true}
             />
           </div>
@@ -110,16 +109,24 @@ const styleMap = {
   },
 };
 
-function getBlockStyle(block) {
+function getBlockStyle(block: ContentBlock): string {
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
-    default: return null;
+    default: return "";
   }
 }
-
-class StyleButton extends React.Component {
-  constructor() {
-    super();
+interface styleButtonState {
+}
+interface styleButtonProps {
+  style: any;
+  active: any;
+  label: string;
+  onToggle: Function
+}
+class StyleButton extends React.Component<styleButtonProps, styleButtonState> {
+  onToggle: (e: any) => void;
+  constructor(props) {
+    super(props);
     this.onToggle = (e) => {
       e.preventDefault();
       this.props.onToggle(this.props.style);
