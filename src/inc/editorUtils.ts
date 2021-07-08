@@ -1,4 +1,5 @@
-import { CharacterMetadata, convertToRaw, SelectionState } from "draft-js"
+import { CharacterMetadata, convertToRaw, EditorState, SelectionState } from "draft-js"
+import { iLine } from "../types/types";
 
 export function getRawText(editorState) {
   const content = editorState.getCurrentContent()
@@ -8,6 +9,15 @@ export function getRawText(editorState) {
   return rawText
 }
 
+export function getSublinesFromContent(editorState: EditorState){
+  const content = editorState.getCurrentContent();
+  return content.getBlocksAsArray().map(block => block.getText())
+}
+
+export function getContentFromSublines(line: iLine) {
+
+  
+}
 export function isContentEmpty(content) {
   return ((content?.blocks?.length===1) && (content.blocks[0].text==="") );
 }
@@ -101,7 +111,7 @@ export function editorInEventPath(event) {
 }
 
 export function getSelectionStateFromExcerpt(excerpt,contentState) {
-  let selectionState = SelectionState.createEmpty();
+  let selectionState = SelectionState.createEmpty("");
   const blocks = contentState.getBlocksAsArray();
   const selectionStartKey = blocks[excerpt.selection.fromLine].key;
 

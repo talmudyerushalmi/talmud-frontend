@@ -27,7 +27,7 @@ const MainLine = (props) => {
       const componentPromises =
       dynamicComponentsToLoad.map(async (component, index)=> {
           const View = await importView(component);
-          return <View key={index}/>;
+          return <View key={index} line={line}/>;
         });
 
       Promise.all(componentPromises).then(
@@ -36,7 +36,7 @@ const MainLine = (props) => {
     }
 
     loadViews();
-  }, [userAuth]);
+  }, [userAuth, line]);
 
   return (
     <>
