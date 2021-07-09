@@ -1,11 +1,11 @@
 import React from "react"
 import Dialog from "@material-ui/core/Dialog"
-import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import FormikUI from "./FormikUI"
 import { makeStyles } from "@material-ui/core"
+import { EditorSelectionObject } from "../../../inc/editorUtils"
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -14,7 +14,16 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const ExcerptDialog = props => {
+interface Props {
+  onAdd: Function;
+  dialogOpen: boolean;
+  onClose: Function;
+  excerpt: any;
+  selection: EditorSelectionObject,
+  compositions: any;
+  mishna: any;
+}
+const ExcerptDialog = (props: Props) => {
   const classes = useStyles()
   const { onAdd, dialogOpen, onClose, excerpt, selection , mishna,compositions } = props
 
@@ -33,7 +42,6 @@ const ExcerptDialog = props => {
         classes={{
           paper: classes.container,
         }}
-        className={classes.root}
         style={{ minWidth: "80%", direction: "rtl" }}
         open={dialogOpen}
         onClose={handleClose}

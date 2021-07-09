@@ -1,12 +1,12 @@
 import { CharacterMetadata, convertToRaw, EditorState, SelectionState } from "draft-js"
 import { iLine } from "../types/types";
 export interface editorSelection {
-  startBlock: string,
-  startOffset: number,
-  endBlock: string,
-  endOffset: number,
-  time: number,
-}
+  startBlock?: string,
+  startOffset?: number,
+  endBlock?: string,
+  endOffset?: number,
+  time?: number,
+};
 
 export const getSelection = (editorState: EditorState): editorSelection => {
   const selectionState = editorState.getSelection()
@@ -92,7 +92,15 @@ const getWord = (text, offset, startSelection = true) => {
   return word
 }
 
-export function getSelectionObject(editorState) {
+export interface EditorSelectionObject {
+  fromLine?: number;
+  fromWord?: string;
+  fromOffset?: number;
+  toLine?: number;
+  toWord?: string;
+  toOffset?: number;
+}
+export function getSelectionObject(editorState: EditorState): EditorSelectionObject {
   const selectionState = editorState.getSelection()
   const currentContent = editorState.getCurrentContent()
   const startKey = selectionState.getStartKey()
@@ -107,8 +115,8 @@ export function getSelectionObject(editorState) {
   const toWord = getWord(toText, toOffset, false)
 
   const blockMap = currentContent.getBlocksAsArray()
-  const fromLine = blockMap.findIndex(b => b.key === startKey)
-  const toLine = blockMap.findIndex(b => b.key === endKey)
+  const fromLine = blockMap.findIndex(b => b.getKey() === startKey)
+  const toLine = blockMap.findIndex(b => b.getKey() === endKey)
 
 
   return {
