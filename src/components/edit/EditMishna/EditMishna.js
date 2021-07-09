@@ -13,6 +13,7 @@ import ExcerptDialog from "./ExcerptDialog"
 import EditMishnaButtons from "./EditMishnaButtons"
 import {
   clearEntityRanges,
+  getSelection,
   getSelectionObject,
   getSelectionStateFromExcerpt,
 } from "../../../inc/editorUtils"
@@ -155,23 +156,7 @@ const EditMishna = props => {
     clearEntities()
   }, [excerpts])
 
-  const getSelection = editorState => {
-    const selectionState = mishnaEditor.getSelection()
-    //console.log('selecrion State looks like this', selectionState)
-    const anchorKey = selectionState.getAnchorKey()
-    const focusKey = selectionState.getFocusKey()
-    const currentContent = mishnaEditor.getCurrentContent()
-    const currentContentBlock = currentContent.getBlockForKey(anchorKey)
-    const start = selectionState.getStartOffset()
-    const end = selectionState.getEndOffset()
-    return {
-      startBlock: anchorKey,
-      startOffset: start,
-      endBlock: focusKey,
-      endOffset: end,
-      time: Date.now(),
-    }
-  }
+
 
   const onNavigateTo = link => {
     history.push(`/admin/edit/${link.tractate}/${link.chapter}/${link.mishna}`)

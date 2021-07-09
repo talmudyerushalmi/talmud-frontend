@@ -1,5 +1,27 @@
 import { CharacterMetadata, convertToRaw, EditorState, SelectionState } from "draft-js"
 import { iLine } from "../types/types";
+export interface editorSelection {
+  startBlock: string,
+  startOffset: number,
+  endBlock: string,
+  endOffset: number,
+  time: number,
+}
+
+export const getSelection = (editorState: EditorState): editorSelection => {
+  const selectionState = editorState.getSelection()
+  const anchorKey = selectionState.getAnchorKey()
+  const focusKey = selectionState.getFocusKey()
+  const start = selectionState.getStartOffset()
+  const end = selectionState.getEndOffset()
+  return {
+    startBlock: anchorKey,
+    startOffset: start,
+    endBlock: focusKey,
+    endOffset: end,
+    time: Date.now(),
+  }
+}
 
 export function getRawText(editorState) {
   const content = editorState.getCurrentContent()
