@@ -46,6 +46,14 @@ const AdminMenu = (props: any) => {
     handleClose();
   };
 
+  const handleViewMishna = () => {
+    const tractate = currentTractate ? currentTractate.id : "yevamot";
+    const chapter = currentChapter ? currentChapter.id : "001";
+    const mishna = currentMishna ? currentMishna.mishna : "001";
+    history.push(`/talmud/${tractate}/${chapter}/${mishna}`);
+    handleClose();
+  };
+
   const handleEditNosach = () => {
     const tractate = currentTractate ? currentTractate.id : "yevamot";
     const chapter = currentChapter ? currentChapter.id : "001";
@@ -70,6 +78,7 @@ const AdminMenu = (props: any) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <MenuItem onClick={handleViewMishna}>עמוד משנה</MenuItem>
         <MenuItem onClick={handleEditMishna}>עריכת משנה</MenuItem>
         <MenuItem onClick={handleEditNosach}>עריכת נוסח</MenuItem>
         <MenuItem onClick={handleEditLine}>עריכת שורה</MenuItem>
