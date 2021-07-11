@@ -5,7 +5,9 @@ import {
   } from "../actions/authActions"
   
 const defaultAuthState = {
-  userAuth: null
+  userAuth: null,
+  username: null,
+  test:'yaron'
 }
 
   const authReducer = (state = defaultAuthState, action: any) => {

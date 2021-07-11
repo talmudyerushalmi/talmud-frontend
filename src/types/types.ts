@@ -1,5 +1,19 @@
 import { RawDraftContentState } from "draft-js";
 
+export interface iTractate {
+  id: string;
+  chapters: iChapter[]
+}
+export interface iChapter {
+  id: string;
+  mishnaiot: iMishna[]
+}
+export interface iMishna {
+  id: string;
+  mishna: string;
+  lines: iLine[]
+
+}
 export interface iSource {
   id: string;
   type: string;

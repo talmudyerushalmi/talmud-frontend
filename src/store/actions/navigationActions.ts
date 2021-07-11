@@ -1,4 +1,6 @@
+import { RootState } from ".."
 import PageService from "../../services/pageService"
+import { iMishna } from "../../types/types"
 
 export const REQUEST_START = "REQUEST_START"
 export const REQUEST_COMPOSITIONS = "REQUEST_COMPOSITIONS"
@@ -66,7 +68,7 @@ export const setCurrentMishna = (mishnaDoc) => ({
 
 })
 
-export const setCurrentRoute = (currentTractate, currentChapter, currentMishna, currentLine) => ({
+export const setCurrentRoute = (currentTractate, currentChapter, currentMishna, currentLine = null) => ({
   type: SET_CURRENT_ROUTE,
   currentTractate,
   currentChapter,
@@ -85,9 +87,10 @@ export function getCurrentTractate() {
 }
 
 
-export function setNavigationToRoute(tractate, chapter, mishna, line) {
+export function setNavigationToRoute(tractate: string, chapter: string, mishna: string, line: string) {
   return async function (dispatch,getState) {
     let state = getState();
+
     if (state.general.tractates.length===0) {
       await dispatch(requestTractates())
       state = getState();
@@ -185,31 +188,30 @@ export function requestMishna(tractate, chapter, mishna) {
   return function (dispatch) {
     dispatch(startRequest())
     return PageService.getMishnaEdit(tractate, chapter, mishna).then(
+      //@ts-ignore
       data => dispatch(receivedMishna(data.data)),
       error => console.log("An error occurred.", error)
     )
   }
 }
 
-export function setCurrentLocation(type='location',tractate,chapter,mishna,line) {
+export function setCurrentLocation(type='location',
+tractate: string,chapter: string,mishna: string,line: string) {
   return  async (dispatch,getState)=> {
-    console.log('here')
-
     dispatch(startRequest())
-    let state = getState();
+    let state: RootState = getState();
     if (state.general.tractates.length===0) {
        await dispatch(requestTractates())
     }
-    state = getState();
+    state = getState() as RootState;
     const tractateData = state.general.tractates.find(t => t.id === tractate);
     const chapterData =  tractateData?.chapters.find(c => c.id === chapter);
     const foundMishna =  chapterData.mishnaiot.find(m => m.mishna === mishna);
-    let mishnaData = null;
-    let lineData = null;
+    let mishnaData: iMishna|null = null;
+    let lineData;
     // instead found mishna
     if (foundMishna && state.general.currentMishna.id === foundMishna.id) {
-      mishnaData = state.general.currentMishna;
-      // mishnaData = await PageService.getMishna(tractate, chapter, mishna);
+      mishnaData = state.general.currentMishna as iMishna;
       lineData = mishnaData.lines.find(l=>l.lineNumber===line);
       if (lineData === undefined) {
         lineData = mishnaData.lines[0];
@@ -219,15 +221,12 @@ export function setCurrentLocation(type='location',tractate,chapter,mishna,line)
       lineData = mishnaData.lines[0];
     }
     if (type==='location') {
-      console.log('updated selected mishna')
       dispatch(receivedCurrentLocation(tractateData,chapterData,mishnaData,lineData));
     }
     if (type==='selection') {
       dispatch(receivedCurrentSelection(tractateData,chapterData,mishnaData,lineData));
     }
     state = getState();
-
-    console.log('state',state);
   }
 }
 

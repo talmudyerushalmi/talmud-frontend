@@ -1,3 +1,4 @@
+import { iMishna } from '../types/types';
 import axiosInstance from './api';
 
 
@@ -14,7 +15,7 @@ export default class PageService {
     return response.data;
   }
 
-  static async getMishna(tractate, chapter, mishna ){
+  static async getMishna(tractate: string, chapter: string, mishna: string ): Promise<iMishna>{
     const url = `/mishna/${tractate}/${chapter}/${mishna}`;
     const response =  await axiosInstance.get(url);
     return response.data;
