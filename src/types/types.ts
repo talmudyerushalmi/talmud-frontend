@@ -1,4 +1,7 @@
 import { RawDraftContentState } from "draft-js";
+import { EditorSelectionObject } from "../inc/editorUtils";
+import { iExcerptType } from "../inc/excerptUtils";
+
 
 export interface iTractate {
   id: string;
@@ -13,6 +16,29 @@ export interface iMishna {
   mishna: string;
   lines: iLine[]
 
+}
+
+export interface iSource {
+  title: string;
+  secondary_title: string;
+  date: string;
+  type: string;
+  region: string;
+  author: string;
+  sourceLocation: string;
+}
+
+export interface iExcerpt {
+  key: number;
+  automaticImport: boolean;
+  editorStateFullQuote: RawDraftContentState;
+  editorStateComments: RawDraftContentState;
+  editorStateShortQuote: RawDraftContentState;
+  synopsis: string;
+  selection: EditorSelectionObject;
+  type: iExcerptType;
+  seeReference: boolean;
+  source: iSource;
 }
 export interface iSource {
   id: string;

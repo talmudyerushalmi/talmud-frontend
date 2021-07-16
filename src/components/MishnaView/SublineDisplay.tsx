@@ -68,9 +68,11 @@ const useStyles = makeStyles(theme => {
       paddingRight: 0
     },
     lineNumber: {
+      //@ts-ignore //todo solve theme typings
       ...theme.typography.lineNumber,
     },
     sourceReference: {
+        //@ts-ignore
       ...theme.typography.sourceReference,
     },
   }
@@ -87,7 +89,7 @@ const SublineDisplay = props => {
     showSources
   } = props
   const classes = useStyles()
-  const [expanded, setExpanded] = React.useState(false)
+  const [expanded, setExpanded] = React.useState("")
 
   const handleSelect = subline => {
     if (subline.index === selectedSublineData?.index) {
@@ -123,7 +125,7 @@ const SublineDisplay = props => {
       <Accordion
         square={true}
         expanded={expanded === `panelb${subline.index}`}
-        onClick={() => handleSelect(subline, lineIndex)}
+        onClick={() => handleSelect(subline)}
         className={`${classes.root} ${selectedClass}`}
       >
         <AccordionSummary

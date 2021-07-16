@@ -96,9 +96,11 @@ export interface EditorSelectionObject {
   fromLine?: number;
   fromWord?: string;
   fromOffset?: number;
+  fromSubline?: number;
   toLine?: number;
   toWord?: string;
   toOffset?: number;
+  toSubline?: number;
 }
 export function getSelectionObject(editorState: EditorState): EditorSelectionObject {
   const selectionState = editorState.getSelection()

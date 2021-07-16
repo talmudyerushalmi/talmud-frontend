@@ -1,33 +1,31 @@
-import { makeStyles } from "@material-ui/core"
-import React, { useEffect, useRef } from "react"
-import { connect } from "react-redux"
-import { selectExcerpt } from "../../store/actions"
-import { themeConstants } from "../../ui/Theme"
-import ExcerptDetailsView from "./ExcerptDetailsView"
-import ExcerptsView from "./ExcerptsView"
+import React, { useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { selectExcerpt } from "../../store/actions";
+import { themeConstants } from "../../ui/Theme";
+import ExcerptDetailsView from "./ExcerptDetailsView";
+import ExcerptsView from "./ExcerptsView";
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentMishna: state.general.currentMishna,
   filteredExcerpts: state.mishnaView.filteredExcerpts,
   selectedExcerpt: state.mishnaView.selectedExcerpt,
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
-})
+});
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  selectExcerpt: excerpt => {
-    dispatch(selectExcerpt(excerpt))
+  selectExcerpt: (excerpt) => {
+    dispatch(selectExcerpt(excerpt));
   },
-})
+});
 
-
-const ExcerptsSection = props => {
+const ExcerptsSection = (props) => {
   const {
     expanded,
     filteredExcerpts,
     detailsExcerptPopup,
     selectedExcerpt,
     selectExcerpt,
-  } = props
+  } = props;
   function useOutsideAlerter(ref) {
     useEffect(() => {
       /**
@@ -40,16 +38,16 @@ const ExcerptsSection = props => {
       }
 
       // Bind the event listener
-      document.addEventListener("mousedown", handleClickOutside)
+      document.addEventListener("mousedown", handleClickOutside);
       return () => {
         // Unbind the event listener on clean up
-        document.removeEventListener("mousedown", handleClickOutside)
-      }
-    }, [ref])
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
   }
 
-  const wrapperRef = useRef(null)
-  useOutsideAlerter(wrapperRef)
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
 
   return (
     <div
@@ -66,7 +64,7 @@ const ExcerptsSection = props => {
         selectedExcerpt={selectedExcerpt}
         open={detailsExcerptPopup}
         onClose={() => {
-          selectExcerpt(null)
+          selectExcerpt(null);
         }}
       />
       <ExcerptsView
@@ -79,8 +77,13 @@ const ExcerptsSection = props => {
         expanded={expanded}
         excerpts={filteredExcerpts}
       />
+      <ExcerptsView
+        type="NOSACH"
+        expanded={expanded}
+        excerpts={filteredExcerpts}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExcerptsSection)
+export default connect(mapStateToProps, mapDispatchToProps)(ExcerptsSection);
