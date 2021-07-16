@@ -1,15 +1,15 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-talmudfrontend-dev-173743-authRole",
-      "UnauthRoleArn": "arn:aws:iam::424334533647:role/amplify-talmudfrontend-dev-173743-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::424334533647:role/amplify-talmudfrontend-dev-173743-authRole",
+      "AuthRoleName": "amplify-talmudfrontend-dev-114551-authRole",
+      "UnauthRoleArn": "arn:aws:iam::424334533647:role/amplify-talmudfrontend-dev-114551-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::424334533647:role/amplify-talmudfrontend-dev-114551-authRole",
       "Region": "eu-west-1",
-      "DeploymentBucketName": "amplify-talmudfrontend-dev-173743-deployment",
-      "UnauthRoleName": "amplify-talmudfrontend-dev-173743-unauthRole",
-      "StackName": "amplify-talmudfrontend-dev-173743",
-      "StackId": "arn:aws:cloudformation:eu-west-1:424334533647:stack/amplify-talmudfrontend-dev-173743/43f92360-c479-11eb-ac61-06df0d66bfc3",
-      "AmplifyAppId": "d2qg7d3h9yflxe"
+      "DeploymentBucketName": "amplify-talmudfrontend-dev-114551-deployment",
+      "UnauthRoleName": "amplify-talmudfrontend-dev-114551-unauthRole",
+      "StackName": "amplify-talmudfrontend-dev-114551",
+      "StackId": "arn:aws:cloudformation:eu-west-1:424334533647:stack/amplify-talmudfrontend-dev-114551/bcb6ed30-e3b6-11eb-8afd-028d27dddb85",
+      "AmplifyAppId": "dx1f949t6ufxc"
     },
     "categories": {
       "auth": {
