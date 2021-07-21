@@ -81,7 +81,7 @@ const ExcerptView = props => {
           </IconButton>
           <div>
             <Typography component="span">[{selectionRange}] </Typography>
-            <Typography style={{fontWeight:'bold'}} component="span">{excerpt.source.title} </Typography>
+            <Typography style={{fontWeight:'bold'}} component="span">{excerpt.source?.title} </Typography>
             <Typography component="span">{excerpt.sourceLocation}</Typography>
           </div>
         </AccordionSummary>

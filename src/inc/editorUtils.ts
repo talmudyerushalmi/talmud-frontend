@@ -60,7 +60,6 @@ const getWord = (text, offset, startSelection = true) => {
   const arrayText = text.trim().split("")
   let word = ""
   if (startSelection) {
-    // get start
 
   } else {
     // find start - first offset with hebrew letter  
@@ -69,11 +68,6 @@ const getWord = (text, offset, startSelection = true) => {
       }
    // offset--;
   }
-  //console.log(`s: ${startSelection} current is ${arrayText[offset]}`)
-
-  // if (endWords.test(arrayText[offset])) {
-  //   return ""
-  // }
 
 
   while (offset > 0 && hebrewRegex.test(arrayText[offset])) {
@@ -101,6 +95,22 @@ export interface EditorSelectionObject {
   toWord?: string;
   toOffset?: number;
   toSubline?: number;
+  firstWords?: string;
+}
+
+function getFirstWords(fromText, toText, fromOffset, toOffset): string {
+  const MAX_STRING = 30;
+  let text;
+  if (fromText === toText) {
+    text = fromText.slice(fromOffset, toOffset).trim();
+  } else {
+    text = fromText.slice(fromOffset).trim();
+  }
+  if (text.length < MAX_STRING) {
+    return text;
+  } else {
+    return text.substr(0, MAX_STRING) + '...';
+  }
 }
 export function getSelectionObject(editorState: EditorState): EditorSelectionObject {
   const selectionState = editorState.getSelection()
@@ -115,7 +125,7 @@ export function getSelectionObject(editorState: EditorState): EditorSelectionObj
   const toText = toContentBlock.getText()
   const fromWord = getWord(fromText, fromOffset)
   const toWord = getWord(toText, toOffset, false)
-
+  const firstWords = getFirstWords(fromText, toText, fromOffset, toOffset);
   const blockMap = currentContent.getBlocksAsArray()
   const fromLine = blockMap.findIndex(b => b.getKey() === startKey)
   const toLine = blockMap.findIndex(b => b.getKey() === endKey)
@@ -127,7 +137,8 @@ export function getSelectionObject(editorState: EditorState): EditorSelectionObj
     fromOffset,
     toLine,
     toWord,
-    toOffset
+    toOffset,
+    firstWords
   }
 }
 

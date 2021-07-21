@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton"
 import ShortTextIcon from "@material-ui/icons/ShortText"
 import DeleteIcon from "@material-ui/icons/Delete"
 import { Paper, Typography } from "@material-ui/core"
+import { getExcerptTitle } from "../../../inc/excerptUtils"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,6 +45,9 @@ const ExcerptList = props => {
     case "MAKBILA":
       listname = "רשימת מקבילות"
       break;
+    case "NOSACH":
+      listname = "הערות נוסח"
+      break;
     default: 
   }
 
@@ -56,7 +60,6 @@ const ExcerptList = props => {
         <List className={classes.root}>
           {filteredExcerpts.map(excerpt => {
             const labelId = `checkbox-list-label-${excerpt.key}`
-            const name = `${excerpt?.source?.title} (${excerpt?.sourceLocation})`
             const selectionInfo = admin ? `משורה ${excerpt.selection.fromLine}, "${excerpt.selection.fromWord}"  עד שורה ${excerpt.selection.toLine}, "${excerpt.selection.toWord}"` 
             : null;
        
@@ -73,7 +76,7 @@ const ExcerptList = props => {
               >
                 <ListItemText
                   id={labelId}
-                  primary={name}
+                  primary={getExcerptTitle(excerpt)}
                   classes={{ root: classes.textItemRoot }}
                 />
                 {admin ? (

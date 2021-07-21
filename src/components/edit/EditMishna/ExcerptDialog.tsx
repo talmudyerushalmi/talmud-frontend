@@ -3,9 +3,12 @@ import Dialog from "@material-ui/core/Dialog"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
-import FormikUI from "./FormikUI"
+import FormikExcerpt from "./FormikExcerpt"
 import { makeStyles } from "@material-ui/core"
 import { EditorSelectionObject } from "../../../inc/editorUtils"
+import { connect } from "react-redux"
+import { iExcerpt } from "../../../types/types"
+import FormikNosach from "./FormikNosach"
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -14,21 +17,35 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const mapStateToProps = (state) => ({
+  excerptDialogOpen: state.mishnaEdit.excerptDialogOpen,
+  editedExcerpt: state.mishnaEdit.editedExcerpt
+});
+
+// const mapDispatchToProps = (dispatch, ownProps) => ({
+//   getCompositions: () => {
+//     dispatch(requestCompositions());
+//   },
+// });
+
+
 interface Props {
   onAdd: Function;
   dialogOpen: boolean;
   onClose: Function;
-  excerpt: any;
+  editedExcerpt: iExcerpt;
   selection: EditorSelectionObject,
   compositions: any;
   mishna: any;
 }
 const ExcerptDialog = (props: Props) => {
   const classes = useStyles()
-  const { onAdd, dialogOpen, onClose, excerpt, selection , mishna,compositions } = props
+  const { onAdd, dialogOpen, onClose, editedExcerpt, mishna,compositions } = props
+  const selection = editedExcerpt ? editedExcerpt.selection : {}
 
-  const selectionInfo = `משורה ${selection.fromLine}, "${selection.fromWord}"  עד שורה ${selection.toLine}, "${selection.toWord}"`;
+  const selectionInfo = `משורה ${selection!.fromLine}, "${selection!.fromWord}"  עד שורה ${selection!.toLine}, "${selection!.toWord}"`;
   const handleClose = e => {
+    console.log('handle close')
     // check if synthetic event or excerpt
     if (e && ['MUVAA','MAKBILA'].includes(e.type)) {
       onAdd(e)
@@ -36,6 +53,35 @@ const ExcerptDialog = (props: Props) => {
     onClose()
   }
 
+  const FormToShow = (editedExcerpt) => {
+    if (!editedExcerpt) { return null}
+    if (editedExcerpt?.type && ['MUVAA','MAKBILA'].includes(editedExcerpt.type as string)) {
+      return (
+        <FormikExcerpt
+        mishna={mishna}
+        compositions={compositions}
+        excerpt={editedExcerpt}
+        selection={selection}
+        name={"passing name"}
+        handleSubmit={values => console.log('handle submitting',values)}
+        handleClose={values => handleClose(values)}
+      ></FormikExcerpt>
+      );}
+     if (editedExcerpt.type === 'NOSACH') {
+       return (
+        <FormikNosach
+        mishna={mishna}
+        compositions={compositions}
+        excerpt={editedExcerpt}
+        selection={selection}
+        name={"passing name"}
+        handleSubmit={values => console.log('handle submitting',values)}
+        handleClose={values => handleClose(values)}
+      ></FormikNosach>
+       )
+     } 
+    
+  }
   return (
     <div>
       <Dialog
@@ -47,17 +93,10 @@ const ExcerptDialog = (props: Props) => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">הוסף מובאה/מקבילה</DialogTitle>
+        <DialogTitle id="form-dialog-title">עריכת קטע טקסט</DialogTitle>
         <DialogContent>
         <p>{selectionInfo}</p>
-          <FormikUI
-            mishna={mishna}
-            compositions={compositions}
-            excerpt={excerpt}
-            selection={selection}
-            name={"passing name"}
-            handleClose={values => handleClose(values)}
-          ></FormikUI>
+         { FormToShow(editedExcerpt) }
           <DialogContentText></DialogContentText>
         </DialogContent>
       </Dialog>
@@ -65,4 +104,4 @@ const ExcerptDialog = (props: Props) => {
   )
 }
 
-export default ExcerptDialog
+export default connect(mapStateToProps)(ExcerptDialog)

@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   general: navigationReducer,
   authentication: authReducer,
   mishnaView: mishnaViewReducer,
-  mishbaEdit: mishnaEditReducer
+  mishnaEdit: mishnaEditReducer
 });
 
 

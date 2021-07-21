@@ -3,10 +3,12 @@ import React from 'react';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        position: 'fixed',
-        top: '10.5rem',
+        position: 'sticky',
+        top: '5.5rem',
         background: 'white',
-        zIndex: 1
+        zIndex: 1,
+        display: 'flex',
+        flexDirection: 'column'
     },
   }))
 const EditMishnaButtons = (props)=>{
@@ -33,6 +35,15 @@ const EditMishnaButtons = (props)=>{
           }}
         >
           הוסף מקבילה
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            onAddNewExcerpt({type:'NOSACH'})
+          }}
+        >
+          הערת נוסח
         </Button>
       </div>
     )

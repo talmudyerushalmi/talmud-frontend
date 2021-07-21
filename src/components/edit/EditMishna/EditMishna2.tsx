@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Container, Grid, makeStyles } from "@material-ui/core";
-import PageService from "../../../services/pageService";
+import { Grid, makeStyles } from "@material-ui/core";
 import TextEditorMishna from "./TextEditorMishna2";
 import ExcerptList from "./ExcerptList";
 import ExcerptDialog from "./ExcerptDialog";
 import EditMishnaButtons from "./EditMishnaButtons";
-import ExcerptService from "../../../services/excerpt.service";
-import ChooseMishnaBar from "../../shared/ChooseMishnaBar";
 import { connect } from "react-redux";
 import { requestCompositions, requestTractates } from "../../../store/actions";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import { routeObject } from "../../../routes/AdminRoutes";
 import { iExcerpt, iMishna } from "../../../types/types";
 import { getEmptyExcerpt } from "../../../inc/excerptUtils";
 import { getSelectionObject } from "../../../inc/editorUtils";
+import {
+  closeExcerptDialog,
+  deleteExcerpt,
+  getMishnaForEdit,
+  openExcerptDialog,
+} from "../../../store/actions/mishnaEditActions";
 
 const mapStateToProps = (state) => ({
   compositions: state.general.compositions,
+  excerptDialogOpen: state.mishnaEdit.excerptDialogOpen,
+  mishnaDoc: state.general.currentMishna,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -26,40 +31,46 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getTractates: () => {
     dispatch(requestTractates());
   },
+  getMishnaForEdit: (tractate, chapter, mishna) => {
+    dispatch(getMishnaForEdit(tractate, chapter, mishna));
+  },
+  openExcerptDialog: (excerpt) => dispatch(openExcerptDialog(excerpt)),
+  closeExcerptDialog: () => dispatch(closeExcerptDialog),
+  deleteExcerpt: (tractate, chapter, mishna, excerpt) =>
+    dispatch(deleteExcerpt(tractate, chapter, mishna, excerpt)),
 });
 
 const EditMishna = (props) => {
-  const { getCompositions, compositions } = props;
+  const {
+    getCompositions,
+    getMishnaForEdit,
+    mishnaDoc,
+    compositions,
+    excerptDialogOpen,
+    openExcerptDialog,
+    closeExcerptDialog,
+    deleteExcerpt,
+  } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [selection, setSelection] = useState({})
-  const [excerpt, setExcerpt] = useState<iExcerpt>(getEmptyExcerpt())
-
-  const [mishnaDoc, setMishnaDoc] = useState<iMishna | null>(null);
-  const history = useHistory();
+  const [selection, setSelection] = useState({});
+  const [excerpt, setExcerpt] = useState<iExcerpt>(getEmptyExcerpt());
 
   useEffect(() => {
     getCompositions();
   }, [getCompositions]);
 
   useEffect(() => {
-    async function fetch() {
-      const result = await PageService.getMishnaEdit(tractate, chapter, mishna);
-      const mishnaD = result.data.mishnaDoc;
-      setMishnaDoc(mishnaD);
-    }
-    fetch();
+    getMishnaForEdit(tractate, chapter, mishna);
     return () => {};
   }, [tractate, chapter, mishna]);
 
-  const onNavigateTo = (link) => {
-    history.push(`/admin/edit/${link.tractate}/${link.chapter}/${link.mishna}`);
-  };
-
   const onAddNewExcerpt = (initialValues) => {
-    console.log(initialValues);
-    setExcerpt(initialValues);
-    setDialogOpen(true);
+    const values = {
+      ...initialValues,
+      selection,
+    };
+    console.log(values);
+    openExcerptDialog(values);
   };
   const addExcerpt = (initialValues) => {
     console.log(initialValues);
@@ -67,36 +78,37 @@ const EditMishna = (props) => {
     // setDialogOpen(true);
   };
 
-  const onMishnaSelected = (link) => {
-    if (link) {
-      onNavigateTo(link);
-    }
-  };
   return (
     <>
-      <Container>
-        <ChooseMishnaBar onNavigationSelected={onMishnaSelected} />
-        
-
-        <Grid style={{ marginTop: "4rem" }} container>
-          <EditMishnaButtons onAddNewExcerpt={onAddNewExcerpt} />
+        <Grid container>
           <ExcerptDialog
             mishna={{ tractate, chapter, mishna }}
             compositions={compositions}
             // selection={excerpt?.selection || getSelectionObject(mishnaEditor)}
             selection={selection}
-            excerpt={excerpt}
             onClose={() => {
-              setDialogOpen(false)
+              closeExcerptDialog();
             }}
-            dialogOpen={dialogOpen}
+            dialogOpen={excerptDialogOpen}
             onAdd={addExcerpt}
           ></ExcerptDialog>
           <Grid item md={8}>
-            <TextEditorMishna
-              onChangeSelection={(e) => {console.log("change", e); setSelection(e)}}
+            <Grid container>
+              <Grid item md={1}>
+              <EditMishnaButtons onAddNewExcerpt={onAddNewExcerpt} />
+
+              </Grid>
+              <Grid item md={11}>
+              <TextEditorMishna
+              onChangeSelection={(e) => {
+                console.log("change", e);
+                setSelection(e);
+              }}
               mishna={mishnaDoc}
             ></TextEditorMishna>
+              </Grid>
+            </Grid>
+
           </Grid>
           <Grid item md={4}>
             <div
@@ -110,10 +122,10 @@ const EditMishna = (props) => {
                 filter="MUVAA"
                 excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
                 onClick={(excerpt) => {
-                  // onSelectExcerpt(excerpt);
+                  openExcerptDialog(excerpt);
                 }}
-                onDelete={(excerpt) => {
-                  //deleteExcerpt(excerpt);
+                onDelete={(excerptId) => {
+                  deleteExcerpt(tractate, chapter, mishna, excerptId);
                 }}
                 onUpdateSelectionForExcerpt={() => {}}
               ></ExcerptList>
@@ -122,17 +134,28 @@ const EditMishna = (props) => {
                 filter="MAKBILA"
                 excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
                 onClick={(excerpt) => {
-                  // onSelectExcerpt(excerpt);
+                  openExcerptDialog(excerpt);
                 }}
-                onDelete={(excerpt) => {
-                  //deleteExcerpt(excerpt);
+                onDelete={(excerptId) => {
+                  deleteExcerpt(tractate, chapter, mishna, excerptId);
+                }}
+                onUpdateSelectionForExcerpt={() => {}}
+              ></ExcerptList>
+               <ExcerptList
+                admin={true}
+                filter="NOSACH"
+                excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
+                onClick={(excerpt) => {
+                  openExcerptDialog(excerpt);
+                }}
+                onDelete={(excerptId) => {
+                  deleteExcerpt(tractate, chapter, mishna, excerptId);
                 }}
                 onUpdateSelectionForExcerpt={() => {}}
               ></ExcerptList>
             </div>
           </Grid>
         </Grid>
-      </Container>
     </>
   );
 };

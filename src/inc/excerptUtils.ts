@@ -5,7 +5,7 @@ export const MUVAA = "MUVAA";
 export const MAKBILA = "MAKBILA";
 export const NOSACH = "NOSACH";
 
-export type iExcerptType = "MUVAA" | "MAKBILA" | "NOSACH";
+export type iExcerptType = "MUVAA" | "MAKBILA" | "NOSACH" | null;
 
 export const excerptsMap = new Map([
   [
@@ -28,6 +28,13 @@ export const excerptsMap = new Map([
   ],
 ]);
 
+export const getExcerptTitle = (excerpt: iExcerpt): string => {
+  if (excerpt?.type && ['MUVAA','MAKBILA'].includes(excerpt.type as string)) {
+    return `${excerpt?.source?.title} (${excerpt?.sourceLocation})`
+  }
+  return excerpt?.sourceLocation ? excerpt.sourceLocation : ''
+
+}
 export const getEmptyExcerpt = (): iExcerpt => {
   const emptyContent = convertToRaw(ContentState.createFromText(""));
   return {

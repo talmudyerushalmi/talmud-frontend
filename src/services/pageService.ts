@@ -30,7 +30,7 @@ export default class PageService {
     catch(e){
       alert(e);
     }
-    return response;
+    return response.data;
   }
 
   static async getAllTractates(){

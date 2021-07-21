@@ -62,11 +62,11 @@ export const setSelectedForRoute = (selectedTractate, selectedChapter, selectedM
   selectedLine
 });
 
-export const setCurrentMishna = (mishnaDoc) => ({
+export const setCurrentMishna = (mishnaDoc) => {
+  return ({
   type: SET_CURRENT_MISHNA,
   currentMishna: mishnaDoc
-
-})
+})}
 
 export const setCurrentRoute = (currentTractate, currentChapter, currentMishna, currentLine = null) => ({
   type: SET_CURRENT_ROUTE,

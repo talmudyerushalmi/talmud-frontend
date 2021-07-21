@@ -26,7 +26,6 @@ export interface iSource {
   type: string;
   region: string;
   author: string;
-  sourceLocation: string;
 }
 
 export interface iExcerpt {
@@ -37,9 +36,10 @@ export interface iExcerpt {
   editorStateShortQuote: RawDraftContentState;
   synopsis: string;
   selection: EditorSelectionObject | null;
-  type: iExcerptType | null;
+  type: iExcerptType;
   seeReference: boolean;
   source: iSource | null;
+  sourceLocation?: string;
 }
 export interface iSource {
   id: string;

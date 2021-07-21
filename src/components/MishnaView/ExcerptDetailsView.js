@@ -19,7 +19,8 @@ const useStyles = makeStyles({
     position: "absolute",
     top: 0,
     right: 0,
-    width: "100%",
+    left: 0,
+    textAlign: "initial",
     opacity: 100,
     zIndex: 9,
     height: "100%",
@@ -62,7 +63,7 @@ const ExcerptDetailsView = props => {
       >
         <CancelIcon />
       </IconButton>
-      <Typography variant="h3" style={{fontWeight:'bold'}}>{selectedExcerpt?.source.title}
+      <Typography variant="h3" style={{fontWeight:'bold'}}>{selectedExcerpt?.source?.title}
       <Typography component="span"> {selectedExcerpt?.sourceLocation}</Typography>
       </Typography>
       <Typography>[{selectionRange}]</Typography>
