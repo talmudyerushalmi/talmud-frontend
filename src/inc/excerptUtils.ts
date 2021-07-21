@@ -1,3 +1,4 @@
+import { ContentState, convertToRaw } from "draft-js";
 import { iExcerpt, iSubline } from "../types/types";
 
 export const MUVAA = "MUVAA";
@@ -27,6 +28,21 @@ export const excerptsMap = new Map([
   ],
 ]);
 
+export const getEmptyExcerpt = (): iExcerpt => {
+  const emptyContent = convertToRaw(ContentState.createFromText(""));
+  return {
+    key: Date.now(),
+    automaticImport: false,
+    editorStateFullQuote: emptyContent,
+    editorStateComments: emptyContent,
+    editorStateShortQuote: emptyContent,
+    synopsis: "",
+    selection: null,
+    type: "MUVAA",
+    seeReference: false,
+    source: null
+  }
+}
 export const excerptSelection = (subline: iSubline, excerpt: iExcerpt) => {
   if (
     !excerpt ||

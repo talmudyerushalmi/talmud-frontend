@@ -40,10 +40,11 @@ const ExcerptList = props => {
   switch (filter) {
     case "MUVAA":
       listname = "רשימת מובאות"
-      break
+      break;
     case "MAKBILA":
       listname = "רשימת מקבילות"
-      break
+      break;
+    default: 
   }
 
   const filteredExcerpts = excerpts.filter(f=>f.type===filter);

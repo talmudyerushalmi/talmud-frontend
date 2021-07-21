@@ -1,5 +1,5 @@
-import { CharacterMetadata, convertToRaw, EditorState, SelectionState } from "draft-js"
-import { iLine } from "../types/types";
+import { CharacterMetadata, ContentState, convertToRaw, EditorState, SelectionState } from "draft-js"
+import { iLine, iMishna } from "../types/types";
 export interface editorSelection {
   startBlock?: string,
   startOffset?: number,
@@ -142,6 +142,16 @@ export function editorInEventPath(event) {
     e.classList?.value.indexOf("Editor")!==-1));
 }
 
+export function getContentFromMishna(mishna: iMishna): ContentState {
+  const text = mishna.lines.reduce(
+    (carrier, a, currentIndex) => {
+      return currentIndex < (mishna.lines.length-1) ? carrier + a.mainLine + "\n" :
+    carrier + a.mainLine}
+    ,
+    ""
+  );
+  return ContentState.createFromText(text);
+}
 export function getSelectionStateFromExcerpt(excerpt,contentState) {
   let selectionState = SelectionState.createEmpty("");
   const blocks = contentState.getBlocksAsArray();

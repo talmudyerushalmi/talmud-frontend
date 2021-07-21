@@ -15,6 +15,7 @@ export interface iMishna {
   id: string;
   mishna: string;
   lines: iLine[]
+  excerpts: iExcerpt[]
 
 }
 
@@ -35,10 +36,10 @@ export interface iExcerpt {
   editorStateComments: RawDraftContentState;
   editorStateShortQuote: RawDraftContentState;
   synopsis: string;
-  selection: EditorSelectionObject;
-  type: iExcerptType;
+  selection: EditorSelectionObject | null;
+  type: iExcerptType | null;
   seeReference: boolean;
-  source: iSource;
+  source: iSource | null;
 }
 export interface iSource {
   id: string;

@@ -1,10 +1,16 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import EditLine from '../components/edit/EditLine';
-import EditMishna from '../components/edit/EditMishna/EditMishna';
+import EditMishna from '../components/edit/EditMishna/EditMishna2';
 import { ConfirmSignIn, ForgotPassword, RequireNewPassword, SignIn, withAuthenticator } from 'aws-amplify-react';
 import theme from '../ui/Theme';
 
+export interface routeObject {
+    tractate: string;
+    chapter: string;
+    mishna: string;
+    line: string;
+}
 export const AdminRoutes = () => {
 
     return (
