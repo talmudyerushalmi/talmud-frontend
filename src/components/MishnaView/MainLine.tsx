@@ -22,7 +22,7 @@ const MainLine = (props) => {
 
 
   useEffect(() => {
-    let dynamicComponentsToLoad = userAuth ? ['NosachDialog'] : [];
+    let dynamicComponentsToLoad = userAuth ? [] : [];
     async function loadViews() {
       const componentPromises =
       dynamicComponentsToLoad.map(async (component, index)=> {
