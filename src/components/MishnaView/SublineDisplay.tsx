@@ -13,6 +13,7 @@ import MarkedText from "../shared/MarkedText"
 import { excerptSelection } from "../../inc/excerptUtils"
 import SynopsisTable from "./SynopsisTable"
 import { clearPunctutationFromText, hideSourceFromText } from "../../inc/synopsisUtils"
+import { iExcerpt, iSubline } from "../../types/types"
 
 const mapStateToProps = state => ({
   selectedSublineData: state.mishnaView.selectedSublineData,
@@ -78,7 +79,16 @@ const useStyles = makeStyles(theme => {
   }
 })
 
-const SublineDisplay = props => {
+interface Props {
+  subline: iSubline;
+  lineIndex: number;
+  selectedSublineData: iSubline;
+  selectSubline: Function;
+  selectedExcerpt: iExcerpt;
+  showPunctuation: boolean;
+  showSources: boolean;
+}
+const SublineDisplay = (props: Props) => {
   const {
     subline,
     lineIndex,

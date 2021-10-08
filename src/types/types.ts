@@ -68,6 +68,8 @@ export interface iSubline {
   text: string;
   index: number;
   synopsis: iSynopsis[];
+  piska?: boolean;
+  offset?: number;
 }
 
 export interface iLine {
