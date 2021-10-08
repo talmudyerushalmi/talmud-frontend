@@ -42,8 +42,8 @@ const EditLine = (props) => {
     useEffect( () => {
       async function fetch() {
         const result = await PageService.getMishnaEdit(tractate, chapter, mishna);
-        const lineObj = result.data.mishnaDoc.lines?.find(lineItem => lineItem.lineNumber === line);
-        setTractateSettings(result.data.tractateSettings);
+        const lineObj = result.mishnaDoc.lines?.find(lineItem => lineItem.lineNumber === line);
+        setTractateSettings(result.tractateSettings);
         setLineObj(lineObj);
       }
        fetch();
