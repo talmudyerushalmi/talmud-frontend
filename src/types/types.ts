@@ -40,6 +40,7 @@ export interface iExcerpt {
   seeReference: boolean;
   source: iSource | null;
   sourceLocation?: string;
+  flagBadSelection?: boolean;
 }
 export interface iSource {
   id: string;

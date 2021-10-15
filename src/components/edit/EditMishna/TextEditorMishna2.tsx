@@ -60,7 +60,7 @@ const TextEditorMishna = (props: Props) => {
         entityKey
       );}
       catch(e){
-        console.log('something wrong with ', excerpt)
+        excerpt.flagBadSelection = true; 
       }
     });
     let newEditorState = EditorState.createWithContent(

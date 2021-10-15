@@ -9,6 +9,7 @@ import ShortTextIcon from "@material-ui/icons/ShortText"
 import DeleteIcon from "@material-ui/icons/Delete"
 import { Paper, Typography } from "@material-ui/core"
 import { getExcerptTitle } from "../../../inc/excerptUtils"
+import { iExcerpt } from "../../../types/types"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +24,15 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const ExcerptList = props => {
+interface Props {
+  excerpts: iExcerpt[],
+  filter: any,
+  admin: any,
+  onDelete: Function,
+  onClick: Function,
+  onUpdateSelectionForExcerpt: Function
+}
+const ExcerptList = (props:Props) => {
   const classes = useStyles()
   const {
     excerpts,
@@ -60,14 +69,15 @@ const ExcerptList = props => {
         <List className={classes.root}>
           {filteredExcerpts.map(excerpt => {
             const labelId = `checkbox-list-label-${excerpt.key}`
-            const selectionInfo = admin ? `משורה ${excerpt.selection.fromLine}, "${excerpt.selection.fromWord}"  עד שורה ${excerpt.selection.toLine}, "${excerpt.selection.toWord}"` 
-            : null;
+            const selectionInfo = admin && excerpt.selection ? `משורה ${excerpt.selection.fromLine}, "${excerpt.selection.fromWord}"  עד שורה ${excerpt.selection.toLine}, "${excerpt.selection.toWord}"` 
+            : "";
        
 
             return (
               <ListItem
                 title={selectionInfo}
                 key={excerpt.key}
+                style={excerpt.flagBadSelection?{background:'red'}:{}}
                 dense
                 button
                 onClick={() => {
