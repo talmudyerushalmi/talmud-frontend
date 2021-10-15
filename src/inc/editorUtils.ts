@@ -1,90 +1,98 @@
-import { CharacterMetadata, ContentState, convertToRaw, EditorState, SelectionState } from "draft-js"
+import {
+  CharacterMetadata,
+  ContentState,
+  convertToRaw,
+  EditorState,
+  SelectionState,
+} from "draft-js";
 import { iLine, iMishna } from "../types/types";
 export interface editorSelection {
-  startBlock?: string,
-  startOffset?: number,
-  endBlock?: string,
-  endOffset?: number,
-  time?: number,
-};
+  startBlock?: string;
+  startOffset?: number;
+  endBlock?: string;
+  endOffset?: number;
+  time?: number;
+}
 
 export const getSelection = (editorState: EditorState): editorSelection => {
-  const selectionState = editorState.getSelection()
-  const anchorKey = selectionState.getAnchorKey()
-  const focusKey = selectionState.getFocusKey()
-  const start = selectionState.getStartOffset()
-  const end = selectionState.getEndOffset()
+  const selectionState = editorState.getSelection();
+  const anchorKey = selectionState.getAnchorKey();
+  const focusKey = selectionState.getFocusKey();
+  const start = selectionState.getStartOffset();
+  const end = selectionState.getEndOffset();
   return {
     startBlock: anchorKey,
     startOffset: start,
     endBlock: focusKey,
     endOffset: end,
     time: Date.now(),
-  }
-}
+  };
+};
 
 export function getRawText(editorState) {
-  const content = editorState.getCurrentContent()
+  const content = editorState.getCurrentContent();
   const rawText = content
     .getBlocksAsArray()
-    .reduce((carrier, b) => `${carrier}\n${b.getText()}`, "")
-  return rawText
+    .reduce((carrier, b) => `${carrier}\n${b.getText()}`, "");
+  return rawText;
 }
 
-export function getSublinesFromContent(editorState: EditorState){
+export function getSublinesFromContent(editorState: EditorState) {
   const content = editorState.getCurrentContent();
-  return content.getBlocksAsArray().map(block => block.getText())
+  return content.getBlocksAsArray().map((block) => block.getText());
 }
 
-export function getContentFromSublines(line: iLine) {
-
-  
-}
+export function getContentFromSublines(line: iLine) {}
 export function isContentEmpty(content) {
-  return ((content?.blocks?.length===1) && (content.blocks[0].text==="") );
+  return content?.blocks?.length === 1 && content.blocks[0].text === "";
 }
 
 export function getExcerpt(content, size = 10) {
-  const lines = content?.blocks.reduce((previous,block)=>previous + " " + block.text,"");
+  const lines = content?.blocks.reduce(
+    (previous, block) => previous + " " + block.text,
+    ""
+  );
   const words = lines.split(" ");
-  const reduced = words.length > size ? `${words.slice(0,size).join(" ")}...` 
-  : words.slice(0,size).join(" ")
+  const reduced =
+    words.length > size
+      ? `${words.slice(0, size).join(" ")}...`
+      : words.slice(0, size).join(" ");
   return `<p>${reduced}</p>`;
 }
 // startSelection means we look back to find the word
 // if false we look forward
 const getWord = (text, offset, startSelection = true) => {
- // const endWords = /[\.\s]/
+  // const endWords = /[\.\s]/
 
-  const hebrewRegex = /[0-9א-ת'"[\](){}-]/
-  const arrayText = text.trim().split("")
-  let word = ""
+  const hebrewRegex = /[0-9א-ת'"[\](){}-]/;
+  const arrayText = text.trim().split("");
+  let word = "";
   if (startSelection) {
-
   } else {
-    // find start - first offset with hebrew letter  
+    // find start - first offset with hebrew letter
     while (offset > 0 && !hebrewRegex.test(arrayText[offset])) {
-        offset--;
-      }
-   // offset--;
+      offset--;
+    }
+    // offset--;
   }
-
 
   while (offset > 0 && hebrewRegex.test(arrayText[offset])) {
     offset--;
   }
-  // if we stopped at a non hebrew character and it is the middle 
+  // if we stopped at a non hebrew character and it is the middle
   // of the text - go one character forward
-  if (offset>0) {offset++}
+  if (offset > 0) {
+    offset++;
+  }
 
   //console.log("offset is now ", offset)
   //console.log("current is now", arrayText[offset])
   //
-  while (arrayText.length > offset &&  hebrewRegex.test(arrayText[offset])) {
-    word += arrayText[offset++]
+  while (arrayText.length > offset && hebrewRegex.test(arrayText[offset])) {
+    word += arrayText[offset++];
   }
-  return word
-}
+  return word;
+};
 
 export interface EditorSelectionObject {
   fromLine?: number;
@@ -109,27 +117,28 @@ function getFirstWords(fromText, toText, fromOffset, toOffset): string {
   if (text.length < MAX_STRING) {
     return text;
   } else {
-    return text.substr(0, MAX_STRING) + '...';
+    return text.substr(0, MAX_STRING) + "...";
   }
 }
-export function getSelectionObject(editorState: EditorState): EditorSelectionObject {
-  const selectionState = editorState.getSelection()
-  const currentContent = editorState.getCurrentContent()
-  const startKey = selectionState.getStartKey()
-  const fromOffset = selectionState.getStartOffset()
-  const endKey = selectionState.getEndKey()
-  const toOffset = selectionState.getEndOffset()
-  const fromContentBlock = currentContent.getBlockForKey(startKey)
-  const fromText = fromContentBlock.getText()
-  const toContentBlock = currentContent.getBlockForKey(endKey)
-  const toText = toContentBlock.getText()
-  const fromWord = getWord(fromText, fromOffset)
-  const toWord = getWord(toText, toOffset, false)
+export function getSelectionObject(
+  editorState: EditorState
+): EditorSelectionObject {
+  const selectionState = editorState.getSelection();
+  const currentContent = editorState.getCurrentContent();
+  const startKey = selectionState.getStartKey();
+  const fromOffset = selectionState.getStartOffset();
+  const endKey = selectionState.getEndKey();
+  const toOffset = selectionState.getEndOffset();
+  const fromContentBlock = currentContent.getBlockForKey(startKey);
+  const fromText = fromContentBlock.getText();
+  const toContentBlock = currentContent.getBlockForKey(endKey);
+  const toText = toContentBlock.getText();
+  const fromWord = getWord(fromText, fromOffset);
+  const toWord = getWord(toText, toOffset, false);
   const firstWords = getFirstWords(fromText, toText, fromOffset, toOffset);
-  const blockMap = currentContent.getBlocksAsArray()
-  const fromLine = blockMap.findIndex(b => b.getKey() === startKey)
-  const toLine = blockMap.findIndex(b => b.getKey() === endKey)
-
+  const blockMap = currentContent.getBlocksAsArray();
+  const fromLine = blockMap.findIndex((b) => b.getKey() === startKey);
+  const toLine = blockMap.findIndex((b) => b.getKey() === endKey);
 
   return {
     fromLine,
@@ -138,8 +147,8 @@ export function getSelectionObject(editorState: EditorState): EditorSelectionObj
     toLine,
     toWord,
     toOffset,
-    firstWords
-  }
+    firstWords,
+  };
 }
 
 export function getContentRaw(editorState) {
@@ -147,60 +156,70 @@ export function getContentRaw(editorState) {
 }
 
 export function editorInEventPath(event) {
-  return event.path.some(e =>  
-   
-    (e.classList &&
-    e.classList?.value.indexOf("Editor")!==-1));
+  return event.path.some(
+    (e) => e.classList && e.classList?.value.indexOf("Editor") !== -1
+  );
 }
 
+function getLineText(line: iLine) {
+  if (line.sublines) {
+    const numberOfSublines = line.sublines.length;
+    let text = line.sublines.reduce((carrier, subline, currentIndex) => {
+      return currentIndex < numberOfSublines - 1
+        ? carrier + subline.text + ""
+        : carrier + subline.text;
+    }, "");
+    // remove new lines/carriage return
+    text = text.replace(/^\s+|\s+|\r+$/g, " ");
+    return text;
+  } else {
+    return line.mainLine;
+  }
+}
 export function getContentFromMishna(mishna: iMishna): ContentState {
-  const text = mishna.lines.reduce(
-    (carrier, a, currentIndex) => {
-      return currentIndex < (mishna.lines.length-1) ? carrier + a.mainLine + "\n" :
-    carrier + a.mainLine}
-    ,
-    ""
-  );
+  const text = mishna.lines.reduce((carrier, line, currentIndex) => {
+    const lineText = getLineText(line);
+    return currentIndex < mishna.lines.length - 1
+      ? carrier + lineText + "\n"
+      : carrier + lineText;
+  }, "");
   return ContentState.createFromText(text);
 }
-export function getSelectionStateFromExcerpt(excerpt,contentState) {
+export function getSelectionStateFromExcerpt(excerpt, contentState) {
   let selectionState = SelectionState.createEmpty("");
   const blocks = contentState.getBlocksAsArray();
   const selectionStartKey = blocks[excerpt.selection.fromLine].key;
 
   selectionState = selectionState.merge({
-    "anchorKey":selectionStartKey,
-    "anchorOffset":excerpt.selection.fromOffset,
-    "focusKey":blocks[excerpt.selection.toLine].key,
-    "focusOffset":excerpt.selection.toOffset
+    anchorKey: selectionStartKey,
+    anchorOffset: excerpt.selection.fromOffset,
+    focusKey: blocks[excerpt.selection.toLine].key,
+    focusOffset: excerpt.selection.toOffset,
   });
-  
+
   //console.log("selection state>>>>", selectionState)
-  return selectionState
+  return selectionState;
 }
 
-
-export function clearEntityRanges(contentState){
-  const blockMap = contentState.getBlockMap()
+export function clearEntityRanges(contentState) {
+  const blockMap = contentState.getBlockMap();
   const blocks = blockMap.map((block) => {
-
     const chars = block.getCharacterList().map((char) => {
-      const entityKey = char.getEntity()
+      const entityKey = char.getEntity();
 
       if (entityKey) {
-
         if (true) {
-          return CharacterMetadata.applyEntity(char, null)
+          return CharacterMetadata.applyEntity(char, null);
         }
       }
 
-      return char
-    })
+      return char;
+    });
 
-    return  block.set("characterList", chars);
-  })
+    return block.set("characterList", chars);
+  });
 
   return contentState.merge({
     blockMap: blockMap.merge(blocks),
-  })
+  });
 }
