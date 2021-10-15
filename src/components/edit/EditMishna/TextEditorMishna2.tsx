@@ -53,11 +53,15 @@ const TextEditorMishna = (props: Props) => {
         excerpt,
         contentState
       );
+      try {
       contentState = Modifier.applyEntity(
         contentState,
         selectionForExcerpt,
         entityKey
-      );
+      );}
+      catch(e){
+        console.log('something wrong with ', excerpt)
+      }
     });
     let newEditorState = EditorState.createWithContent(
       contentState,
