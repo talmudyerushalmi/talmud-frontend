@@ -105,7 +105,6 @@ const EditMishna = (props) => {
               <Grid item md={11}>
               <TextEditorMishna
               onChangeSelection={(e) => {
-                console.log("change", e);
                 setSelection(e);
               }}
               mishna={mishnaDoc}
