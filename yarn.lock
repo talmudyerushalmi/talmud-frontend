@@ -4015,10 +4015,10 @@ autoprefixer@^9.6.1:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
-aws-amplify-react@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/aws-amplify-react/-/aws-amplify-react-5.0.1.tgz#6672a997d2854ef129cc3bdcbd6c53653a093b65"
-  integrity sha512-OTRxWd9D08hOn5hUSyJuWJOWQ4SYRi0wjT/cKkLEs5FnkCWqUoUNq89IFDGES3+aD7OUA8mVFxE0bsGL62MFvQ==
+aws-amplify-react@^5.0.16:
+  version "5.0.16"
+  resolved "https://registry.yarnpkg.com/aws-amplify-react/-/aws-amplify-react-5.0.16.tgz#ae84a5859a6b1b7c6d8c9f78bb97f143a05ecde1"
+  integrity sha512-JHcJ9ypw+1P0IrJr9bb591e5Zmac3uPoYOIFZH1S+ZJ4zVbmfCabv/SJQpzFt0F+X39Bi+3GGYqxzncp37YYgQ==
   dependencies:
     qrcode.react "^0.8.0"
     regenerator-runtime "^0.11.1"
@@ -4672,9 +4672,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001181:
-  version "1.0.30001191"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001191.tgz#bacb432b6701f690c8c5f7c680166b9a9f0843d9"
-  integrity sha512-xJJqzyd+7GCJXkcoBiQ1GuxEiOBCLQ0aVW9HMekifZsAVGdj5eJ4mFB9fEhSHipq9IOk/QXFJUiIr9lZT+EsGw==
+  version "1.0.30001258"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001258.tgz"
+  integrity sha512-RBByOG6xWXUp0CR2/WU2amXz3stjKpSl5J1xU49F1n2OxD//uBZO4wCKUiG+QMGf7CHGfDDcqoKriomoGVxTeA==
 
 capture-exit@^2.0.0:
   version "2.0.0"
