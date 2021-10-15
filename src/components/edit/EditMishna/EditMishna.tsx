@@ -8,9 +8,8 @@ import { connect } from "react-redux";
 import { requestCompositions, requestTractates } from "../../../store/actions";
 import { useParams } from "react-router";
 import { routeObject } from "../../../routes/AdminRoutes";
-import { iExcerpt, iMishna } from "../../../types/types";
+import { iExcerpt } from "../../../types/types";
 import { getEmptyExcerpt } from "../../../inc/excerptUtils";
-import { getSelectionObject } from "../../../inc/editorUtils";
 import {
   closeExcerptDialog,
   deleteExcerpt,
@@ -72,6 +71,11 @@ const EditMishna = (props) => {
     console.log(values);
     openExcerptDialog(values);
   };
+
+  const onUpdateSelectionForExcerpt = excerpt => {
+    excerpt.selection = selection;
+    openExcerptDialog(excerpt)
+  }
   const addExcerpt = (initialValues) => {
     console.log(initialValues);
     // setExcerpt(initialValues);
@@ -127,7 +131,7 @@ const EditMishna = (props) => {
                 onDelete={(excerptId) => {
                   deleteExcerpt(tractate, chapter, mishna, excerptId);
                 }}
-                onUpdateSelectionForExcerpt={() => {}}
+                onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
               ></ExcerptList>
               <ExcerptList
                 admin={true}
@@ -139,7 +143,7 @@ const EditMishna = (props) => {
                 onDelete={(excerptId) => {
                   deleteExcerpt(tractate, chapter, mishna, excerptId);
                 }}
-                onUpdateSelectionForExcerpt={() => {}}
+                onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
               ></ExcerptList>
                <ExcerptList
                 admin={true}
@@ -151,7 +155,7 @@ const EditMishna = (props) => {
                 onDelete={(excerptId) => {
                   deleteExcerpt(tractate, chapter, mishna, excerptId);
                 }}
-                onUpdateSelectionForExcerpt={() => {}}
+                onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
               ></ExcerptList>
             </div>
           </Grid>
