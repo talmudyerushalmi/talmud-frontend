@@ -80,4 +80,5 @@ export interface iLine {
   sourceReference?: string;
   mainLine: string;
   sublines?: iSubline[];
+  sugiaName?: string;
 }

@@ -7,6 +7,7 @@ import SourceButtons from "./MainLineEditor/SourceButtons"
 import SublineField from "./SublineField"
 import LineService from "../../services/line.service"
 import { iLine, iSource, iSubline, iSynopsis } from "../../types/types"
+import SugiaField from "./SugiaField"
 
 interface Props {
   line: iLine;
@@ -36,6 +37,7 @@ const formikEnhancer = withFormik({
         ContentState.createFromText(textForEditor || "")
       ),
       sublines: line?.sublines || [],
+      sugiaName: line.sugiaName? line.sugiaName :  undefined
     }
   },
   validationSchema: Yup.object().shape({
@@ -45,6 +47,7 @@ const formikEnhancer = withFormik({
     const { setSubmitting, props } = formProps;
     const {currentMishna, line } = props;
     console.log(props)
+    console.log(values)
      LineService.saveLine(
       currentMishna.tractate,
       currentMishna.chapter,
@@ -139,6 +142,9 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
         name="mainLine"
        // changeSublines={changeSublines}
       ></FieldMainLineEditor>
+      <SugiaField
+        name="sugiaName"      
+      />
       <SourceButtons
         sources={values.sublines}
         tractateSettings={tractateSettings}
