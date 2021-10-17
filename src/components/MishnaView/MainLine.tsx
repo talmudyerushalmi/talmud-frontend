@@ -4,6 +4,7 @@ import SublineDisplay from "./SublineDisplay";
 import { connect } from "react-redux";
 import { useEffect } from "react";
 import { useState } from "react";
+import { iLine } from "../../types/types";
 
 
 const importView = component =>
@@ -16,7 +17,13 @@ const mapStateToProps = (state) => ({
   userAuth: state.authentication.userAuth,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({});
-const MainLine = (props) => {
+interface Props {
+  line: iLine;
+  lineIndex: number;
+  userAuth: any
+}
+
+const MainLine = (props:Props) => {
   const { line, lineIndex, userAuth } = props;
   const [dynamicComponents, setdynamicComponents] = useState<ReactElement[]>([]);
 
