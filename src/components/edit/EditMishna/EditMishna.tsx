@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import TextEditorMishna from "./TextEditorMishna2";
 import ExcerptList from "./ExcerptList";
 import ExcerptDialog from "./ExcerptDialog";
@@ -8,8 +8,6 @@ import { connect } from "react-redux";
 import { requestCompositions, requestTractates } from "../../../store/actions";
 import { useParams } from "react-router";
 import { routeObject } from "../../../routes/AdminRoutes";
-import { iExcerpt } from "../../../types/types";
-import { getEmptyExcerpt } from "../../../inc/excerptUtils";
 import {
   closeExcerptDialog,
   deleteExcerpt,
@@ -52,7 +50,6 @@ const EditMishna = (props) => {
   } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
   const [selection, setSelection] = useState({});
-  const [excerpt, setExcerpt] = useState<iExcerpt>(getEmptyExcerpt());
 
   useEffect(() => {
     getCompositions();
