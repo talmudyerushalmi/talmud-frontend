@@ -12,7 +12,7 @@ interface Props {
 }
 
 const SugiaField = (props: Props) => {
-  const [field, meta, helpers] = useField(props);
+  const [_, meta, helpers] = useField(props);
   const { setValue } = helpers;
   const { value } = meta;
   const [isNewSugia, setIsNewSugia] = useState(!!value);
@@ -34,7 +34,7 @@ const SugiaField = (props: Props) => {
   }
   return (
     <>
-      <Box>
+      <Box style={{display:'flex'}}>
         <FormControlLabel
           control={
             <Checkbox
@@ -45,7 +45,7 @@ const SugiaField = (props: Props) => {
           label="סוגיה חדשה"
         />
         <TextField
-          fullWidth
+          style={{padding:'9px'}}
           value={sugiaName}
           onChange={(e)=>setValue(e.target.value)}
           disabled={!isNewSugia}
