@@ -26,7 +26,7 @@ export function clearPunctutationFromText(str) {
 }
 
 export function hideSourceFromText(str) {
-  const step1 = /(\(שם\)|\(.+,.+\)|''|\(.*?,.*?\)|<.*?,.*?>)/g
+  const step1 = /(\(שם\)|\([^(]+?,[^(]+?\)|''|\([^(]*?,[^(]*?\)|<.*?,.*?>)/g
   return str
     ? str.replace(step1, "").trim()
     : ""
