@@ -18,8 +18,6 @@ const useStyles = makeStyles((theme) => ({
   smallTitle: {
     //@ts-ignore
     ...theme.typography.smallTitle,
-    marginBottom: "1rem",
-    marginTop: "1rem",
   },
 }));
 
@@ -41,9 +39,14 @@ const MainLines = (props: Props) => {
         return (
           <div key={line.lineNumber}>
             {line.sugiaName ? (
+              <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
               <Typography align="center" className={classes.smallTitle}>
-                [{sectionsIndex++} {line.sugiaName}]
+                [{sectionsIndex++}]
               </Typography>
+               <Typography align="center" className={classes.smallTitle}>
+                {line.sugiaName}
+             </Typography>
+             </div>
             ) : null}
             <MainLine lineIndex={index} line={line} />
           </div>
