@@ -1,7 +1,7 @@
 import { useField } from "formik"
 import React from "react"
 import { connect } from "react-redux"
-import { Paper } from "@material-ui/core"
+import { Paper } from "@mui/material"
 import SynopsisField from "./SynopsisField"
 
 const mapStateToProps = state => ({})

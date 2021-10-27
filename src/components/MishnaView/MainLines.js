@@ -1,8 +1,8 @@
 import React from "react"
 import {
   Typography,
-} from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/styles"
+} from "@mui/material"
+import makeStyles from '@mui/styles/makeStyles';
 import MainLine from "./MainLine"
 const useStyles = makeStyles(theme => ({
   root: {

@@ -1,7 +1,7 @@
 import { navigate} from "gatsby"
 import React from "react"
-import Pagination from '@material-ui/lab/Pagination';
-import { makeStyles } from '@material-ui/core/styles';
+import Pagination from '@mui/material/Pagination';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   root: {

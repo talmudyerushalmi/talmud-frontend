@@ -1,4 +1,4 @@
-import { Box, Container } from "@material-ui/core";
+import { Box, Container } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import ChooseMishnaBar from "../components/shared/ChooseMishnaBar";
 
