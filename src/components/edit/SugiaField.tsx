@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useField } from "formik";
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-} from "@material-ui/core";
+import { Box, Checkbox, FormControlLabel, TextField } from "@material-ui/core";
 
 interface Props {
   name: string;
@@ -13,42 +8,38 @@ interface Props {
 
 const SugiaField = (props: Props) => {
   const [_, meta, helpers] = useField(props);
-  const { setValue } = helpers;
-  const { value } = meta;
-  const [isNewSugia, setIsNewSugia] = useState(!!value);
-  const [sugiaName, setSugiaName] = useState(value);
-  useEffect(()=>{
-    setIsNewSugia(!!value)
-    if (value) {
-      setSugiaName(value)
-    } else {
-      setSugiaName("")
+  const { setValue, setTouched } = helpers;
+  const { value, touched } = meta;
+  const [hasValue, setHasValue] = useState(!!value);
+  const [fieldName, setfieldName] = useState(value);
+
+  useEffect(() => {
+    if (touched === false) {
+      setHasValue(value !== "");
     }
-  }, [value])
-  const checkboxHandler = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    setfieldName(value);
+  }, [touched, value]);
+
+  const checkboxHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checkNewVal = e.target.checked;
-      if (isNewSugia) {
-        setValue("");
-      }
-      setIsNewSugia(checkNewVal);
-  }
+    if (value) {
+      setValue("");
+    }
+    setTouched(true);
+    setHasValue(checkNewVal);
+  };
   return (
     <>
-      <Box style={{display:'flex'}}>
+      <Box style={{ display: "flex" }}>
         <FormControlLabel
-          control={
-            <Checkbox
-              checked={isNewSugia}
-              onChange={checkboxHandler}
-            />
-          }
+          control={<Checkbox checked={hasValue} onChange={checkboxHandler} />}
           label="סוגיה חדשה"
         />
         <TextField
-          style={{padding:'9px'}}
-          value={sugiaName}
-          onChange={(e)=>setValue(e.target.value)}
-          disabled={!isNewSugia}
+          style={{ padding: "9px" }}
+          value={fieldName}
+          onChange={(e) => setValue(e.target.value)}
+          disabled={!hasValue}
           placeholder="שם הסוגיה"
         />
       </Box>
