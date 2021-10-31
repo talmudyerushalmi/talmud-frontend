@@ -9,7 +9,7 @@ import {
   convertToRaw,
 } from "draft-js"
 import "./text.css"
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
+// import { CSSProperties } from '@mui/styles';
 import { EditedText, iSource } from "../../types/types";
 import { getTextForSynopsis } from "../../inc/synopsisUtils";
 //import Editor from 'draft-js-plugins-editor';
@@ -188,7 +188,9 @@ var COLORS = [
 const ColorControls = props => {
   var currentStyle = props.editorState.getCurrentInlineStyle()
   return (
-    <div style={styles.controls as CSSProperties}>
+    //TODO check the type change in two lines below
+    // {/* <div style={styles.controls as CSSProperties}> */}
+    <div style={styles.controls as React.CSSProperties}>
       {COLORS.map(type => (
         <StyleButton
           key={type.label}
