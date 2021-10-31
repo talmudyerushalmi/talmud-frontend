@@ -1,12 +1,16 @@
 import {
-  Accordion,
   AccordionDetails,
   AccordionSummary,
   Typography,
-} from "@material-ui/core"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+} from "@mui/material"
+// import Typography from '@mui/material/Typography';
+import Accordion from '@mui/material/Accordion';
+// import AccordionDetails from '@mui/material/AccordionDetails';
+// import AccordionSummary from '@mui/material/AccordionSummary';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
+import {makeStyles} from '@mui/styles';
+import { styled } from '@mui/material/styles';
 import { connect } from "react-redux"
 import { selectSubline } from "../../store/actions"
 import MarkedText from "../shared/MarkedText"
@@ -141,10 +145,7 @@ const SublineDisplay = (props: Props) => {
         <AccordionSummary
           style={{ paddingRight: "0.25rem" }}
           expandIcon={<ExpandMoreIcon />}
-          IconButtonProps={{
-            onClick: handleExpandClick,
-            style: { color: "#6633994f" },
-          }}
+          //TODO codemod removed IconButtonProps here per v5 instructions for AccordionSummary
           aria-controls="subline-content"
         >
           <p>

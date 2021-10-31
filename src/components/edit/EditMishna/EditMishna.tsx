@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import TextEditorMishna from "./TextEditorMishna2";
 import ExcerptList from "./ExcerptList";
 import ExcerptDialog from "./ExcerptDialog";

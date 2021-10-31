@@ -1,11 +1,7 @@
 import * as React from "react";
 import { Formik, Form } from "formik";
-import {
-  Button,
-  LinearProgress,
-  TextField as TextFieldOriginal,
-  makeStyles,
-} from "@material-ui/core";
+import { Button, LinearProgress, TextField as TextFieldOriginal } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import RichTextEditorField from "../../editors/RichTextEditorField";
 import { convertFromRaw, EditorState } from "draft-js";
 import { getContentRaw } from "../../../inc/editorUtils";
@@ -60,8 +56,8 @@ const FormikWrapper = (props) => {
               convertFromRaw(excerpt.editorStateFullQuote)
             )
           : EditorState.createEmpty(),
-       sourceLocation: selection.firstWords   
-      
+       sourceLocation: selection.firstWords
+
       }}
       onSubmit={(values, props) => {
         const excerptToSave = {

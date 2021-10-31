@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import MainText from "../components/MishnaView/MainText";
 import MishnaText from "../components/MishnaView/MishnaText";
 import { connect } from "react-redux";
@@ -30,7 +30,7 @@ const MishnaPage = (props) => {
       <Grid item>
         <MishnaViewOptions />
       </Grid>
-      <Grid container justify="center" item sm={12}>
+      <Grid container justifyContent="center" item sm={12}>
         <Grid item>
           <MishnaText mishna={mishna} html={currentMishna?.mishna_text} />
         </Grid>

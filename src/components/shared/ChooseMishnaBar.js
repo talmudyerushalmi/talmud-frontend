@@ -1,6 +1,8 @@
-import { Button, makeStyles, TextField, Grid } from "@material-ui/core"
+import { Button, TextField, Grid } from "@mui/material";
 
-import { Autocomplete } from "@material-ui/lab"
+import makeStyles from '@mui/styles/makeStyles';
+
+import { Autocomplete } from '@mui/material';
 import React, { useEffect, useState } from "react"
 import {
   requestTractates,
@@ -234,104 +236,102 @@ const ChooseMishnaBar = props => {
     return !selectedTractate
   }
 
-  return (
-    <>
-      <form
-        onSubmit={e => {
-          e.preventDefault()
-          handleNavigate()
-        }}
-      >
-        <Grid container>   
-          <Autocomplete
-            classes={classes}
-            onChange={(e, value) => {
-              selectTractate(value)
-            }}
-            onInputChange={(_, input) => {
-              setTractateInput(input)
-            }}
-            value={selectedTractate}
-            inputValue={tractateInput}
-            options={tractates || []}
-            autoHighlight={true}
-            getOptionLabel={option => option.title_heb}
-            getOptionSelected={(option, value) => option?.id === value?.id}
-            renderInput={params => (
-              <TextField
-                style={{ direction: "rtl" }}
-                {...params}
-                label="מסכת"
-                variant="outlined"
-              />
-            )}
-          />
-           <Autocomplete
-            classes={classes}
-            onChange={(e, value) => {
-              selectChapter(value)
-            }}
-            onInputChange={(_, input) => {
-              setChapterInput(input)
-            }}
-            value={selectedChapter}
-            inputValue={chapterInput}
-            options={selectedTractate?.chapters || []}
-            autoHighlight={true}
-            getOptionLabel={option => hebrewMap.get(parseInt(option.id))}
-            getOptionSelected={(option, value) => option.id === value.id}
-            renderInput={params => (
-              <TextField
-                style={{ direction: "rtl" }}
-                {...params}
-                label="פרק"
-                variant="outlined"
-              />
-            )}
-          />
-           <Autocomplete
-            classes={classes}
-            onChange={(e, value) => {
-              console.log("now")
-              selectMishna(value,line)
-            }}
-            onInputChange={(_, input) => {
-              setMishnaInput(input)
-            }}
-            value={selectedMishna}
-            inputValue={mishnaInput}
-            options={selectedChapter?.mishnaiot || []}
-            autoHighlight={true}
-            getOptionLabel={option =>
-              hebrewMap.get(parseInt(option.mishna))}
-            getOptionSelected={(option, value) => option.mishna === value.mishna}
-            renderInput={params => (
-              <TextField
-                style={{ direction: "rtl" }}
-                {...params}
-                label="משנה"
-                variant="outlined"
-              />
-            )}
-          />
-         
-          {renderLine()}
+  return <>
+    <form
+      onSubmit={e => {
+        e.preventDefault()
+        handleNavigate()
+      }}
+    >
+      <Grid container>
+        <Autocomplete
+          classes={classes}
+          onChange={(e, value) => {
+            selectTractate(value)
+          }}
+          onInputChange={(_, input) => {
+            setTractateInput(input)
+          }}
+          value={selectedTractate}
+          inputValue={tractateInput}
+          options={tractates || []}
+          autoHighlight={true}
+          getOptionLabel={option => option.title_heb}
+          isOptionEqualToValue={(option, value) => option?.id === value?.id}
+          renderInput={params => (
+            <TextField
+              style={{ direction: "rtl" }}
+              {...params}
+              label="מסכת"
+              variant="outlined"
+            />
+          )}
+        />
+         <Autocomplete
+          classes={classes}
+          onChange={(e, value) => {
+            selectChapter(value)
+          }}
+          onInputChange={(_, input) => {
+            setChapterInput(input)
+          }}
+          value={selectedChapter}
+          inputValue={chapterInput}
+          options={selectedTractate?.chapters || []}
+          autoHighlight={true}
+          getOptionLabel={option => hebrewMap.get(parseInt(option.id))}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
+          renderInput={params => (
+            <TextField
+              style={{ direction: "rtl" }}
+              {...params}
+              label="פרק"
+              variant="outlined"
+            />
+          )}
+        />
+         <Autocomplete
+          classes={classes}
+          onChange={(e, value) => {
+            console.log("now")
+            selectMishna(value,line)
+          }}
+          onInputChange={(_, input) => {
+            setMishnaInput(input)
+          }}
+          value={selectedMishna}
+          inputValue={mishnaInput}
+          options={selectedChapter?.mishnaiot || []}
+          autoHighlight={true}
+          getOptionLabel={option =>
+            hebrewMap.get(parseInt(option.mishna))}
+          isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
+          renderInput={params => (
+            <TextField
+              style={{ direction: "rtl" }}
+              {...params}
+              label="משנה"
+              variant="outlined"
+            />
+          )}
+        />
 
-          <div style={{display:'flex'}}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={handleNavigate}
-              disabled={selectButtonDisabled()}
-            >
-              נווט
-            </Button>
-          </div>
-        </Grid>
-      </form>
-    </>
-  )
+        {renderLine()}
+
+        <div style={{display:'flex'}}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={handleNavigate}
+            disabled={selectButtonDisabled()}
+          >
+            נווט
+          </Button>
+        </div>
+      </Grid>
+    </form>
+  </>;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChooseMishnaBar)

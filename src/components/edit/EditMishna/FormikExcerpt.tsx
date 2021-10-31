@@ -6,8 +6,8 @@ import {
   FormControlLabel,
   Radio,
   TextField as TextFieldOriginal,
-  makeStyles,
-} from "@material-ui/core";
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { TextField, CheckboxWithLabel, RadioGroup } from "formik-material-ui";
 import RichTextEditorField from "../../editors/RichTextEditorField";
 import { convertFromRaw, EditorState } from "draft-js";
