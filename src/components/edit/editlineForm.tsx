@@ -37,7 +37,7 @@ const formikEnhancer = withFormik({
         ContentState.createFromText(textForEditor || "")
       ),
       sublines: line?.sublines || [],
-      sugiaName: line.sugiaName? line.sugiaName :  undefined
+      sugiaName: line.sugiaName? line.sugiaName :  ""
     }
   },
   validationSchema: Yup.object().shape({
