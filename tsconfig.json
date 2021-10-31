@@ -2,13 +2,20 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
+      // TODO https://mui.com/guides/typescript/ for es6 below
+      // "es6",
       "dom",
       "dom.iterable",
       "esnext"
     ],
     "allowJs": true,
     "skipLibCheck": true,
+    //TODO https://mui.com/guides/typescript/ for below - they suggest
+    //"noImplicitAny": true,
     "noImplicitAny": false,
+    //TODO check https://mui.com/guides/typescript/ for these 2 below
+    // "noImplicitThis": true,
+    // "strictNullChecks": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
