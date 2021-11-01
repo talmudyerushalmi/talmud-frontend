@@ -1,8 +1,8 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import MainLine from "./MainLine";
 import { iLine } from "../../types/types";
+import SugiaButton from "./SugiaButton";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -14,10 +14,6 @@ const useStyles = makeStyles((theme) => ({
   sourceReference: {
     //@ts-ignore
     ...theme.typography.sourceReference,
-  },
-  smallTitle: {
-    //@ts-ignore
-    ...theme.typography.smallTitle,
   },
 }));
 
@@ -39,14 +35,7 @@ const MainLines = (props: Props) => {
         return (
           <div key={line.lineNumber}>
             {line.sugiaName ? (
-              <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
-              <Typography align="center" className={classes.smallTitle}>
-                [{sectionsIndex++}]
-              </Typography>
-               <Typography align="center" className={classes.smallTitle}>
-                {line.sugiaName}
-             </Typography>
-             </div>
+              <SugiaButton index={sectionsIndex++} line={line} />
             ) : null}
             <MainLine lineIndex={index} line={line} />
           </div>
