@@ -1,28 +1,28 @@
 import React, { useState } from "react"
 import * as Yup from "yup"
-import { withFormik, FieldArray, FormikProps, FormikValues } from "formik"
+import { withFormik, FieldArray, FormikProps } from "formik"
 import FieldMainLineEditor from "./MainLineEditor/MainLineEditor"
 import { EditorState, ContentState } from "draft-js"
 import SourceButtons from "./MainLineEditor/SourceButtons"
 import SublineField from "./SublineField"
 import LineService from "../../services/line.service"
-import { iLine, iSource, iSubline, iSynopsis } from "../../types/types"
+import { iLine, iMishna, iSource, iSubline, iSynopsis } from "../../types/types"
 import SugiaField from "./SugiaField"
 
 interface Props {
-  line: iLine;
+  line: iLine | null;
   currentMishna: any;
 
 }
 const formikEnhancer = withFormik({
   mapPropsToValues: (props: Props) => {
-    const { line, currentMishna } = props
-    const textForEditor = line.sublines
+    const { line } = props
+    const textForEditor = line?.sublines
       ? line.sublines
           .map(s => s.text)
           .join("\n")
           .replace(/^\s+|\s+$/g, "") // trim new lines
-      : line.mainLine
+      : line?.mainLine
 
       // todo  - sublines init
       // let initSublines = line?.sublines || [];
@@ -37,7 +37,7 @@ const formikEnhancer = withFormik({
         ContentState.createFromText(textForEditor || "")
       ),
       sublines: line?.sublines || [],
-      sugiaName: line.sugiaName? line.sugiaName :  ""
+      sugiaName: line?.sugiaName? line.sugiaName :  ""
     }
   },
   validationSchema: Yup.object().shape({
@@ -52,7 +52,7 @@ const formikEnhancer = withFormik({
       currentMishna.tractate,
       currentMishna.chapter,
       currentMishna.mishna,
-      line.lineNumber,
+      line?.lineNumber,
       {...values,
 
       }
@@ -79,7 +79,7 @@ const formikEnhancer = withFormik({
 interface OtherProps {
   message: string;
   tractateSettings: any;
-  currentMishna: any;
+  currentMishna: iMishna;
 }
 interface Props {
   props: FormikProps<FormValues>
