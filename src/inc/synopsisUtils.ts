@@ -3,9 +3,12 @@ import { iSynopsis } from "../types/types"
 import { getRawText } from "./editorUtils";
 
 export function getSynopsisRaw(synopsis: iSynopsis) {
-    const fromRaw = convertFromRaw(synopsis.text.content);
-    const editor = EditorState.createWithContent(fromRaw);
-    return getRawText(editor).trim();
+    if (synopsis.text.content) {
+       const fromRaw = convertFromRaw(synopsis.text.content);
+       const editor = EditorState.createWithContent(fromRaw);
+       return getRawText(editor).trim();
+    }
+    return synopsis.text.simpleText
 }
 
 export function getTextForSynopsis(str: string): string {
