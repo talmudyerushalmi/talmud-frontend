@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { iLine } from "../../types/types";
+import { iLine, iMishna } from "../../types/types";
+import { connect } from "react-redux";
+import { selectSublines } from "../../store/actions";
+import { getSugiaLines } from "../../inc/mishnaUtils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     background: 'none',
-	color: 'inherit',
+    color: '#595959',
 	border: 'none',
 	padding: 0,
 	font: 'inherit',
@@ -19,26 +22,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const mapDispatchToProps = (dispatch:any) => ({
+    selectSublines: (lineData)=>{
+        dispatch(selectSublines(lineData));
+    }
+  })
+
+const mapStateToProps = state => ({
+    currentMishna: state.general.currentMishna,
+})
 interface Props {
     index: number;
     line: iLine;
+    selectSublines: Function;
+    currentMishna: iMishna;
 }
 const SugiaButton = (props: Props) => {
   const classes = useStyles();
-  const { index, line } = props;
+  const { index, line, selectSublines, currentMishna } = props;
+  let l = line?.sublines ? line?.sublines[0] : null;
+
+  const selectSugiaHandler = ()=>{
+      const sugiaSublines = getSugiaLines(currentMishna, line);
+      selectSublines(sugiaSublines)
+  }
+
+  useEffect(()=>{
+     l = line?.sublines ? line?.sublines[0] : null;
+  }, [line])
 
   return (
-    <button className={classes.root}>
-      <div style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+    <button 
+    onClick={selectSugiaHandler}
+    className={classes.root}>
+      <div style={{ marginTop: "0.6rem", marginBottom: "0.3rem" }}>
         <Typography align="center" className={classes.smallTitle}>
-          [{index}]
-        </Typography>
-        <Typography align="center" className={classes.smallTitle}>
-          {line.sugiaName}
+        [{index} {line.sugiaName}]
         </Typography>
       </div>
     </button>
   );
 };
 
-export default SugiaButton;
+export default connect(mapStateToProps, mapDispatchToProps)(SugiaButton);

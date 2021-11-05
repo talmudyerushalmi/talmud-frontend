@@ -8,7 +8,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import { connect } from "react-redux"
-import { selectSubline } from "../../store/actions"
+import { selectSublines } from "../../store/actions"
 import MarkedText from "../shared/MarkedText"
 import { excerptSelection } from "../../inc/excerptUtils"
 import SynopsisTable from "./SynopsisTable"
@@ -16,15 +16,15 @@ import { clearPunctutationFromText, hideSourceFromText } from "../../inc/synopsi
 import { iExcerpt, iSubline } from "../../types/types"
 
 const mapStateToProps = state => ({
-  selectedSublineData: state.mishnaView.selectedSublineData,
+  selectedSublines: state.mishnaView.selectedSublines,
   selectedExcerpt: state.mishnaView.selectedExcerpt,
   showPunctuation: state.mishnaView.showPunctuation,
   showSources: state.mishnaView.showSources
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  selectSubline: (sublineData, lineIndex) => {
-    dispatch(selectSubline(sublineData, lineIndex))
+  selectSublines: (sublines) => {
+    dispatch(selectSublines(sublines))
   },
 })
 
@@ -82,8 +82,8 @@ const useStyles = makeStyles(theme => {
 interface Props {
   subline: iSubline;
   lineIndex: number;
-  selectedSublineData: iSubline;
-  selectSubline: Function;
+  selectedSublines: iSubline[];
+  selectSublines: Function;
   selectedExcerpt: iExcerpt;
   showPunctuation: boolean;
   showSources: boolean;
@@ -91,9 +91,8 @@ interface Props {
 const SublineDisplay = (props: Props) => {
   const {
     subline,
-    lineIndex,
-    selectedSublineData,
-    selectSubline,
+    selectedSublines,
+    selectSublines,
     selectedExcerpt,
     showPunctuation,
     showSources
@@ -101,11 +100,15 @@ const SublineDisplay = (props: Props) => {
   const classes = useStyles()
   const [expanded, setExpanded] = React.useState("")
 
+
+  const isSelected = (subline: iSubline)=>{
+   return selectedSublines.some(s=>s.index === subline.index)
+  }
   const handleSelect = subline => {
-    if (subline.index === selectedSublineData?.index) {
-      selectSubline(null)
+    if (isSelected(subline)) {
+      selectSublines([])
     } else {
-      selectSubline(subline, lineIndex)
+      selectSublines([subline])
     }
   }
   const handleExpand = panel => {
@@ -119,7 +122,7 @@ const SublineDisplay = (props: Props) => {
   }
 
   const selectedClass =
-    subline.index === selectedSublineData?.index ? "selected" : ""
+    isSelected(subline) ? "selected" : "";
   const markedSelection = excerptSelection(subline, selectedExcerpt)
 
   let textToDisplay = subline.text;
