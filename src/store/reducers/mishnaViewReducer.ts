@@ -1,8 +1,10 @@
+import { excerptInSubline } from "../../inc/excerptUtils";
+import { iSubline } from "../../types/types";
 import {
-  FILTER_EXCERPTS_BY_LINE,
+  FILTER_EXCERPTS_BY_LINES,
   REQUEST_START,
   SELECT_EXCERPT,
-  SELECT_SUBLINE,
+  SELECT_SUBLINES,
   SET_EXCERPT_POPUP,
   TOGGLE_DIVIDE_TO_LINES,
   TOGGLE_SHOW_SOURCES,
@@ -14,8 +16,7 @@ import {
 } from "../actions/navigationActions";
 interface ViewState {
   loading: boolean;
-  selectedSublineData: Object;
-  selectedLineIndex: null;
+  selectedSublines: iSubline[];
   excerpts: any;
   filteredExcerpts: any;
   expanded: boolean;
@@ -28,8 +29,7 @@ interface ViewState {
 
 const initialState: ViewState = {
   loading: false,
-  selectedSublineData: {},
-  selectedLineIndex: null,
+  selectedSublines: [],
   excerpts: [],
   filteredExcerpts: [],
   expanded: false,
@@ -55,11 +55,10 @@ const mishnaViewReducer = (state = initialState, action) => {
       return { ...state, loading: true };
     case RECEIVE_MISHNA:
       return { ...state, currentMishna: action.currentMishna, loading: false };
-    case SELECT_SUBLINE:
+    case SELECT_SUBLINES:
       return {
         ...state,
-        selectedSublineData: action.selectedSublineData,
-        selectedLineIndex: action.selectedLineIndex,
+        selectedSublines: action.selectedSublines,
       };
     case SELECT_EXCERPT:
       return {
@@ -80,14 +79,12 @@ const mishnaViewReducer = (state = initialState, action) => {
       };
     case TOGGLE_SHOW_SOURCES:
       return { ...state, showSources: !state.showSources };
-    case FILTER_EXCERPTS_BY_LINE:
-      const sublineIndex = action?.selectedSublineData?.index;
-      const newExcerpts = action.selectedSublineData
-        ? state.excerpts.filter((e) => {
-            return (
-              sublineIndex >= e.selection.fromSubline &&
-              sublineIndex <= e.selection.toSubline
-            );
+    case FILTER_EXCERPTS_BY_LINES:
+      const selectedSublines = action?.selectedSublines;
+      debugger;
+      const newExcerpts = selectedSublines.length > 0
+        ? state.excerpts.filter((excerpt) => {
+          return selectedSublines!.some(subline => excerptInSubline(excerpt, subline))
           })
         : state.excerpts;
 

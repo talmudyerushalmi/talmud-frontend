@@ -93,3 +93,12 @@ export const getSelectionRange = (excerpt) => {
     ? `${excerpt.selection.fromSubline}`
     : `${excerpt.selection.fromSubline}-${excerpt.selection.toSubline}`;
 };
+
+
+export const excerptInSubline = (excerpt: iExcerpt, subline: iSubline) => {
+    return (
+      subline.index >= excerpt.selection!.fromSubline! &&
+      subline.index <= excerpt.selection!.toSubline!
+    );
+
+}

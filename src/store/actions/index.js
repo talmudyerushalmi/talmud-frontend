@@ -13,7 +13,7 @@ export {
 } from "./navigationActions"
 
 export {
-  selectSubline,
+  selectSublines,
   selectExcerpt,
   toggleShowPunctuation,
   toggleShowSources
