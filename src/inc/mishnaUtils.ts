@@ -1,10 +1,6 @@
-import { iLine, iMishna, iSubline } from "../types/types";
+import { iLine, iMishna } from "../types/types";
 import * as _ from 'lodash';
 
-interface iSugia {
-    name: string;
-    sublines: iSubline[];
-}
 
 export function getSublines(mishna: iMishna){
     const lines = mishna.lines;
