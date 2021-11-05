@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const useStyles = makeStyles(theme => {
   return {
     root: {
-      "&.selected": { background: "#d1bae9" },
+      "&.selected": { background: '#f2ff7385'},
       "& > .MuiAccordionSummary-root": {
         minHeight: 0,
         "& > .MuiAccordionSummary-content": {

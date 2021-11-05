@@ -81,7 +81,6 @@ const mishnaViewReducer = (state = initialState, action) => {
       return { ...state, showSources: !state.showSources };
     case FILTER_EXCERPTS_BY_LINES:
       const selectedSublines = action?.selectedSublines;
-      debugger;
       const newExcerpts = selectedSublines.length > 0
         ? state.excerpts.filter((excerpt) => {
           return selectedSublines!.some(subline => excerptInSubline(excerpt, subline))
