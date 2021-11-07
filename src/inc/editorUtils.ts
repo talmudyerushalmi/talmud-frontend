@@ -39,7 +39,7 @@ export function getRawText(editorState) {
 
 export function getSublinesFromContent(editorState: EditorState) {
   const content = editorState.getCurrentContent();
-  return content.getBlocksAsArray().map((block) => block.getText());
+  return content.getBlocksAsArray().map((block) => block.getText().trim());
 }
 
 export function getContentFromSublines(line: iLine) {}

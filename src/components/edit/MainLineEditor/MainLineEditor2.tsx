@@ -5,24 +5,30 @@ import { iLine } from "../../../types/types";
 import { ContentState, EditorState } from "draft-js";
 import { getLineAsText } from "../../../inc/lineUtils";
 import { getRawText, getSublinesFromContent } from "../../../inc/editorUtils";
-import { CheckCircle, Edit } from "@material-ui/icons";
+import { CheckCircle, Close, Edit } from "@material-ui/icons";
 
 interface Props {
   line: iLine | null;
 }
 
+enum MODE {
+  EDIT,
+  READONLY,
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: '3rem',
-    position: 'relative'
+    paddingTop: "3rem",
+    position: "relative",
+    "& .readonly": {
+      backgroundColor: theme.palette.grey[500],
+    },
   },
   buttons: {
-    position: 'absolute',
-    top: 0
-  }
+    position: "absolute",
+    top: 0,
+  },
 }));
-
 
 const FieldMainLineEditor2 = (props: Props) => {
   const { line } = props;
@@ -33,6 +39,9 @@ const FieldMainLineEditor2 = (props: Props) => {
       ContentState.createFromText("textForEditor" || "")
     )
   );
+
+
+  const [mode, setMode] = useState(MODE.READONLY);
 
   useEffect(() => {
     setInitial(
@@ -48,24 +57,52 @@ const FieldMainLineEditor2 = (props: Props) => {
   const btnSaveHandler = () => {
     console.log(getRawText(initial));
     console.log(getSublinesFromContent(initial));
+    setMode(MODE.READONLY);
+  };
+
+  const btnEditHandler = () => {
+    setMode(MODE.EDIT);
   };
 
   return (
     <>
-      <div className={classes.root}>
+      <div
+        className={`${classes.root} ${
+          mode === MODE.READONLY ? "readonly" : ""
+        }`}
+      >
         <div className={classes.buttons}>
           <IconButton
-            onClick={btnSaveHandler}
+            onClick={btnEditHandler}
             color="primary"
-            aria-label="save"
+            aria-label="edit"
           >
-            <CheckCircle />
-          </IconButton>
-          <IconButton color="primary" aria-label="edit">
             <Edit />
           </IconButton>
+          {mode === MODE.EDIT ? (
+            <>
+              <IconButton
+                onClick={btnSaveHandler}
+                color="primary"
+                aria-label="save"
+              >
+                <Close />
+              </IconButton>
+              <IconButton
+                onClick={btnSaveHandler}
+                color="primary"
+                aria-label="save"
+              >
+                <CheckCircle />
+              </IconButton>
+            </>
+          ) : null}
         </div>
-        <TextEditor initialState={initial} onChange={editorChange} />
+        <TextEditor
+          readOnly={mode === MODE.READONLY}
+          initialState={initial}
+          onChange={editorChange}
+        />
       </div>
     </>
   );
