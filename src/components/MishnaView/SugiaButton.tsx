@@ -65,7 +65,7 @@ const SugiaButton = (props: Props) => {
     <button onClick={selectSugiaHandler} className={classes.root}>
       <div className={classes.wrap}>
         <Typography align="center" className={classes.smallTitle}>
-          [{index} {line.sugiaName}]
+          [{index}{line.sugiaName?.trim() !== '' ? ' ' + line.sugiaName : null}]
         </Typography>
       </div>
     </button>
