@@ -49,6 +49,7 @@ const mishnaViewReducer = (state = initialState, action) => {
       return {
         ...state,
         excerpts,
+        selectedSublines: [],
         filteredExcerpts: action.currentMishna?.excerpts,
       };
     case REQUEST_START:
