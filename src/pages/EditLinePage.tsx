@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router";
 import EditLineForm from "../components/edit/editlineForm";
+import FieldMainLineEditor2 from "../components/edit/MainLineEditor/MainLineEditor2";
 import {
   PageContent,
   PageHeader,
@@ -51,6 +52,7 @@ const EditLinePage = (props) => {
     <PageWithNavigation linkPrefix="/admin/edit">
       <PageHeader></PageHeader>
       <PageContent>
+        <FieldMainLineEditor2 line={lineObj}/>
         <EditLineForm
           //@ts-ignore
           mainLine={lineObj?.mainLine}

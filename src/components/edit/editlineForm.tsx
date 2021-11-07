@@ -138,10 +138,6 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
   }
   return (
     <form onSubmit={(e)=>{e.preventDefault(); handleSubmit()}}>
-      <FieldMainLineEditor
-        name="mainLine"
-       // changeSublines={changeSublines}
-      ></FieldMainLineEditor>
       <SugiaField
         name="sugiaName"      
       />
