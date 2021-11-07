@@ -54,7 +54,17 @@ const useStyles = makeStyles({
     direction: "ltr",
   },
   root: {
-    minWidth: 100, flex:'auto', direction: "rtl", textAlign: "right"
+    minWidth: 100, flex:'auto', direction: "rtl", textAlign: "right",
+    '& .MuiInputLabel-root, & .MuiOutlinedInput-notchedOutline legend':{
+      top: '-0.3em',
+      left: '0.4em',
+      right:'auto',
+      width: 'auto',
+      padding: '0 0.6em',
+      position: 'absolute',
+      marginRight: '0.2em',
+      backgroundColor:"#ffffff"
+    }
   },
 
 })

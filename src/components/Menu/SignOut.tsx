@@ -37,7 +37,7 @@ const SignOut = (props: any) => {
 
   return (
     <>
-      <Button onClick={handlerSignOut}>Sign out</Button>
+      <Button sx={{color:"text.black"}} onClick={handlerSignOut}>Sign out</Button>
       <Typography>Hello, {username}</Typography>
     </>
   );

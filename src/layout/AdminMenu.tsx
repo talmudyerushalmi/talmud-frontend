@@ -58,6 +58,7 @@ const AdminMenu = (props: any) => {
   return (
     <>
       <Button
+        sx={{color:"text.black"}}
         aria-controls="simple-menu"
         aria-haspopup="true"
         onClick={handleClick}

@@ -34,15 +34,15 @@ const MainMenu = (props: any) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" dir="rtl">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" size="large">
+      <AppBar sx={{ bgcolor: 'primary.main' }} position="fixed" dir="rtl">
+        <Toolbar sx={{minHeight:'64px', paddingRight:'24px', paddingLeft:'24px'}} >
+          <IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="menu" size="large">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
           </Typography>
           {
-            username ? 
+            username ?
             <>
             <AdminMenu/>
             <SignOut/>

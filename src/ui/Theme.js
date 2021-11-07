@@ -24,9 +24,19 @@ const breakpoints = createBreakpoints({})
 
 const theme = createTheme(adaptV4Theme({
   direction: "rtl",
-
+  breakpoints: {
+    values: {
+      lg: 1280,
+    }
+  },
   palette: {
-   // primary: red,
+    primary: {
+      main: '#3f51b5',
+      contrastText: '#fff'
+    },
+    text: {
+      black: 'rgba(0,0,0,0.87)'
+    }
   },
   typography: {
     h1: {
