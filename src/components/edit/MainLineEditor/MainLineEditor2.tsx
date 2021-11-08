@@ -6,15 +6,29 @@ import { ContentState, EditorState } from "draft-js";
 import { getLineAsText } from "../../../inc/lineUtils";
 import { getRawText, getSublinesFromContent } from "../../../inc/editorUtils";
 import { CheckCircle, Close, Edit } from "@material-ui/icons";
+import { connect } from "react-redux";
+import { saveNosach } from "../../../store/actions/mishnaEditActions";
+import { useParams } from "react-router";
+import { routeObject } from "../../../routes/AdminRoutes";
 
 interface Props {
-  line: iLine | null;
+  lineData: iLine | null;
+  saveNosach: Function;
 }
 
 enum MODE {
   EDIT,
   READONLY,
 }
+
+const mapStateToProps = (state) => ({
+});
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  saveNosach: async (route: routeObject, newSublines: string[])=>{
+   dispatch(saveNosach(route, newSublines))
+  }
+
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +45,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FieldMainLineEditor2 = (props: Props) => {
-  const { line } = props;
+  const { lineData, saveNosach } = props;
+  const route = useParams<routeObject>();
+
   const classes = useStyles();
 
   const [initial, setInitial] = useState(
@@ -46,10 +62,10 @@ const FieldMainLineEditor2 = (props: Props) => {
   useEffect(() => {
     setInitial(
       EditorState.createWithContent(
-        ContentState.createFromText(getLineAsText(line))
+        ContentState.createFromText(getLineAsText(lineData))
       )
     );
-  }, [line]);
+  }, [lineData]);
 
   const editorChange = (e) => {
     setInitial(e);
@@ -57,7 +73,11 @@ const FieldMainLineEditor2 = (props: Props) => {
   const btnSaveHandler = () => {
     console.log(getRawText(initial));
     console.log(getSublinesFromContent(initial));
-    setMode(MODE.READONLY);
+    const newSublines = getSublinesFromContent(initial)
+    setMode(MODE.READONLY);    console.log(lineData)
+
+    saveNosach(route, newSublines)
+
   };
 
   const btnEditHandler = () => {
@@ -74,6 +94,7 @@ const FieldMainLineEditor2 = (props: Props) => {
         <div className={classes.buttons}>
           <IconButton
             onClick={btnEditHandler}
+            disabled={mode === MODE.EDIT}
             color="primary"
             aria-label="edit"
           >
@@ -108,4 +129,4 @@ const FieldMainLineEditor2 = (props: Props) => {
   );
 };
 
-export default FieldMainLineEditor2;
+export default connect(mapStateToProps, mapDispatchToProps)(FieldMainLineEditor2);

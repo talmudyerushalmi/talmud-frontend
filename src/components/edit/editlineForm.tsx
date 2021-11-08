@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import * as Yup from "yup"
 import { withFormik, FieldArray, FormikProps } from "formik"
-import FieldMainLineEditor from "./MainLineEditor/MainLineEditor"
 import { EditorState, ContentState } from "draft-js"
 import SourceButtons from "./MainLineEditor/SourceButtons"
 import SublineField from "./SublineField"
@@ -52,7 +51,7 @@ const formikEnhancer = withFormik({
       currentMishna.tractate,
       currentMishna.chapter,
       currentMishna.mishna,
-      line?.lineNumber,
+      line!.lineNumber!,
       {...values,
 
       }

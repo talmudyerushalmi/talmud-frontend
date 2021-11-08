@@ -33,7 +33,6 @@ const EditLinePage = (props) => {
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
 
   useEffect(() => {
-    getCompositions();
   }, []);
 
   useEffect(() => {
@@ -52,7 +51,7 @@ const EditLinePage = (props) => {
     <PageWithNavigation linkPrefix="/admin/edit">
       <PageHeader></PageHeader>
       <PageContent>
-        <FieldMainLineEditor2 line={lineObj}/>
+        <FieldMainLineEditor2   lineData={lineObj}/>
         <EditLineForm
           //@ts-ignore
           mainLine={lineObj?.mainLine}

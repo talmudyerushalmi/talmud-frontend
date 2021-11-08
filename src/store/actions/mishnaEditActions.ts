@@ -1,5 +1,7 @@
 import { action } from "typesafe-actions";
+import { routeObject } from "../../routes/AdminRoutes";
 import ExcerptService from "../../services/excerpt.service";
+import LineService from "../../services/line.service";
 import PageService from "../../services/pageService";
 import { iExcerpt } from "../../types/types";
 import { setCurrentMishna } from "./navigationActions";
@@ -13,6 +15,9 @@ export const OPEN_EXCERPT_DIALOG = "OPEN_EXCERPT_DIALOG"
 export const CLOSE_EXCERPT_DIALOG = "CLOSE_EXCERPT_DIALOG"
 export const DELETE_EXCERPT_START = "DELETE_EXCERPT_START"
 export const DELETE_EXCERPT_DONE = "DELETE_EXCERPT_DONE"
+export const SAVE_NOSACH = "SAVE_NOSACH"
+export const SAVE_NOSACH_DONE = "SAVE_NOSACH_DONE"
+
 
 export const saveExcerpt7 =
   (tractate, chapter, mishna, excerpt) => (dispatch, getState) => {
@@ -66,3 +71,22 @@ export const getMishnaForEdit = (tractate, chapter, mishna) => {
   }
 
 }
+
+export const saveNosach = (route: routeObject, nosach: string[]) => {
+  return async function (dispatch, getState) {
+    dispatch({type: SAVE_NOSACH});
+    const mishnaDoc = await LineService.saveNosach(
+      route.tractate,
+      route.chapter,
+      route.mishna,
+      route.line,
+      nosach
+    );
+
+    dispatch(setCurrentMishna(mishnaDoc));
+    // dispatch({
+    //   type: SAVE_EXCERPT,
+    //   mishnaDoc,
+    // });
+  };
+};
