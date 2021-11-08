@@ -77,7 +77,6 @@ const formikEnhancer = withFormik({
 
 interface OtherProps {
   message: string;
-  tractateSettings: any;
   currentMishna: iMishna;
 }
 interface Props {
@@ -95,7 +94,6 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
     handleReset,
     setFieldValue,
     isSubmitting,
-    tractateSettings,
     currentMishna
   } = props;
   const [sources, setSources] = useState<iSource[]>([])
@@ -142,7 +140,6 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
       />
       <SourceButtons
         sources={values.sublines}
-        tractateSettings={tractateSettings}
         onAddSource={source=>onAddSource(source)}
         onRemoveSource={id=>onRemoveSource(id)}
         onAddExternalSource={onAddExternalSource}

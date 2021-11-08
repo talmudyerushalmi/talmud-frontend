@@ -9,8 +9,8 @@ import {
   PageWithNavigation,
 } from "../layout/PageWithNavigation";
 import { routeObject } from "../routes/AdminRoutes";
-import PageService from "../services/pageService";
 import { requestCompositions } from "../store/actions";
+import { getMishnaForEdit } from "../store/actions/mishnaEditActions";
 
 const mapStateToProps = (state) => ({
   currentMishna: state.general.currentMishna,
@@ -20,42 +20,41 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getCompositions: () => {
     dispatch(requestCompositions());
   },
+  getMishnaForEdit: (tractate, chapter, mishna) => {
+    dispatch(getMishnaForEdit(tractate, chapter, mishna));
+  },
 });
-
 
 const EditLinePage = (props) => {
   const [lineObj, setLineObj] = useState(null);
-  const [tractateSettings, setTractateSettings] = useState({
-    synopsisAllowed: [],
-    synopsisList: [],
-  });
-  const { getCompositions, currentMishna } = props;
+
+  const { getMishnaForEdit, currentMishna, getCompositions } = props;
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
 
   useEffect(() => {
+    getCompositions();
   }, []);
 
   useEffect(() => {
-    async function fetch() {
-      const result = await PageService.getMishnaEdit(tractate, chapter, mishna);
-      const lineObj = result.mishnaDoc.lines?.find(
-        (lineItem) => lineItem.lineNumber === line
-      );
-      setTractateSettings(result.tractateSettings);
-      setLineObj(lineObj);
-    }
-    fetch();
+    const lineObj = currentMishna?.lines?.find(
+      (lineItem) => lineItem.lineNumber === line
+    );
+    setLineObj(lineObj);
+  }, [currentMishna]);
+
+  useEffect(() => {
+    getMishnaForEdit(tractate, chapter, mishna);
+    return () => {};
   }, [line]);
 
   return (
     <PageWithNavigation linkPrefix="/admin/edit">
       <PageHeader></PageHeader>
       <PageContent>
-        <FieldMainLineEditor2   lineData={lineObj}/>
+        <FieldMainLineEditor2 lineData={lineObj} />
         <EditLineForm
           //@ts-ignore
           mainLine={lineObj?.mainLine}
-          tractateSettings={tractateSettings}
           line={lineObj}
           currentMishna={currentMishna}
         />

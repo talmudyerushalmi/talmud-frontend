@@ -4,7 +4,9 @@ import React from "react"
 import ExternalSourceDetails from "../ExternalSourceDetails"
 import { connect } from "react-redux"
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  tractateSettings: state.mishnaEdit.tractateSettings
+})
 
 
 const SourceButtons = props => {
