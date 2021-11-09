@@ -4,7 +4,7 @@ import { IconButton, makeStyles } from "@material-ui/core";
 import { iLine } from "../../../types/types";
 import { ContentState, EditorState } from "draft-js";
 import { getLineAsText } from "../../../inc/lineUtils";
-import { getRawText, getSublinesFromContent } from "../../../inc/editorUtils";
+import { getSublinesFromContent } from "../../../inc/editorUtils";
 import { CheckCircle, Close, Edit } from "@material-ui/icons";
 import { connect } from "react-redux";
 import { saveNosach } from "../../../store/actions/mishnaEditActions";
@@ -52,15 +52,20 @@ const FieldMainLineEditor2 = (props: Props) => {
 
   const [initial, setInitial] = useState(
     EditorState.createWithContent(
-      ContentState.createFromText("textForEditor" || "")
+      ContentState.createFromText("")
     )
   );
-
+  const [editor, setEditor] = useState(
+    EditorState.createWithContent(
+      ContentState.createFromText("")
+    )
+  //const   
+  );
 
   const [mode, setMode] = useState(MODE.READONLY);
 
   useEffect(() => {
-    setInitial(
+    setEditor(
       EditorState.createWithContent(
         ContentState.createFromText(getLineAsText(lineData))
       )
@@ -68,19 +73,21 @@ const FieldMainLineEditor2 = (props: Props) => {
   }, [lineData]);
 
   const editorChange = (e) => {
-    setInitial(e);
+    setEditor(e);
   };
   const btnSaveHandler = () => {
-    console.log(getRawText(initial));
-    console.log(getSublinesFromContent(initial));
-    const newSublines = getSublinesFromContent(initial)
-    setMode(MODE.READONLY);    console.log(lineData)
-
+    const newSublines = getSublinesFromContent(editor)
+    setMode(MODE.READONLY); 
     saveNosach(route, newSublines)
 
   };
+  const btnCancelHandler = () => {
+    setEditor(initial);
+    setMode(MODE.READONLY);  
+  };
 
   const btnEditHandler = () => {
+    setInitial(editor);
     setMode(MODE.EDIT);
   };
 
@@ -103,7 +110,7 @@ const FieldMainLineEditor2 = (props: Props) => {
           {mode === MODE.EDIT ? (
             <>
               <IconButton
-                onClick={btnSaveHandler}
+                onClick={btnCancelHandler}
                 color="primary"
                 aria-label="save"
               >
@@ -121,7 +128,7 @@ const FieldMainLineEditor2 = (props: Props) => {
         </div>
         <TextEditor
           readOnly={mode === MODE.READONLY}
-          initialState={initial}
+          initialState={editor}
           onChange={editorChange}
         />
       </div>
