@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FieldMainLineEditor2 = (props: Props) => {
+const MainLineEditor = (props: Props) => {
   const { lineData, saveNosach } = props;
   const route = useParams<routeObject>();
 
@@ -136,4 +136,4 @@ const FieldMainLineEditor2 = (props: Props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldMainLineEditor2);
+export default connect(mapStateToProps, mapDispatchToProps)(MainLineEditor);
