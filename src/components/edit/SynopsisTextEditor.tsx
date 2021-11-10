@@ -57,8 +57,7 @@ const SynopsisTextEditor = (props: Props) => {
     //const js = convertToRaw(editorState.getCurrentContent())
 
     return {
-      text,
-      styled: "something",
+      simpleText: text,
       editor: editorState.toJS(),
       content: convertToRaw(editorState.getCurrentContent()),
     }

@@ -52,12 +52,15 @@ export interface iSource {
 
 export interface EditedText {
   simpleText: string;
-  content: RawDraftContentState;
+  content?: RawDraftContentState;
+  editor?: any, // maybe can be removed
 }
+
+export type sourceType = "direct_sources" | "indirect_sources";
 
 export interface iSynopsis {
   text: EditedText;
-  type: string;
+  type: sourceType;
   name: string;
   id: string;
   code: string;
