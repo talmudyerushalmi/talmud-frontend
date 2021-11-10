@@ -4,7 +4,7 @@ import "../text.css"
 
 
 const TextEditor = (props) => {
-  const { onChange, initialState } = props;
+  const { onChange, initialState, readOnly } = props;
   const [ editorState, setEditorState] = useState(initialState);
 
   
@@ -28,6 +28,7 @@ const TextEditor = (props) => {
   return (
     <div  className="RichEditor-root">
       <Editor
+        readOnly={readOnly}
         editorState={editorState}
         onChange={editorState => _onChange(editorState)}
         preserveSelectionOnBlur={true}

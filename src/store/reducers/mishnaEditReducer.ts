@@ -4,7 +4,7 @@ import {
   DELETE_EXCERPT_DONE,
   OPEN_EXCERPT_DIALOG,
   REQUEST_MISHNA_FOR_EDIT_DONE,
-  SAVE_EXCERPT, SAVE_EXCERPT_START,
+  SAVE_EXCERPT, SAVE_EXCERPT_START, SAVE_NOSACH,
 } from "../actions/mishnaEditActions";
 
 interface EditMishnaState {
@@ -13,6 +13,7 @@ interface EditMishnaState {
   mishnaDoc: iMishna | null;
   excerptDialogOpen: boolean;
   editedExcerpt: iExcerpt | null;
+  tractateSettings: any
 
 }
 
@@ -22,6 +23,9 @@ const initialState: EditMishnaState = {
   excerptDialogOpen: false,
   mishnaDoc: null,
   editedExcerpt: null,
+  tractateSettings:  { 
+    synopsisAllowed: [],
+    synopsisList: []}
 };
 
 const mishnaEditReducer = (state = initialState, action) => {
@@ -29,7 +33,8 @@ const mishnaEditReducer = (state = initialState, action) => {
     case REQUEST_MISHNA_FOR_EDIT_DONE:
       return {
         ...state,
-        mishnaDoc: action.payload.mishnaDoc
+        mishnaDoc: action.payload.mishnaDoc,
+        tractateSettings: action.payload.tractateSettings
       }
     case OPEN_EXCERPT_DIALOG:
       return {
@@ -60,6 +65,10 @@ const mishnaEditReducer = (state = initialState, action) => {
         loading: false,
         mishnaDoc: action.mishnaDoc
       }; 
+    case SAVE_NOSACH:
+      return {
+        ...state
+      }  
     
     default:
       return state;

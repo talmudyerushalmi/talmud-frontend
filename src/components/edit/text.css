@@ -2,7 +2,7 @@
   content: '1'
 } */
 .RichEditor-root {
-    background: #fff;
+    background:inherit;
     border: 1px solid #ddd;
     font-family: 'Georgia', serif;
     font-size: 14px;
@@ -10,6 +10,10 @@
     direction:rtl;
     text-align: right;
     padding: 20px;
+  }
+
+  .readonly .RichEditor-root {
+    background-color: #dddddd;
   }
   
   .RichEditor-editor {

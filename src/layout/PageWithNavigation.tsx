@@ -10,6 +10,12 @@ export const PageContent = (props) => {
   return <div>{props.children}</div>;
 };
 
+interface iLink {
+  tractate: string;
+  chapter: string;
+  mishna: string;
+  line: string;
+}
 interface Props {
   linkPrefix: string;
   children: any;
@@ -17,11 +23,14 @@ interface Props {
 export const PageWithNavigation = (props: Props) => {
   const { linkPrefix } = props;
   const history = useHistory();
-  const navigationSelectedHandler = (link) => {
-    if (link) {
-      const url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}`;
-      history.push(url);
+  let url: string;
+  const navigationSelectedHandler = (link: iLink) => {
+    if (link && link.line) {
+      url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}/${link.line}`;
+    } else {
+      url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}`;
     }
+    history.push(url);
   };
 
   return (
