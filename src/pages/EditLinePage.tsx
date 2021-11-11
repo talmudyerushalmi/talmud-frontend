@@ -51,7 +51,6 @@ const EditLinePage = (props) => {
     <PageWithNavigation linkPrefix="/admin/edit">
       <PageHeader></PageHeader>
       <PageContent>
-        <FieldMainLineEditor lineData={lineObj} />
         <EditLineForm
           //@ts-ignore
           mainLine={lineObj?.mainLine}

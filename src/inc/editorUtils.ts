@@ -29,6 +29,13 @@ export const getSelection = (editorState: EditorState): editorSelection => {
   };
 };
 
+export function getEditorFromLines(lines: string[]){
+  const text =  lines.reduce((carrier, line)=> `${carrier}${line.trim()}\n`, "").trim();
+  return EditorState.createWithContent(
+    ContentState.createFromText(text)
+  )
+}
+
 export function getRawText(editorState) {
   const content = editorState.getCurrentContent();
   const rawText = content
