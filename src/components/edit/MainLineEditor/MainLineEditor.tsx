@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import TextEditor from "./TextEditor";
 import { IconButton, makeStyles } from "@material-ui/core";
-import { iLine } from "../../../types/types";
+import {  } from "../../../types/types";
 import { ContentState, EditorState } from "draft-js";
-import { getLineAsText } from "../../../inc/lineUtils";
-import { getSublinesFromContent } from "../../../inc/editorUtils";
+import { getEditorFromLines, getSublinesFromContent } from "../../../inc/editorUtils";
 import { CheckCircle, Close, Edit } from "@material-ui/icons";
-import { connect } from "react-redux";
-import { saveNosach } from "../../../store/actions/mishnaEditActions";
-import { useParams } from "react-router";
-import { routeObject } from "../../../routes/AdminRoutes";
+
 
 interface Props {
-  lineData: iLine | null;
-  saveNosach: Function;
+  lines: string[],
+  onSave: Function;
 }
 
 enum MODE {
@@ -21,14 +17,6 @@ enum MODE {
   READONLY,
 }
 
-const mapStateToProps = (state) => ({
-});
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  saveNosach: async (route: routeObject, newSublines: string[])=>{
-   dispatch(saveNosach(route, newSublines))
-  }
-
-});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,8 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainLineEditor = (props: Props) => {
-  const { lineData, saveNosach } = props;
-  const route = useParams<routeObject>();
+  const { lines, onSave } = props;
 
   const classes = useStyles();
 
@@ -66,20 +53,17 @@ const MainLineEditor = (props: Props) => {
 
   useEffect(() => {
     setEditor(
-      EditorState.createWithContent(
-        ContentState.createFromText(getLineAsText(lineData))
-      )
+     getEditorFromLines(lines) 
     );
-  }, [lineData]);
+  }, [lines]);
 
   const editorChange = (e) => {
     setEditor(e);
   };
   const btnSaveHandler = () => {
-    const newSublines = getSublinesFromContent(editor)
+    const newLines = getSublinesFromContent(editor)
     setMode(MODE.READONLY); 
-    saveNosach(route, newSublines)
-
+    onSave(newLines)
   };
   const btnCancelHandler = () => {
     setEditor(initial);
@@ -136,4 +120,4 @@ const MainLineEditor = (props: Props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainLineEditor);
+export default MainLineEditor

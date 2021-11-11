@@ -72,7 +72,7 @@ export const getMishnaForEdit = (tractate, chapter, mishna) => {
 
 }
 
-export const saveNosach = (route: routeObject, nosach: string[]) => {
+export const saveNosach = (route: routeObject, sublineIndex:number, nosach: string[]) => {
   return async function (dispatch, getState) {
     dispatch({type: SAVE_NOSACH});
     const mishnaDoc = await LineService.saveNosach(
@@ -80,6 +80,7 @@ export const saveNosach = (route: routeObject, nosach: string[]) => {
       route.chapter,
       route.mishna,
       route.line,
+      sublineIndex,
       nosach
     );
 
