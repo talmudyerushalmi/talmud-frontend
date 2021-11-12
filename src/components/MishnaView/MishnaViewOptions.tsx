@@ -50,7 +50,7 @@ const MishnaViewOptions = props => {
             color="primary"
           />
         }
-        label="חלוקה לשורות"
+        label="Division to Lines"
       />
       <FormControlLabel
         control={
@@ -61,7 +61,7 @@ const MishnaViewOptions = props => {
             color="primary"
           />
         }
-        label="סימני פיסוק"
+        label="Punctuation"
       />
       <FormControlLabel
         control={
@@ -72,7 +72,7 @@ const MishnaViewOptions = props => {
             color="primary"
           />
         }
-        label="מראי מקום"
+        label="References"
       />
     </FormGroup>
   )
