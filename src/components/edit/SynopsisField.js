@@ -4,7 +4,7 @@ import SynopsisTextEditor from "./SynopsisTextEditor";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 const useStyles = makeStyles((theme) => ({
-  centerFlex: { ...theme.layout.centerFlex, minWidth:'10rem', marginRight:'7rem' },
+  centerFlex: { ...theme.layout.centerFlex, minWidth:'10rem', marginRight:'1rem' },
   narrow: { ...theme.buttons.narrow },
 }));
 
