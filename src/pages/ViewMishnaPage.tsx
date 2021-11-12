@@ -1,4 +1,5 @@
 import React from "react";
+import { Footer } from "../layout/Footer";
 import {
   PageContent,
   PageHeader,
@@ -17,6 +18,7 @@ const ViewMishnaPage = () => {
       <PageContent>
         <MishnaPage></MishnaPage>
       </PageContent>
+      <Footer/>
     </PageWithNavigation>
   );
 };

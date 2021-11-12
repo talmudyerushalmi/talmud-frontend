@@ -26,6 +26,7 @@ const theme = createMuiTheme({
   direction: "rtl",
 
   palette: {
+    mainMenu: '#3f51b5'
    // primary: red,
   },
   typography: {

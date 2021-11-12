@@ -34,7 +34,7 @@ export const PageWithNavigation = (props: Props) => {
   };
 
   return (
-    <Container>
+    <Container style={{paddingBottom:'6rem'}}>
       <Box mb={3}>
         <ChooseMishnaBar onNavigationSelected={navigationSelectedHandler} />
       </Box>
