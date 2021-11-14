@@ -151,6 +151,7 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
             {values.sublines.map((subline, index) => (
               <div key={index}>
                 <SublineField
+                  index={index}
                   name={`sublines[${index}]`}
                   onRemoveSource={(idToRemove)=>{onRemoveSource(idToRemove)}}
 

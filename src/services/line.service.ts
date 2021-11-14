@@ -17,5 +17,13 @@ export default class LineService {
     return s.data;
   }
 
+  static async deleteSubline(tractate: string, chapter :string, mishna :string, line :string,
+    sublineIndex: number){
+    const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/${sublineIndex}`;
+    const data = {}
+    const s =  await axiosInstance.delete(url, data);
+    return s.data;
+  }
+
  
 }

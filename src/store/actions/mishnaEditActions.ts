@@ -17,6 +17,8 @@ export const DELETE_EXCERPT_START = "DELETE_EXCERPT_START"
 export const DELETE_EXCERPT_DONE = "DELETE_EXCERPT_DONE"
 export const SAVE_NOSACH = "SAVE_NOSACH"
 export const SAVE_NOSACH_DONE = "SAVE_NOSACH_DONE"
+export const DELETE_SUBLINE = "DELETE_SUBLINE"
+export const DELETE_SUBLINE_DONE = "DELETE_SUBLINE_DONE"
 
 
 export const saveExcerpt7 =
@@ -89,5 +91,20 @@ export const saveNosach = (route: routeObject, sublineIndex:number, nosach: stri
     //   type: SAVE_EXCERPT,
     //   mishnaDoc,
     // });
+  };
+};
+
+export const deleteSubline = (route: routeObject, sublineIndex:number) => {
+  return async function (dispatch, getState) {
+    dispatch({type: DELETE_SUBLINE});
+    const mishnaDoc = await LineService.deleteSubline(
+      route.tractate,
+      route.chapter,
+      route.mishna,
+      route.line,
+      sublineIndex,
+    );
+
+    dispatch(setCurrentMishna(mishnaDoc));
   };
 };
