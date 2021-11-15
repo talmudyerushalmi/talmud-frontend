@@ -58,9 +58,9 @@ const MainLines = (props: Props) => {
               <IconButton
                 className={classes.adminButton}
                 onClick={() => {
-                  history.push(
-                    `/admin/edit/${route.tractate}/${route.chapter}/${route.mishna}/${line.lineNumber}/`
-                  );
+                  const url = `/admin/edit/${route.tractate}/${route.chapter}/${route.mishna}/${line.lineNumber}/`;
+                  //@ts-ignore
+                  window!.open(url, '_blank').focus();
                 }}
               >
                 <Edit></Edit>
