@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { selectExcerpt } from "../../store/actions";
 import { themeConstants } from "../../ui/Theme";
+import { EXCERPT_TYPE } from "../edit/EditMishna/ExcerptDialog";
 import ExcerptDetailsView from "./ExcerptDetailsView";
 import ExcerptsView from "./ExcerptsView";
 
@@ -69,16 +70,26 @@ const ExcerptsSection = (props) => {
       />
       <ExcerptsView
         expanded={expanded}
-        type="MAKBILA"
+        type={EXCERPT_TYPE.MAKBILA}
         excerpts={filteredExcerpts}
       />
       <ExcerptsView
-        type="MUVAA"
+        type={EXCERPT_TYPE.MUVAA}
         expanded={expanded}
         excerpts={filteredExcerpts}
       />
       <ExcerptsView
-        type="NOSACH"
+        type={EXCERPT_TYPE.NOSACH}
+        expanded={expanded}
+        excerpts={filteredExcerpts}
+      />
+       <ExcerptsView
+        type={EXCERPT_TYPE.BIBLIO}
+        expanded={expanded}
+        excerpts={filteredExcerpts}
+      />
+       <ExcerptsView
+        type={EXCERPT_TYPE.EXPLANATORY}
         expanded={expanded}
         excerpts={filteredExcerpts}
       />

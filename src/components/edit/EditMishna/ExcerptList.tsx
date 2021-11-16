@@ -61,7 +61,7 @@ const ExcerptList = (props:Props) => {
     case EXCERPT_TYPE.BIBLIO:
       listname = "הערות ביבליוגרפיה"
       break;
-    case EXCERPT_TYPE.INTERPRETATION:
+    case EXCERPT_TYPE.EXPLANATORY:
       listname = "הערות פרשניות"
       break;
     default: 

@@ -167,7 +167,7 @@ const EditMishna = (props) => {
               ></ExcerptList>
                   <ExcerptList
                 admin={true}
-                filter= {EXCERPT_TYPE.INTERPRETATION}
+                filter= {EXCERPT_TYPE.EXPLANATORY}
                 excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
                 onClick={(excerpt) => {
                   openExcerptDialog(excerpt);

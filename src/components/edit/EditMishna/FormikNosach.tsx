@@ -18,6 +18,7 @@ import {
   closeExcerptDialog,
   saveExcerpt,
 } from "../../../store/actions/mishnaEditActions";
+import { EXCERPT_TYPE } from "./ExcerptDialog";
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   saveExcerpt: (tractate, chapter, mishna, excerpt) => {
@@ -86,18 +87,18 @@ const FormikWrapper = (props) => {
           <Form style={{ direction: "rtl" }}>
             <Field component={RadioGroup} name="type">
               <FormControlLabel
-                value="NOSACH"
+                value={EXCERPT_TYPE.NOSACH}
                 control={<Radio disabled={isSubmitting} />}
                 label="נוסח"
               />
               <FormControlLabel
-                value="BIBLIO"
+                value={EXCERPT_TYPE.BIBLIO}
                 control={<Radio disabled={isSubmitting} />}
                 label="ביבליוגרפיה"
                 disabled={isSubmitting}
               />
                 <FormControlLabel
-                value="INTERPRETATION"
+                value={EXCERPT_TYPE.EXPLANATORY}
                 control={<Radio disabled={isSubmitting} />}
                 label="פרשנית"
                 disabled={isSubmitting}

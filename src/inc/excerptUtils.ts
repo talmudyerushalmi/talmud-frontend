@@ -1,4 +1,5 @@
 import { ContentState, convertToRaw } from "draft-js";
+import { EXCERPT_TYPE } from "../components/edit/EditMishna/ExcerptDialog";
 import { iExcerpt, iSubline } from "../types/types";
 
 export const MUVAA = "MUVAA";
@@ -9,21 +10,33 @@ export type iExcerptType = "MUVAA" | "MAKBILA" | "NOSACH" | null;
 
 export const excerptsMap = new Map([
   [
-    MUVAA,
+    EXCERPT_TYPE.MUVAA,
     {
       title: "Citations",
     },
   ],
   [
-    MAKBILA,
+    EXCERPT_TYPE.MAKBILA,
     {
       title: "Talmudic Parallels",
     },
   ],
   [
-    NOSACH,
+    EXCERPT_TYPE.NOSACH,
     {
       title: "Editing comments",
+    },
+  ],
+  [
+    EXCERPT_TYPE.BIBLIO,
+    {
+      title: "Bibliographic Notes",
+    },
+  ],
+  [
+    EXCERPT_TYPE.EXPLANATORY,
+    {
+      title: "Explanatory Notes",
     },
   ],
 ]);

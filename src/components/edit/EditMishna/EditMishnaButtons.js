@@ -59,7 +59,7 @@ const EditMishnaButtons = (props)=>{
           variant="outlined"
           color="primary"
           onClick={() => {
-            onAddNewExcerpt({type: EXCERPT_TYPE.INTERPRETATION})
+            onAddNewExcerpt({type: EXCERPT_TYPE.EXPLANATORY})
           }}
         >
           הערה פרשנית
