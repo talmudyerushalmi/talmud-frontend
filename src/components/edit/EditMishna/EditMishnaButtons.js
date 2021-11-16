@@ -1,5 +1,6 @@
 import { Button, makeStyles } from "@material-ui/core";
 import React from 'react';
+import { EXCERPT_TYPE } from "./ExcerptDialog";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,7 +23,7 @@ const EditMishnaButtons = (props)=>{
           variant="outlined"
           color="primary"
           onClick={() => {
-            onAddNewExcerpt({type:'MUVAA'})
+            onAddNewExcerpt({type: EXCERPT_TYPE.MUVAA})
           }}
         >
           הוסף מובאה
@@ -31,7 +32,7 @@ const EditMishnaButtons = (props)=>{
           variant="outlined"
           color="primary"
           onClick={() => {
-            onAddNewExcerpt({type:'MAKBILA'})
+            onAddNewExcerpt({type: EXCERPT_TYPE.MAKBILA})
           }}
         >
           הוסף מקבילה
@@ -40,10 +41,28 @@ const EditMishnaButtons = (props)=>{
           variant="outlined"
           color="primary"
           onClick={() => {
-            onAddNewExcerpt({type:'NOSACH'})
+            onAddNewExcerpt({type: EXCERPT_TYPE.NOSACH})
           }}
         >
           הערת נוסח
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            onAddNewExcerpt({type: EXCERPT_TYPE.BIBLIO})
+          }}
+        >
+          הערה ביבליוגרפית
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            onAddNewExcerpt({type: EXCERPT_TYPE.INTERPRETATION})
+          }}
+        >
+          הערה פרשנית
         </Button>
       </div>
     )

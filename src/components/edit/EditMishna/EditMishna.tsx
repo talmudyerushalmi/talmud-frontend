@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import TextEditorMishna from "./TextEditorMishna2";
 import ExcerptList from "./ExcerptList";
-import ExcerptDialog from "./ExcerptDialog";
+import ExcerptDialog, { EXCERPT_TYPE } from "./ExcerptDialog";
 import EditMishnaButtons from "./EditMishnaButtons";
 import { connect } from "react-redux";
 import { requestCompositions, requestTractates } from "../../../store/actions";
@@ -119,7 +119,7 @@ const EditMishna = (props) => {
             >
               <ExcerptList
                 admin={true}
-                filter="MUVAA"
+                filter={EXCERPT_TYPE.MUVAA}
                 excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
                 onClick={(excerpt) => {
                   openExcerptDialog(excerpt);
@@ -131,7 +131,7 @@ const EditMishna = (props) => {
               ></ExcerptList>
               <ExcerptList
                 admin={true}
-                filter="MAKBILA"
+                filter={EXCERPT_TYPE.MAKBILA}
                 excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
                 onClick={(excerpt) => {
                   openExcerptDialog(excerpt);
@@ -143,7 +143,31 @@ const EditMishna = (props) => {
               ></ExcerptList>
                <ExcerptList
                 admin={true}
-                filter="NOSACH"
+                filter={EXCERPT_TYPE.NOSACH}
+                excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
+                onClick={(excerpt) => {
+                  openExcerptDialog(excerpt);
+                }}
+                onDelete={(excerptId) => {
+                  deleteExcerpt(tractate, chapter, mishna, excerptId);
+                }}
+                onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
+              ></ExcerptList>
+                <ExcerptList
+                admin={true}
+                filter= {EXCERPT_TYPE.BIBLIO}
+                excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
+                onClick={(excerpt) => {
+                  openExcerptDialog(excerpt);
+                }}
+                onDelete={(excerptId) => {
+                  deleteExcerpt(tractate, chapter, mishna, excerptId);
+                }}
+                onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
+              ></ExcerptList>
+                  <ExcerptList
+                admin={true}
+                filter= {EXCERPT_TYPE.INTERPRETATION}
                 excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
                 onClick={(excerpt) => {
                   openExcerptDialog(excerpt);

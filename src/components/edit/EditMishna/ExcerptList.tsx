@@ -10,6 +10,7 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import { Paper, Typography } from "@material-ui/core"
 import { getExcerptTitle } from "../../../inc/excerptUtils"
 import { iExcerpt } from "../../../types/types"
+import { EXCERPT_TYPE } from "./ExcerptDialog"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,14 +49,20 @@ const ExcerptList = (props:Props) => {
   }
   let listname = ""
   switch (filter) {
-    case "MUVAA":
+    case EXCERPT_TYPE.MUVAA:
       listname = "רשימת מובאות"
       break;
-    case "MAKBILA":
+    case EXCERPT_TYPE.MAKBILA:
       listname = "רשימת מקבילות"
       break;
-    case "NOSACH":
+    case EXCERPT_TYPE.NOSACH:
       listname = "הערות נוסח"
+      break;
+    case EXCERPT_TYPE.BIBLIO:
+      listname = "הערות ביבליוגרפיה"
+      break;
+    case EXCERPT_TYPE.INTERPRETATION:
+      listname = "הערות פרשניות"
       break;
     default: 
   }

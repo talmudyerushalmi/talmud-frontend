@@ -1,12 +1,15 @@
 import * as React from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import {
   Button,
   LinearProgress,
   TextField as TextFieldOriginal,
   makeStyles,
+  FormControlLabel,
+  Radio,
 } from "@material-ui/core";
 import RichTextEditorField from "../../editors/RichTextEditorField";
+import { RadioGroup } from "formik-material-ui";
 import { convertFromRaw, EditorState } from "draft-js";
 import { getContentRaw } from "../../../inc/editorUtils";
 import * as Yup from "yup";
@@ -53,7 +56,7 @@ const FormikWrapper = (props) => {
     <Formik
       initialValues={{
         key: excerpt.key ? excerpt.key : null,
-        type: "NOSACH",
+        type: excerpt?.type || "NOSACH",
         addingNew: excerpt.key ? false : true,
         editorStateFullQuote: excerpt.key
           ? EditorState.createWithContent(
@@ -81,6 +84,25 @@ const FormikWrapper = (props) => {
 
         return (
           <Form style={{ direction: "rtl" }}>
+            <Field component={RadioGroup} name="type">
+              <FormControlLabel
+                value="NOSACH"
+                control={<Radio disabled={isSubmitting} />}
+                label="נוסח"
+              />
+              <FormControlLabel
+                value="BIBLIO"
+                control={<Radio disabled={isSubmitting} />}
+                label="ביבליוגרפיה"
+                disabled={isSubmitting}
+              />
+                <FormControlLabel
+                value="INTERPRETATION"
+                control={<Radio disabled={isSubmitting} />}
+                label="פרשנית"
+                disabled={isSubmitting}
+              />
+            </Field>
             <RichTextEditorField
               name="editorStateFullQuote"
               label="הערת נוסח"

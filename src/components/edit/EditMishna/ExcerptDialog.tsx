@@ -10,6 +10,17 @@ import { connect } from "react-redux"
 import { iExcerpt } from "../../../types/types"
 import FormikNosach from "./FormikNosach"
 
+export enum EXCERPT_TYPE {
+  MUVAA = "MUVAA",
+  MAKBILA = "MAKBILA",
+  NOSACH = "NOSACH",
+  BIBLIO = "BIBLIO",
+  INTERPRETATION = "INTERPRETATION"
+} 
+const GROUP_NOSACH = [EXCERPT_TYPE.NOSACH, EXCERPT_TYPE.BIBLIO, EXCERPT_TYPE.INTERPRETATION];
+const GROUP_MAKBILA = [EXCERPT_TYPE.MAKBILA, EXCERPT_TYPE.MUVAA];
+
+
 const useStyles = makeStyles(theme => ({
   container: {
     width: "80%",
@@ -55,7 +66,7 @@ const ExcerptDialog = (props: Props) => {
 
   const FormToShow = (editedExcerpt) => {
     if (!editedExcerpt) { return null}
-    if (editedExcerpt?.type && ['MUVAA','MAKBILA'].includes(editedExcerpt.type as string)) {
+    if (editedExcerpt?.type && GROUP_MAKBILA.includes(editedExcerpt.type as EXCERPT_TYPE)) {
       return (
         <FormikExcerpt
         mishna={mishna}
@@ -67,7 +78,7 @@ const ExcerptDialog = (props: Props) => {
         handleClose={values => handleClose(values)}
       ></FormikExcerpt>
       );}
-     if (editedExcerpt.type === 'NOSACH') {
+     if (editedExcerpt.type && GROUP_NOSACH.includes(editedExcerpt.type as EXCERPT_TYPE)) {
        return (
         <FormikNosach
         mishna={mishna}
