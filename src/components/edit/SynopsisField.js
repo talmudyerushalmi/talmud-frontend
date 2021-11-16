@@ -6,6 +6,9 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 const useStyles = makeStyles((theme) => ({
   centerFlex: { ...theme.layout.centerFlex, minWidth:'10rem', marginRight:'1rem' },
   narrow: { ...theme.buttons.narrow },
+  editor: {
+    '& .RichEditor-root': {padding:'5px'}
+  }
 }));
 
 const SynopsisField = (props) => {
@@ -31,7 +34,7 @@ const SynopsisField = (props) => {
             {source.name} {source.location}
           </span>
         </Grid>
-        <Grid item style={{flexGrow:1}}>
+        <Grid item style={{flexGrow:1}} className={classes.editor}>
           <SynopsisTextEditor
             source={source}
             value={source.text}

@@ -20,15 +20,16 @@ enum MODE {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: "3rem",
+    paddingTop: "1rem",
     position: "relative",
     "& .readonly": {
       backgroundColor: theme.palette.grey[500],
     },
+    '& .RichEditor-root': {padding:'5px'}
   },
   buttons: {
     position: "absolute",
-    top: 0,
+    top: '-0.6rem',
   },
 }));
 
@@ -84,6 +85,7 @@ const MainLineEditor = (props: Props) => {
       >
         <div className={classes.buttons}>
           <IconButton
+            size="small"
             onClick={btnEditHandler}
             disabled={mode === MODE.EDIT}
             color="primary"
@@ -94,6 +96,7 @@ const MainLineEditor = (props: Props) => {
           {mode === MODE.EDIT ? (
             <>
               <IconButton
+                size="small"
                 onClick={btnCancelHandler}
                 color="primary"
                 aria-label="save"
@@ -101,6 +104,7 @@ const MainLineEditor = (props: Props) => {
                 <Close />
               </IconButton>
               <IconButton
+                size="small"
                 onClick={btnSaveHandler}
                 color="primary"
                 aria-label="save"

@@ -102,7 +102,8 @@ const SublineTitle = (props) => {
   const { index, onClick } = props;
   const removeButton = (
     <Tooltip title="איחוד תת השורה עם תת השורה שמעליה">
-      <IconButton 
+      <IconButton
+      size="small" 
       onClick={onClick}
       className={classes.removeButton}>
         <RemoveCircle></RemoveCircle>
@@ -111,13 +112,8 @@ const SublineTitle = (props) => {
   );
 
   return (
-    <div style={{ direction: "rtl", fontWeight: "bold", position: "relative" }}>
-      <span
-        style={{ direction: "rtl", fontWeight: "bold", position: "relative" }}
-      >
+    <div style={{ direction: "rtl", position:'relative'}}>
         {index > 0 ? removeButton : null}
-        תת שורה
-      </span>
     </div>
   );
 };

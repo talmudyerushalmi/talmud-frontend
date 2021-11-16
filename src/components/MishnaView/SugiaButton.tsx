@@ -20,11 +20,7 @@ const useStyles = makeStyles((theme) => ({
   wrap: {
     marginTop: "0.6rem",
     marginBottom: "0.3rem",
-    borderBottom: "2px solid #595959"
-  },
-  smallTitle: {
-    //@ts-ignore
-    ...theme.typography.smallTitle,
+    borderBottom: "1px solid #595959"
   },
 }));
 
@@ -64,8 +60,8 @@ const SugiaButton = (props: Props) => {
   return (
     <button onClick={selectSugiaHandler} className={classes.root}>
       <div className={classes.wrap}>
-        <Typography align="center" className={classes.smallTitle}>
-          [{index}{line.sugiaName?.trim() !== '' ? ' ' + line.sugiaName : null}]
+        <Typography align="center">
+          [{index}]{line.sugiaName?.trim() !== '' ? ' ' + line.sugiaName : null}
         </Typography>
       </div>
     </button>
