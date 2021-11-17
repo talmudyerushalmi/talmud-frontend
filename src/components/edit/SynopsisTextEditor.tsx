@@ -32,12 +32,9 @@ const calculateEditorState = (
     return EditorState.createWithContent(content);
   }
   if (value.simpleText) {
-    const allowedSourcesForAutoCalculate = ["leiden", "dfus_rishon"];
-    if (allowedSourcesForAutoCalculate.includes(source?.id)) {
       return EditorState.createWithContent(
         ContentState.createFromText(getTextForSynopsis(value.simpleText))
       );
-    }
   }
   return EditorState.createEmpty();
 };
@@ -148,19 +145,8 @@ const SynopsisTextEditor = (props: Props) => {
       <ColorControls editorState={editorState} onToggle={toggleColor} />
     </>
   );
-  const cleanTextHandler = () => {
-    const newText = getTextForSynopsis(value.simpleText);
-    setEditorState(
-      EditorState.createWithContent(ContentState.createFromText(newText))
-    );
-  };
   return (
     <div className={classes.root}>
-      <Tooltip title="נקה טקסט" enterDelay={800} enterNextDelay={500}>
-        <IconButton onClick={cleanTextHandler} size="small">
-          <ShortText></ShortText>
-        </IconButton>
-      </Tooltip>
       <div className="RichEditor-root">
         <Editor
           customStyleMap={colorStyleMap}
