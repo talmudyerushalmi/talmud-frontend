@@ -7,13 +7,13 @@ import {
   ContentState,
   convertFromRaw,
   convertToRaw,
+  DraftHandleValue,
 } from "draft-js";
 import "./text.css";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { EditedText, iSource } from "../../types/types";
 import { getTextForSynopsis } from "../../inc/synopsisUtils";
-import { IconButton, makeStyles, Tooltip } from "@material-ui/core";
-import { ShortText } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core";
 //import Editor from 'draft-js-plugins-editor';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,10 +32,12 @@ const calculateEditorState = (
     return EditorState.createWithContent(content);
   }
   if (value.simpleText) {
+    const allowedSourcesForAutoCalculate = ["leiden", "dfus_rishon"];
+    if (allowedSourcesForAutoCalculate.includes(source?.id)) {
       return EditorState.createWithContent(
         ContentState.createFromText(getTextForSynopsis(value.simpleText))
       );
-  }
+  }}
   return EditorState.createEmpty();
 };
 
@@ -145,10 +147,20 @@ const SynopsisTextEditor = (props: Props) => {
       <ColorControls editorState={editorState} onToggle={toggleColor} />
     </>
   );
+
+  const handlePastedText = (text: string): DraftHandleValue => {
+    const strippedText = getTextForSynopsis(text);
+    const newState = EditorState.createWithContent(ContentState.createFromText(strippedText))
+    setEditorState(newState);
+    return 'handled'
+  }
+
+
   return (
     <div className={classes.root}>
       <div className="RichEditor-root">
         <Editor
+          handlePastedText={handlePastedText}
           customStyleMap={colorStyleMap}
           editorState={editorState}
           onChange={(editorState) => _onChange(editorState)}
