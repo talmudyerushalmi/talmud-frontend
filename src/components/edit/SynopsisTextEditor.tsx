@@ -12,7 +12,16 @@ import "./text.css";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { EditedText, iSource } from "../../types/types";
 import { getTextForSynopsis } from "../../inc/synopsisUtils";
+import { IconButton, makeStyles, Tooltip } from "@material-ui/core";
+import { ShortText } from "@material-ui/icons";
 //import Editor from 'draft-js-plugins-editor';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    "& .RichEditor-root": { width: "100%" },
+  },
+}));
 
 const calculateEditorState = (
   value: EditedText,
@@ -39,6 +48,7 @@ interface Props {
   source: iSource;
 }
 const SynopsisTextEditor = (props: Props) => {
+  const classes = useStyles();
   const { onChange, value, source } = props;
 
   // return (
@@ -61,7 +71,6 @@ const SynopsisTextEditor = (props: Props) => {
 
     return {
       simpleText: text,
-      editor: editorState.toJS(),
       content: convertToRaw(editorState.getCurrentContent()),
     };
   };
@@ -139,19 +148,32 @@ const SynopsisTextEditor = (props: Props) => {
       <ColorControls editorState={editorState} onToggle={toggleColor} />
     </>
   );
+  const cleanTextHandler = () => {
+    const newText = getTextForSynopsis(value.simpleText);
+    setEditorState(
+      EditorState.createWithContent(ContentState.createFromText(newText))
+    );
+  };
   return (
-    <div className="RichEditor-root">
-      <Editor
-        customStyleMap={colorStyleMap}
-        editorState={editorState}
-        onChange={(editorState) => _onChange(editorState)}
-        onBlur={() => {
-          onChange(collectSublineDetails());
-        }}
-        //   onFocus={e => moveSelectionToEnd()}
-        preserveSelectionOnBlur={true}
-        textAlignment="right"
-      />
+    <div className={classes.root}>
+      <Tooltip title="נקה טקסט" enterDelay={800} enterNextDelay={500}>
+        <IconButton onClick={cleanTextHandler} size="small">
+          <ShortText></ShortText>
+        </IconButton>
+      </Tooltip>
+      <div className="RichEditor-root">
+        <Editor
+          customStyleMap={colorStyleMap}
+          editorState={editorState}
+          onChange={(editorState) => _onChange(editorState)}
+          onBlur={() => {
+            onChange(collectSublineDetails());
+          }}
+          //   onFocus={e => moveSelectionToEnd()}
+          preserveSelectionOnBlur={true}
+          textAlignment="right"
+        />
+      </div>
     </div>
   );
 };
