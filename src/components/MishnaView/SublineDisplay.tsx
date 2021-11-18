@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => {
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
       "&.piska": {
-        fontWeight: "bold",
+        color: '#795548',
       },
     },
     expansion: {

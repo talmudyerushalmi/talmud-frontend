@@ -1,7 +1,7 @@
 import { useField } from "formik";
 import React from "react";
 import { connect } from "react-redux";
-import { IconButton, makeStyles, Paper, Tooltip } from "@material-ui/core";
+import { Box, IconButton, makeStyles, Paper, Tooltip } from "@material-ui/core";
 import SynopsisField from "./SynopsisField";
 import MainLineEditor from "./MainLineEditor/MainLineEditor";
 import {
@@ -11,6 +11,7 @@ import {
 import { routeObject } from "../../routes/AdminRoutes";
 import { useParams } from "react-router";
 import { RemoveCircle } from "@material-ui/icons";
+import CheckboxField from "../formik/CheckboxField";
 
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -76,6 +77,9 @@ const SublineField = (props: Props) => {
             saveNosach(route, value.index, nosach);
           }}
         />
+        <Box style={{display:'flex'}}>
+         <CheckboxField name={field.name + "piska"}/>
+        </Box>
 
         {value.synopsis.map((source) => {
           return (
