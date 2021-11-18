@@ -10,7 +10,7 @@ const CheckboxField = (props: Props) => {
     const [_, meta, helpers] = useField(props);
     const { setValue } = helpers;
     const { value } = meta;
-    const [checked, setChecked] = useState(value);
+    const [checked, setChecked] = useState(!!value);
   
     useEffect(() => {
         setChecked(value);
