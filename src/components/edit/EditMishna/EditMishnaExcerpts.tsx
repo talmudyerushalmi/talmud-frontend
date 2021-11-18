@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(deleteExcerpt(tractate, chapter, mishna, excerpt)),
 });
 
-const EditMishna = (props) => {
+const EditMishnaExcerpts = (props) => {
   const {
     getCompositions,
     getMishnaForEdit,
@@ -184,4 +184,4 @@ const EditMishna = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditMishna);
+export default connect(mapStateToProps, mapDispatchToProps)(EditMishnaExcerpts);
