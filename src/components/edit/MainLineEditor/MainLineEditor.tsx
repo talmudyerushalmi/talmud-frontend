@@ -5,11 +5,13 @@ import {  } from "../../../types/types";
 import { ContentState, EditorState } from "draft-js";
 import { getEditorFromLines, getSublinesFromContent } from "../../../inc/editorUtils";
 import { CheckCircle, Close, Edit } from "@material-ui/icons";
+import CheckboxField from "../../formik/CheckboxField";
 
 
 interface Props {
   lines: string[],
   onSave: Function;
+  fieldName: string;
 }
 
 enum MODE {
@@ -20,7 +22,7 @@ enum MODE {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: "1rem",
+    paddingTop: "1.7rem",
     position: "relative",
     "& .readonly": {
       backgroundColor: theme.palette.grey[500],
@@ -34,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainLineEditor = (props: Props) => {
-  const { lines, onSave } = props;
+  const { lines, onSave, fieldName } = props;
 
   const classes = useStyles();
 
@@ -113,6 +115,7 @@ const MainLineEditor = (props: Props) => {
               </IconButton>
             </>
           ) : null}
+          <CheckboxField name={fieldName}/>
         </div>
         <TextEditor
           readOnly={mode === MODE.READONLY}

@@ -71,15 +71,13 @@ const SublineField = (props: Props) => {
       <Paper elevation={3} style={{ marginBottom: "1rem", padding: "0.5rem" }}>
         <SublineTitle index={index} onClick={deleteSublineHandler} />
         <MainLineEditor
+          fieldName={field.name + "piska"}
           lines={[value.text]}
           onSave={(nosach: string[]) => {
             console.log(nosach);
             saveNosach(route, value.index, nosach);
           }}
         />
-        <Box style={{display:'flex'}}>
-         <CheckboxField name={field.name + "piska"}/>
-        </Box>
 
         {value.synopsis.map((source) => {
           return (
