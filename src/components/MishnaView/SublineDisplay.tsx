@@ -60,6 +60,8 @@ const useStyles = makeStyles(theme => {
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
       "&.piska": {
+        fontWeight: 'bold',
+        fontSize: '0.8rem',
         color: '#795548',
       },
     },
