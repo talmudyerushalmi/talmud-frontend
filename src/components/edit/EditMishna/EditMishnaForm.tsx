@@ -53,6 +53,7 @@ const FormikWrapper = (props) => {
 
   return (
     <Formik
+      enableReinitialize={true}
       initialValues={{
 
         richTextMishna: 
