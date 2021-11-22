@@ -3,83 +3,84 @@ import {
   AccordionDetails,
   AccordionSummary,
   Typography,
-} from "@material-ui/core"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import { connect } from "react-redux"
-import { selectSublines } from "../../store/actions"
-import MarkedText from "../shared/MarkedText"
-import { excerptSelection } from "../../inc/excerptUtils"
-import SynopsisTable from "./SynopsisTable"
-import { clearPunctutationFromText, hideSourceFromText } from "../../inc/synopsisUtils"
-import { iExcerpt, iSubline } from "../../types/types"
+} from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
+import { selectSublines } from "../../store/actions";
+import MarkedText from "../shared/MarkedText";
+import { excerptSelection } from "../../inc/excerptUtils";
+import SynopsisTable from "./SynopsisTable";
+import {
+  clearPunctutationFromText,
+  hideSourceFromText,
+} from "../../inc/synopsisUtils";
+import { iExcerpt, iSubline } from "../../types/types";
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
   selectedExcerpt: state.mishnaView.selectedExcerpt,
   showPunctuation: state.mishnaView.showPunctuation,
-  showSources: state.mishnaView.showSources
-})
+  showSources: state.mishnaView.showSources,
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   selectSublines: (sublines) => {
-    dispatch(selectSublines(sublines))
+    dispatch(selectSublines(sublines));
   },
-})
+});
 
-const useStyles = makeStyles(theme => {
-  return {
-    root: {
-      "&.selected": { background: '#f2ff7385'},
-      "& > .MuiAccordionSummary-root": {
-        minHeight: 0,
-        "& > .MuiAccordionSummary-content": {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "&.selected": { background: "#f2ff7385" },
+    "& > .MuiAccordionSummary-root": {
+      minHeight: 0,
+      "& > .MuiAccordionSummary-content": {
+        margin: 0,
+        "& > p": {
           margin: 0,
-          "& > p": {
-            margin: 0,
-          },
-        },
-        "& > .MuiAccordionSummary-expandIcon": {
-          padding: 0,
         },
       },
+      "& > .MuiAccordionSummary-expandIcon": {
+        padding: 0,
+      },
     },
-    lineroot: {
-      display: "flex",
-    },
-    table: {
-      width: "100%",
+  },
+  lineroot: {
+    display: "flex",
+  },
+  table: {
+    width: "100%",
+    direction: "rtl",
+    "& th,td": {
+      textAlign: "right",
       direction: "rtl",
-      "& th,td": {
-        textAlign: "right",
-        direction: "rtl",
-      },
     },
-    heading: {
-      fontSize: theme.typography.pxToRem(15),
-      fontWeight: theme.typography.fontWeightRegular,
-      "&.piska": {
-        fontWeight: 'bold',
-        fontSize: '0.8rem',
-        color: '#795548',
-      },
+  },
+  lineNumber: {
+    //@ts-ignore //todo solve theme typings
+    ...theme.typography.lineNumber,
+  },
+  expansion: {
+    display: "block",
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  sourceReference: {
+    //@ts-ignore
+    ...theme.typography.sourceReference,
+  },
+   heading: {
+    // fontSize: theme.typography.pxToRem(15), //todo - uncomment
+    // fontWeight: theme.typography.fontWeightRegular,
+    "&.piska": {
+      fontWeight: 'bold',
+      fontSize: '0.8rem',
+      color: '#795548',
     },
-    expansion: {
-      display: "block",
-      paddingLeft: 0,
-      paddingRight: 0
-    },
-    lineNumber: {
-      //@ts-ignore //todo solve theme typings
-      ...theme.typography.lineNumber,
-    },
-    sourceReference: {
-        //@ts-ignore
-      ...theme.typography.sourceReference,
-    },
-  }
-})
+   }
+}));
 
 interface Props {
   subline: iSubline;
@@ -97,39 +98,37 @@ const SublineDisplay = (props: Props) => {
     selectSublines,
     selectedExcerpt,
     showPunctuation,
-    showSources
-  } = props
-  const classes = useStyles()
-  const [expanded, setExpanded] = React.useState("")
+    showSources,
+  } = props;
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState("");
 
-
-  const isSelected = (subline: iSubline)=>{
-   return selectedSublines.some(s=>s.index === subline.index)
-  }
-  const handleSelect = subline => {
+  const isSelected = (subline: iSubline) => {
+    return selectedSublines.some((s) => s.index === subline.index);
+  };
+  const handleSelect = (subline) => {
     if (isSelected(subline)) {
-      selectSublines([])
+      selectSublines([]);
     } else {
-      selectSublines([subline])
+      selectSublines([subline]);
     }
-  }
-  const handleExpand = panel => {
-    setExpanded(expanded ? false : panel)
-  }
-  const piskaClass = subline?.piska ? "piska" : ""
+  };
+  const handleExpand = (panel) => {
+    setExpanded(expanded ? false : panel);
+  };
+  const piskaClass = subline?.piska ? "piska" : "";
 
-  const handleExpandClick = e => {
-    e.stopPropagation()
-    handleExpand(`panelb${subline.index}`)
-  }
+  const handleExpandClick = (e) => {
+    e.stopPropagation();
+    handleExpand(`panelb${subline.index}`);
+  };
 
-  const selectedClass =
-    isSelected(subline) ? "selected" : "";
-  const markedSelection = excerptSelection(subline, selectedExcerpt)
+  const selectedClass = isSelected(subline) ? "selected" : "";
+  const markedSelection = excerptSelection(subline, selectedExcerpt);
 
   let textToDisplay = subline.text;
   if (!showSources) {
-    textToDisplay = hideSourceFromText(textToDisplay)
+    textToDisplay = hideSourceFromText(textToDisplay);
   }
   if (!showPunctuation) {
     textToDisplay = clearPunctutationFromText(textToDisplay);
@@ -169,7 +168,7 @@ const SublineDisplay = (props: Props) => {
         </AccordionDetails>
       </Accordion>
     </>
-  )
-}
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SublineDisplay)
+export default connect(mapStateToProps, mapDispatchToProps)(SublineDisplay);

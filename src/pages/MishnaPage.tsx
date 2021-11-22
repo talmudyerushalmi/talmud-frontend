@@ -7,6 +7,9 @@ import { selectExcerpt } from "../store/actions";
 import ExcerptsSection from "../components/MishnaView/ExcerptsSection";
 import MishnaViewOptions from "../components/MishnaView/MishnaViewOptions";
 import { useParams } from "react-router";
+import { getHTMLFromRawContent } from "../inc/editorUtils";
+import { iMishna } from "../types/types";
+import { routeObject } from "../routes/AdminRoutes";
 
 const mapStateToProps = (state) => ({
   currentMishna: state.general.currentMishna,
@@ -21,9 +24,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(selectExcerpt(excerpt));
   },
 });
-const MishnaPage = (props) => {
-  const { loading, currentMishna } = props;
-  const { mishna } = useParams();
+
+interface Props {
+  currentMishna: iMishna
+}
+const MishnaPage = (props: Props) => {
+  const { currentMishna } = props;
+  const { mishna } = useParams<routeObject>();
 
   return (
     <Grid container spacing={2}>
@@ -32,12 +39,11 @@ const MishnaPage = (props) => {
       </Grid>
       <Grid container justify="center" item sm={12}>
         <Grid item>
-          <MishnaText mishna={mishna} html={currentMishna?.mishna_text} />
+          <MishnaText mishna={mishna} html={getHTMLFromRawContent(currentMishna?.richTextMishna)}  />
         </Grid>
       </Grid>
       <Grid item md={8}>
         <MainText
-          sections={currentMishna?.sections}
           lines={currentMishna?.lines}
         />
       </Grid>

@@ -1,8 +1,10 @@
 import {
   CharacterMetadata,
   ContentState,
+  convertFromRaw,
   convertToRaw,
   EditorState,
+  RawDraftContentState,
   SelectionState,
 } from "draft-js";
 import { iLine, iMishna } from "../types/types";
@@ -36,12 +38,35 @@ export function getEditorFromLines(lines: string[]){
   )
 }
 
-export function getRawText(editorState) {
-  const content = editorState.getCurrentContent();
-  const rawText = content
+export function getHTMLFromRawContent(rawContent: RawDraftContentState|null): string|null {
+  if (!rawContent) {return ""}
+  const content = convertFromRaw(rawContent);
+  const rawText = getHTMLFromContent(content)
+  return rawText;
+}
+
+export function getHTMLFromContent(contentState: ContentState|null): string|null {
+  if (!contentState) {
+    return null
+  }
+  const rawHTML = contentState
+    .getBlocksAsArray()
+    .reduce((carrier, b) => `${carrier}<br>${b.getText()}`, "");
+
+  return rawHTML.slice(4); // remove first <br>
+}
+
+export function getRawTextFromContent(contentState: ContentState): string {
+  const rawText = contentState
     .getBlocksAsArray()
     .reduce((carrier, b) => `${carrier}\n${b.getText()}`, "");
   return rawText;
+}
+
+
+export function getRawText(editorState) {
+  const content = editorState.getCurrentContent();
+  return getRawTextFromContent(content);
 }
 
 export function getSublinesFromContent(editorState: EditorState) {

@@ -2,6 +2,7 @@ import { action } from "typesafe-actions";
 import { routeObject } from "../../routes/AdminRoutes";
 import ExcerptService from "../../services/excerpt.service";
 import LineService from "../../services/line.service";
+import MishnaService from "../../services/mishna.service";
 import PageService from "../../services/pageService";
 import { iExcerpt } from "../../types/types";
 import { setCurrentMishna } from "./navigationActions";
@@ -19,23 +20,15 @@ export const SAVE_NOSACH = "SAVE_NOSACH"
 export const SAVE_NOSACH_DONE = "SAVE_NOSACH_DONE"
 export const DELETE_SUBLINE = "DELETE_SUBLINE"
 export const DELETE_SUBLINE_DONE = "DELETE_SUBLINE_DONE"
+export const SAVE_MISHNA_START = "SAVE_MISHNA_START"
+export const SAVE_MISHNA = "SAVE_MISHNA"
+export const SAVE_MISHNA_DONE = "SAVE_MISHNA_DONE"
 
-
-export const saveExcerpt7 =
-  (tractate, chapter, mishna, excerpt) => (dispatch, getState) => {
-    dispatch({
-      type: SAVE_EXCERPT,
-      tractate,
-      chapter,
-      mishna,
-      excerpt,
-    });
-  };
 
 export const requestMishnaForEdit = action(REQUEST_MISHNA_FOR_EDIT);
 export const requestMishnaForEditDone = (mishnaDoc) => action(REQUEST_MISHNA_FOR_EDIT_DONE, { mishnaDoc } );
-export const openExcerptDialog = (excerpt: iExcerpt) => action(OPEN_EXCERPT_DIALOG, { excerpt });  
-export const closeExcerptDialog = action(CLOSE_EXCERPT_DIALOG);  
+export const openExcerptDialog = (excerpt: iExcerpt) => action(OPEN_EXCERPT_DIALOG, { excerpt });
+export const closeExcerptDialog = action(CLOSE_EXCERPT_DIALOG);
 export const saveExcerpt = (tractate, chapter, mishna, excerpt) => {
   return async function (dispatch, getState) {
     dispatch({type: SAVE_EXCERPT_START});
@@ -106,5 +99,23 @@ export const deleteSubline = (route: routeObject, sublineIndex:number) => {
     );
 
     dispatch(setCurrentMishna(mishnaDoc));
+  };
+};
+
+export const saveMishna = (route: routeObject, mishnaDTO: Object) => {
+  return async function (dispatch, getState) {
+    dispatch({type: SAVE_MISHNA_START});
+    const mishnaDoc = await MishnaService.saveMishna(
+      route.tractate,
+      route.chapter,
+      route.mishna,
+      mishnaDTO
+    );
+    dispatch(setCurrentMishna(mishnaDoc));
+
+    dispatch({
+      type: SAVE_MISHNA_DONE,
+      mishnaDoc,
+    });
   };
 };

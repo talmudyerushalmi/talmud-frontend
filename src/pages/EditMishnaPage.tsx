@@ -10,6 +10,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { useState } from "react";
+import EditMishnaExcerpts from "../components/edit/EditMishna/EditMishnaExcerpts";
 import EditMishna from "../components/edit/EditMishna/EditMishna";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -34,16 +35,20 @@ const EditMishnaPage = () => {
             onChange={handleChange}
             aria-label="simple tabs example"
           >
-            <Tab label="עריכה" {...a11yProps(0)} />
-            <Tab label="תצוגה" {...a11yProps(1)} />
+            <Tab label="מדורים" {...a11yProps(0)} />
+            <Tab label="משנה" {...a11yProps(1)} />
+            <Tab label="תצוגה" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
       </PageHeader>
       <PageContent>
         <TabPanel value={value} index={0}>
-          <EditMishna></EditMishna>
+          <EditMishnaExcerpts></EditMishnaExcerpts>
         </TabPanel>
         <TabPanel value={value} index={1}>
+          <EditMishna/>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
           <MishnaPage></MishnaPage>
         </TabPanel>
       </PageContent>

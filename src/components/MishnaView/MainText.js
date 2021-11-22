@@ -10,14 +10,14 @@ const mapStateToProps = state => ({
 })
 
 const MainText = props => {
-  const { lines, sections, divideToLines, showPunctuation, showSources } = props
+  const { lines, divideToLines, showPunctuation, showSources } = props
   if (!lines) {
     return null
   }
   return (
     <>
       {divideToLines ? (
-        <MainLines lines={lines} sections={sections} />
+        <MainLines lines={lines}  />
       ) : (
         <UndividedText lines={lines} showPunctuation={showPunctuation}
         showSources={showSources} />
