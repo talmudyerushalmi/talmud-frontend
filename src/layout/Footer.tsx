@@ -7,13 +7,14 @@ const useStyles = makeStyles((theme) => {
   return {
     root: {
       position: "fixed",
+      height: '1.5rem',
       bottom: 0,
       //@ts-ignore
       background: theme.palette.mainMenu,
       color: "white",
       width: "100%",
       right: 0,
-      padding: "1rem",
+     // padding: "1rem",
     },
   };
 });
@@ -24,14 +25,12 @@ export const Footer = () => {
     <footer className={classes.root}>
       <Container>
       <Grid container>
-        <Grid item sm={5}>
-        גרסה ראשונית, בפיתוח. הצעות כלליות בלבד תתקבלנה בברכה.
+        <Grid item sm={4}>
         </Grid>
-        <Grid item sm={2}>
-        אתר בהקמה, אין לצטט ממנו בשלב זה
+        <Grid item sm={4}>
+        אתר בהקמה, אין לצטט בשלב זה
         </Grid>
-        <Grid item sm={5}>
-        ייחוס לפרויקט תלמוד ירושלמי - מהדורה דיגיטלית, מנחם כ”ץ
+        <Grid item sm={4}>
         </Grid>
         </Grid>
         </Container>
