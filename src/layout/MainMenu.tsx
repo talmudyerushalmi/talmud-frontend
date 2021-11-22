@@ -45,7 +45,7 @@ const MainMenu = (props: any) => {
           </IconButton>
           <div style={{ fontSize: "1rem" }}>
             <span>תלמוד ירושלמי - </span>
-            <strong>גרסת בטא</strong>
+            <strong>מדגים יכולות</strong>
           </div>
           <Typography variant="h6" className={classes.title}></Typography>
           {username ? (
