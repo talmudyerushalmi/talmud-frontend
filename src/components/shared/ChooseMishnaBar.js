@@ -1,4 +1,4 @@
-import { Button, makeStyles, TextField, Grid } from "@material-ui/core"
+import { Button, makeStyles, TextField, Grid, IconButton } from "@material-ui/core"
 
 import { Autocomplete } from "@material-ui/lab"
 import React, { useEffect, useState } from "react"
@@ -14,6 +14,7 @@ import { connect } from "react-redux"
 import { editorInEventPath } from "../../inc/editorUtils"
 import { getNextLine, getPreviousLine, hebrewMap } from "../../inc/utils"
 import { useParams } from "react-router"
+import { ArrowBack, ArrowForward } from "@material-ui/icons"
 
 const mapStateToProps = state => ({
   tractates: state.general.tractates,
@@ -243,6 +244,9 @@ const ChooseMishnaBar = props => {
         }}
       >
         <Grid container>   
+        <IconButton onClick={()=>{onNavigateBack()}}>
+          <ArrowForward></ArrowForward>
+            </IconButton> 
           <Autocomplete
             classes={classes}
             onChange={(e, value) => {
@@ -314,7 +318,10 @@ const ChooseMishnaBar = props => {
               />
             )}
           />
-         
+          <IconButton onClick={()=>onNavigateForward()}>
+            <ArrowBack></ArrowBack>
+            </IconButton>
+     
           {renderLine()}
 
           <div style={{display:'flex'}}>
