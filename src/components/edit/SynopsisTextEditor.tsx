@@ -64,7 +64,7 @@ const SynopsisTextEditor = (props: Props) => {
   const _onChange = (editorState) => {
     setEditorState(editorState);
   };
-  const collectSublineDetails = () => {
+  const collectSublineDetails = (editorState: EditorState) => {
     const text = editorState.getCurrentContent().getPlainText();
     //const js = convertToRaw(editorState.getCurrentContent())
 
@@ -151,7 +151,7 @@ const SynopsisTextEditor = (props: Props) => {
   const handlePastedText = (text: string): DraftHandleValue => {
     const strippedText = getTextForSynopsis(text);
     const newState = EditorState.createWithContent(ContentState.createFromText(strippedText))
-    setEditorState(newState);
+    onChange(collectSublineDetails(newState))
     return 'handled'
   }
 
@@ -165,7 +165,7 @@ const SynopsisTextEditor = (props: Props) => {
           editorState={editorState}
           onChange={(editorState) => _onChange(editorState)}
           onBlur={() => {
-            onChange(collectSublineDetails());
+            onChange(collectSublineDetails(editorState));
           }}
           //   onFocus={e => moveSelectionToEnd()}
           preserveSelectionOnBlur={true}
