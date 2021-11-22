@@ -48,7 +48,7 @@ const EditLinePage = (props) => {
   }, [line]);
 
   return (
-    <PageWithNavigation linkPrefix="/admin/edit">
+    <PageWithNavigation linkPrefix="/admin/edit" afterNavigateHandler={()=>{window.scrollTo(0,0)}}>
       <PageHeader></PageHeader>
       <PageContent>
         <EditLineForm

@@ -19,9 +19,10 @@ interface iLink {
 interface Props {
   linkPrefix: string;
   children: any;
+  afterNavigateHandler?: Function
 }
 export const PageWithNavigation = (props: Props) => {
-  const { linkPrefix } = props;
+  const { linkPrefix, afterNavigateHandler } = props;
   const history = useHistory();
   let url: string;
   const navigationSelectedHandler = (link: iLink) => {
@@ -31,6 +32,9 @@ export const PageWithNavigation = (props: Props) => {
       url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}`;
     }
     history.push(url);
+    if (afterNavigateHandler) {
+      afterNavigateHandler();
+    }
   };
 
   return (
