@@ -4,7 +4,7 @@ import {
   DELETE_EXCERPT_DONE,
   OPEN_EXCERPT_DIALOG,
   REQUEST_MISHNA_FOR_EDIT_DONE,
-  SAVE_EXCERPT, SAVE_EXCERPT_START, SAVE_NOSACH,
+  SAVE_EXCERPT, SAVE_EXCERPT_START, SAVE_MISHNA_DONE, SAVE_MISHNA_START, SAVE_NOSACH,
 } from "../actions/mishnaEditActions";
 
 interface EditMishnaState {
@@ -69,6 +69,10 @@ const mishnaEditReducer = (state = initialState, action) => {
       return {
         ...state
       }  
+    case SAVE_MISHNA_START:
+      return {...state, isSubmitting: true};
+    case SAVE_MISHNA_DONE:
+        return {...state, isSubmitting: false};
     
     default:
       return state;

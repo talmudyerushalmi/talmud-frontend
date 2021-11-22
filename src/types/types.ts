@@ -16,6 +16,7 @@ export interface iMishna {
   mishna: string;
   lines: iLine[]
   excerpts: iExcerpt[]
+  richTextMishna: RawDraftContentState|null
 
 }
 

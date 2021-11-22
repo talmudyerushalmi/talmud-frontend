@@ -11,6 +11,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { useState } from "react";
 import EditMishnaExcerpts from "../components/edit/EditMishna/EditMishnaExcerpts";
+import EditMishna from "../components/edit/EditMishna/EditMishna";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -45,7 +46,7 @@ const EditMishnaPage = () => {
           <EditMishnaExcerpts></EditMishnaExcerpts>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          mishna
+          <EditMishna/>
         </TabPanel>
         <TabPanel value={value} index={2}>
           <MishnaPage></MishnaPage>

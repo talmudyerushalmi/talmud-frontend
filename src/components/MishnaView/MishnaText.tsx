@@ -4,10 +4,12 @@ import { hebrewMap } from "../../inc/utils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+      //@ts-ignore
      ...theme.panels.standard,
      marginBottom: '1rem'
     },
     smallTitle: {
+      //@ts-ignore
         ...theme.typography.smallTitle
     }
 
