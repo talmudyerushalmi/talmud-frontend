@@ -11,12 +11,16 @@ export function getSynopsisRaw(synopsis: iSynopsis) {
     return synopsis.text.simpleText
 }
 
-export function getTextForSynopsis(str: string): string {
+export function getTextForSynopsis(str: string, synopsis: iSynopsis): string {
+  const groupGnizaKricha = ["gniza","kricha"]
   const step1 = /(\(שם\)|''|\(.*?,.*?\)|<.*?>|\|.*?\||[.+:!{},])/g;
+  const removeQuestionMark = /\?/g;
   const step2 = /[-]/g;
   const step3 = /"(?<![א-ת]"(?=[א-ת]\s+))/g // כל הגרשיים בין שתי אותיות יש להשאיר
   const step4 = /\s+/g;
-  return str
+
+  if (groupGnizaKricha.includes(synopsis?.code)) {
+    return str
     ? str
         .replace(step1, '')
         .replace(step2, ' ')
@@ -24,6 +28,17 @@ export function getTextForSynopsis(str: string): string {
         .replace(step4, ' ')
         .trim()
     : '';
+  } else {
+    return str
+    ? str
+        .replace(step1, '')
+        .replace(removeQuestionMark, '')
+        .replace(step2, ' ')
+        .replace(step3, '')
+        .replace(step4, ' ')
+        .trim()
+    : '';
+  }
 }
 
 

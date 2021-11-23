@@ -43,13 +43,6 @@ export interface iExcerpt {
   sourceLocation?: string;
   flagBadSelection?: boolean;
 }
-export interface iSource {
-  id: string;
-  type: string;
-  code: string;
-  name: string;
-  button_code: string;
-}
 
 export interface EditedText {
   simpleText: string;

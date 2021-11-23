@@ -11,7 +11,7 @@ import {
 } from "draft-js";
 import "./text.css";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import { EditedText, iSource } from "../../types/types";
+import { EditedText, iSynopsis } from "../../types/types";
 import { getTextForSynopsis } from "../../inc/synopsisUtils";
 import { makeStyles } from "@material-ui/core";
 //import Editor from 'draft-js-plugins-editor';
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const calculateEditorState = (
   value: EditedText,
-  source: iSource
+  source: iSynopsis
 ): EditorState => {
   if (value.content) {
     const content = convertFromRaw(value.content);
@@ -35,7 +35,7 @@ const calculateEditorState = (
     const allowedSourcesForAutoCalculate = ["leiden", "dfus_rishon"];
     if (allowedSourcesForAutoCalculate.includes(source?.id)) {
       return EditorState.createWithContent(
-        ContentState.createFromText(getTextForSynopsis(value.simpleText))
+        ContentState.createFromText(getTextForSynopsis(value.simpleText, source))
       );
   }}
   return EditorState.createEmpty();
@@ -44,7 +44,7 @@ const calculateEditorState = (
 interface Props {
   onChange: Function;
   value: EditedText;
-  source: iSource;
+  source: iSynopsis;
 }
 const SynopsisTextEditor = (props: Props) => {
   const classes = useStyles();
@@ -66,7 +66,6 @@ const SynopsisTextEditor = (props: Props) => {
   };
   const collectSublineDetails = (editorState: EditorState) => {
     const text = editorState.getCurrentContent().getPlainText();
-    //const js = convertToRaw(editorState.getCurrentContent())
 
     return {
       simpleText: text,
@@ -149,7 +148,7 @@ const SynopsisTextEditor = (props: Props) => {
   );
 
   const handlePastedText = (text: string): DraftHandleValue => {
-    const strippedText = getTextForSynopsis(text);
+    const strippedText = getTextForSynopsis(text, source);
     const newState = EditorState.createWithContent(ContentState.createFromText(strippedText))
     onChange(collectSublineDetails(newState))
     return 'handled'

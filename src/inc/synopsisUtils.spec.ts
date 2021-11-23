@@ -1,3 +1,4 @@
+import { iSynopsis } from '../types/types';
 import { getTextForSynopsis, hideSourceFromText } from './synopsisUtils';
 
 describe("synopsisUtils", ()=>{
@@ -18,22 +19,44 @@ describe("synopsisUtils", ()=>{
   })
 
   test.only("getTextForSynopsis", ()=>{
+    const sourceGniza: iSynopsis = {
+      id: '',
+      text: { simpleText: ""},
+      type: "direct_sources",
+      code: "gniza", 
+      name: "גניזה א׳",
+      button_code: "gniza_1",
+    }
+    const sourceLeiden: iSynopsis = {
+      id: '',
+      type: "direct_sources",
+      code: "leiden", 
+      name: "כתב יד ליידן",
+      button_code: "leiden",
+      text: { simpleText: ""},
+    }
+    
     const text1 = `טעמון דבית שמי "לא תהיה אשת המת החוצה לאיש זר" (דברים כה, ה) - החיצונה לא תהיה לאיש זר.`
-    const result1 = getTextForSynopsis(text1);
+    const result1 = getTextForSynopsis(text1,sourceLeiden);
     expect(result1).toBe(`טעמון דבית שמי לא תהיה אשת המת החוצה לאיש זר החיצונה לא תהיה לאיש זר`);
 
     const text2 = `החיצונה ת"ל תהיה לאיש זר.`
-    const result2 = getTextForSynopsis(text2);
+    const result2 = getTextForSynopsis(text2,sourceLeiden);
     expect(result2).toBe(`החיצונה ת"ל תהיה לאיש זר`);
 
     const text3 = `החיצונה ת"פ תהיה לאיש זר.`
-    const result3 = getTextForSynopsis(text3);
+    const result3 = getTextForSynopsis(text3, sourceLeiden);
     expect(result3).toBe(`החיצונה ת"פ תהיה לאיש זר`);
 
     const text4 = `החיצונה ת"פד תהיה לאיש זר.`
-    const result4 = getTextForSynopsis(text4);
+    const result4 = getTextForSynopsis(text4, sourceLeiden);
     expect(result4).toBe(`החיצונה תפד תהיה לאיש זר`);
 
+    const text5 = `?החיצונה ת"פד תהיה לאיש זר.`
+    const result5_leiden = getTextForSynopsis(text5, sourceLeiden);
+    expect(result5_leiden).toBe(`החיצונה תפד תהיה לאיש זר`);
+    const result_gniza = getTextForSynopsis(text5, sourceGniza);
+    expect(result_gniza).toBe(`?החיצונה תפד תהיה לאיש זר`);
 
   })
 })

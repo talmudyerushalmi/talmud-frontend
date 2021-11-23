@@ -5,7 +5,7 @@ import { EditorState, ContentState } from "draft-js"
 import SourceButtons from "./MainLineEditor/SourceButtons"
 import SublineField from "./SublineField"
 import LineService from "../../services/line.service"
-import { iLine, iMishna, iSource, iSubline, iSynopsis } from "../../types/types"
+import { iLine, iMishna, iSubline, iSynopsis } from "../../types/types"
 import SugiaField from "./SugiaField"
 
 interface Props {
@@ -23,14 +23,6 @@ const formikEnhancer = withFormik({
           .replace(/^\s+|\s+$/g, "") // trim new lines
       : line?.mainLine
 
-      // todo  - sublines init
-      // let initSublines = line?.sublines || [];
-      // initSublines = initSublines.map(s => {
-      //   return {
-      //   text: s.text,
-      //   synopsis:{}
-      //   }
-      // });
     return {
       mainLine: EditorState.createWithContent(
         ContentState.createFromText(textForEditor || "")
@@ -45,8 +37,6 @@ const formikEnhancer = withFormik({
   handleSubmit:  (values, formProps) => {
     const { setSubmitting, props } = formProps;
     const {currentMishna, line } = props;
-    console.log(props)
-    console.log(values)
      LineService.saveLine(
       currentMishna.tractate,
       currentMishna.chapter,
@@ -96,22 +86,13 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
     isSubmitting,
     currentMishna
   } = props;
-  const [sources, setSources] = useState<iSource[]>([])
-  const changeSublines = e => {
-    //console.log("change sub", e)
-    // check value of field
-    //console.log("values", values.mainLine)
-   // console.log("values sublines", values.sublines)
-   // todo - return set value later
-  // setFieldValue("sublines", e)
-  }
+  const [sources, setSources] = useState<iSynopsis[]>([])
   const onAddExternalSource = (source)=>{
 
      console.log('ADD',source)
      setSources([...sources,source]);
   }
   const onRemoveSource = (id)=>{
-    console.log('remove',id);
     const index = sources.findIndex(s=>s.id === id);
     sources.splice(index,1);
     setSources([...sources])
@@ -122,8 +103,6 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
     setFieldValue('sublines',values.sublines)
   }
   const onAddSource = (source) => {
-    console.log('add',source,'to',values.sublines);
-
     values.sublines.forEach((subline)=>{
       const addedSynopsis: iSynopsis = {
         ...source,
