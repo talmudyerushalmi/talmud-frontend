@@ -32,12 +32,10 @@ const calculateEditorState = (
     return EditorState.createWithContent(content);
   }
   if (value.simpleText) {
-    const allowedSourcesForAutoCalculate = ["leiden", "dfus_rishon"];
-    if (allowedSourcesForAutoCalculate.includes(source?.id)) {
       return EditorState.createWithContent(
-        ContentState.createFromText(getTextForSynopsis(value.simpleText, source))
+        ContentState.createFromText(value.simpleText)
       );
-  }}
+  }
   return EditorState.createEmpty();
 };
 

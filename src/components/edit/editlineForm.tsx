@@ -7,12 +7,16 @@ import SublineField from "./SublineField"
 import LineService from "../../services/line.service"
 import { iLine, iMishna, iSubline, iSynopsis } from "../../types/types"
 import SugiaField from "./SugiaField"
+import { getTextForSynopsis } from "../../inc/synopsisUtils"
 
 interface Props {
   line: iLine | null;
   currentMishna: any;
 
 }
+
+const allowedSourcesForInitialText = ["leiden", "dfus_rishon"];
+
 const formikEnhancer = withFormik({
   mapPropsToValues: (props: Props) => {
     const { line } = props
@@ -103,11 +107,14 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
     setFieldValue('sublines',values.sublines)
   }
   const onAddSource = (source) => {
+    let addedSynopsis: iSynopsis = {
+      ...source,
+      text: {}
+    }
     values.sublines.forEach((subline)=>{
-      const addedSynopsis: iSynopsis = {
-        ...source,
-        text: { simpleText: subline.text}
-      }
+      if (allowedSourcesForInitialText.includes(source.id)) {
+        addedSynopsis.text = { simpleText: getTextForSynopsis(subline.text, source)}
+      } 
       subline.synopsis.push(addedSynopsis)
     });
    setFieldValue('sublines',values.sublines)
