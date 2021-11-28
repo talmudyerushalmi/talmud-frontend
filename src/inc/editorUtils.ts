@@ -9,6 +9,7 @@ import {
 } from "draft-js";
 import { NosachEntity } from "../components/edit/MainLineEditor/MainLineDialog";
 import { iLine, iMishna } from "../types/types";
+import { cleanCharacters, getWordOccurence } from "./textUtils";
 export interface editorSelection {
   startBlock?: string;
   startOffset?: number;
@@ -119,7 +120,7 @@ export function getExcerpt(content, size = 10) {
 }
 // startSelection means we look back to find the word
 // if false we look forward
-const getWord = (text, offset, startSelection = true) => {
+const getWord = (text: string, offset: number, startSelection = true) => {
   // const endWords = /[\.\s]/
 
   const hebrewRegex = /[0-9א-ת'"[\](){}-]/;
@@ -131,7 +132,6 @@ const getWord = (text, offset, startSelection = true) => {
     while (offset > 0 && !hebrewRegex.test(arrayText[offset])) {
       offset--;
     }
-    // offset--;
   }
 
   while (offset > 0 && hebrewRegex.test(arrayText[offset])) {
@@ -143,22 +143,26 @@ const getWord = (text, offset, startSelection = true) => {
     offset++;
   }
 
-  //console.log("offset is now ", offset)
-  //console.log("current is now", arrayText[offset])
   //
   while (arrayText.length > offset && hebrewRegex.test(arrayText[offset])) {
     word += arrayText[offset++];
   }
-  return word;
+  return cleanCharacters(word);
 };
 
 export interface EditorSelectionObject {
   fromLine?: number;
   fromWord?: string;
+  fromWordOccurence?: number;
+  fromWordOccurenceSubline?: number;
+  fromWordTotal?: number;
   fromOffset?: number;
   fromSubline?: number;
   toLine?: number;
   toWord?: string;
+  toWordOccurence?: number;
+  toWordOccurenceSubline?: number;
+  toWordTotal?: number;
   toOffset?: number;
   toSubline?: number;
   firstWords?: string;
@@ -178,6 +182,7 @@ function getFirstWords(fromText, toText, fromOffset, toOffset): string {
     return text.substr(0, MAX_STRING) + "...";
   }
 }
+
 export function getSelectionObject(
   editorState: EditorState
 ): EditorSelectionObject {
@@ -192,7 +197,10 @@ export function getSelectionObject(
   const toContentBlock = currentContent.getBlockForKey(endKey);
   const toText = toContentBlock.getText();
   const fromWord = getWord(fromText, fromOffset);
+  const [fromWordOccurence, fromWordTotal] = getWordOccurence(fromText,fromOffset, fromWord);
+  console.log('from Word',fromText, fromWord)
   const toWord = getWord(toText, toOffset, false);
+  const [toWordOccurence, toWordTotal] = getWordOccurence(toText,toOffset-1, toWord);
   const firstWords = getFirstWords(fromText, toText, fromOffset, toOffset);
   const blockMap = currentContent.getBlocksAsArray();
   const fromLine = blockMap.findIndex((b) => b.getKey() === startKey);
@@ -201,10 +209,14 @@ export function getSelectionObject(
   return {
     fromLine,
     fromWord,
+    fromWordOccurence,
+    fromWordTotal,
     fromOffset,
     toLine,
     toWord,
     toOffset,
+    toWordOccurence,
+    toWordTotal,
     firstWords,
   };
 }
