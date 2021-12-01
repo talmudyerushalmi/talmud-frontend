@@ -12,7 +12,7 @@ import MishnaPage from "./MishnaPage";
 const ViewMishnaPage = () => {
 
   return (
-    <PageWithNavigation linkPrefix="/talmud">
+    <PageWithNavigation linkPrefix="/talmud" afterNavigateHandler={()=>{window.scrollTo(0,0)}}>
       <PageHeader>
       </PageHeader>
       <PageContent>
