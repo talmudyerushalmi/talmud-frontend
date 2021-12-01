@@ -1,23 +1,34 @@
 import React, { useEffect, useState } from "react";
 import TextEditor from "./TextEditor";
-import { IconButton, makeStyles } from "@material-ui/core";
+import { Button, IconButton, makeStyles } from "@material-ui/core";
 import {  } from "../../../types/types";
-import { ContentState, EditorState } from "draft-js";
-import { getEditorFromLines, getSublinesFromContent } from "../../../inc/editorUtils";
+import { ContentState, convertFromRaw, convertToRaw, EditorState, Modifier, RawDraftContentState } from "draft-js";
 import { CheckCircle, Close, Edit } from "@material-ui/icons";
 import CheckboxField from "../../formik/CheckboxField";
+import { compoundNosachDecorators } from "../../editors/EditorDecoratorNosach";
+import { InitialEntityDialogState, MainLineDialog, NosachEntity } from "./MainLineDialog";
 
-
+interface EditingData {
+  type: NosachEntity,
+  editingComment: string;
+}
 interface Props {
   lines: string[],
   onSave: Function;
   fieldName: string;
+  content: RawDraftContentState
 }
 
 enum MODE {
   EDIT,
   READONLY,
 }
+
+const addEntity = (contentState: ContentState, type:string, data = {}) => {
+  return contentState.createEntity(type, "IMMUTABLE", {
+    ...data
+  });
+};
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,37 +47,108 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainLineEditor = (props: Props) => {
-  const { lines, onSave, fieldName } = props;
+  const { content, onSave, fieldName } = props;
 
   const classes = useStyles();
 
   const [initial, setInitial] = useState(
-    EditorState.createWithContent(
-      ContentState.createFromText("")
-    )
+    EditorState.createEmpty()
   );
   const [editor, setEditor] = useState(
-    EditorState.createWithContent(
-      ContentState.createFromText("")
-    )
-  //const   
+    EditorState.createEmpty()
   );
 
   const [mode, setMode] = useState(MODE.READONLY);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [initialDialogState, setInitialDialogState] = useState<InitialEntityDialogState>({
+    type: NosachEntity.ADD,
+    editingComment: ''
+  });
 
+  function getSelectionState() {
+    let selectionState = editor.getSelection();
+    return selectionState;
+  }
+  function setEntity(type: string, data = {}){
+    let content = editor.getCurrentContent();
+    content = addEntity(content,type, data);
+    const entityKey = content.getLastCreatedEntityKey();
+
+    content = Modifier.applyEntity(
+      content,
+       getSelectionState(),
+        entityKey
+       );
+       let newEditorState = EditorState.createWithContent(
+        content,
+        compoundNosachDecorators
+      );
+  
+      setEditor(
+        newEditorState
+      );
+
+  }
   useEffect(() => {
+    let newEditorState;
+    if (content) {
+      newEditorState = EditorState.createWithContent(
+        convertFromRaw(content),
+        compoundNosachDecorators
+      );
+    } else {
+      newEditorState = EditorState.createWithContent(
+        ContentState.createFromText(""),
+        compoundNosachDecorators
+      );
+    }
+ 
     setEditor(
-     getEditorFromLines(lines) 
+      newEditorState
     );
-  }, [lines]);
+  }, [content]);
 
+
+  const getEntity = () :EditingData|undefined => {
+    const contentState = editor.getCurrentContent();
+    const selection = editor.getSelection();
+    const block = contentState.getBlockForKey(selection.getAnchorKey());
+    const entityKey = block.getEntityAt(selection.getStartOffset());
+    if (!entityKey) {return undefined}
+    const entityData = contentState.getEntity(entityKey);
+    return entityData ? entityData.getData() : undefined;
+  }
   const editorChange = (e) => {
     setEditor(e);
   };
   const btnSaveHandler = () => {
-    const newLines = getSublinesFromContent(editor)
     setMode(MODE.READONLY); 
-    onSave(newLines)
+    const newContent = convertToRaw(editor.getCurrentContent())
+    onSave(newContent)
+  };
+  const btnDeleteHandler = () => {
+    const entity = getEntity();
+    setInitialDialogState({
+      type: NosachEntity.DELETE,
+      editingComment: entity?.editingComment ? entity.editingComment : ''
+    }); 
+    setDialogOpen(true)
+  };
+  const btnAddHandler = () => {
+    const entity = getEntity();
+    setInitialDialogState({
+      type: NosachEntity.ADD,
+      editingComment: entity?.editingComment ? entity.editingComment : ''
+    }); 
+    setDialogOpen(true)
+  };
+  const btnQuoteHandler = () => {
+    const entity = getEntity();
+    setInitialDialogState({
+      type: NosachEntity.QUOTE,
+      editingComment: entity?.editingComment ? entity.editingComment : ''
+    }); 
+    setDialogOpen(true)
   };
   const btnCancelHandler = () => {
     setEditor(initial);
@@ -77,6 +159,12 @@ const MainLineEditor = (props: Props) => {
     setInitial(editor);
     setMode(MODE.EDIT);
   };
+
+  const onSaveEntity = (editingData: EditingData)=>{
+      setEntity(editingData.type, {
+        editingComment: editingData.editingComment});
+      setDialogOpen(false)
+  }
 
   return (
     <>
@@ -113,10 +201,37 @@ const MainLineEditor = (props: Props) => {
               >
                 <CheckCircle />
               </IconButton>
+              <Button
+               size="small"
+               onClick={btnDeleteHandler}
+               color="primary"
+              >
+                מחק
+              </Button>
+              <Button
+               size="small"
+               onClick={btnAddHandler}
+               color="primary"
+              >
+                הוסף
+              </Button>
+              <Button
+               size="small"
+               onClick={btnQuoteHandler}
+               color="primary"
+              >
+                ציטוט
+              </Button>
             </>
           ) : null}
           <CheckboxField name={fieldName}/>
         </div>
+        <MainLineDialog
+        initialState={initialDialogState}
+        open={dialogOpen}
+        onSaveEntity={onSaveEntity}
+        onClose={()=>{setDialogOpen(false)}}
+      />
         <TextEditor
           readOnly={mode === MODE.READONLY}
           initialState={editor}

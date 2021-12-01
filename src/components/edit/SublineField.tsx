@@ -11,16 +11,16 @@ import {
 import { routeObject } from "../../routes/AdminRoutes";
 import { useParams } from "react-router";
 import { RemoveCircle } from "@material-ui/icons";
-import CheckboxField from "../formik/CheckboxField";
+import { RawDraftContentState } from "draft-js";
 
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch, ownProps) => ({
   saveNosach: async (
     route: routeObject,
     index: number,
-    newSublines: string[]
+    newNosach: RawDraftContentState
   ) => {
-    dispatch(saveNosach(route, index, newSublines));
+    dispatch(saveNosach(route, index, newNosach));
   },
   deleteSubline: async (route: routeObject, index: number, subline: number) => {
     dispatch(deleteSubline(route, index));
@@ -42,7 +42,7 @@ interface Props {
   name: string;
   index: number;
   onRemoveSource: Function;
-  saveNosach: Function;
+  saveNosach: (route: routeObject, line: number, nosachnosach:RawDraftContentState)=>void;
   deleteSubline: Function;
 }
 const SublineField = (props: Props) => {
@@ -73,8 +73,8 @@ const SublineField = (props: Props) => {
         <MainLineEditor
           fieldName={field.name + "piska"}
           lines={[value.text]}
-          onSave={(nosach: string[]) => {
-            console.log(nosach);
+          content={value.nosach}
+          onSave={(nosach: RawDraftContentState) => {
             saveNosach(route, value.index, nosach);
           }}
         />

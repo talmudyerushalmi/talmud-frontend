@@ -1,3 +1,4 @@
+import { RawDraftContentState } from 'draft-js';
 import axiosInstance from './api';
 
 
@@ -10,9 +11,9 @@ export default class LineService {
   }
   static async saveNosach(tractate: string, chapter :string, mishna :string, line :string,
     sublineIndex: number,
-     lines:string[] ){
+    nosach: RawDraftContentState){
     const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/nosach`;
-    const data = {sublineIndex,lines}
+    const data = {sublineIndex,nosach}
     const s =  await axiosInstance.post(url, data);
     return s.data;
   }
