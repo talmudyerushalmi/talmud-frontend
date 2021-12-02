@@ -8,9 +8,9 @@ import CheckboxField from "../../formik/CheckboxField";
 import { compoundNosachDecorators } from "../../editors/EditorDecoratorNosach";
 import { InitialEntityDialogState, MainLineDialog, NosachEntity } from "./MainLineDialog";
 
-interface EditingData {
-  type: NosachEntity,
+export interface EditingData {
   editingComment: string;
+  linkTo?: string;
 }
 interface Props {
   lines: string[],
@@ -146,7 +146,8 @@ const MainLineEditor = (props: Props) => {
     const entity = getEntity();
     setInitialDialogState({
       type: NosachEntity.QUOTE,
-      editingComment: entity?.editingComment ? entity.editingComment : ''
+      editingComment: entity?.editingComment ? entity.editingComment : '',
+      linkTo: entity?.linkTo ? entity.linkTo : ''
     }); 
     setDialogOpen(true)
   };
@@ -160,8 +161,8 @@ const MainLineEditor = (props: Props) => {
     setMode(MODE.EDIT);
   };
 
-  const onSaveEntity = (editingData: EditingData)=>{
-      setEntity(editingData.type, {
+  const onSaveEntity = (type, editingData: EditingData)=>{
+      setEntity(type, {
         editingComment: editingData.editingComment});
       setDialogOpen(false)
   }

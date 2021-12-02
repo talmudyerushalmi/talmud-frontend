@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { EditingData } from './MainLineEditor';
 
 export enum NosachEntity  {
   ADD = 'ADD',
@@ -32,13 +33,14 @@ export const NosachMap = new Map([
 export interface InitialEntityDialogState{
   type: NosachEntity,
   editingComment: string;
+  linkTo?: string;
 }
 
 
 export interface Props {
   initialState: InitialEntityDialogState;
   open: boolean;
-  onSaveEntity: (e)=>void;
+  onSaveEntity: (type: NosachEntity, editingData: EditingData)=>void;
   onClose: () => void;
 }
 
@@ -53,7 +55,10 @@ const useStyles = makeStyles((theme) => ({
 export const MainLineDialog = (props: Props)=>{
   const classes = useStyles();
   const { onClose, onSaveEntity, open, initialState } = props;
-  const [editingComment, setEditingComment] = useState(initialState.editingComment)
+  const { type } = initialState;
+  const [editingData, setEditingData] = useState<EditingData>({
+    editingComment:''
+  })
 
   const handleClose = () => {
     onClose();
@@ -61,7 +66,7 @@ export const MainLineDialog = (props: Props)=>{
 
 
   useEffect(()=>{
-    setEditingComment(initialState.editingComment)
+    setEditingData({editingComment: initialState.editingComment})
   },[initialState])
 
   return (
@@ -80,15 +85,27 @@ export const MainLineDialog = (props: Props)=>{
           label="הערות עריכה"
           multiline
           maxRows={4}
-          value={editingComment}
-          onChange={(e)=>setEditingComment(e.target.value)}
+          value={editingData.editingComment}
+          onChange={(e)=>setEditingData({...editingData, editingComment:e.target.value})}
         />
+        {
+          type === NosachEntity.QUOTE ?
+          <TextField
+          id="outlined-multiline-flexible"
+          label="הפניה"
+          multiline
+          maxRows={4}
+          value={editingData.linkTo}
+          onChange={(e)=>setEditingData({...editingData, linkTo:e.target.value})}
+        /> :
+        null
+        }
       </DialogContent>
       <DialogActions>
       <Button 
       variant="contained"
       onClick={()=>{
-        onSaveEntity({editingComment, type: initialState.type})
+        onSaveEntity(initialState.type,{editingComment: editingData.editingComment})
         }}>הוסף</Button>
       <Button onClick={onClose}>בטל</Button>
       </DialogActions>
