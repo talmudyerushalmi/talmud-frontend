@@ -6,7 +6,8 @@ import { EditingData } from './MainLineEditor';
 export enum NosachEntity  {
   ADD = 'ADD',
   DELETE = 'DELETE',
-  QUOTE = 'QUOTE'
+  QUOTE = 'QUOTE',
+  CORRECTION = 'CORRECTION'
 }
 export const NosachMap = new Map([
   [
@@ -32,8 +33,7 @@ export const NosachMap = new Map([
 ]);
 export interface InitialEntityDialogState{
   type: NosachEntity,
-  editingComment: string;
-  linkTo?: string;
+  editingData: EditingData
 }
 
 
@@ -56,9 +56,7 @@ export const MainLineDialog = (props: Props)=>{
   const classes = useStyles();
   const { onClose, onSaveEntity, open, initialState } = props;
   const { type } = initialState;
-  const [editingData, setEditingData] = useState<EditingData>({
-    editingComment:''
-  })
+  const [editingData, setEditingData] = useState<EditingData>(initialState.editingData)
 
   const handleClose = () => {
     onClose();
@@ -66,7 +64,7 @@ export const MainLineDialog = (props: Props)=>{
 
 
   useEffect(()=>{
-    setEditingData({editingComment: initialState.editingComment})
+    setEditingData(initialState.editingData)
   },[initialState])
 
   return (
@@ -79,6 +77,7 @@ export const MainLineDialog = (props: Props)=>{
     onClose={handleClose} open={open}>
       <DialogTitle>{NosachMap.get(initialState.type)?.title}</DialogTitle>
       <DialogContent>
+        <div>{JSON.stringify(editingData)}</div>
         
       <TextField
           id="outlined-multiline-flexible"
@@ -88,6 +87,18 @@ export const MainLineDialog = (props: Props)=>{
           value={editingData.editingComment}
           onChange={(e)=>setEditingData({...editingData, editingComment:e.target.value})}
         />
+            {
+          type === NosachEntity.CORRECTION ?
+          <TextField
+          id="outlined-multiline-flexible"
+          label="נוסח מקורי"
+          multiline
+          maxRows={4}
+          value={editingData.oldWord}
+          onChange={(e)=>setEditingData({...editingData, oldWord:e.target.value})}
+        /> :
+        null
+        }
         {
           type === NosachEntity.QUOTE ?
           <TextField
@@ -105,7 +116,7 @@ export const MainLineDialog = (props: Props)=>{
       <Button 
       variant="contained"
       onClick={()=>{
-        onSaveEntity(initialState.type,{editingComment: editingData.editingComment})
+        onSaveEntity(initialState.type,{...editingData})
         }}>הוסף</Button>
       <Button onClick={onClose}>בטל</Button>
       </DialogActions>

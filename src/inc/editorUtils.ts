@@ -7,6 +7,7 @@ import {
   RawDraftContentState,
   SelectionState,
 } from "draft-js";
+import { NosachEntity } from "../components/edit/MainLineEditor/MainLineDialog";
 import { iLine, iMishna } from "../types/types";
 export interface editorSelection {
   startBlock?: string;
@@ -30,7 +31,32 @@ export const getSelection = (editorState: EditorState): editorSelection => {
     time: Date.now(),
   };
 };
+export function getFinalText(content: ContentState){
+  let blockText = "";
+  content.getBlocksAsArray().forEach(block => {
+    
+    let keep = true;
+    const text = block.getText();
+    for (let i=0;i<text.length;i++) {
+      keep = true;
+      const entityKey = block.getEntityAt(i);
+      if (entityKey) {
+        const entity = content.getEntity(entityKey);
+        if (entity) {
+          const type = entity.getType();
+          if ([NosachEntity.DELETE].includes(type as NosachEntity)) {
+            keep=false;
+          }
+        }
+      }
+      if (keep) {
+        blockText += text[i];
+      }
 
+    }
+  })
+  return blockText
+}
 export function getEditorFromLines(lines: string[]){
   const text =  lines.reduce((carrier, line)=> `${carrier}${line.trim()}\n`, "").trim();
   return EditorState.createWithContent(

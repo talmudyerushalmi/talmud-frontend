@@ -19,7 +19,7 @@ const Delete = (props) => {
   return (
     <span
       title={rawText}
-      style={{ textDecoration:'line-through', color: "green" }}
+      style={{ textDecoration:'line-through', color: "red" }}
     >
       {props.children}
     </span>
@@ -31,6 +31,17 @@ const Add = (props) => {
     <span
       title={rawText}
       style={{  color: "blue" }}
+    >
+      {props.children}
+    </span>
+  );
+};
+const Correction = (props) => {
+  const { rawText } = props.contentState.getEntity(props.entityKey).getData();
+  return (
+    <span
+      title={rawText}
+      style={{ color: "green" }}
     >
       {props.children}
     </span>
@@ -67,4 +78,9 @@ export const quoteDecorator =
     component: Quote,
   };
 
-export const compoundNosachDecorators = new CompositeDecorator([addDecorator, deleteDecorator, quoteDecorator]);  
+export const correctionDecorator = 
+  {
+    strategy: getFindStrategy(NosachEntity.CORRECTION),
+    component: Correction,
+  };
+export const compoundNosachDecorators = new CompositeDecorator([addDecorator, deleteDecorator, quoteDecorator, correctionDecorator]);  

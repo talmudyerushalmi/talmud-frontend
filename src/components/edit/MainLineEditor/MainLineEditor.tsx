@@ -7,10 +7,12 @@ import { CheckCircle, Close, Edit } from "@material-ui/icons";
 import CheckboxField from "../../formik/CheckboxField";
 import { compoundNosachDecorators } from "../../editors/EditorDecoratorNosach";
 import { InitialEntityDialogState, MainLineDialog, NosachEntity } from "./MainLineDialog";
+import { getFinalText } from "../../../inc/editorUtils";
 
 export interface EditingData {
-  editingComment: string;
-  linkTo?: string;
+  editingComment: string|undefined;
+  linkTo?: string|undefined;
+  oldWord?: string|undefined;
 }
 interface Props {
   lines: string[],
@@ -58,17 +60,15 @@ const MainLineEditor = (props: Props) => {
     EditorState.createEmpty()
   );
 
+  const [finalText, setFinalText] = useState("---")
+
   const [mode, setMode] = useState(MODE.READONLY);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [initialDialogState, setInitialDialogState] = useState<InitialEntityDialogState>({
     type: NosachEntity.ADD,
-    editingComment: ''
+    editingData: {editingComment: ''}
   });
 
-  function getSelectionState() {
-    let selectionState = editor.getSelection();
-    return selectionState;
-  }
   function setEntity(type: string, data = {}){
     let content = editor.getCurrentContent();
     content = addEntity(content,type, data);
@@ -76,7 +76,7 @@ const MainLineEditor = (props: Props) => {
 
     content = Modifier.applyEntity(
       content,
-       getSelectionState(),
+      editor.getSelection(),
         entityKey
        );
        let newEditorState = EditorState.createWithContent(
@@ -87,22 +87,24 @@ const MainLineEditor = (props: Props) => {
       setEditor(
         newEditorState
       );
+      setFinalText(getFinalText(content))
 
   }
   useEffect(() => {
     let newEditorState;
     if (content) {
+      const contentState = convertFromRaw(content);
       newEditorState = EditorState.createWithContent(
-        convertFromRaw(content),
+        contentState,
         compoundNosachDecorators
       );
+      setFinalText(getFinalText(contentState))
     } else {
       newEditorState = EditorState.createWithContent(
         ContentState.createFromText(""),
         compoundNosachDecorators
       );
-    }
- 
+    } 
     setEditor(
       newEditorState
     );
@@ -123,6 +125,7 @@ const MainLineEditor = (props: Props) => {
   };
   const btnSaveHandler = () => {
     setMode(MODE.READONLY); 
+    setFinalText(getFinalText(editor.getCurrentContent()))
     const newContent = convertToRaw(editor.getCurrentContent())
     onSave(newContent)
   };
@@ -130,7 +133,8 @@ const MainLineEditor = (props: Props) => {
     const entity = getEntity();
     setInitialDialogState({
       type: NosachEntity.DELETE,
-      editingComment: entity?.editingComment ? entity.editingComment : ''
+      editingData: {
+        editingComment: entity?.editingComment ? entity.editingComment : ''}
     }); 
     setDialogOpen(true)
   };
@@ -138,7 +142,8 @@ const MainLineEditor = (props: Props) => {
     const entity = getEntity();
     setInitialDialogState({
       type: NosachEntity.ADD,
-      editingComment: entity?.editingComment ? entity.editingComment : ''
+      editingData: {
+      editingComment: entity?.editingComment ? entity.editingComment : ''}
     }); 
     setDialogOpen(true)
   };
@@ -146,8 +151,22 @@ const MainLineEditor = (props: Props) => {
     const entity = getEntity();
     setInitialDialogState({
       type: NosachEntity.QUOTE,
-      editingComment: entity?.editingComment ? entity.editingComment : '',
-      linkTo: entity?.linkTo ? entity.linkTo : ''
+      editingData: {
+        editingComment: entity?.editingComment ? entity.editingComment : '',
+        linkTo: entity?.linkTo ? entity.linkTo : ''
+      }
+     
+    }); 
+    setDialogOpen(true)
+  };
+  const btnCorrectionHandler = () => {
+    const entity = getEntity();
+    setInitialDialogState({
+      type: NosachEntity.CORRECTION,
+      editingData: {
+        editingComment: entity?.editingComment ? entity.editingComment : '',
+        oldWord: entity?.oldWord ? entity.oldWord : ''
+      }
     }); 
     setDialogOpen(true)
   };
@@ -163,7 +182,10 @@ const MainLineEditor = (props: Props) => {
 
   const onSaveEntity = (type, editingData: EditingData)=>{
       setEntity(type, {
-        editingComment: editingData.editingComment});
+        editingComment: editingData.editingComment,
+        linkTo: editingData.linkTo,
+        oldWord: editingData.oldWord
+      });
       setDialogOpen(false)
   }
 
@@ -218,6 +240,13 @@ const MainLineEditor = (props: Props) => {
               </Button>
               <Button
                size="small"
+               onClick={btnCorrectionHandler}
+               color="primary"
+              >
+                תיקון
+              </Button>
+              <Button
+               size="small"
                onClick={btnQuoteHandler}
                color="primary"
               >
@@ -233,6 +262,7 @@ const MainLineEditor = (props: Props) => {
         onSaveEntity={onSaveEntity}
         onClose={()=>{setDialogOpen(false)}}
       />
+        <p>edited text: {finalText}</p>
         <TextEditor
           readOnly={mode === MODE.READONLY}
           initialState={editor}
