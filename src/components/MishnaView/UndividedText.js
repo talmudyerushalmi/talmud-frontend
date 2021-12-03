@@ -19,7 +19,7 @@ const UndividedText = props => {
   }
   return (
     <>
-      <Typography>{text}</Typography>
+      <Typography style={{textAlign: 'right'}}>{text}</Typography>
     </>
   )
 }
