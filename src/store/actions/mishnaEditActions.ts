@@ -68,7 +68,7 @@ export const getMishnaForEdit = (tractate, chapter, mishna) => {
 
 }
 
-export const saveNosach = (route: routeObject, sublineIndex:number, nosach: RawDraftContentState) => {
+export const saveNosach = (route: routeObject, sublineIndex:number, nosach: RawDraftContentState, nosachText: string[]) => {
   return async function (dispatch, getState) {
     dispatch({type: SAVE_NOSACH});
     const mishnaDoc = await LineService.saveNosach(
@@ -77,7 +77,8 @@ export const saveNosach = (route: routeObject, sublineIndex:number, nosach: RawD
       route.mishna,
       route.line,
       sublineIndex,
-      nosach
+      nosach,
+      nosachText
     );
 
     dispatch(setCurrentMishna(mishnaDoc));

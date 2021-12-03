@@ -31,10 +31,9 @@ export const getSelection = (editorState: EditorState): editorSelection => {
     time: Date.now(),
   };
 };
-export function getFinalText(content: ContentState){
-  let blockText = "";
-  content.getBlocksAsArray().forEach(block => {
-    
+export function getFinalText(content: ContentState): string[]{
+  const finalText = content.getBlocksAsArray().map(block => {
+    let blockText = "";
     let keep = true;
     const text = block.getText();
     for (let i=0;i<text.length;i++) {
@@ -54,8 +53,9 @@ export function getFinalText(content: ContentState){
       }
 
     }
+    return blockText;
   })
-  return blockText
+  return finalText
 }
 export function getEditorFromLines(lines: string[]){
   const text =  lines.reduce((carrier, line)=> `${carrier}${line.trim()}\n`, "").trim();
@@ -219,13 +219,21 @@ export function editorInEventPath(event) {
   );
 }
 
+export function getContentStateArray(contentState: ContentState): RawDraftContentState[]{
+  const blocks = contentState.getBlocksAsArray();
+  const content = blocks.map(block => {
+    const c = ContentState.createFromBlockArray([block]);
+    return convertToRaw(c)})
+  return content
+}
+
 function getLineText(line: iLine) {
   if (line.sublines) {
     const numberOfSublines = line.sublines.length;
     let text = line.sublines.reduce((carrier, subline, currentIndex) => {
       return currentIndex < numberOfSublines - 1
-        ? carrier + subline.text + ""
-        : carrier + subline.text;
+        ? carrier + subline.text + " "
+        : carrier + subline.text
     }, "");
     // remove new lines/carriage return
     text = text.replace(/^\s+|\s+|\r+$/g, " ");

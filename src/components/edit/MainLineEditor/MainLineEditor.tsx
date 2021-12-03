@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import TextEditor from "./TextEditor";
 import { Button, IconButton, makeStyles } from "@material-ui/core";
 import {  } from "../../../types/types";
-import { ContentState, convertFromRaw, convertToRaw, EditorState, Modifier, RawDraftContentState } from "draft-js";
+import { ContentState, convertFromRaw, EditorState, Modifier, RawDraftContentState } from "draft-js";
 import { CheckCircle, Close, Edit } from "@material-ui/icons";
 import CheckboxField from "../../formik/CheckboxField";
 import { compoundNosachDecorators } from "../../editors/EditorDecoratorNosach";
 import { InitialEntityDialogState, MainLineDialog, NosachEntity } from "./MainLineDialog";
-import { getFinalText } from "../../../inc/editorUtils";
+import { getContentStateArray, getFinalText } from "../../../inc/editorUtils";
 
 export interface EditingData {
   editingComment: string|undefined;
@@ -60,7 +60,7 @@ const MainLineEditor = (props: Props) => {
     EditorState.createEmpty()
   );
 
-  const [finalText, setFinalText] = useState("---")
+  const [finalText, setFinalText] = useState<string[]>([])
 
   const [mode, setMode] = useState(MODE.READONLY);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -125,9 +125,11 @@ const MainLineEditor = (props: Props) => {
   };
   const btnSaveHandler = () => {
     setMode(MODE.READONLY); 
-    setFinalText(getFinalText(editor.getCurrentContent()))
-    const newContent = convertToRaw(editor.getCurrentContent())
-    onSave(newContent)
+    const content = editor.getCurrentContent();
+    const lines = getFinalText(content)
+    const newContent = getContentStateArray(content)
+    setFinalText(lines)
+    onSave(newContent, lines)
   };
   const btnDeleteHandler = () => {
     const entity = getEntity();
@@ -262,7 +264,6 @@ const MainLineEditor = (props: Props) => {
         onSaveEntity={onSaveEntity}
         onClose={()=>{setDialogOpen(false)}}
       />
-        <p>edited text: {finalText}</p>
         <TextEditor
           readOnly={mode === MODE.READONLY}
           initialState={editor}

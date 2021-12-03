@@ -11,9 +11,11 @@ export default class LineService {
   }
   static async saveNosach(tractate: string, chapter :string, mishna :string, line :string,
     sublineIndex: number,
-    nosach: RawDraftContentState){
+    nosach: RawDraftContentState,
+    nosachText: string[]
+    ){
     const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/nosach`;
-    const data = {sublineIndex,nosach}
+    const data = {sublineIndex, nosach, nosachText}
     const s =  await axiosInstance.post(url, data);
     return s.data;
   }
