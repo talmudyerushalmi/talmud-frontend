@@ -3,7 +3,7 @@ import React from "react"
 import { clearPunctutationFromText, getTextForSynopsis, hideSourceFromText } from "../../inc/synopsisUtils"
 
 const UndividedText = props => {
-  const { lines, showPunctuation, showSources, textAlignDirection } = props
+  const { lines, showPunctuation, showSources } = props
   const sublines = lines
     ?.reduce((acc, line) => {
       acc.push(line.sublines)
@@ -19,7 +19,7 @@ const UndividedText = props => {
   }
   return (
     <>
-      <Typography style={{textAlign: textAlignDirection ?? 'right'}}>{text}</Typography>
+      <Typography style={{textAlign: 'right'}}>{text}</Typography>
     </>
   )
 }
