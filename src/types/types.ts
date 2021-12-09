@@ -64,6 +64,7 @@ export interface iSynopsis {
 
 export interface iSubline {
   text: string;
+  nosach: RawDraftContentState|null;
   index: number;
   synopsis: iSynopsis[];
   piska?: boolean;
