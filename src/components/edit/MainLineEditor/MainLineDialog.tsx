@@ -76,9 +76,7 @@ export const MainLineDialog = (props: Props)=>{
       }}}
     onClose={handleClose} open={open}>
       <DialogTitle>{NosachMap.get(initialState.type)?.title}</DialogTitle>
-      <DialogContent>
-        <div>{JSON.stringify(editingData)}</div>
-        
+      <DialogContent>        
       <TextField
           id="outlined-multiline-flexible"
           label="הערות עריכה"
