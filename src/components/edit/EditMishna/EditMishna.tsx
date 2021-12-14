@@ -30,7 +30,6 @@ const EditMishna = (props) => {
     mishnaDoc,
   } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
-  const [selection, setSelection] = useState({});
 
   useEffect(() => {
   }, []);
@@ -47,7 +46,6 @@ const EditMishna = (props) => {
     <>
         <Grid container>
           <EditMishnaForm/>
-          
         </Grid>
     </>
   );
