@@ -67,7 +67,7 @@ export const getEmptyExcerpt = (): iExcerpt => {
 
 
 
-export const excerptSelection = (subline: iSubline, excerpt: iExcerpt) => {
+export const excerptSelection = (text: string, subline: iSubline, excerpt: iExcerpt) => {
   if (
     !excerpt ||
     excerpt.selection?.fromWord === undefined ||
@@ -84,13 +84,13 @@ export const excerptSelection = (subline: iSubline, excerpt: iExcerpt) => {
   };
   if (subline.index === excerpt.selection.fromSubline) {
    // subline.text.indexOf(excerpt.selection.fromWord);
-    selection.from = getOffsetOfWordOccurence(subline.text,excerpt.selection.fromWord, excerpt.selection.fromWordOccurenceSubline)
+    selection.from = getOffsetOfWordOccurence(text,excerpt.selection.fromWord, excerpt.selection.fromWordOccurenceSubline)
     //subline.text.indexOf(excerpt.selection.fromWord.trim());
     selection.to = subline.text.length;
   }
   if (subline.index === excerpt.selection.toSubline) {
     selection.to =
-    getOffsetOfWordOccurence(subline.text,excerpt.selection.toWord, excerpt.selection.toWordOccurenceSubline) + 
+    getOffsetOfWordOccurence(text,excerpt.selection.toWord, excerpt.selection.toWordOccurenceSubline) + 
     excerpt.selection.toWord.trim().length;
   }
   if (
@@ -98,7 +98,7 @@ export const excerptSelection = (subline: iSubline, excerpt: iExcerpt) => {
     subline.index < excerpt.selection.toSubline
   ) {
     selection.from = 0;
-    selection.to = subline.text.length;
+    selection.to = text.length;
   }
   return selection;
 };
