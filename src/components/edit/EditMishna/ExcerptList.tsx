@@ -84,7 +84,7 @@ const ExcerptList = (props:Props) => {
               <ListItem
                 title={selectionInfo}
                 key={excerpt.key}
-                style={excerpt.flagBadSelection?{background:'red'}:{}}
+                style={excerpt.flagNeedUpdate?{background:'red'}:{}}
                 dense
                 button
                 onClick={() => {
