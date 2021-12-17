@@ -41,7 +41,7 @@ export interface iExcerpt {
   seeReference: boolean;
   source: iSource | null;
   sourceLocation?: string;
-  flagBadSelection?: boolean;
+  flagNeedUpdate?: boolean;
 }
 
 export interface EditedText {

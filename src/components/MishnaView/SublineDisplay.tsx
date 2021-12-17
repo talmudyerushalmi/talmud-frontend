@@ -124,7 +124,6 @@ const SublineDisplay = (props: Props) => {
   };
 
   const selectedClass = isSelected(subline) ? "selected" : "";
-  const markedSelection = excerptSelection(subline, selectedExcerpt);
 
   let textToDisplay = subline.text;
   if (!showSources) {
@@ -133,6 +132,7 @@ const SublineDisplay = (props: Props) => {
   if (!showPunctuation) {
     textToDisplay = clearPunctutationFromText(textToDisplay);
   }
+  const markedSelection = excerptSelection(textToDisplay, subline, selectedExcerpt);
 
   return (
     <>

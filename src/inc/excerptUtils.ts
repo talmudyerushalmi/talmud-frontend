@@ -1,6 +1,7 @@
 import { ContentState, convertToRaw } from "draft-js";
 import { EXCERPT_TYPE } from "../components/edit/EditMishna/ExcerptDialog";
 import { iExcerpt, iSubline } from "../types/types";
+import { getOffsetOfWordOccurence } from "./textUtils";
 
 export const MUVAA = "MUVAA";
 export const MAKBILA = "MAKBILA";
@@ -63,7 +64,10 @@ export const getEmptyExcerpt = (): iExcerpt => {
     source: null
   }
 }
-export const excerptSelection = (subline: iSubline, excerpt: iExcerpt) => {
+
+
+
+export const excerptSelection = (text: string, subline: iSubline, excerpt: iExcerpt) => {
   if (
     !excerpt ||
     excerpt.selection?.fromWord === undefined ||
@@ -79,21 +83,22 @@ export const excerptSelection = (subline: iSubline, excerpt: iExcerpt) => {
     to: 0
   };
   if (subline.index === excerpt.selection.fromSubline) {
-    subline.text.indexOf(excerpt.selection.fromWord);
-    selection.from = subline.text.indexOf(excerpt.selection.fromWord.trim());
+   // subline.text.indexOf(excerpt.selection.fromWord);
+    selection.from = getOffsetOfWordOccurence(text,excerpt.selection.fromWord, excerpt.selection.fromWordOccurenceSubline)
+    //subline.text.indexOf(excerpt.selection.fromWord.trim());
     selection.to = subline.text.length;
   }
   if (subline.index === excerpt.selection.toSubline) {
     selection.to =
-      subline.text.indexOf(excerpt.selection.toWord.trim()) +
-      excerpt.selection.toWord.trim().length;
+    getOffsetOfWordOccurence(text,excerpt.selection.toWord, excerpt.selection.toWordOccurenceSubline) + 
+    excerpt.selection.toWord.trim().length;
   }
   if (
     subline.index > excerpt.selection.fromSubline &&
     subline.index < excerpt.selection.toSubline
   ) {
     selection.from = 0;
-    selection.to = subline.text.length;
+    selection.to = text.length;
   }
   return selection;
 };
