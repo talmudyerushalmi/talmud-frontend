@@ -6,6 +6,7 @@ import MishnaService from "../../services/mishna.service";
 import PageService from "../../services/pageService";
 import { iExcerpt } from "../../types/types";
 import { setCurrentMishna } from "./navigationActions";
+import { RawDraftContentState } from "draft-js";
 
 export const REQUEST_MISHNA_FOR_EDIT = "GET_MISHNA_FOR_EDIT"
 export const REQUEST_MISHNA_FOR_EDIT_DONE = "REQUEST_MISHNA_FOR_EDIT_DONE"
@@ -67,7 +68,7 @@ export const getMishnaForEdit = (tractate, chapter, mishna) => {
 
 }
 
-export const saveNosach = (route: routeObject, sublineIndex:number, nosach: string[]) => {
+export const saveNosach = (route: routeObject, sublineIndex:number, nosach: RawDraftContentState, nosachText: string[]) => {
   return async function (dispatch, getState) {
     dispatch({type: SAVE_NOSACH});
     const mishnaDoc = await LineService.saveNosach(
@@ -76,7 +77,8 @@ export const saveNosach = (route: routeObject, sublineIndex:number, nosach: stri
       route.mishna,
       route.line,
       sublineIndex,
-      nosach
+      nosach,
+      nosachText
     );
 
     dispatch(setCurrentMishna(mishnaDoc));

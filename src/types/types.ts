@@ -41,7 +41,7 @@ export interface iExcerpt {
   seeReference: boolean;
   source: iSource | null;
   sourceLocation?: string;
-  flagBadSelection?: boolean;
+  flagNeedUpdate?: boolean;
 }
 
 export interface EditedText {
@@ -64,6 +64,7 @@ export interface iSynopsis {
 
 export interface iSubline {
   text: string;
+  nosach: RawDraftContentState|null;
   index: number;
   synopsis: iSynopsis[];
   piska?: boolean;

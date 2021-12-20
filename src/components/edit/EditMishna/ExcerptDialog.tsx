@@ -54,7 +54,8 @@ const ExcerptDialog = (props: Props) => {
   const { onAdd, dialogOpen, onClose, editedExcerpt, mishna,compositions } = props
   const selection = editedExcerpt ? editedExcerpt.selection : {}
 
-  const selectionInfo = `משורה ${selection!.fromLine}, "${selection!.fromWord}"  עד שורה ${selection!.toLine}, "${selection!.toWord}"`;
+  const selectionInfo = `משורה ${selection!.fromLine}, "${selection!.fromWord}" (${selection?.fromWordOccurence}/${selection?.fromWordTotal})
+    עד שורה ${selection!.toLine}, "${selection!.toWord}" (${selection?.toWordOccurence}/${selection?.toWordTotal})`;
   const handleClose = e => {
     console.log('handle close')
     // check if synthetic event or excerpt
