@@ -123,7 +123,7 @@ export function getExcerpt(content, size = 10) {
 const getWord = (text: string, offset: number, startSelection = true) => {
   // const endWords = /[\.\s]/
 
-  const hebrewRegex = /[0-9א-ת'"[\](){}-]/;
+  const hebrewRegex = /[0-9א-ת'[\](){}-]/;
   const arrayText = text.trim().split("");
   let word = "";
   if (startSelection) {
