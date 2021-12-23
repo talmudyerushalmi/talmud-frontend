@@ -83,14 +83,14 @@ export const excerptSelection = (text: string, subline: iSubline, excerpt: iExce
     to: 0
   };
   if (subline.index === excerpt.selection.fromSubline) {
-   // subline.text.indexOf(excerpt.selection.fromWord);
-    selection.from = getOffsetOfWordOccurence(text,excerpt.selection.fromWord, excerpt.selection.fromWordOccurenceSubline)
+    selection.from = excerpt.selection.fromWord === "" ? 0 
+    :getOffsetOfWordOccurence(text,excerpt.selection.fromWord, excerpt.selection.fromWordOccurenceSubline)
     //subline.text.indexOf(excerpt.selection.fromWord.trim());
     selection.to = subline.text.length;
   }
   if (subline.index === excerpt.selection.toSubline) {
-    selection.to =
-    getOffsetOfWordOccurence(text,excerpt.selection.toWord, excerpt.selection.toWordOccurenceSubline) + 
+    selection.to = excerpt.selection.toWord === "" ? subline.text.length 
+    : getOffsetOfWordOccurence(text,excerpt.selection.toWord, excerpt.selection.toWordOccurenceSubline) + 
     excerpt.selection.toWord.trim().length;
   }
   if (
