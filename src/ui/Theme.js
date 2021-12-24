@@ -110,7 +110,6 @@ const theme = createMuiTheme({
   panels: {
     standard:{
       padding: '1rem',
-      maxWidth: '30rem'
     },
 
   },

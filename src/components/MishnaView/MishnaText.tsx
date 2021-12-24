@@ -6,12 +6,16 @@ const useStyles = makeStyles((theme) => ({
     root: {
       //@ts-ignore
      ...theme.panels.standard,
-     marginBottom: '1rem'
+     marginBottom: '1rem',
+     fontWeight: 'bold',
+     fontSize: '0.8rem',
+     color: '#795548',
+     textAlign: 'left',
+     marginLeft: '2rem'
     },
     smallTitle: {
-      //@ts-ignore
-        ...theme.typography.smallTitle
-    }
+        color:'black',
+          }
 
   }));
 
@@ -27,8 +31,6 @@ const MishnaText = props => {
     className={classes.root}>
         <Typography
         className={classes.smallTitle}
-        paragraph={true}
-        align='center'
         variant="h6"
         >{mishnaTitle}</Typography>
       <div dangerouslySetInnerHTML={{ __html: html }}></div>
