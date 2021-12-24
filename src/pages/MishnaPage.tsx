@@ -37,12 +37,12 @@ const MishnaPage = (props: Props) => {
       <Grid item>
         <MishnaViewOptions />
       </Grid>
+      <Grid item md={8}>
       <Grid container justify="center" item sm={12}>
-        <Grid item>
+        <Grid item md={12}>
           <MishnaText mishna={mishna} html={getHTMLFromRawContent(currentMishna?.richTextMishna)}  />
         </Grid>
       </Grid>
-      <Grid item md={8}>
         <MainText
           lines={currentMishna?.lines}
         />

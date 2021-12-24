@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import {
   Button,
   LinearProgress,
@@ -7,12 +7,13 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import RichTextEditorField from "../../editors/RichTextEditorField";
-import { ContentState, convertFromRaw, convertToRaw, EditorState } from "draft-js";
+import { convertToRaw } from "draft-js";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import { saveMishna } from "../../../store/actions/mishnaEditActions";
 import { useParams } from "react-router";
 import { routeObject } from "../../../routes/AdminRoutes";
+import { getContentOrEmpty } from "../../../inc/editorUtils";
 
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -56,20 +57,18 @@ const FormikWrapper = (props) => {
       enableReinitialize={true}
       initialValues={{
 
-        richTextMishna: 
-        currentMishna?.richTextMishna ? 
-          EditorState.createWithContent(
-             convertFromRaw(currentMishna.richTextMishna)
-            ): 
-            EditorState.createWithContent(
-              ContentState.createFromText("")
-            )
+        richTextMishna: getContentOrEmpty(currentMishna?.richTextMishna),
+        richTextTosefta: getContentOrEmpty(currentMishna?.richTextTosefta),
+        richTextBavli: getContentOrEmpty(currentMishna?.richTextBavli)
+        
       }}
       validationSchema={excerptSchema}
       onSubmit={(values, props) => {
         const save = {
           ...values,
-          richTextMishna: convertToRaw(values.richTextMishna.getCurrentContent())
+          richTextMishna: convertToRaw(values.richTextMishna.getCurrentContent()),
+          richTextTosefta: convertToRaw(values.richTextTosefta.getCurrentContent()),
+          richTextBavli: convertToRaw(values.richTextBavli.getCurrentContent())
         };
         saveMishna(route, save);
 
@@ -80,6 +79,8 @@ const FormikWrapper = (props) => {
         return (
           <Form style={{ direction: "rtl", width: "100%" }}>
             <RichTextEditorField name="richTextMishna" label="משנה" />
+            <RichTextEditorField name="richTextTosefta" label="תוספתא" />
+            <RichTextEditorField name="richTextBavli" label="בבלי" />
             {isSubmitting && <LinearProgress />}
             <br />
             <Button
