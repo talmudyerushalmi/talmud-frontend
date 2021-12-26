@@ -19,7 +19,7 @@ const LanguageSelector = () => {
       disableUnderline
       inputProps={{ "aria-label": "Without label" }}
     >
-      <MenuItem value={"en"}>EN</MenuItem>
+      <MenuItem value={"en-US"}>EN</MenuItem>
       <MenuItem value={"he"}>HE</MenuItem>
     </Select>
   );
