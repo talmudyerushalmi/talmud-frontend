@@ -29,6 +29,14 @@ const useStyles = makeStyles({
   cell: {
     padding: 0,
   },
+  parellel: {
+    color: 'red'
+  },
+  excerpt: {
+    color: 'purple'
+  },
+  default:{
+  }
 })
 
 interface Props {
@@ -65,6 +73,17 @@ export default function SynopsisTable(props: Props) {
           {synopsis
             .map((synopsisRow,i) => {
               const rawText = getSynopsisRaw(synopsisRow);
+              const compositionType = synopsisRow.composition?.composition.type;
+              let className = classes.default;
+              switch(compositionType) {
+                case 'parallel': className = classes.parellel;
+                break;
+                case 'excerpt': className = classes.excerpt;
+                break;
+                case 'yalkut': className = classes.excerpt;
+                break;
+                case undefined: className = classes.default;
+              }
               return (
                 rawText ?
               <TableRow key={i}>
@@ -76,7 +95,7 @@ export default function SynopsisTable(props: Props) {
                   {sourceName(synopsisRow)}
                 </TableCell>
                 </Tooltip>  
-                <TableCell align="left">{rawText}</TableCell>
+                <TableCell className={className} align="left">{rawText}</TableCell>
               </TableRow> : null
             )}
             )}
