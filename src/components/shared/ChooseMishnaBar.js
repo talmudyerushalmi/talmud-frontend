@@ -15,6 +15,7 @@ import { editorInEventPath } from "../../inc/editorUtils"
 import { getNextLine, getPreviousLine, hebrewMap } from "../../inc/utils"
 import { useParams } from "react-router"
 import { ArrowBack, ArrowForward } from "@material-ui/icons"
+import { useTranslation } from "react-i18next"
 
 const mapStateToProps = state => ({
   tractates: state.general.tractates,
@@ -59,6 +60,7 @@ const useStyles = makeStyles({
 })
 
 const ChooseMishnaBar = props => {
+  const { t } = useTranslation();
   const { tractate, chapter, mishna, line } = useParams();
   const classes = useStyles()
   const {
@@ -265,7 +267,7 @@ const ChooseMishnaBar = props => {
               <TextField
                 style={{ direction: "rtl" }}
                 {...params}
-                label="מסכת"
+                label={t("Tractate")}
                 variant="outlined"
               />
             )}
@@ -288,7 +290,7 @@ const ChooseMishnaBar = props => {
               <TextField
                 style={{ direction: "rtl" }}
                 {...params}
-                label="פרק"
+                label={t("Chapter")}
                 variant="outlined"
               />
             )}
@@ -313,7 +315,7 @@ const ChooseMishnaBar = props => {
               <TextField
                 style={{ direction: "rtl" }}
                 {...params}
-                label="משנה"
+                label={t("Mishna")}
                 variant="outlined"
               />
             )}
@@ -332,7 +334,7 @@ const ChooseMishnaBar = props => {
               onClick={handleNavigate}
               disabled={selectButtonDisabled()}
             >
-              נווט
+            {t("Go")}
             </Button>
           </div>
         </Grid>

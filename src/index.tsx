@@ -7,6 +7,7 @@ import store from './store';
 import { Provider } from 'react-redux';
 import Amplify  from 'aws-amplify';
 import awsconfig from './aws-exports';
+import './i18n/i18n'
 
 Amplify.configure(awsconfig)
 ReactDOM.render(

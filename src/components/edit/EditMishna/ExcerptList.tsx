@@ -11,6 +11,7 @@ import { Paper, Typography } from "@material-ui/core"
 import { getExcerptTitle } from "../../../inc/excerptUtils"
 import { iExcerpt } from "../../../types/types"
 import { EXCERPT_TYPE } from "./ExcerptDialog"
+import { useTranslation } from "react-i18next"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,6 +36,7 @@ interface Props {
 }
 const ExcerptList = (props:Props) => {
   const classes = useStyles()
+  const { t } = useTranslation();
   const {
     excerpts,
     filter,
@@ -50,19 +52,19 @@ const ExcerptList = (props:Props) => {
   let listname = ""
   switch (filter) {
     case EXCERPT_TYPE.MUVAA:
-      listname = "רשימת מובאות"
+      listname = t("Citations")
       break;
     case EXCERPT_TYPE.MAKBILA:
-      listname = "רשימת מקבילות"
+      listname = t("Talmudic Parallels")
       break;
     case EXCERPT_TYPE.NOSACH:
-      listname = "הערות נוסח"
+      listname = t("Editing Comments")
       break;
     case EXCERPT_TYPE.BIBLIO:
-      listname = "הערות ביבליוגרפיה"
+      listname = t("Bibliographic Notes")
       break;
     case EXCERPT_TYPE.EXPLANATORY:
-      listname = "הערות פרשניות"
+      listname = t("Explanatory Notes")
       break;
     default: 
   }

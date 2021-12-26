@@ -1,6 +1,4 @@
 import React from "react"
-import { withStyles } from "@material-ui/core/styles"
-import { green } from "@material-ui/core/colors"
 import FormGroup from "@material-ui/core/FormGroup"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Checkbox from "@material-ui/core/Checkbox"
@@ -10,6 +8,7 @@ import {
   toggleDivideToLines,
   toggleShowSources,
 } from "../../store/actions/mishnaViewActions"
+import { useTranslation } from "react-i18next"
 
 const mapStateToProps = state => ({
   divideToLines: state.mishnaView.divideToLines,
@@ -38,6 +37,7 @@ const MishnaViewOptions = props => {
     showSources,
     toggleShowSources,
   } = props
+  const { t } = useTranslation();
 
   return (
     <FormGroup row>
@@ -50,7 +50,7 @@ const MishnaViewOptions = props => {
             color="primary"
           />
         }
-        label="Division to Lines"
+        label= {t("Division to Lines")}
       />
       <FormControlLabel
         control={
@@ -61,7 +61,7 @@ const MishnaViewOptions = props => {
             color="primary"
           />
         }
-        label="Punctuation"
+        label={t("Punctuation")}
       />
       <FormControlLabel
         control={
@@ -72,7 +72,7 @@ const MishnaViewOptions = props => {
             color="primary"
           />
         }
-        label="References"
+        label={t("References")}
       />
     </FormGroup>
   )

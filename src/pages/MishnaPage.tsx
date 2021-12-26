@@ -34,7 +34,7 @@ const MishnaPage = (props: Props) => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item>
+      <Grid item container>
         <MishnaViewOptions />
       </Grid>
       <Grid item md={8}>

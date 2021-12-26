@@ -6,6 +6,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExcerptView from "./ExcerptView";
 import { excerptsMap } from "../../inc/excerptUtils";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,9 +36,10 @@ export default function ExcerptsView(props) {
   const classes = useStyles();
   const { excerpts, expanded, type } = props;
   const [excerptBox, setExcerptBox] = useState(false);
+  const { t } = useTranslation();
   const rootClass = excerptBox ? classes.rootExpanded : classes.root;
 
-  const title = excerptsMap.get(type)?.title;
+  const title = excerptsMap.get(type)?.title || "";
   const filteredList = excerpts?.filter((excerpt) => excerpt.type === type);
 
   if (!excerpts || filteredList.length === 0) {
@@ -55,7 +57,7 @@ export default function ExcerptsView(props) {
     >
       <AccordionSummary>
         <Typography>
-          {title} - {filteredList.length}
+          {t(title)} - {filteredList.length}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
