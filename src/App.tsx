@@ -1,16 +1,26 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-
+import { Route, Switch, useLocation } from 'react-router-dom';
+import background from './assets/leiden.jpeg';
 import './App.css';
 import { Header } from './layout/Header';
-import { ThemeProvider } from '@material-ui/styles';
+import { makeStyles, ThemeProvider } from '@material-ui/styles';
 import theme from './ui/Theme';
 import { RTL } from './ui/RTL';
 import AdminRoutes  from './routes/AdminRoutes';
 import { getUserAuth } from './store/actions/authActions';
 import { connect } from 'react-redux';
 import ViewMishnaPage from './pages/ViewMishnaPage';
+import HomePage from './pages/HomePage';
+import { Footer } from './layout/Footer';
 
+const useStyles = makeStyles({
+  default: {},
+  homepage: {
+    backgroundImage: `url(${background})`,
+    backgroundPosition: 'center -61rem',
+    height: '100vh'
+  }
+});
 const mapDispatchToProps = (dispatch:any) => ({
   getUserAuth: () => {
     dispatch(getUserAuth())
@@ -19,25 +29,30 @@ const mapDispatchToProps = (dispatch:any) => ({
 
 function App(props:any) {
   const { getUserAuth } = props;
-
+  const classes = useStyles();
+  const location = useLocation();
   useEffect(()=>{
     getUserAuth();
   });
+  let coverClass = classes.default;
+  if (location.pathname === '/') {
+     coverClass = classes.homepage;
+  }
 
   return (
     <RTL>
     <ThemeProvider theme={theme}>
-    <div className="App" style={{direction:'rtl'}}>
-      <BrowserRouter>
+    <div className={coverClass} style={{direction:'rtl'}}>
       <Header/>
         <Switch>
-        <Route path="/" exact  render={() => <Redirect to="/talmud/yevamot/001/001" />}/>
+        <Route path="/" exact  component={HomePage}/>
         <Route path="/talmud/:tractate/:chapter/:mishna" exact component={ViewMishnaPage}/>
         <AdminRoutes/>        
         </Switch>
-       </BrowserRouter>
+        <Footer/>
     </div>
     </ThemeProvider>
+
     </RTL>
   );
 }

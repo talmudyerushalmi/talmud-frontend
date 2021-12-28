@@ -10,6 +10,7 @@ import AdminMenu from "./AdminMenu";
 import { connect } from "react-redux";
 import LanguageSelector from "./LanguageSelector";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: any) => ({
   username: state.authentication.username,
@@ -46,12 +47,13 @@ const MainMenu = (props: any) => {
             <MenuIcon />
           </IconButton>
           <div style={{ fontSize: "1rem" }}>
-            
-            <span>{t("Jerusalem Talmud")} - </span>
-            <strong>{t("Beta Version")}</strong>
+            <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+              <span>{t("Jerusalem Talmud")} - </span>
+              <strong>{t("Beta Version")}</strong>
+            </Link>
           </div>
           <Typography variant="h6" className={classes.title}></Typography>
-          <LanguageSelector/>
+          <LanguageSelector />
           {username ? (
             <>
               <AdminMenu />
