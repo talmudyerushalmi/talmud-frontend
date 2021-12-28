@@ -13,7 +13,8 @@ const useStyles = makeStyles({
   content: {
     marginTop: "1rem",
     maxHeight: "calc(100% - 7rem)",
-    overflow: "auto"
+    overflow: "auto",
+    '& p': {margin:0}
   },
   openCard: {
     position: "absolute",

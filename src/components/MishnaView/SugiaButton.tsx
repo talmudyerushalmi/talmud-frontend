@@ -16,6 +16,8 @@ const useStyles = makeStyles((theme) => ({
     font: "inherit",
     cursor: "pointer",
     outline: "inherit",
+    display: 'block',
+    margin: '0 auto'
   },
   wrap: {
     marginTop: "0.6rem",
