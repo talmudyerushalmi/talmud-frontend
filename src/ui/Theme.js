@@ -3,7 +3,7 @@ import createBreakpoints from "@material-ui/core/styles/createBreakpoints"
 import blue from '@material-ui/core/colors/blue';
 
 export const themeConstants = {
-  fixedTopPadding: '4.5rem',
+  fixedTopPadding: '8.5rem',
   blue: blue[400],
   typography: {
     h1: {

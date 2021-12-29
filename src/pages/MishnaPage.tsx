@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import MainText from "../components/MishnaView/MainText";
 import MishnaText from "../components/MishnaView/MishnaText";
 import { connect } from "react-redux";
@@ -25,16 +25,29 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
+const useStyles = makeStyles({
+  root: {
+    position: 'sticky',
+    top: '4rem',
+    zIndex: 100,
+    background: 'white',
+    boxShadow: '0rem 0rem 2rem 2px #0000009e',
+    padding: '0px 0.5rem',
+  },
+
+})
+
 interface Props {
   currentMishna: iMishna
 }
 const MishnaPage = (props: Props) => {
+  const classes = useStyles();
   const { currentMishna } = props;
   const { mishna } = useParams<routeObject>();
 
   return (
-    <Grid container spacing={2}>
-      <Grid item container>
+    <Grid container spacing={2} >
+      <Grid item container className={classes.root} >
         <MishnaViewOptions />
       </Grid>
       <Grid item md={8}>
