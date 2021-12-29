@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   homepage: {
     backgroundImage: `url(${background})`,
     backgroundPosition: 'center -31rem',
-    height: '100vh'
+    minHeight: '100vh'
   }
 });
 const mapDispatchToProps = (dispatch:any) => ({
