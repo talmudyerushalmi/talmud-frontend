@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => {
       color: "white",
       width: "100%",
       right: 0,
-      paddingTop:'0.3rem'
+      paddingTop:'0.3rem',
+      textAlign: 'center'
      // padding: "1rem",
     },
   };

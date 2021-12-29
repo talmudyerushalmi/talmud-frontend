@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     top: '4rem',
     zIndex: 100,
     background: 'white',
-    boxShadow: '0rem 0rem 2rem 2px #0000009e',
+    boxShadow: '0rem 0rem 1rem 2px #0000009e',
     padding: '0px 0.5rem',
   },
 
