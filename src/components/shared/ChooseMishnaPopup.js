@@ -1,13 +1,6 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  makeStyles,
-  TextField,
-} from "@material-ui/core"
-import { Autocomplete } from "@material-ui/lab"
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import { Autocomplete } from '@mui/material';
 import React, { useState } from "react"
 
 const useStyles = makeStyles({

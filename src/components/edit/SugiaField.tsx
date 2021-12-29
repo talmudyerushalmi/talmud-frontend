@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useField } from "formik";
-import { Box, Checkbox, FormControlLabel, TextField } from "@material-ui/core";
+import { Box, Checkbox, FormControlLabel, TextField } from "@mui/material";
 
 interface Props {
   name: string;

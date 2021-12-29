@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import TextEditor from "./TextEditor";
-import { Button, IconButton, makeStyles } from "@material-ui/core";
+import { Button, IconButton } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import {  } from "../../../types/types";
 import { ContentState, convertFromRaw, EditorState, Modifier, RawDraftContentState } from "draft-js";
-import { CheckCircle, Close, Edit } from "@material-ui/icons";
+import { CheckCircle, Close, Edit } from "@mui/icons-material";
 import CheckboxField from "../../formik/CheckboxField";
 import { compoundNosachDecorators } from "../../editors/EditorDecoratorNosach";
 import { InitialEntityDialogState, MainLineDialog, NosachEntity } from "./MainLineDialog";

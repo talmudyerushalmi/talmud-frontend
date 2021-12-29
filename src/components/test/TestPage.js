@@ -3,7 +3,7 @@ import React from "react"
 import Layout from "../layout"
 import SEO from "../seo"
 import { connect } from "react-redux"
-import { Box, Container, Grid, Typography } from "@material-ui/core"
+import { Box, Container, Grid, Typography } from "@mui/material"
 
 const mapStateToProps = state => ({
   

@@ -1,11 +1,11 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import MainLine from "./MainLine";
 import { iLine } from "../../types/types";
 import SugiaButton from "./SugiaButton";
 import { useHistory, useParams } from "react-router-dom";
-import { IconButton } from "@material-ui/core";
-import { Edit } from "@material-ui/icons";
+import { IconButton } from "@mui/material";
+import { Edit } from "@mui/icons-material";
 import { routeObject } from "../../routes/AdminRoutes";
 import { connect } from "react-redux";
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +62,7 @@ const MainLines = (props: Props) => {
                   //@ts-ignore
                   window!.open(url, '_blank').focus();
                 }}
-              >
+                size="large">
                 <Edit></Edit>
               </IconButton>
             ) : null}

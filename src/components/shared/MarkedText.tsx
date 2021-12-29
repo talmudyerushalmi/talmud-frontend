@@ -1,5 +1,5 @@
 import React from "react"
-import { Typography } from "@material-ui/core"
+import { Typography } from "@mui/material"
 const MarkedText = (props) => {
     const { text, className, from, to } = props
 

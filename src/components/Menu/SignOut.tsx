@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "@mui/material";
 import { connect } from "react-redux";
 import { setUserAuth, signOut } from "../../store/actions/authActions";
 import { Hub } from "aws-amplify";

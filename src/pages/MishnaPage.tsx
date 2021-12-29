@@ -1,5 +1,6 @@
 import React from "react";
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import MainText from "../components/MishnaView/MainText";
 import MishnaText from "../components/MishnaView/MishnaText";
 import { connect } from "react-redux";
@@ -51,7 +52,7 @@ const MishnaPage = (props: Props) => {
         <MishnaViewOptions />
       </Grid>
       <Grid item md={8}>
-      <Grid container justify="center" item sm={12}>
+      <Grid container justifyContent="center" item sm={12}>
         <Grid item md={12}>
           <MishnaText mishna={mishna} html={getHTMLFromRawContent(currentMishna?.richTextMishna)}  />
         </Grid>

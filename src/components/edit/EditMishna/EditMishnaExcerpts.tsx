@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import TextEditorMishna from "./TextEditorMishna2";
 import ExcerptList from "./ExcerptList";
 import ExcerptDialog, { EXCERPT_TYPE } from "./ExcerptDialog";

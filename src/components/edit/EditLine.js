@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import EditLineForm from './editlineForm';
-import { Container } from '@material-ui/core';
+import { Container } from '@mui/material';
 import PageService from '../../services/pageService';
 import { requestCompositions, requestTractates } from "../../store/actions"
 

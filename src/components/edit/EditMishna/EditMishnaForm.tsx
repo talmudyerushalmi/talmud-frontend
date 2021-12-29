@@ -1,11 +1,7 @@
 import * as React from "react";
 import { Formik, Form } from "formik";
-import {
-  Button,
-  LinearProgress,
-  TextField as TextFieldOriginal,
-  makeStyles,
-} from "@material-ui/core";
+import { Button, LinearProgress, TextField as TextFieldOriginal } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import RichTextEditorField from "../../editors/RichTextEditorField";
 import { convertToRaw } from "draft-js";
 import * as Yup from "yup";
