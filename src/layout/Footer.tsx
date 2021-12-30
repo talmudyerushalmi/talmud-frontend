@@ -4,20 +4,17 @@ import { makeStyles } from "@mui/styles";
 import cc from '../assets/cc.png';
 
 const useStyles = makeStyles((theme) => {
-  console.log("theme ", theme);
   return {
     root: {
       position: "fixed",
       height: '1.7rem',
       bottom: 0,
-      //@ts-ignore
-      background: theme.palette.mainMenu,
+      background: theme.palette.primary.main,
       color: "white",
       width: "100%",
       right: 0,
       paddingTop:'0.3rem',
       textAlign: 'center'
-     // padding: "1rem",
     },
   };
 });

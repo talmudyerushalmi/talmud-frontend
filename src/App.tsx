@@ -3,7 +3,8 @@ import { Route, Switch, useLocation } from 'react-router-dom';
 import background from './assets/leiden.jpg';
 import './App.css';
 import { Header } from './layout/Header';
-import { makeStyles, ThemeProvider } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
+import { ThemeProvider } from "@mui/material/styles";
 import { RTL } from './ui/RTL';
 import AdminRoutes  from './routes/AdminRoutes';
 import { getUserAuth } from './store/actions/authActions';
@@ -60,7 +61,6 @@ function App(props:any) {
       </div>
       </ThemeProvider>
     </StyledEngineProvider>
-
     </RTL>
   );
 }

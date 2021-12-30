@@ -26,8 +26,7 @@ const theme = createTheme({
   direction: "rtl",
 
   palette: {
-    mainMenu: '#3f51b5',
-    primary: {main:blue[900]},
+    primary: { main:'#3f51b5' },
   },
   typography: {
     h1: {
