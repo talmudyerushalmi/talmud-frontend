@@ -6,13 +6,12 @@ import {
   FormControlLabel,
   Radio,
   TextField as TextFieldOriginal,
-  makeStyles,
-} from "@material-ui/core";
-import { TextField, CheckboxWithLabel, RadioGroup } from "formik-material-ui";
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import { TextField, CheckboxWithLabel, RadioGroup, Autocomplete } from "formik-material-ui";
 import RichTextEditorField from "../../editors/RichTextEditorField";
 import { convertFromRaw, EditorState } from "draft-js";
 import { getContentRaw } from "../../../inc/editorUtils";
-import { Autocomplete } from "formik-material-ui-lab";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import {

@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  withStyles,
-  WithStyles,
-} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
-import EditIcon from "@material-ui/icons/Edit";
+import { Theme } from "@mui/material/styles";
+import { WithStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import MuiDialogTitle from "@mui/material/DialogTitle";
+import MuiDialogContent from "@mui/material/DialogContent";
+import MuiDialogActions from "@mui/material/DialogActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Typography from "@mui/material/Typography";
+import EditIcon from "@mui/icons-material/Edit";
 import { iLine } from "../../types/types";
 import TextEditorLine from "../edit/EditMishna/TextEditorLine";
 
@@ -36,17 +34,17 @@ const styles = (theme: Theme) =>
     },
   });
 
-  const useStyles = 
-  makeStyles({
-    root: {
-      margin: 0
-    },
-    paperWidthSm: {
-      maxWidth: "100%",
-    },
+const useStyles = 
+makeStyles({
+  root: {
+    margin: 0
+  },
+  paperWidthSm: {
+    maxWidth: "100%",
+  },
 
-  });
-  
+});
+
 export interface DialogTitleProps extends WithStyles<typeof styles> {
   id: string;
   children: React.ReactNode;
@@ -56,14 +54,14 @@ export interface DialogTitleProps extends WithStyles<typeof styles> {
 const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   const { children, classes, onClose, ...other } = props;
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+    <MuiDialogTitle className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
       {onClose ? (
         <IconButton
           aria-label="close"
           className={classes.closeButton}
           onClick={onClose}
-        >
+          size="large">
           <CloseIcon />
         </IconButton>
       ) : null}
@@ -112,7 +110,7 @@ const NosachDialog = (props: Props) => {
 
   return (
     <div>
-      <IconButton aria-label="edit" onClick={handleClickOpen}>
+      <IconButton aria-label="edit" onClick={handleClickOpen} size="large">
         <EditIcon />
       </IconButton>
       <Dialog

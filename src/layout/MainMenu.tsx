@@ -36,7 +36,10 @@ const MainMenu = (props: any) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" dir="rtl">
+      <AppBar position="fixed" dir="rtl" sx={
+        {
+          //backgroundColor:'#3f51b5',
+        '& .MuiButton-root': {color:'white'}}}>
         <Toolbar>
           <IconButton
             edge="start"

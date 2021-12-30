@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import Typography from "@material-ui/core/Typography";
+import makeStyles from '@mui/styles/makeStyles';
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
 import ExcerptView from "./ExcerptView";
 import { excerptsMap } from "../../inc/excerptUtils";
 import { useTranslation } from "react-i18next";
@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgba(0, 0, 0, .03)",
     overflow: "hidden",
     flexGrow: 1,
-    "& >  .MuiCollapse-container": {
+    "& >  .MuiCollapse-root": {
       height: "100% !important",
       overflow: "scroll",
     },
-    "& > .MuiCollapse-container > .MuiCollapse-wrapper > .MuiCollapse-wrapperInner > div > .MuiAccordionDetails-root":
+    "& > .MuiCollapse-root > .MuiCollapse-wrapper > .MuiCollapse-wrapperInner > div > .MuiAccordionDetails-root":
       {
         marginBottom: "5rem",
       },

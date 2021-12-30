@@ -1,13 +1,13 @@
 import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
-import ListItemText from "@material-ui/core/ListItemText"
-import IconButton from "@material-ui/core/IconButton"
-import ShortTextIcon from "@material-ui/icons/ShortText"
-import DeleteIcon from "@material-ui/icons/Delete"
-import { Paper, Typography } from "@material-ui/core"
+import makeStyles from '@mui/styles/makeStyles';
+import List from "@mui/material/List"
+import ListItem from "@mui/material/ListItem"
+import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction"
+import ListItemText from "@mui/material/ListItemText"
+import IconButton from "@mui/material/IconButton"
+import ShortTextIcon from "@mui/icons-material/ShortText"
+import DeleteIcon from "@mui/icons-material/Delete"
+import { Paper, Typography } from "@mui/material"
 import { getExcerptTitle } from "../../../inc/excerptUtils"
 import { iExcerpt } from "../../../types/types"
 import { EXCERPT_TYPE } from "./ExcerptDialog"
@@ -71,64 +71,62 @@ const ExcerptList = (props:Props) => {
 
   const filteredExcerpts = excerpts.filter(f=>f.type===filter);
   if (filteredExcerpts.length===0) { return null;}
-  return (
-    <>
-      <Typography variant="h3">{listname}</Typography>
-      <Paper style={{ maxHeight: 400, overflow: "auto" }}>
-        <List className={classes.root}>
-          {filteredExcerpts.map(excerpt => {
-            const labelId = `checkbox-list-label-${excerpt.key}`
-            const selectionInfo = admin && excerpt.selection ? `משורה ${excerpt.selection.fromLine}, "${excerpt.selection.fromWord}"  עד שורה ${excerpt.selection.toLine}, "${excerpt.selection.toWord}"` 
-            : "";
-       
+  return <>
+    <Typography variant="h3">{listname}</Typography>
+    <Paper style={{ maxHeight: 400, overflow: "auto" }}>
+      <List className={classes.root}>
+        {filteredExcerpts.map(excerpt => {
+          const labelId = `checkbox-list-label-${excerpt.key}`
+          const selectionInfo = admin && excerpt.selection ? `משורה ${excerpt.selection.fromLine}, "${excerpt.selection.fromWord}"  עד שורה ${excerpt.selection.toLine}, "${excerpt.selection.toWord}"` 
+          : "";
+     
 
-            return (
-              <ListItem
-                title={selectionInfo}
-                key={excerpt.key}
-                style={excerpt.flagNeedUpdate?{background:'red'}:{}}
-                dense
-                button
-                onClick={() => {
-                  onClick(excerpt)
-                }}
-              >
-                <ListItemText
-                  id={labelId}
-                  primary={getExcerptTitle(excerpt)}
-                  classes={{ root: classes.textItemRoot }}
-                />
-                {admin ? (
-                  <ListItemSecondaryAction>
-                    <IconButton
-                      edge="end"
-                      aria-label="reselect"
-                      title="הגדר טווח סימון מחדש"
-                      onClick={() => {
-                        onUpdateSelectionForExcerpt(excerpt)
-                      }}
-                    >
-                      <ShortTextIcon />
-                    </IconButton>
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      title="מחק"
-                      onClick={() => {
-                        onDelete(excerpt.key)
-                      }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                ) : null}
-              </ListItem>
-            )
-          })}
-        </List>
-      </Paper>
-    </>
-  )
+          return (
+            <ListItem
+              title={selectionInfo}
+              key={excerpt.key}
+              style={excerpt.flagNeedUpdate?{background:'red'}:{}}
+              dense
+              button
+              onClick={() => {
+                onClick(excerpt)
+              }}
+            >
+              <ListItemText
+                id={labelId}
+                primary={getExcerptTitle(excerpt)}
+                classes={{ root: classes.textItemRoot }}
+              />
+              {admin ? (
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    aria-label="reselect"
+                    title="הגדר טווח סימון מחדש"
+                    onClick={() => {
+                      onUpdateSelectionForExcerpt(excerpt)
+                    }}
+                    size="large">
+                    <ShortTextIcon />
+                  </IconButton>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    title="מחק"
+                    onClick={() => {
+                      onDelete(excerpt.key)
+                    }}
+                    size="large">
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              ) : null}
+            </ListItem>
+          );
+        })}
+      </List>
+    </Paper>
+  </>;
 }
 
 export default ExcerptList

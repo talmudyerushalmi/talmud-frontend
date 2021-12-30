@@ -1,7 +1,7 @@
 import React from "react"
-import FormGroup from "@material-ui/core/FormGroup"
-import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Checkbox from "@material-ui/core/Checkbox"
+import FormGroup from "@mui/material/FormGroup"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Checkbox from "@mui/material/Checkbox"
 import { connect } from "react-redux"
 import { toggleShowPunctuation } from "../../store/actions"
 import {
@@ -50,7 +50,7 @@ const MishnaViewOptions = props => {
             color="primary"
           />
         }
-        label= {t("Division to Lines")}
+        label= {t("Division to Lines") as string}
       />
       <FormControlLabel
         control={
@@ -61,7 +61,7 @@ const MishnaViewOptions = props => {
             color="primary"
           />
         }
-        label={t("Punctuation")}
+        label={t("Punctuation") as string}
       />
       <FormControlLabel
         control={
@@ -72,7 +72,7 @@ const MishnaViewOptions = props => {
             color="primary"
           />
         }
-        label={t("References")}
+        label={t("References") as string}
       />
     </FormGroup>
   )
