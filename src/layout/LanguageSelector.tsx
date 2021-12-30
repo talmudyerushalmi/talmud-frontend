@@ -16,7 +16,6 @@ const LanguageSelector = () => {
     <Select
       value={language}
       onChange={handleChange}
-      disableUnderline
       inputProps={{ "aria-label": "Without label" }}
     >
       <MenuItem value={"en-US"}>EN</MenuItem>
