@@ -1,6 +1,6 @@
-import { createMuiTheme } from "@material-ui/core/styles"
-import createBreakpoints from "@material-ui/core/styles/createBreakpoints"
-import blue from '@material-ui/core/colors/blue';
+import { createTheme } from "@mui/material/styles"
+import { blue } from "@mui/material/colors"
+import { createBreakpoints } from "@mui/system"
 
 export const themeConstants = {
   fixedTopPadding: '8.5rem',
@@ -20,20 +20,20 @@ export const themeConstants = {
 
 }
 
-const breakpoints = createBreakpoints({})
+const breakpoints = createBreakpoints({});
 
-const theme = createMuiTheme({
+const theme = createTheme({
   direction: "rtl",
 
   palette: {
-    mainMenu: '#3f51b5'
-   // primary: red,
+    mainMenu: '#3f51b5',
+    primary: {main:blue[900]},
   },
   typography: {
     h1: {
       fontSize: themeConstants.typography.h1.fontSize,
       fontWeight: "bold",
-      [breakpoints.down("sm")]: {
+      [breakpoints.down("md")]: {
         fontSize: "2rem",
       },
     },
@@ -136,5 +136,4 @@ const theme = createMuiTheme({
 })
 
 //theme.palette.augmentColor(theme.palette.extra, 500, 300, 700);
-
 export default theme
