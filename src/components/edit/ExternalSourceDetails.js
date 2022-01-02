@@ -5,15 +5,11 @@ import React, { useState } from "react"
 import { connect } from "react-redux"
 
 const useStyles = makeStyles({
-  // need to specifiy direction for flex -
-  // wanted direction is rtl but RTL function switches it to ltr, so we put ltr..
   option: {
-    direction: "ltr",
+    direction: "rtl",
   },
   root: {
     minWidth: 300,
-    direction: "rtl",
-    textAlign: "right",
   },
 })
 const mapStateToProps = state => ({

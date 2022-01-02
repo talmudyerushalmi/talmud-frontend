@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
   },
   adminButton: {
     position: "absolute",
-    left: '-3rem',
-    top: '-1rem'
+    right: '-3rem',
+    top: '2.5rem'
   },
 }));
 
