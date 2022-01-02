@@ -73,7 +73,7 @@ const RichTextEditor = (props) => {
       }
   
     return (
-        <div className="RichEditor-root" style={{width:'100%'}}>
+        <div className="RichEditor-root" style={{width:'100%',boxSizing:'border-box'}}>
           <BlockStyleControls
             editorState={editorState}
             onToggle={toggleBlockType}

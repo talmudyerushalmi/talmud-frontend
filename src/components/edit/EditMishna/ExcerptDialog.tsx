@@ -4,7 +4,6 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogTitle from "@mui/material/DialogTitle"
 import FormikExcerpt from "./FormikExcerpt"
-import makeStyles from '@mui/styles/makeStyles';
 import { EditorSelectionObject } from "../../../inc/editorUtils"
 import { connect } from "react-redux"
 import { iExcerpt } from "../../../types/types"
@@ -21,24 +20,10 @@ const GROUP_NOSACH = [EXCERPT_TYPE.NOSACH, EXCERPT_TYPE.BIBLIO, EXCERPT_TYPE.EXP
 const GROUP_MAKBILA = [EXCERPT_TYPE.MAKBILA, EXCERPT_TYPE.MUVAA];
 
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    width: "80%",
-    maxWidth: "initial",
-  },
-}))
-
 const mapStateToProps = (state) => ({
   excerptDialogOpen: state.mishnaEdit.excerptDialogOpen,
   editedExcerpt: state.mishnaEdit.editedExcerpt
 });
-
-// const mapDispatchToProps = (dispatch, ownProps) => ({
-//   getCompositions: () => {
-//     dispatch(requestCompositions());
-//   },
-// });
-
 
 interface Props {
   onAdd: Function;
@@ -50,14 +35,12 @@ interface Props {
   mishna: any;
 }
 const ExcerptDialog = (props: Props) => {
-  const classes = useStyles()
   const { onAdd, dialogOpen, onClose, editedExcerpt, mishna,compositions } = props
   const selection = editedExcerpt ? editedExcerpt.selection : {}
 
   const selectionInfo = `משורה ${selection!.fromLine}, "${selection!.fromWord}" (${selection?.fromWordOccurence}/${selection?.fromWordTotal})
     עד שורה ${selection!.toLine}, "${selection!.toWord}" (${selection?.toWordOccurence}/${selection?.toWordTotal})`;
   const handleClose = e => {
-    console.log('handle close')
     // check if synthetic event or excerpt
     if (e && ['MUVAA','MAKBILA'].includes(e.type)) {
       onAdd(e)
@@ -97,10 +80,9 @@ const ExcerptDialog = (props: Props) => {
   return (
     <div>
       <Dialog
-        classes={{
-          paper: classes.container,
-        }}
-        style={{ minWidth: "80%", direction: "rtl" }}
+        fullWidth={true}
+        maxWidth='xl'
+        style={{ direction: "rtl" }}
         open={dialogOpen}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"

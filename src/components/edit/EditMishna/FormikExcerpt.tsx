@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   // need to specifiy direction for flex -
   // wanted direction is rtl but RTL function switches it to ltr, so we put ltr..
   option: {
-    direction: "ltr",
+    direction: "rtl",
   },
   root: {
     marginBottom: "0.5rem",
