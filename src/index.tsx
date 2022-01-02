@@ -15,7 +15,9 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
+        <div dir="rtl">
         <App />
+        </div>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>,

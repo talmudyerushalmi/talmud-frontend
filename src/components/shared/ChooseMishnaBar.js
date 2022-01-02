@@ -53,10 +53,12 @@ const useStyles = makeStyles({
   // need to specifiy direction for flex -
   // wanted direction is rtl but RTL function switches it to ltr, so we put ltr..
   option: {
-    direction: "ltr",
+    direction: "rtl",
   },
   root: {
-    minWidth: 100, flex:'auto', direction: "rtl", textAlign: "right"
+    minWidth: 100, flex:'auto',
+ //    direction: "rtl", 
+    // textAlign: "right"
   },
 
 })
@@ -226,7 +228,6 @@ const ChooseMishnaBar = props => {
             getOptionLabel={option => option.lineNumber}
             renderInput={params => (
               <TextField
-                style={{ direction: "rtl" }}
                 {...params}
                 label="שורה"
                 variant="outlined"
@@ -266,7 +267,6 @@ const ChooseMishnaBar = props => {
           isOptionEqualToValue={(option, value) => option?.id === value?.id}
           renderInput={params => (
             <TextField
-              style={{ direction: "rtl" }}
               {...params}
               label={t("Tractate")}
               variant="outlined"
@@ -289,7 +289,6 @@ const ChooseMishnaBar = props => {
           isOptionEqualToValue={(option, value) => option.id === value.id}
           renderInput={params => (
             <TextField
-              style={{ direction: "rtl" }}
               {...params}
               label={t("Chapter")}
               variant="outlined"
@@ -314,7 +313,6 @@ const ChooseMishnaBar = props => {
           isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
           renderInput={params => (
             <TextField
-              style={{ direction: "rtl" }}
               {...params}
               label={t("Mishna")}
               variant="outlined"

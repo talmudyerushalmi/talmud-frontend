@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: "3rem",
   },
   textItemRoot: {
-    paddingRight: "2rem",
+    paddingLeft: "2rem",
   },
 }))
 
@@ -106,7 +106,7 @@ const ExcerptList = (props:Props) => {
                     onClick={() => {
                       onUpdateSelectionForExcerpt(excerpt)
                     }}
-                    size="large">
+                    size="small">
                     <ShortTextIcon />
                   </IconButton>
                   <IconButton
@@ -116,7 +116,7 @@ const ExcerptList = (props:Props) => {
                     onClick={() => {
                       onDelete(excerpt.key)
                     }}
-                    size="large">
+                    size="small">
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>

@@ -1,16 +1,13 @@
-import React from 'react';
-import { create } from 'jss';
-import rtl from 'jss-rtl';
-import StylesProvider from '@mui/styles/StylesProvider';
-import jssPreset from '@mui/styles/jssPreset';
+import rtlPlugin from "stylis-plugin-rtl";
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
 
-// Configure JSS
-const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
+// Create rtl cache
+const cacheRtl = createCache({
+  key: "muirtl",
+  stylisPlugins: [rtlPlugin]
+});
 
 export function RTL(props) {
-  return (
-    <StylesProvider jss={jss}>
-      {props.children}
-    </StylesProvider>
-  );
+  return <CacheProvider value={cacheRtl}>{props.children}</CacheProvider>;
 }

@@ -47,8 +47,8 @@ function App(props:any) {
      coverClass = classes.homepage;
   }
   return (
-    <RTL>
     <StyledEngineProvider injectFirst>
+    <RTL>
       <ThemeProvider theme={theme}>
       <div className={coverClass} style={{direction:'rtl'}}>
         <Header/>
@@ -60,8 +60,8 @@ function App(props:any) {
           <Footer/>
       </div>
       </ThemeProvider>
-    </StyledEngineProvider>
     </RTL>
+    </StyledEngineProvider>
   );
 }
 
