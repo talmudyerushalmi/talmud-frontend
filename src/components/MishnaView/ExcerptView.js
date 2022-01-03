@@ -1,16 +1,11 @@
-import {
-  Accordion,
-  AccordionDetails,
-  IconButton,
-  makeStyles,
-  Typography,
-} from "@material-ui/core"
+import { Accordion, AccordionDetails, IconButton, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect, useState } from "react"
-import AccordionSummary from "@material-ui/core/AccordionSummary"
+import AccordionSummary from "@mui/material/AccordionSummary"
 import draftToHtml from "draftjs-to-html"
 import { connect } from "react-redux"
 import { selectExcerpt } from "../../store/actions"
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
 import { getExcerpt, isContentEmpty } from "../../inc/editorUtils"
 import { getSelectionRange } from "../../inc/excerptUtils"
 
@@ -62,34 +57,32 @@ const ExcerptView = props => {
   const selectionRange = getSelectionRange(excerpt);
  
 
-  return (
-    <>
-      <Accordion
-        square
-        expanded={expandedState === key}
-        onChange={handleChange(key)}
-      >
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <IconButton
+  return <>
+    <Accordion
+      square
+      expanded={expandedState === key}
+      onChange={handleChange(key)}
+    >
+      <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+        <IconButton
           className={classes.detailsButton}
-            onClick={e => {
-              e.stopPropagation()
-              selectExcerpt(excerpt)
-            }}
-          >
-            <MoreHorizIcon />
-          </IconButton>
-          <div>
-            <Typography component="span">[{selectionRange}] </Typography>
-            <Typography style={{fontWeight:'bold'}} component="span">{excerpt.source?.title} </Typography>
-            <Typography component="span">{excerpt.sourceLocation}</Typography>
-          </div>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div dangerouslySetInnerHTML={{ __html: markupShortQuote}}></div>
-        </AccordionDetails>
-      </Accordion>
-    </>
-  )
+          onClick={e => {
+            e.stopPropagation()
+            selectExcerpt(excerpt)
+          }}
+          size="small">
+          <MoreHorizIcon />
+        </IconButton>
+        <div>
+          <Typography component="span">[{selectionRange}] </Typography>
+          <Typography style={{fontWeight:'bold'}} component="span">{excerpt.source?.title} </Typography>
+          <Typography component="span">{excerpt.sourceLocation}</Typography>
+        </div>
+      </AccordionSummary>
+      <AccordionDetails>
+        <div dangerouslySetInnerHTML={{ __html: markupShortQuote}}></div>
+      </AccordionDetails>
+    </Accordion>
+  </>;
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ExcerptView)

@@ -11,15 +11,15 @@ import { useTranslation } from "react-i18next";
 const useStyles = makeStyles((theme) => ({
   root: {
     overflow: "hidden",
-    backgroundColor: "rgba(0, 0, 0, .03)",
+    '&.MuiPaper-root.MuiAccordion-root':{backgroundColor: "rgba(0, 0, 0, .03)"},
     "&:not(:last-child)": {
       borderBottom: 0,
     },
     minHeight: "3.5rem",
   },
   rootExpanded: {
-    backgroundColor: "rgba(0, 0, 0, .03)",
     overflow: "hidden",
+    '&.MuiPaper-root.MuiAccordion-root':{backgroundColor: "rgba(0, 0, 0, .03)"},
     flexGrow: 1,
     "& >  .MuiCollapse-root": {
       height: "100% !important",
