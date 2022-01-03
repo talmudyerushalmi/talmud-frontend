@@ -1,12 +1,14 @@
 import {
   Accordion,
+  AccordionActions,
   AccordionDetails,
   AccordionSummary,
+  IconButton,
   Typography,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import { connect } from "react-redux";
 import { selectSublines } from "../../store/actions";
 import MarkedText from "../shared/MarkedText";
@@ -34,18 +36,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const useStyles = makeStyles((theme) => ({
   root: {
     "&.selected": { background: "#f2ff7385" },
-    "& > .MuiAccordionSummary-root": {
-      minHeight: 0,
-      "& > .MuiAccordionSummary-content": {
-        margin: 0,
-        "& > p": {
-          margin: 0,
-        },
-      },
-      "& > .MuiAccordionSummary-expandIcon": {
-        padding: 0,
-      },
+    "&.MuiAccordion-root.Mui-expanded":{margin:0},
+    "& p": {margin:0},
+    "& .MuiAccordionSummary-root, & .MuiAccordionSummary-root.Mui-expanded":{minHeight:0},
+    "& .MuiAccordionSummary.Mui-expanded":{background:'yellow',minHeight:0},
+    "& .MuiAccordionSummary-content.Mui-expanded":{
+      margin:0,
     },
+    "& .MuiAccordionSummary-content":{
+      margin:0,
+      justifyContent: 'space-between' ,
+    }
   },
   lineroot: {
     display: "flex",
@@ -89,7 +90,7 @@ interface Props {
   selectSublines: Function;
   selectedExcerpt: iExcerpt;
   showPunctuation: boolean;
-  showSources: boolean;
+  showSources:  boolean;
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -143,12 +144,8 @@ const SublineDisplay = (props: Props) => {
         className={`${classes.root} ${selectedClass}`}
       >
         <AccordionSummary
-          style={{ paddingRight: "0.25rem" }}
-          expandIcon={<ExpandMoreIcon />}
-          IconButtonProps={{
-            onClick: handleExpandClick,
-            style: { color: "#6633994f" },
-          }}
+          sx={{ paddingRight: "0.25rem", 
+        }}
           aria-controls="subline-content"
         >
           <p>
@@ -162,6 +159,14 @@ const SublineDisplay = (props: Props) => {
               text={textToDisplay}
             />
           </p>
+          <AccordionActions sx={{padding:0}}>
+          <IconButton
+          style={{padding:0}}
+          size="small"
+           onClick={handleExpandClick}>
+            <ExpandMoreIcon/>
+          </IconButton>
+        </AccordionActions>
         </AccordionSummary>
         <AccordionDetails className={classes.expansion}>
           <SynopsisTable synopsis={subline?.synopsis} />

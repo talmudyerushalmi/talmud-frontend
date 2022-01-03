@@ -3,22 +3,25 @@ import makeStyles from '@mui/styles/makeStyles';
 import React from "react"
 import { hebrewMap } from "../../inc/utils";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => {
+  return ({
     root: {
+      '&.MuiPaper-root':{
       //@ts-ignore
-     ...theme.panels.standard,
+      ...theme.panels.standard,
+
+      },
+      '&.MuiPaper-root div':{
+                 //@ts-ignore
+       ...theme.custom.smallTitle,
+        },
      marginBottom: '1rem',
      fontWeight: 'bold',
      fontSize: '0.8rem',
      color: '#795548',
-     textAlign: 'left',
-     marginLeft: '2rem'
+     marginRight: '2rem',
     },
-    smallTitle: {
-        color:'black',
-          }
-
-  }));
+  })});
 
 const MishnaText = props => {
   const { html, mishna } = props
@@ -31,7 +34,6 @@ const MishnaText = props => {
     elevation={0}
     className={classes.root}>
         <Typography
-        className={classes.smallTitle}
         variant="h6"
         >{mishnaTitle}</Typography>
       <div dangerouslySetInnerHTML={{ __html: html }}></div>

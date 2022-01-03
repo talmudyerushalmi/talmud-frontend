@@ -24,6 +24,11 @@ const breakpoints = createBreakpoints({});
 
 const theme = createTheme({
   direction: "rtl",
+  custom: {
+    smallTitle: {
+      color: "#795548"
+    }
+  },
 
   palette: {
     primary: { main:'#3f51b5' },
@@ -79,7 +84,8 @@ const theme = createTheme({
       color: "white",
     },
     smallTitle: {
-      fontWeight: "bold"
+      fontWeight: "bold",
+      color: "#795548"
     }
 
     //  fontSize: 20
