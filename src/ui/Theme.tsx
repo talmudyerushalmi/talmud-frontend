@@ -1,6 +1,66 @@
 import { createTheme } from "@mui/material/styles"
 import { blue } from "@mui/material/colors"
 import { createBreakpoints } from "@mui/system"
+declare module '@mui/material/styles' {
+  interface Theme {
+    custom: {
+      smallTitle: React.CSSProperties;
+    };
+    links: {
+      linkButton: React.CSSProperties;
+    };
+    buttons: {
+      narrow: React.CSSProperties;
+    }
+  }
+  // allow configuration using `createTheme`
+  interface ThemeOptions {
+    custom?: {
+      smallTitle?: React.CSSProperties;
+    };
+    links?: {
+      linkButton?: React.CSSProperties;
+    };
+    buttons?: {
+      narrow?: React.CSSProperties;
+    }
+  }
+}
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    tab: React.CSSProperties;
+    lineNumber: React.CSSProperties;
+    sourceReference: React.CSSProperties;
+    manuscript: React.CSSProperties;
+    title: React.CSSProperties;
+    category: React.CSSProperties;
+    smallTitle: React.CSSProperties;
+  }
+
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    tab?: React.CSSProperties;
+    lineNumber?: React.CSSProperties;
+    sourceReference?: React.CSSProperties;
+    manuscript?: React.CSSProperties;
+    title?: React.CSSProperties;
+    category?: React.CSSProperties;
+    smallTitle?: React.CSSProperties;
+  }
+}
+
+// Update the Typography's variant prop options
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    tab: true;
+    lineNumber: true;
+    sourceReference: true;
+    manuscript: true;
+    title: true;
+    category: true;
+    smallTitle: true;
+  }
+}
 
 export const themeConstants = {
   fixedTopPadding: '8.5rem',
@@ -98,6 +158,7 @@ const theme = createTheme({
       padding: "0.4rem 1rem",
       borderRadius: "0.5rem",
       transition: "background 0.3s, box-shadow 0.3s",
+      //@ts-ignore
       "&:hover": {
         background: "#ceebff",
         color: `${themeConstants.blue}`,

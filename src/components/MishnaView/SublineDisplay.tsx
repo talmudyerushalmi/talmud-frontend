@@ -59,19 +59,6 @@ const useStyles = makeStyles((theme) => ({
       direction: "rtl",
     },
   },
-  lineNumber: {
-    //@ts-ignore //todo solve theme typings
-    ...theme.typography.lineNumber,
-  },
-  expansion: {
-    display: "block",
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-  sourceReference: {
-    //@ts-ignore
-    ...theme.typography.sourceReference,
-  },
    heading: {
     // fontSize: theme.typography.pxToRem(15), //todo - uncomment
     // fontWeight: theme.typography.fontWeightRegular,
@@ -149,7 +136,7 @@ const SublineDisplay = (props: Props) => {
           aria-controls="subline-content"
         >
           <p>
-            <Typography component="span" className={classes.lineNumber}>
+            <Typography variant="lineNumber" component="span">
               {subline.index}
             </Typography>
             <MarkedText
@@ -168,7 +155,7 @@ const SublineDisplay = (props: Props) => {
           </IconButton>
         </AccordionActions>
         </AccordionSummary>
-        <AccordionDetails className={classes.expansion}>
+        <AccordionDetails>
           <SynopsisTable synopsis={subline?.synopsis} />
         </AccordionDetails>
       </Accordion>
