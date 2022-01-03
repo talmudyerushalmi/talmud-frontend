@@ -55,6 +55,12 @@ const HomePage = (props) => {
            padding:'1rem',borderRadius:'0.5rem', color:'blue',textDecoration:'none'}}>
               מסכת יבמות
           </Link>
+          <Link to="/introduction" 
+          style={{
+          display:'block', width:'10rem',margin: '0rem auto', textAlign:'center',
+          color:'white'}}>
+              מבוא
+          </Link>
           <a href="https://youtu.be/A1tMRN7iRxU" target="_blank" 
           style={{color:'white',textAlign:'center',
           display:'block', width:'10rem',margin: '1rem auto',
