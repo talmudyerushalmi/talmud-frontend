@@ -8,10 +8,11 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 345,
   },
   panel: {
-      background: '#3f51b5',
-      color: 'white',
-      padding: '1rem',
-      marginBottom: '1rem'
+      '&.MuiPaper-root': {
+        backgroundColor: '#3f51b5',
+        color: 'white',
+        padding: '1rem',
+        marginBottom: '1rem'}
   }
 }));
 

@@ -10,10 +10,9 @@ import {
   DraftHandleValue,
 } from "draft-js";
 import "./text.css";
-import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import { EditedText, iSynopsis } from "../../types/types";
 import { getTextForSynopsis } from "../../inc/synopsisUtils";
-import { makeStyles } from "@material-ui/core";
+import makeStyles from '@mui/styles/makeStyles';
 //import Editor from 'draft-js-plugins-editor';
 
 const useStyles = makeStyles((theme) => ({
@@ -208,7 +207,7 @@ var COLORS = [
 const ColorControls = (props) => {
   var currentStyle = props.editorState.getCurrentInlineStyle();
   return (
-    <div style={styles.controls as CSSProperties}>
+    <div style={styles.controls as React.CSSProperties}>
       {COLORS.map((type) => (
         <StyleButton
           key={type.label}
