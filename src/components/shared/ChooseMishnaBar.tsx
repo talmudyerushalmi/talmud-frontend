@@ -18,6 +18,7 @@ import { getNextLine, getPreviousLine, hebrewMap } from "../../inc/utils"
 import { useParams } from "react-router"
 import { ArrowBack, ArrowForward } from "@mui/icons-material"
 import { useTranslation } from "react-i18next"
+import { routeObject } from "../../routes/AdminRoutes";
 
 const mapStateToProps = state => ({
   tractates: state.general.tractates,
@@ -39,7 +40,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(selectChapter(selectedChapter))
   },
   selectMishna: (selectedMishna,line) => {
-    dispatch(selectMishna(selectedMishna,line))
+    dispatch(selectMishna(selectedMishna))
   },
   selectLine: (selectedLine) => {
     dispatch(selectLine(selectedLine))
@@ -50,22 +51,20 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const useStyles = makeStyles({
-  // need to specifiy direction for flex -
-  // wanted direction is rtl but RTL function switches it to ltr, so we put ltr..
   option: {
     direction: "rtl",
   },
   root: {
     minWidth: 100, flex:'auto',
- //    direction: "rtl", 
-    // textAlign: "right"
+    '&.MuiAutocomplete-root  .MuiOutlinedInput-root .MuiAutocomplete-input':{ 
+      padding:0},
   },
 
 })
 
 const ChooseMishnaBar = props => {
   const { t } = useTranslation();
-  const { tractate, chapter, mishna, line } = useParams();
+  const { tractate, chapter, mishna, line } = useParams<routeObject>();
   const classes = useStyles()
   const {
     tractates,
@@ -103,7 +102,7 @@ const ChooseMishnaBar = props => {
 
    useEffect(() => {
     if (selectedChapter) {
-       setChapterInput(hebrewMap.get(parseInt(selectedChapter.id)))
+       setChapterInput(hebrewMap.get(parseInt(selectedChapter.id)) as string)
     } else {
       setChapterInput("")
     }
@@ -111,7 +110,7 @@ const ChooseMishnaBar = props => {
 
    useEffect(() => {
     if (selectedMishna) {
-      setMishnaInput(hebrewMap.get(parseInt(selectedMishna.mishna)))
+      setMishnaInput(hebrewMap.get(parseInt(selectedMishna.mishna)) as string)
     } else {
       setMishnaInput("")
     }
@@ -248,7 +247,7 @@ const ChooseMishnaBar = props => {
       }}
     >
       <Grid container>   
-      <IconButton onClick={()=>{onNavigateBack()}} size="large">
+      <IconButton onClick={()=>{onNavigateBack()}} size="small">
         <ArrowForward></ArrowForward>
           </IconButton> 
         <Autocomplete
@@ -285,7 +284,7 @@ const ChooseMishnaBar = props => {
           inputValue={chapterInput}
           options={selectedTractate?.chapters || []}
           autoHighlight={true}
-          getOptionLabel={option => hebrewMap.get(parseInt(option.id))}
+          getOptionLabel={option => hebrewMap.get(parseInt(option.id)) as string}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           renderInput={params => (
             <TextField
@@ -309,7 +308,7 @@ const ChooseMishnaBar = props => {
           options={selectedChapter?.mishnaiot || []}
           autoHighlight={true}
           getOptionLabel={option =>
-            hebrewMap.get(parseInt(option.mishna))}
+            hebrewMap.get(parseInt(option.mishna)) as string}
           isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
           renderInput={params => (
             <TextField
@@ -319,7 +318,7 @@ const ChooseMishnaBar = props => {
             />
           )}
         />
-        <IconButton onClick={()=>onNavigateForward()} size="large">
+        <IconButton onClick={()=>onNavigateForward()} size="small">
           <ArrowBack></ArrowBack>
           </IconButton>
    
