@@ -58,6 +58,7 @@ const HomePage = (props) => {
           <Link to="/introduction" 
           style={{
           display:'block', width:'10rem',margin: '0rem auto', textAlign:'center',
+          fontSize: '1.5rem',
           color:'white'}}>
               מבוא
           </Link>
