@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import MainText from "../components/MishnaView/MainText";
 import MishnaText from "../components/MishnaView/MishnaText";
 import { connect } from "react-redux";
@@ -26,40 +25,40 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-const useStyles = makeStyles({
-  root: {
-    position: 'sticky',
-    top: '4rem',
-    zIndex: 100,
-    background: 'white',
-    boxShadow: '0rem 0rem 1rem 2px #0000005e',
-    padding: '0px 0.5rem',
-  },
-
-})
-
 interface Props {
-  currentMishna: iMishna
+  currentMishna: iMishna;
 }
 const MishnaPage = (props: Props) => {
-  const classes = useStyles();
   const { currentMishna } = props;
   const { mishna } = useParams<routeObject>();
 
   return (
-    <Grid container spacing={2} >
-      <Grid container className={classes.root} >
+    <Grid container spacing={2}>
+      <Grid
+        item
+        md={12}
+        sx={{
+          ml: 2,
+          paddingTop:'0 !important',
+          position: "sticky",
+          top: "4rem",
+          zIndex: 100,
+          background: "white",
+          boxShadow: "0rem 0rem 1rem 2px #0000005e",
+        }}
+      >
         <MishnaViewOptions />
       </Grid>
       <Grid item md={8}>
-      <Grid container justifyContent="center" item sm={12}>
-        <Grid item md={12}>
-          <MishnaText mishna={mishna} html={getHTMLFromRawContent(currentMishna?.richTextMishna)}  />
+        <Grid container justifyContent="center" item sm={12}>
+          <Grid item md={12}>
+            <MishnaText
+              mishna={mishna}
+              html={getHTMLFromRawContent(currentMishna?.richTextMishna)}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-        <MainText
-          lines={currentMishna?.lines}
-        />
+        <MainText lines={currentMishna?.lines} />
       </Grid>
       <Grid item md={4}>
         <ExcerptsSection />
