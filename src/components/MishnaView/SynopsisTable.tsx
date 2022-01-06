@@ -30,10 +30,10 @@ const useStyles = makeStyles({
     padding: 0,
   },
   parellel: {
-    color: 'red'
+    '&.MuiTableCell-root': {color: 'red'}
   },
   excerpt: {
-    color: 'purple'
+    '&.MuiTableCell-root': {color: 'purple'}
   },
   default:{
   }
