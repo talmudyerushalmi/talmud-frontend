@@ -15,6 +15,8 @@ import { Footer } from './layout/Footer';
 import { StyledEngineProvider, Theme } from '@mui/material';
 import theme from './ui/Theme';
 import IntroductionPage from './pages/IntroductionPage';
+import PartnersPage from './pages/PartnersPage';
+import SteeringPage from './pages/SteeringPage';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -56,6 +58,8 @@ function App(props:any) {
           <Switch>
           <Route path="/" exact  component={HomePage}/>
           <Route path="/introduction" exact  component={IntroductionPage}/>
+          <Route path="/steering" exact  component={SteeringPage}/>
+          <Route path="/partners" exact  component={PartnersPage}/>
           <Route path="/talmud/:tractate/:chapter/:mishna" exact component={ViewMishnaPage}/>
           <AdminRoutes/>        
           </Switch>
