@@ -64,22 +64,20 @@ const HomePage = (props) => {
           </Link>
           <Link to="/steering" 
           style={{
-          display:'block', width:'10rem',margin: '0rem auto', textAlign:'center',
-          fontSize: '1.5rem',
+          display:'block', width:'10rem',margin: '0rem auto', textAlign:'center',padding:'0.2rem',
           color:'white'}}>
               ועדת היגוי
           </Link>
           <Link to="/partners" 
           style={{
-          display:'block', width:'10rem',margin: '0rem auto', textAlign:'center',
-          fontSize: '1.5rem',
+          display:'block', width:'10rem',margin: '0rem auto', textAlign:'center',padding:'0.2rem',
           color:'white'}}>
               שותפים
           </Link>
           <a href="https://youtu.be/A1tMRN7iRxU" target="_blank" 
           style={{color:'white',textAlign:'center',
-          display:'block', width:'10rem',margin: '1rem auto',
-           padding:'1rem'}}
+          display:'block', width:'10rem',margin: '0rem auto',
+           padding:'0.2rem'}}
           
 
           >
