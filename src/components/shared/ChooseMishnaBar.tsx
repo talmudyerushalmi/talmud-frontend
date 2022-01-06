@@ -313,7 +313,7 @@ const ChooseMishnaBar = props => {
           renderInput={params => (
             <TextField
               {...params}
-              label={t("Mishna")}
+              label={t("Halkha")}
               variant="outlined"
             />
           )}

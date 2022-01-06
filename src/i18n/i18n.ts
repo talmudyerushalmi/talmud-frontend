@@ -40,6 +40,7 @@ i18n
           "Tractate":"מסכת",
           "Chapter":"פרק",
           "Mishna":"משנה",
+          "Halkha": "הלכה",
           "Go":"נווט",
           "Talmudic Parallels":"מקבילות",
           "Citations": "מובאות",
