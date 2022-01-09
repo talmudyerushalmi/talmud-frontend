@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
   panel: {
       '&.MuiPaper-root': {
         backgroundColor: '#3f51b5',
+        boxShadow: '#00000099 0 0 13px 5px',
         color: 'white',
         padding: '1rem',
         marginBottom: '1rem'}
