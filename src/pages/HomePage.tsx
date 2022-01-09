@@ -41,10 +41,10 @@ const HomePage = (props) => {
 
               </div>
               <div style={{textAlign:'left'}}>
-              <Typography variant="h2">Digitial Critical Edition</Typography>
+              <Typography variant="h2">Digital Critical Edition</Typography>
               <Typography variant="h2">Edited by Prof. Menachem Katz</Typography>
               <br/>
-              <Typography variant="h2">With the participation of Dr. Hillel Gershuni</Typography>
+              <Typography variant="h2">In collaboration with Dr. Hillel Gershuni</Typography>
               <br/>
               <Typography variant="h3">Site developed by Yaron Bar</Typography>
               </div>
