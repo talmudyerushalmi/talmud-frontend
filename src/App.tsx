@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
-import background from './assets/leiden.jpg';
+import background from './assets/leiden2.jpg';
 import './App.css';
 import { Header } from './layout/Header';
 import { makeStyles } from '@mui/styles';
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   default: {},
   homepage: {
     backgroundImage: `url(${background})`,
-    backgroundPosition: 'center -31rem',
+    backgroundPosition: 'center -19rem',
     minHeight: '100vh'
   }
 });
