@@ -23,7 +23,7 @@ const HomePage = (props) => {
     <>
 
       <Container>
-        <Paper className={classes.panel} style={{marginTop:'10rem'}}>
+        <Paper className={classes.panel} style={{marginTop:'12rem'}}>
           <Box style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography variant="h1">תלמוד ירושלמי</Typography>
             <Typography variant="h1">Talmud Yerushalmi</Typography>
