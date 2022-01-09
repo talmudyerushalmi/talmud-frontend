@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   default: {},
   homepage: {
     backgroundImage: `url(${background})`,
-    backgroundPosition: 'center -19rem',
+    backgroundPosition: 'center -27rem',
     minHeight: '100vh'
   }
 });
