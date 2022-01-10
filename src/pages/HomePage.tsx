@@ -30,6 +30,7 @@ const HomePage = (props) => {
           </Box>
         </Paper>
         <Paper className={classes.panel}>
+          <Typography style={{textAlign:'left',paddingBottom:'1rem'}}>SF Grant 1717/19</Typography>
           <Box style={{ display: "flex", justifyContent: "space-between" }}>
               <div style={{textAlign:'right'}}>
               <Typography variant="h2">מהדורה דיגיטלית</Typography>
