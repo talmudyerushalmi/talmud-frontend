@@ -26,7 +26,7 @@ const HomePage = (props) => {
       dataLayer: {
         event: 'pageview',
         pagePath: window.location.href,
-        pageTitle: 'page-title-here',
+        pageTitle: 'homepage',
       },
     });
   },[])

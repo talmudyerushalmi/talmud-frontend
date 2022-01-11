@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container } from "@mui/material";
+import TagManager from 'react-gtm-module';
 
 const SteeringPage = (props) => {
+  useEffect(()=>{
+    TagManager.dataLayer({
+      dataLayer: {
+        event: 'pageview',
+        pagePath: window.location.href,
+        pageTitle: 'steering-page',
+      },
+    });
+  },[])
   return (
     <>
       <Container>
