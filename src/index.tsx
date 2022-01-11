@@ -9,12 +9,17 @@ import Amplify from "aws-amplify";
 import awsconfig from "./aws-exports";
 import "./i18n/i18n";
 import { BrowserRouter } from "react-router-dom";
-import ReactGA from 'react-ga';
+import TagManager from 'react-gtm-module'
 
-const trackingId = process.env.GA_TRACKING_ID
-if (typeof trackingId ==='string' &&  trackingId!=='NONE') {
-  ReactGA.initialize(trackingId);
+const gtmId = process.env.GTM_ID
+if (typeof gtmId ==='string') {
+  const tagManagerArgs = {
+    gtmId,
 }
+  TagManager.initialize(tagManagerArgs);
+}
+
+
 Amplify.configure(awsconfig);
 ReactDOM.render(
   <React.StrictMode>
