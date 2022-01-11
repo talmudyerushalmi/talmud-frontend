@@ -18,16 +18,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-TagManager.dataLayer({
-  dataLayer: {
-    event: 'pageview',
-    pagePath: 'page-path-here',
-    pageTitle: 'page-title-here',
-  },
-});
+
 const HomePage = (props) => {
   const classes = useStyles();
-  
+  useEffect(()=>{
+    TagManager.dataLayer({
+      dataLayer: {
+        event: 'pageview',
+        pagePath: window.location.href,
+        pageTitle: 'page-title-here',
+      },
+    });
+  },[])
   return (
     <>
 

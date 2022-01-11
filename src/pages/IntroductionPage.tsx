@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Paper } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import TagManager from 'react-gtm-module';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +20,15 @@ const useStyles = makeStyles((theme) => ({
 const IntroductionPage = (props) => {
   const classes = useStyles();
 
+  useEffect(()=>{
+    TagManager.dataLayer({
+      dataLayer: {
+        event: 'pageview',
+        pagePath: window.location.href,
+        pageTitle: 'page-title-here',
+      },
+    });
+  },[])
   return (
     <>
       <Container>
