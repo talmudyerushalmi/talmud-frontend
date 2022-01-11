@@ -12,7 +12,7 @@ import { BrowserRouter } from "react-router-dom";
 import TagManager from 'react-gtm-module'
 console.log('process', process.env)
 
-const gtmId = process.env.REACT_APP_DB_HOST_GTM_ID;
+const gtmId = process.env.REACT_APP_GTM_ID;
 if (typeof gtmId ==='string' && gtmId !== 'NONE') {
   const tagManagerArgs = {
     gtmId,
