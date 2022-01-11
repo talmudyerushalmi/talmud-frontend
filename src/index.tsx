@@ -10,9 +10,10 @@ import awsconfig from "./aws-exports";
 import "./i18n/i18n";
 import { BrowserRouter } from "react-router-dom";
 import TagManager from 'react-gtm-module'
+console.log('process', process.env)
 
-const gtmId = 'GTM-WKQFD37'
-if (typeof gtmId ==='string') {
+const gtmId = process.env.REACT_APP_DB_HOST_GTM_ID;
+if (typeof gtmId ==='string' && gtmId !== 'NONE') {
   const tagManagerArgs = {
     gtmId,
 }
