@@ -11,7 +11,7 @@ import "./i18n/i18n";
 import { BrowserRouter } from "react-router-dom";
 import TagManager from 'react-gtm-module'
 
-const gtmId = process.env.GTM_ID
+const gtmId = 'GTM-WKQFD37'
 if (typeof gtmId ==='string') {
   const tagManagerArgs = {
     gtmId,
