@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Paper } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import ReactGA from 'react-ga';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,9 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const IntroductionPage = (props) => {
   const classes = useStyles();
-  useEffect(()=>{
-    ReactGA.pageview(window.location.pathname);
-  },[]);
+
   return (
     <>
       <Container>

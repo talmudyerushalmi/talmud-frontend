@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Container, Paper, Typography, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
-import ReactGA from 'react-ga';
+import TagManager from 'react-gtm-module';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,11 +18,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+TagManager.dataLayer({
+  dataLayer: {
+    event: 'pageview',
+    pagePath: 'page-path-here',
+    pageTitle: 'page-title-here',
+  },
+});
 const HomePage = (props) => {
   const classes = useStyles();
-  useEffect(()=>{
-    ReactGA.pageview(window.location.pathname);
-  },[]);
   
   return (
     <>
