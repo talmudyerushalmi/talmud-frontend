@@ -13,7 +13,7 @@ const ViewMishnaPage = () => {
   useEffect(()=>{
     TagManager.dataLayer({
       dataLayer: {
-        event: 'pageview',
+        event: 'page_view',
         pagePath: window.location.href,
         pageTitle: 'mishna-view',
       },
