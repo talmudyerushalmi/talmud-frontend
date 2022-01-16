@@ -16,6 +16,7 @@ const ViewMishnaPage = () => {
         event: 'page_view',
         pagePath: window.location.href,
         pageTitle: 'mishna-view',
+        page_title: 'mishna-view',
       },
     });
   },[])
