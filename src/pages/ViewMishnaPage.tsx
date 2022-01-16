@@ -25,7 +25,7 @@ const ViewMishnaPage = () => {
         dataLayer: {
           event: 'page_view',
           pagePath: window.location.href,
-          pageTitle: 'mishna-view',
+          page_title: 'mishna-view',
         },
       });
       window.scrollTo(0,0)}}>
