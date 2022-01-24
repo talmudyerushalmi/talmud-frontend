@@ -389,19 +389,19 @@ const IntroductionPage = (props) => {
               </span>
             </li>
             <li dir="rtl">
-              <span>784 מקבילות בספרות חז"ל</span>
+              <span>918 מקבילות בספרות חז"ל</span>
             </li>
             <li dir="rtl">
               <span>972 מובאות בספרות הראשונים</span>
             </li>
             <li dir="rtl">
-              <span>222 הערות נוסח</span>
+              <span>257 הערות נוסח</span>
             </li>
             <li dir="rtl">
-              <span>103 הערות ביבליוגרפיות</span>
+              <span>142 הערות ביבליוגרפיות</span>
             </li>
             <li dir="rtl">
-              <span>44 </span>
+              <span>46 </span>
               <span>הערות מבארות</span>
             </li>
           </ul>
