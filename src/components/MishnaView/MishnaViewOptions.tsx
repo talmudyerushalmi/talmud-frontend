@@ -1,34 +1,37 @@
-import React from "react"
-import FormGroup from "@mui/material/FormGroup"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Checkbox from "@mui/material/Checkbox"
-import { connect } from "react-redux"
-import { toggleShowPunctuation } from "../../store/actions"
+import React from "react";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import { connect } from "react-redux";
+import { toggleShowPunctuation } from "../../store/actions";
 import {
   toggleDivideToLines,
   toggleShowSources,
-} from "../../store/actions/mishnaViewActions"
-import { useTranslation } from "react-i18next"
+} from "../../store/actions/mishnaViewActions";
+import { useTranslation } from "react-i18next";
+import { Link } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { routeObject } from "../../routes/AdminRoutes";
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   divideToLines: state.mishnaView.divideToLines,
   showPunctuation: state.mishnaView.showPunctuation,
   showSources: state.mishnaView.showSources,
-})
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   toggleShowPunctuation: () => {
-    dispatch(toggleShowPunctuation())
+    dispatch(toggleShowPunctuation());
   },
   toggleDivideToLines: () => {
-    dispatch(toggleDivideToLines())
+    dispatch(toggleDivideToLines());
   },
   toggleShowSources: () => {
-    dispatch(toggleShowSources())
+    dispatch(toggleShowSources());
   },
-})
+});
 
-const MishnaViewOptions = props => {
+const MishnaViewOptions = (props) => {
   const {
     divideToLines,
     showPunctuation,
@@ -36,8 +39,9 @@ const MishnaViewOptions = props => {
     toggleDivideToLines,
     showSources,
     toggleShowSources,
-  } = props
+  } = props;
   const { t } = useTranslation();
+  const route = useParams<routeObject>();
 
   return (
     <FormGroup row>
@@ -50,7 +54,7 @@ const MishnaViewOptions = props => {
             color="primary"
           />
         }
-        label= {t("Division to Lines") as string}
+        label={t("Division to Lines") as string}
       />
       <FormControlLabel
         control={
@@ -74,8 +78,22 @@ const MishnaViewOptions = props => {
         }
         label={t("References") as string}
       />
+      <Link
+        sx={{ 
+          textDecoration: "none",
+          display: 'inline-flex',
+          alignItems: 'center',
+         cursor: 'pointer',
+         verticalAlign: 'middle',
+        }}
+        target="_blank"
+        href={`${process.env.REACT_APP_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}
+        download
+      >
+        [TEI]
+      </Link>
     </FormGroup>
-  )
-}
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(MishnaViewOptions)
+export default connect(mapStateToProps, mapDispatchToProps)(MishnaViewOptions);
