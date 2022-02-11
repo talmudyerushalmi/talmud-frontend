@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from "react"
-import { Editor } from "draft-js"
+import { Editor, EditorState } from "draft-js"
 import "../text.css"
 
+interface Props {
+  selectionFrom?: number;
+  selectionTo?: number;
+  readOnly?: boolean;
+  initialState: EditorState;
+  onChange?: Function;
+}
 
-const TextEditor = (props) => {
+const styleMap = {
+  'STRIKETHROUGH': {
+    textDecoration: 'line-through',
+    color: 'red',
+  },
+  'MARK': {
+    backgroundColor: 'lightblue',
+  },
+};
+const TextEditor = (props: Props) => {
   const { onChange, initialState, readOnly } = props;
   const [ editorState, setEditorState] = useState(initialState);
 
@@ -18,7 +34,9 @@ const TextEditor = (props) => {
 
 
   const _onChange = (editorState)=>{
-    onChange(editorState)
+    if (onChange) {
+      onChange(editorState)
+    }
     setEditorState(editorState);
   }
 
@@ -26,8 +44,11 @@ const TextEditor = (props) => {
 
 
   return (
-    <div  className="RichEditor-root">
+    <div 
+    style={{width:'100%', border:'none', padding:0}}
+     className="RichEditor-root">
       <Editor
+        customStyleMap={styleMap}
         readOnly={readOnly}
         editorState={editorState}
         onChange={editorState => _onChange(editorState)}

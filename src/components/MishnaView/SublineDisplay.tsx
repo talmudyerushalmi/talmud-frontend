@@ -11,7 +11,6 @@ import React from "react";
 import makeStyles from '@mui/styles/makeStyles';
 import { connect } from "react-redux";
 import { selectSublines } from "../../store/actions";
-import MarkedText from "../shared/MarkedText";
 import { excerptSelection } from "../../inc/excerptUtils";
 import SynopsisTable from "./SynopsisTable";
 import {
@@ -19,6 +18,7 @@ import {
   hideSourceFromText,
 } from "../../inc/synopsisUtils";
 import { iExcerpt, iSubline } from "../../types/types";
+import NosachView from "./NosachView";
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -135,17 +135,13 @@ const SublineDisplay = (props: Props) => {
         }}
           aria-controls="subline-content"
         >
-          <p>
             <Typography variant="lineNumber" component="span">
               {subline.index}
             </Typography>
-            <MarkedText
-              from={markedSelection?.from}
-              to={markedSelection?.to}
-              className={`${classes.heading} ${piskaClass}`}
-              text={textToDisplay}
-            />
-          </p>
+            <NosachView 
+            markFrom={markedSelection?.from}
+            markTo={markedSelection?.to}
+            subline={subline}/>
           <AccordionActions sx={{padding:0}}>
           <IconButton
           style={{padding:0}}
