@@ -7,6 +7,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { iSubline } from "../../types/types";
 import TextEditor from "../edit/MainLineEditor/TextEditor";
+import { compoundNosachDecorators } from "../editors/EditorDecoratorNosach";
 
 interface Props {
   subline: iSubline;
@@ -28,8 +29,8 @@ const mark = (editorState: EditorState, markFrom, markTo) => {
   );
 
   const newEditorState = EditorState.createWithContent(
-    content
-    //compoundNosachDecorators
+    content,
+    compoundNosachDecorators
   );
   return newEditorState
 };
@@ -45,8 +46,8 @@ const NosachView = (props: Props) => {
     if (subline.nosach) {
       let initContent = convertFromRaw(subline.nosach);
       newEditorState = EditorState.createWithContent(
-        initContent
-        //compoundNosachDecorators
+        initContent, 
+        compoundNosachDecorators
       );
       if (markTo) {
           newEditorState = mark(newEditorState, markFrom, markTo)
@@ -54,7 +55,6 @@ const NosachView = (props: Props) => {
     } else {
       newEditorState = EditorState.createWithContent(
         ContentState.createFromText("")
-        //  compoundNosachDecorators
       );
     }
     setEditor(newEditorState);
