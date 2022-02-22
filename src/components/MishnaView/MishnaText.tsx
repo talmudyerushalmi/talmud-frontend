@@ -1,19 +1,27 @@
-import { makeStyles, Paper, Typography } from "@material-ui/core"
+import { Paper, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react"
 import { hebrewMap } from "../../inc/utils";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => {
+  return ({
     root: {
+      '&.MuiPaper-root':{
       //@ts-ignore
-     ...theme.panels.standard,
-     marginBottom: '1rem'
-    },
-    smallTitle: {
-      //@ts-ignore
-        ...theme.typography.smallTitle
-    }
+      ...theme.panels.standard,
 
-  }));
+      },
+      '&.MuiPaper-root div':{
+                 //@ts-ignore
+       ...theme.custom.smallTitle,
+        },
+     marginBottom: '1rem',
+     fontWeight: 'bold',
+     fontSize: '0.8rem',
+     color: '#795548',
+     marginRight: '2rem',
+    },
+  })});
 
 const MishnaText = props => {
   const { html, mishna } = props
@@ -26,9 +34,6 @@ const MishnaText = props => {
     elevation={0}
     className={classes.root}>
         <Typography
-        className={classes.smallTitle}
-        paragraph={true}
-        align='center'
         variant="h6"
         >{mishnaTitle}</Typography>
       <div dangerouslySetInnerHTML={{ __html: html }}></div>

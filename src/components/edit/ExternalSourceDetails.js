@@ -1,18 +1,15 @@
-import { Button, Grid, makeStyles, TextField } from "@material-ui/core"
-import { Autocomplete } from "@material-ui/lab"
+import { Button, Grid, TextField } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import { Autocomplete } from '@mui/material';
 import React, { useState } from "react"
 import { connect } from "react-redux"
 
 const useStyles = makeStyles({
-  // need to specifiy direction for flex -
-  // wanted direction is rtl but RTL function switches it to ltr, so we put ltr..
   option: {
-    direction: "ltr",
+    direction: "rtl",
   },
   root: {
     minWidth: 300,
-    direction: "rtl",
-    textAlign: "right",
   },
 })
 const mapStateToProps = state => ({

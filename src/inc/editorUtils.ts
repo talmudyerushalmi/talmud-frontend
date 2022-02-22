@@ -221,6 +221,16 @@ export function getSelectionObject(
   };
 }
 
+export function getContentOrEmpty(rawContent: RawDraftContentState|null){
+  return rawContent ? 
+          EditorState.createWithContent(
+             convertFromRaw(rawContent)
+            ): 
+            EditorState.createWithContent(
+              ContentState.createFromText("")
+            )
+
+}
 export function getContentRaw(editorState) {
   return convertToRaw(editorState.getCurrentContent());
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { EditingData } from './MainLineEditor';
 
 export enum NosachEntity  {

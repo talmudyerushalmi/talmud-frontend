@@ -1,9 +1,9 @@
 import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import Typography from "@material-ui/core/Typography"
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from "@mui/material/Typography"
 import draftToHtml from "draftjs-to-html"
-import { Card, IconButton } from "@material-ui/core"
-import CancelIcon from '@material-ui/icons/Cancel';
+import { Card, IconButton } from "@mui/material"
+import CancelIcon from '@mui/icons-material/Cancel';
 import { getSelectionRange } from "../../inc/excerptUtils"
 
 const useStyles = makeStyles({
@@ -13,7 +13,8 @@ const useStyles = makeStyles({
   content: {
     marginTop: "1rem",
     maxHeight: "calc(100% - 7rem)",
-    overflow: "auto"
+    overflow: "auto",
+    '& p': {margin:0}
   },
   openCard: {
     position: "absolute",
@@ -60,7 +61,7 @@ const ExcerptDetailsView = props => {
           e.stopPropagation()
           handleClose()
         }}
-      >
+        size="large">
         <CancelIcon />
       </IconButton>
       <Typography variant="h3" style={{fontWeight:'bold'}}>{selectedExcerpt?.source?.title}
@@ -73,7 +74,7 @@ const ExcerptDetailsView = props => {
         dangerouslySetInnerHTML={{ __html: markupLongQuote }}
       ></div>
     </Card>
-  )
+  );
 }
 
 export default ExcerptDetailsView

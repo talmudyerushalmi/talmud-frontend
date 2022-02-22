@@ -1,7 +1,8 @@
 import { useField } from "formik";
 import React from "react";
 import { connect } from "react-redux";
-import { IconButton, makeStyles, Paper, Tooltip } from "@material-ui/core";
+import { IconButton, Paper, Tooltip } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import SynopsisField from "./SynopsisField";
 import MainLineEditor from "./MainLineEditor/MainLineEditor";
 import {
@@ -10,7 +11,7 @@ import {
 } from "../../store/actions/mishnaEditActions";
 import { routeObject } from "../../routes/AdminRoutes";
 import { useParams } from "react-router";
-import { RemoveCircle } from "@material-ui/icons";
+import { RemoveCircle } from "@mui/icons-material";
 import { RawDraftContentState } from "draft-js";
 
 const mapStateToProps = (state) => ({});

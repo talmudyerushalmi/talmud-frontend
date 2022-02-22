@@ -25,7 +25,7 @@ export const excerptsMap = new Map([
   [
     EXCERPT_TYPE.NOSACH,
     {
-      title: "Editing comments",
+      title: "Editing Comments",
     },
   ],
   [

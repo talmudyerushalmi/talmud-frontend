@@ -5,10 +5,11 @@ import {
   PageWithNavigation,
 } from "../layout/PageWithNavigation";
 import MishnaPage from "./MishnaPage";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { Theme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import { useState } from "react";
 import EditMishnaExcerpts from "../components/edit/EditMishna/EditMishnaExcerpts";
 import EditMishna from "../components/edit/EditMishna/EditMishna";

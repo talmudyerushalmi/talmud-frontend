@@ -1,22 +1,23 @@
 import {
   Accordion,
+  AccordionActions,
   AccordionDetails,
   AccordionSummary,
+  IconButton,
   Typography,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import { connect } from "react-redux";
 import { selectSublines } from "../../store/actions";
-import MarkedText from "../shared/MarkedText";
 import { excerptSelection } from "../../inc/excerptUtils";
 import SynopsisTable from "./SynopsisTable";
 import {
-  clearPunctutationFromText,
   hideSourceFromText,
 } from "../../inc/synopsisUtils";
 import { iExcerpt, iSubline } from "../../types/types";
+import NosachView from "./NosachView";
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -34,18 +35,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const useStyles = makeStyles((theme) => ({
   root: {
     "&.selected": { background: "#f2ff7385" },
-    "& > .MuiAccordionSummary-root": {
-      minHeight: 0,
-      "& > .MuiAccordionSummary-content": {
-        margin: 0,
-        "& > p": {
-          margin: 0,
-        },
-      },
-      "& > .MuiAccordionSummary-expandIcon": {
-        padding: 0,
-      },
+    "&.MuiAccordion-root.Mui-expanded":{margin:0},
+    "& p": {margin:0},
+    "& .MuiAccordionSummary-root, & .MuiAccordionSummary-root.Mui-expanded":{minHeight:0},
+    "& .MuiAccordionSummary.Mui-expanded":{background:'yellow',minHeight:0},
+    "& .MuiAccordionSummary-content.Mui-expanded":{
+      margin:0,
     },
+    "& .MuiAccordionSummary-content":{
+      margin:0,
+      justifyContent: 'space-between' ,
+    }
   },
   lineroot: {
     display: "flex",
@@ -57,19 +57,6 @@ const useStyles = makeStyles((theme) => ({
       textAlign: "right",
       direction: "rtl",
     },
-  },
-  lineNumber: {
-    //@ts-ignore //todo solve theme typings
-    ...theme.typography.lineNumber,
-  },
-  expansion: {
-    display: "block",
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-  sourceReference: {
-    //@ts-ignore
-    ...theme.typography.sourceReference,
   },
    heading: {
     // fontSize: theme.typography.pxToRem(15), //todo - uncomment
@@ -89,7 +76,7 @@ interface Props {
   selectSublines: Function;
   selectedExcerpt: iExcerpt;
   showPunctuation: boolean;
-  showSources: boolean;
+  showSources:  boolean;
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -129,9 +116,6 @@ const SublineDisplay = (props: Props) => {
   if (!showSources) {
     textToDisplay = hideSourceFromText(textToDisplay);
   }
-  if (!showPunctuation) {
-    textToDisplay = clearPunctutationFromText(textToDisplay);
-  }
   const markedSelection = excerptSelection(textToDisplay, subline, selectedExcerpt);
 
   return (
@@ -143,27 +127,29 @@ const SublineDisplay = (props: Props) => {
         className={`${classes.root} ${selectedClass}`}
       >
         <AccordionSummary
-          style={{ paddingRight: "0.25rem" }}
-          expandIcon={<ExpandMoreIcon />}
-          IconButtonProps={{
-            onClick: handleExpandClick,
-            style: { color: "#6633994f" },
-          }}
+          sx={{ paddingRight: "0.25rem", 
+        }}
           aria-controls="subline-content"
         >
-          <p>
-            <Typography component="span" className={classes.lineNumber}>
+            <Typography variant="lineNumber" component="span">
               {subline.index}
             </Typography>
-            <MarkedText
-              from={markedSelection?.from}
-              to={markedSelection?.to}
-              className={`${classes.heading} ${piskaClass}`}
-              text={textToDisplay}
-            />
-          </p>
+            <NosachView 
+            showPunctuation={showPunctuation}
+            selectedExcerpt={selectedExcerpt}
+            markFrom={markedSelection?.from}
+            markTo={markedSelection?.to}
+            subline={subline}/>
+          <AccordionActions sx={{padding:0}}>
+          <IconButton
+          style={{padding:0}}
+          size="small"
+           onClick={handleExpandClick}>
+            <ExpandMoreIcon/>
+          </IconButton>
+        </AccordionActions>
         </AccordionSummary>
-        <AccordionDetails className={classes.expansion}>
+        <AccordionDetails>
           <SynopsisTable synopsis={subline?.synopsis} />
         </AccordionDetails>
       </Accordion>

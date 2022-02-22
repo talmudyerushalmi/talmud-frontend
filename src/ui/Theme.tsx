@@ -1,9 +1,69 @@
-import { createMuiTheme } from "@material-ui/core/styles"
-import createBreakpoints from "@material-ui/core/styles/createBreakpoints"
-import blue from '@material-ui/core/colors/blue';
+import { createTheme } from "@mui/material/styles"
+import { blue } from "@mui/material/colors"
+import { createBreakpoints } from "@mui/system"
+declare module '@mui/material/styles' {
+  interface Theme {
+    custom: {
+      smallTitle: React.CSSProperties;
+    };
+    links: {
+      linkButton: React.CSSProperties;
+    };
+    buttons: {
+      narrow: React.CSSProperties;
+    }
+  }
+  // allow configuration using `createTheme`
+  interface ThemeOptions {
+    custom?: {
+      smallTitle?: React.CSSProperties;
+    };
+    links?: {
+      linkButton?: React.CSSProperties;
+    };
+    buttons?: {
+      narrow?: React.CSSProperties;
+    }
+  }
+}
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    tab: React.CSSProperties;
+    lineNumber: React.CSSProperties;
+    sourceReference: React.CSSProperties;
+    manuscript: React.CSSProperties;
+    title: React.CSSProperties;
+    category: React.CSSProperties;
+    smallTitle: React.CSSProperties;
+  }
+
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    tab?: React.CSSProperties;
+    lineNumber?: React.CSSProperties;
+    sourceReference?: React.CSSProperties;
+    manuscript?: React.CSSProperties;
+    title?: React.CSSProperties;
+    category?: React.CSSProperties;
+    smallTitle?: React.CSSProperties;
+  }
+}
+
+// Update the Typography's variant prop options
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    tab: true;
+    lineNumber: true;
+    sourceReference: true;
+    manuscript: true;
+    title: true;
+    category: true;
+    smallTitle: true;
+  }
+}
 
 export const themeConstants = {
-  fixedTopPadding: '4.5rem',
+  fixedTopPadding: '8.5rem',
   blue: blue[400],
   typography: {
     h1: {
@@ -20,20 +80,24 @@ export const themeConstants = {
 
 }
 
-const breakpoints = createBreakpoints({})
+const breakpoints = createBreakpoints({});
 
-const theme = createMuiTheme({
+const theme = createTheme({
   direction: "rtl",
+  custom: {
+    smallTitle: {
+      color: "#795548"
+    }
+  },
 
   palette: {
-    mainMenu: '#3f51b5'
-   // primary: red,
+    primary: { main:'#3f51b5' },
   },
   typography: {
     h1: {
       fontSize: themeConstants.typography.h1.fontSize,
       fontWeight: "bold",
-      [breakpoints.down("sm")]: {
+      [breakpoints.down("md")]: {
         fontSize: "2rem",
       },
     },
@@ -80,7 +144,8 @@ const theme = createMuiTheme({
       color: "white",
     },
     smallTitle: {
-      fontWeight: "bold"
+      fontWeight: "bold",
+      color: "#795548"
     }
 
     //  fontSize: 20
@@ -93,6 +158,7 @@ const theme = createMuiTheme({
       padding: "0.4rem 1rem",
       borderRadius: "0.5rem",
       transition: "background 0.3s, box-shadow 0.3s",
+      //@ts-ignore
       "&:hover": {
         background: "#ceebff",
         color: `${themeConstants.blue}`,
@@ -110,7 +176,6 @@ const theme = createMuiTheme({
   panels: {
     standard:{
       padding: '1rem',
-      maxWidth: '30rem'
     },
 
   },
@@ -137,5 +202,4 @@ const theme = createMuiTheme({
 })
 
 //theme.palette.augmentColor(theme.palette.extra, 500, 300, 700);
-
 export default theme

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 
 import Layout from "./layout"
 import SEO from "./seo"
-import { Container, Grid } from "@material-ui/core"
+import { Container, Grid } from "@mui/material"
 import PageService from "../services/pageService"
 import ChapterTree from "./tractate/chapterTree"
 

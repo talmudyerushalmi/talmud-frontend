@@ -1,14 +1,14 @@
 import React from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import Table from "@material-ui/core/Table"
-import TableBody from "@material-ui/core/TableBody"
-import TableCell from "@material-ui/core/TableCell"
-import TableContainer from "@material-ui/core/TableContainer"
-import TableHead from "@material-ui/core/TableHead"
-import TableRow from "@material-ui/core/TableRow"
-import Paper from "@material-ui/core/Paper"
+import makeStyles from '@mui/styles/makeStyles';
+import Table from "@mui/material/Table"
+import TableBody from "@mui/material/TableBody"
+import TableCell from "@mui/material/TableCell"
+import TableContainer from "@mui/material/TableContainer"
+import TableHead from "@mui/material/TableHead"
+import TableRow from "@mui/material/TableRow"
+import Paper from "@mui/material/Paper"
 import { getSynopsisRaw, synopsisMap } from "../../inc/synopsisUtils"
-import { Tooltip } from "@material-ui/core"
+import { Tooltip } from "@mui/material"
 import { iSynopsis } from "../../types/types"
 
 const useStyles = makeStyles({
@@ -29,6 +29,14 @@ const useStyles = makeStyles({
   cell: {
     padding: 0,
   },
+  parellel: {
+    '&.MuiTableCell-root': {color: 'red'}
+  },
+  excerpt: {
+    '&.MuiTableCell-root': {color: 'purple'}
+  },
+  default:{
+  }
 })
 
 interface Props {
@@ -65,6 +73,17 @@ export default function SynopsisTable(props: Props) {
           {synopsis
             .map((synopsisRow,i) => {
               const rawText = getSynopsisRaw(synopsisRow);
+              const compositionType = synopsisRow.composition?.composition.type;
+              let className = classes.default;
+              switch(compositionType) {
+                case 'parallel': className = classes.parellel;
+                break;
+                case 'excerpt': className = classes.excerpt;
+                break;
+                case 'yalkut': className = classes.excerpt;
+                break;
+                case undefined: className = classes.default;
+              }
               return (
                 rawText ?
               <TableRow key={i}>
@@ -76,7 +95,7 @@ export default function SynopsisTable(props: Props) {
                   {sourceName(synopsisRow)}
                 </TableCell>
                 </Tooltip>  
-                <TableCell align="left">{rawText}</TableCell>
+                <TableCell className={className} align="left">{rawText}</TableCell>
               </TableRow> : null
             )}
             )}

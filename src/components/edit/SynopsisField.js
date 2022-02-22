@@ -1,7 +1,8 @@
-import { Button, Grid, makeStyles } from "@material-ui/core";
+import { Button, Grid } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import React from "react";
 import SynopsisTextEditor from "./SynopsisTextEditor";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 const useStyles = makeStyles((theme) => ({
   centerFlex: { ...theme.layout.centerFlex, minWidth:'10rem', marginRight:'1rem' },

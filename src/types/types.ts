@@ -20,11 +20,12 @@ export interface iMishna {
 
 }
 
+type compositionType = "parallel" | "excerpt" | "yalkut";
 export interface iSource {
   title: string;
   secondary_title: string;
   date: string;
-  type: string;
+  type: compositionType;
   region: string;
   author: string;
 }
@@ -60,6 +61,12 @@ export interface iSynopsis {
   code: string;
   button_code: string;
   manuscript?: string;
+  composition?: iSynopsisComposition;
+}
+
+interface iSynopsisComposition {
+  composition: iSource;
+  compositionLocation: string;
 }
 
 export interface iSubline {

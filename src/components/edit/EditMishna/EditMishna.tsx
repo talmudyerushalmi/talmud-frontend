@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { connect } from "react-redux";
 import { requestTractates } from "../../../store/actions";
 import { useParams } from "react-router";

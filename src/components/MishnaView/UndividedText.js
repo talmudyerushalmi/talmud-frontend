@@ -1,6 +1,6 @@
-import { Typography } from "@material-ui/core"
+import { Typography } from "@mui/material"
 import React from "react"
-import { clearPunctutationFromText, getTextForSynopsis, hideSourceFromText } from "../../inc/synopsisUtils"
+import { clearPunctutationFromText, hideSourceFromText } from "../../inc/synopsisUtils"
 
 const UndividedText = props => {
   const { lines, showPunctuation, showSources } = props

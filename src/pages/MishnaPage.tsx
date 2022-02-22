@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import MainText from "../components/MishnaView/MainText";
 import MishnaText from "../components/MishnaView/MishnaText";
 import { connect } from "react-redux";
@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 interface Props {
-  currentMishna: iMishna
+  currentMishna: iMishna;
 }
 const MishnaPage = (props: Props) => {
   const { currentMishna } = props;
@@ -34,18 +34,31 @@ const MishnaPage = (props: Props) => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item>
+      <Grid
+        item
+        md={12}
+        sx={{
+          ml: 2,
+          paddingTop:'0 !important',
+          position: "sticky",
+          top: "4rem",
+          zIndex: 100,
+          background: "white",
+          boxShadow: "0rem 0rem 1rem 2px #0000005e",
+        }}
+      >
         <MishnaViewOptions />
       </Grid>
-      <Grid container justify="center" item sm={12}>
-        <Grid item>
-          <MishnaText mishna={mishna} html={getHTMLFromRawContent(currentMishna?.richTextMishna)}  />
-        </Grid>
-      </Grid>
       <Grid item md={8}>
-        <MainText
-          lines={currentMishna?.lines}
-        />
+        <Grid container justifyContent="center" item sm={12}>
+          <Grid item md={12}>
+            <MishnaText
+              mishna={mishna}
+              html={getHTMLFromRawContent(currentMishna?.richTextMishna)}
+            />
+          </Grid>
+        </Grid>
+        <MainText lines={currentMishna?.lines} />
       </Grid>
       <Grid item md={4}>
         <ExcerptsSection />
