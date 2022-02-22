@@ -14,7 +14,6 @@ import { selectSublines } from "../../store/actions";
 import { excerptSelection } from "../../inc/excerptUtils";
 import SynopsisTable from "./SynopsisTable";
 import {
-  clearPunctutationFromText,
   hideSourceFromText,
 } from "../../inc/synopsisUtils";
 import { iExcerpt, iSubline } from "../../types/types";
@@ -117,9 +116,6 @@ const SublineDisplay = (props: Props) => {
   if (!showSources) {
     textToDisplay = hideSourceFromText(textToDisplay);
   }
-  if (!showPunctuation) {
-    textToDisplay = clearPunctutationFromText(textToDisplay);
-  }
   const markedSelection = excerptSelection(textToDisplay, subline, selectedExcerpt);
 
   return (
@@ -139,6 +135,8 @@ const SublineDisplay = (props: Props) => {
               {subline.index}
             </Typography>
             <NosachView 
+            showPunctuation={showPunctuation}
+            selectedExcerpt={selectedExcerpt}
             markFrom={markedSelection?.from}
             markTo={markedSelection?.to}
             subline={subline}/>
