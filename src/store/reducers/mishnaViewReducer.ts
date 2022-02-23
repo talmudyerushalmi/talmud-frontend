@@ -9,11 +9,17 @@ import {
   TOGGLE_DIVIDE_TO_LINES,
   TOGGLE_SHOW_SOURCES,
   TOGGLE_SHOW_PUNCTUATION,
+  TOGGLE_EDIT_TYPE
 } from "../actions/mishnaViewActions";
 import {
   RECEIVE_MISHNA,
   SET_CURRENT_MISHNA,
 } from "../actions/navigationActions";
+
+export enum ShowEditType {
+  ORIGINAL = "ORIGINAL",
+  EDITED = "EDITED"
+}
 interface ViewState {
   loading: boolean;
   selectedSublines: iSubline[];
@@ -25,6 +31,7 @@ interface ViewState {
   divideToLines: boolean;
   showPunctuation: boolean;
   showSources: boolean;
+  showEditType: ShowEditType;
 }
 
 const initialState: ViewState = {
@@ -38,6 +45,7 @@ const initialState: ViewState = {
   divideToLines: true,
   showPunctuation: true,
   showSources: true,
+  showEditType: ShowEditType.EDITED
 };
 
 const mishnaViewReducer = (state = initialState, action) => {
@@ -80,6 +88,8 @@ const mishnaViewReducer = (state = initialState, action) => {
       };
     case TOGGLE_SHOW_SOURCES:
       return { ...state, showSources: !state.showSources };
+    case TOGGLE_EDIT_TYPE:
+      return { ...state, showEditType: action.payload.showEditType };
     case FILTER_EXCERPTS_BY_LINES:
       const selectedSublines = action?.selectedSublines;
       const newExcerpts = selectedSublines.length > 0

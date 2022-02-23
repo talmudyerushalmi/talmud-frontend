@@ -49,7 +49,7 @@ const Correction = (props) => {
   const { editingComment, oldWord } = props.contentState
     .getEntity(props.entityKey)
     .getData();
-  const tooltipText = `תוקן מ- "${oldWord}"`;
+  const tooltipText = `תוקן מ-  "${oldWord}"`;
 
   const tip = (
     <>
@@ -64,6 +64,35 @@ const Correction = (props) => {
     <div style={{ color: "green", display: "inline-block" }}>
       <Tooltip title={tip}>
         <span>{props.children}</span>
+      </Tooltip>
+    </div>
+  );
+};
+
+const AddOriginal = (_) => {
+  return null;
+};
+
+const CorrectionOriginal = (props) => {
+  const { editingComment, oldWord } = props.contentState
+    .getEntity(props.entityKey)
+    .getData();
+  const { decoratedText } = props;
+  const tooltipText = `לאחר תיקון - "${decoratedText}"`;
+
+  const tip = (
+    <>
+      <Typography color="inherit" dir="rtl">
+        {tooltipText}
+      </Typography>
+      {editingComment}
+    </>
+  );
+
+  return (
+    <div style={{ color: "green", display: "inline-block" }}>
+      <Tooltip title={tip}>
+        <span>{oldWord}</span>
       </Tooltip>
     </div>
   );
@@ -90,6 +119,11 @@ export const addDecorator = {
   component: Add,
 };
 
+export const addOriginalDecorator = {
+  strategy: getFindStrategy(NosachEntity.ADD),
+  component: AddOriginal,
+};
+
 export const quoteDecorator = {
   strategy: getFindStrategy(NosachEntity.QUOTE),
   component: Quote,
@@ -99,9 +133,21 @@ export const correctionDecorator = {
   strategy: getFindStrategy(NosachEntity.CORRECTION),
   component: Correction,
 };
+
+export const correctionOriginalDecorator = {
+  strategy: getFindStrategy(NosachEntity.CORRECTION),
+  component: CorrectionOriginal,
+};
+
 export const compoundNosachDecorators = new CompositeDecorator([
   addDecorator,
   deleteDecorator,
   quoteDecorator,
   correctionDecorator,
+]);
+
+export const compoundOriginalDecorators = new CompositeDecorator([
+  addOriginalDecorator,
+  quoteDecorator,
+  correctionOriginalDecorator,
 ]);

@@ -52,6 +52,8 @@ i18n
           "References": "מראי מקום",
           "Jerusalem Talmud": "תלמוד ירושלמי",
           "Beta Version":"מדגים יכולות",
+          "Original":"מקורי",
+          "Edited":"מתוקן",
         },
 
       }
