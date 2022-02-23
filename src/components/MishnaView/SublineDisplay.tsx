@@ -18,12 +18,14 @@ import {
 } from "../../inc/synopsisUtils";
 import { iExcerpt, iSubline } from "../../types/types";
 import NosachView from "./NosachView";
+import { ShowEditType } from "../../store/reducers/mishnaViewReducer";
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
   selectedExcerpt: state.mishnaView.selectedExcerpt,
   showPunctuation: state.mishnaView.showPunctuation,
   showSources: state.mishnaView.showSources,
+  showEditType: state.mishnaView.showEditType
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -77,6 +79,7 @@ interface Props {
   selectedExcerpt: iExcerpt;
   showPunctuation: boolean;
   showSources:  boolean;
+  showEditType: ShowEditType
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -86,6 +89,7 @@ const SublineDisplay = (props: Props) => {
     selectedExcerpt,
     showPunctuation,
     showSources,
+    showEditType
   } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState("");
@@ -136,6 +140,7 @@ const SublineDisplay = (props: Props) => {
             </Typography>
             <NosachView 
             showPunctuation={showPunctuation}
+            showEditType={showEditType}
             selectedExcerpt={selectedExcerpt}
             markFrom={markedSelection?.from}
             markTo={markedSelection?.to}

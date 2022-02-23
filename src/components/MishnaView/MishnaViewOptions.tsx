@@ -6,17 +6,20 @@ import { connect } from "react-redux";
 import { toggleShowPunctuation } from "../../store/actions";
 import {
   toggleDivideToLines,
+  toggleEditType,
   toggleShowSources,
 } from "../../store/actions/mishnaViewActions";
 import { useTranslation } from "react-i18next";
-import { Link } from "@mui/material";
+import { Link, MenuItem, Select } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { routeObject } from "../../routes/AdminRoutes";
+import { ShowEditType } from "../../store/reducers/mishnaViewReducer";
 
 const mapStateToProps = (state) => ({
   divideToLines: state.mishnaView.divideToLines,
   showPunctuation: state.mishnaView.showPunctuation,
   showSources: state.mishnaView.showSources,
+  showEditType: state.mishnaView.showEditType,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -29,6 +32,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   toggleShowSources: () => {
     dispatch(toggleShowSources());
   },
+  toggleEditType: (e) => {
+    dispatch(toggleEditType(e.target.value));
+  },
 });
 
 const MishnaViewOptions = (props) => {
@@ -39,6 +45,8 @@ const MishnaViewOptions = (props) => {
     toggleDivideToLines,
     showSources,
     toggleShowSources,
+    showEditType,
+    toggleEditType,
   } = props;
   const { t } = useTranslation();
   const route = useParams<routeObject>();
@@ -78,13 +86,26 @@ const MishnaViewOptions = (props) => {
         }
         label={t("References") as string}
       />
+      <Select
+        sx={{
+          '.MuiOutlinedInput-notchedOutline':{border:'none'},
+        }}
+        value={showEditType}
+        label=""
+        onChange={toggleEditType}
+      >
+        <MenuItem sx={{ direction: 'ltr'}} value={ShowEditType.ORIGINAL}>
+          {t("Original") as string}
+        </MenuItem>
+        <MenuItem  sx={{ direction: 'ltr'}} value={ShowEditType.EDITED}>{t("Edited") as string}</MenuItem>
+      </Select>
       <Link
-        sx={{ 
+        sx={{
           textDecoration: "none",
-          display: 'inline-flex',
-          alignItems: 'center',
-         cursor: 'pointer',
-         verticalAlign: 'middle',
+          display: "inline-flex",
+          alignItems: "center",
+          cursor: "pointer",
+          verticalAlign: "middle",
         }}
         target="_blank"
         href={`${process.env.REACT_APP_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}
