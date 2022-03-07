@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { ShowEditType } from "../../store/reducers/mishnaViewReducer";
 import { iExcerpt, iSubline } from "../../types/types";
 import TextEditor from "../edit/MainLineEditor/TextEditor";
-import { compoundNosachDecorators, compoundOriginalDecorators } from "../editors/EditorDecoratorNosach";
+import { compoundEditedNosachDecorators, compoundOriginalDecorators } from "../editors/EditorDecoratorNosach";
 
 interface Props {
   subline: iSubline;
@@ -34,7 +34,7 @@ const findWithRegex = (regex, contentBlock, callback) => {
 const getDecorator = (showEditType: ShowEditType) => {
   switch (showEditType) {
     case ShowEditType.EDITED:
-      return compoundNosachDecorators
+      return compoundEditedNosachDecorators
     case ShowEditType.ORIGINAL:
       return compoundOriginalDecorators
   }

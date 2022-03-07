@@ -1,4 +1,4 @@
-import { Tooltip, Typography } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { CompositeDecorator } from "draft-js";
 import { NosachEntity } from "../edit/MainLineEditor/MainLineDialog";
 
@@ -14,7 +14,7 @@ function getFindStrategy(type) {
   };
 }
 
-const Delete = (props) => {
+const DeleteOriginal = (props) => {
   const { editingComment } = props.contentState
     .getEntity(props.entityKey)
     .getData();
@@ -53,9 +53,9 @@ const Correction = (props) => {
 
   const tip = (
     <>
-      <Typography color="inherit" dir="rtl">
+      <div color="inherit" dir="rtl">
         {tooltipText}
-      </Typography>
+      </div>
       {editingComment}
     </>
   );
@@ -68,9 +68,47 @@ const Correction = (props) => {
     </div>
   );
 };
+const AddOriginal = (props) => {
+  const { editingComment } = props.contentState
+    .getEntity(props.entityKey)
+    .getData();
+  const tooltip = (
+    <>
+      <div dir="rtl">תוספת: "{props.children}"</div>
+      <div>{editingComment}</div>
+    </>
+  );
+  return (
+    <div style={{ color: "blue", display: "inline-block" }}>
+      <Tooltip title={tooltip}>
+        <span>*</span>
+      </Tooltip>
+    </div>
+  );
+};
 
-const AddOriginal = (_) => {
-  return null;
+const Delete = (props) => {
+  const { editingComment } = props.contentState
+    .getEntity(props.entityKey)
+    .getData();
+  const tooltip = (
+    <>
+      <div dir="rtl">מחיקה: "{props.children}"</div>
+      <div>{editingComment}</div>
+    </>
+  );
+  return (
+    <div
+      style={{
+        color: "red",
+        display: "inline-block",
+      }}
+    >
+      <Tooltip title={tooltip}>
+        <span>*</span>
+      </Tooltip>
+    </div>
+  );
 };
 
 const CorrectionOriginal = (props) => {
@@ -82,9 +120,9 @@ const CorrectionOriginal = (props) => {
 
   const tip = (
     <>
-      <Typography color="inherit" dir="rtl">
+      <div color="inherit" dir="rtl">
         {tooltipText}
-      </Typography>
+      </div>
       {editingComment}
     </>
   );
@@ -101,7 +139,7 @@ const CorrectionOriginal = (props) => {
 const Quote = (props) => {
   const { linkTo } = props.contentState.getEntity(props.entityKey).getData();
   return (
-    <div style={{ background: "grey", color: "blue", display: "inline-block" }}>
+    <div style={{ color: "blue", display: "inline-block" }}>
       <Tooltip title={linkTo}>
         <span>{props.children}</span>
       </Tooltip>
@@ -112,6 +150,11 @@ const Quote = (props) => {
 export const deleteDecorator = {
   strategy: getFindStrategy(NosachEntity.DELETE),
   component: Delete,
+};
+
+export const deleteOriginalDecorator = {
+  strategy: getFindStrategy(NosachEntity.DELETE),
+  component: DeleteOriginal,
 };
 
 export const addDecorator = {
@@ -139,7 +182,7 @@ export const correctionOriginalDecorator = {
   component: CorrectionOriginal,
 };
 
-export const compoundNosachDecorators = new CompositeDecorator([
+export const compoundEditedNosachDecorators = new CompositeDecorator([
   addDecorator,
   deleteDecorator,
   quoteDecorator,
@@ -148,6 +191,14 @@ export const compoundNosachDecorators = new CompositeDecorator([
 
 export const compoundOriginalDecorators = new CompositeDecorator([
   addOriginalDecorator,
+  deleteOriginalDecorator,
   quoteDecorator,
   correctionOriginalDecorator,
+]);
+
+export const compoundNosachDecoratorsForEditing = new CompositeDecorator([
+  addDecorator,
+  deleteOriginalDecorator,
+  quoteDecorator,
+  correctionDecorator,
 ]);
