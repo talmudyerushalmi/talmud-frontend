@@ -83,16 +83,18 @@ export const MainLineDialog = (props: Props) => {
     >
       <DialogTitle>{NosachMap.get(initialState.type)?.title}</DialogTitle>
       <DialogContent>
-        <TextField
-          id="outlined-multiline-flexible"
-          label="הערות עריכה"
-          multiline
-          maxRows={4}
-          value={editingData.editingComment}
-          onChange={(e) =>
-            setEditingData({ ...editingData, editingComment: e.target.value })
-          }
-        />
+        {type !== NosachEntity.QUOTE ? (
+          <TextField
+            id="outlined-multiline-flexible"
+            label="הערות עריכה"
+            multiline
+            maxRows={4}
+            value={editingData.editingComment}
+            onChange={(e) =>
+              setEditingData({ ...editingData, editingComment: e.target.value })
+            }
+          />
+        ) : null}
         {type === NosachEntity.CORRECTION ? (
           <>
             <TextField

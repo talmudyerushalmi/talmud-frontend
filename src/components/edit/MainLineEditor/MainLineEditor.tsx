@@ -12,7 +12,7 @@ import {
 } from "draft-js";
 import { CheckCircle, Close, Edit } from "@mui/icons-material";
 import CheckboxField from "../../formik/CheckboxField";
-import { compoundNosachDecorators } from "../../editors/EditorDecoratorNosach";
+import { compoundNosachDecoratorsForEditing } from "../../editors/EditorDecoratorNosach";
 import {
   InitialEntityDialogState,
   MainLineDialog,
@@ -84,13 +84,13 @@ const MainLineEditor = (props: Props) => {
       const contentState = convertFromRaw(content);
       newEditorState = EditorState.createWithContent(
         contentState,
-        compoundNosachDecorators
+        compoundNosachDecoratorsForEditing
       );
       setFinalText(getFinalText(contentState));
     } else {
       newEditorState = EditorState.createWithContent(
         ContentState.createFromText(""),
-        compoundNosachDecorators
+        compoundNosachDecoratorsForEditing
       );
     }
     setEditor(newEditorState);
@@ -196,7 +196,7 @@ const MainLineEditor = (props: Props) => {
     content = Modifier.applyEntity(content, selection, entityKey);
     let newEditorState = EditorState.createWithContent(
       content,
-      compoundNosachDecorators
+      compoundNosachDecoratorsForEditing
     );
 
     setEditor(newEditorState);
