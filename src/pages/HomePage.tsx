@@ -87,7 +87,30 @@ const HomePage = (props) => {
           color:'white'}}>
               שותפים
           </Link>
-          <a href="https://youtu.be/A1tMRN7iRxU" target="_blank" 
+
+          <a href={process.env.PUBLIC_URL + '/mahbarot_menachamyiot.pdf'} 
+          target="_blank" rel="noreferrer"
+          style={{
+            display:'block', width:'20rem',margin: '0rem auto', textAlign:'center',padding:'0.2rem',
+            color:'white'}}>
+              מחברות מנחמיות - בבלי יבמות פרק ראשון
+          </a>
+          <a href={process.env.PUBLIC_URL + '/tosefta_yevamot_mahbarot_menachamyiot.pdf'} 
+          target="_blank" rel="noreferrer"
+          style={{
+            display:'block', width:'20rem',margin: '0rem auto', textAlign:'center',padding:'0.2rem',
+            color:'white'}}>
+              מחברות מנחמיות - תוספתא יבמות
+          </a>
+          <a href={process.env.PUBLIC_URL + '/mapping.pdf'} 
+          target="_blank" rel="noreferrer"
+          style={{
+            display:'block', width:'20rem',margin: '0rem auto', textAlign:'center',padding:'0.2rem',
+            color:'white'}}>
+              ירושלמי יבמות פרק ראשון - מפת הסוגיות
+          </a>
+
+          <a href="https://youtu.be/A1tMRN7iRxU" target="_blank" rel="noreferrer"
           style={{color:'white',textAlign:'center',
           display:'block', width:'10rem',margin: '0rem auto',
            padding:'0.2rem'}}
