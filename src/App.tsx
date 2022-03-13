@@ -61,7 +61,8 @@ function App(props:any) {
           <Route path="/steering" exact  component={SteeringPage}/>
           <Route path="/partners" exact  component={PartnersPage}/>
           <Route path="/talmud/:tractate/:chapter/:mishna" exact component={ViewMishnaPage}/>
-          <AdminRoutes/>        
+          <AdminRoutes/>
+          <Route path={process.env.PUBLIC_URL}/>
           </Switch>
           <Footer/>
       </div>
