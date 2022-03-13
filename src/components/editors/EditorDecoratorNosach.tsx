@@ -37,9 +37,14 @@ const Add = (props) => {
   const { editingComment } = props.contentState
     .getEntity(props.entityKey)
     .getData();
+  const tooltip = (
+      <>
+        <div dir="rtl">תוספת: "{props.children}"</div>
+        <div>{editingComment}</div>
+      </>);
   return (
     <div style={{ color: "blue", display: "inline-block" }}>
-      <Tooltip title={editingComment}>
+      <Tooltip title={tooltip}>
         <span>{props.children}</span>
       </Tooltip>
     </div>
@@ -139,7 +144,7 @@ const CorrectionOriginal = (props) => {
 const Quote = (props) => {
   const { linkTo } = props.contentState.getEntity(props.entityKey).getData();
   return (
-    <div style={{ color: "blue", display: "inline-block" }}>
+    <div style={{ fontStyle: 'italic', display: "inline-block" }}>
       <Tooltip title={linkTo}>
         <span>{props.children}</span>
       </Tooltip>
