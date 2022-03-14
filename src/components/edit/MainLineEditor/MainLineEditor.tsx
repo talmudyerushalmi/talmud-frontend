@@ -64,8 +64,8 @@ const MainLineEditor = (props: Props) => {
 
   const classes = useStyles();
 
-  const [initial, setInitial] = useState(EditorState.createEmpty());
-  const [editor, setEditor] = useState(EditorState.createEmpty());
+  const [initial, setInitial] = useState(EditorState.createEmpty(compoundNosachDecoratorsForEditing));
+  const [editor, setEditor] = useState(EditorState.createEmpty(compoundNosachDecoratorsForEditing));
 
   const [mode, setMode] = useState(MODE.READONLY);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -77,17 +77,19 @@ const MainLineEditor = (props: Props) => {
 
 
   useEffect(() => {
-    let newEditorState;
+    let newEditorState: EditorState;
     if (content) {
       const contentState = convertFromRaw(content);
-      newEditorState = EditorState.createWithContent(
+      newEditorState = EditorState.push(
+        editor,
         contentState,
-        compoundNosachDecoratorsForEditing
+        'insert-characters'
       );
     } else {
-      newEditorState = EditorState.createWithContent(
+      newEditorState = EditorState.push(
+        editor,
         ContentState.createFromText(""),
-        compoundNosachDecoratorsForEditing
+        'insert-characters'
       );
     }
     setEditor(newEditorState);
@@ -176,10 +178,18 @@ const MainLineEditor = (props: Props) => {
         selection,
         editingData.newWord
       )
-      const newOffset = selection.getAnchorOffset() + editingData.newWord.length;
-      selection = selection.merge({
-        focusOffset: newOffset,
-      });
+  
+      if (selection.getIsBackward()) {
+        selection = selection.merge({
+          anchorOffset: selection.getFocusOffset() + editingData.newWord.length,
+        });
+      
+      } else {
+        selection = selection.merge({
+          focusOffset: selection.getFocusOffset() + editingData.newWord.length,
+        });
+      }
+
     }
     
     content = addEntity(content, type, {
@@ -190,9 +200,10 @@ const MainLineEditor = (props: Props) => {
     const entityKey = content.getLastCreatedEntityKey();
 
     content = Modifier.applyEntity(content, selection, entityKey);
-    let newEditorState = EditorState.createWithContent(
+    let newEditorState = EditorState.push(
+      editor,
       content,
-      compoundNosachDecoratorsForEditing
+      "apply-entity"
     );
 
     setEditor(newEditorState);

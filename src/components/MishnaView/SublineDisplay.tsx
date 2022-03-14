@@ -60,15 +60,6 @@ const useStyles = makeStyles((theme) => ({
       direction: "rtl",
     },
   },
-   heading: {
-    // fontSize: theme.typography.pxToRem(15), //todo - uncomment
-    // fontWeight: theme.typography.fontWeightRegular,
-    "&.piska": {
-      fontWeight: 'bold',
-      fontSize: '0.8rem',
-      color: '#795548',
-    },
-   }
 }));
 
 interface Props {
@@ -128,7 +119,7 @@ const SublineDisplay = (props: Props) => {
         square={true}
         expanded={expanded === `panelb${subline.index}`}
         onClick={() => handleSelect(subline)}
-        className={`${classes.root} ${selectedClass}`}
+        className={`${classes.root} ${selectedClass} ${piskaClass}`}
       >
         <AccordionSummary
           sx={{ paddingRight: "0.25rem", 

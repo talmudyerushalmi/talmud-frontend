@@ -1,6 +1,13 @@
 /* .public-DraftStyleDefault-block:before {
   content: '1'
 } */
+
+.piska .RichEditor-root {
+      font-weight: bold;
+      font-size: 0.8rem;
+      color: #795548;
+}
+
 .RichEditor-root {
     background:inherit;
     border: 1px solid #ddd;
