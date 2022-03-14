@@ -107,7 +107,6 @@ const MainLineEditor = (props: Props) => {
     return entityData ? entityData.getData() : undefined;
   };
   const editorChange = (e) => {
-    console.log('change editor')
     setEditor(e);
   };
   const btnSaveHandler = () => {
@@ -179,10 +178,18 @@ const MainLineEditor = (props: Props) => {
         selection,
         editingData.newWord
       )
-      const newOffset = selection.getAnchorOffset() + editingData.newWord.length;
-      selection = selection.merge({
-        focusOffset: newOffset,
-      });
+  
+      if (selection.getIsBackward()) {
+        selection = selection.merge({
+          anchorOffset: selection.getFocusOffset() + editingData.newWord.length,
+        });
+      
+      } else {
+        selection = selection.merge({
+          focusOffset: selection.getFocusOffset() + editingData.newWord.length,
+        });
+      }
+
     }
     
     content = addEntity(content, type, {
