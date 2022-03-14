@@ -67,8 +67,6 @@ const MainLineEditor = (props: Props) => {
   const [initial, setInitial] = useState(EditorState.createEmpty());
   const [editor, setEditor] = useState(EditorState.createEmpty());
 
-  const [finalText, setFinalText] = useState<string[]>([]);
-
   const [mode, setMode] = useState(MODE.READONLY);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [initialDialogState, setInitialDialogState] =
@@ -86,7 +84,6 @@ const MainLineEditor = (props: Props) => {
         contentState,
         compoundNosachDecoratorsForEditing
       );
-      setFinalText(getFinalText(contentState));
     } else {
       newEditorState = EditorState.createWithContent(
         ContentState.createFromText(""),
@@ -115,7 +112,6 @@ const MainLineEditor = (props: Props) => {
     const content = editor.getCurrentContent();
     const lines = getFinalText(content);
     const newContent = getContentStateArray(content);
-    setFinalText(lines);
     onSave(newContent, lines);
   };
   const btnDeleteHandler = () => {
@@ -200,7 +196,6 @@ const MainLineEditor = (props: Props) => {
     );
 
     setEditor(newEditorState);
-    setFinalText(getFinalText(content));
 
 
     setDialogOpen(false);
