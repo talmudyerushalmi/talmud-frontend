@@ -39,7 +39,7 @@ const Add = (props) => {
     .getData();
   const tooltip = (
       <>
-        <div dir="rtl">תוספת: "{props.children}"</div>
+        <div dir="rtl">תוספת</div>
         <div>{editingComment}</div>
       </>);
   return (
