@@ -121,7 +121,7 @@ const CorrectionOriginal = (props) => {
     .getEntity(props.entityKey)
     .getData();
   const { decoratedText } = props;
-  const tooltipText = `לאחר תיקון - "${decoratedText}"`;
+  const tooltipText = `צ״ל: "${decoratedText}"`;
 
   const tip = (
     <>
