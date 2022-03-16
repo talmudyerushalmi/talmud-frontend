@@ -186,7 +186,7 @@ const MainLineEditor = (props: Props) => {
       
       } else {
         selection = selection.merge({
-          focusOffset: selection.getFocusOffset() + editingData.newWord.length,
+          focusOffset: selection.getAnchorOffset() + editingData.newWord.length,
         });
       }
 
