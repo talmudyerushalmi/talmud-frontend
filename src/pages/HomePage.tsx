@@ -95,6 +95,21 @@ const HomePage = (props) => {
           >
             מבוא
           </Link>
+          <a
+              href="http://ircdl2022.dei.unipd.it/downloads/papers/IRCDL_2022_paper_3.pdf"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: "block",
+                width: "20rem",
+                margin: "0rem auto",
+                textAlign: "center",
+                padding: "0.2rem",
+                color: "white",
+              }}
+            >
+              Talmud Yerushalmi Digital Critical Edition 
+            </a>
           <Link
             to="/steering"
             style={{
