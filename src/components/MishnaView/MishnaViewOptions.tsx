@@ -64,7 +64,7 @@ const MishnaViewOptions = (props) => {
         }
         label={t("Division to Lines") as string}
       />
-      <FormControlLabel
+      {/* <FormControlLabel
         control={
           <Checkbox
             checked={showPunctuation}
@@ -74,8 +74,8 @@ const MishnaViewOptions = (props) => {
           />
         }
         label={t("Punctuation") as string}
-      />
-      <FormControlLabel
+      /> */}
+      {/* <FormControlLabel
         control={
           <Checkbox
             checked={showSources}
@@ -85,7 +85,7 @@ const MishnaViewOptions = (props) => {
           />
         }
         label={t("References") as string}
-      />
+      /> */}
       <Select
         sx={{
           '.MuiOutlinedInput-notchedOutline':{border:'none'},
