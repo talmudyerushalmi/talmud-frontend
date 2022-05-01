@@ -45,7 +45,7 @@ const initialState: ViewState = {
   divideToLines: true,
   showPunctuation: true,
   showSources: true,
-  showEditType: ShowEditType.EDITED
+  showEditType: ShowEditType.ORIGINAL
 };
 
 const mishnaViewReducer = (state = initialState, action) => {
