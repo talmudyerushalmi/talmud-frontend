@@ -53,7 +53,7 @@ const MishnaViewOptions = (props) => {
 
   return (
     <FormGroup row>
-      <FormControlLabel
+   {/*    <FormControlLabel
         control={
           <Checkbox
             checked={divideToLines}
@@ -74,7 +74,7 @@ const MishnaViewOptions = (props) => {
           />
         }
         label={t("Punctuation") as string}
-      />
+      /> */}
       {/* <FormControlLabel
         control={
           <Checkbox
