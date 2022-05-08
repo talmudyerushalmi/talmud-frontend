@@ -33,7 +33,7 @@ Digital Critical Edition
         אתר בהקמה, אין לצטט בשלב זה
         </Grid>
         <Grid item sm={4}>
-        תשפ”ב 2021-2022
+        תשפ”ב 2022-2021
         <img src={cc} style={{
               top: '0.15rem',
               paddingRight: '0.3rem',
