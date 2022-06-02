@@ -5,11 +5,10 @@ import {
   PageHeader,
   PageWithNavigation,
 } from "../layout/PageWithNavigation";
-import MishnaPage from "./MishnaPage";
 import TagManager from 'react-gtm-module';
 
 
-const ViewMishnaPage = () => {
+const ViewChapterPage = () => {
   useEffect(()=>{
     TagManager.dataLayer({
       dataLayer: {
@@ -27,21 +26,21 @@ const ViewMishnaPage = () => {
         dataLayer: {
           event: 'page_view',
           pagePath: window.location.href,
-          title: 'mishna-view',
+          title: 'chapter-view',
         },
       });
       window.scrollTo(0,0)}}>
       <PageHeader>
       </PageHeader>
       <PageContent>
-        <MishnaPage></MishnaPage>
+        hi
       </PageContent>
       <Footer/>
     </PageWithNavigation>
   );
 };
 
-export default ViewMishnaPage;
+export default ViewChapterPage;
 
 
 

@@ -49,6 +49,7 @@ export function getPreviousLine(tractate, chapter, mishna, line,mishnaDoc){
 
 }
 export const hebrewMap = new Map([
+    [0,'כל הפרק'],
     [1,'א'],
     [2,'ב'],
     [3,'ג'],
