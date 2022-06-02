@@ -57,13 +57,11 @@ export const deleteExcerpt = (tractate, chapter, mishna, excerptId: number) => {
   }
 }
 
-export const getMishnaForEdit = (tractate, chapter, mishna) => {
+export const getEditSettings = (tractate, chapter, mishna) => {
   return async function (dispatch) {
     dispatch({type:REQUEST_MISHNA_FOR_EDIT});
     const payload = await PageService.getMishnaEdit(tractate, chapter, mishna);
-    console.log(payload)
     dispatch({type:REQUEST_MISHNA_FOR_EDIT_DONE, payload})
-
   }
 
 }

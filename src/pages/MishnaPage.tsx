@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
 import MainText from "../components/MishnaView/MainText";
 import MishnaText from "../components/MishnaView/MishnaText";
 import { connect } from "react-redux";
-import { selectExcerpt } from "../store/actions";
 import ExcerptsSection from "../components/MishnaView/ExcerptsSection";
 import MishnaViewOptions from "../components/MishnaView/MishnaViewOptions";
 import { useParams } from "react-router";
 import { getHTMLFromRawContent } from "../inc/editorUtils";
 import { iMishna } from "../types/types";
 import { routeObject } from "../routes/AdminRoutes";
+import { getMishna } from "../store/actions/navigationActions";
 
 const mapStateToProps = (state) => ({
   currentMishna: state.general.currentMishna,
@@ -20,17 +20,22 @@ const mapStateToProps = (state) => ({
   loading: state.general.loading,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  selectExcerpt: (excerpt) => {
-    dispatch(selectExcerpt(excerpt));
-  },
+  getMishna: (tractate: string, chapter: string, mishna: string) => {
+    dispatch(getMishna(tractate, chapter, mishna))
+  }
 });
 
 interface Props {
   currentMishna: iMishna;
+  getMishna: Function;
 }
 const MishnaPage = (props: Props) => {
-  const { currentMishna } = props;
-  const { mishna } = useParams<routeObject>();
+  const { currentMishna, getMishna } = props;
+  const { tractate, chapter, mishna } = useParams<routeObject>();
+
+  useEffect(()=>{
+    getMishna(tractate, chapter, mishna)
+  }, [mishna])
 
   return (
     <Grid container spacing={2}>

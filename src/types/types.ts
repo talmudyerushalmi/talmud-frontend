@@ -5,6 +5,7 @@ import { iExcerptType } from "../inc/excerptUtils";
 
 export interface iTractate {
   id: string;
+  title_heb: string;
   chapters: iChapter[]
 }
 export interface iChapter {
@@ -16,8 +17,18 @@ export interface iMishna {
   mishna: string;
   lines: iLine[]
   excerpts: iExcerpt[]
-  richTextMishna: RawDraftContentState|null
+  richTextMishna: RawDraftContentState|null;
+  previous?: iMarker;
+  next?: iMarker;
 
+}
+
+export interface iMarker {
+  tractate: string;
+  chapter: string;
+  mishna: string;
+  lineFrom: string;
+  lineTo: string;
 }
 
 type compositionType = "parallel" | "excerpt" | "yalkut";

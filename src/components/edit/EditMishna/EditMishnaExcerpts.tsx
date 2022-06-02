@@ -11,9 +11,10 @@ import { routeObject } from "../../../routes/AdminRoutes";
 import {
   closeExcerptDialog,
   deleteExcerpt,
-  getMishnaForEdit,
+  getEditSettings,
   openExcerptDialog,
 } from "../../../store/actions/mishnaEditActions";
+import { getMishna } from "../../../store/actions/navigationActions";
 
 const mapStateToProps = (state) => ({
   compositions: state.general.compositions,
@@ -28,8 +29,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getTractates: () => {
     dispatch(requestTractates());
   },
-  getMishnaForEdit: (tractate, chapter, mishna) => {
-    dispatch(getMishnaForEdit(tractate, chapter, mishna));
+  getMishna: (tractate, chapter, mishna) => {
+    dispatch(getMishna(tractate, chapter, mishna))
+  },
+  getEditSettings: (tractate, chapter, mishna) => {
+    dispatch(getEditSettings(tractate, chapter, mishna));
   },
   openExcerptDialog: (excerpt) => dispatch(openExcerptDialog(excerpt)),
   closeExcerptDialog: () => dispatch(closeExcerptDialog),
@@ -40,7 +44,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const EditMishnaExcerpts = (props) => {
   const {
     getCompositions,
-    getMishnaForEdit,
+    getEditSettings,
+    getMishna,
     mishnaDoc,
     compositions,
     excerptDialogOpen,
@@ -56,7 +61,8 @@ const EditMishnaExcerpts = (props) => {
   }, [getCompositions]);
 
   useEffect(() => {
-    getMishnaForEdit(tractate, chapter, mishna);
+    getEditSettings(tractate, chapter, mishna);
+    getMishna(tractate, chapter, mishna)
     return () => {};
   }, [tractate, chapter, mishna]);
 
@@ -65,7 +71,6 @@ const EditMishnaExcerpts = (props) => {
       ...initialValues,
       selection,
     };
-    console.log(values);
     openExcerptDialog(values);
   };
 
@@ -75,8 +80,6 @@ const EditMishnaExcerpts = (props) => {
   }
   const addExcerpt = (initialValues) => {
     console.log(initialValues);
-    // setExcerpt(initialValues);
-    // setDialogOpen(true);
   };
 
   return (

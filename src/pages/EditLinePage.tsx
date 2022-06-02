@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router";
 import EditLineForm from "../components/edit/editlineForm";
-import FieldMainLineEditor from "../components/edit/MainLineEditor/MainLineEditor";
 import {
   PageContent,
   PageHeader,
@@ -10,7 +9,8 @@ import {
 } from "../layout/PageWithNavigation";
 import { routeObject } from "../routes/AdminRoutes";
 import { requestCompositions } from "../store/actions";
-import { getMishnaForEdit } from "../store/actions/mishnaEditActions";
+import { getEditSettings } from "../store/actions/mishnaEditActions";
+import { getMishna } from "../store/actions/navigationActions";
 
 const mapStateToProps = (state) => ({
   currentMishna: state.general.currentMishna,
@@ -20,15 +20,18 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getCompositions: () => {
     dispatch(requestCompositions());
   },
-  getMishnaForEdit: (tractate, chapter, mishna) => {
-    dispatch(getMishnaForEdit(tractate, chapter, mishna));
+  getEditSettings: (tractate, chapter, mishna) => {
+    dispatch(getEditSettings(tractate, chapter, mishna));
+  },
+  getMishna: (tractate, chapter, mishna) => {
+    dispatch(getMishna(tractate, chapter, mishna));
   },
 });
 
 const EditLinePage = (props) => {
   const [lineObj, setLineObj] = useState(null);
 
-  const { getMishnaForEdit, currentMishna, getCompositions } = props;
+  const { getEditSettings, getMishna, currentMishna, getCompositions } = props;
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
 
   useEffect(() => {
@@ -43,7 +46,8 @@ const EditLinePage = (props) => {
   }, [currentMishna]);
 
   useEffect(() => {
-    getMishnaForEdit(tractate, chapter, mishna);
+    getEditSettings(tractate, chapter, mishna);
+    getMishna(tractate, chapter, mishna);
     return () => {};
   }, [line]);
 

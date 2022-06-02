@@ -86,7 +86,15 @@ export function getCurrentTractate() {
   }
 }
 
+export function getMishna(tractate: string, chapter: string, mishna: string) {
+  return async function (dispatch) {
+    let mishnaData = await PageService.getMishna(tractate, chapter, mishna);
+    dispatch(setCurrentMishna(mishnaData));
 
+  }
+
+
+}
 export function setNavigationToRoute(tractate: string, chapter: string, mishna: string, line: string) {
   return async function (dispatch,getState) {
     let state = getState();
