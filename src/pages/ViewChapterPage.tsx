@@ -6,6 +6,7 @@ import {
   PageWithNavigation,
 } from "../layout/PageWithNavigation";
 import TagManager from 'react-gtm-module';
+import ChapterPage from "./ChapterPage";
 
 
 const ViewChapterPage = () => {
@@ -33,7 +34,7 @@ const ViewChapterPage = () => {
       <PageHeader>
       </PageHeader>
       <PageContent>
-        hi
+        <ChapterPage/>
       </PageContent>
       <Footer/>
     </PageWithNavigation>

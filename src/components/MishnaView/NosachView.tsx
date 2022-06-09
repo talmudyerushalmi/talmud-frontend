@@ -5,11 +5,14 @@ import {
   Modifier,
   SelectionState,
 } from "draft-js";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ShowEditType } from "../../store/reducers/mishnaViewReducer";
 import { iExcerpt, iSubline } from "../../types/types";
 import TextEditor from "../edit/MainLineEditor/TextEditor";
-import { compoundEditedNosachDecorators, compoundOriginalDecorators } from "../editors/EditorDecoratorNosach";
+import {
+  compoundEditedNosachDecorators,
+  compoundOriginalDecorators,
+} from "../editors/EditorDecoratorNosach";
 
 interface Props {
   subline: iSubline;
@@ -34,12 +37,11 @@ const findWithRegex = (regex, contentBlock, callback) => {
 const getDecorator = (showEditType: ShowEditType) => {
   switch (showEditType) {
     case ShowEditType.EDITED:
-      return compoundEditedNosachDecorators
+      return compoundEditedNosachDecorators;
     case ShowEditType.ORIGINAL:
-      return compoundOriginalDecorators
+      return compoundOriginalDecorators;
   }
-}
-
+};
 
 const lineSelected = (excerpt: iExcerpt, subline: iSubline) => {
   if (!(excerpt && excerpt.selection)) {
@@ -71,11 +73,18 @@ const mark = (editorState: EditorState, markFrom, markTo) => {
 };
 
 const NosachView = (props: Props) => {
-  const { subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType } = props;
+  const {
+    subline,
+    markFrom,
+    markTo,
+    showPunctuation,
+    selectedExcerpt,
+    showEditType,
+  } = props;
 
   const [editor, setEditor] = useState(EditorState.createEmpty());
 
-  const removePunctuation = (editorState: EditorState) => {
+  const memoizedRemovePunctuation = useCallback((editorState: EditorState) => {
     const regex = new RegExp("[-,.?]", "g");
     const selectionsToReplace: SelectionState[] = [];
     const blockMap = editorState.getCurrentContent().getBlockMap();
@@ -100,9 +109,12 @@ const NosachView = (props: Props) => {
     selectionsToReplace.forEach((selectionState) => {
       contentState = Modifier.replaceText(contentState, selectionState, "");
     });
-  
-    return EditorState.createWithContent(contentState, getDecorator(showEditType));
-  };
+
+    return EditorState.createWithContent(
+      contentState,
+      getDecorator(showEditType)
+    );
+  }, []);
 
   useEffect(() => {
     let newEditorState;
@@ -113,7 +125,7 @@ const NosachView = (props: Props) => {
         getDecorator(showEditType)
       );
       if (!showPunctuation) {
-        newEditorState = removePunctuation(newEditorState);
+        newEditorState = memoizedRemovePunctuation(newEditorState);
       }
       const length = newEditorState.getCurrentContent().getPlainText().length;
       if (selectedExcerpt && lineSelected(selectedExcerpt, subline)) {
@@ -125,7 +137,15 @@ const NosachView = (props: Props) => {
       );
     }
     setEditor(newEditorState);
-  }, [subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType]);
+  }, [
+    subline,
+    markFrom,
+    markTo,
+    showPunctuation,
+    selectedExcerpt,
+    showEditType,
+    memoizedRemovePunctuation
+  ]);
 
   // useEffect(()=>{
   //   let newEditorState;

@@ -1,6 +1,10 @@
 import { iMishna } from '../types/types';
 import axiosInstance from './api';
 
+interface getChapterReponse {
+  totalMishnaiot: number;
+  mishnaDocument: iMishna
+}
 
 export default class PageService {
 
@@ -17,6 +21,12 @@ export default class PageService {
 
   static async getMishna(tractate: string, chapter: string, mishna: string ): Promise<iMishna>{
     const url = `/mishna/${tractate}/${chapter}/${mishna}`;
+    const response =  await axiosInstance.get(url);
+    return response.data;
+  }
+
+  static async getChapter(tractate: string, chapter: string, mishna = 1 ): Promise<getChapterReponse>{
+    const url = `/mishna/${tractate}/${chapter}?mishna=${mishna}`;
     const response =  await axiosInstance.get(url);
     return response.data;
   }
