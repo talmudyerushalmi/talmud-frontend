@@ -119,7 +119,7 @@ useEffect(() => {
   const fetchLines =  (mishna: string) => {
     return NavigationService.getMishnaForNavigation(tractate, selectedChapter?.id, mishna);
   }
-  if (selectedMishna) {
+  if (selectedMishna && selectedMishna.mishna!==ALL_CHAPTER.mishna) {
     const mishna = selectedMishna.mishna
     fetchLines(mishna)
     .then(mishnaForNavigation => {
