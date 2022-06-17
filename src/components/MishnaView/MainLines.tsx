@@ -32,18 +32,19 @@ const mapStateToProps = (state: any) => ({
 interface Props {
   lines: iLine[];
   username: any;
+  mishna: string;
 }
 const MainLines = (props: Props) => {
   const classes = useStyles();
-  const { lines, username } = props;
+  const { lines, username, mishna } = props;
   let sectionsIndex = 1;
 
-  const history = useHistory();
   const route = useParams<routeObject>();
   if (!lines) {
     return null;
   }
 
+  console.log('lines is ',lines)
   return (
     <div className={classes.root}>
       {lines.map((line, index) => {
@@ -55,7 +56,7 @@ const MainLines = (props: Props) => {
                 left: '-3rem',
                 top: '-0.2rem'}}
                 onClick={() => {
-                  const url = `/admin/edit/${route.tractate}/${route.chapter}/${route.mishna}/${line.lineNumber}/`;
+                  const url = `/admin/edit/${route.tractate}/${route.chapter}/${mishna}/${line.lineNumber}/`;
                   //@ts-ignore
                   window!.open(url, '_blank').focus();
                 }}

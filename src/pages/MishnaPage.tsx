@@ -75,7 +75,7 @@ const MishnaPage = (props: Props) => {
             />
           </Grid>
         </Grid>
-        <MainText lines={currentMishna?.lines} />
+        <MainText lines={currentMishna?.lines} mishna={currentMishna?.mishna}/>
       </Grid>
       <Grid item md={4}>
         <ExcerptsSection />

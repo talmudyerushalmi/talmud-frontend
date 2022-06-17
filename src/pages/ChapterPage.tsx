@@ -122,7 +122,7 @@ const ChapterPage = (props: Props) => {
         </Grid>
         {mishnaiot.map((mishna, index) => (
           <>
-            <MainText key={index} lines={mishna?.lines} />
+            <MainText key={index} lines={mishna?.lines} mishna={mishna?.mishna} />
           </>
         ))}
         <div style={{ textAlign: "center" }}>
