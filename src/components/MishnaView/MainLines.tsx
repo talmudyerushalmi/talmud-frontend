@@ -44,7 +44,6 @@ const MainLines = (props: Props) => {
     return null;
   }
 
-  console.log('lines is ',lines)
   return (
     <div className={classes.root}>
       {lines.map((line, index) => {

@@ -114,6 +114,7 @@ const ChapterPage = (props: Props) => {
           <Grid item md={12}>
             {richTextMishnas.map((mishna, index) => (
               <MishnaText
+                key={mishna.mishna}
                 mishna={parseInt(mishna.mishna)}
                 html={getHTMLFromRawContent(mishna?.richTextMishna)}
               />
@@ -121,9 +122,7 @@ const ChapterPage = (props: Props) => {
           </Grid>
         </Grid>
         {mishnaiot.map((mishna, index) => (
-          <>
             <MainText key={index} lines={mishna?.lines} mishna={mishna?.mishna} />
-          </>
         ))}
         <div style={{ textAlign: "center" }}>
           <Spinner display={isFetching} />
