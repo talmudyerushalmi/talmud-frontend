@@ -10,7 +10,11 @@ import { getHTMLFromRawContent } from "../inc/editorUtils";
 import { iMishna } from "../types/types";
 import { routeObject } from "../routes/AdminRoutes";
 import { getMishna } from "../store/actions/navigationActions";
+import { setMishnaViewOptions } from "../store/actions/mishnaViewActions";
 
+const DEFAULT_OPTIONS = {
+  showSugiaName: true
+}
 const mapStateToProps = (state) => ({
   currentMishna: state.general.currentMishna,
   filteredExcerpts: state.mishnaView.filteredExcerpts,
@@ -20,6 +24,9 @@ const mapStateToProps = (state) => ({
   loading: state.general.loading,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  setMishnaViewOptions: () => {
+    dispatch(setMishnaViewOptions(DEFAULT_OPTIONS));
+  },
   getMishna: (tractate: string, chapter: string, mishna: string) => {
     dispatch(getMishna(tractate, chapter, mishna))
   }
@@ -28,10 +35,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 interface Props {
   currentMishna: iMishna;
   getMishna: Function;
+  setMishnaViewOptions: Function;
 }
 const MishnaPage = (props: Props) => {
-  const { currentMishna, getMishna } = props;
+  const { currentMishna, getMishna, setMishnaViewOptions } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
+
+  useEffect(()=>{
+    setMishnaViewOptions();
+  },[]);
 
   useEffect(()=>{
     getMishna(tractate, chapter, mishna)

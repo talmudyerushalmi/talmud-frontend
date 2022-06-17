@@ -8,10 +8,13 @@ import { useParams } from "react-router";
 import { getHTMLFromRawContent } from "../inc/editorUtils";
 import { iMishna } from "../types/types";
 import { routeObject } from "../routes/AdminRoutes";
-import { getChapter, getMishna } from "../store/actions/navigationActions";
-import PageService from "../services/pageService";
+import PageService, { RichTextsMishnas } from "../services/pageService";
 import Spinner from "../components/shared/Spinner";
+import { setMishnaViewOptions } from "../store/actions/mishnaViewActions";
 
+const DEFAULT_OPTIONS = {
+  showSugiaName: false,
+};
 const mapStateToProps = (state) => ({
   currentMishna: state.general.currentMishna,
   filteredExcerpts: state.mishnaView.filteredExcerpts,
@@ -21,20 +24,22 @@ const mapStateToProps = (state) => ({
   loading: state.general.loading,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  // getChapter: (tractate: string, chapter: string, mishna: string) => {
-  //   dispatch(getChapter(tractate, chapter, mishna))
-  // }
+  setViewOptions: () => {
+    dispatch(setMishnaViewOptions(DEFAULT_OPTIONS));
+  },
 });
 
 interface Props {
   currentMishna: iMishna;
   getMishna: Function;
+  setViewOptions: Function;
 }
 
 const ChapterPage = (props: Props) => {
-  const { currentMishna } = props;
+  const { currentMishna, setViewOptions } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
   const [mishnaiot, setMishnaiot] = useState<iMishna[]>([]);
+  const [richTextMishnas, setRichTextMishnas] = useState<RichTextsMishnas[]>([]);
   const [totalMishnaiot, setTotalMishnaiot] = useState<undefined | number>(
     undefined
   );
@@ -56,13 +61,13 @@ const ChapterPage = (props: Props) => {
 
   const fetchData = async (i: number, increment = true) => {
     PageService.getChapter(tractate, chapter, i).then((res) => {
-      console.log("r", res);
       if (increment) {
         setMishnaIndex(mishnaIndex + 1);
         setMishnaiot([...mishnaiot, res.mishnaDocument]);
       } else {
         setMishnaIndex(2);
         setMishnaiot([res.mishnaDocument]);
+        setRichTextMishnas(res.richTextsMishnas)
       }
 
       setIsFetching(false);
@@ -78,6 +83,7 @@ const ChapterPage = (props: Props) => {
   }, [mishnaIndex, mishnaiot, totalMishnaiot, isFetching]);
 
   useEffect(() => {
+    setViewOptions();
     fetchData(mishnaIndex);
   }, []);
 
@@ -106,14 +112,18 @@ const ChapterPage = (props: Props) => {
       <Grid item md={12}>
         <Grid container justifyContent="center" item sm={12}>
           <Grid item md={12}>
-            <MishnaText
-              mishna={mishna}
-              html={getHTMLFromRawContent(currentMishna?.richTextMishna)}
-            />
+            {richTextMishnas.map((mishna, index) => (
+              <MishnaText
+                mishna={parseInt(mishna.mishna)}
+                html={getHTMLFromRawContent(mishna?.richTextMishna)}
+              />
+            ))}
           </Grid>
         </Grid>
         {mishnaiot.map((mishna, index) => (
-          <MainText key={index} lines={mishna?.lines} />
+          <>
+            <MainText key={index} lines={mishna?.lines} />
+          </>
         ))}
         <div style={{ textAlign: "center" }}>
           <Spinner display={isFetching} />

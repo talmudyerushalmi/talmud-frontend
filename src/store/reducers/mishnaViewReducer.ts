@@ -9,7 +9,8 @@ import {
   TOGGLE_DIVIDE_TO_LINES,
   TOGGLE_SHOW_SOURCES,
   TOGGLE_SHOW_PUNCTUATION,
-  TOGGLE_EDIT_TYPE
+  TOGGLE_EDIT_TYPE,
+  SET_MISHNA_VIEW_OPTIONS
 } from "../actions/mishnaViewActions";
 import {
   RECEIVE_MISHNA,
@@ -26,6 +27,7 @@ interface ViewState {
   excerpts: any;
   filteredExcerpts: any;
   expanded: boolean;
+  showSugiaName: boolean,
   selectedExcerpt: null;
   detailsExcerptPopup: boolean;
   divideToLines: boolean;
@@ -40,6 +42,7 @@ const initialState: ViewState = {
   excerpts: [],
   filteredExcerpts: [],
   expanded: false,
+  showSugiaName: true,
   selectedExcerpt: null,
   detailsExcerptPopup: false,
   divideToLines: true,
@@ -103,6 +106,11 @@ const mishnaViewReducer = (state = initialState, action) => {
         filteredExcerpts: newExcerpts,
         expanded: action.selectedSublineData,
       };
+    case SET_MISHNA_VIEW_OPTIONS:
+      const options = action.options;
+      return {...state, 
+        showSugiaName: options.showSugiaName
+      }
     default:
       return state;
   }

@@ -8,18 +8,18 @@ const useStyles = makeStyles((theme) => {
     root: {
       '&.MuiPaper-root':{
       //@ts-ignore
-      ...theme.panels.standard,
+    //  ...theme.panels.standard,
 
       },
       '&.MuiPaper-root div':{
                  //@ts-ignore
        ...theme.custom.smallTitle,
         },
-     marginBottom: '1rem',
+   //  marginBottom: '1rem',
      fontWeight: 'bold',
      fontSize: '0.8rem',
      color: '#795548',
-     marginRight: '2rem',
+    // marginRight: '2rem',
     },
   })});
 

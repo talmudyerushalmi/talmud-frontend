@@ -1,9 +1,16 @@
+import { RawDraftContentState } from 'draft-js';
 import { iMishna } from '../types/types';
 import axiosInstance from './api';
 
+export interface RichTextsMishnas {
+  mishna: string,
+  richTextMishna: RawDraftContentState
+}
+
 interface getChapterReponse {
   totalMishnaiot: number;
-  mishnaDocument: iMishna
+  mishnaDocument: iMishna;
+  richTextsMishnas: RichTextsMishnas[]
 }
 
 export default class PageService {
