@@ -158,7 +158,7 @@ useEffect(() => {
     return () => {
       window.removeEventListener("keydown", keyPressHandler)
     }
-  }, [mishnaNavigation])
+  }, [mishnaNavigation, line])
 
 
   const handleNavigate = () => {
@@ -260,7 +260,7 @@ useEffect(() => {
       <Autocomplete
             classes={classes}
             onChange={(e, value) => {
-             // selectLine(value)
+             setSelectedLine(value)
             }}
             value={selectedLine}
             options={ mishnaNavigation ? mishnaNavigation.lines : [] }

@@ -1,4 +1,5 @@
 import { RawDraftContentState } from 'draft-js';
+import { iMishna } from '../types/types';
 import axiosInstance from './api';
 
 
@@ -13,11 +14,19 @@ export default class LineService {
     sublineIndex: number,
     nosach: RawDraftContentState,
     nosachText: string[]
-    ){
+    ): Promise<iMishna|null>{
     const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/nosach`;
     const data = {sublineIndex, nosach, nosachText}
-    const s =  await axiosInstance.post(url, data);
-    return s.data;
+    try {
+      const res = await axiosInstance.post(url, data);
+      return res.data;
+    }
+    catch (e) {
+      alert('error ' + JSON.stringify(e))
+      return null
+
+    }
+    
   }
 
   static async deleteSubline(tractate: string, chapter :string, mishna :string, line :string,

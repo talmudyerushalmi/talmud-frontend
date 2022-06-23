@@ -1,8 +1,10 @@
 import * as numeral from "numeral";
+import { iMishnaForNavigation } from "../components/shared/ChooseMishnaBar";
 
-export function getNextLine(tractate, chapter, mishna, line,mishnaDoc){
+export function getNextLine(tractate: string, chapter: string, mishna: string, line: string, mishnaDoc: iMishnaForNavigation|null){
+    if (!mishnaDoc) {return null}
     const nextLine = numeral(parseInt(line)+1).format('00000');
-    const lineObj = mishnaDoc.lines?.find(lineItem => lineItem.lineNumber === nextLine);
+    const lineObj = mishnaDoc?.lines?.find(lineItem => lineItem === nextLine);
     if (lineObj) {
         return {
             tractate, chapter, mishna,
@@ -23,7 +25,9 @@ export function getFirstLine(selectedMishna) {
     return selectedMishna.lines[0].lineNumber;
 }
 
-export function getPreviousLine(tractate, chapter, mishna, line,mishnaDoc){
+export function getPreviousLine(tractate: string, chapter: string, mishna: string, line: string, mishnaDoc: iMishnaForNavigation|null){
+    if (!mishnaDoc) {return null}
+
     // if first line return 
     if (line === '00001' && chapter === '001') {
         return {
@@ -32,7 +36,7 @@ export function getPreviousLine(tractate, chapter, mishna, line,mishnaDoc){
     }
     // if can move one line before
     let previousLine = numeral(parseInt(line)-1).format('00000');
-    const lineObj = mishnaDoc.lines?.find(lineItem => lineItem.lineNumber === previousLine);
+    const lineObj = mishnaDoc?.lines?.find(lineItem => lineItem === previousLine);
     if (lineObj) {
         return {
             tractate, chapter, mishna,
@@ -40,7 +44,7 @@ export function getPreviousLine(tractate, chapter, mishna, line,mishnaDoc){
         }
     } 
     // else need to move mishna before
-    else {
+    else if (mishnaDoc.previous) {
         return {
             ...mishnaDoc.previous,
             line: mishnaDoc.previous.lineTo
