@@ -53,7 +53,7 @@ const ChapterPage = (props: Props) => {
     const cond = !scrolledPassed70 || isFetching;
     if (cond) return;
 
-    if (!totalMishnaiot || mishnaIndex < totalMishnaiot) {
+    if (!totalMishnaiot || mishnaIndex <= totalMishnaiot) {
       setIsFetching(true);
       fetchData(mishnaIndex);
     }
