@@ -35,6 +35,8 @@ const MishnaText = props => {
     className={classes.root}>
         <Typography
         variant="h6"
+        style={{fontSize:'1rem'}}
+
         >{mishnaTitle}</Typography>
       <div dangerouslySetInnerHTML={{ __html: html }}></div>
     </Paper>
