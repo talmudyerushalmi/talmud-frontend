@@ -14,6 +14,7 @@ import { Link, MenuItem, Select } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { routeObject } from "../../routes/AdminRoutes";
 import { ShowEditType } from "../../store/reducers/mishnaViewReducer";
+import Manuscripts from "./Manuscripts";
 
 const mapStateToProps = (state) => ({
   divideToLines: state.mishnaView.divideToLines,
@@ -113,6 +114,7 @@ const MishnaViewOptions = (props) => {
       >
         [TEI]
       </Link>
+      <Manuscripts tractate={route.tractate} chapter={route.chapter}/>
     </FormGroup>
   );
 };

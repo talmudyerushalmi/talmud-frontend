@@ -35,6 +35,7 @@ i18n
       },
       he: {
         translation: {
+          "Close": "סגור",
           "Tractate":"מסכת",
           "Chapter":"פרק",
           "Mishna":"משנה",
@@ -52,6 +53,7 @@ i18n
           "Beta Version":"מדגים יכולות",
           "Original":"מקורי",
           "Edited":"מתוקן",
+          "Manuscripts": "כתבי יד"
         },
 
       }
