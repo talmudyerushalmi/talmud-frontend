@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next"
 import { routeObject } from "../../routes/AdminRoutes";
 import { iMarker,  iMishna, iTractate } from "../../types/types";
 import NavigationService from "../../services/NavigationService";
+import { setRoute } from "../../store/actions/navigationActions";
 
 export interface iMishnaForNavigation {
   lines: string[];
@@ -31,6 +32,9 @@ const mapDispatchToProps = (dispatch) => ({
   getTractates: () => {
     dispatch(requestTractates())
   },
+  setRoute: (tractate, chapter, mishna, line) => {
+    dispatch(setRoute(tractate, chapter, mishna, line))
+  }
 })
 
 const useStyles = makeStyles({
@@ -61,6 +65,7 @@ interface Props {
   getTractates: Function;
   allChapterAllowed?: boolean;
   onNavigationSelected: Function;
+  setRoute: Function;
 }
 const ChooseMishnaBar = (props:Props) => {
   const { t } = useTranslation();
@@ -71,6 +76,7 @@ const ChooseMishnaBar = (props:Props) => {
     onNavigationSelected,
     allChapterAllowed,
     getTractates,
+    setRoute
   } = props
 
   const [selectedTractate, setSelectedTractate] = useState<iTractate|null>(null)
@@ -138,6 +144,7 @@ useEffect(() => {
 
 
   useEffect(() => {
+    setRoute(tractate, chapter, mishna, line)
     setNavigation(tractate, chapter, mishna, line)
   }, [tractate, chapter, mishna, line, tractates])
 

@@ -1,22 +1,31 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { getFirstLine } from "../inc/utils";
 
 const mapStateToProps = (state: any) => ({
-  currentTractate: state.general.currentTractate,
-  currentChapter: state.general.currentChapter,
-  currentMishna: state.general.currentMishna,
-  currentLine: state.general.currentLine,
+  currentRoute: state.general.currentRoute
 });
 
 const AdminMenu = (props: any) => {
-  const { currentTractate, currentChapter, currentMishna, currentLine } = props;
+  const { currentRoute } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const history = useHistory();
+
+
+
+
+  const handleEditMishna = useCallback(()=>{
+    const tractate = currentRoute.tractate ? currentRoute.tractate : "yevamot";
+    const chapter = currentRoute.chapter ? currentRoute.chapter : "001";
+    const mishna = currentRoute.mishna ? currentRoute.mishna : "001";
+    history.push(`/admin/edit/${tractate}/${chapter}/${mishna}`);
+    handleClose();
+  }, [currentRoute])
+
+
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -26,33 +35,14 @@ const AdminMenu = (props: any) => {
     setAnchorEl(null);
   };
 
-  const handleEditLine = () => {
-    console.log(currentTractate);
-    const tractate = currentTractate ? currentTractate.id : "yevamot";
-    const chapter = currentChapter ? currentChapter.id : "001";
-    const mishna = currentMishna ? currentMishna.mishna : "001";
-    const line = currentLine
-      ? currentLine.lineNumber
-      : getFirstLine(currentMishna);
-    history.push(`/admin/edit/${tractate}/${chapter}/${mishna}/${line}`);
-    handleClose();
-  };
 
-  const handleEditMishna = () => {
-    const tractate = currentTractate ? currentTractate.id : "yevamot";
-    const chapter = currentChapter ? currentChapter.id : "001";
-    const mishna = currentMishna ? currentMishna.mishna : "001";
-    history.push(`/admin/edit/${tractate}/${chapter}/${mishna}`);
-    handleClose();
-  };
-
-  const handleViewMishna = () => {
-    const tractate = currentTractate ? currentTractate.id : "yevamot";
-    const chapter = currentChapter ? currentChapter.id : "001";
-    const mishna = currentMishna ? currentMishna.mishna : "001";
+  const handleViewMishna = useCallback(() => {
+    const tractate = currentRoute.tractate ? currentRoute.tractate : "yevamot";
+    const chapter = currentRoute.chapter ? currentRoute.chapter : "001";
+    const mishna = currentRoute.mishna ? currentRoute.mishna : "001";
     history.push(`/talmud/${tractate}/${chapter}/${mishna}`);
     handleClose();
-  };
+  }, [currentRoute])
 
 
   return (
@@ -73,7 +63,6 @@ const AdminMenu = (props: any) => {
       >
         <MenuItem onClick={handleViewMishna}>עמוד משנה</MenuItem>
         <MenuItem onClick={handleEditMishna}>עריכת משנה</MenuItem>
-        <MenuItem onClick={handleEditLine}>עריכת שורה</MenuItem>
       </Menu>
     </>
   );

@@ -13,6 +13,7 @@ export const SET_CURRENT_TRACTATE = "SET_CURRENT_TRACTATE"
 export const RECEIVED_CURRENT_LOCATION = "RECEIVED_CURRENT_LOCATION"
 export const RECEIVED_CURRENT_SELECTION = "RECEIVED_CURRENT_SELECTION"
 export const SET_SELECTED_FOR_ROUTE = "SET_SELECTED_FOR_ROUTE"
+export const SET_ROUTE = "SET_ROUTE"
 export const SELECT_TRACTATE = "SELECT_TRACTATE"
 export const SELECT_CHAPTER = "SELECT_CHAPTER"
 export const SELECT_MISHNA = "SELECT_MISHNA"
@@ -53,6 +54,15 @@ export const receivedCurrentSelection = (tractateData,chapterData,mishnaData,lin
   selectedMishnaData:mishnaData,
   selectedLineData: lineData
 });
+
+export const setRoute = (tractate, chapter, mishna, line) => ({
+  type: SET_ROUTE,
+  tractate,
+  chapter,
+  mishna,
+  line
+});
+
 
 export const setSelectedForRoute = (selectedTractate, selectedChapter, selectedMishna, selectedLine) => ({
   type: SET_SELECTED_FOR_ROUTE,
