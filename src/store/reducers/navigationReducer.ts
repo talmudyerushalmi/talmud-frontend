@@ -1,3 +1,4 @@
+import { routeObject } from "../../routes/AdminRoutes";
 import { iChapter, iLine, iMishna, iTractate } from "../../types/types";
 import {
   RECEIVED_CURRENT_LOCATION,
@@ -13,6 +14,7 @@ import {
   SET_CURRENT_MISHNA,
   SET_CURRENT_ROUTE,
   SET_CURRENT_TRACTATE,
+  SET_ROUTE,
   SET_SELECTED_FOR_ROUTE,
 } from "../actions/navigationActions";
 
@@ -29,6 +31,7 @@ interface NavigationState {
   currentChapter: iChapter|null,
   currentMishna: iMishna|null,
   currentLine: iLine|null,
+  currentRoute: routeObject | null
 }
 const initialState: NavigationState = {
   compositions: [],
@@ -42,10 +45,22 @@ const initialState: NavigationState = {
   currentChapter: null,
   currentMishna: null,
   currentLine: null,
+  currentRoute: null
 };
 
 const navigationReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_ROUTE:
+      const newRoute: routeObject = {
+        tractate: action.tractate,
+        chapter: action.chapter,
+        mishna: action.mishna,
+        line: action.line
+      }
+      return {
+        ...state,
+        currentRoute: newRoute
+      };
     case SET_SELECTED_FOR_ROUTE:
       return {
         ...state,

@@ -21,10 +21,6 @@ export function getNextLine(tractate: string, chapter: string, mishna: string, l
     }
 }
 
-export function getFirstLine(selectedMishna) {
-    return selectedMishna.lines[0].lineNumber;
-}
-
 export function getPreviousLine(tractate: string, chapter: string, mishna: string, line: string, mishnaDoc: iMishnaForNavigation|null){
     if (!mishnaDoc) {return null}
 
