@@ -68,7 +68,7 @@ const MishnaPage = (props: Props) => {
       </Grid>
       <Grid item md={8}>
         <Grid container justifyContent="center" item sm={12}>
-          <Grid item md={12}>
+          <Grid item md={12} mb={2}>
             <MishnaText
               mishna={mishna}
               html={getHTMLFromRawContent(currentMishna?.richTextMishna)}

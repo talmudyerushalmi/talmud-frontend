@@ -13,7 +13,6 @@ import { iSynopsis } from "../../types/types"
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
     marginBottom: '0.3rem',
     marginTop: '0.3rem',
     "& .MuiTableCell-root": {

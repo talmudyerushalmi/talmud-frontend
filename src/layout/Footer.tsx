@@ -7,13 +7,12 @@ const useStyles = makeStyles((theme) => {
   return {
     root: {
       position: "fixed",
-      height: '1.7rem',
       bottom: 0,
       background: theme.palette.primary.main,
       color: "white",
       width: "100%",
       right: 0,
-      paddingTop:'0.3rem',
+      paddingTop:'0 0.3rem',
       textAlign: 'center'
     },
   };
