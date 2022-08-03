@@ -53,8 +53,8 @@ const MishnaPage = (props: Props) => {
     <Grid container spacing={2}>
       <Grid
         item
-        md={12}
         sx={{
+          width: '100%',
           ml: 2,
           paddingTop:'0 !important',
           position: "sticky",
