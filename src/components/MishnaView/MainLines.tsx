@@ -3,7 +3,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import MainLine from "./MainLine";
 import { iLine } from "../../types/types";
 import SugiaButton from "./SugiaButton";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import { routeObject } from "../../routes/AdminRoutes";
@@ -52,6 +52,7 @@ const MainLines = (props: Props) => {
             {username ? (
               <IconButton
                 sx={{position: "absolute",
+                display: { xs: 'none', sm: 'block' },
                 left: '-3rem',
                 top: '-0.2rem'}}
                 onClick={() => {
