@@ -120,10 +120,12 @@ const ChooseMishnaBar = (props: Props) => {
 
   useEffect(() => {
     const fetchLines = (mishna: string) => {
+      const controller = new AbortController
       return NavigationService.getMishnaForNavigation(
         tractate,
         selectedChapter?.id,
-        mishna
+        mishna,
+        controller
       );
     };
     if (selectedMishna && selectedMishna.mishna !== ALL_CHAPTER.mishna) {

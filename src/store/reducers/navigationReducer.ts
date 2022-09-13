@@ -92,18 +92,12 @@ const navigationReducer = (state = initialState, action) => {
         currentLine: action.currentLine,
       };
     case RECEIVE_COMPOSITIONS:
-      console.log("got ", action);
       return { ...state, compositions: action.compositions, loading: false };
     case REQUEST_COMPOSITIONS:
       return { ...state, loading: true };
     case RECEIVE_TRACTATES:
       return { ...state, tractates: action.tractates, loading: false };
     case RECEIVE_MISHNA:
-      console.log("need to update selected mishna", action.currentMishna.id);
-      console.log(
-        "need to update selected mishna",
-        action.currentMishna.mishna
-      );
       return {
         ...state,
         selectedMishnaData: action.currentMishna,

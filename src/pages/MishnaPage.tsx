@@ -47,7 +47,7 @@ const MishnaPage = (props: Props) => {
 
   useEffect(()=>{
     getMishna(tractate, chapter, mishna)
-  }, [mishna])
+  }, [tractate, chapter, mishna])
 
   return (
     <Grid container spacing={2}>
