@@ -7,7 +7,7 @@ import PageService from "../../services/pageService";
 import { iExcerpt } from "../../types/types";
 import { setCurrentMishna } from "./navigationActions";
 import { RawDraftContentState } from "draft-js";
-import { a } from "aws-amplify";
+import axios from "axios";
 
 export const REQUEST_MISHNA_FOR_EDIT = "GET_MISHNA_FOR_EDIT"
 export const REQUEST_MISHNA_FOR_EDIT_DONE = "REQUEST_MISHNA_FOR_EDIT_DONE"
@@ -34,19 +34,36 @@ export const closeExcerptDialog = action(CLOSE_EXCERPT_DIALOG);
 export const saveExcerpt = (tractate, chapter, mishna, excerpt) => {
   return async function (dispatch, getState) {
     dispatch({type: SAVE_EXCERPT_START});
-    const mishnaDoc = await ExcerptService.saveExcerpt(
+    let mishnaDoc;
+    let response;
+    try {
+      response = await ExcerptService.saveExcerpt(
       tractate,
       chapter,
       mishna,
       excerpt
     );
-    console.log("saved is ", mishnaDoc);
+    mishnaDoc = response.data;
+    }
 
-    dispatch(setCurrentMishna(mishnaDoc));
-    dispatch({
-      type: SAVE_EXCERPT,
-      mishnaDoc,
-    });
+    catch(err) {
+      if (axios.isAxiosError(err))  {
+        console.error(err.response?.data)
+      } else {
+        console.error(err)
+      }
+      return
+    }
+
+    if (mishnaDoc) {
+      dispatch(setCurrentMishna(mishnaDoc));
+      dispatch({
+        type: SAVE_EXCERPT,
+        mishnaDoc,
+      });
+    }
+
+
   };
 };
 export const deleteExcerpt = (tractate, chapter, mishna, excerptId: number) => {

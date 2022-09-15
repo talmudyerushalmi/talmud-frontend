@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import RichTextEditorField from "../../editors/RichTextEditorField";
-import { RadioGroup } from "formik-material-ui";
+import { RadioGroup, TextField } from "formik-material-ui";
 import { convertFromRaw, EditorState } from "draft-js";
 import { getContentRaw } from "../../../inc/editorUtils";
 import * as Yup from "yup";
@@ -63,8 +63,8 @@ const FormikWrapper = (props) => {
               convertFromRaw(excerpt.editorStateFullQuote)
             )
           : EditorState.createEmpty(),
-       sourceLocation: selection.firstWords   
-      
+       sourceLocation: selection.firstWords,
+       link:  excerpt?.link ? excerpt.link : ''
       }}
       onSubmit={(values, props) => {
         const excerptToSave = {
@@ -106,6 +106,16 @@ const FormikWrapper = (props) => {
             <RichTextEditorField
               name="editorStateFullQuote"
               label="הערת נוסח"
+            />
+            <Field
+              component={TextField}
+              name="link"
+              type="url"
+              label="קישור"
+              fullWidth={true}
+              sx={{
+                direction:'rtl',
+              }}
             />
             <br />
 
