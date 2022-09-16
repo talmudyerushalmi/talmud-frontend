@@ -169,7 +169,16 @@ const FormikWrapper = (props) => {
               InputProps={{ multiline: true, fullWidth: true }}
             />
             <RichTextEditorField name="editorStateComments" label="הערות" />
-
+            <Field
+              component={TextField}
+              name="link"
+              type="url"
+              label="קישור"
+              fullWidth={true}
+              sx={{
+                direction:'rtl',
+              }}
+            />
             <br />
 
             {isSubmitting && <LinearProgress />}
