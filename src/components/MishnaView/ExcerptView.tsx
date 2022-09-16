@@ -29,13 +29,6 @@ const useStyles = makeStyles((theme) => ({
   sourceReference: {
     ...theme.typography.sourceReference,
   },
-  detailsButton: {
-    // position:'absolute',
-    // top:'0',
-    // left:'0',
-    color: "#9863aa63",
-    padding: "0",
-  },
 }));
 
 interface Props {
@@ -84,7 +77,6 @@ const ExcerptView = (props: Props) => {
         >
           {excerpt.link ? (
             <IconButton
-              className={classes.detailsButton}
               onClick={(e) => {
                 e.stopPropagation();
                 window.open(excerpt.link, "_blank")?.focus();
