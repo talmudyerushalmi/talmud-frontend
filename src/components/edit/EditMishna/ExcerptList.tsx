@@ -66,6 +66,9 @@ const ExcerptList = (props:Props) => {
     case EXCERPT_TYPE.EXPLANATORY:
       listname = t("Explanatory Notes")
       break;
+    case EXCERPT_TYPE.DICTIONARY:
+      listname = t("Dictionary")
+      break;
     default: 
   }
 

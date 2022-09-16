@@ -45,6 +45,7 @@ i18n
           "Editing Comments":"הערות נוסח",
           "Bibliographic Notes": "ביבליוגרפיה",
           "Explanatory Notes": "הערות פרשניות",
+          "Dictionary": "מילון",
           "Division to Lines": "חלוקה לשורות",
           "Punctuation": "פיסוק",
           "References": "מראי מקום",
