@@ -77,6 +77,10 @@ const ExcerptView = (props: Props) => {
         >
           {excerpt.link ? (
             <IconButton
+            sx={{
+              position:'absolute',
+              right: '0.5rem'
+            }}
               onClick={(e) => {
                 e.stopPropagation();
                 window.open(excerpt.link, "_blank")?.focus();
