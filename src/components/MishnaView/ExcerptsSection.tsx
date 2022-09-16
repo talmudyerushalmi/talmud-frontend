@@ -93,6 +93,11 @@ const ExcerptsSection = (props) => {
         expanded={expanded}
         excerpts={filteredExcerpts}
       />
+       <ExcerptsView
+        type={EXCERPT_TYPE.DICTIONARY}
+        expanded={expanded}
+        excerpts={filteredExcerpts}
+      />
     </div>
   );
 };

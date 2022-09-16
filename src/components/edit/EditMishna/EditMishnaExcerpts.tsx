@@ -180,6 +180,18 @@ const EditMishnaExcerpts = (props) => {
                 }}
                 onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
               ></ExcerptList>
+                <ExcerptList
+                admin={true}
+                filter= {EXCERPT_TYPE.DICTIONARY}
+                excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
+                onClick={(excerpt) => {
+                  openExcerptDialog(excerpt);
+                }}
+                onDelete={(excerptId) => {
+                  deleteExcerpt(tractate, chapter, mishna, excerptId);
+                }}
+                onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
+              ></ExcerptList>
             </div>
           </Grid>
         </Grid>

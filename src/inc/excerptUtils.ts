@@ -40,6 +40,12 @@ export const excerptsMap = new Map([
       title: "Explanatory Notes",
     },
   ],
+  [
+    EXCERPT_TYPE.DICTIONARY,
+    {
+      title: "Dictionary",
+    },
+  ],
 ]);
 
 export const getExcerptTitle = (excerpt: iExcerpt): string => {

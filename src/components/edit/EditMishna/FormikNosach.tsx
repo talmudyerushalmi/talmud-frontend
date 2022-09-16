@@ -102,6 +102,12 @@ const FormikWrapper = (props) => {
                 label="פרשנית"
                 disabled={isSubmitting}
               />
+               <FormControlLabel
+                value={EXCERPT_TYPE.DICTIONARY}
+                control={<Radio disabled={isSubmitting} />}
+                label="מילון"
+                disabled={isSubmitting}
+              />
             </Field>
             <RichTextEditorField
               name="editorStateFullQuote"

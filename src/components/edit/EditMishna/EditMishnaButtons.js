@@ -65,6 +65,15 @@ const EditMishnaButtons = (props)=>{
         >
           הערה פרשנית
         </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            onAddNewExcerpt({type: EXCERPT_TYPE.DICTIONARY})
+          }}
+        >
+          מילון
+        </Button>
       </div>
     )
 }
