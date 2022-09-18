@@ -10,7 +10,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import RichTextEditorField from "../../editors/RichTextEditorField";
 import { RadioGroup, TextField } from "formik-material-ui";
 import { convertFromRaw, EditorState } from "draft-js";
-import { getContentRaw } from "../../../inc/editorUtils";
+import { EditorSelectionObject, getContentRaw } from "../../../inc/editorUtils";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import {
@@ -18,6 +18,7 @@ import {
   saveExcerpt,
 } from "../../../store/actions/mishnaEditActions";
 import { EXCERPT_TYPE } from "./ExcerptDialog";
+import { iExcerpt } from "../../../types/types";
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   saveExcerpt: (tractate, chapter, mishna, excerpt) => {
@@ -42,7 +43,14 @@ const useStyles = makeStyles({
   },
 });
 
-const FormikWrapper = (props) => {
+interface Props {
+  saveExcerpt: Function;
+  closeExcerptDialog: Function;
+  excerpt: iExcerpt;
+  selection: EditorSelectionObject;
+  mishna: any
+}
+const FormikWrapper = (props: Props) => {
   const classes = useStyles();
   const {
     saveExcerpt,
@@ -64,6 +72,7 @@ const FormikWrapper = (props) => {
             )
           : EditorState.createEmpty(),
        sourceLocation: selection.firstWords,
+       short:  excerpt?.short ? excerpt.short : '',
        link:  excerpt?.link ? excerpt.link : ''
       }}
       onSubmit={(values, props) => {
@@ -106,6 +115,15 @@ const FormikWrapper = (props) => {
             <RichTextEditorField
               name="editorStateFullQuote"
               label="הערת נוסח"
+            />
+            <Field
+              component={TextField}
+              name="short"
+              type="text"
+              label="תצוגה קצרה"
+              fullWidth={true}
+              multiline
+              rows={2}
             />
             <Field
               component={TextField}
