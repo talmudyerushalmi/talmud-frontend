@@ -96,6 +96,7 @@ const ExcerptView = (props: Props) => {
               {excerpt.source?.title}{" "}
             </Typography>
             <Typography component="span">{excerpt.sourceLocation}</Typography>
+            <Typography component="div">{excerpt.short}</Typography>
           </div>
         </AccordionSummary>
         <AccordionDetails>

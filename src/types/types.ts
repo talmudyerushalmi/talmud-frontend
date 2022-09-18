@@ -55,6 +55,7 @@ export interface iExcerpt {
   sourceLocation?: string;
   flagNeedUpdate?: boolean;
   link?: string;
+  short?: string;
 }
 
 export interface EditedText {
