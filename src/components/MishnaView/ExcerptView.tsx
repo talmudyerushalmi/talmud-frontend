@@ -46,32 +46,33 @@ const ExcerptView = (props: Props) => {
     setExpanded(expanded ? excerpt.key : null);
   }, [expanded]);
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    //selectExcerpt(excerpt);
-    if (excerpt.editorStateShortQuote) {
-      setExpanded(newExpanded ? panel : false);
+
+  const handleClick = ()=>{
+    if (!expandedState) {
+      if (excerpt.short) {
+        setExpanded(excerpt.key)
+      } else {
+        selectExcerpt(excerpt)
+      }
+    } else {
+      selectExcerpt(excerpt)
+      setExpanded(null)
     }
-  };
+  }
 
-  let markupShortQuote = isContentEmpty(excerpt.editorStateShortQuote)
-    ? getExcerpt(excerpt.editorStateFullQuote, 20)
-    : draftToHtml(excerpt.editorStateShortQuote);
 
-  const markupFullQuote = draftToHtml(excerpt.editorStateFullQuote);
+
   const selectionRange = getSelectionRange(excerpt);
 
   return (
     <>
       <Accordion
         square
-        expanded={expandedState === key}
-        onChange={handleChange(key)}
+        expanded={expandedState === excerpt.key}
+        onClick={handleClick}
       >
         <AccordionSummary
           className={excerpt.link ? "linked-excerpt" : ""}
-          onClick={() => {
-            selectExcerpt(excerpt);
-          }}
           aria-controls="panel1d-content"
           id="panel1d-header"
         >
@@ -96,11 +97,10 @@ const ExcerptView = (props: Props) => {
               {excerpt.source?.title}{" "}
             </Typography>
             <Typography component="span">{excerpt.sourceLocation}</Typography>
-            <Typography component="div">{excerpt.short}</Typography>
           </div>
         </AccordionSummary>
         <AccordionDetails>
-          <div dangerouslySetInnerHTML={{ __html: markupShortQuote }}></div>
+        <Typography component="div">{excerpt.short}</Typography>
         </AccordionDetails>
       </Accordion>
     </>
