@@ -49,17 +49,15 @@ const ExcerptView = (props: Props) => {
 
   const handleClick = ()=>{
     if (!expandedState) {
-      if (excerpt.short) {
-        setExpanded(excerpt.key)
-      } else {
-        selectExcerpt(excerpt)
-      }
+      setExpanded(excerpt.key)
     } else {
       selectExcerpt(excerpt)
       setExpanded(null)
     }
   }
 
+  let short =  excerpt.short ? excerpt.short :
+  getExcerpt(excerpt.editorStateFullQuote,20)
 
 
   const selectionRange = getSelectionRange(excerpt);
@@ -100,7 +98,7 @@ const ExcerptView = (props: Props) => {
           </div>
         </AccordionSummary>
         <AccordionDetails>
-        <Typography component="div">{excerpt.short}</Typography>
+        <div dangerouslySetInnerHTML={{ __html: short}}></div>
         </AccordionDetails>
       </Accordion>
     </>
