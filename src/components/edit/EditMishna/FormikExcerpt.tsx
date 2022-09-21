@@ -70,11 +70,7 @@ const FormikWrapper = (props) => {
               convertFromRaw(excerpt.editorStateFullQuote)
             )
           : EditorState.createEmpty(),
-        editorStateShortQuote: excerpt.key
-          ? EditorState.createWithContent(
-              convertFromRaw(excerpt.editorStateShortQuote)
-            )
-          : EditorState.createEmpty(),
+        short:  excerpt?.short ? excerpt.short : '',
         synopsis: excerpt.key ? excerpt.synopsis : "",
         editorStateComments: excerpt.key
           ? EditorState.createWithContent(
@@ -88,7 +84,6 @@ const FormikWrapper = (props) => {
           ...values,
           selection,
           editorStateFullQuote: getContentRaw(values.editorStateFullQuote),
-          editorStateShortQuote: getContentRaw(values.editorStateShortQuote),
           editorStateComments: getContentRaw(values.editorStateComments),
         };
         saveExcerpt(
@@ -156,9 +151,14 @@ const FormikWrapper = (props) => {
               name="editorStateFullQuote"
               label="ציטוט מלא"
             />
-            <RichTextEditorField
-              name="editorStateShortQuote"
-              label="ציטוט מקוצר"
+            <Field
+              component={TextField}
+              name="short"
+              type="text"
+              label="תצוגה קצרה"
+              fullWidth={true}
+              multiline
+              rows={2}
             />
             <Field
               style={{ width: "100%" }}
@@ -169,7 +169,16 @@ const FormikWrapper = (props) => {
               InputProps={{ multiline: true, fullWidth: true }}
             />
             <RichTextEditorField name="editorStateComments" label="הערות" />
-
+            <Field
+              component={TextField}
+              name="link"
+              type="url"
+              label="קישור"
+              fullWidth={true}
+              sx={{
+                direction:'rtl',
+              }}
+            />
             <br />
 
             {isSubmitting && <LinearProgress />}

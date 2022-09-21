@@ -1,3 +1,4 @@
+import { iExcerpt } from '../types/types';
 import axiosInstance from './api';
 
 export default class ExcerptService {
@@ -5,11 +6,14 @@ export default class ExcerptService {
 
 
 
-  static async saveExcerpt(tractate: string, chapter: string, mishna: string, values: any ){
+  static async saveExcerpt(tractate: string, chapter: string, mishna: string, values: iExcerpt ){
     const url = `${ExcerptService.BASE}/${tractate}/${chapter}/${mishna}`;
     const data = {...values}
+    if (data.link === "") {
+      delete data.link
+    }
     const response =  await axiosInstance.post(url, data);
-    return response.data;
+    return response;
   }
 
   static async deleteExcerpt(tractate: string, chapter: string, mishna: string, key: number ){
