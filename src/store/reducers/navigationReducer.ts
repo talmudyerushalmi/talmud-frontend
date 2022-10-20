@@ -59,7 +59,8 @@ const navigationReducer = (state = initialState, action) => {
       }
       return {
         ...state,
-        currentRoute: newRoute
+        currentRoute: newRoute,
+        loading: true
       };
     case SET_SELECTED_FOR_ROUTE:
       return {
@@ -82,7 +83,7 @@ const navigationReducer = (state = initialState, action) => {
     case SELECT_LINE:
       return { ...state, selectedLine: action.selectedLine };
     case SET_CURRENT_MISHNA:
-      return { ...state, currentMishna: action.currentMishna };
+      return { ...state, currentMishna: action.currentMishna, loading: false };
     case SET_CURRENT_ROUTE:
       return {
         ...state,

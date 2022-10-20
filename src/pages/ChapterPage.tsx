@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import MainText from "../components/MishnaView/MainText";
 import MishnaText from "../components/MishnaView/MishnaText";
 import { connect } from "react-redux";
@@ -124,9 +124,11 @@ const ChapterPage = (props: Props) => {
         {mishnaiot.map((mishna, index) => (
             <MainText key={index} lines={mishna?.lines} mishna={mishna?.mishna} />
         ))}
-        <div style={{ textAlign: "center" }}>
-          <Spinner display={isFetching} />
-        </div>
+        {isFetching && (
+          <Box textAlign="center">
+            <Spinner />
+          </Box>
+        )}
       </Grid>
     </Grid>
   );
