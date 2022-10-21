@@ -5,9 +5,12 @@ import mishnaViewReducer from "./reducers/mishnaViewReducer";
 import navigationReducer from "./reducers/navigationReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import mishnaEditReducer from "./reducers/mishnaEditReducer";
+import generalReducer from "./reducers/generalReducer";
 
 const rootReducer = combineReducers({
-  general: navigationReducer,
+
+  general: generalReducer,
+  navigation: navigationReducer,
   authentication: authReducer,
   mishnaView: mishnaViewReducer,
   mishnaEdit: mishnaEditReducer
