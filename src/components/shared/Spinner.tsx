@@ -1,7 +1,19 @@
-import { CircularProgress } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 
 const Spinner = () => {
-  return <CircularProgress />;
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 999,
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  );
 };
 
 export default Spinner;

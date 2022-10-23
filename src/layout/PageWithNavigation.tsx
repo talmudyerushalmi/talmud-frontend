@@ -59,8 +59,15 @@ const PageWithNavigation2 = (props: Props) => {
           onNavigationSelected={navigationSelectedHandler}
         />
       </Box>
-      <Box display="flex" justifyContent="center">
-        {loading ? <Spinner /> : props.children}
+      <Box
+        display="flex"
+        justifyContent="center"
+        sx={{
+          opacity: loading ? 0.3 : 1,
+        }}
+      >
+        {loading && <Spinner />}
+        {props.children}
       </Box>
     </Container>
   );
