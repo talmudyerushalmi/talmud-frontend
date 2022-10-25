@@ -23,7 +23,7 @@ export interface iMishnaForNavigation {
 }
 
 const mapStateToProps = (state) => ({
-  tractates: state.general.tractates,
+  tractates: state.navigation.tractates,
 });
 
 const mapDispatchToProps = (dispatch) => ({

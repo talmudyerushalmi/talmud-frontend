@@ -8,88 +8,50 @@ import { useParams } from "react-router";
 import { getHTMLFromRawContent } from "../inc/editorUtils";
 import { iMishna } from "../types/types";
 import { routeObject } from "../routes/AdminRoutes";
-import PageService, { RichTextsMishnas } from "../services/pageService";
-import Spinner from "../components/shared/Spinner";
-import { setMishnaViewOptions } from "../store/actions/mishnaViewActions";
+import { RichTextsMishnas } from "../services/pageService";
+import { getRichMishnaiotForChapter, setMishnaViewOptions } from "../store/actions/mishnaViewActions";
+import useScroll from "../hooks/useScroll";
 
 const DEFAULT_OPTIONS = {
   showSugiaName: false,
 };
 const mapStateToProps = (state) => ({
-  currentMishna: state.general.currentMishna,
-  filteredExcerpts: state.mishnaView.filteredExcerpts,
-  selectedExcerpt: state.mishnaView.selectedExcerpt,
-  detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
-  expanded: state.mishnaView.expanded,
+  mishnaiot: state.mishnaView.mishnaiot,
+  richTextMishnas: state.mishnaView.richTextMishnas,
   loading: state.general.loading,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setViewOptions: () => {
     dispatch(setMishnaViewOptions(DEFAULT_OPTIONS));
   },
+  getRichMishnaiotForChapter: (tractate: string, chapter: string, newChapter?: boolean) => {
+    dispatch(getRichMishnaiotForChapter(tractate, chapter, newChapter))
+  }
 });
 
 interface Props {
-  currentMishna: iMishna;
+  mishnaiot: iMishna[];
+  richTextMishnas: RichTextsMishnas[];
+  getRichMishnaiotForChapter: Function;
   getMishna: Function;
   setViewOptions: Function;
+  loading: boolean;
 }
 
 const ChapterPage = (props: Props) => {
-  const { currentMishna, setViewOptions } = props;
+  const { mishnaiot, richTextMishnas, setViewOptions, getRichMishnaiotForChapter, loading } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
-  const [mishnaiot, setMishnaiot] = useState<iMishna[]>([]);
-  const [richTextMishnas, setRichTextMishnas] = useState<RichTextsMishnas[]>([]);
-  const [totalMishnaiot, setTotalMishnaiot] = useState<undefined | number>(
-    undefined
-  );
-  const [isFetching, setIsFetching] = useState(false);
-  const [mishnaIndex, setMishnaIndex] = useState(1);
+  useScroll(70, ()=>{
+    getRichMishnaiotForChapter(tractate, chapter)
+  })
 
-  const handleScroll = () => {
-    const scrolledPassed70 =
-      document.documentElement.offsetHeight * 0.7 <
-      window.innerHeight + document.documentElement.scrollTop;
-    const cond = !scrolledPassed70 || isFetching;
-    if (cond) return;
-
-    if (!totalMishnaiot || mishnaIndex <= totalMishnaiot) {
-      setIsFetching(true);
-      fetchData(mishnaIndex);
-    }
-  };
-
-  const fetchData = async (i: number, increment = true) => {
-    PageService.getChapter(tractate, chapter, i).then((res) => {
-      if (increment) {
-        setMishnaIndex(mishnaIndex + 1);
-        setMishnaiot([...mishnaiot, res.mishnaDocument]);
-      } else {
-        setMishnaIndex(2);
-        setMishnaiot([res.mishnaDocument]);
-        setRichTextMishnas(res.richTextsMishnas)
-      }
-
-      setIsFetching(false);
-      setTotalMishnaiot(res.totalMishnaiot);
-    });
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [mishnaIndex, mishnaiot, totalMishnaiot, isFetching]);
 
   useEffect(() => {
     setViewOptions();
-    fetchData(mishnaIndex);
   }, []);
 
   useEffect(() => {
-    setIsFetching(false);
-    fetchData(1, false);
+    getRichMishnaiotForChapter(tractate, chapter, true)
   }, [mishna, chapter, tractate]);
 
   return (
@@ -121,14 +83,10 @@ const ChapterPage = (props: Props) => {
             ))}
           </Grid>
         </Grid>
-        {mishnaiot.map((mishna, index) => (
+        {mishnaiot.map((mishna, index) => {
+          return (
             <MainText key={index} lines={mishna?.lines} mishna={mishna?.mishna} />
-        ))}
-        {isFetching && (
-          <Box textAlign="center">
-            <Spinner />
-          </Box>
-        )}
+        )})}
       </Grid>
     </Grid>
   );

@@ -109,13 +109,13 @@ export function setNavigationToRoute(tractate: string, chapter: string, mishna: 
   return async function (dispatch,getState) {
     let state = getState();
 
-    if (state.general.tractates.length===0) {
+    if (state.navigation.tractates.length===0) {
       await dispatch(requestTractates())
       state = getState();
    }
    let mishnaData;
    let lineData;
-   if (state.general.currentMishna?.id !== mishna) {
+   if (state.navigation.currentMishna?.id !== mishna) {
     mishnaData = await PageService.getMishna(tractate, chapter, mishna);
    }
    if (line!==undefined) {
@@ -127,7 +127,7 @@ export function setNavigationToRoute(tractate: string, chapter: string, mishna: 
    }
 
    
-   const tractateData = state.general.tractates.find(t => t.id === tractate);
+   const tractateData = state.navigation.tractates.find(t => t.id === tractate);
    const chapterData =  tractateData?.chapters.find(c => c.id === chapter);
    dispatch(setSelectedForRoute(tractateData,chapterData,mishnaData,lineData));
    dispatch(setCurrentRoute(tractateData, chapterData, mishnaData));
@@ -161,10 +161,10 @@ export function selectMishna(selectedMishna) {
   return async function (dispatch,getState) { 
     if (!(selectedMishna)) {return}
     let state = getState();
-    if (state.general.selectedLine) {
+    if (state.navigation.selectedLine) {
       if (!selectedMishna?.lines) {
-          selectedMishna = await PageService.getMishna(state.general.selectedTractate.id,
-          state.general.selectedChapter.id, selectedMishna.mishna);
+          selectedMishna = await PageService.getMishna(state.navigation.selectedTractate.id,
+          state.navigation.selectedChapter.id, selectedMishna.mishna);
       }
       const firstLine = selectedMishna?.lines[0];
       dispatch({
@@ -218,18 +218,18 @@ tractate: string,chapter: string,mishna: string,line: string) {
   return  async (dispatch,getState)=> {
     dispatch(startRequest())
     let state: RootState = getState();
-    if (state.general.tractates.length===0) {
+    if (state.navigation.tractates.length===0) {
        await dispatch(requestTractates())
     }
     state = getState() as RootState;
-    const tractateData = state.general.tractates.find(t => t.id === tractate);
+    const tractateData = state.navigation.tractates.find(t => t.id === tractate);
     const chapterData =  tractateData?.chapters.find(c => c.id === chapter);
     const foundMishna =  chapterData.mishnaiot.find(m => m.mishna === mishna);
     let mishnaData: iMishna|null = null;
     let lineData;
     // instead found mishna
-    if (foundMishna && state.general.currentMishna.id === foundMishna.id) {
-      mishnaData = state.general.currentMishna as iMishna;
+    if (foundMishna && state.navigation.currentMishna.id === foundMishna.id) {
+      mishnaData = state.navigation.currentMishna as iMishna;
       lineData = mishnaData.lines.find(l=>l.lineNumber===line);
       if (lineData === undefined) {
         lineData = mishnaData.lines[0];

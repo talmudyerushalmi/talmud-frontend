@@ -7,7 +7,7 @@ import ExcerptDetailsView from "./ExcerptDetailsView";
 import ExcerptsView from "./ExcerptsView";
 
 const mapStateToProps = (state) => ({
-  currentMishna: state.general.currentMishna,
+  currentMishna: state.navigation.currentMishna,
   filteredExcerpts: state.mishnaView.filteredExcerpts,
   selectedExcerpt: state.mishnaView.selectedExcerpt,
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,

@@ -9,8 +9,8 @@ import ChooseMishnaBar from '../shared/ChooseMishnaBar';
 import { useHistory, useParams } from 'react-router';
 
 const mapStateToProps = state => ({
-  tractates:state.general.tractates,
-  currentMishna: state.general.currentMishna
+  tractates:state.navigation.tractates,
+  currentMishna: state.navigation.currentMishna
   });
 
   const mapDispatchToProps = (dispatch, ownProps) => ({

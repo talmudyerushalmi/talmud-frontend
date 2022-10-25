@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
 })
 const mapStateToProps = state => ({
-  compositions: state.general.compositions,
+  compositions: state.navigation.compositions,
 })
 
 const ExternalSourceDetails = props => {
