@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 const mapStateToProps = (state: any) => ({
-  currentRoute: state.general.currentRoute
+  currentRoute: state.navigation.currentRoute
 });
 
 const AdminMenu = (props: any) => {

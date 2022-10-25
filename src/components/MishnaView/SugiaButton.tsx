@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
   showSugiaName: state.mishnaView.showSugiaName,
-  currentMishna: state.general.currentMishna,
+  currentMishna: state.navigation.currentMishna,
 });
 interface Props {
   index: number;

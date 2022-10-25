@@ -17,9 +17,9 @@ import {
 import { getMishna } from "../../../store/actions/navigationActions";
 
 const mapStateToProps = (state) => ({
-  compositions: state.general.compositions,
+  compositions: state.navigation.compositions,
   excerptDialogOpen: state.mishnaEdit.excerptDialogOpen,
-  mishnaDoc: state.general.currentMishna,
+  mishnaDoc: state.navigation.currentMishna,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
