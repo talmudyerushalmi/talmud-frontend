@@ -8,7 +8,6 @@ import mishnaEditReducer from "./reducers/mishnaEditReducer";
 import generalReducer from "./reducers/generalReducer";
 
 const rootReducer = combineReducers({
-
   general: generalReducer,
   navigation: navigationReducer,
   authentication: authReducer,
