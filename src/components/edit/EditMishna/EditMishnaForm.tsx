@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 const mapStateToProps = (state) => ({
   isSubmitting: state.mishnaEdit.isSubmitting,
-  currentMishna: state.general.currentMishna
+  currentMishna: state.navigation.currentMishna
 });
 
 const useStyles = makeStyles({

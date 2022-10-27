@@ -13,7 +13,7 @@ import { getEditSettings } from "../store/actions/mishnaEditActions";
 import { getMishna } from "../store/actions/navigationActions";
 
 const mapStateToProps = (state) => ({
-  currentMishna: state.general.currentMishna,
+  currentMishna: state.navigation.currentMishna,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

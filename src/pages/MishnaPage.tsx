@@ -16,12 +16,12 @@ const DEFAULT_OPTIONS = {
   showSugiaName: true
 }
 const mapStateToProps = (state) => ({
-  currentMishna: state.general.currentMishna,
+  currentMishna: state.navigation.currentMishna,
   filteredExcerpts: state.mishnaView.filteredExcerpts,
   selectedExcerpt: state.mishnaView.selectedExcerpt,
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
-  loading: state.general.loading,
+  loading: state.navigation.loading,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setMishnaViewOptions: () => {

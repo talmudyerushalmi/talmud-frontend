@@ -10,7 +10,7 @@ export interface RichTextsMishnas {
 interface getChapterReponse {
   totalMishnaiot: number;
   mishnaDocument: iMishna;
-  richTextsMishnas: RichTextsMishnas[]
+  richTextsMishnas?: RichTextsMishnas[]
 }
 
 export default class PageService {
