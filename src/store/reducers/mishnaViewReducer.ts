@@ -1,6 +1,6 @@
-import { excerptInSubline } from "../../inc/excerptUtils";
-import { RichTextsMishnas } from "../../services/pageService";
-import { iMishna, iSubline } from "../../types/types";
+import { excerptInSubline } from '../../inc/excerptUtils';
+import { RichTextsMishnas } from '../../services/pageService';
+import { iManuscriptPopup, iMishna, iSubline } from '../../types/types';
 import {
   FILTER_EXCERPTS_BY_LINES,
   REQUEST_START,
@@ -13,33 +13,36 @@ import {
   TOGGLE_EDIT_TYPE,
   SET_MISHNA_VIEW_OPTIONS,
   ADD_MISHNA_TO_MISHNAIOT,
-  CLEAR_MISHNAIOT
-} from "../actions/mishnaViewActions";
+  CLEAR_MISHNAIOT,
+  SET_MANUSCRIPT_POPUP,
+} from '../actions/mishnaViewActions';
 import {
   RECEIVE_MISHNA,
   SET_CURRENT_MISHNA,
-} from "../actions/navigationActions";
+} from '../actions/navigationActions';
 
 export enum ShowEditType {
-  ORIGINAL = "ORIGINAL",
-  EDITED = "EDITED"
+  ORIGINAL = 'ORIGINAL',
+  EDITED = 'EDITED',
 }
+
 interface ViewState {
   loading: boolean;
   mishnaiot: iMishna[];
   totalMishnaiot: number | null;
-  richTextMishnas: RichTextsMishnas[]; 
+  richTextMishnas: RichTextsMishnas[];
   selectedSublines: iSubline[];
   excerpts: any;
   filteredExcerpts: any;
   expanded: boolean;
-  showSugiaName: boolean,
+  showSugiaName: boolean;
   selectedExcerpt: null;
   detailsExcerptPopup: boolean;
   divideToLines: boolean;
   showPunctuation: boolean;
   showSources: boolean;
   showEditType: ShowEditType;
+  manuscriptPopup: iManuscriptPopup | null;
 }
 
 const initialState: ViewState = {
@@ -57,7 +60,8 @@ const initialState: ViewState = {
   divideToLines: true,
   showPunctuation: true,
   showSources: true,
-  showEditType: ShowEditType.ORIGINAL
+  showEditType: ShowEditType.ORIGINAL,
+  manuscriptPopup: null,
 };
 
 const mishnaViewReducer = (state = initialState, action) => {
@@ -104,11 +108,14 @@ const mishnaViewReducer = (state = initialState, action) => {
       return { ...state, showEditType: action.payload.showEditType };
     case FILTER_EXCERPTS_BY_LINES:
       const selectedSublines = action?.selectedSublines;
-      const newExcerpts = selectedSublines.length > 0
-        ? state.excerpts.filter((excerpt) => {
-          return selectedSublines!.some(subline => excerptInSubline(excerpt, subline))
-          })
-        : state.excerpts;
+      const newExcerpts =
+        selectedSublines.length > 0
+          ? state.excerpts.filter((excerpt) => {
+              return selectedSublines!.some((subline) =>
+                excerptInSubline(excerpt, subline)
+              );
+            })
+          : state.excerpts;
 
       return {
         ...state,
@@ -117,23 +124,26 @@ const mishnaViewReducer = (state = initialState, action) => {
       };
     case SET_MISHNA_VIEW_OPTIONS:
       const options = action.options;
-      return {...state, 
-        showSugiaName: options.showSugiaName
-      }
+      return { ...state, showSugiaName: options.showSugiaName };
     case CLEAR_MISHNAIOT:
       return {
         ...state,
         totalMishnaiot: null,
-        mishnaiot: []
-      }  
+        mishnaiot: [],
+      };
     case ADD_MISHNA_TO_MISHNAIOT:
       const mishnaiot = state.mishnaiot;
-      mishnaiot.push(action.mishna)
+      mishnaiot.push(action.mishna);
       return {
         ...state,
         totalMishnaiot: action.totalMishnaiot,
-        mishnaiot: [...mishnaiot]
-      }  
+        mishnaiot: [...mishnaiot],
+      };
+    case SET_MANUSCRIPT_POPUP:
+      return {
+        ...state,
+        manuscriptPopup: action.payload,
+      };
     default:
       return state;
   }

@@ -100,3 +100,9 @@ export interface iLine {
   sublines?: iSubline[];
   sugiaName?: string;
 }
+
+export interface iManuscriptPopup{
+  line:number;
+  subline:number;
+  manuscript:string;
+}
