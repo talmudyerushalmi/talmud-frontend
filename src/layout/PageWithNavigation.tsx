@@ -15,7 +15,7 @@ export const PageHeader = (props) => {
 };
 
 export const PageContent = (props) => {
-  return <div>{props.children}</div>;
+  return <Box width="100%">{props.children}</Box>;
 };
 
 interface iLink {
