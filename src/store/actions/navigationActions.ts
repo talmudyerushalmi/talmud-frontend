@@ -1,6 +1,7 @@
 import { RootState } from '..';
 import PageService from '../../services/pageService';
 import { iMishna } from '../../types/types';
+import { tryAsyncWithLoadingState } from './actionHelpers';
 
 export const REQUEST_START = 'REQUEST_START';
 export const REQUEST_COMPOSITIONS = 'REQUEST_COMPOSITIONS';
@@ -85,10 +86,6 @@ export const setCurrentRoute = (currentTractate, currentChapter, currentMishna, 
   currentMishna,
   currentLine
 });
-// export const setCurrentTractate = tractate => ({
-//   type: SET_CURRENT_TRACTATE,
-//     tractate
-// });
 
 export function getCurrentTractate() {
   return function (dispatch) {
@@ -98,8 +95,10 @@ export function getCurrentTractate() {
 
 export function getMishna(tractate: string, chapter: string, mishna: string) {
   return async function (dispatch) {
-    let mishnaData = await PageService.getMishna(tractate, chapter, mishna);
-    dispatch(setCurrentMishna(mishnaData));
+    let mishnaData = await tryAsyncWithLoadingState(dispatch, PageService.getMishna(tractate, chapter, mishna));
+    if (mishnaData) {
+      dispatch(setCurrentMishna(mishnaData));
+    }
   };
 }
 export function setNavigationToRoute(tractate: string, chapter: string, mishna: string, line: string) {
@@ -230,8 +229,10 @@ export function setCurrentLocation(type = 'location', tractate: string, chapter:
         lineData = mishnaData.lines[0];
       }
     } else {
-      mishnaData = await PageService.getMishna(tractate, chapter, '001');
-      lineData = mishnaData.lines[0];
+      mishnaData = await tryAsyncWithLoadingState(dispatch, PageService.getMishna(tractate, chapter, '001'))
+      if (mishnaData) {
+        lineData = mishnaData.lines[0];
+      }
     }
     if (type === 'location') {
       dispatch(receivedCurrentLocation(tractateData, chapterData, mishnaData, lineData));
