@@ -1,4 +1,5 @@
 import { Box, CircularProgress } from '@mui/material';
+import zIndex from '@mui/material/styles/zIndex';
 
 const Spinner = () => {
   return (
@@ -8,7 +9,7 @@ const Spinner = () => {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        zIndex: 999,
+        zIndex: zIndex.modal
       }}
     >
       <CircularProgress />
