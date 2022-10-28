@@ -31,7 +31,7 @@ interface Props {
   allChapterAllowed?: boolean;
   loading: boolean;
 }
-const PageWithNavigation2 = (props: Props) => {
+const PageWithNavigationWithoutState = (props: Props) => {
   const { linkPrefix, allChapterAllowed, afterNavigateHandler, loading } =
     props;
 
@@ -73,5 +73,5 @@ const PageWithNavigation2 = (props: Props) => {
   );
 };
 
-const PageWithNavigation = connect(mapStateToProps)(PageWithNavigation2);
+const PageWithNavigation = connect(mapStateToProps)(PageWithNavigationWithoutState);
 export { PageWithNavigation };
