@@ -1,5 +1,5 @@
-import { routeObject } from "../../routes/AdminRoutes";
-import { iChapter, iLine, iMishna, iTractate } from "../../types/types";
+import { routeObject } from '../../routes/AdminRoutes';
+import { iChapter, iLine, iMishna, iTractate } from '../../types/types';
 import {
   RECEIVED_CURRENT_LOCATION,
   RECEIVED_CURRENT_SELECTION,
@@ -16,22 +16,21 @@ import {
   SET_CURRENT_TRACTATE,
   SET_ROUTE,
   SET_SELECTED_FOR_ROUTE,
-} from "../actions/navigationActions";
-
+} from '../actions/navigationActions';
 
 interface NavigationState {
-  compositions: any,
-  tractates: iTractate[],
-  tractateSettings: any,
-  selectedTractate: iTractate|null,
-  selectedChapter: iChapter|null,
-  selectedMishna: iMishna|null,
-  selectedLine: iLine | null,
-  currentTractate: iTractate|null,
-  currentChapter: iChapter|null,
-  currentMishna: iMishna|null,
-  currentLine: iLine|null,
-  currentRoute: routeObject | null
+  compositions: any;
+  tractates: iTractate[];
+  tractateSettings: any;
+  selectedTractate: iTractate | null;
+  selectedChapter: iChapter | null;
+  selectedMishna: iMishna | null;
+  selectedLine: iLine | null;
+  currentTractate: iTractate | null;
+  currentChapter: iChapter | null;
+  currentMishna: iMishna | null;
+  currentLine: iLine | null;
+  currentRoute: routeObject | null;
 }
 const initialState: NavigationState = {
   compositions: [],
@@ -45,7 +44,7 @@ const initialState: NavigationState = {
   currentChapter: null,
   currentMishna: null,
   currentLine: null,
-  currentRoute: null
+  currentRoute: null,
 };
 
 const navigationReducer = (state = initialState, action) => {
@@ -55,11 +54,11 @@ const navigationReducer = (state = initialState, action) => {
         tractate: action.tractate,
         chapter: action.chapter,
         mishna: action.mishna,
-        line: action.line
-      }
+        line: action.line,
+      };
       return {
         ...state,
-        currentRoute: newRoute
+        currentRoute: newRoute,
       };
     case SET_SELECTED_FOR_ROUTE:
       return {
@@ -92,17 +91,16 @@ const navigationReducer = (state = initialState, action) => {
         currentLine: action.currentLine,
       };
     case RECEIVE_COMPOSITIONS:
-      return { ...state, compositions: action.compositions, loading: false };
+      return { ...state, compositions: action.compositions };
     case REQUEST_COMPOSITIONS:
       return { ...state, loading: true };
     case RECEIVE_TRACTATES:
-      return { ...state, tractates: action.tractates, loading: false };
+      return { ...state, tractates: action.tractates };
     case RECEIVE_MISHNA:
       return {
         ...state,
         selectedMishnaData: action.currentMishna,
         mishnaInput: action.currentMishna.mishna,
-        loading: false,
       };
     case SET_CURRENT_TRACTATE:
       const tractate = action.tractate;

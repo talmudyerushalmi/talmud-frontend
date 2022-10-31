@@ -1,18 +1,20 @@
-import React from 'react';
-import spinnerGif from '../../assets/spinner-gif.gif'
+import { Box, CircularProgress } from '@mui/material';
+import zIndex from '@mui/material/styles/zIndex';
 
-interface Props {
-    display: boolean
-}
+const Spinner = () => {
+  return (
+    <Box
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: zIndex.modal
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  );
+};
 
-const Spinner = (props: Props)=>{
-    const { display } = props;
-    return (
-        <div>
-            <img hidden={!display} src={spinnerGif}></img>
-        </div>
-    )
-
-}
-
-export default Spinner
+export default Spinner;

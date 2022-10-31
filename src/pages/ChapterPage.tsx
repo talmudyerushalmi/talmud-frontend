@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import MainText from "../components/MishnaView/MainText";
 import MishnaText from "../components/MishnaView/MishnaText";
 import { connect } from "react-redux";
@@ -9,7 +9,6 @@ import { getHTMLFromRawContent } from "../inc/editorUtils";
 import { iMishna } from "../types/types";
 import { routeObject } from "../routes/AdminRoutes";
 import { RichTextsMishnas } from "../services/pageService";
-import Spinner from "../components/shared/Spinner";
 import { getRichMishnaiotForChapter, setMishnaViewOptions } from "../store/actions/mishnaViewActions";
 import useScroll from "../hooks/useScroll";
 
@@ -88,9 +87,6 @@ const ChapterPage = (props: Props) => {
           return (
             <MainText key={index} lines={mishna?.lines} mishna={mishna?.mishna} />
         )})}
-        <div style={{ textAlign: "center" }}>
-          <Spinner display={loading} />
-        </div>
       </Grid>
     </Grid>
   );
