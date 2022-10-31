@@ -154,7 +154,11 @@ const SublineDisplay = (props: Props) => {
           </AccordionActions>
         </AccordionSummary>
         <AccordionDetails>
-          <SynopsisTable synopsis={subline?.synopsis} line={subline.index} />
+          <SynopsisTable
+            // synopsis={subline?.synopsis}
+            // line={subline.index}
+            subline={subline}
+          />
         </AccordionDetails>
       </Accordion>
     </>

@@ -25,22 +25,22 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setManuscriptPopup: () => {
+  closeManuscriptPopup: () => {
     dispatch(setManuscriptPopup(null));
   },
 });
 
 export interface iProps {
   manuscriptPopup: iManuscriptPopup;
-  setManuscriptPopup: () => void;
+  closeManuscriptPopup: () => void;
 }
 
 const ManuscriptPopup = (props: iProps) => {
-  const { manuscriptPopup, setManuscriptPopup } = props;
+  const { manuscriptPopup, closeManuscriptPopup } = props;
   return (
     <Modal
       open={Boolean(manuscriptPopup)}
-      onClose={setManuscriptPopup}
+      onClose={closeManuscriptPopup}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >

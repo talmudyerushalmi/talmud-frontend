@@ -1,26 +1,24 @@
-import { RawDraftContentState } from "draft-js";
-import { EditorSelectionObject } from "../inc/editorUtils";
-import { iExcerptType } from "../inc/excerptUtils";
-
+import { RawDraftContentState } from 'draft-js';
+import { EditorSelectionObject } from '../inc/editorUtils';
+import { iExcerptType } from '../inc/excerptUtils';
 
 export interface iTractate {
   id: string;
   title_heb: string;
-  chapters: iChapter[]
+  chapters: iChapter[];
 }
 export interface iChapter {
   id: string;
-  mishnaiot: iMishna[]
+  mishnaiot: iMishna[];
 }
 export interface iMishna {
   id: string;
   mishna: string;
-  lines: iLine[]
-  excerpts: iExcerpt[]
-  richTextMishna: RawDraftContentState|null;
+  lines: iLine[];
+  excerpts: iExcerpt[];
+  richTextMishna: RawDraftContentState | null;
   previous?: iMarker;
   next?: iMarker;
-
 }
 
 export interface iMarker {
@@ -31,7 +29,7 @@ export interface iMarker {
   lineTo: string;
 }
 
-type compositionType = "parallel" | "excerpt" | "yalkut";
+type compositionType = 'parallel' | 'excerpt' | 'yalkut';
 export interface iSource {
   title: string;
   secondary_title: string;
@@ -61,10 +59,10 @@ export interface iExcerpt {
 export interface EditedText {
   simpleText: string;
   content?: RawDraftContentState;
-  editor?: any, // maybe can be removed
+  editor?: any; // maybe can be removed
 }
 
-export type sourceType = "direct_sources" | "indirect_sources";
+export type sourceType = 'direct_sources' | 'indirect_sources';
 
 export interface iSynopsis {
   text: EditedText;
@@ -84,7 +82,7 @@ interface iSynopsisComposition {
 
 export interface iSubline {
   text: string;
-  nosach: RawDraftContentState|null;
+  nosach: RawDraftContentState | null;
   index: number;
   synopsis: iSynopsis[];
   piska?: boolean;
@@ -101,8 +99,8 @@ export interface iLine {
   sugiaName?: string;
 }
 
-export interface iManuscriptPopup{
-  line:number;
-  subline:number;
-  manuscript:string;
+export interface iManuscriptPopup {
+  line: number;
+  subline: iSubline;
+  manuscript: string;
 }

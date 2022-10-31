@@ -9,9 +9,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { getSynopsisRaw, synopsisMap } from '../../inc/synopsisUtils';
 import { Tooltip } from '@mui/material';
-import { iManuscriptPopup, iSynopsis } from '../../types/types';
+import { iManuscriptPopup, iSubline } from '../../types/types';
 import { setManuscriptPopup } from '../../store/actions/mishnaViewActions';
 import { connect } from 'react-redux';
+import ButtonUnstyled from '../shared/ButtonUnstyled';
 
 const useStyles = makeStyles({
   table: {
@@ -46,14 +47,14 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 interface Props {
-  synopsis: iSynopsis[];
-  line: number;
+  subline: iSubline;
   setManuscriptPopup: (data: iManuscriptPopup) => void;
 }
 
 const SynopsisTable = (props: Props) => {
   const classes = useStyles();
-  const { synopsis, line, setManuscriptPopup } = props;
+  const { subline, setManuscriptPopup } = props;
+  const { synopsis, index } = subline;
 
   if (!synopsis) {
     return null;
@@ -105,15 +106,18 @@ const SynopsisTable = (props: Props) => {
                     style={{ fontWeight: 'bold' }}
                     component="td"
                     scope="row"
-                    onClick={() => {
-                      setManuscriptPopup({
-                        line: line,
-                        subline: i,
-                        manuscript: synopsisRow.id,
-                      });
-                    }}
                   >
-                    {sourceName(synopsisRow)}
+                    <ButtonUnstyled
+                      onClick={() => {
+                        setManuscriptPopup({
+                          line: index,
+                          subline: subline,
+                          manuscript: synopsisRow.id,
+                        });
+                      }}
+                    >
+                      {sourceName(synopsisRow)}
+                    </ButtonUnstyled>
                   </TableCell>
                 </Tooltip>
                 <TableCell className={className} align="left">
