@@ -1,62 +1,52 @@
-import * as React from "react";
-import { Formik, Form } from "formik";
-import { Button, LinearProgress, TextField as TextFieldOriginal } from "@mui/material";
+import * as React from 'react';
+import { Formik, Form } from 'formik';
+import { Button, LinearProgress, TextField as TextFieldOriginal } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import RichTextEditorField from "../../editors/RichTextEditorField";
-import { convertToRaw } from "draft-js";
-import * as Yup from "yup";
-import { connect } from "react-redux";
-import { saveMishna } from "../../../store/actions/mishnaEditActions";
-import { useParams } from "react-router";
-import { routeObject } from "../../../routes/AdminRoutes";
-import { getContentOrEmpty } from "../../../inc/editorUtils";
-
+import RichTextEditorField from '../../editors/RichTextEditorField';
+import { convertToRaw } from 'draft-js';
+import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import { saveMishna } from '../../../store/actions/mishnaEditActions';
+import { useParams } from 'react-router';
+import { routeObject } from '../../../routes/AdminRoutes';
+import { getContentOrEmpty } from '../../../inc/editorUtils';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    saveMishna: (route, saveMishnaDTO) => {
-        dispatch(saveMishna(route, saveMishnaDTO))}
-
+  saveMishna: (route, saveMishnaDTO) => {
+    dispatch(saveMishna(route, saveMishnaDTO));
+  },
 });
 const mapStateToProps = (state) => ({
   isSubmitting: state.mishnaEdit.isSubmitting,
-  currentMishna: state.navigation.currentMishna
+  currentMishna: state.navigation.currentMishna,
 });
 
 const useStyles = makeStyles({
   // need to specifiy direction for flex -
   // wanted direction is rtl but RTL function switches it to ltr, so we put ltr..
   option: {
-    direction: "ltr",
+    direction: 'ltr',
   },
   root: {
-    marginBottom: "0.5rem",
+    marginBottom: '0.5rem',
   },
 });
 const excerptSchema = Yup.object().shape({
- // source: Yup.object().required("Required"),
+  // source: Yup.object().required("Required"),
 });
 
 const FormikWrapper = (props) => {
-  const route = useParams<routeObject>();  
+  const route = useParams<routeObject>();
   const classes = useStyles();
-  const {
-    closeExcerptDialog,
-    excerpt,
-    mishna,
-    currentMishna,
-    saveMishna,
-    isSubmitting
-  } = props;
+  const { closeExcerptDialog, excerpt, mishna, currentMishna, saveMishna, isSubmitting } = props;
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{
-
         richTextMishna: getContentOrEmpty(currentMishna?.richTextMishna),
         richTextTosefta: getContentOrEmpty(currentMishna?.richTextTosefta),
-        richTextBavli: getContentOrEmpty(currentMishna?.richTextBavli)
-        
+        richTextBavli: getContentOrEmpty(currentMishna?.richTextBavli),
       }}
       validationSchema={excerptSchema}
       onSubmit={(values, props) => {
@@ -64,27 +54,20 @@ const FormikWrapper = (props) => {
           ...values,
           richTextMishna: convertToRaw(values.richTextMishna.getCurrentContent()),
           richTextTosefta: convertToRaw(values.richTextTosefta.getCurrentContent()),
-          richTextBavli: convertToRaw(values.richTextBavli.getCurrentContent())
+          richTextBavli: convertToRaw(values.richTextBavli.getCurrentContent()),
         };
         saveMishna(route, save);
-
       }}
     >
       {({ submitForm, setFieldValue, values, errors }) => {
-
         return (
-          <Form style={{ direction: "rtl", width: "100%" }}>
+          <Form style={{ direction: 'rtl', width: '100%' }}>
             <RichTextEditorField name="richTextMishna" label="משנה" />
             <RichTextEditorField name="richTextTosefta" label="תוספתא" />
             <RichTextEditorField name="richTextBavli" label="בבלי" />
             {isSubmitting && <LinearProgress />}
             <br />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={isSubmitting}
-            >
+            <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
               שמור
             </Button>
           </Form>

@@ -1,10 +1,7 @@
 import { Dispatch } from 'redux';
 import { startLoading, stopLoading } from './generalActions';
 
-export async function tryAsyncWithLoadingState(
-  dispatch: Dispatch,
-  promise: Promise<any>
-): Promise<any> {
+export async function tryAsyncWithLoadingState(dispatch: Dispatch, promise: Promise<any>): Promise<any> {
   try {
     dispatch(startLoading());
     let res = await promise;

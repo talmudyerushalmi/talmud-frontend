@@ -1,77 +1,74 @@
-import { ContentState, convertToRaw } from "draft-js";
-import { EXCERPT_TYPE } from "../components/edit/EditMishna/ExcerptDialog";
-import { iExcerpt, iSubline } from "../types/types";
-import { getOffsetOfWordOccurence } from "./textUtils";
+import { ContentState, convertToRaw } from 'draft-js';
+import { EXCERPT_TYPE } from '../components/edit/EditMishna/ExcerptDialog';
+import { iExcerpt, iSubline } from '../types/types';
+import { getOffsetOfWordOccurence } from './textUtils';
 
-export const MUVAA = "MUVAA";
-export const MAKBILA = "MAKBILA";
-export const NOSACH = "NOSACH";
+export const MUVAA = 'MUVAA';
+export const MAKBILA = 'MAKBILA';
+export const NOSACH = 'NOSACH';
 
-export type iExcerptType = "MUVAA" | "MAKBILA" | "NOSACH" | null;
+export type iExcerptType = 'MUVAA' | 'MAKBILA' | 'NOSACH' | null;
 
 export const excerptsMap = new Map([
   [
     EXCERPT_TYPE.MUVAA,
     {
-      title: "Citations",
+      title: 'Citations',
     },
   ],
   [
     EXCERPT_TYPE.MAKBILA,
     {
-      title: "Talmudic Parallels",
+      title: 'Talmudic Parallels',
     },
   ],
   [
     EXCERPT_TYPE.NOSACH,
     {
-      title: "Editing Comments",
+      title: 'Editing Comments',
     },
   ],
   [
     EXCERPT_TYPE.BIBLIO,
     {
-      title: "Bibliographic Notes",
+      title: 'Bibliographic Notes',
     },
   ],
   [
     EXCERPT_TYPE.EXPLANATORY,
     {
-      title: "Explanatory Notes",
+      title: 'Explanatory Notes',
     },
   ],
   [
     EXCERPT_TYPE.DICTIONARY,
     {
-      title: "Dictionary",
+      title: 'Dictionary',
     },
   ],
 ]);
 
 export const getExcerptTitle = (excerpt: iExcerpt): string => {
-  if (excerpt?.type && ['MUVAA','MAKBILA'].includes(excerpt.type as string)) {
-    return `${excerpt?.source?.title} (${excerpt?.sourceLocation})`
+  if (excerpt?.type && ['MUVAA', 'MAKBILA'].includes(excerpt.type as string)) {
+    return `${excerpt?.source?.title} (${excerpt?.sourceLocation})`;
   }
-  return excerpt?.sourceLocation ? excerpt.sourceLocation : ''
-
-}
+  return excerpt?.sourceLocation ? excerpt.sourceLocation : '';
+};
 export const getEmptyExcerpt = (): iExcerpt => {
-  const emptyContent = convertToRaw(ContentState.createFromText(""));
+  const emptyContent = convertToRaw(ContentState.createFromText(''));
   return {
     key: Date.now(),
     automaticImport: false,
     editorStateFullQuote: emptyContent,
     editorStateComments: emptyContent,
     editorStateShortQuote: emptyContent,
-    synopsis: "",
+    synopsis: '',
     selection: null,
-    type: "MUVAA",
+    type: 'MUVAA',
     seeReference: false,
-    source: null
-  }
-}
-
-
+    source: null,
+  };
+};
 
 export const excerptSelection = (text: string, subline: iSubline, excerpt: iExcerpt) => {
   if (
@@ -86,23 +83,24 @@ export const excerptSelection = (text: string, subline: iSubline, excerpt: iExce
 
   let selection = {
     from: 0,
-    to: 0
+    to: 0,
   };
   if (subline.index === excerpt.selection.fromSubline) {
-    selection.from = excerpt.selection.fromWord === "" ? 0 
-    :getOffsetOfWordOccurence(text,excerpt.selection.fromWord, excerpt.selection.fromWordOccurenceSubline)
+    selection.from =
+      excerpt.selection.fromWord === ''
+        ? 0
+        : getOffsetOfWordOccurence(text, excerpt.selection.fromWord, excerpt.selection.fromWordOccurenceSubline);
     //subline.text.indexOf(excerpt.selection.fromWord.trim());
     selection.to = subline.text.length;
   }
   if (subline.index === excerpt.selection.toSubline) {
-    selection.to = excerpt.selection.toWord === "" ? subline.text.length 
-    : getOffsetOfWordOccurence(text,excerpt.selection.toWord, excerpt.selection.toWordOccurenceSubline) + 
-    excerpt.selection.toWord.trim().length;
+    selection.to =
+      excerpt.selection.toWord === ''
+        ? subline.text.length
+        : getOffsetOfWordOccurence(text, excerpt.selection.toWord, excerpt.selection.toWordOccurenceSubline) +
+          excerpt.selection.toWord.trim().length;
   }
-  if (
-    subline.index > excerpt.selection.fromSubline &&
-    subline.index < excerpt.selection.toSubline
-  ) {
+  if (subline.index > excerpt.selection.fromSubline && subline.index < excerpt.selection.toSubline) {
     selection.from = 0;
     selection.to = text.length;
   }
@@ -118,11 +116,6 @@ export const getSelectionRange = (excerpt) => {
     : `${excerpt.selection.fromSubline}-${excerpt.selection.toSubline}`;
 };
 
-
 export const excerptInSubline = (excerpt: iExcerpt, subline: iSubline) => {
-    return (
-      subline.index >= excerpt.selection!.fromSubline! &&
-      subline.index <= excerpt.selection!.toSubline!
-    );
-
-}
+  return subline.index >= excerpt.selection!.fromSubline! && subline.index <= excerpt.selection!.toSubline!;
+};

@@ -1,23 +1,14 @@
-import * as React from "react";
-import { Formik, Form, Field } from "formik";
-import {
-  Button,
-  LinearProgress,
-  FormControlLabel,
-  Radio,
-  TextField as TextFieldOriginal,
-} from "@mui/material";
+import * as React from 'react';
+import { Formik, Form, Field } from 'formik';
+import { Button, LinearProgress, FormControlLabel, Radio, TextField as TextFieldOriginal } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { TextField, CheckboxWithLabel, RadioGroup, Autocomplete } from "formik-material-ui";
-import RichTextEditorField from "../../editors/RichTextEditorField";
-import { convertFromRaw, EditorState } from "draft-js";
-import { getContentRaw } from "../../../inc/editorUtils";
-import * as Yup from "yup";
-import { connect } from "react-redux";
-import {
-  closeExcerptDialog,
-  saveExcerpt,
-} from "../../../store/actions/mishnaEditActions";
+import { TextField, CheckboxWithLabel, RadioGroup, Autocomplete } from 'formik-material-ui';
+import RichTextEditorField from '../../editors/RichTextEditorField';
+import { convertFromRaw, EditorState } from 'draft-js';
+import { getContentRaw } from '../../../inc/editorUtils';
+import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import { closeExcerptDialog, saveExcerpt } from '../../../store/actions/mishnaEditActions';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   saveExcerpt: (tractate, chapter, mishna, excerpt) => {
@@ -35,47 +26,36 @@ const useStyles = makeStyles({
   // need to specifiy direction for flex -
   // wanted direction is rtl but RTL function switches it to ltr, so we put ltr..
   option: {
-    direction: "rtl",
+    direction: 'rtl',
   },
   root: {
-    marginBottom: "0.5rem",
+    marginBottom: '0.5rem',
   },
 });
 const excerptSchema = Yup.object().shape({
-  source: Yup.object().required("Required"),
+  source: Yup.object().required('Required'),
 });
 
 const FormikWrapper = (props) => {
   const classes = useStyles();
-  const {
-    saveExcerpt,
-    closeExcerptDialog,
-    excerpt,
-    selection,
-    mishna,
-    compositions,
-  } = props;
+  const { saveExcerpt, closeExcerptDialog, excerpt, selection, mishna, compositions } = props;
 
   return (
     <Formik
       initialValues={{
         key: excerpt.key ? excerpt.key : null,
         addingNew: excerpt.key ? false : true,
-        type: excerpt?.type || "MUVAA",
+        type: excerpt?.type || 'MUVAA',
         seeReference: excerpt.key ? excerpt.seeReference : false,
         source: excerpt.key ? excerpt.source : null,
-        sourceLocation: excerpt.key ? excerpt.sourceLocation : "",
+        sourceLocation: excerpt.key ? excerpt.sourceLocation : '',
         editorStateFullQuote: excerpt.key
-          ? EditorState.createWithContent(
-              convertFromRaw(excerpt.editorStateFullQuote)
-            )
+          ? EditorState.createWithContent(convertFromRaw(excerpt.editorStateFullQuote))
           : EditorState.createEmpty(),
-        short:  excerpt?.short ? excerpt.short : '',
-        synopsis: excerpt.key ? excerpt.synopsis : "",
+        short: excerpt?.short ? excerpt.short : '',
+        synopsis: excerpt.key ? excerpt.synopsis : '',
         editorStateComments: excerpt.key
-          ? EditorState.createWithContent(
-              convertFromRaw(excerpt.editorStateComments)
-            )
+          ? EditorState.createWithContent(convertFromRaw(excerpt.editorStateComments))
           : EditorState.createEmpty(),
       }}
       validationSchema={excerptSchema}
@@ -86,29 +66,19 @@ const FormikWrapper = (props) => {
           editorStateFullQuote: getContentRaw(values.editorStateFullQuote),
           editorStateComments: getContentRaw(values.editorStateComments),
         };
-        saveExcerpt(
-          mishna.tractate,
-          mishna.chapter,
-          mishna.mishna,
-          excerptToSave
-        );
+        saveExcerpt(mishna.tractate, mishna.chapter, mishna.mishna, excerptToSave);
       }}
     >
       {({ submitForm, setFieldValue, isSubmitting, values, errors }) => {
-        const allowedTypes =
-          values?.type === "MUVAA" ? ["yalkut", "excerpt"] : ["parallel"];
+        const allowedTypes = values?.type === 'MUVAA' ? ['yalkut', 'excerpt'] : ['parallel'];
         const filteredCompositions = compositions.filter((f) => {
           return allowedTypes.some((allowed) => allowed === f.type);
         });
 
         return (
-          <Form style={{ direction: "rtl" }}>
+          <Form style={{ direction: 'rtl' }}>
             <Field component={RadioGroup} name="type">
-              <FormControlLabel
-                value="MUVAA"
-                control={<Radio disabled={isSubmitting} />}
-                label="מובאה"
-              />
+              <FormControlLabel value="MUVAA" control={<Radio disabled={isSubmitting} />} label="מובאה" />
               <FormControlLabel
                 value="MAKBILA"
                 control={<Radio disabled={isSubmitting} />}
@@ -116,12 +86,7 @@ const FormikWrapper = (props) => {
                 disabled={isSubmitting}
               />
             </Field>
-            <Field
-              component={CheckboxWithLabel}
-              type="checkbox"
-              name="seeReference"
-              Label={{ label: "ראו" }}
-            />
+            <Field component={CheckboxWithLabel} type="checkbox" name="seeReference" Label={{ label: 'ראו' }} />
 
             <Field
               name="source"
@@ -130,27 +95,13 @@ const FormikWrapper = (props) => {
               options={filteredCompositions}
               noOptionsText="אין אפשרויות"
               getOptionLabel={(option) => {
-                return option.title || "";
+                return option.title || '';
               }}
               style={{ width: 300 }}
-              renderInput={(params) => (
-                <TextFieldOriginal
-                  {...params}
-                  label="שם החיבור"
-                  variant="outlined"
-                />
-              )}
+              renderInput={(params) => <TextFieldOriginal {...params} label="שם החיבור" variant="outlined" />}
             />
-            <Field
-              component={TextField}
-              name="sourceLocation"
-              type="text"
-              label="מיקום בחיבור"
-            />
-            <RichTextEditorField
-              name="editorStateFullQuote"
-              label="ציטוט מלא"
-            />
+            <Field component={TextField} name="sourceLocation" type="text" label="מיקום בחיבור" />
+            <RichTextEditorField name="editorStateFullQuote" label="ציטוט מלא" />
             <Field
               component={TextField}
               name="short"
@@ -161,7 +112,7 @@ const FormikWrapper = (props) => {
               rows={2}
             />
             <Field
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               component={TextField}
               name="synopsis"
               type="text"
@@ -176,7 +127,7 @@ const FormikWrapper = (props) => {
               label="קישור"
               fullWidth={true}
               sx={{
-                direction:'rtl',
+                direction: 'rtl',
               }}
             />
             <br />
@@ -192,14 +143,8 @@ const FormikWrapper = (props) => {
             >
               בטל
             </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={isSubmitting}
-              onClick={submitForm}
-            >
-              {excerpt.key ? "עדכן" : "הוסף"}
+            <Button type="submit" variant="contained" color="primary" disabled={isSubmitting} onClick={submitForm}>
+              {excerpt.key ? 'עדכן' : 'הוסף'}
             </Button>
           </Form>
         );

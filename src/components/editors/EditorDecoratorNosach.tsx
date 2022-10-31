@@ -1,30 +1,25 @@
-import { Tooltip } from "@mui/material";
-import { CompositeDecorator } from "draft-js";
-import { NosachEntity } from "../edit/MainLineEditor/MainLineDialog";
+import { Tooltip } from '@mui/material';
+import { CompositeDecorator } from 'draft-js';
+import { NosachEntity } from '../edit/MainLineEditor/MainLineDialog';
 
 function getFindStrategy(type) {
   return function findEntities(contentBlock, callback, contentState) {
     contentBlock.findEntityRanges((character) => {
       const entityKey = character.getEntity();
-      return (
-        entityKey !== null &&
-        contentState.getEntity(entityKey).getType() === type
-      );
+      return entityKey !== null && contentState.getEntity(entityKey).getType() === type;
     }, callback);
   };
 }
 
 const DeleteOriginal = (props) => {
-  const { editingComment } = props.contentState
-    .getEntity(props.entityKey)
-    .getData();
+  const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
 
   return (
     <div
       style={{
-        textDecoration: "line-through",
-        color: "red",
-        display: "inline-block",
+        textDecoration: 'line-through',
+        color: 'red',
+        display: 'inline-block',
       }}
     >
       <Tooltip title={editingComment}>
@@ -34,16 +29,15 @@ const DeleteOriginal = (props) => {
   );
 };
 const Add = (props) => {
-  const { editingComment } = props.contentState
-    .getEntity(props.entityKey)
-    .getData();
+  const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
   const tooltip = (
-      <>
-        <div dir="rtl">תוספת</div>
-        <div>{editingComment}</div>
-      </>);
+    <>
+      <div dir="rtl">תוספת</div>
+      <div>{editingComment}</div>
+    </>
+  );
   return (
-    <div style={{ color: "blue", display: "inline-block" }}>
+    <div style={{ color: 'blue', display: 'inline-block' }}>
       <Tooltip title={tooltip}>
         <span>{props.children}</span>
       </Tooltip>
@@ -51,9 +45,7 @@ const Add = (props) => {
   );
 };
 const Correction = (props) => {
-  const { editingComment, oldWord } = props.contentState
-    .getEntity(props.entityKey)
-    .getData();
+  const { editingComment, oldWord } = props.contentState.getEntity(props.entityKey).getData();
   const tooltipText = `תוקן מ-  "${oldWord}"`;
 
   const tip = (
@@ -66,7 +58,7 @@ const Correction = (props) => {
   );
 
   return (
-    <div style={{ color: "green", display: "inline-block" }}>
+    <div style={{ color: 'green', display: 'inline-block' }}>
       <Tooltip title={tip}>
         <span>{props.children}</span>
       </Tooltip>
@@ -74,9 +66,7 @@ const Correction = (props) => {
   );
 };
 const AddOriginal = (props) => {
-  const { editingComment } = props.contentState
-    .getEntity(props.entityKey)
-    .getData();
+  const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
   const tooltip = (
     <>
       <div dir="rtl">תוספת: "{props.children}"</div>
@@ -84,7 +74,7 @@ const AddOriginal = (props) => {
     </>
   );
   return (
-    <div style={{ color: "blue", display: "inline-block" }}>
+    <div style={{ color: 'blue', display: 'inline-block' }}>
       <Tooltip title={tooltip}>
         <span>*</span>
       </Tooltip>
@@ -93,9 +83,7 @@ const AddOriginal = (props) => {
 };
 
 const Delete = (props) => {
-  const { editingComment } = props.contentState
-    .getEntity(props.entityKey)
-    .getData();
+  const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
   const tooltip = (
     <>
       <div dir="rtl">מחיקה: "{props.children}"</div>
@@ -105,8 +93,8 @@ const Delete = (props) => {
   return (
     <div
       style={{
-        color: "red",
-        display: "inline-block",
+        color: 'red',
+        display: 'inline-block',
       }}
     >
       <Tooltip title={tooltip}>
@@ -117,9 +105,7 @@ const Delete = (props) => {
 };
 
 const CorrectionOriginal = (props) => {
-  const { editingComment, oldWord } = props.contentState
-    .getEntity(props.entityKey)
-    .getData();
+  const { editingComment, oldWord } = props.contentState.getEntity(props.entityKey).getData();
   const { decoratedText } = props;
   const tooltipText = `צ״ל: "${decoratedText}"`;
 
@@ -133,7 +119,7 @@ const CorrectionOriginal = (props) => {
   );
 
   return (
-    <div style={{ color: "green", display: "inline-block" }}>
+    <div style={{ color: 'green', display: 'inline-block' }}>
       <Tooltip title={tip}>
         <span>{oldWord}</span>
       </Tooltip>
@@ -144,7 +130,7 @@ const CorrectionOriginal = (props) => {
 const Quote = (props) => {
   const { linkTo } = props.contentState.getEntity(props.entityKey).getData();
   return (
-    <div style={{ fontStyle: 'italic', display: "inline-block" }}>
+    <div style={{ fontStyle: 'italic', display: 'inline-block' }}>
       <Tooltip title={linkTo}>
         <span>{props.children}</span>
       </Tooltip>

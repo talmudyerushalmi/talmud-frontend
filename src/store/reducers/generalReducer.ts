@@ -1,6 +1,4 @@
-import { START_LOADING, STOP_LOADING } from "../actions/generalActions";
-
-
+import { START_LOADING, STOP_LOADING } from '../actions/generalActions';
 
 interface GeneralState {
   loading: boolean;
@@ -14,13 +12,13 @@ const generalReducer = (state = initialState, action) => {
     case START_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case STOP_LOADING:
       return {
         ...state,
-        loading: false
-      }  
+        loading: false,
+      };
     default:
       return state;
   }

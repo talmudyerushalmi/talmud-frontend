@@ -1,6 +1,6 @@
-import React from "react"
-import { useField } from "formik"
-import RichTextEditor from "./RichTextEditor"
+import React from 'react';
+import { useField } from 'formik';
+import RichTextEditor from './RichTextEditor';
 
 interface Props {
   name: string;
@@ -9,12 +9,12 @@ interface Props {
 
 const RichTextEditorField = (props: Props) => {
   const { label } = props;
-  const [field, meta, helpers] = useField(props)
+  const [field, meta, helpers] = useField(props);
   const { value } = meta;
-  
-  const changeEditorState = editorState => {
-   helpers.setValue(editorState)
-  }
+
+  const changeEditorState = (editorState) => {
+    helpers.setValue(editorState);
+  };
 
   return (
     <>
@@ -23,7 +23,7 @@ const RichTextEditorField = (props: Props) => {
         <RichTextEditor editorState={value} onChange={changeEditorState} />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default RichTextEditorField
+export default RichTextEditorField;

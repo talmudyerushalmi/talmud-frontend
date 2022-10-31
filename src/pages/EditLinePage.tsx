@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { useParams } from "react-router";
-import EditLineForm from "../components/edit/editlineForm";
-import {
-  PageContent,
-  PageHeader,
-  PageWithNavigation,
-} from "../layout/PageWithNavigation";
-import { routeObject } from "../routes/AdminRoutes";
-import { requestCompositions } from "../store/actions";
-import { getEditSettings } from "../store/actions/mishnaEditActions";
-import { getMishna } from "../store/actions/navigationActions";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router';
+import EditLineForm from '../components/edit/editlineForm';
+import { PageContent, PageHeader, PageWithNavigation } from '../layout/PageWithNavigation';
+import { routeObject } from '../routes/AdminRoutes';
+import { requestCompositions } from '../store/actions';
+import { getEditSettings } from '../store/actions/mishnaEditActions';
+import { getMishna } from '../store/actions/navigationActions';
 
 const mapStateToProps = (state) => ({
   currentMishna: state.navigation.currentMishna,
@@ -39,9 +35,7 @@ const EditLinePage = (props) => {
   }, []);
 
   useEffect(() => {
-    const lineObj = currentMishna?.lines?.find(
-      (lineItem) => lineItem.lineNumber === line
-    );
+    const lineObj = currentMishna?.lines?.find((lineItem) => lineItem.lineNumber === line);
     setLineObj(lineObj);
   }, [currentMishna]);
 
@@ -52,7 +46,12 @@ const EditLinePage = (props) => {
   }, [line]);
 
   return (
-    <PageWithNavigation linkPrefix="/admin/edit" afterNavigateHandler={()=>{window.scrollTo(0,0)}}>
+    <PageWithNavigation
+      linkPrefix="/admin/edit"
+      afterNavigateHandler={() => {
+        window.scrollTo(0, 0);
+      }}
+    >
       <PageHeader></PageHeader>
       <PageContent>
         <EditLineForm

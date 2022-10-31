@@ -1,19 +1,15 @@
-import React from "react";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { connect } from "react-redux";
-import { toggleShowPunctuation } from "../../store/actions";
-import {
-  toggleDivideToLines,
-  toggleEditType,
-  toggleShowSources,
-} from "../../store/actions/mishnaViewActions";
-import { useTranslation } from "react-i18next";
-import { Link, MenuItem, Select } from "@mui/material";
-import { useParams } from "react-router-dom";
-import { routeObject } from "../../routes/AdminRoutes";
-import { ShowEditType } from "../../store/reducers/mishnaViewReducer";
+import React from 'react';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import { connect } from 'react-redux';
+import { toggleShowPunctuation } from '../../store/actions';
+import { toggleDivideToLines, toggleEditType, toggleShowSources } from '../../store/actions/mishnaViewActions';
+import { useTranslation } from 'react-i18next';
+import { Link, MenuItem, Select } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import { routeObject } from '../../routes/AdminRoutes';
+import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 
 const mapStateToProps = (state) => ({
   divideToLines: state.mishnaView.divideToLines,
@@ -53,7 +49,7 @@ const MishnaViewOptions = (props) => {
 
   return (
     <FormGroup row>
-   {/*    <FormControlLabel
+      {/*    <FormControlLabel
         control={
           <Checkbox
             checked={divideToLines}
@@ -88,24 +84,26 @@ const MishnaViewOptions = (props) => {
       /> */}
       <Select
         sx={{
-          '.MuiOutlinedInput-notchedOutline':{border:'none'},
+          '.MuiOutlinedInput-notchedOutline': { border: 'none' },
         }}
         value={showEditType}
         label=""
         onChange={toggleEditType}
       >
-        <MenuItem sx={{ direction: 'ltr'}} value={ShowEditType.ORIGINAL}>
-          {t("Original") as string}
+        <MenuItem sx={{ direction: 'ltr' }} value={ShowEditType.ORIGINAL}>
+          {t('Original') as string}
         </MenuItem>
-        <MenuItem  sx={{ direction: 'ltr'}} value={ShowEditType.EDITED}>{t("Edited") as string}</MenuItem>
+        <MenuItem sx={{ direction: 'ltr' }} value={ShowEditType.EDITED}>
+          {t('Edited') as string}
+        </MenuItem>
       </Select>
       <Link
         sx={{
-          textDecoration: "none",
-          display: "inline-flex",
-          alignItems: "center",
-          cursor: "pointer",
-          verticalAlign: "middle",
+          textDecoration: 'none',
+          display: 'inline-flex',
+          alignItems: 'center',
+          cursor: 'pointer',
+          verticalAlign: 'middle',
         }}
         target="_blank"
         href={`${process.env.REACT_APP_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}

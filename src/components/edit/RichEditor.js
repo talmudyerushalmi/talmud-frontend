@@ -2,7 +2,7 @@ import React from 'react';
 import { Editor, EditorState, RichUtils } from 'draft-js';
 
 export class RichEditorExample extends React.Component {
-  onChange = editorState => {
+  onChange = (editorState) => {
     this.props.onChange('editorState', editorState);
   };
 
@@ -12,7 +12,7 @@ export class RichEditorExample extends React.Component {
     const { editorState } = this.props;
     this.onChange(RichUtils.toggleInlineStyle(editorState, 'BOLD'));
   }
-  handleKeyCommand = command => {
+  handleKeyCommand = (command) => {
     const { editorState } = this.props;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -22,17 +22,15 @@ export class RichEditorExample extends React.Component {
     return false;
   };
 
-  onTab = e => {
+  onTab = (e) => {
     const maxDepth = 4;
     this.onChange(RichUtils.onTab(e, this.props.editorState, maxDepth));
   };
-  toggleBlockType = blockType => {
+  toggleBlockType = (blockType) => {
     this.onChange(RichUtils.toggleBlockType(this.props.editorState, blockType));
   };
-  toggleInlineStyle = inlineStyle => {
-    this.onChange(
-      RichUtils.toggleInlineStyle(this.props.editorState, inlineStyle)
-    );
+  toggleInlineStyle = (inlineStyle) => {
+    this.onChange(RichUtils.toggleInlineStyle(this.props.editorState, inlineStyle));
   };
   render() {
     const { editorState } = this.props;
@@ -48,14 +46,8 @@ export class RichEditorExample extends React.Component {
     return (
       <div className="RichEditor-root">
         <button onClick={this._onBoldClick.bind(this)}>Bold</button>
-        <BlockStyleControls
-          editorState={editorState}
-          onToggle={this.toggleBlockType}
-        />
-        <InlineStyleControls
-          editorState={editorState}
-          onToggle={this.toggleInlineStyle}
-        />
+        <BlockStyleControls editorState={editorState} onToggle={this.toggleBlockType} />
+        <InlineStyleControls editorState={editorState} onToggle={this.toggleInlineStyle} />
         <div className={className} onClick={this.focus}>
           <Editor
             blockStyleFn={getBlockStyle}
@@ -93,7 +85,7 @@ function getBlockStyle(block) {
 class StyleButton extends React.Component {
   constructor() {
     super();
-    this.onToggle = e => {
+    this.onToggle = (e) => {
       e.preventDefault();
       this.props.onToggle(this.props.style);
     };
@@ -122,16 +114,13 @@ const BLOCK_TYPES = [
   { label: 'OL', style: 'ordered-list-item' },
   { label: 'Code Block', style: 'code-block' },
 ];
-const BlockStyleControls = props => {
+const BlockStyleControls = (props) => {
   const { editorState } = props;
   const selection = editorState.getSelection();
-  const blockType = editorState
-    .getCurrentContent()
-    .getBlockForKey(selection.getStartKey())
-    .getType();
+  const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
   return (
     <div className="RichEditor-controls">
-      {BLOCK_TYPES.map(type =>
+      {BLOCK_TYPES.map((type) => (
         <StyleButton
           key={type.label}
           active={type.style === blockType}
@@ -139,7 +128,7 @@ const BlockStyleControls = props => {
           onToggle={props.onToggle}
           style={type.style}
         />
-      )}
+      ))}
     </div>
   );
 };
@@ -149,11 +138,11 @@ var INLINE_STYLES = [
   { label: 'Underline', style: 'UNDERLINE' },
   { label: 'Monospace', style: 'CODE' },
 ];
-const InlineStyleControls = props => {
+const InlineStyleControls = (props) => {
   var currentStyle = props.editorState.getCurrentInlineStyle();
   return (
     <div className="RichEditor-controls">
-      {INLINE_STYLES.map(type =>
+      {INLINE_STYLES.map((type) => (
         <StyleButton
           key={type.label}
           active={currentStyle.has(type.style)}
@@ -161,7 +150,7 @@ const InlineStyleControls = props => {
           onToggle={props.onToggle}
           style={type.style}
         />
-      )}
+      ))}
     </div>
   );
 };

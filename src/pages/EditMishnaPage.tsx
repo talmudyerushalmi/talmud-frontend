@@ -1,18 +1,14 @@
-import React from "react";
-import {
-  PageContent,
-  PageHeader,
-  PageWithNavigation,
-} from "../layout/PageWithNavigation";
-import MishnaPage from "./MishnaPage";
-import { Theme } from "@mui/material/styles";
+import React from 'react';
+import { PageContent, PageHeader, PageWithNavigation } from '../layout/PageWithNavigation';
+import MishnaPage from './MishnaPage';
+import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
-import AppBar from "@mui/material/AppBar";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import { useState } from "react";
-import EditMishnaExcerpts from "../components/edit/EditMishna/EditMishnaExcerpts";
-import EditMishna from "../components/edit/EditMishna/EditMishna";
+import AppBar from '@mui/material/AppBar';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import { useState } from 'react';
+import EditMishnaExcerpts from '../components/edit/EditMishna/EditMishnaExcerpts';
+import EditMishna from '../components/edit/EditMishna/EditMishna';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -31,11 +27,7 @@ const EditMishnaPage = () => {
     <PageWithNavigation linkPrefix="/admin/edit">
       <PageHeader>
         <AppBar position="static">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="simple tabs example"
-          >
+          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
             <Tab label="מדורים" {...a11yProps(0)} />
             <Tab label="משנה" {...a11yProps(1)} />
             <Tab label="תצוגה" {...a11yProps(2)} />
@@ -47,7 +39,7 @@ const EditMishnaPage = () => {
           <EditMishnaExcerpts></EditMishnaExcerpts>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <EditMishna/>
+          <EditMishna />
         </TabPanel>
         <TabPanel value={value} index={2}>
           <MishnaPage></MishnaPage>
@@ -58,7 +50,6 @@ const EditMishnaPage = () => {
 };
 
 export default EditMishnaPage;
-
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -77,9 +68,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && 
-          (<>{children}</>)
-      }
+      {value === index && <>{children}</>}
     </div>
   );
 }
@@ -87,6 +76,6 @@ function TabPanel(props: TabPanelProps) {
 function a11yProps(index: any) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }

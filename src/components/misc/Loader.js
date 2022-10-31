@@ -20,6 +20,6 @@ const Loader = () => {
       <LinearProgress color="secondary" />
     </div>
   );
-}
+};
 
 export default Loader;

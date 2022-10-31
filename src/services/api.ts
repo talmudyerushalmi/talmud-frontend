@@ -1,5 +1,5 @@
-import axios from "axios";
-import { Auth } from "aws-amplify";
+import axios from 'axios';
+import { Auth } from 'aws-amplify';
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_DB_HOST,
@@ -22,7 +22,7 @@ axiosInstance.interceptors.request.use(
   async (config) => {
     const token = await getToken();
     if (config.headers) {
-      config.headers["Authorization"] = `Basic ${token}`;
+      config.headers['Authorization'] = `Basic ${token}`;
     }
     return config;
   },

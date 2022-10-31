@@ -23,21 +23,21 @@ export const SET_CURRENT_MISHNA = 'SET_CURRENT_MISHNA';
 export const SET_CURRENT_ROUTE = 'SET_CURRENT_ROUTE';
 
 export const startRequest = () => ({
-  type: REQUEST_START
+  type: REQUEST_START,
 });
 
 export const receivedCompositions = (compositions) => ({
   type: RECEIVE_COMPOSITIONS,
-  compositions
+  compositions,
 });
 export const receivedTractates = (tractates) => ({
   type: RECEIVE_TRACTATES,
-  tractates
+  tractates,
 });
 
 export const receivedMishna = (currentMishna) => ({
   type: RECEIVE_MISHNA,
-  currentMishna
+  currentMishna,
 });
 
 export const receivedCurrentLocation = (currentTractate, currentChapter, currentMishna, currentLine) => ({
@@ -45,7 +45,7 @@ export const receivedCurrentLocation = (currentTractate, currentChapter, current
   currentTractate,
   currentChapter,
   currentMishna,
-  currentLine
+  currentLine,
 });
 
 export const receivedCurrentSelection = (tractateData, chapterData, mishnaData, lineData) => ({
@@ -53,7 +53,7 @@ export const receivedCurrentSelection = (tractateData, chapterData, mishnaData, 
   selectedTractateData: tractateData,
   selectedChapterData: chapterData,
   selectedMishnaData: mishnaData,
-  selectedLineData: lineData
+  selectedLineData: lineData,
 });
 
 export const setRoute = (tractate, chapter, mishna, line) => ({
@@ -61,7 +61,7 @@ export const setRoute = (tractate, chapter, mishna, line) => ({
   tractate,
   chapter,
   mishna,
-  line
+  line,
 });
 
 export const setSelectedForRoute = (selectedTractate, selectedChapter, selectedMishna, selectedLine) => ({
@@ -69,13 +69,13 @@ export const setSelectedForRoute = (selectedTractate, selectedChapter, selectedM
   selectedTractate,
   selectedChapter,
   selectedMishna,
-  selectedLine
+  selectedLine,
 });
 
 export const setCurrentMishna = (mishnaDoc) => {
   return {
     type: SET_CURRENT_MISHNA,
-    currentMishna: mishnaDoc
+    currentMishna: mishnaDoc,
   };
 };
 
@@ -84,7 +84,7 @@ export const setCurrentRoute = (currentTractate, currentChapter, currentMishna, 
   currentTractate,
   currentChapter,
   currentMishna,
-  currentLine
+  currentLine,
 });
 
 export function getCurrentTractate() {
@@ -133,7 +133,7 @@ export function selectTractate(selectedTractate) {
   return async function (dispatch, getState) {
     dispatch({
       type: SELECT_TRACTATE,
-      selectedTractate
+      selectedTractate,
     });
     dispatch(selectChapter(selectedTractate?.chapters[0]));
   };
@@ -143,7 +143,7 @@ export function selectChapter(selectedChapter) {
   return async function (dispatch, getState) {
     dispatch({
       type: SELECT_CHAPTER,
-      selectedChapter
+      selectedChapter,
     });
     dispatch(selectMishna(selectedChapter?.mishnaiot[0]));
   };
@@ -167,12 +167,12 @@ export function selectMishna(selectedMishna) {
       dispatch({
         type: SELECT_MISHNA,
         selectedMishna,
-        selectedLine: firstLine
+        selectedLine: firstLine,
       });
     } else {
       dispatch({
         type: SELECT_MISHNA,
-        selectedMishna
+        selectedMishna,
       });
     }
   };
@@ -182,7 +182,7 @@ export function selectLine(selectedLine) {
   return async function (dispatch, getState) {
     dispatch({
       type: SELECT_LINE,
-      selectedLine
+      selectedLine,
     });
   };
 }
@@ -229,7 +229,7 @@ export function setCurrentLocation(type = 'location', tractate: string, chapter:
         lineData = mishnaData.lines[0];
       }
     } else {
-      mishnaData = await tryAsyncWithLoadingState(dispatch, PageService.getMishna(tractate, chapter, '001'))
+      mishnaData = await tryAsyncWithLoadingState(dispatch, PageService.getMishna(tractate, chapter, '001'));
       if (mishnaData) {
         lineData = mishnaData.lines[0];
       }

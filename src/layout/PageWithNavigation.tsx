@@ -1,9 +1,7 @@
 import { Box, Container } from '@mui/material';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import ChooseMishnaBar, {
-  ALL_CHAPTER,
-} from '../components/shared/ChooseMishnaBar';
+import ChooseMishnaBar, { ALL_CHAPTER } from '../components/shared/ChooseMishnaBar';
 import Spinner from '../components/shared/Spinner';
 
 const mapStateToProps = (state) => ({
@@ -32,8 +30,7 @@ interface Props {
   loading: boolean;
 }
 const PageWithNavigationWithoutState = (props: Props) => {
-  const { linkPrefix, allChapterAllowed, afterNavigateHandler, loading } =
-    props;
+  const { linkPrefix, allChapterAllowed, afterNavigateHandler, loading } = props;
 
   const history = useHistory();
   let url: string;
@@ -54,10 +51,7 @@ const PageWithNavigationWithoutState = (props: Props) => {
   return (
     <Container style={{ paddingBottom: '6rem' }}>
       <Box mb={3}>
-        <ChooseMishnaBar
-          allChapterAllowed={allChapterAllowed}
-          onNavigationSelected={navigationSelectedHandler}
-        />
+        <ChooseMishnaBar allChapterAllowed={allChapterAllowed} onNavigationSelected={navigationSelectedHandler} />
       </Box>
       <Box
         display="flex"

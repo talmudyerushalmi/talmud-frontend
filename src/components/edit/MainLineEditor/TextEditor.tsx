@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"
-import { Editor, EditorState } from "draft-js"
-import "../text.css"
+import React, { useEffect, useState } from 'react';
+import { Editor, EditorState } from 'draft-js';
+import '../text.css';
 
 interface Props {
   selectionFrom?: number;
@@ -11,65 +11,49 @@ interface Props {
 }
 
 const styleMap = {
-  'STRIKETHROUGH': {
+  STRIKETHROUGH: {
     textDecoration: 'line-through',
     color: 'red',
   },
-  'MARK': {
+  MARK: {
     backgroundColor: 'lightblue',
   },
 };
 const TextEditor = (props: Props) => {
   const { onChange, initialState, readOnly } = props;
-  const [ editorState, setEditorState] = useState(initialState);
-
-  
-  
+  const [editorState, setEditorState] = useState(initialState);
 
   // needed to update the state when the prop changes
   useEffect(() => {
     setEditorState(initialState);
   }, [initialState]); // add 'value' to the dependency list to recalculate state when value changes.
 
-
-
-  const _onChange = (editorState)=>{
+  const _onChange = (editorState) => {
     if (onChange) {
-      onChange(editorState)
+      onChange(editorState);
     }
     setEditorState(editorState);
-  }
-
-
-
+  };
 
   return (
-    <div 
-    style={{width:'100%', border:'none', padding:0}}
-     className="RichEditor-root">
+    <div style={{ width: '100%', border: 'none', padding: 0 }} className="RichEditor-root">
       <Editor
         customStyleMap={styleMap}
         readOnly={readOnly}
         editorState={editorState}
-        onChange={editorState => _onChange(editorState)}
+        onChange={(editorState) => _onChange(editorState)}
         preserveSelectionOnBlur={true}
-        textAlignment='right'
+        textAlignment="right"
       />
     </div>
-  )
-}
+  );
+};
 
-export default TextEditor
-
-
-
-
-
-
+export default TextEditor;
 
 const styles = {
   root: {
-    fontFamily: '\'Georgia\', serif',
+    fontFamily: "'Georgia', serif",
     fontSize: 14,
     padding: 20,
     width: 600,
@@ -83,7 +67,7 @@ const styles = {
     paddingTop: 20,
   },
   controls: {
-    fontFamily: '\'Helvetica\', sans-serif',
+    fontFamily: "'Helvetica', sans-serif",
     fontSize: 14,
     marginBottom: 10,
     userSelect: 'none',
