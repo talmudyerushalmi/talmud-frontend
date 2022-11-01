@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { iManuscriptPopup } from '../../types/types';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { setManuscriptPopup } from '../../store/actions/mishnaViewActions';
 import ZoomImage from '../manuscripts/ZoomImage';
+import RelatedService from '../../services/RelatedService';
 
 const sx = {
   root: {
@@ -22,6 +23,7 @@ const sx = {
 
 const mapStateToProps = (state) => ({
   manuscriptPopup: state.mishnaView.manuscriptPopup,
+  currentRoute: state.navigation.currentRoute,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -32,11 +34,25 @@ const mapDispatchToProps = (dispatch) => ({
 
 export interface iProps {
   manuscriptPopup: iManuscriptPopup;
+  currentRoute: any;
   closeManuscriptPopup: () => void;
 }
 
 const ManuscriptPopup = (props: iProps) => {
-  const { manuscriptPopup, closeManuscriptPopup } = props;
+  const { manuscriptPopup, closeManuscriptPopup, currentRoute } = props;
+
+  useEffect(() => {
+    console.log('manuscriptPopup', manuscriptPopup);
+    if (manuscriptPopup) {
+      RelatedService.getRelated(
+        currentRoute.tractate,
+        currentRoute.chapter
+      ).then((res) => {
+        console.log('res', res);
+      });
+    }
+  }, [manuscriptPopup]);
+
   return (
     <Modal
       sx={{
