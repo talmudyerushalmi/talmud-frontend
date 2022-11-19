@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { iManuscriptPopup } from '../../types/types';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { setManuscriptPopup } from '../../store/actions/mishnaViewActions';
+import { setRelevantManuscript } from '../../store/actions/relatedActions';
 import ZoomImage from '../manuscripts/ZoomImage';
 import RelatedService from '../../services/RelatedService';
 
@@ -22,47 +22,43 @@ const sx = {
 };
 
 const mapStateToProps = (state) => ({
-  manuscriptPopup: state.mishnaView.manuscriptPopup,
+  relevantManuscript: state.related.relevantManuscript,
   currentRoute: state.navigation.currentRoute,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   closeManuscriptPopup: () => {
-    dispatch(setManuscriptPopup(null));
+    dispatch(setRelevantManuscript(null));
   },
 });
 
 export interface iProps {
-  manuscriptPopup: iManuscriptPopup;
+  relevantManuscript: iManuscriptPopup;
   currentRoute: any;
   closeManuscriptPopup: () => void;
 }
 
 const ManuscriptPopup = (props: iProps) => {
-  const { manuscriptPopup, closeManuscriptPopup, currentRoute } = props;
+  const { relevantManuscript, closeManuscriptPopup, currentRoute } = props;
 
   useEffect(() => {
-    console.log('manuscriptPopup', manuscriptPopup);
-    if (manuscriptPopup) {
-      RelatedService.getRelated(
-        currentRoute.tractate,
-        currentRoute.chapter
-      ).then((res) => {
-        console.log('res', res);
+    console.log('manuscriptPopup', relevantManuscript);
+    if (relevantManuscript) {
+      RelatedService.getRelated(currentRoute.tractate, currentRoute.chapter).then((res) => {
+        console.log('related', res);
       });
     }
-  }, [manuscriptPopup]);
+  }, [relevantManuscript]);
 
   return (
     <Modal
       sx={{
         border: 'none',
       }}
-      open={Boolean(manuscriptPopup)}
+      open={Boolean(relevantManuscript)}
       onClose={closeManuscriptPopup}
       aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+      aria-describedby="modal-modal-description">
       <Box sx={sx.root}>
         <ZoomImage image={'https://picsum.photos/1200/2000'} />
       </Box>

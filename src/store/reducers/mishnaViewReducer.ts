@@ -1,6 +1,6 @@
 import { excerptInSubline } from '../../inc/excerptUtils';
 import { RichTextsMishnas } from '../../services/pageService';
-import { iManuscriptPopup, iMishna, iSubline } from '../../types/types';
+import {  iMishna, iSubline } from '../../types/types';
 import {
   FILTER_EXCERPTS_BY_LINES,
   REQUEST_START,
@@ -14,7 +14,6 @@ import {
   SET_MISHNA_VIEW_OPTIONS,
   ADD_MISHNA_TO_MISHNAIOT,
   CLEAR_MISHNAIOT,
-  SET_MANUSCRIPT_POPUP,
 } from '../actions/mishnaViewActions';
 import {
   RECEIVE_MISHNA,
@@ -42,7 +41,6 @@ interface ViewState {
   showPunctuation: boolean;
   showSources: boolean;
   showEditType: ShowEditType;
-  manuscriptPopup: iManuscriptPopup | null;
 }
 
 const initialState: ViewState = {
@@ -61,7 +59,6 @@ const initialState: ViewState = {
   showPunctuation: true,
   showSources: true,
   showEditType: ShowEditType.ORIGINAL,
-  manuscriptPopup: null,
 };
 
 const mishnaViewReducer = (state = initialState, action) => {
@@ -138,11 +135,6 @@ const mishnaViewReducer = (state = initialState, action) => {
         ...state,
         totalMishnaiot: action.totalMishnaiot,
         mishnaiot: [...mishnaiot],
-      };
-    case SET_MANUSCRIPT_POPUP:
-      return {
-        ...state,
-        manuscriptPopup: action.payload,
       };
     default:
       return state;

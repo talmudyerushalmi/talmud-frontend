@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import { getSynopsisRaw, synopsisMap } from '../../inc/synopsisUtils';
 import { Tooltip } from '@mui/material';
 import { iManuscriptPopup, iSubline } from '../../types/types';
-import { setManuscriptPopup } from '../../store/actions/mishnaViewActions';
+import { setRelevantManuscript } from '../../store/actions/relatedActions';
 import { connect } from 'react-redux';
 import ButtonUnstyled from '../shared/ButtonUnstyled';
 
@@ -41,19 +41,19 @@ const useStyles = makeStyles({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setManuscriptPopup: (data: iManuscriptPopup) => {
-    dispatch(setManuscriptPopup(data));
+  setRelevantManuscript: (data: iManuscriptPopup) => {
+    dispatch(setRelevantManuscript(data));
   },
 });
 
 interface Props {
   subline: iSubline;
-  setManuscriptPopup: (data: iManuscriptPopup) => void;
+  setRelevantManuscript: (data: iManuscriptPopup) => void;
 }
 
 const SynopsisTable = (props: Props) => {
   const classes = useStyles();
-  const { subline, setManuscriptPopup } = props;
+  const { subline, setRelevantManuscript } = props;
   const { synopsis, index } = subline;
 
   if (!synopsis) {
@@ -97,25 +97,16 @@ const SynopsisTable = (props: Props) => {
             }
             return rawText ? (
               <TableRow key={i}>
-                <Tooltip
-                  enterDelay={800}
-                  leaveDelay={200}
-                  title={sourceFullName(synopsisRow)}
-                >
-                  <TableCell
-                    style={{ fontWeight: 'bold' }}
-                    component="td"
-                    scope="row"
-                  >
+                <Tooltip enterDelay={800} leaveDelay={200} title={sourceFullName(synopsisRow)}>
+                  <TableCell style={{ fontWeight: 'bold' }} component="td" scope="row">
                     <ButtonUnstyled
                       onClick={() => {
-                        setManuscriptPopup({
+                        setRelevantManuscript({
                           line: index,
                           subline: subline,
                           manuscript: synopsisRow.id,
                         });
-                      }}
-                    >
+                      }}>
                       {sourceName(synopsisRow)}
                     </ButtonUnstyled>
                   </TableCell>

@@ -1,6 +1,5 @@
 import { action } from 'typesafe-actions';
 import PageService from '../../services/pageService';
-import { iManuscriptPopup } from '../../types/types';
 import { ShowEditType } from '../reducers/mishnaViewReducer';
 import { startLoading, stopLoading } from './generalActions';
 
@@ -16,7 +15,6 @@ export const TOGGLE_EDIT_TYPE = 'TOGGLE_EDIT_TYPE';
 export const SET_MISHNA_VIEW_OPTIONS = 'SET_MISHNA_VIEW_OPTIONS';
 export const CLEAR_MISHNAIOT = 'CLEAR_MISHNAIOT';
 export const ADD_MISHNA_TO_MISHNAIOT = 'ADD_MISHNA_TO_MISHNAIOT';
-export const SET_MANUSCRIPT_POPUP = 'SET_MANUSCRIPT_POPUP';
 
 export const selectSublines = (selectedSublines) => (dispatch, getState) => {
   dispatch({
@@ -48,8 +46,6 @@ export const setMishnaViewOptions = (options: any) => {
     options,
   };
 };
-export const setManuscriptPopup = (data: iManuscriptPopup | null) =>
-  action(SET_MANUSCRIPT_POPUP, data);
 
 export function getRichMishnaiotForChapter(
   tractate: string,
