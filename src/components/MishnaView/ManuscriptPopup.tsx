@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { iManuscriptPopup } from '../../types/types';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { setRelevantManuscript } from '../../store/actions/relatedActions';
 import ZoomImage from '../manuscripts/ZoomImage';
-import RelatedService from '../../services/RelatedService';
+import RelatedService, { iRelated } from '../../services/RelatedService';
 
 const sx = {
   root: {
@@ -40,12 +40,18 @@ export interface iProps {
 
 const ManuscriptPopup = (props: iProps) => {
   const { relevantManuscript, closeManuscriptPopup, currentRoute } = props;
+  const [imageURL, setImageURL] = useState<string>('');
 
   useEffect(() => {
-    console.log('manuscriptPopup', relevantManuscript);
     if (relevantManuscript) {
-      RelatedService.getRelated(currentRoute.tractate, currentRoute.chapter).then((res) => {
-        console.log('related', res);
+      RelatedService.getRelated(currentRoute.tractate, currentRoute.chapter).then((res: iRelated) => {
+        const manuscript = res.manuscripts.find(
+          (manuscript) =>
+            manuscript.slug === 'leiden-manuscript' &&
+            manuscript.fromSubline <= relevantManuscript.line &&
+            manuscript.toSubline >= relevantManuscript.line
+        );
+        setImageURL(manuscript?.imageurl || '');
       });
     }
   }, [relevantManuscript]);
@@ -60,7 +66,7 @@ const ManuscriptPopup = (props: iProps) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <Box sx={sx.root}>
-        <ZoomImage image={'https://picsum.photos/1200/2000'} />
+        <ZoomImage image={imageURL} />
       </Box>
     </Modal>
   );
