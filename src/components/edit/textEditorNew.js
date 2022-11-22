@@ -8,11 +8,6 @@ export default class textEditorNew extends Component {
     this.onChange = (editorState) => this.setState({ editorState });
   }
   render() {
-    return (
-      <Editor
-        editorState={this.state.editorState}
-        onChange={this.onChange}
-      />
-    );
+    return <Editor editorState={this.state.editorState} onChange={this.onChange} />;
   }
 }

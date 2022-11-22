@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Editor,
   EditorState,
@@ -8,32 +8,27 @@ import {
   convertFromRaw,
   convertToRaw,
   DraftHandleValue,
-} from "draft-js";
-import "./text.css";
-import { EditedText, iSynopsis } from "../../types/types";
-import { getTextForSynopsis } from "../../inc/synopsisUtils";
+} from 'draft-js';
+import './text.css';
+import { EditedText, iSynopsis } from '../../types/types';
+import { getTextForSynopsis } from '../../inc/synopsisUtils';
 import makeStyles from '@mui/styles/makeStyles';
 //import Editor from 'draft-js-plugins-editor';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    "& .RichEditor-root": { width: "100%" },
+    display: 'flex',
+    '& .RichEditor-root': { width: '100%' },
   },
 }));
 
-const calculateEditorState = (
-  value: EditedText,
-  source: iSynopsis
-): EditorState => {
+const calculateEditorState = (value: EditedText, source: iSynopsis): EditorState => {
   if (value.content) {
     const content = convertFromRaw(value.content);
     return EditorState.createWithContent(content);
   }
   if (value.simpleText) {
-      return EditorState.createWithContent(
-        ContentState.createFromText(value.simpleText)
-      );
+    return EditorState.createWithContent(ContentState.createFromText(value.simpleText));
   }
   return EditorState.createEmpty();
 };
@@ -50,9 +45,7 @@ const SynopsisTextEditor = (props: Props) => {
   // return (
   //   <pre>{JSON.stringify(value)}</pre>
   // )
-  const [editorState, setEditorState] = useState(
-    calculateEditorState(value, source)
-  );
+  const [editorState, setEditorState] = useState(calculateEditorState(value, source));
 
   useEffect(() => {
     setEditorState(calculateEditorState(value, source));
@@ -83,7 +76,7 @@ const SynopsisTextEditor = (props: Props) => {
     // onMouseDown and e.preventDefault because editor losses focus if you use onClick
     e.preventDefault();
 
-    let nextState = RichUtils.toggleInlineStyle(editorState, "BOLD");
+    let nextState = RichUtils.toggleInlineStyle(editorState, 'BOLD');
     // var selectionState = editorState.getSelection()
     // var anchorKey = selectionState.getAnchorKey()
     // var currentContent = editorState.getCurrentContent()
@@ -101,18 +94,11 @@ const SynopsisTextEditor = (props: Props) => {
     const selection = editorState.getSelection();
 
     // Let's just allow one color at a time. Turn off all active colors.
-    const nextContentState = Object.keys(colorStyleMap).reduce(
-      (contentState, color) => {
-        return Modifier.removeInlineStyle(contentState, selection, color);
-      },
-      editorState.getCurrentContent()
-    );
+    const nextContentState = Object.keys(colorStyleMap).reduce((contentState, color) => {
+      return Modifier.removeInlineStyle(contentState, selection, color);
+    }, editorState.getCurrentContent());
 
-    let nextEditorState = EditorState.push(
-      editorState,
-      nextContentState,
-      "change-inline-style"
-    );
+    let nextEditorState = EditorState.push(editorState, nextContentState, 'change-inline-style');
 
     const currentStyle = editorState.getCurrentInlineStyle();
 
@@ -126,10 +112,7 @@ const SynopsisTextEditor = (props: Props) => {
 
     // If the color is being toggled on, apply it.
     if (!currentStyle.has(toggledColor)) {
-      nextEditorState = RichUtils.toggleInlineStyle(
-        nextEditorState,
-        toggledColor
-      );
+      nextEditorState = RichUtils.toggleInlineStyle(nextEditorState, toggledColor);
     }
 
     _onChange(nextEditorState);
@@ -146,11 +129,10 @@ const SynopsisTextEditor = (props: Props) => {
 
   const handlePastedText = (text: string): DraftHandleValue => {
     const strippedText = getTextForSynopsis(text, source);
-    const newState = EditorState.createWithContent(ContentState.createFromText(strippedText))
-    onChange(collectSublineDetails(newState))
-    return 'handled'
-  }
-
+    const newState = EditorState.createWithContent(ContentState.createFromText(strippedText));
+    onChange(collectSublineDetails(newState));
+    return 'handled';
+  };
 
   return (
     <div className={classes.root}>
@@ -176,32 +158,32 @@ export default SynopsisTextEditor;
 
 const colorStyleMap = {
   red: {
-    color: "rgba(255, 0, 0, 1.0)",
+    color: 'rgba(255, 0, 0, 1.0)',
   },
   orange: {
-    color: "rgba(255, 127, 0, 1.0)",
+    color: 'rgba(255, 127, 0, 1.0)',
   },
   yellow: {
-    color: "rgba(180, 180, 0, 1.0)",
+    color: 'rgba(180, 180, 0, 1.0)',
   },
   green: {
-    color: "rgba(0, 180, 0, 1.0)",
+    color: 'rgba(0, 180, 0, 1.0)',
   },
   blue: {
-    color: "rgba(0, 0, 255, 1.0)",
+    color: 'rgba(0, 0, 255, 1.0)',
   },
   indigo: {
-    color: "rgba(75, 0, 130, 1.0)",
+    color: 'rgba(75, 0, 130, 1.0)',
   },
   violet: {
-    color: "rgba(127, 0, 255, 1.0)",
+    color: 'rgba(127, 0, 255, 1.0)',
   },
 };
 
 var COLORS = [
-  { label: "אדום", style: "red" },
-  { label: "ירוק", style: "green" },
-  { label: "כחול", style: "blue" },
+  { label: 'אדום', style: 'red' },
+  { label: 'ירוק', style: 'green' },
+  { label: 'כחול', style: 'blue' },
 ];
 
 const ColorControls = (props) => {
@@ -262,8 +244,8 @@ const styles = {
     width: 600,
   },
   editor: {
-    borderTop: "1px solid #ddd",
-    cursor: "text",
+    borderTop: '1px solid #ddd',
+    cursor: 'text',
     fontSize: 16,
     marginTop: 20,
     minHeight: 400,
@@ -273,12 +255,12 @@ const styles = {
     fontFamily: "'Helvetica', sans-serif",
     fontSize: 14,
     marginBottom: 10,
-    userSelect: "none",
+    userSelect: 'none',
   },
   styleButton: {
-    color: "#999",
-    cursor: "pointer",
+    color: '#999',
+    cursor: 'pointer',
     marginRight: 16,
-    padding: "2px 0",
+    padding: '2px 0',
   },
 };

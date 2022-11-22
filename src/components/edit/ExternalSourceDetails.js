@@ -1,33 +1,33 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, TextField } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { Autocomplete } from '@mui/material';
-import React, { useState } from "react"
-import { connect } from "react-redux"
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles({
   option: {
-    direction: "rtl",
+    direction: 'rtl',
   },
   root: {
     minWidth: 300,
   },
-})
-const mapStateToProps = state => ({
-  compositions: state.general.compositions,
-})
+});
+const mapStateToProps = (state) => ({
+  compositions: state.navigation.compositions,
+});
 
-const ExternalSourceDetails = props => {
-  const { compositions, onAddExternalSource } = props
-  const classes = useStyles()
+const ExternalSourceDetails = (props) => {
+  const { compositions, onAddExternalSource } = props;
+  const classes = useStyles();
   const [externalSourceData, setExternalSourceData] = useState({
     composition: null,
-    compositionLocation: "",
-  })
+    compositionLocation: '',
+  });
 
   const onAddHandle = () => {
-    onAddExternalSource(externalSourceData)
-    setExternalSourceData({ composition: null, compositionLocation: "" })
-  }
+    onAddExternalSource(externalSourceData);
+    setExternalSourceData({ composition: null, compositionLocation: '' });
+  };
 
   return (
     <Grid container>
@@ -41,7 +41,7 @@ const ExternalSourceDetails = props => {
             setExternalSourceData({
               ...externalSourceData,
               composition: compositionValue,
-            })
+            });
           }}
           onInputChange={(_, input) => {
             // setLineInput(input)
@@ -50,25 +50,20 @@ const ExternalSourceDetails = props => {
           //  inputValue={lineInput}
           options={compositions || []}
           autoHighlight={true}
-          getOptionLabel={option => option.title}
-          renderInput={params => (
-            <TextField
-              style={{ direction: "rtl" }}
-              {...params}
-              label="חיבור"
-              variant="outlined"
-            />
+          getOptionLabel={(option) => option.title}
+          renderInput={(params) => (
+            <TextField style={{ direction: 'rtl' }} {...params} label="חיבור" variant="outlined" />
           )}
         />
       </Grid>
       <Grid item>
         <TextField
-          onChange={e => {
-            const compositionLocation = e.target.value
+          onChange={(e) => {
+            const compositionLocation = e.target.value;
             setExternalSourceData({
               ...externalSourceData,
               compositionLocation,
-            })
+            });
           }}
           value={externalSourceData.compositionLocation}
           label="מיקום"
@@ -76,7 +71,7 @@ const ExternalSourceDetails = props => {
         />
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default connect(mapStateToProps)(ExternalSourceDetails)
+export default connect(mapStateToProps)(ExternalSourceDetails);

@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import MainLine from "./MainLine";
-import { iLine } from "../../types/types";
-import SugiaButton from "./SugiaButton";
-import { useParams } from "react-router-dom";
-import { IconButton } from "@mui/material";
-import { Edit } from "@mui/icons-material";
-import { routeObject } from "../../routes/AdminRoutes";
-import { connect } from "react-redux";
+import MainLine from './MainLine';
+import { iLine } from '../../types/types';
+import SugiaButton from './SugiaButton';
+import { useParams } from 'react-router-dom';
+import { IconButton } from '@mui/material';
+import { Edit } from '@mui/icons-material';
+import { routeObject } from '../../routes/AdminRoutes';
+import { connect } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    width: '100%',
   },
   lineNumber: {
     //@ts-ignore
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.sourceReference,
   },
   lines: {
-    position: 'relative'
+    position: 'relative',
   },
 }));
 
@@ -51,22 +51,18 @@ const MainLines = (props: Props) => {
           <div key={line.lineNumber} className={classes.lines}>
             {username ? (
               <IconButton
-                sx={{position: "absolute",
-                display: { xs: 'none', sm: 'block' },
-                left: '-3rem',
-                top: '-0.2rem'}}
+                sx={{ position: 'absolute', display: { xs: 'none', sm: 'block' }, left: '-3rem', top: '-0.2rem' }}
                 onClick={() => {
                   const url = `/admin/edit/${route.tractate}/${route.chapter}/${mishna}/${line.lineNumber}/`;
                   //@ts-ignore
                   window!.open(url, '_blank').focus();
                 }}
-                size="small">
+                size="small"
+              >
                 <Edit></Edit>
               </IconButton>
             ) : null}
-            {line.sugiaName ? (
-              <SugiaButton index={sectionsIndex++} line={line} />
-            ) : null}
+            {line.sugiaName ? <SugiaButton index={sectionsIndex++} line={line} /> : null}
             <MainLine lineIndex={index} line={line} />
           </div>
         );

@@ -8,14 +8,10 @@ export {
   selectTractate,
   selectChapter,
   selectMishna,
-  selectLine
- // requestMishna,
-} from "./navigationActions"
+  selectLine,
+  // requestMishna,
+} from './navigationActions';
 
-export {
-  selectSublines,
-  selectExcerpt,
-  toggleShowPunctuation,
-  toggleShowSources
+export { selectSublines, selectExcerpt, toggleShowPunctuation, toggleShowSources } from './mishnaViewActions';
 
-} from "./mishnaViewActions"
+export { startLoading } from './generalActions';

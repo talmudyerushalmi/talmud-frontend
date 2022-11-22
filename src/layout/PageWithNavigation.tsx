@@ -1,13 +1,19 @@
-import { Box, Container } from "@mui/material";
-import { useHistory } from "react-router-dom";
-import ChooseMishnaBar, { ALL_CHAPTER } from "../components/shared/ChooseMishnaBar";
+import { Box, Container } from '@mui/material';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ChooseMishnaBar, { ALL_CHAPTER } from '../components/shared/ChooseMishnaBar';
+import Spinner from '../components/shared/Spinner';
+
+const mapStateToProps = (state) => ({
+  loading: state.general.loading,
+});
 
 export const PageHeader = (props) => {
   return <Box mb={3}>{props.children}</Box>;
 };
 
 export const PageContent = (props) => {
-  return <div>{props.children}</div>;
+  return <Box width="100%">{props.children}</Box>;
 };
 
 interface iLink {
@@ -21,15 +27,17 @@ interface Props {
   children: any;
   afterNavigateHandler?: Function;
   allChapterAllowed?: boolean;
+  loading: boolean;
 }
-export const PageWithNavigation = (props: Props) => {
-  const { linkPrefix, allChapterAllowed, afterNavigateHandler } = props;
+const PageWithNavigationWithoutState = (props: Props) => {
+  const { linkPrefix, allChapterAllowed, afterNavigateHandler, loading } = props;
+
   const history = useHistory();
   let url: string;
   const navigationSelectedHandler = (link: iLink) => {
     if (link && link.line) {
       url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}/${link.line}`;
-    } else if (link.mishna === ALL_CHAPTER.mishna ) {
+    } else if (link.mishna === ALL_CHAPTER.mishna) {
       url = `${linkPrefix}/${link.tractate}/${link.chapter}`;
     } else {
       url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}`;
@@ -41,14 +49,23 @@ export const PageWithNavigation = (props: Props) => {
   };
 
   return (
-    <Container style={{paddingBottom:'6rem'}}>
+    <Container style={{ paddingBottom: '6rem' }}>
       <Box mb={3}>
-        <ChooseMishnaBar 
-        allChapterAllowed={allChapterAllowed}
-        onNavigationSelected={navigationSelectedHandler}
-         />
+        <ChooseMishnaBar allChapterAllowed={allChapterAllowed} onNavigationSelected={navigationSelectedHandler} />
       </Box>
-      {props.children}
+      <Box
+        display="flex"
+        justifyContent="center"
+        sx={{
+          opacity: loading ? 0.3 : 1,
+        }}
+      >
+        {loading && <Spinner />}
+        {props.children}
+      </Box>
     </Container>
   );
 };
+
+const PageWithNavigation = connect(mapStateToProps)(PageWithNavigationWithoutState);
+export { PageWithNavigation };

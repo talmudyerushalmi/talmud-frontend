@@ -1,28 +1,22 @@
 export function cleanCharacters(str: string): string {
   const regex = /[.+:!{},?<>[\]]/g;
-  return str.replace(regex, "");
+  return str.replace(regex, '');
 }
 
-export function getOffsetOfWordOccurence(text: string, word: string, occurence = 1):number {
-  if (occurence===1) {
+export function getOffsetOfWordOccurence(text: string, word: string, occurence = 1): number {
+  if (occurence === 1) {
     return text.indexOf(word);
-  }
-  else {
+  } else {
     const offset = text.indexOf(word) + word.length;
-    const sub = text.substr(offset)
-    console.log('look in ',sub)
-    return getOffsetOfWordOccurence(sub, word, occurence-1) + offset;
+    const sub = text.substr(offset);
+    console.log('look in ', sub);
+    return getOffsetOfWordOccurence(sub, word, occurence - 1) + offset;
   }
-
 }
 
-export function getWordOccurence(
-  inText: string,
-  offset: number,
-  word: string
-): [number, number] {
+export function getWordOccurence(inText: string, offset: number, word: string): [number, number] {
   const textUntilOffset = inText.substring(0, offset);
-  const regex = new RegExp(word, "g");
+  const regex = new RegExp(word, 'g');
   const foundUntilOffset = textUntilOffset.match(regex);
   const foundInText = inText.match(regex);
   const occurences = foundInText ? foundInText.length : 0;
