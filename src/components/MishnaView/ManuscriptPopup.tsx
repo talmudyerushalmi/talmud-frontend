@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { iManuscriptPopup } from '../../types/types';
+import { iManuscript, iManuscriptPopup } from '../../types/types';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { setManuscriptsForChapter, setRelevantManuscript } from '../../store/actions/relatedActions';
+import { setManuscriptsForChapter, setSublineData } from '../../store/actions/relatedActions';
 import ZoomImage from '../manuscripts/ZoomImage';
-import RelatedService, { iRelated } from '../../services/relatedService';
 
 const sx = {
   root: {
@@ -22,13 +21,14 @@ const sx = {
 };
 
 const mapStateToProps = (state) => ({
-  relevantManuscript: state.related.relevantManuscript,
+  sublineData: state.related.sublineData,
   currentRoute: state.navigation.currentRoute,
+  manuscriptsForChapter: state.related.manuscriptsForChapter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   closeManuscriptPopup: () => {
-    dispatch(setRelevantManuscript(null));
+    dispatch(setSublineData(null));
   },
   setManuscriptsForChapter: (chapter: string, tractate: string) => {
     dispatch(setManuscriptsForChapter(chapter, tractate));
@@ -36,29 +36,22 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export interface iProps {
-  relevantManuscript: iManuscriptPopup;
+  sublineData: iManuscriptPopup;
   currentRoute: any;
   closeManuscriptPopup: () => void;
   setManuscriptsForChapter: (chapter: string, tractate: string) => void;
+  manuscriptsForChapter: iManuscript[];
 }
 
 const ManuscriptPopup = (props: iProps) => {
-  const { relevantManuscript, closeManuscriptPopup, currentRoute, setManuscriptsForChapter } = props;
-  const [imageURL, setImageURL] = useState<string>('');
-
-  // useEffect(() => {
-  //   if (relevantManuscript) {
-  //     RelatedService.getRelated(currentRoute?.tractate, currentRoute?.chapter).then((res: iRelated) => {
-  //       const manuscript = res.manuscripts.find(
-  //         (manuscript) =>
-  //           manuscript.slug === 'leiden' &&
-  //           manuscript.fromSubline <= relevantManuscript.line &&
-  //           manuscript.toSubline >= relevantManuscript.line
-  //       );
-  //       setImageURL(manuscript?.imageurl || '');
-  //     });
-  //   }
-  // }, [relevantManuscript]);
+  const { sublineData, closeManuscriptPopup, currentRoute, setManuscriptsForChapter, manuscriptsForChapter } = props;
+  let imageURL =
+    manuscriptsForChapter?.find(
+      (manuscript) =>
+        manuscript?.slug === 'leiden' &&
+        manuscript?.fromSubline <= sublineData?.line &&
+        manuscript?.toSubline >= sublineData?.line
+    )?.imageurl || '';
 
   useEffect(() => {
     setManuscriptsForChapter(currentRoute?.tractate, currentRoute?.chapter);
@@ -69,7 +62,7 @@ const ManuscriptPopup = (props: iProps) => {
       sx={{
         border: 'none',
       }}
-      open={Boolean(relevantManuscript)}
+      open={Boolean(sublineData)}
       onClose={closeManuscriptPopup}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">

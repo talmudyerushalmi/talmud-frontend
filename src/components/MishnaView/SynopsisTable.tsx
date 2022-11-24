@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import { getSynopsisRaw, synopsisMap } from '../../inc/synopsisUtils';
 import { Tooltip } from '@mui/material';
 import { iManuscriptPopup, iSubline } from '../../types/types';
-import { setRelevantManuscript } from '../../store/actions/relatedActions';
+import { setSublineData } from '../../store/actions/relatedActions';
 import { connect } from 'react-redux';
 import ButtonUnstyled from '../shared/ButtonUnstyled';
 
@@ -41,19 +41,19 @@ const useStyles = makeStyles({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setRelevantManuscript: (data: iManuscriptPopup) => {
-    dispatch(setRelevantManuscript(data));
+  setSublineData: (data: iManuscriptPopup) => {
+    dispatch(setSublineData(data));
   },
 });
 
 interface Props {
   subline: iSubline;
-  setRelevantManuscript: (data: iManuscriptPopup) => void;
+  setSublineData: (data: iManuscriptPopup) => void;
 }
 
 const SynopsisTable = (props: Props) => {
   const classes = useStyles();
-  const { subline, setRelevantManuscript } = props;
+  const { subline, setSublineData } = props;
   const { synopsis, index } = subline;
 
   if (!synopsis) {
@@ -101,7 +101,7 @@ const SynopsisTable = (props: Props) => {
                   <TableCell style={{ fontWeight: 'bold' }} component="td" scope="row">
                     <ButtonUnstyled
                       onClick={() => {
-                        setRelevantManuscript({
+                        setSublineData({
                           line: index,
                           subline: subline,
                           synopsisCode: synopsisRow.id,

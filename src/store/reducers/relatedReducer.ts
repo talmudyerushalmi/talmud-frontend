@@ -1,22 +1,22 @@
 import { iManuscript, iManuscriptPopup } from '../../types/types';
-import { SET_MANUSCRIPTS_FOR_CHAPTER, SET_RELEVANT_MANUSCRIPT } from '../actions/relatedActions';
+import { SET_MANUSCRIPTS_FOR_CHAPTER,  SET_SUBLINE_DATA } from '../actions/relatedActions';
 
 interface IRelatedState {
-  relevantManuscript: iManuscriptPopup | null;
+  sublineData: iManuscriptPopup | null;
   manuscriptsForChapter: iManuscript[] | null;
 }
 
 const initialState: IRelatedState = {
-  relevantManuscript: null,
+  sublineData: null,
   manuscriptsForChapter: null,
 };
 
 const relatedReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_RELEVANT_MANUSCRIPT:
+    case SET_SUBLINE_DATA:
       return {
         ...state,
-        relevantManuscript: action.payload,
+        sublineData: action.payload,
       };
     case SET_MANUSCRIPTS_FOR_CHAPTER:
       return {
