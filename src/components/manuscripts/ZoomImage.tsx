@@ -1,10 +1,27 @@
-import React, { useRef, useMemo, useEffect, useState } from "react";
+import { Box } from '@mui/material';
+import React, { useRef, useMemo, useEffect, useState, FC } from 'react';
 
 const SCROLL_SENSITIVITY = 0.0005;
 const MAX_ZOOM = 5;
 const MIN_ZOOM = 0.1;
 
-const ZoomImage = ({ image }) => {
+const sx = {
+  root: {
+    width: '100%',
+    height: '100%',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain' as 'contain',
+  },
+};
+
+interface iProps {
+  image: string;
+}
+
+const ZoomImage: FC<iProps> = ({ image }) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [draggind, setDragging] = useState(false);
@@ -49,7 +66,7 @@ const ZoomImage = ({ image }) => {
   const draw = () => {
     if (canvasRef.current) {
       const { width, height } = canvasRef.current;
-      const context = canvasRef.current.getContext("2d");
+      const context = canvasRef.current.getContext('2d');
 
       // Set canvas dimensions
       canvasRef.current.width = width;
@@ -82,7 +99,7 @@ const ZoomImage = ({ image }) => {
           canvasRef.current.width = width * scale;
           canvasRef.current.height = height * scale;
           canvasRef.current
-            .getContext("2d")
+            .getContext('2d')
             .drawImage(background, 0, 0, width * scale, height * scale);
         }
       });
@@ -93,7 +110,7 @@ const ZoomImage = ({ image }) => {
 
     return () => {
       if (containerRef.current) {
-        observer.current!.unobserve(containerRef.current)
+        observer.current!.unobserve(containerRef.current);
       }
     };
   }, []);
@@ -109,7 +126,7 @@ const ZoomImage = ({ image }) => {
         canvasRef.current.height = height;
 
         // Set image as background
-        canvasRef.current.getContext("2d").drawImage(background, 0, 0);
+        canvasRef.current.getContext('2d').drawImage(background, 0, 0);
       };
     }
   }, [background]);
@@ -119,15 +136,17 @@ const ZoomImage = ({ image }) => {
   }, [zoom, offset]);
 
   return (
-    <div ref={containerRef}>
-      <canvas
+    <Box ref={containerRef} sx={sx.root}>
+      <Box
+        component="canvas"
+        sx={sx.image}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onWheel={handleWheel}
         onMouseMove={handleMouseMove}
         ref={canvasRef}
       />
-    </div>
+    </Box>
   );
 };
 

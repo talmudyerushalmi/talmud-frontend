@@ -103,8 +103,7 @@ const SublineDisplay = (props: Props) => {
         square={true}
         expanded={expanded === `panelb${subline.index}`}
         onClick={() => handleSelect(subline)}
-        className={`${classes.root} ${selectedClass} ${piskaClass}`}
-      >
+        className={`${classes.root} ${selectedClass} ${piskaClass}`}>
         <AccordionSummary sx={{ paddingRight: '0.25rem' }} aria-controls="subline-content">
           <Typography variant="lineNumber" component="span">
             {subline.index}
@@ -124,7 +123,7 @@ const SublineDisplay = (props: Props) => {
           </AccordionActions>
         </AccordionSummary>
         <AccordionDetails>
-          <SynopsisTable synopsis={subline?.synopsis} />
+          <SynopsisTable subline={subline} />
         </AccordionDetails>
       </Accordion>
     </>

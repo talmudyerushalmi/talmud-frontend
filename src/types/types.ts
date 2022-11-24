@@ -98,3 +98,21 @@ export interface iLine {
   sublines?: iSubline[];
   sugiaName?: string;
 }
+
+export interface iManuscript {
+  slug: string;
+  imageurl: string;
+  thumbnail: string;
+  pageid: string;
+  fromSubline: number;
+  toSubline: number;
+  fromLine: number;
+  toLine: number;
+  anchorexpanded: string | null;
+}
+
+export interface iManuscriptPopup {
+  line: number;
+  subline: iSubline;
+  synopsisCode: string;
+}

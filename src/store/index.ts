@@ -6,6 +6,7 @@ import navigationReducer from './reducers/navigationReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import mishnaEditReducer from './reducers/mishnaEditReducer';
 import generalReducer from './reducers/generalReducer';
+import relatedReducer from './reducers/relatedReducer';
 
 const rootReducer = combineReducers({
   general: generalReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   authentication: authReducer,
   mishnaView: mishnaViewReducer,
   mishnaEdit: mishnaEditReducer,
+  related: relatedReducer,
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
