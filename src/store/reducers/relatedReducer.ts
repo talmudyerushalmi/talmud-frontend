@@ -1,12 +1,14 @@
-import { iManuscriptPopup } from '../../types/types';
-import { SET_RELEVANT_MANUSCRIPT } from '../actions/relatedActions';
+import { iManuscript, iManuscriptPopup } from '../../types/types';
+import { SET_MANUSCRIPTS_FOR_CHAPTER, SET_RELEVANT_MANUSCRIPT } from '../actions/relatedActions';
 
 interface IRelatedState {
   relevantManuscript: iManuscriptPopup | null;
+  manuscriptsForChapter: iManuscript[] | null;
 }
 
 const initialState: IRelatedState = {
   relevantManuscript: null,
+  manuscriptsForChapter: null,
 };
 
 const relatedReducer = (state = initialState, action) => {
@@ -15,6 +17,11 @@ const relatedReducer = (state = initialState, action) => {
       return {
         ...state,
         relevantManuscript: action.payload,
+      };
+    case SET_MANUSCRIPTS_FOR_CHAPTER:
+      return {
+        ...state,
+        manuscriptsForChapter: action.payload,
       };
     default:
       return state;

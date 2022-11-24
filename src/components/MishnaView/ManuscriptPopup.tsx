@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { iManuscriptPopup } from '../../types/types';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { setRelevantManuscript } from '../../store/actions/relatedActions';
+import { setManuscriptsForChapter, setRelevantManuscript } from '../../store/actions/relatedActions';
 import ZoomImage from '../manuscripts/ZoomImage';
 import RelatedService, { iRelated } from '../../services/relatedService';
 
@@ -30,31 +30,39 @@ const mapDispatchToProps = (dispatch) => ({
   closeManuscriptPopup: () => {
     dispatch(setRelevantManuscript(null));
   },
+  setManuscriptsForChapter: (chapter: string, tractate: string) => {
+    dispatch(setManuscriptsForChapter(chapter, tractate));
+  },
 });
 
 export interface iProps {
   relevantManuscript: iManuscriptPopup;
   currentRoute: any;
   closeManuscriptPopup: () => void;
+  setManuscriptsForChapter: (chapter: string, tractate: string) => void;
 }
 
 const ManuscriptPopup = (props: iProps) => {
-  const { relevantManuscript, closeManuscriptPopup, currentRoute } = props;
+  const { relevantManuscript, closeManuscriptPopup, currentRoute, setManuscriptsForChapter } = props;
   const [imageURL, setImageURL] = useState<string>('');
 
+  // useEffect(() => {
+  //   if (relevantManuscript) {
+  //     RelatedService.getRelated(currentRoute?.tractate, currentRoute?.chapter).then((res: iRelated) => {
+  //       const manuscript = res.manuscripts.find(
+  //         (manuscript) =>
+  //           manuscript.slug === 'leiden' &&
+  //           manuscript.fromSubline <= relevantManuscript.line &&
+  //           manuscript.toSubline >= relevantManuscript.line
+  //       );
+  //       setImageURL(manuscript?.imageurl || '');
+  //     });
+  //   }
+  // }, [relevantManuscript]);
+
   useEffect(() => {
-    if (relevantManuscript) {
-      RelatedService.getRelated(currentRoute.tractate, currentRoute.chapter).then((res: iRelated) => {
-        const manuscript = res.manuscripts.find(
-          (manuscript) =>
-            manuscript.slug === 'leiden' &&
-            manuscript.fromSubline <= relevantManuscript.line &&
-            manuscript.toSubline >= relevantManuscript.line
-        );
-        setImageURL(manuscript?.imageurl || '');
-      });
-    }
-  }, [relevantManuscript]);
+    setManuscriptsForChapter(currentRoute?.tractate, currentRoute?.chapter);
+  }, [currentRoute?.chapter, currentRoute?.tractate]);
 
   return (
     <Modal
