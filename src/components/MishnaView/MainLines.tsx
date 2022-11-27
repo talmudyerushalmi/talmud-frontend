@@ -55,7 +55,7 @@ const MainLines = (props: Props) => {
                 onClick={() => {
                   const url = `/admin/edit/${route.tractate}/${route.chapter}/${mishna}/${line.lineNumber}/`;
                   //@ts-ignore
-                  window!.open(url, '_blank').focus();
+                  window!.open(url, '_self').focus();
                 }}
                 size="small"
               >
