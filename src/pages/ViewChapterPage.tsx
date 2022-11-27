@@ -1,16 +1,11 @@
-import React, { useEffect } from "react";
-import { Footer } from "../layout/Footer";
-import {
-  PageContent,
-  PageHeader,
-  PageWithNavigation,
-} from "../layout/PageWithNavigation";
+import React, { useEffect } from 'react';
+import { Footer } from '../layout/Footer';
+import { PageContent, PageHeader, PageWithNavigation } from '../layout/PageWithNavigation';
 import TagManager from 'react-gtm-module';
-import ChapterPage from "./ChapterPage";
-
+import ChapterPage from './ChapterPage';
 
 const ViewChapterPage = () => {
-  useEffect(()=>{
+  useEffect(() => {
     TagManager.dataLayer({
       dataLayer: {
         event: 'page_view',
@@ -18,30 +13,29 @@ const ViewChapterPage = () => {
         title: 'mishna-view',
       },
     });
-  },[])
+  }, []);
   return (
-    <PageWithNavigation 
-    allChapterAllowed={true}
-    linkPrefix="/talmud" afterNavigateHandler={()=>{
-      TagManager.dataLayer({
-        dataLayer: {
-          event: 'page_view',
-          pagePath: window.location.href,
-          title: 'chapter-view',
-        },
-      });
-      window.scrollTo(0,0)}}>
-      <PageHeader>
-      </PageHeader>
+    <PageWithNavigation
+      allChapterAllowed={true}
+      linkPrefix="/talmud"
+      afterNavigateHandler={() => {
+        TagManager.dataLayer({
+          dataLayer: {
+            event: 'page_view',
+            pagePath: window.location.href,
+            title: 'chapter-view',
+          },
+        });
+        window.scrollTo(0, 0);
+      }}
+    >
+      <PageHeader></PageHeader>
       <PageContent>
-        <ChapterPage/>
+        <ChapterPage />
       </PageContent>
-      <Footer/>
+      <Footer />
     </PageWithNavigation>
   );
 };
 
 export default ViewChapterPage;
-
-
-

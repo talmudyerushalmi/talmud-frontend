@@ -45,7 +45,7 @@ export const receivedCurrentLocation = (currentTractate, currentChapter, current
   currentTractate,
   currentChapter,
   currentMishna,
-  currentLine
+  currentLine,
 });
 
 export const receivedCurrentSelection = (tractateData, chapterData, mishnaData, lineData) => ({
@@ -61,7 +61,7 @@ export const setRoute = (tractate, chapter, mishna, line) => ({
   tractate,
   chapter,
   mishna,
-  line
+  line,
 });
 
 export const setSelectedForRoute = (selectedTractate, selectedChapter, selectedMishna, selectedLine) => ({
@@ -69,7 +69,7 @@ export const setSelectedForRoute = (selectedTractate, selectedChapter, selectedM
   selectedTractate,
   selectedChapter,
   selectedMishna,
-  selectedLine
+  selectedLine,
 });
 
 export const setCurrentMishna = (mishnaDoc) => {
@@ -167,7 +167,7 @@ export function selectMishna(selectedMishna) {
       dispatch({
         type: SELECT_MISHNA,
         selectedMishna,
-        selectedLine: firstLine
+        selectedLine: firstLine,
       });
     } else {
       dispatch({

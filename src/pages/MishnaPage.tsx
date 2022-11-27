@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
-import { Grid } from "@mui/material";
-import MainText from "../components/MishnaView/MainText";
-import MishnaText from "../components/MishnaView/MishnaText";
-import { connect } from "react-redux";
-import ExcerptsSection from "../components/MishnaView/ExcerptsSection";
-import MishnaViewOptions from "../components/MishnaView/MishnaViewOptions";
-import { useParams } from "react-router";
-import { getHTMLFromRawContent } from "../inc/editorUtils";
-import { iMishna } from "../types/types";
-import { routeObject } from "../routes/AdminRoutes";
-import { getMishna } from "../store/actions/navigationActions";
-import { setMishnaViewOptions } from "../store/actions/mishnaViewActions";
+import React, { useEffect } from 'react';
+import { Grid } from '@mui/material';
+import MainText from '../components/MishnaView/MainText';
+import MishnaText from '../components/MishnaView/MishnaText';
+import { connect } from 'react-redux';
+import ExcerptsSection from '../components/MishnaView/ExcerptsSection';
+import MishnaViewOptions from '../components/MishnaView/MishnaViewOptions';
+import { useParams } from 'react-router';
+import { getHTMLFromRawContent } from '../inc/editorUtils';
+import { iMishna } from '../types/types';
+import { routeObject } from '../routes/AdminRoutes';
+import { getMishna } from '../store/actions/navigationActions';
+import { setMishnaViewOptions } from '../store/actions/mishnaViewActions';
 
 const DEFAULT_OPTIONS = {
-  showSugiaName: true
-}
+  showSugiaName: true,
+};
 const mapStateToProps = (state) => ({
   currentMishna: state.navigation.currentMishna,
   filteredExcerpts: state.mishnaView.filteredExcerpts,
@@ -28,8 +28,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(setMishnaViewOptions(DEFAULT_OPTIONS));
   },
   getMishna: (tractate: string, chapter: string, mishna: string) => {
-    dispatch(getMishna(tractate, chapter, mishna))
-  }
+    dispatch(getMishna(tractate, chapter, mishna));
+  },
 });
 
 interface Props {
@@ -41,13 +41,13 @@ const MishnaPage = (props: Props) => {
   const { currentMishna, getMishna, setMishnaViewOptions } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
 
-  useEffect(()=>{
+  useEffect(() => {
     setMishnaViewOptions();
-  },[]);
+  }, []);
 
-  useEffect(()=>{
-    getMishna(tractate, chapter, mishna)
-  }, [tractate, chapter, mishna])
+  useEffect(() => {
+    getMishna(tractate, chapter, mishna);
+  }, [tractate, chapter, mishna]);
 
   return (
     <Grid container spacing={2}>
@@ -56,12 +56,12 @@ const MishnaPage = (props: Props) => {
         sx={{
           width: '100%',
           ml: 2,
-          paddingTop:'0 !important',
-          position: "sticky",
-          top: "4rem",
+          paddingTop: '0 !important',
+          position: 'sticky',
+          top: '4rem',
           zIndex: 100,
-          background: "white",
-          boxShadow: "0rem 0rem 1rem 2px #0000005e",
+          background: 'white',
+          boxShadow: '0rem 0rem 1rem 2px #0000005e',
         }}
       >
         <MishnaViewOptions />
@@ -69,13 +69,10 @@ const MishnaPage = (props: Props) => {
       <Grid item md={8}>
         <Grid container justifyContent="center" item sm={12}>
           <Grid item md={12} mb={2}>
-            <MishnaText
-              mishna={mishna}
-              html={getHTMLFromRawContent(currentMishna?.richTextMishna)}
-            />
+            <MishnaText mishna={mishna} html={getHTMLFromRawContent(currentMishna?.richTextMishna)} />
           </Grid>
         </Grid>
-        <MainText lines={currentMishna?.lines} mishna={currentMishna?.mishna}/>
+        <MainText lines={currentMishna?.lines} mishna={currentMishna?.mishna} />
       </Grid>
       <Grid item md={4}>
         <ExcerptsSection />

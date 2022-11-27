@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
-import { connect } from "react-redux";
-import { selectExcerpt } from "../../store/actions";
-import { themeConstants } from "../../ui/Theme";
-import { EXCERPT_TYPE } from "../edit/EditMishna/ExcerptDialog";
-import ExcerptDetailsView from "./ExcerptDetailsView";
-import ExcerptsView from "./ExcerptsView";
+import React, { useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
+import { selectExcerpt } from '../../store/actions';
+import { themeConstants } from '../../ui/Theme';
+import { EXCERPT_TYPE } from '../edit/EditMishna/ExcerptDialog';
+import ExcerptDetailsView from './ExcerptDetailsView';
+import ExcerptsView from './ExcerptsView';
 
 const mapStateToProps = (state) => ({
   currentMishna: state.navigation.currentMishna,
@@ -20,13 +20,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 const ExcerptsSection = (props) => {
-  const {
-    expanded,
-    filteredExcerpts,
-    detailsExcerptPopup,
-    selectedExcerpt,
-    selectExcerpt,
-  } = props;
+  const { expanded, filteredExcerpts, detailsExcerptPopup, selectedExcerpt, selectExcerpt } = props;
   function useOutsideAlerter(ref) {
     useEffect(() => {
       /**
@@ -39,10 +33,10 @@ const ExcerptsSection = (props) => {
       }
 
       // Bind the event listener
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
       return () => {
         // Unbind the event listener on clean up
-        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener('mousedown', handleClickOutside);
       };
     }, [ref]);
   }
@@ -53,11 +47,11 @@ const ExcerptsSection = (props) => {
   return (
     <div
       style={{
-        position: "sticky",
+        position: 'sticky',
         top: themeConstants.fixedTopPadding,
-        height: "98vh",
-        display: "flex",
-        flexDirection: "column",
+        height: '98vh',
+        display: 'flex',
+        flexDirection: 'column',
       }}
       ref={wrapperRef}
     >
@@ -68,36 +62,12 @@ const ExcerptsSection = (props) => {
           selectExcerpt(null);
         }}
       />
-      <ExcerptsView
-        expanded={expanded}
-        type={EXCERPT_TYPE.MAKBILA}
-        excerpts={filteredExcerpts}
-      />
-      <ExcerptsView
-        type={EXCERPT_TYPE.MUVAA}
-        expanded={expanded}
-        excerpts={filteredExcerpts}
-      />
-      <ExcerptsView
-        type={EXCERPT_TYPE.NOSACH}
-        expanded={expanded}
-        excerpts={filteredExcerpts}
-      />
-       <ExcerptsView
-        type={EXCERPT_TYPE.BIBLIO}
-        expanded={expanded}
-        excerpts={filteredExcerpts}
-      />
-       <ExcerptsView
-        type={EXCERPT_TYPE.EXPLANATORY}
-        expanded={expanded}
-        excerpts={filteredExcerpts}
-      />
-       <ExcerptsView
-        type={EXCERPT_TYPE.DICTIONARY}
-        expanded={expanded}
-        excerpts={filteredExcerpts}
-      />
+      <ExcerptsView expanded={expanded} type={EXCERPT_TYPE.MAKBILA} excerpts={filteredExcerpts} />
+      <ExcerptsView type={EXCERPT_TYPE.MUVAA} expanded={expanded} excerpts={filteredExcerpts} />
+      <ExcerptsView type={EXCERPT_TYPE.NOSACH} expanded={expanded} excerpts={filteredExcerpts} />
+      <ExcerptsView type={EXCERPT_TYPE.BIBLIO} expanded={expanded} excerpts={filteredExcerpts} />
+      <ExcerptsView type={EXCERPT_TYPE.EXPLANATORY} expanded={expanded} excerpts={filteredExcerpts} />
+      <ExcerptsView type={EXCERPT_TYPE.DICTIONARY} expanded={expanded} excerpts={filteredExcerpts} />
     </div>
   );
 };

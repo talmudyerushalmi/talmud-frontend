@@ -1,15 +1,15 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Grid } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import React from "react";
-import SynopsisTextEditor from "./SynopsisTextEditor";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import React from 'react';
+import SynopsisTextEditor from './SynopsisTextEditor';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const useStyles = makeStyles((theme) => ({
-  centerFlex: { ...theme.layout.centerFlex, minWidth:'10rem', marginRight:'1rem' },
+  centerFlex: { ...theme.layout.centerFlex, minWidth: '10rem', marginRight: '1rem' },
   narrow: { ...theme.buttons.narrow },
   editor: {
-    '& .RichEditor-root': {padding:'5px'}
-  }
+    '& .RichEditor-root': { padding: '5px' },
+  },
 }));
 
 const SynopsisField = (props) => {
@@ -26,7 +26,7 @@ const SynopsisField = (props) => {
     <>
       <Grid container>
         <Grid item className={classes.centerFlex}>
-        {source.type === "indirect_sources" ? (
+          {source.type === 'indirect_sources' ? (
             <Button onClick={onDelete} className={classes.narrow}>
               <HighlightOffIcon />
             </Button>
@@ -35,7 +35,7 @@ const SynopsisField = (props) => {
             {source.name} {source.location}
           </span>
         </Grid>
-        <Grid item style={{flexGrow:1}} className={classes.editor}>
+        <Grid item style={{ flexGrow: 1 }} className={classes.editor}>
           <SynopsisTextEditor
             source={source}
             value={source.text}

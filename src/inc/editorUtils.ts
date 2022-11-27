@@ -6,10 +6,10 @@ import {
   EditorState,
   RawDraftContentState,
   SelectionState,
-} from "draft-js";
-import { NosachEntity } from "../components/edit/MainLineEditor/MainLineDialog";
-import { iLine, iMishna } from "../types/types";
-import { cleanCharacters, getWordOccurence } from "./textUtils";
+} from 'draft-js';
+import { NosachEntity } from '../components/edit/MainLineEditor/MainLineDialog';
+import { iLine, iMishna } from '../types/types';
+import { cleanCharacters, getWordOccurence } from './textUtils';
 export interface editorSelection {
   startBlock?: string;
   startOffset?: number;
@@ -42,15 +42,15 @@ export const getSelectedText = (editorState: EditorState): string => {
   const end = selectionState.getEndOffset();
   const selectedText = currentContentBlock.getText().slice(start, end);
 
-  return selectedText
-}
+  return selectedText;
+};
 
-export function getFinalText(content: ContentState): string[]{
-  const finalText = content.getBlocksAsArray().map(block => {
-    let blockText = "";
+export function getFinalText(content: ContentState): string[] {
+  const finalText = content.getBlocksAsArray().map((block) => {
+    let blockText = '';
     let keep = true;
     const text = block.getText();
-    for (let i=0;i<text.length;i++) {
+    for (let i = 0; i < text.length; i++) {
       keep = true;
       const entityKey = block.getEntityAt(i);
       if (entityKey) {
@@ -58,51 +58,45 @@ export function getFinalText(content: ContentState): string[]{
         if (entity) {
           const type = entity.getType();
           if ([NosachEntity.DELETE].includes(type as NosachEntity)) {
-            keep=false;
+            keep = false;
           }
         }
       }
       if (keep) {
         blockText += text[i];
       }
-
     }
     return blockText;
-  })
-  return finalText
+  });
+  return finalText;
 }
-export function getEditorFromLines(lines: string[]){
-  const text =  lines.reduce((carrier, line)=> `${carrier}${line.trim()}\n`, "").trim();
-  return EditorState.createWithContent(
-    ContentState.createFromText(text)
-  )
+export function getEditorFromLines(lines: string[]) {
+  const text = lines.reduce((carrier, line) => `${carrier}${line.trim()}\n`, '').trim();
+  return EditorState.createWithContent(ContentState.createFromText(text));
 }
 
-export function getHTMLFromRawContent(rawContent: RawDraftContentState|null): string|null {
-  if (!rawContent) {return ""}
+export function getHTMLFromRawContent(rawContent: RawDraftContentState | null): string | null {
+  if (!rawContent) {
+    return '';
+  }
   const content = convertFromRaw(rawContent);
-  const rawText = getHTMLFromContent(content)
+  const rawText = getHTMLFromContent(content);
   return rawText;
 }
 
-export function getHTMLFromContent(contentState: ContentState|null): string|null {
+export function getHTMLFromContent(contentState: ContentState | null): string | null {
   if (!contentState) {
-    return null
+    return null;
   }
-  const rawHTML = contentState
-    .getBlocksAsArray()
-    .reduce((carrier, b) => `${carrier}<br>${b.getText()}`, "");
+  const rawHTML = contentState.getBlocksAsArray().reduce((carrier, b) => `${carrier}<br>${b.getText()}`, '');
 
   return rawHTML.slice(4); // remove first <br>
 }
 
 export function getRawTextFromContent(contentState: ContentState): string {
-  const rawText = contentState
-    .getBlocksAsArray()
-    .reduce((carrier, b) => `${carrier}\n${b.getText()}`, "");
+  const rawText = contentState.getBlocksAsArray().reduce((carrier, b) => `${carrier}\n${b.getText()}`, '');
   return rawText;
 }
-
 
 export function getRawText(editorState) {
   const content = editorState.getCurrentContent();
@@ -116,19 +110,13 @@ export function getSublinesFromContent(editorState: EditorState) {
 
 export function getContentFromSublines(line: iLine) {}
 export function isContentEmpty(content) {
-  return content?.blocks?.length === 1 && content.blocks[0].text === "";
+  return content?.blocks?.length === 1 && content.blocks[0].text === '';
 }
 
 export function getExcerpt(content, size = 10) {
-  const lines = content?.blocks.reduce(
-    (previous, block) => previous + " " + block.text,
-    ""
-  );
-  const words = lines.split(" ");
-  const reduced =
-    words.length > size
-      ? `${words.slice(0, size).join(" ")}...`
-      : words.slice(0, size).join(" ");
+  const lines = content?.blocks.reduce((previous, block) => previous + ' ' + block.text, '');
+  const words = lines.split(' ');
+  const reduced = words.length > size ? `${words.slice(0, size).join(' ')}...` : words.slice(0, size).join(' ');
   return `<p>${reduced}</p>`;
 }
 // startSelection means we look back to find the word
@@ -137,8 +125,8 @@ const getWord = (text: string, offset: number, startSelection = true) => {
   // const endWords = /[\.\s]/
 
   const hebrewRegex = /[0-9א-ת'[\](){}-]/;
-  const arrayText = text.trim().split("");
-  let word = "";
+  const arrayText = text.trim().split('');
+  let word = '';
   if (startSelection) {
   } else {
     // find start - first offset with hebrew letter
@@ -192,13 +180,11 @@ function getFirstWords(fromText, toText, fromOffset, toOffset): string {
   if (text.length < MAX_STRING) {
     return text;
   } else {
-    return text.substr(0, MAX_STRING) + "...";
+    return text.substr(0, MAX_STRING) + '...';
   }
 }
 
-export function getSelectionObject(
-  editorState: EditorState
-): EditorSelectionObject {
+export function getSelectionObject(editorState: EditorState): EditorSelectionObject {
   const selectionState = editorState.getSelection();
   const currentContent = editorState.getCurrentContent();
   const startKey = selectionState.getStartKey();
@@ -210,10 +196,10 @@ export function getSelectionObject(
   const toContentBlock = currentContent.getBlockForKey(endKey);
   const toText = toContentBlock.getText();
   const fromWord = getWord(fromText, fromOffset);
-  const [fromWordOccurence, fromWordTotal] = getWordOccurence(fromText,fromOffset, fromWord);
-  console.log('from Word',fromText, fromWord)
+  const [fromWordOccurence, fromWordTotal] = getWordOccurence(fromText, fromOffset, fromWord);
+  console.log('from Word', fromText, fromWord);
   const toWord = getWord(toText, toOffset, false);
-  const [toWordOccurence, toWordTotal] = getWordOccurence(toText,toOffset-1, toWord);
+  const [toWordOccurence, toWordTotal] = getWordOccurence(toText, toOffset - 1, toWord);
   const firstWords = getFirstWords(fromText, toText, fromOffset, toOffset);
   const blockMap = currentContent.getBlocksAsArray();
   const fromLine = blockMap.findIndex((b) => b.getKey() === startKey);
@@ -234,44 +220,36 @@ export function getSelectionObject(
   };
 }
 
-export function getContentOrEmpty(rawContent: RawDraftContentState|null){
-  return rawContent ? 
-          EditorState.createWithContent(
-             convertFromRaw(rawContent)
-            ): 
-            EditorState.createWithContent(
-              ContentState.createFromText("")
-            )
-
+export function getContentOrEmpty(rawContent: RawDraftContentState | null) {
+  return rawContent
+    ? EditorState.createWithContent(convertFromRaw(rawContent))
+    : EditorState.createWithContent(ContentState.createFromText(''));
 }
 export function getContentRaw(editorState) {
   return convertToRaw(editorState.getCurrentContent());
 }
 
 export function editorInEventPath(event) {
-  return event.path.some(
-    (e) => e.classList && e.classList?.value.indexOf("Editor") !== -1
-  );
+  return event.path.some((e) => e.classList && e.classList?.value.indexOf('Editor') !== -1);
 }
 
-export function getContentStateArray(contentState: ContentState): RawDraftContentState[]{
+export function getContentStateArray(contentState: ContentState): RawDraftContentState[] {
   const blocks = contentState.getBlocksAsArray();
-  const content = blocks.map(block => {
+  const content = blocks.map((block) => {
     const c = ContentState.createFromBlockArray([block]);
-    return convertToRaw(c)})
-  return content
+    return convertToRaw(c);
+  });
+  return content;
 }
 
 function getLineText(line: iLine) {
   if (line.sublines) {
     const numberOfSublines = line.sublines.length;
     let text = line.sublines.reduce((carrier, subline, currentIndex) => {
-      return currentIndex < numberOfSublines - 1
-        ? carrier + subline.text + " "
-        : carrier + subline.text
-    }, "");
+      return currentIndex < numberOfSublines - 1 ? carrier + subline.text + ' ' : carrier + subline.text;
+    }, '');
     // remove new lines/carriage return
-    text = text.replace(/^\s+|\s+|\r+$/g, " ");
+    text = text.replace(/^\s+|\s+|\r+$/g, ' ');
     return text;
   } else {
     return line.mainLine;
@@ -280,14 +258,12 @@ function getLineText(line: iLine) {
 export function getContentFromMishna(mishna: iMishna): ContentState {
   const text = mishna.lines.reduce((carrier, line, currentIndex) => {
     const lineText = getLineText(line);
-    return currentIndex < mishna.lines.length - 1
-      ? carrier + lineText + "\n"
-      : carrier + lineText;
-  }, "");
+    return currentIndex < mishna.lines.length - 1 ? carrier + lineText + '\n' : carrier + lineText;
+  }, '');
   return ContentState.createFromText(text);
 }
 export function getSelectionStateFromExcerpt(excerpt, contentState) {
-  let selectionState = SelectionState.createEmpty("");
+  let selectionState = SelectionState.createEmpty('');
   const blocks = contentState.getBlocksAsArray();
   const selectionStartKey = blocks[excerpt.selection.fromLine].key;
 
@@ -317,7 +293,7 @@ export function clearEntityRanges(contentState) {
       return char;
     });
 
-    return block.set("characterList", chars);
+    return block.set('characterList', chars);
   });
 
   return contentState.merge({

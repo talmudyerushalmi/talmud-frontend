@@ -1,83 +1,74 @@
-import { Grid } from "@mui/material"
+import { Grid } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import React from "react"
-import ExternalSourceDetails from "../ExternalSourceDetails"
-import { connect } from "react-redux"
+import React from 'react';
+import ExternalSourceDetails from '../ExternalSourceDetails';
+import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({
-  tractateSettings: state.mishnaEdit.tractateSettings
-})
+const mapStateToProps = (state) => ({
+  tractateSettings: state.mishnaEdit.tractateSettings,
+});
 
-
-const SourceButtons = props => {
-  const {
-    tractateSettings,
-    onAddSource,
-    onRemoveSource,
-    sources
-  } = props
+const SourceButtons = (props) => {
+  const { tractateSettings, onAddSource, onRemoveSource, sources } = props;
   let selected = [];
   if (sources.length && sources[0].synopsis) {
-    selected = sources[0]?.synopsis
-    .filter(s => s.type==="direct_sources")
-    .map(s => s.id)
+    selected = sources[0]?.synopsis.filter((s) => s.type === 'direct_sources').map((s) => s.id);
   }
-  const { synopsisAllowed, synopsisList } = tractateSettings
+  const { synopsisAllowed, synopsisList } = tractateSettings;
 
- 
-  const onAddExternalSource = composition => {
+  const onAddExternalSource = (composition) => {
     const add = {
       id: Date.now(),
-      type: "indirect_sources",
+      type: 'indirect_sources',
       name: `${composition.composition.title}`,
       location: `${composition.compositionLocation}`,
       composition: {
         ...composition,
       },
-    }
-    onAddSource(add)
-  }
-  const updateSynopsis = button => {
+    };
+    onAddSource(add);
+  };
+  const updateSynopsis = (button) => {
     // add
     if (!selected.includes(button)) {
       const add = {
         id: button,
         ...synopsisList[button],
-      }
-      onAddSource(add)
+      };
+      onAddSource(add);
     } else {
-      onRemoveSource(button)
+      onRemoveSource(button);
     }
-  }
+  };
 
   return (
     <>
       <Grid container>
         <Grid item>
           <ToggleButtonGroup value={selected}>
-            {synopsisAllowed.map(button => {
+            {synopsisAllowed.map((button) => {
               return (
                 <ToggleButton
                   key={button}
-                  onClick={e => updateSynopsis(button, e)}
+                  onClick={(e) => updateSynopsis(button, e)}
                   value={button}
                   aria-label={button}
                 >
                   {synopsisList[button].name}
                 </ToggleButton>
-              )
+              );
             })}
           </ToggleButtonGroup>
         </Grid>
         <Grid item>
           <ExternalSourceDetails
-            onAddExternalSource={composition => {
-              onAddExternalSource(composition)
+            onAddExternalSource={(composition) => {
+              onAddExternalSource(composition);
             }}
           />
         </Grid>
       </Grid>
     </>
-  )
-}
-export default connect(mapStateToProps)(SourceButtons)
+  );
+};
+export default connect(mapStateToProps)(SourceButtons);

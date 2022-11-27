@@ -1,20 +1,20 @@
-import { Button, TextField, Grid, IconButton, Box } from "@mui/material";
+import { Button, TextField, Grid, IconButton, Box } from '@mui/material';
 
-import makeStyles from "@mui/styles/makeStyles";
+import makeStyles from '@mui/styles/makeStyles';
 
-import { Autocomplete } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { requestTractates } from "../../store/actions";
-import { connect } from "react-redux";
-import { editorInEventPath } from "../../inc/editorUtils";
-import { getNextLine, getPreviousLine, hebrewMap } from "../../inc/utils";
-import { useParams } from "react-router";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { useTranslation } from "react-i18next";
-import { routeObject } from "../../routes/AdminRoutes";
-import { iMarker, iMishna, iTractate } from "../../types/types";
-import NavigationService from "../../services/NavigationService";
-import { setRoute } from "../../store/actions/navigationActions";
+import { Autocomplete } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { requestTractates } from '../../store/actions';
+import { connect } from 'react-redux';
+import { editorInEventPath } from '../../inc/editorUtils';
+import { getNextLine, getPreviousLine, hebrewMap } from '../../inc/utils';
+import { useParams } from 'react-router';
+import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
+import { routeObject } from '../../routes/AdminRoutes';
+import { iMarker, iMishna, iTractate } from '../../types/types';
+import NavigationService from '../../services/NavigationService';
+import { setRoute } from '../../store/actions/navigationActions';
 
 export interface iMishnaForNavigation {
   lines: string[];
@@ -37,12 +37,12 @@ const mapDispatchToProps = (dispatch) => ({
 
 const useStyles = makeStyles({
   option: {
-    direction: "rtl",
+    direction: 'rtl',
   },
   root: {
     minWidth: 100,
-    flex: "auto",
-    "&.MuiAutocomplete-root  .MuiOutlinedInput-root .MuiAutocomplete-input": {
+    flex: 'auto',
+    '&.MuiAutocomplete-root  .MuiOutlinedInput-root .MuiAutocomplete-input': {
       padding: 0,
     },
   },
@@ -50,13 +50,13 @@ const useStyles = makeStyles({
 
 export interface leanChapter {
   id: string;
-  mishnaiot: Pick<iMishna, "id" | "mishna">[];
+  mishnaiot: Pick<iMishna, 'id' | 'mishna'>[];
 }
 
 export const ALL_CHAPTER = {
-  id: "all",
-  mishna: "000",
-  mishnaRef: "",
+  id: 'all',
+  mishna: '000',
+  mishnaRef: '',
 };
 
 interface Props {
@@ -70,23 +70,12 @@ const ChooseMishnaBar = (props: Props) => {
   const { t } = useTranslation();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
   const classes = useStyles();
-  const {
-    tractates,
-    onNavigationSelected,
-    allChapterAllowed,
-    getTractates,
-    setRoute,
-  } = props;
+  const { tractates, onNavigationSelected, allChapterAllowed, getTractates, setRoute } = props;
 
-  const [selectedTractate, setSelectedTractate] = useState<iTractate | null>(
-    null
-  );
-  const [selectedChapter, setSelectedChapter] = useState<leanChapter | null>(
-    null
-  );
+  const [selectedTractate, setSelectedTractate] = useState<iTractate | null>(null);
+  const [selectedChapter, setSelectedChapter] = useState<leanChapter | null>(null);
   const [selectedMishna, setSelectedMishna] = useState<iMishna | null>(null);
-  const [mishnaNavigation, setMishnaNavigation] =
-    useState<iMishnaForNavigation | null>(null);
+  const [mishnaNavigation, setMishnaNavigation] = useState<iMishnaForNavigation | null>(null);
 
   const [selectedLine, setSelectedLine] = useState<string | null>(null);
 
@@ -97,9 +86,7 @@ const ChooseMishnaBar = (props: Props) => {
       const matchChapter = tractateData.chapters.find((c) => c.id === chapter);
       if (matchChapter) {
         setSelectedChapter(matchChapter);
-        const matchMishna = matchChapter.mishnaiot.find(
-          (m) => m.mishna === mishna
-        );
+        const matchMishna = matchChapter.mishnaiot.find((m) => m.mishna === mishna);
         if (matchMishna) {
           setSelectedMishna(matchMishna);
           // update lines
@@ -120,13 +107,8 @@ const ChooseMishnaBar = (props: Props) => {
 
   useEffect(() => {
     const fetchLines = (mishna: string) => {
-      const controller = new AbortController
-      return NavigationService.getMishnaForNavigation(
-        tractate,
-        selectedChapter?.id,
-        mishna,
-        controller
-      );
+      const controller = new AbortController();
+      return NavigationService.getMishnaForNavigation(tractate, selectedChapter?.id, mishna, controller);
     };
     if (selectedMishna && selectedMishna.mishna !== ALL_CHAPTER.mishna) {
       const mishna = selectedMishna.mishna;
@@ -136,13 +118,7 @@ const ChooseMishnaBar = (props: Props) => {
         })
         // make sure to catch any error
         .catch((error) => {
-          console.log(
-            "error looking for mishna",
-            error,
-            tractate,
-            chapter,
-            mishna
-          );
+          console.log('error looking for mishna', error, tractate, chapter, mishna);
         });
     }
   }, [selectedMishna]);
@@ -153,29 +129,21 @@ const ChooseMishnaBar = (props: Props) => {
   }, [tractate, chapter, mishna, line, tractates]);
 
   const dialogPopupOpen = () => {
-    return document.querySelector(".MuiDialog-root") !== null;
+    return document.querySelector('.MuiDialog-root') !== null;
   };
   useEffect(() => {
     let keyPressHandler;
     keyPressHandler = (event) => {
-      if (
-        event.key === "ArrowLeft" &&
-        !editorInEventPath(event) &&
-        !dialogPopupOpen()
-      ) {
+      if (event.key === 'ArrowLeft' && !editorInEventPath(event) && !dialogPopupOpen()) {
         onNavigateForward();
       }
-      if (
-        event.key === "ArrowRight" &&
-        !editorInEventPath(event) &&
-        !dialogPopupOpen()
-      ) {
+      if (event.key === 'ArrowRight' && !editorInEventPath(event) && !dialogPopupOpen()) {
         onNavigateBack();
       }
     };
-    window.addEventListener("keydown", keyPressHandler);
+    window.addEventListener('keydown', keyPressHandler);
     return () => {
-      window.removeEventListener("keydown", keyPressHandler);
+      window.removeEventListener('keydown', keyPressHandler);
     };
   }, [mishnaNavigation, line]);
 
@@ -220,13 +188,7 @@ const ChooseMishnaBar = (props: Props) => {
   const onNavigateBack = () => {
     let previous;
     if (line) {
-      previous = getPreviousLine(
-        tractate,
-        chapter,
-        mishna,
-        line,
-        mishnaNavigation
-      );
+      previous = getPreviousLine(tractate, chapter, mishna, line, mishnaNavigation);
     } else {
       previous = mishnaNavigation?.previous;
     }
@@ -244,9 +206,7 @@ const ChooseMishnaBar = (props: Props) => {
   const renderMishna = () => {
     let options;
     if (allChapterAllowed) {
-      options = selectedChapter?.mishnaiot
-        ? [...selectedChapter?.mishnaiot, ALL_CHAPTER]
-        : [ALL_CHAPTER];
+      options = selectedChapter?.mishnaiot ? [...selectedChapter?.mishnaiot, ALL_CHAPTER] : [ALL_CHAPTER];
     } else {
       options = selectedChapter?.mishnaiot ? selectedChapter?.mishnaiot : [];
     }
@@ -260,13 +220,9 @@ const ChooseMishnaBar = (props: Props) => {
         value={selectedMishna}
         options={options}
         autoHighlight={true}
-        getOptionLabel={(option) =>
-          hebrewMap.get(parseInt(option.mishna)) as string
-        }
+        getOptionLabel={(option) => hebrewMap.get(parseInt(option.mishna)) as string}
         isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
-        renderInput={(params) => (
-          <TextField {...params} label={t("Halakha")} variant="outlined" />
-        )}
+        renderInput={(params) => <TextField {...params} label={t('Halakha')} variant="outlined" />}
       />
     );
   };
@@ -285,9 +241,7 @@ const ChooseMishnaBar = (props: Props) => {
         options={mishnaNavigation ? mishnaNavigation.lines : []}
         autoHighlight={true}
         //getOptionLabel={option => option.lineNumber}
-        renderInput={(params) => (
-          <TextField {...params} label="שורה" variant="outlined" />
-        )}
+        renderInput={(params) => <TextField {...params} label="שורה" variant="outlined" />}
       />
     );
   };
@@ -304,7 +258,7 @@ const ChooseMishnaBar = (props: Props) => {
         }}
       >
         <Grid container>
-          <Box mb={2} sx={{ display: "flex", flexGrow: 10 }}>
+          <Box mb={2} sx={{ display: 'flex', flexGrow: 10 }}>
             <IconButton
               onClick={() => {
                 onNavigateBack();
@@ -327,13 +281,7 @@ const ChooseMishnaBar = (props: Props) => {
               autoHighlight={true}
               getOptionLabel={(option) => option.title_heb}
               isOptionEqualToValue={(option, value) => option?.id === value?.id}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={t("Tractate")}
-                  variant="outlined"
-                />
-              )}
+              renderInput={(params) => <TextField {...params} label={t('Tractate')} variant="outlined" />}
             />
             <Autocomplete
               classes={classes}
@@ -343,17 +291,9 @@ const ChooseMishnaBar = (props: Props) => {
               value={selectedChapter}
               options={selectedTractate?.chapters || []}
               autoHighlight={true}
-              getOptionLabel={(option) =>
-                hebrewMap.get(parseInt(option.id)) as string
-              }
+              getOptionLabel={(option) => hebrewMap.get(parseInt(option.id)) as string}
               isOptionEqualToValue={(option, value) => option.id === value.id}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={t("Chapter")}
-                  variant="outlined"
-                />
-              )}
+              renderInput={(params) => <TextField {...params} label={t('Chapter')} variant="outlined" />}
             />
 
             {renderMishna()}
@@ -364,16 +304,16 @@ const ChooseMishnaBar = (props: Props) => {
             </IconButton>
           </Box>
 
-          <Box mb={2} sx={{ display: "flex", flexGrow: 1 }}>
+          <Box mb={2} sx={{ display: 'flex', flexGrow: 1 }}>
             <Button
-              sx={{ width: "100%" }}
+              sx={{ width: '100%' }}
               type="submit"
               variant="contained"
               color="primary"
               onClick={handleNavigate}
               disabled={selectButtonDisabled()}
             >
-              {t("Go")}
+              {t('Go')}
             </Button>
           </Box>
         </Grid>

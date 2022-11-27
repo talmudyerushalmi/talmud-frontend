@@ -1,11 +1,15 @@
-import { iExcerpt, iMishna } from "../../types/types";
+import { iExcerpt, iMishna } from '../../types/types';
 import {
   CLOSE_EXCERPT_DIALOG,
   DELETE_EXCERPT_DONE,
   OPEN_EXCERPT_DIALOG,
   REQUEST_MISHNA_FOR_EDIT_DONE,
-  SAVE_EXCERPT, SAVE_EXCERPT_START, SAVE_MISHNA_DONE, SAVE_MISHNA_START, SAVE_NOSACH,
-} from "../actions/mishnaEditActions";
+  SAVE_EXCERPT,
+  SAVE_EXCERPT_START,
+  SAVE_MISHNA_DONE,
+  SAVE_MISHNA_START,
+  SAVE_NOSACH,
+} from '../actions/mishnaEditActions';
 
 interface EditMishnaState {
   loading: boolean;
@@ -13,8 +17,7 @@ interface EditMishnaState {
   mishnaDoc: iMishna | null;
   excerptDialogOpen: boolean;
   editedExcerpt: iExcerpt | null;
-  tractateSettings: any
-
+  tractateSettings: any;
 }
 
 const initialState: EditMishnaState = {
@@ -23,9 +26,10 @@ const initialState: EditMishnaState = {
   excerptDialogOpen: false,
   mishnaDoc: null,
   editedExcerpt: null,
-  tractateSettings:  { 
+  tractateSettings: {
     synopsisAllowed: [],
-    synopsisList: []}
+    synopsisList: [],
+  },
 };
 
 const mishnaEditReducer = (state = initialState, action) => {
@@ -34,46 +38,46 @@ const mishnaEditReducer = (state = initialState, action) => {
       return {
         ...state,
         mishnaDoc: action.payload.mishnaDoc,
-        tractateSettings: action.payload.tractateSettings
-      }
+        tractateSettings: action.payload.tractateSettings,
+      };
     case OPEN_EXCERPT_DIALOG:
       return {
         ...state,
         excerptDialogOpen: true,
-        editedExcerpt: action.payload.excerpt
-      }
+        editedExcerpt: action.payload.excerpt,
+      };
     case CLOSE_EXCERPT_DIALOG:
       return {
         ...state,
-        excerptDialogOpen: false
-      }  
+        excerptDialogOpen: false,
+      };
     case SAVE_EXCERPT_START:
       return {
         ...state,
-        isSubmitting: true
-      }
+        isSubmitting: true,
+      };
     case SAVE_EXCERPT:
       return {
         ...state,
         isSubmitting: false,
         excerptDialogOpen: false,
-        mishnaDoc: action.mishnaDoc
+        mishnaDoc: action.mishnaDoc,
       };
     case DELETE_EXCERPT_DONE:
       return {
         ...state,
         loading: false,
-        mishnaDoc: action.mishnaDoc
-      }; 
+        mishnaDoc: action.mishnaDoc,
+      };
     case SAVE_NOSACH:
       return {
-        ...state
-      }  
+        ...state,
+      };
     case SAVE_MISHNA_START:
-      return {...state, isSubmitting: true};
+      return { ...state, isSubmitting: true };
     case SAVE_MISHNA_DONE:
-        return {...state, isSubmitting: false};
-    
+      return { ...state, isSubmitting: false };
+
     default:
       return state;
   }

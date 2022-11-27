@@ -54,7 +54,7 @@ const MishnaViewOptions = (props) => {
 
   return (
     <FormGroup row>
-   {/*    <FormControlLabel
+      {/*    <FormControlLabel
         control={
           <Checkbox
             checked={divideToLines}
@@ -89,24 +89,26 @@ const MishnaViewOptions = (props) => {
       /> */}
       <Select
         sx={{
-          '.MuiOutlinedInput-notchedOutline':{border:'none'},
+          '.MuiOutlinedInput-notchedOutline': { border: 'none' },
         }}
         value={showEditType}
         label=""
         onChange={toggleEditType}
       >
-        <MenuItem sx={{ direction: 'ltr'}} value={ShowEditType.ORIGINAL}>
-          {t("Original") as string}
+        <MenuItem sx={{ direction: 'ltr' }} value={ShowEditType.ORIGINAL}>
+          {t('Original') as string}
         </MenuItem>
-        <MenuItem  sx={{ direction: 'ltr'}} value={ShowEditType.EDITED}>{t("Edited") as string}</MenuItem>
+        <MenuItem sx={{ direction: 'ltr' }} value={ShowEditType.EDITED}>
+          {t('Edited') as string}
+        </MenuItem>
       </Select>
       <Link
         sx={{
-          textDecoration: "none",
-          display: "inline-flex",
-          alignItems: "center",
-          cursor: "pointer",
-          verticalAlign: "middle",
+          textDecoration: 'none',
+          display: 'inline-flex',
+          alignItems: 'center',
+          cursor: 'pointer',
+          verticalAlign: 'middle',
         }}
         target="_blank"
         href={`${process.env.REACT_APP_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}

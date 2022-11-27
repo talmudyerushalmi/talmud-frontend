@@ -46,9 +46,9 @@ const useStyles = makeStyles((theme) => ({
   },
   boxTab: {
     '& > div': {
-      maxHeight: '15rem'
-    }
-  }
+      maxHeight: '15rem',
+    },
+  },
 }));
 
 export default function Muvaot2(props) {
@@ -67,43 +67,36 @@ export default function Muvaot2(props) {
 
   return (
     <Paper>
-    <div className={classes.root}>
-      <Typography variant="h5"
-                  style={{margin: '1rem'}}>{title}</Typography>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
+      <div className={classes.root}>
+        <Typography variant="h5" style={{ margin: '1rem' }}>
+          {title}
+        </Typography>
+        <AppBar position="static" color="default">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
+          >
+            <Tab label="קצרות" {...a11yProps(0)} />
+            <Tab label="ארוכות" {...a11yProps(1)} />
+          </Tabs>
+        </AppBar>
+        <SwipeableViews
+          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          index={value}
+          onChangeIndex={handleChangeIndex}
         >
-          <Tab label="קצרות" {...a11yProps(0)} />
-          <Tab label="ארוכות" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-      <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel
-          className={classes.boxTab}
-          value={value} index={0} dir={theme.direction}>
-            <div
-              dangerouslySetInnerHTML={{ __html: short}}/>
-
-        </TabPanel>
-        <TabPanel
-          className={classes.boxTab}
-          value={value} index={1} dir={theme.direction}>
-          <div
-            dangerouslySetInnerHTML={{ __html: long}}/>
-        </TabPanel>
-
-      </SwipeableViews>
-    </div>
+          <TabPanel className={classes.boxTab} value={value} index={0} dir={theme.direction}>
+            <div dangerouslySetInnerHTML={{ __html: short }} />
+          </TabPanel>
+          <TabPanel className={classes.boxTab} value={value} index={1} dir={theme.direction}>
+            <div dangerouslySetInnerHTML={{ __html: long }} />
+          </TabPanel>
+        </SwipeableViews>
+      </div>
     </Paper>
   );
 }

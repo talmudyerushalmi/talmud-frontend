@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useField } from "formik";
-import { Box, Checkbox, FormControlLabel, TextField } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { useField } from 'formik';
+import { Box, Checkbox, FormControlLabel, TextField } from '@mui/material';
 
 interface Props {
   name: string;
@@ -15,7 +15,7 @@ const SugiaField = (props: Props) => {
 
   useEffect(() => {
     if (touched === false) {
-      setHasValue(value !== "");
+      setHasValue(value !== '');
     }
     setfieldName(value);
   }, [touched, value]);
@@ -23,20 +23,17 @@ const SugiaField = (props: Props) => {
   const checkboxHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checkNewVal = e.target.checked;
     if (value) {
-      setValue("");
+      setValue('');
     }
     setTouched(true);
     setHasValue(checkNewVal);
   };
   return (
     <>
-      <Box style={{ display: "flex" }}>
-        <FormControlLabel
-          control={<Checkbox checked={hasValue} onChange={checkboxHandler} />}
-          label="סוגיה חדשה"
-        />
+      <Box style={{ display: 'flex' }}>
+        <FormControlLabel control={<Checkbox checked={hasValue} onChange={checkboxHandler} />} label="סוגיה חדשה" />
         <TextField
-          style={{ padding: "9px" }}
+          style={{ padding: '9px' }}
           value={fieldName}
           onChange={(e) => setValue(e.target.value)}
           disabled={!hasValue}

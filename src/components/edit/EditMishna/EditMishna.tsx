@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Grid } from "@mui/material";
-import { connect } from "react-redux";
-import { useParams } from "react-router";
-import { routeObject } from "../../../routes/AdminRoutes";
-import {
-  getEditSettings,
-} from "../../../store/actions/mishnaEditActions";
-import EditMishnaForm from "./EditMishnaForm";
-import { getMishna } from "../../../store/actions/navigationActions";
+import React, { useState, useEffect } from 'react';
+import { Grid } from '@mui/material';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router';
+import { routeObject } from '../../../routes/AdminRoutes';
+import { getEditSettings } from '../../../store/actions/mishnaEditActions';
+import EditMishnaForm from './EditMishnaForm';
+import { getMishna } from '../../../store/actions/navigationActions';
 
 const mapStateToProps = (state) => ({
   compositions: state.navigation.compositions,
@@ -25,29 +23,22 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 const EditMishna = (props) => {
-  const {
-    getEditSettings,
-    getMishna,
-  } = props;
+  const { getEditSettings, getMishna } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     getEditSettings(tractate, chapter, mishna);
-    getMishna(tractate, chapter, mishna)
+    getMishna(tractate, chapter, mishna);
     return () => {};
   }, [tractate, chapter, mishna]);
 
-
-
-
   return (
     <>
-        <Grid container>
-          <EditMishnaForm/>
-        </Grid>
+      <Grid container>
+        <EditMishnaForm />
+      </Grid>
     </>
   );
 };

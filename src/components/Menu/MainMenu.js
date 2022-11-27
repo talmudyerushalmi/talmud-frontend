@@ -26,12 +26,7 @@ export default function MainMenu() {
     <div className={classes.root}>
       <AppBar position="fixed" dir="rtl">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            size="large">
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" size="large">
             <MenuIcon />
           </IconButton>
 

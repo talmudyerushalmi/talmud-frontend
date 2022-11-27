@@ -25,8 +25,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(setMishnaViewOptions(DEFAULT_OPTIONS));
   },
   getRichMishnaiotForChapter: (tractate: string, chapter: string, newChapter?: boolean) => {
-    dispatch(getRichMishnaiotForChapter(tractate, chapter, newChapter))
-  }
+    dispatch(getRichMishnaiotForChapter(tractate, chapter, newChapter));
+  },
 });
 
 interface Props {
@@ -41,17 +41,16 @@ interface Props {
 const ChapterPage = (props: Props) => {
   const { mishnaiot, richTextMishnas, setViewOptions, getRichMishnaiotForChapter, loading } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
-  useScroll(70, ()=>{
-    getRichMishnaiotForChapter(tractate, chapter)
-  })
-
+  useScroll(70, () => {
+    getRichMishnaiotForChapter(tractate, chapter);
+  });
 
   useEffect(() => {
     setViewOptions();
   }, []);
 
   useEffect(() => {
-    getRichMishnaiotForChapter(tractate, chapter, true)
+    getRichMishnaiotForChapter(tractate, chapter, true);
   }, [mishna, chapter, tractate]);
 
   return (
@@ -61,12 +60,12 @@ const ChapterPage = (props: Props) => {
         md={12}
         sx={{
           ml: 2,
-          paddingTop: "0 !important",
-          position: "sticky",
-          top: "4rem",
+          paddingTop: '0 !important',
+          position: 'sticky',
+          top: '4rem',
           zIndex: 100,
-          background: "white",
-          boxShadow: "0rem 0rem 1rem 2px #0000005e",
+          background: 'white',
+          boxShadow: '0rem 0rem 1rem 2px #0000005e',
         }}
       >
         <MishnaViewOptions />
@@ -84,9 +83,8 @@ const ChapterPage = (props: Props) => {
           </Grid>
         </Grid>
         {mishnaiot.map((mishna, index) => {
-          return (
-            <MainText key={index} lines={mishna?.lines} mishna={mishna?.mishna} />
-        )})}
+          return <MainText key={index} lines={mishna?.lines} mishna={mishna?.mishna} />;
+        })}
       </Grid>
     </Grid>
   );

@@ -1,38 +1,31 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { EditingData } from "./MainLineEditor";
+import React, { useEffect, useState } from 'react';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { EditingData } from './MainLineEditor';
 
 export enum NosachEntity {
-  ADD = "ADD",
-  DELETE = "DELETE",
-  QUOTE = "QUOTE",
-  CORRECTION = "CORRECTION",
+  ADD = 'ADD',
+  DELETE = 'DELETE',
+  QUOTE = 'QUOTE',
+  CORRECTION = 'CORRECTION',
 }
 export const NosachMap = new Map([
   [
     NosachEntity.ADD,
     {
-      title: "הוסף",
+      title: 'הוסף',
     },
   ],
   [
     NosachEntity.DELETE,
     {
-      title: "מחק",
+      title: 'מחק',
     },
   ],
   [
     NosachEntity.QUOTE,
     {
-      title: "ציטוט",
+      title: 'ציטוט',
     },
   ],
 ]);
@@ -50,7 +43,7 @@ export interface Props {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "rgba(0, 0, 0, 0.1)",
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
 }));
 
@@ -58,9 +51,7 @@ export const MainLineDialog = (props: Props) => {
   const classes = useStyles();
   const { onClose, onSaveEntity, open, initialState } = props;
   const { type } = initialState;
-  const [editingData, setEditingData] = useState<EditingData>(
-    initialState.editingData
-  );
+  const [editingData, setEditingData] = useState<EditingData>(initialState.editingData);
 
   const handleClose = () => {
     onClose();
@@ -72,7 +63,7 @@ export const MainLineDialog = (props: Props) => {
 
   return (
     <Dialog
-      style={{ direction: "rtl" }}
+      style={{ direction: 'rtl' }}
       BackdropProps={{
         classes: {
           root: classes.root,
@@ -90,9 +81,7 @@ export const MainLineDialog = (props: Props) => {
             multiline
             maxRows={4}
             value={editingData.editingComment}
-            onChange={(e) =>
-              setEditingData({ ...editingData, editingComment: e.target.value })
-            }
+            onChange={(e) => setEditingData({ ...editingData, editingComment: e.target.value })}
           />
         ) : null}
         {type === NosachEntity.CORRECTION ? (
@@ -103,9 +92,7 @@ export const MainLineDialog = (props: Props) => {
               multiline
               maxRows={4}
               value={editingData.oldWord}
-              onChange={(e) =>
-                setEditingData({ ...editingData, oldWord: e.target.value })
-              }
+              onChange={(e) => setEditingData({ ...editingData, oldWord: e.target.value })}
             />
             <TextField
               id="outlined-multiline-flexible"
@@ -113,9 +100,7 @@ export const MainLineDialog = (props: Props) => {
               multiline
               maxRows={4}
               value={editingData.newWord}
-              onChange={(e) =>
-                setEditingData({ ...editingData, newWord: e.target.value })
-              }
+              onChange={(e) => setEditingData({ ...editingData, newWord: e.target.value })}
             />
           </>
         ) : null}
@@ -126,9 +111,7 @@ export const MainLineDialog = (props: Props) => {
             multiline
             maxRows={4}
             value={editingData.linkTo}
-            onChange={(e) =>
-              setEditingData({ ...editingData, linkTo: e.target.value })
-            }
+            onChange={(e) => setEditingData({ ...editingData, linkTo: e.target.value })}
           />
         ) : null}
       </DialogContent>
