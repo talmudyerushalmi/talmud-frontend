@@ -46,7 +46,7 @@ const MainLine = (props: Props) => {
         </React.Suspense>
         {line?.sublines
           ? line.sublines.map((subline, index) => {
-              return <SublineDisplay key={index} lineIndex={lineIndex} subline={subline} />;
+              return <SublineDisplay key={index} subline={subline} lineNumber={line.lineNumber} />;
             })
           : null}
       </Box>

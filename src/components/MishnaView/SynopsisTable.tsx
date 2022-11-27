@@ -49,12 +49,13 @@ const mapDispatchToProps = (dispatch) => ({
 interface Props {
   subline: iSubline;
   setSublineData: (data: iManuscriptPopup) => void;
+  lineNumber: string;
 }
 
 const SynopsisTable = (props: Props) => {
   const classes = useStyles();
-  const { subline, setSublineData } = props;
-  const { synopsis, index } = subline;
+  const { subline, setSublineData, lineNumber } = props;
+  const { synopsis } = subline;
 
   if (!synopsis) {
     return null;
@@ -102,7 +103,7 @@ const SynopsisTable = (props: Props) => {
                     <ButtonUnstyled
                       onClick={() => {
                         setSublineData({
-                          line: index,
+                          line: +lineNumber,
                           subline: subline,
                           synopsisCode: synopsisRow.id,
                         });

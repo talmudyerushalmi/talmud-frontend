@@ -7,7 +7,7 @@ import { selectSublines } from '../../store/actions';
 import { excerptSelection } from '../../inc/excerptUtils';
 import SynopsisTable from './SynopsisTable';
 import { hideSourceFromText } from '../../inc/synopsisUtils';
-import { iExcerpt, iSubline } from '../../types/types';
+import { iExcerpt, iLine, iSubline } from '../../types/types';
 import NosachView from './NosachView';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 
@@ -55,17 +55,25 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   subline: iSubline;
-  lineIndex: number;
   selectedSublines: iSubline[];
   selectSublines: Function;
   selectedExcerpt: iExcerpt;
   showPunctuation: boolean;
   showSources: boolean;
   showEditType: ShowEditType;
+  lineNumber: string;
 }
 const SublineDisplay = (props: Props) => {
-  const { subline, selectedSublines, selectSublines, selectedExcerpt, showPunctuation, showSources, showEditType } =
-    props;
+  const {
+    subline,
+    selectedSublines,
+    selectSublines,
+    selectedExcerpt,
+    showPunctuation,
+    showSources,
+    showEditType,
+    lineNumber,
+  } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState('');
 
@@ -123,7 +131,7 @@ const SublineDisplay = (props: Props) => {
           </AccordionActions>
         </AccordionSummary>
         <AccordionDetails>
-          <SynopsisTable subline={subline} />
+          <SynopsisTable subline={subline} lineNumber={lineNumber} />
         </AccordionDetails>
       </Accordion>
     </>

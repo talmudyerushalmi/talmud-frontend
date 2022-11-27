@@ -49,8 +49,10 @@ const ManuscriptPopup = (props: iProps) => {
     manuscriptsForChapter?.find(
       (manuscript) =>
         manuscript?.slug === 'leiden' &&
-        manuscript?.fromSubline <= sublineData?.line &&
-        manuscript?.toSubline >= sublineData?.line
+        manuscript?.fromSubline <= sublineData?.subline.index &&
+        manuscript?.toSubline >= sublineData?.subline.index &&
+        manuscript?.fromLine <= sublineData?.line &&
+        manuscript?.toLine >= sublineData?.line
     )?.imageurl || '';
 
   useEffect(() => {
