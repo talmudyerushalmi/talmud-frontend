@@ -96,12 +96,11 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
     });
     setFieldValue('sublines', values.sublines);
   };
-  const onAddSource = (source) => {
-    let addedSynopsis: iSynopsis = {
-      ...source,
-      text: {},
-    };
+  const onAddSource = (source: iSynopsis) => {
     values.sublines.forEach((subline) => {
+      let addedSynopsis: iSynopsis = {
+        ...source,
+      };
       if (allowedSourcesForInitialText.includes(source.id)) {
         addedSynopsis.text = { simpleText: getTextForSynopsis(subline.text, source) };
       }
