@@ -9,7 +9,8 @@ const mapStateToProps = (state) => ({
 });
 
 export const PageHeader = (props) => {
-  return <Box mb={3}>{props.children}</Box>;
+  return <Box  width="100%" mb={3}>
+      {props.children}</Box>
 };
 
 export const PageContent = (props) => {
@@ -53,9 +54,7 @@ const PageWithNavigationWithoutState = (props: Props) => {
       <Box mb={3}>
         <ChooseMishnaBar allChapterAllowed={allChapterAllowed} onNavigationSelected={navigationSelectedHandler} />
       </Box>
-      <Box
-        display="flex"
-        justifyContent="center"
+      <Box   
         sx={{
           opacity: loading ? 0.3 : 1,
         }}
