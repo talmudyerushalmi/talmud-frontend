@@ -18,6 +18,9 @@ import IntroductionPage from './pages/IntroductionPage';
 import PartnersPage from './pages/PartnersPage';
 import SteeringPage from './pages/SteeringPage';
 import ViewChapterPage from './pages/ViewChapterPage';
+import { RequireAuth } from './components/login/RequireAuth';
+import { Authenticator } from '@aws-amplify/ui-react';
+import { Login } from './components/login/Login';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -51,24 +54,34 @@ function App(props: any) {
   }
   return (
     <StyledEngineProvider injectFirst>
-      <RTL>
-        <ThemeProvider theme={theme}>
-          <div className={coverClass} style={{ direction: 'rtl' }}>
-            <Header />
-            <Routes>
-              <Route path="/" element={HomePage} />
-              <Route path="/introduction" element={IntroductionPage} />
-              <Route path="/steering" element={SteeringPage} />
-              <Route path="/partners" element={PartnersPage} />
-              <Route path="/talmud/:tractate/:chapter/:mishna" element={ViewMishnaPage} />
-              <Route path="/talmud/:tractate/:chapter" element={ViewChapterPage} />
-              <AdminRoutes />
-              <Route path={process.env.PUBLIC_URL} />
-            </Routes>
-            <Footer />
-          </div>
-        </ThemeProvider>
-      </RTL>
+      <Authenticator.Provider>
+        <RTL>
+          <ThemeProvider theme={theme}>
+            <div className={coverClass} style={{ direction: 'rtl' }}>
+              <Header />
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/introduction" element={<IntroductionPage />} />
+                <Route path="/steering" element={<SteeringPage />} />
+                <Route path="/partners" element={<PartnersPage />} />
+                <Route path="/talmud/:tractate/:chapter/:mishna" element={<ViewMishnaPage />} />
+                <Route path="/talmud/:tractate/:chapter" element={<ViewChapterPage />} />
+                <Route path="/login" element={<Login />} />
+                {/* <AdminRoutes/> */}
+                <Route
+                  path="/protected"
+                  element={
+                    <RequireAuth>
+                      <h2>Protected!</h2>
+                    </RequireAuth>
+                  }
+                />
+              </Routes>
+              <Footer />
+            </div>
+          </ThemeProvider>
+        </RTL>
+      </Authenticator.Provider>
     </StyledEngineProvider>
   );
 }

@@ -1,16 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
 import { Provider } from 'react-redux';
-import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 import './i18n/i18n';
 import { BrowserRouter } from 'react-router-dom';
 import TagManager from 'react-gtm-module';
+import { Amplify } from 'aws-amplify';
 console.log('process', process.env);
+
+const container = document.getElementById('root');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
 
 const gtmId = process.env.REACT_APP_GTM_ID;
 if (typeof gtmId === 'string' && gtmId !== 'NONE') {
@@ -21,7 +24,7 @@ if (typeof gtmId === 'string' && gtmId !== 'NONE') {
 }
 
 Amplify.configure(awsconfig);
-ReactDOM.render(
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
@@ -30,8 +33,7 @@ ReactDOM.render(
         </div>
       </Provider>
     </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
