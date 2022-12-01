@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
-import { withFormik, FieldArray, FormikProps, Form, FormikValues } from 'formik';
+import { withFormik, FormikProps, Form, FormikValues } from 'formik';
 import { EditorState, ContentState } from 'draft-js';
-import SourceButtons from './MainLineEditor/SourceButtons';
-import SublineField from './SublineField';
-import LineService from '../../services/line.service';
-import { iLine, iMishna, iSubline, iSynopsis } from '../../types/types';
-import SugiaField from './SugiaField';
-import { getTextForSynopsis } from '../../inc/synopsisUtils';
+import SourceButtons from '../MainLineEditor/SourceButtons';
+import LineService from '../../../services/line.service';
+import { iLine, iMishna, iSubline, iSynopsis } from '../../../types/types';
+import SugiaField from '../SugiaField';
+import { getTextForSynopsis } from '../../../inc/synopsisUtils';
 import { Button } from '@mui/material';
+import FieldSublines from './FieldSublines';
 
 interface Props {
   line: iLine | null;
@@ -117,25 +117,11 @@ const EditLineForm = (props: FormikValues) => {
         onAddSource={(source) => onAddSource(source)}
         onRemoveSource={(id) => onRemoveSource(id)}
         onAddExternalSource={onAddExternalSource}></SourceButtons>
-      <FieldArray
-        name="sublines"
-        render={(arrayHelpers) => (
-          <div>
-            {values.sublines.map((subline, index) => (
-              <div key={index}>
-                <SublineField
-                  index={index}
-                  name={`sublines[${index}]`}
-                  onRemoveSource={(idToRemove) => {
-                    onRemoveSource(idToRemove);
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        )}
-      />
-      <Button disabled={!dirty || isSubmitting}>שמור</Button>
+      <FieldSublines 
+      sublines={values.sublines}
+      onRemoveSource={onRemoveSource} />
+
+      <Button type="submit" disabled={!dirty || isSubmitting}>שמור</Button>
     </Form>
   );
 };

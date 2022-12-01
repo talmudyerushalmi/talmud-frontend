@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import EditLineForm from './editlineForm';
 import { Container } from '@mui/material';
-import PageService from '../../services/pageService';
-import { requestCompositions, requestTractates } from '../../store/actions';
+import PageService from '../../../services/pageService';
+import { requestCompositions, requestTractates } from '../../../store/actions';
 
 import { connect } from 'react-redux';
-import ChooseMishnaBar from '../shared/ChooseMishnaBar';
+import ChooseMishnaBar from '../../shared/ChooseMishnaBar';
 import { useHistory, useParams } from 'react-router';
 
 const mapStateToProps = (state) => ({
