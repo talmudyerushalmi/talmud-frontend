@@ -4,7 +4,7 @@ import { ConfirmSignIn, ForgotPassword, RequireNewPassword, SignIn, withAuthenti
 import theme from '../ui/Theme';
 import EditMishnaPage from '../pages/EditMishnaPage';
 import EditLinePage from '../pages/EditLinePage';
-import { RequireAuth } from '../components/login/RequireAuth';
+import RequireAuth from '../components/login/RequireAuth';
 
 export type routeObject = {
   tractate: string;
@@ -13,27 +13,7 @@ export type routeObject = {
   line: string;
 };
 export const AdminRoutes = () => {
-  return (
-    <Route path="admin">
-      <Route
-        path="edit/:tractate/:chapter/:mishna/:line"
-        element={
-          <RequireAuth>
-            <EditLinePage />
-          </RequireAuth>
-        }
-      />
-
-      <Route
-        path="edit/:tractate/:chapter/:mishna"
-        element={
-          <RequireAuth>
-            <EditMishnaPage />
-          </RequireAuth>
-        }
-      />
-    </Route>
-  );
+  return <Route path="test" element={<h3>sddsfdsf</h3>}></Route>;
 };
 
 export default AdminRoutes;

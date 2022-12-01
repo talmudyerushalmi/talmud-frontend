@@ -18,9 +18,11 @@ import IntroductionPage from './pages/IntroductionPage';
 import PartnersPage from './pages/PartnersPage';
 import SteeringPage from './pages/SteeringPage';
 import ViewChapterPage from './pages/ViewChapterPage';
-import { RequireAuth } from './components/login/RequireAuth';
+import RequireAuth from './components/login/RequireAuth';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Login } from './components/login/Login';
+import EditLinePage from './pages/EditLinePage';
+import EditMishnaPage from './pages/EditMishnaPage';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -67,7 +69,24 @@ function App(props: any) {
                 <Route path="/talmud/:tractate/:chapter/:mishna" element={<ViewMishnaPage />} />
                 <Route path="/talmud/:tractate/:chapter" element={<ViewChapterPage />} />
                 <Route path="/login" element={<Login />} />
-                {/* <AdminRoutes/> */}
+                <Route path="admin">
+                  <Route
+                    path="edit/:tractate/:chapter/:mishna/:line"
+                    element={
+                      <RequireAuth>
+                        <EditLinePage />
+                      </RequireAuth>
+                    }
+                  />
+                  <Route
+                    path="edit/:tractate/:chapter/:mishna"
+                    element={
+                      <RequireAuth>
+                        <EditMishnaPage />
+                      </RequireAuth>
+                    }
+                  />
+                </Route>
                 <Route
                   path="/protected"
                   element={

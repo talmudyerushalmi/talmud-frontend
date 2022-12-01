@@ -3,7 +3,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import MainLine from './MainLine';
 import { iLine } from '../../types/types';
 import SugiaButton from './SugiaButton';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import { routeObject } from '../../routes/AdminRoutes';
@@ -36,6 +36,7 @@ interface Props {
 }
 const MainLines = (props: Props) => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const { lines, username, mishna } = props;
   let sectionsIndex = 1;
 
@@ -54,11 +55,9 @@ const MainLines = (props: Props) => {
                 sx={{ position: 'absolute', display: { xs: 'none', sm: 'block' }, left: '-3rem', top: '-0.2rem' }}
                 onClick={() => {
                   const url = `/admin/edit/${route.tractate}/${route.chapter}/${mishna}/${line.lineNumber}/`;
-                  //@ts-ignore
-                  window!.open(url, '_self').focus();
+                  navigate(url);
                 }}
-                size="small"
-              >
+                size="small">
                 <Edit></Edit>
               </IconButton>
             ) : null}
