@@ -218,9 +218,6 @@ const MainLineEditor = (props: Props) => {
               </Button>
             </>
           ) : null}
-          
-          {piskaFieldName}
-
           <CheckboxField name={piskaFieldName}/>
         </div>
         <MainLineDialog
