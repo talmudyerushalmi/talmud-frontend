@@ -24,7 +24,7 @@
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "formik": "^2.2.7",
+    "formik": "^2.2.9",
     "formik-material-ui": "^4.0.0-alpha.2",
     "formik-material-ui-lab": "^1.0.0-alpha.2",
     "i18next": "^21.6.3",

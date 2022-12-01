@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
-import { withFormik, FieldArray, FormikProps } from 'formik';
+import { withFormik, FieldArray, FormikProps, Form, FormikValues } from 'formik';
 import { EditorState, ContentState } from 'draft-js';
 import SourceButtons from './MainLineEditor/SourceButtons';
 import SublineField from './SublineField';
@@ -8,6 +8,7 @@ import LineService from '../../services/line.service';
 import { iLine, iMishna, iSubline, iSynopsis } from '../../types/types';
 import SugiaField from './SugiaField';
 import { getTextForSynopsis } from '../../inc/synopsisUtils';
+import { Button } from '@mui/material';
 
 interface Props {
   line: iLine | null;
@@ -67,7 +68,7 @@ interface OtherProps {
 interface Props {
   props: FormikProps<FormValues>;
 }
-const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
+const EditLineForm = (props: FormikValues) => {
   const {
     values,
     touched,
@@ -109,19 +110,13 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
     setFieldValue('sublines', values.sublines);
   };
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
-    >
+    <Form>
       <SugiaField name="sugiaName" />
       <SourceButtons
         sources={values.sublines}
         onAddSource={(source) => onAddSource(source)}
         onRemoveSource={(id) => onRemoveSource(id)}
-        onAddExternalSource={onAddExternalSource}
-      ></SourceButtons>
+        onAddExternalSource={onAddExternalSource}></SourceButtons>
       <FieldArray
         name="sublines"
         render={(arrayHelpers) => (
@@ -140,15 +135,8 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
           </div>
         )}
       />
-
-      <button type="button" className="outline" onClick={handleReset} disabled={!dirty || isSubmitting}>
-        Reset
-      </button>
-      <button type="submit" disabled={isSubmitting}>
-        שמור
-      </button>
-    </form>
+      <Button disabled={!dirty || isSubmitting}>שמור</Button>
+    </Form>
   );
 };
-//@ts-ignore // todo fix later
 export default formikEnhancer(EditLineForm);

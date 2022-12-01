@@ -11442,17 +11442,17 @@ form-data@^4.0.0:
 
 formik-material-ui-lab@^1.0.0-alpha.2:
   version "1.0.0-alpha.2"
-  resolved "https://registry.npmjs.org/formik-material-ui-lab/-/formik-material-ui-lab-1.0.0-alpha.2.tgz"
+  resolved "https://registry.yarnpkg.com/formik-material-ui-lab/-/formik-material-ui-lab-1.0.0-alpha.2.tgz#bfaebfe231caeaeb2b9bb6d55e8923b408e5d2c8"
   integrity sha512-NQZjbzBr5GbpAzupStLbtoVTIf6cCiOf554n+wckE0DqkDKemu9lQo7j8JXYGmNR+NVtpR07ArlO8dzyjetelg==
 
 formik-material-ui@^4.0.0-alpha.2:
   version "4.0.0-alpha.2"
-  resolved "https://registry.npmjs.org/formik-material-ui/-/formik-material-ui-4.0.0-alpha.2.tgz"
+  resolved "https://registry.yarnpkg.com/formik-material-ui/-/formik-material-ui-4.0.0-alpha.2.tgz#d081ea65d02979e87106ee773c3f22f1d7f64c1a"
   integrity sha512-jGKCUMpexQiU3NN+vYx1MgsgJFLaHnOVJAdKSN7IThKtrWs7t7m6Ft7AyRl/ZDEztKo/sWunlGJvaQJbQBBH9A==
 
-formik@^2.2.7:
+formik@^2.2.9:
   version "2.2.9"
-  resolved "https://registry.npmjs.org/formik/-/formik-2.2.9.tgz"
+  resolved "https://registry.yarnpkg.com/formik/-/formik-2.2.9.tgz#8594ba9c5e2e5cf1f42c5704128e119fc46232d0"
   integrity sha512-LQLcISMmf1r5at4/gyJigGn0gOwFbeEAlji+N9InZF6LIMXnFNkO42sCI8Jt84YZggpD4cPWObAZaxpEFtSzNA==
   dependencies:
     deepmerge "^2.1.1"
@@ -15966,6 +15966,11 @@ prelude-ls@~1.1.2:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.3.0.tgz#b6a5bf1284026ae640f17f7ff5658a7567fc0d18"
   integrity sha512-kXtO4s0Lz/DW/IJ9QdWhAf7/NmPWQXkFr/r/WkR3vyI+0v8amTDxiaQSLzs8NBlytfLWX/7uQUMIW677yLKl4w==
+
+prettier@^2.7.1:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.0.tgz#c7df58393c9ba77d6fba3921ae01faf994fb9dc9"
+  integrity sha512-9Lmg8hTFZKG0Asr/kW9Bp8tJjRVluO8EJQVfY2T7FMw9T5jy4I/Uvx0Rca/XWf50QQ1/SS48+6IJWnrb+2yemA==
 
 pretty-bytes@^5.3.0, pretty-bytes@^5.4.1:
   version "5.6.0"
