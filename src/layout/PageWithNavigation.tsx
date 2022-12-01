@@ -1,6 +1,6 @@
 import { Box, Container } from '@mui/material';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ChooseMishnaBar, { ALL_CHAPTER } from '../components/shared/ChooseMishnaBar';
 import Spinner from '../components/shared/Spinner';
 
@@ -33,7 +33,7 @@ interface Props {
 const PageWithNavigationWithoutState = (props: Props) => {
   const { linkPrefix, allChapterAllowed, afterNavigateHandler, loading } = props;
 
-  const history = useHistory();
+  const navigate = useNavigate();
   let url: string;
   const navigationSelectedHandler = (link: iLink) => {
     if (link && link.line) {
@@ -43,7 +43,7 @@ const PageWithNavigationWithoutState = (props: Props) => {
     } else {
       url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}`;
     }
-    history.push(url);
+    navigate(url);
     if (afterNavigateHandler) {
       afterNavigateHandler();
     }

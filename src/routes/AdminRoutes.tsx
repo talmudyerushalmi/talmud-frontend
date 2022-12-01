@@ -5,7 +5,7 @@ import theme from '../ui/Theme';
 import EditMishnaPage from '../pages/EditMishnaPage';
 import EditLinePage from '../pages/EditLinePage';
 
-export interface routeObject {
+export type routeObject =  {
   tractate: string;
   chapter: string;
   mishna: string;
@@ -14,8 +14,8 @@ export interface routeObject {
 export const AdminRoutes = () => {
   return (
     <>
-      <Route path="/admin/edit/:tractate/:chapter/:mishna/:line" exact component={EditLinePage} />
-      <Route path="/admin/edit/:tractate/:chapter/:mishna" exact component={EditMishnaPage} />
+      <Route path="/admin/edit/:tractate/:chapter/:mishna/:line" element={EditLinePage} />
+      <Route path="/admin/edit/:tractate/:chapter/:mishna" element={EditMishnaPage} />
       <Route path="/admin" />
     </>
   );

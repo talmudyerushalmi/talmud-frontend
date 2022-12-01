@@ -170,7 +170,7 @@ const ChooseMishnaBar = (props: Props) => {
 
   const onNavigateForward = () => {
     let next;
-    if (line) {
+    if (line && tractate && chapter && mishna) {
       next = getNextLine(tractate, chapter, mishna, line, mishnaNavigation);
     } else {
       next = mishnaNavigation?.next;
@@ -187,7 +187,7 @@ const ChooseMishnaBar = (props: Props) => {
   };
   const onNavigateBack = () => {
     let previous;
-    if (line) {
+    if (line && tractate && chapter && mishna) {
       previous = getPreviousLine(tractate, chapter, mishna, line, mishnaNavigation);
     } else {
       previous = mishnaNavigation?.previous;
@@ -255,16 +255,14 @@ const ChooseMishnaBar = (props: Props) => {
         onSubmit={(e) => {
           e.preventDefault();
           handleNavigate();
-        }}
-      >
+        }}>
         <Grid container>
           <Box mb={2} sx={{ display: 'flex', flexGrow: 10 }}>
             <IconButton
               onClick={() => {
                 onNavigateBack();
               }}
-              size="small"
-            >
+              size="small">
               <ArrowForward></ArrowForward>
             </IconButton>
             <Autocomplete
@@ -311,8 +309,7 @@ const ChooseMishnaBar = (props: Props) => {
               variant="contained"
               color="primary"
               onClick={handleNavigate}
-              disabled={selectButtonDisabled()}
-            >
+              disabled={selectButtonDisabled()}>
               {t('Go')}
             </Button>
           </Box>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import background from './assets/leiden2.jpg';
 import './App.css';
 import { Header } from './layout/Header';
@@ -55,16 +55,16 @@ function App(props: any) {
         <ThemeProvider theme={theme}>
           <div className={coverClass} style={{ direction: 'rtl' }}>
             <Header />
-            <Switch>
-              <Route path="/" exact component={HomePage} />
-              <Route path="/introduction" exact component={IntroductionPage} />
-              <Route path="/steering" exact component={SteeringPage} />
-              <Route path="/partners" exact component={PartnersPage} />
-              <Route path="/talmud/:tractate/:chapter/:mishna" exact component={ViewMishnaPage} />
-              <Route path="/talmud/:tractate/:chapter" exact component={ViewChapterPage} />
+            <Routes>
+              <Route path="/" element={HomePage} />
+              <Route path="/introduction" element={IntroductionPage} />
+              <Route path="/steering" element={SteeringPage} />
+              <Route path="/partners" element={PartnersPage} />
+              <Route path="/talmud/:tractate/:chapter/:mishna" element={ViewMishnaPage} />
+              <Route path="/talmud/:tractate/:chapter" element={ViewChapterPage} />
               <AdminRoutes />
               <Route path={process.env.PUBLIC_URL} />
-            </Switch>
+            </Routes>
             <Footer />
           </div>
         </ThemeProvider>

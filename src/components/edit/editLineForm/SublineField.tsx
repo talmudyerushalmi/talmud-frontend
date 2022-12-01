@@ -13,7 +13,7 @@ import { RawDraftContentState } from 'draft-js';
 
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  saveNosach: async (route: routeObject, index: number, newNosach: RawDraftContentState, nosachText: string[]) => {
+  saveNosach: async (route: Partial<routeObject>, index: number, newNosach: RawDraftContentState, nosachText: string[]) => {
     dispatch(saveNosach(route, index, newNosach, nosachText));
   },
   deleteSubline: async (route: routeObject, index: number, subline: number) => {
@@ -36,7 +36,7 @@ interface Props {
   name: string;
   index: number;
   onRemoveSource: Function;
-  saveNosach: (route: routeObject, line: number, nosachnosach: RawDraftContentState, nosachText: string[]) => void;
+  saveNosach: (route: Partial<routeObject>, line: number, nosachnosach: RawDraftContentState, nosachText: string[]) => void;
   deleteSubline: Function;
 }
 const SublineField = (props: Props) => {
