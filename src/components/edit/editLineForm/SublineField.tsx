@@ -64,7 +64,7 @@ const SublineField = (props: Props) => {
       <Paper elevation={3} style={{ marginBottom: '1rem', padding: '0.5rem' }}>
         <SublineTitle index={index} onClick={deleteSublineHandler} />
         <MainLineEditor
-          fieldName={field.name + 'piska'}
+          piskaFieldName={field.name + 'piska'}
           lines={[value.text]}
           content={value.nosach}
           onSave={(nosach: RawDraftContentState, nosachText: string[]) => {

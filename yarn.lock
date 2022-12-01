@@ -11440,15 +11440,10 @@ form-data@^4.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
-formik-material-ui-lab@^1.0.0-alpha.2:
-  version "1.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/formik-material-ui-lab/-/formik-material-ui-lab-1.0.0-alpha.2.tgz#bfaebfe231caeaeb2b9bb6d55e8923b408e5d2c8"
-  integrity sha512-NQZjbzBr5GbpAzupStLbtoVTIf6cCiOf554n+wckE0DqkDKemu9lQo7j8JXYGmNR+NVtpR07ArlO8dzyjetelg==
-
-formik-material-ui@^4.0.0-alpha.2:
-  version "4.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/formik-material-ui/-/formik-material-ui-4.0.0-alpha.2.tgz#d081ea65d02979e87106ee773c3f22f1d7f64c1a"
-  integrity sha512-jGKCUMpexQiU3NN+vYx1MgsgJFLaHnOVJAdKSN7IThKtrWs7t7m6Ft7AyRl/ZDEztKo/sWunlGJvaQJbQBBH9A==
+formik-mui@^5.0.0-alpha.0:
+  version "5.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/formik-mui/-/formik-mui-5.0.0-alpha.0.tgz#567f2f3edf4a2edd9cb20cb7cab4dbd9ba24d05a"
+  integrity sha512-tcY8B4I3N2UK9ghgVpeBWsXGMDe1y4LVKwI8GiUbLKGB86fI/CN9UMr4FuNo6kzNXvO42LFNmCxdEVzovNCyYQ==
 
 formik@^2.2.9:
   version "2.2.9"
