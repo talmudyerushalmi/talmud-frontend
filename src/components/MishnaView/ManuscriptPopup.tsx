@@ -16,7 +16,7 @@ const sx = {
     bgcolor: 'background.paper',
     borderRadius: '4px',
     width: '50%',
-    height: '50%',
+    height: '70%',
     p: 1,
   },
 };
@@ -49,7 +49,6 @@ const ManuscriptPopup = (props: iProps) => {
   const [imageURL, setImageURL] = useState('');
 
   useEffect(() => {
-    console.log('sublineData', sublineData);
     setImageURL(getImageUrl(manuscriptsForChapter, sublineData));
   }, [sublineData?.subline.index, sublineData?.line]);
 
@@ -67,6 +66,11 @@ const ManuscriptPopup = (props: iProps) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <Box sx={sx.root}>
+        File name - {imageURL}
+        <br />
+        שורה - {sublineData?.subline.index}
+        <br />
+        טקסט שורה - {sublineData?.subline.text}
         <ZoomImage image={imageURL} />
       </Box>
     </Modal>

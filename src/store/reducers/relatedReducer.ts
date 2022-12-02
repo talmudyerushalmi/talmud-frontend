@@ -1,5 +1,5 @@
 import { iManuscript, iManuscriptPopup } from '../../types/types';
-import { SET_MANUSCRIPTS_FOR_CHAPTER,  SET_SUBLINE_DATA } from '../actions/relatedActions';
+import { SET_MANUSCRIPTS_FOR_CHAPTER, SET_SUBLINE_DATA } from '../actions/relatedActions';
 
 interface IRelatedState {
   sublineData: iManuscriptPopup | null;
@@ -8,7 +8,7 @@ interface IRelatedState {
 
 const initialState: IRelatedState = {
   sublineData: null,
-  manuscriptsForChapter: null,
+  manuscriptsForChapter: [],
 };
 
 const relatedReducer = (state = initialState, action) => {

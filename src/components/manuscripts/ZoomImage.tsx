@@ -11,9 +11,9 @@ const sx = {
     height: '100%',
   },
   image: {
+    objectFit: 'cover' as 'cover',
     width: '100%',
     height: '100%',
-    objectFit: 'contain' as 'contain',
   },
 };
 
@@ -37,9 +37,7 @@ const ZoomImage: FC<iProps> = ({ image }) => {
   const handleWheel = (event) => {
     const { deltaY } = event;
     if (!draggind) {
-      setZoom((zoom) =>
-        clamp(zoom + deltaY * SCROLL_SENSITIVITY * -1, MIN_ZOOM, MAX_ZOOM)
-      );
+      setZoom((zoom) => clamp(zoom + deltaY * SCROLL_SENSITIVITY * -1, MIN_ZOOM, MAX_ZOOM));
     }
   };
 
@@ -98,9 +96,7 @@ const ZoomImage: FC<iProps> = ({ image }) => {
           // Redraw image
           canvasRef.current.width = width * scale;
           canvasRef.current.height = height * scale;
-          canvasRef.current
-            .getContext('2d')
-            .drawImage(background, 0, 0, width * scale, height * scale);
+          canvasRef.current.getContext('2d').drawImage(background, 0, 0, width * scale, height * scale);
         }
       });
     });
