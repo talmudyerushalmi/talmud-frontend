@@ -37,6 +37,7 @@ export interface iSource {
   type: compositionType;
   region: string;
   author: string;
+  edition?: string;
 }
 
 export interface iExcerpt {
@@ -73,6 +74,7 @@ export interface iSynopsis {
   button_code: string;
   manuscript?: string;
   composition?: iSynopsisComposition;
+  location?: string;
 }
 
 interface iSynopsisComposition {
@@ -109,6 +111,7 @@ export interface iManuscript {
   fromLine: number;
   toLine: number;
   anchorexpanded: string | null;
+  anchorref: string | null;
 }
 
 export interface iManuscriptPopup {

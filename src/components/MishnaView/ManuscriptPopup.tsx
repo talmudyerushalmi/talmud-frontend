@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { iManuscript, iManuscriptPopup } from '../../types/types';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { setManuscriptsForChapter, setSublineData } from '../../store/actions/relatedActions';
 import ZoomImage from '../manuscripts/ZoomImage';
+import { getImageUrl } from '../../inc/manuscriptUtils';
 
 const sx = {
   root: {
@@ -45,15 +46,12 @@ export interface iProps {
 
 const ManuscriptPopup = (props: iProps) => {
   const { sublineData, closeManuscriptPopup, currentRoute, setManuscriptsForChapter, manuscriptsForChapter } = props;
-  let imageURL =
-    manuscriptsForChapter?.find(
-      (manuscript) =>
-        manuscript?.slug === 'leiden' &&
-        manuscript?.fromSubline <= sublineData?.subline.index &&
-        manuscript?.toSubline >= sublineData?.subline.index &&
-        manuscript?.fromLine <= sublineData?.line &&
-        manuscript?.toLine >= sublineData?.line
-    )?.imageurl || '';
+  const [imageURL, setImageURL] = useState('');
+
+  useEffect(() => {
+    console.log('sublineData', sublineData);
+    setImageURL(getImageUrl(manuscriptsForChapter, sublineData));
+  }, [sublineData?.subline.index, sublineData?.line]);
 
   useEffect(() => {
     setManuscriptsForChapter(currentRoute?.tractate, currentRoute?.chapter);
