@@ -23,6 +23,7 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import { Login } from './components/login/Login';
 import EditLinePage from './pages/EditLinePage';
 import EditMishnaPage from './pages/EditMishnaPage';
+import { UserGroup } from './store/reducers/authReducer';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -73,7 +74,7 @@ function App(props: any) {
                   <Route
                     path="edit/:tractate/:chapter/:mishna/:line"
                     element={
-                      <RequireAuth>
+                      <RequireAuth allowedGroups={[UserGroup.Editor]}>
                         <EditLinePage />
                       </RequireAuth>
                     }
@@ -81,7 +82,7 @@ function App(props: any) {
                   <Route
                     path="edit/:tractate/:chapter/:mishna"
                     element={
-                      <RequireAuth>
+                      <RequireAuth allowedGroups={[UserGroup.Editor]}>
                         <EditMishnaPage />
                       </RequireAuth>
                     }
@@ -90,7 +91,7 @@ function App(props: any) {
                 <Route
                   path="/protected"
                   element={
-                    <RequireAuth>
+                    <RequireAuth allowedGroups={[UserGroup.Editor]}>
                       <h2>Protected!</h2>
                     </RequireAuth>
                   }

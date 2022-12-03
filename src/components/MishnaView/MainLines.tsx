@@ -8,6 +8,7 @@ import { IconButton } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import { routeObject } from '../../routes/AdminRoutes';
 import { connect } from 'react-redux';
+import { UserGroup } from '../../store/reducers/authReducer';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -26,18 +27,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapStateToProps = (state: any) => ({
-  username: state.authentication.username,
+  userGroup: state.authentication.userGroup,
 });
 
 interface Props {
   lines: iLine[];
-  username: any;
+  userGroup: any;
   mishna: string;
 }
 const MainLines = (props: Props) => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const { lines, username, mishna } = props;
+  const { lines, userGroup, mishna } = props;
   let sectionsIndex = 1;
 
   const route = useParams<routeObject>();
@@ -50,7 +51,7 @@ const MainLines = (props: Props) => {
       {lines.map((line, index) => {
         return (
           <div key={line.lineNumber} className={classes.lines}>
-            {username ? (
+            {userGroup === UserGroup.Editor ? (
               <IconButton
                 sx={{ position: 'absolute', display: { xs: 'none', sm: 'block' }, left: '-3rem', top: '-0.2rem' }}
                 onClick={() => {
