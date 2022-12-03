@@ -74,12 +74,15 @@ export const getEditSettings = (tractate, chapter, mishna) => {
 };
 
 export const saveNosach = (
-  route: routeObject,
+  route: Partial<routeObject>,
   sublineIndex: number,
   nosach: RawDraftContentState,
   nosachText: string[]
 ) => {
   return async function (dispatch, getState) {
+    if (!(route.tractate && route.chapter && route.mishna && route.line)){
+      return;
+    }
     dispatch({ type: SAVE_NOSACH });
     const mishnaDoc = await LineService.saveNosach(
       route.tractate,

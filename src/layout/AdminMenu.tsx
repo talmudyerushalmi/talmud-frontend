@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state: any) => ({
@@ -12,13 +12,13 @@ const mapStateToProps = (state: any) => ({
 const AdminMenu = (props: any) => {
   const { currentRoute } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleEditMishna = useCallback(() => {
     const tractate = currentRoute.tractate ? currentRoute.tractate : 'yevamot';
     const chapter = currentRoute.chapter ? currentRoute.chapter : '001';
     const mishna = currentRoute.mishna ? currentRoute.mishna : '001';
-    history.push(`/admin/edit/${tractate}/${chapter}/${mishna}`);
+    navigate(`/admin/edit/${tractate}/${chapter}/${mishna}`);
     handleClose();
   }, [currentRoute]);
 
@@ -34,7 +34,7 @@ const AdminMenu = (props: any) => {
     const tractate = currentRoute.tractate ? currentRoute.tractate : 'yevamot';
     const chapter = currentRoute.chapter ? currentRoute.chapter : '001';
     const mishna = currentRoute.mishna ? currentRoute.mishna : '001';
-    history.push(`/talmud/${tractate}/${chapter}/${mishna}`);
+    navigate(`/talmud/${tractate}/${chapter}/${mishna}`);
     handleClose();
   }, [currentRoute]);
 

@@ -6,14 +6,12 @@ interface Props {
   name: string;
 }
 const CheckboxField = (props: Props) => {
-  const [_, meta, helpers] = useField(props);
+  const [checkboxField, meta, helpers] = useField({
+    name: props.name,
+    type: "checkbox"
+  });
   const { setValue } = helpers;
   const { value } = meta;
-  const [checked, setChecked] = useState(!!value);
-
-  useEffect(() => {
-    setChecked(value);
-  }, [value]);
 
   const checkboxHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checkNewVal = e.target.checked;
@@ -22,7 +20,7 @@ const CheckboxField = (props: Props) => {
   return (
     <>
       <FormControlLabel
-        control={<Checkbox checked={checked} onChange={checkboxHandler} />}
+        control={<Checkbox checked={value} onChange={checkboxHandler} />}
         label={<Typography>פיסקה</Typography>}
       />
     </>

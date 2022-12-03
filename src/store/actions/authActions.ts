@@ -13,7 +13,7 @@ export function signOut() {
 export function getUserAuth() {
   return async function (dispatch: any) {
     try {
-      const userAuth = await Auth.currentSession();
+      const userAuth = await Auth.currentAuthenticatedUser()
       dispatch(setUserAuth({ ...userAuth }));
     } catch (e) {}
   };
