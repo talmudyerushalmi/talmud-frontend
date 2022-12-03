@@ -1,8 +1,9 @@
 // components/Login.js
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 import { Authenticator, useAuthenticator, View } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import './login.css'
 
 import { useNavigate, useLocation } from 'react-router';
 
@@ -18,7 +19,7 @@ export function Login() {
   }, [route, navigate, from]);
   return (
     <View className="auth-wrapper">
-      <Authenticator></Authenticator>
+      <Authenticator socialProviders={['google']}></Authenticator>
     </View>
   );
 }

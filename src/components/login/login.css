@@ -1,0 +1,9 @@
+
+.amplify-tabs-item[data-state=active] {
+    border-color: #3f51b5;
+    color: #3f51b5;
+}
+
+.amplify-button--primary {
+    background: #3f51b5
+}
