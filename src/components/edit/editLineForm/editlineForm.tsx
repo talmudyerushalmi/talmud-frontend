@@ -121,7 +121,7 @@ const EditLineForm = (props: FormikValues) => {
       sublines={values.sublines}
       onRemoveSource={onRemoveSource} />
 
-      <Button type="submit" disabled={!dirty || isSubmitting}>שמור</Button>
+      <Button type="submit" disabled={isSubmitting}>שמור</Button>
     </Form>
   );
 };
