@@ -24,7 +24,7 @@ if (typeof gtmId === 'string' && gtmId !== 'NONE') {
 }
 
 
-
+console.log(updatedAwsConfig)
 Amplify.configure(updatedAwsConfig);
 
 
