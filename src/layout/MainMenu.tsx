@@ -11,9 +11,10 @@ import { connect } from 'react-redux';
 import LanguageSelector from './LanguageSelector';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { UserGroup } from '../store/reducers/authReducer';
 
 const mapStateToProps = (state: any) => ({
-  username: state.authentication.username,
+  userGroup: state.authentication.userGroup,
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -29,9 +30,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainMenu = (props: any) => {
-  const { username } = props;
+  const { username, userGroup } = props;
   const { t } = useTranslation();
-
   const classes = useStyles();
 
   return (
@@ -42,8 +42,7 @@ const MainMenu = (props: any) => {
         sx={{
           //backgroundColor:'#3f51b5',
           '& .MuiButton-root': { color: 'white' },
-        }}
-      >
+        }}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" size="large">
             <MenuIcon />
@@ -56,9 +55,14 @@ const MainMenu = (props: any) => {
           </div>
           <Typography variant="h6" className={classes.title}></Typography>
           <LanguageSelector />
-          {username ? (
+          {userGroup === UserGroup.Editor ? (
             <>
               <AdminMenu />
+              <SignOut />
+            </>
+          ) : null}
+          {userGroup === UserGroup.Authenticated ? (
+            <>
               <SignOut />
             </>
           ) : null}

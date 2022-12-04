@@ -3,17 +3,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { IconButton, Paper, Tooltip } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import SynopsisField from './SynopsisField';
-import MainLineEditor from './MainLineEditor/MainLineEditor';
-import { deleteSubline, saveNosach } from '../../store/actions/mishnaEditActions';
-import { routeObject } from '../../routes/AdminRoutes';
+import SynopsisField from '../SynopsisField';
+import MainLineEditor from '../MainLineEditor/MainLineEditor';
+import { deleteSubline, saveNosach } from '../../../store/actions/mishnaEditActions';
+import { routeObject } from '../../../routes/AdminRoutes';
 import { useParams } from 'react-router';
 import { RemoveCircle } from '@mui/icons-material';
 import { RawDraftContentState } from 'draft-js';
 
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  saveNosach: async (route: routeObject, index: number, newNosach: RawDraftContentState, nosachText: string[]) => {
+  saveNosach: async (route: Partial<routeObject>, index: number, newNosach: RawDraftContentState, nosachText: string[]) => {
     dispatch(saveNosach(route, index, newNosach, nosachText));
   },
   deleteSubline: async (route: routeObject, index: number, subline: number) => {
@@ -36,7 +36,7 @@ interface Props {
   name: string;
   index: number;
   onRemoveSource: Function;
-  saveNosach: (route: routeObject, line: number, nosachnosach: RawDraftContentState, nosachText: string[]) => void;
+  saveNosach: (route: Partial<routeObject>, line: number, nosachnosach: RawDraftContentState, nosachText: string[]) => void;
   deleteSubline: Function;
 }
 const SublineField = (props: Props) => {
@@ -64,7 +64,7 @@ const SublineField = (props: Props) => {
       <Paper elevation={3} style={{ marginBottom: '1rem', padding: '0.5rem' }}>
         <SublineTitle index={index} onClick={deleteSublineHandler} />
         <MainLineEditor
-          fieldName={field.name + 'piska'}
+          piskaFieldName={field.name + 'piska'}
           lines={[value.text]}
           content={value.nosach}
           onSave={(nosach: RawDraftContentState, nosachText: string[]) => {

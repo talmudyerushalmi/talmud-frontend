@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
-import { withFormik, FieldArray, FormikProps } from 'formik';
+import { withFormik, FormikProps, Form, FormikValues } from 'formik';
 import { EditorState, ContentState } from 'draft-js';
-import SourceButtons from './MainLineEditor/SourceButtons';
-import SublineField from './SublineField';
-import LineService from '../../services/line.service';
-import { iLine, iMishna, iSubline, iSynopsis } from '../../types/types';
-import SugiaField from './SugiaField';
-import { getTextForSynopsis } from '../../inc/synopsisUtils';
+import SourceButtons from '../MainLineEditor/SourceButtons';
+import LineService from '../../../services/line.service';
+import { iLine, iMishna, iSubline, iSynopsis } from '../../../types/types';
+import SugiaField from '../SugiaField';
+import { getTextForSynopsis } from '../../../inc/synopsisUtils';
+import { Button } from '@mui/material';
+import FieldSublines from './FieldSublines';
 
 interface Props {
   line: iLine | null;
@@ -67,7 +68,7 @@ interface OtherProps {
 interface Props {
   props: FormikProps<FormValues>;
 }
-const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
+const EditLineForm = (props: FormikValues) => {
   const {
     values,
     touched,
@@ -96,12 +97,11 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
     });
     setFieldValue('sublines', values.sublines);
   };
-  const onAddSource = (source) => {
-    let addedSynopsis: iSynopsis = {
-      ...source,
-      text: {},
-    };
+  const onAddSource = (source: iSynopsis) => {
     values.sublines.forEach((subline) => {
+      let addedSynopsis: iSynopsis = {
+        ...source,
+      };
       if (allowedSourcesForInitialText.includes(source.id)) {
         addedSynopsis.text = { simpleText: getTextForSynopsis(subline.text, source) };
       }
@@ -110,46 +110,19 @@ const EditLineForm = (props: OtherProps & FormikProps<FormValues>) => {
     setFieldValue('sublines', values.sublines);
   };
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
-    >
+    <Form>
       <SugiaField name="sugiaName" />
       <SourceButtons
         sources={values.sublines}
         onAddSource={(source) => onAddSource(source)}
         onRemoveSource={(id) => onRemoveSource(id)}
-        onAddExternalSource={onAddExternalSource}
-      ></SourceButtons>
-      <FieldArray
-        name="sublines"
-        render={(arrayHelpers) => (
-          <div>
-            {values.sublines.map((subline, index) => (
-              <div key={index}>
-                <SublineField
-                  index={index}
-                  name={`sublines[${index}]`}
-                  onRemoveSource={(idToRemove) => {
-                    onRemoveSource(idToRemove);
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        )}
-      />
+        onAddExternalSource={onAddExternalSource}></SourceButtons>
+      <FieldSublines 
+      sublines={values.sublines}
+      onRemoveSource={onRemoveSource} />
 
-      <button type="button" className="outline" onClick={handleReset} disabled={!dirty || isSubmitting}>
-        Reset
-      </button>
-      <button type="submit" disabled={isSubmitting}>
-        שמור
-      </button>
-    </form>
+      <Button type="submit" disabled={!dirty || isSubmitting}>שמור</Button>
+    </Form>
   );
 };
-//@ts-ignore // todo fix later
 export default formikEnhancer(EditLineForm);

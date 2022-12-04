@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Button, LinearProgress, FormControlLabel, Radio, TextField as TextFieldOriginal } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { TextField, CheckboxWithLabel, RadioGroup, Autocomplete } from 'formik-material-ui';
+import { TextField, CheckboxWithLabel, RadioGroup, Autocomplete } from 'formik-mui';
 import RichTextEditorField from '../../editors/RichTextEditorField';
 import { convertFromRaw, EditorState } from 'draft-js';
 import { getContentRaw } from '../../../inc/editorUtils';

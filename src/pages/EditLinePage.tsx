@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router';
-import EditLineForm from '../components/edit/editlineForm';
+import EditLineForm from '../components/edit/editLineForm/editlineForm';
 import { PageContent, PageHeader, PageWithNavigation } from '../layout/PageWithNavigation';
 import { routeObject } from '../routes/AdminRoutes';
 import { requestCompositions } from '../store/actions';

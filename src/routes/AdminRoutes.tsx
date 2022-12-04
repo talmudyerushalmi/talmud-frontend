@@ -4,27 +4,16 @@ import { ConfirmSignIn, ForgotPassword, RequireNewPassword, SignIn, withAuthenti
 import theme from '../ui/Theme';
 import EditMishnaPage from '../pages/EditMishnaPage';
 import EditLinePage from '../pages/EditLinePage';
+import RequireAuth from '../components/login/RequireAuth';
 
-export interface routeObject {
+export type routeObject = {
   tractate: string;
   chapter: string;
   mishna: string;
   line: string;
-}
+};
 export const AdminRoutes = () => {
-  return (
-    <>
-      <Route path="/admin/edit/:tractate/:chapter/:mishna/:line" exact component={EditLinePage} />
-      <Route path="/admin/edit/:tractate/:chapter/:mishna" exact component={EditMishnaPage} />
-      <Route path="/admin" />
-    </>
-  );
+  return <Route path="test" element={<h3>sddsfdsf</h3>}></Route>;
 };
 
-export default withAuthenticator(
-  AdminRoutes,
-  true,
-  [<SignIn />, <ConfirmSignIn />, <ForgotPassword />, <RequireNewPassword />],
-  null,
-  theme
-);
+export default AdminRoutes;
