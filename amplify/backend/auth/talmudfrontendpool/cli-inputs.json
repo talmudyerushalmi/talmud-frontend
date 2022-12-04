@@ -1,7 +1,7 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "talmudfrontendpool_identitypool_ce6393d0",
+    "identityPoolName": "talmudfrontendpool_identitypool_629606ba",
     "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "talmud5e6439bf",
     "userPoolName": "talmudfrontendpool",
@@ -62,15 +62,15 @@
     "dependsOn": [],
     "thirdPartyAuth": false,
     "authProviders": [],
-    "hostedUIDomainName": "zgs4kf1ybguf",
+    "hostedUIDomainName": "ttd6txedvjgh",
     "authProvidersUserPool": [
       "Google"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"family_name\":\"family_name\",\"given_name\":\"given_name\",\"name\":\"name\",\"username\":\"sub\"}}]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3001/\",\"https://www.talmudyerushalmi.com/\"],\"LogoutURLs\":[\"http://localhost:3001/\",\"https://www.talmudyerushalmi.com/\"]}",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3001/\",\"https://staging.talmudyerushalmi.com/\"],\"LogoutURLs\":[\"http://localhost:3001/\",\"https://staging.talmudyerushalmi.com/\"]}",
     "parentStack": {
       "Ref": "AWS::StackId"
     },
     "permissions": []
   }
-} 
+}
