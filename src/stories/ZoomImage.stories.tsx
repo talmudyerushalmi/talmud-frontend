@@ -1,24 +1,34 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-
+import { Meta, Story } from '@storybook/react';
+import { Box, Button, ButtonProps, Container } from '@mui/material';
 import ZoomImage from '../components/manuscripts/ZoomImage';
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Talmud/ZoomImage',
   component: ZoomImage,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-  argTypes: {
-    backgroundColor: { control: 'color' },
-  },
-} as ComponentMeta<typeof ZoomImage>;
+  title: 'Talmud/ZoomImage',
+  decorators: [
+    (Story) => {
+      return (
+        <Container>
+          <Box 
+          style={{
+            height: '35rem',
+            width: '60rem',
+            border: '10px solid red'}}
+          m={3}>
+            <Story />
+          </Box>
+        </Container>
+      );
+    },
+  ],
+} as Meta;
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof ZoomImage> = (args) => <ZoomImage {...args} />;
-
-export const Primary = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = {
-  image: "https://assets.talmudyerushalmi.com/manuscripts/venice/0303_FL77977460.jpg",
+const Template: Story<ButtonProps> = (args) => {
+  return <ZoomImage image="https://assets.talmudyerushalmi.com/manuscripts/venice/0303_FL77977460.jpg" {...args} />;
 };
 
+export const Primary = Template.bind({});
+Primary.args = {
+  
+};
