@@ -71,7 +71,9 @@ const ManuscriptPopup = (props: iProps) => {
         שורה - {sublineData?.subline.index}
         <br />
         טקסט שורה - {sublineData?.subline.text}
-        <ZoomImage image={imageURL} />
+        <Box style={{ border: '10px solid #080865', height: '30rem', boxShadow: '0px 7px 13px 0px #010122' }}>
+          <ZoomImage image={imageURL} />
+        </Box>
       </Box>
     </Modal>
   );

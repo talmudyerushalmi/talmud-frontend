@@ -1,27 +1,10 @@
-import { Box } from '@mui/material';
-import React, { useRef, useMemo, useEffect, useState, FC } from 'react';
+import React, { useRef, useMemo, useEffect, useState } from 'react';
 
 const SCROLL_SENSITIVITY = 0.0005;
 const MAX_ZOOM = 5;
 const MIN_ZOOM = 0.1;
 
-const sx = {
-  root: {
-    width: '100%',
-    height: '100%',
-  },
-  image: {
-    objectFit: 'cover' as 'cover',
-    width: '100%',
-    height: '100%',
-  },
-};
-
-interface iProps {
-  image: string;
-}
-
-const ZoomImage: FC<iProps> = ({ image }) => {
+const ZoomImage = ({ image }) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [draggind, setDragging] = useState(false);
@@ -37,7 +20,9 @@ const ZoomImage: FC<iProps> = ({ image }) => {
   const handleWheel = (event) => {
     const { deltaY } = event;
     if (!draggind) {
-      setZoom((zoom) => clamp(zoom + deltaY * SCROLL_SENSITIVITY * -1, MIN_ZOOM, MAX_ZOOM));
+      setZoom((zoom) => {
+        return clamp(zoom + deltaY * SCROLL_SENSITIVITY * -1, MIN_ZOOM, MAX_ZOOM);
+      });
     }
   };
 
@@ -132,17 +117,23 @@ const ZoomImage: FC<iProps> = ({ image }) => {
   }, [zoom, offset]);
 
   return (
-    <Box ref={containerRef} sx={sx.root}>
-      <Box
-        component="canvas"
-        sx={sx.image}
+    <div
+      style={{
+        height: '100%',
+        width: '100%',
+        overflow: 'hidden',
+        cursor: 'pointer',
+      }}
+      ref={containerRef}>
+      <canvas
+        style={{}}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onWheel={handleWheel}
         onMouseMove={handleMouseMove}
         ref={canvasRef}
       />
-    </Box>
+    </div>
   );
 };
 
