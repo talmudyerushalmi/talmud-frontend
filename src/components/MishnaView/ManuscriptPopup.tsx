@@ -15,8 +15,6 @@ const sx = {
     transform: 'translate(-50%, -50%)',
     bgcolor: 'background.paper',
     borderRadius: '4px',
-    width: '50%',
-    height: '70%',
     p: 1,
   },
 };
@@ -66,12 +64,10 @@ const ManuscriptPopup = (props: iProps) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <Box sx={sx.root}>
-        File name - {imageURL}
-        <br />
         שורה - {sublineData?.subline.index}
         <br />
         טקסט שורה - {sublineData?.subline.text}
-        <Box style={{ border: '10px solid #080865', height: '30rem', boxShadow: '0px 7px 13px 0px #010122' }}>
+        <Box style={{ height: '100%', width: '100%', boxShadow: '0px 7px 13px 0px #010122' }}>
           <ZoomImage image={imageURL} />
         </Box>
       </Box>

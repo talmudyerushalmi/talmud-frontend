@@ -122,11 +122,15 @@ const ZoomImage = ({ image }) => {
         height: '100%',
         width: '100%',
         overflow: 'hidden',
-        cursor: 'pointer',
+        cursor: draggind ? 'grabbing' : 'grab',
       }}
       ref={containerRef}>
       <canvas
-        style={{}}
+        style={{
+          height: '100%',
+          width: '100%',
+          borderRadius: '5px',
+        }}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onWheel={handleWheel}
