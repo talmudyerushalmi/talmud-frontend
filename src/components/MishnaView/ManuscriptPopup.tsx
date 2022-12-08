@@ -64,10 +64,12 @@ const ManuscriptPopup = (props: iProps) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <Box sx={sx.root}>
-        שורה - {sublineData?.subline.index}
-        <br />
-        טקסט שורה - {sublineData?.subline.text}
-        <Box style={{ height: '100%', width: '100%', boxShadow: '0px 7px 13px 0px #010122' }}>
+        <Box textAlign="center" sx={{ direction: 'ltr' }}>
+          שורה - {sublineData?.subline.index}
+          <br />
+          <b> {sublineData?.subline.text} </b>
+        </Box>
+        <Box sx={{ height: '100%', width: '100%', boxShadow: '0px 7px 13px 0px #010122' }}>
           <ZoomImage image={imageURL} />
         </Box>
       </Box>
