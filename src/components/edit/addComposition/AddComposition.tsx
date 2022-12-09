@@ -34,6 +34,7 @@ const CompositionDialog = (props: CompositionDialogProps) => {
           onSubmit={(values, actions) => {
             SettingsService.addSource({ ...values }).then((res) => {
               onAdd();
+              onClose();
             });
           }}>
           <Form>
