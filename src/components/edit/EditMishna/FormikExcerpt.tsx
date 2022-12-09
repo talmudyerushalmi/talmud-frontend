@@ -9,6 +9,10 @@ import { getContentRaw } from '../../../inc/editorUtils';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { closeExcerptDialog, saveExcerpt } from '../../../store/actions/mishnaEditActions';
+import AddComposition from '../addComposition/AddComposition';
+import { Box } from '@mui/system';
+import { CompositionType } from '../../../types/types';
+import { requestCompositions } from '../../../store/actions';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   saveExcerpt: (tractate, chapter, mishna, excerpt) => {
@@ -17,6 +21,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   closeExcerptDialog: () => {
     dispatch(closeExcerptDialog);
   },
+  requestCompositions: ()=>{
+    dispatch(requestCompositions())
+  }
 });
 const mapStateToProps = (state) => ({
   isSubmitting: state.mishnaEdit.isSubmitting,
@@ -38,7 +45,7 @@ const excerptSchema = Yup.object().shape({
 
 const FormikWrapper = (props) => {
   const classes = useStyles();
-  const { saveExcerpt, closeExcerptDialog, excerpt, selection, mishna, compositions } = props;
+  const { saveExcerpt, closeExcerptDialog, excerpt, selection, mishna, compositions, requestCompositions } = props;
 
   return (
     <Formik
@@ -67,10 +74,10 @@ const FormikWrapper = (props) => {
           editorStateComments: getContentRaw(values.editorStateComments),
         };
         saveExcerpt(mishna.tractate, mishna.chapter, mishna.mishna, excerptToSave);
-      }}
-    >
+      }}>
       {({ submitForm, setFieldValue, isSubmitting, values, errors }) => {
-        const allowedTypes = values?.type === 'MUVAA' ? ['yalkut', 'excerpt'] : ['parallel'];
+        const allowedTypes =
+          values?.type === 'MUVAA' ? [CompositionType.YALKUT, CompositionType.EXCERPT] : [CompositionType.PARALLEL];
         const filteredCompositions = compositions.filter((f) => {
           return allowedTypes.some((allowed) => allowed === f.type);
         });
@@ -88,18 +95,21 @@ const FormikWrapper = (props) => {
             </Field>
             <Field component={CheckboxWithLabel} type="checkbox" name="seeReference" Label={{ label: 'ראו' }} />
 
-            <Field
-              name="source"
-              component={Autocomplete}
-              classes={classes}
-              options={filteredCompositions}
-              noOptionsText="אין אפשרויות"
-              getOptionLabel={(option) => {
-                return option.title || '';
-              }}
-              style={{ width: 300 }}
-              renderInput={(params) => <TextFieldOriginal {...params} label="שם החיבור" variant="outlined" />}
-            />
+            <Box display="flex">
+              <Field
+                name="source"
+                component={Autocomplete}
+                classes={classes}
+                options={filteredCompositions}
+                noOptionsText="אין אפשרויות"
+                getOptionLabel={(option) => {
+                  return option.title || '';
+                }}
+                style={{ width: 300 }}
+                renderInput={(params) => <TextFieldOriginal {...params} label="שם החיבור" variant="outlined" />}
+              />
+              <AddComposition onAdd={requestCompositions} />
+            </Box>
             <Field component={TextField} name="sourceLocation" type="text" label="מיקום בחיבור" />
             <RichTextEditorField name="editorStateFullQuote" label="ציטוט מלא" />
             <Field
@@ -139,8 +149,7 @@ const FormikWrapper = (props) => {
             <Button
               onClick={() => {
                 closeExcerptDialog();
-              }}
-            >
+              }}>
               בטל
             </Button>
             <Button type="submit" variant="contained" color="primary" disabled={isSubmitting} onClick={submitForm}>
