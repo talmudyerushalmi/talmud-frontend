@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TextEditor from './TextEditor';
 import { Button, IconButton } from '@mui/material';
-import { Checkbox } from 'formik-mui';
 import makeStyles from '@mui/styles/makeStyles';
 import {} from '../../../types/types';
 import { ContentState, convertFromRaw, EditorState, Modifier, RawDraftContentState } from 'draft-js';
@@ -10,7 +9,7 @@ import CheckboxField from './CheckboxField';
 import { compoundNosachDecoratorsForEditing } from '../../editors/EditorDecoratorNosach';
 import { InitialEntityDialogState, MainLineDialog, NosachEntity } from './MainLineDialog';
 import { getContentStateArray, getFinalText, getSelectedText } from '../../../inc/editorUtils';
-import { Field } from 'formik';
+import SugiaField from '../SugiaField';
 
 export interface EditingData {
   editingComment: string | undefined;
@@ -21,7 +20,7 @@ export interface EditingData {
 interface Props {
   lines: string[];
   onSave: Function;
-  piskaFieldName: string;
+  fieldName: string;
   content: RawDraftContentState;
 }
 
@@ -47,12 +46,13 @@ const useStyles = makeStyles((theme) => ({
   },
   buttons: {
     position: 'absolute',
-    top: '-0.6rem',
+    top: '-1.2rem',
+    display: 'flex',
   },
 }));
 
 const MainLineEditor = (props: Props) => {
-  const { content, onSave, piskaFieldName } = props;
+  const { content, onSave, fieldName } = props;
 
   const classes = useStyles();
 
@@ -218,7 +218,8 @@ const MainLineEditor = (props: Props) => {
               </Button>
             </>
           ) : null}
-          <CheckboxField name={piskaFieldName}/>
+          <CheckboxField name={fieldName + '.piska' }/>
+          <SugiaField name={fieldName + '.sugia'}/>
         </div>
         <MainLineDialog
           initialState={initialDialogState}

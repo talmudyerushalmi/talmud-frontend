@@ -15,7 +15,7 @@ const SugiaField = (props: Props) => {
 
   useEffect(() => {
     if (touched === false) {
-      setHasValue(value !== '');
+      setHasValue(Boolean(value));
     }
     setfieldName(value);
   }, [touched, value]);
@@ -38,6 +38,13 @@ const SugiaField = (props: Props) => {
           onChange={(e) => setValue(e.target.value)}
           disabled={!hasValue}
           placeholder="שם הסוגיה"
+          size="small"
+          margin="none"
+          sx={{
+            '& .MuiOutlinedInput-input': {
+              padding: '5px 10px',
+            },
+          }}
         />
       </Box>
     </>
