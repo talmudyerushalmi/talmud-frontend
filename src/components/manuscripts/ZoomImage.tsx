@@ -3,6 +3,7 @@ import React, { useRef, useMemo, useEffect, useState } from 'react';
 const SCROLL_SENSITIVITY = 0.0005;
 const MAX_ZOOM = 5;
 const MIN_ZOOM = 0.1;
+const DRAG_FACTOR = 3;
 
 const ZoomImage = ({ image }) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -31,8 +32,8 @@ const ZoomImage = ({ image }) => {
       const { x, y } = touch.current;
       const { clientX, clientY } = event;
       setOffset({
-        x: offset.x + (x - clientX),
-        y: offset.y + (y - clientY),
+        x: offset.x + (x - clientX)*DRAG_FACTOR,
+        y: offset.y + (y - clientY)*DRAG_FACTOR,
       });
       touch.current = { x: clientX, y: clientY };
     }
