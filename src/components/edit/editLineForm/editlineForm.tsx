@@ -98,12 +98,14 @@ const EditLineForm = (props: FormikValues) => {
     setFieldValue('sublines', values.sublines);
   };
   const onAddSource = (source: iSynopsis) => {
-    values.sublines.forEach((subline) => {
+    values.sublines.forEach((subline: iSubline) => {
       let addedSynopsis: iSynopsis = {
         ...source,
       };
       if (allowedSourcesForInitialText.includes(source.id)) {
         addedSynopsis.text = { simpleText: getTextForSynopsis(subline.text, source) };
+      } else {
+        addedSynopsis.text = { simpleText: "" };
       }
       subline.synopsis.push(addedSynopsis);
     });
@@ -121,7 +123,7 @@ const EditLineForm = (props: FormikValues) => {
       sublines={values.sublines}
       onRemoveSource={onRemoveSource} />
 
-      <Button type="submit" disabled={!dirty || isSubmitting}>שמור</Button>
+      <Button type="submit" disabled={isSubmitting}>שמור</Button>
     </Form>
   );
 };

@@ -1,5 +1,6 @@
 import { RootState } from '..';
 import PageService from '../../services/pageService';
+import SettingsService from '../../services/settingsServince';
 import { iMishna } from '../../types/types';
 import { tryAsyncWithLoadingState } from './actionHelpers';
 
@@ -190,7 +191,7 @@ export function selectLine(selectedLine) {
 export function requestCompositions() {
   return function (dispatch) {
     dispatch(startRequest());
-    return PageService.getSettings('compositions').then(
+    return SettingsService.getSettings('compositions').then(
       (response) => dispatch(receivedCompositions(response)),
       (error) => console.log('An error occurred.', error)
     );

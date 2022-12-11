@@ -3,14 +3,22 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React from 'react';
 import ExternalSourceDetails from '../ExternalSourceDetails';
 import { connect } from 'react-redux';
+import { iSubline } from '../../../types/types';
 
 const mapStateToProps = (state) => ({
   tractateSettings: state.mishnaEdit.tractateSettings,
 });
 
-const SourceButtons = (props) => {
+interface Props {
+  tractateSettings: any
+  onAddSource: Function,
+  onRemoveSource: Function,
+  sources: iSubline[],
+  onAddExternalSource: (source:string)=>void
+}
+const SourceButtons = (props: Props) => {
   const { tractateSettings, onAddSource, onRemoveSource, sources } = props;
-  let selected = [];
+  let selected: string[] = [];
   if (sources.length && sources[0].synopsis) {
     selected = sources[0]?.synopsis.filter((s) => s.type === 'direct_sources').map((s) => s.id);
   }
@@ -28,7 +36,7 @@ const SourceButtons = (props) => {
     };
     onAddSource(add);
   };
-  const updateSynopsis = (button) => {
+  const updateSynopsis = (button: string) => {
     // add
     if (!selected.includes(button)) {
       const add = {
@@ -50,7 +58,7 @@ const SourceButtons = (props) => {
               return (
                 <ToggleButton
                   key={button}
-                  onClick={(e) => updateSynopsis(button, e)}
+                  onClick={(e) => updateSynopsis(button)}
                   value={button}
                   aria-label={button}
                 >
