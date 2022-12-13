@@ -54,9 +54,4 @@ export default class PageService {
     return response.data;
   }
 
-  static async getSettings(settingsID) {
-    const url = `/settings/${settingsID}`;
-    const response = await axiosInstance.get(url);
-    return response.data;
-  }
 }

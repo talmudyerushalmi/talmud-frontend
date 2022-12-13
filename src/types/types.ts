@@ -29,12 +29,16 @@ export interface iMarker {
   lineTo: string;
 }
 
-type compositionType = 'parallel' | 'excerpt' | 'yalkut';
+export enum CompositionType{
+  PARALLEL = 'parallel',
+  EXCERPT = 'excerpt',
+  YALKUT = 'yalkut'
+}
 export interface iSource {
   title: string;
   secondary_title: string;
   date: string;
-  type: compositionType;
+  type: CompositionType;
   region: string;
   author: string;
   edition?: string;
