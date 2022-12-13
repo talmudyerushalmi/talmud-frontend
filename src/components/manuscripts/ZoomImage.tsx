@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import React, { useRef, useMemo, useEffect, useState } from 'react';
 
 const SCROLL_SENSITIVITY = 0.0005;
@@ -117,8 +118,8 @@ const ZoomImage = ({ image }) => {
   }, [zoom, offset]);
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         height: '100%',
         width: '100%',
         overflow: 'hidden',
@@ -137,7 +138,7 @@ const ZoomImage = ({ image }) => {
         onMouseMove={handleMouseMove}
         ref={canvasRef}
       />
-    </div>
+    </Box>
   );
 };
 

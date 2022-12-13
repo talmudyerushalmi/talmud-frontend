@@ -6,6 +6,8 @@ import Modal from '@mui/material/Modal';
 import { setManuscriptsForChapter, setSublineData } from '../../store/actions/relatedActions';
 import ZoomImage from '../manuscripts/ZoomImage';
 import { getImageUrl } from '../../inc/manuscriptUtils';
+import { IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const sx = {
   root: {
@@ -16,6 +18,9 @@ const sx = {
     bgcolor: 'background.paper',
     borderRadius: '4px',
     p: 1,
+    width: '100%',
+    height: '100%',
+    direction: 'ltr',
   },
 };
 
@@ -58,18 +63,23 @@ const ManuscriptPopup = (props: iProps) => {
     <Modal
       sx={{
         border: 'none',
+        width: '100%',
+        height: '100%',
       }}
       open={Boolean(sublineData)}
       onClose={closeManuscriptPopup}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <Box sx={sx.root}>
+        <IconButton onClick={closeManuscriptPopup}>
+          <CloseIcon />
+        </IconButton>
         <Box textAlign="center" sx={{ direction: 'ltr' }}>
           שורה - {sublineData?.subline.index}
           <br />
           <b> {sublineData?.subline.text} </b>
         </Box>
-        <Box sx={{ height: '100%', width: '100%', boxShadow: '0px 7px 13px 0px #010122' }}>
+        <Box sx={{ height: '100%', width: '60%', boxShadow: '0px 7px 13px 0px #010122', mx: 'auto' }}>
           <ZoomImage image={imageURL} />
         </Box>
       </Box>

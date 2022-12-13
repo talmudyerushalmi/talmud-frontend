@@ -3,7 +3,6 @@ import { Footer } from '../layout/Footer';
 import { PageContent, PageHeader, PageWithNavigation } from '../layout/PageWithNavigation';
 import MishnaPage from './MishnaPage';
 import TagManager from 'react-gtm-module';
-import ManuscriptPopup from '../components/MishnaView/ManuscriptPopup';
 
 const ViewMishnaPage = () => {
   useEffect(() => {
@@ -34,7 +33,6 @@ const ViewMishnaPage = () => {
         <MishnaPage></MishnaPage>
       </PageContent>
       <Footer />
-      <ManuscriptPopup />
     </PageWithNavigation>
   );
 };
