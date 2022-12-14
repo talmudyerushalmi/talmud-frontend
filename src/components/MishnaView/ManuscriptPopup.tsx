@@ -2,26 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { iManuscript, iManuscriptPopup } from '../../types/types';
 import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
 import { setManuscriptsForChapter, setSublineData } from '../../store/actions/relatedActions';
 import ZoomImage from '../manuscripts/ZoomImage';
 import { getImageUrl } from '../../inc/manuscriptUtils';
-import { IconButton } from '@mui/material';
+import { Dialog, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { Transition } from '../shared/Transition';
 
 const sx = {
   root: {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    bgcolor: 'background.paper',
-    borderRadius: '4px',
-    p: 1,
-    width: '100%',
-    height: '100%',
-    direction: 'ltr',
+    border: 'none',
+    direction: 'ltr', // the app changes the direction to rtl
   },
+  zoomImage: { height: '100%', width: 'auto', overflow: 'hidden', boxShadow: '0px 7px 13px 0px #010122', mx: 'auto' },
 };
 
 const mapStateToProps = (state) => ({
@@ -60,30 +53,28 @@ const ManuscriptPopup = (props: iProps) => {
   }, [currentRoute?.chapter, currentRoute?.tractate]);
 
   return (
-    <Modal
-      sx={{
-        border: 'none',
-        width: '100%',
-        height: '100%',
-      }}
+    <Dialog
+      sx={sx.root}
+      fullScreen
       open={Boolean(sublineData)}
       onClose={closeManuscriptPopup}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description">
-      <Box sx={sx.root}>
-        <IconButton onClick={closeManuscriptPopup}>
-          <CloseIcon />
-        </IconButton>
-        <Box textAlign="center" sx={{ direction: 'ltr' }}>
+      TransitionComponent={Transition}>
+      <Box display={'flex'} textAlign="center" position="relative" justifyContent="center">
+        <Box position="absolute" left="0"> {/* left changes to right */}
+          <IconButton onClick={closeManuscriptPopup}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        <Box textAlign="center" sx={{ justifySelf: 'center' }}>
           שורה - {sublineData?.subline.index}
           <br />
           <b> {sublineData?.subline.text} </b>
         </Box>
-        <Box sx={{ height: '100%', width: '60%', boxShadow: '0px 7px 13px 0px #010122', mx: 'auto' }}>
-          <ZoomImage image={imageURL} />
-        </Box>
       </Box>
-    </Modal>
+      <Box sx={sx.zoomImage}>
+        <ZoomImage image={imageURL} />
+      </Box>
+    </Dialog>
   );
 };
 

@@ -33,8 +33,8 @@ const ZoomImage = ({ image }) => {
       const { x, y } = touch.current;
       const { clientX, clientY } = event;
       setOffset({
-        x: offset.x + (x - clientX)*DRAG_FACTOR,
-        y: offset.y + (y - clientY)*DRAG_FACTOR,
+        x: offset.x + (x - clientX) * DRAG_FACTOR,
+        y: offset.y + (y - clientY) * DRAG_FACTOR,
       });
       touch.current = { x: clientX, y: clientY };
     }
@@ -132,6 +132,7 @@ const ZoomImage = ({ image }) => {
           height: '100%',
           width: '100%',
           borderRadius: '5px',
+          objectFit: 'contain',
         }}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
