@@ -14,7 +14,7 @@ const sx = {
     border: 'none',
     direction: 'ltr', // the app changes the direction to rtl
   },
-  zoomImage: { height: '100%', width: 'auto', overflow: 'hidden', boxShadow: '0px 7px 13px 0px #010122', mx: 'auto' },
+  zoomImage: { height: 'auto', width: '100%', overflow: 'hidden', boxShadow: '0px 7px 13px 0px #010122', mx: 'auto' },
 };
 
 const mapStateToProps = (state) => ({

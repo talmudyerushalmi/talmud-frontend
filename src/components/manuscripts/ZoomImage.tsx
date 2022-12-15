@@ -8,7 +8,7 @@ const DRAG_FACTOR = 3;
 
 const ZoomImage = ({ image }) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(0.3);
   const [draggind, setDragging] = useState(false);
 
   const touch = useRef({ x: 0, y: 0 });
@@ -105,6 +105,7 @@ const ZoomImage = ({ image }) => {
       background.onload = () => {
         // Get the image dimensions
         const { width, height } = background;
+        setOffset({x: -width/3, y: height/3}) // todo calculate initial offset better
         canvasRef.current.width = width;
         canvasRef.current.height = height;
 
@@ -121,19 +122,13 @@ const ZoomImage = ({ image }) => {
   return (
     <Box
       sx={{
-        height: '100%',
+        height: 'auto',
         width: '100%',
         overflow: 'hidden',
         cursor: draggind ? 'grabbing' : 'grab',
       }}
       ref={containerRef}>
       <canvas
-        style={{
-          height: '100%',
-          width: '100%',
-          borderRadius: '5px',
-          objectFit: 'contain',
-        }}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onWheel={handleWheel}
