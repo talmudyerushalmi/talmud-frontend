@@ -7,7 +7,7 @@ import MishnaViewOptions from '../components/MishnaView/MishnaViewOptions';
 import { useParams } from 'react-router';
 import { getHTMLFromRawContent } from '../inc/editorUtils';
 import { iMishna } from '../types/types';
-import { routeObject } from '../routes/AdminRoutes';
+import { routeObject } from '../store/reducers/navigationReducer';
 import { RichTextsMishnas } from '../services/pageService';
 import { getRichMishnaiotForChapter, setMishnaViewOptions } from '../store/actions/mishnaViewActions';
 import useScroll from '../hooks/useScroll';

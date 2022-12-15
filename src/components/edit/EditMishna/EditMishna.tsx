@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router';
-import { routeObject } from '../../../routes/AdminRoutes';
+import { routeObject } from '../../../store/reducers/navigationReducer';
 import { getEditSettings } from '../../../store/actions/mishnaEditActions';
 import EditMishnaForm from './EditMishnaForm';
 import { getMishna } from '../../../store/actions/navigationActions';

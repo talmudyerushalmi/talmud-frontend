@@ -6,7 +6,6 @@ import { Header } from './layout/Header';
 import { makeStyles } from '@mui/styles';
 import { ThemeProvider } from '@mui/material/styles';
 import { RTL } from './ui/RTL';
-import AdminRoutes from './routes/AdminRoutes';
 import { getUserAuth } from './store/actions/authActions';
 import { connect } from 'react-redux';
 import ViewMishnaPage from './pages/ViewMishnaPage';
