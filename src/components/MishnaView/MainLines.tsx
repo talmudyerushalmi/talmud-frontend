@@ -6,7 +6,7 @@ import SugiaButton from './SugiaButton';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import { Edit } from '@mui/icons-material';
-import { routeObject } from '../../routes/AdminRoutes';
+import { routeObject } from '../../store/reducers/navigationReducer';
 import { connect } from 'react-redux';
 import { UserGroup } from '../../store/reducers/authReducer';
 const useStyles = makeStyles((theme) => ({

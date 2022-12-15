@@ -67,7 +67,7 @@
       "Google"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"family_name\":\"family_name\",\"given_name\":\"given_name\",\"name\":\"name\",\"username\":\"sub\"}}]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3001/\",\"https://talmudyerushalmi.com/\"],\"LogoutURLs\":[\"http://localhost:3001/\",\"https://talmudyerushalmi.com/\"]}",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3001/\",\"https://www.talmudyerushalmi.com/\"],\"LogoutURLs\":[\"http://localhost:3001/\",\"https://www.talmudyerushalmi.com/\"]}",
     "parentStack": {
       "Ref": "AWS::StackId"
     },

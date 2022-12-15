@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router';
 import EditLineForm from '../components/edit/editLineForm/editlineForm';
 import { PageContent, PageHeader, PageWithNavigation } from '../layout/PageWithNavigation';
-import { routeObject } from '../routes/AdminRoutes';
+import { routeObject } from '../store/reducers/navigationReducer';
 import { requestCompositions } from '../store/actions';
 import { getEditSettings } from '../store/actions/mishnaEditActions';
 import { getMishna } from '../store/actions/navigationActions';

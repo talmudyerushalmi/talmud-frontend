@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { saveMishna } from '../../../store/actions/mishnaEditActions';
 import { useParams } from 'react-router';
-import { routeObject } from '../../../routes/AdminRoutes';
+import { routeObject } from '../../../store/reducers/navigationReducer';
 import { getContentOrEmpty } from '../../../inc/editorUtils';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
