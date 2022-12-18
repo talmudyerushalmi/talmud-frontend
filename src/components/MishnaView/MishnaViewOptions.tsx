@@ -8,7 +8,7 @@ import { toggleDivideToLines, toggleEditType, toggleShowSources } from '../../st
 import { useTranslation } from 'react-i18next';
 import { Link, MenuItem, Select } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { routeObject } from '../../routes/AdminRoutes';
+import { routeObject } from '../../store/reducers/navigationReducer';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 
 const mapStateToProps = (state) => ({
