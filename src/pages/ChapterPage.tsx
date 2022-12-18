@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Box, Grid } from "@mui/material";
-import MainText from "../components/MishnaView/MainText";
-import MishnaText from "../components/MishnaView/MishnaText";
-import { connect } from "react-redux";
-import MishnaViewOptions from "../components/MishnaView/MishnaViewOptions";
-import { useParams } from "react-router";
-import { getHTMLFromRawContent } from "../inc/editorUtils";
-import { iMishna } from "../types/types";
-import { routeObject } from "../routes/AdminRoutes";
-import { RichTextsMishnas } from "../services/pageService";
-import { getRichMishnaiotForChapter, setMishnaViewOptions } from "../store/actions/mishnaViewActions";
-import useScroll from "../hooks/useScroll";
+import React, { useEffect, useState } from 'react';
+import { Box, Grid } from '@mui/material';
+import MainText from '../components/MishnaView/MainText';
+import MishnaText from '../components/MishnaView/MishnaText';
+import { connect } from 'react-redux';
+import MishnaViewOptions from '../components/MishnaView/MishnaViewOptions';
+import { useParams } from 'react-router';
+import { getHTMLFromRawContent } from '../inc/editorUtils';
+import { iMishna } from '../types/types';
+import { routeObject } from '../store/reducers/navigationReducer';
+import { RichTextsMishnas } from '../services/pageService';
+import { getRichMishnaiotForChapter, setMishnaViewOptions } from '../store/actions/mishnaViewActions';
+import useScroll from '../hooks/useScroll';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: false,

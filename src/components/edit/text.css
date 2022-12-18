@@ -11,7 +11,7 @@
 .RichEditor-root {
   background: inherit;
   border: 1px solid #ddd;
-  font-family: 'Georgia', serif;
+  font-family: 'Frank Ruhl Libre', serif;
   font-size: 14px;
 
   direction: rtl;
@@ -47,7 +47,7 @@
 .RichEditor-editor .RichEditor-blockquote {
   border-left: 5px solid #eee;
   color: #666;
-  font-family: 'Hoefler Text', 'Georgia', serif;
+  font-family: 'Frank Ruhl Libre', serif;
   font-style: italic;
   margin: 16px 0;
   padding: 10px 20px;
@@ -61,7 +61,7 @@
 }
 
 .RichEditor-controls {
-  font-family: 'Helvetica', sans-serif;
+  font-family: 'Frank Ruhl Libre', serif;
   font-size: 14px;
   margin-bottom: 5px;
   user-select: none;

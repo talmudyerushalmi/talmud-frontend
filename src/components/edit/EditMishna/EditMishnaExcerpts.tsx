@@ -7,7 +7,7 @@ import EditMishnaButtons from './EditMishnaButtons';
 import { connect } from 'react-redux';
 import { requestCompositions, requestTractates } from '../../../store/actions';
 import { useParams } from 'react-router';
-import { routeObject } from '../../../routes/AdminRoutes';
+import { routeObject } from '../../../store/reducers/navigationReducer';
 import {
   closeExcerptDialog,
   deleteExcerpt,

@@ -11,7 +11,7 @@ import { getNextLine, getPreviousLine, hebrewMap } from '../../inc/utils';
 import { useParams } from 'react-router';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { routeObject } from '../../routes/AdminRoutes';
+import { routeObject } from '../../store/reducers/navigationReducer';
 import { iMarker, iMishna, iTractate } from '../../types/types';
 import NavigationService from '../../services/NavigationService';
 import { setRoute } from '../../store/actions/navigationActions';

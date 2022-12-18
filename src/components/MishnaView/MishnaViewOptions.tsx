@@ -1,20 +1,15 @@
-import React from "react";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { connect } from "react-redux";
-import { toggleShowPunctuation } from "../../store/actions";
-import {
-  toggleDivideToLines,
-  toggleEditType,
-  toggleShowSources,
-} from "../../store/actions/mishnaViewActions";
-import { useTranslation } from "react-i18next";
-import { Link, MenuItem, Select } from "@mui/material";
-import { useParams } from "react-router-dom";
-import { routeObject } from "../../routes/AdminRoutes";
-import { ShowEditType } from "../../store/reducers/mishnaViewReducer";
-import Manuscripts from "./Manuscripts";
+import React from 'react';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import { connect } from 'react-redux';
+import { toggleShowPunctuation } from '../../store/actions';
+import { toggleDivideToLines, toggleEditType, toggleShowSources } from '../../store/actions/mishnaViewActions';
+import { useTranslation } from 'react-i18next';
+import { Link, MenuItem, Select } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import { routeObject } from '../../store/reducers/navigationReducer';
+import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 
 const mapStateToProps = (state) => ({
   divideToLines: state.mishnaView.divideToLines,

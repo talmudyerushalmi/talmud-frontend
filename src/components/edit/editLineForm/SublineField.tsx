@@ -6,7 +6,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import SynopsisField from '../SynopsisField';
 import MainLineEditor from '../MainLineEditor/MainLineEditor';
 import { deleteSubline, saveNosach } from '../../../store/actions/mishnaEditActions';
-import { routeObject } from '../../../routes/AdminRoutes';
+import { routeObject } from '../../../store/reducers/navigationReducer';
 import { useParams } from 'react-router';
 import { RemoveCircle } from '@mui/icons-material';
 import { RawDraftContentState } from 'draft-js';
