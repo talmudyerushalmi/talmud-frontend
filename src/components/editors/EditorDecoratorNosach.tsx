@@ -130,9 +130,9 @@ const CorrectionOriginal = (props) => {
 const Quote = (props) => {
   const { linkTo } = props.contentState.getEntity(props.entityKey).getData();
   return (
-    <div style={{ fontStyle: 'italic', display: 'inline-block' }}>
+    <div style={{ display: 'inline-block' }}>
       <Tooltip title={linkTo}>
-        <span>{props.children}</span>
+        <span>"{props.children}"</span>
       </Tooltip>
     </div>
   );
