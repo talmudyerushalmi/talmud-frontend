@@ -9,10 +9,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { getSynopsisRaw, synopsisMap } from '../../inc/synopsisUtils';
 import { Tooltip } from '@mui/material';
-import { iManuscriptPopup, iSubline } from '../../types/types';
+import { iManuscript, iManuscriptPopup, iSubline } from '../../types/types';
 import { setSublineData } from '../../store/actions/relatedActions';
 import { connect } from 'react-redux';
 import ButtonUnstyled from '../shared/ButtonUnstyled';
+import { getImageUrl } from '../../inc/manuscriptUtils';
 
 const useStyles = makeStyles({
   table: {
@@ -40,6 +41,10 @@ const useStyles = makeStyles({
   default: {},
 });
 
+const mapStateToProps = (state) => ({
+  manuscriptsForChapter: state.related.manuscriptsForChapter,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   setSublineData: (data: iManuscriptPopup) => {
     dispatch(setSublineData(data));
@@ -50,11 +55,12 @@ interface Props {
   subline: iSubline;
   setSublineData: (data: iManuscriptPopup) => void;
   lineNumber: string;
+  manuscriptsForChapter: iManuscript[];
 }
 
 const SynopsisTable = (props: Props) => {
   const classes = useStyles();
-  const { subline, setSublineData, lineNumber } = props;
+  const { subline, setSublineData, lineNumber, manuscriptsForChapter } = props;
   const { synopsis } = subline;
 
   if (!synopsis) {
@@ -80,6 +86,12 @@ const SynopsisTable = (props: Props) => {
         <TableHead></TableHead>
         <TableBody>
           {synopsis.map((synopsisRow, i: number) => {
+            const sublineData = {
+              line: +lineNumber,
+              subline: subline,
+              synopsisCode: synopsisRow.id,
+            };
+            const imageUrl = getImageUrl(manuscriptsForChapter, sublineData);
             const rawText = getSynopsisRaw(synopsisRow);
             const compositionType = synopsisRow.composition?.composition.type;
             let className = classes.default;
@@ -101,12 +113,9 @@ const SynopsisTable = (props: Props) => {
                 <Tooltip enterDelay={800} leaveDelay={200} title={sourceFullName(synopsisRow)}>
                   <TableCell style={{ fontWeight: 'bold' }} component="td" scope="row">
                     <ButtonUnstyled
+                      disabled={!imageUrl}
                       onClick={() => {
-                        setSublineData({
-                          line: +lineNumber,
-                          subline: subline,
-                          synopsisCode: synopsisRow.id,
-                        });
+                        setSublineData({ ...sublineData, imageUrl });
                       }}>
                       {sourceName(synopsisRow)}
                     </ButtonUnstyled>
@@ -124,4 +133,4 @@ const SynopsisTable = (props: Props) => {
   );
 };
 
-export default connect(null, mapDispatchToProps)(SynopsisTable);
+export default connect(mapStateToProps, mapDispatchToProps)(SynopsisTable);

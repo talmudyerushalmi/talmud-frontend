@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { iManuscript, iManuscriptPopup } from '../../types/types';
+import { iManuscriptPopup } from '../../types/types';
 import Box from '@mui/material/Box';
-import { setManuscriptsForChapter, setSublineData } from '../../store/actions/relatedActions';
+import { setSublineData } from '../../store/actions/relatedActions';
 import ZoomImage from '../manuscripts/ZoomImage';
-import { getImageUrl } from '../../inc/manuscriptUtils';
 import { Dialog, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Transition } from '../shared/Transition';
@@ -19,38 +18,21 @@ const sx = {
 
 const mapStateToProps = (state) => ({
   sublineData: state.related.sublineData,
-  currentRoute: state.navigation.currentRoute,
-  manuscriptsForChapter: state.related.manuscriptsForChapter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   closeManuscriptPopup: () => {
     dispatch(setSublineData(null));
   },
-  setManuscriptsForChapter: (chapter: string, tractate: string) => {
-    dispatch(setManuscriptsForChapter(chapter, tractate));
-  },
 });
 
 export interface iProps {
   sublineData: iManuscriptPopup;
-  currentRoute: any;
   closeManuscriptPopup: () => void;
-  setManuscriptsForChapter: (chapter: string, tractate: string) => void;
-  manuscriptsForChapter: iManuscript[];
 }
 
 const ManuscriptPopup = (props: iProps) => {
-  const { sublineData, closeManuscriptPopup, currentRoute, setManuscriptsForChapter, manuscriptsForChapter } = props;
-  const [imageURL, setImageURL] = useState('');
-
-  useEffect(() => {
-    setImageURL(getImageUrl(manuscriptsForChapter, sublineData));
-  }, [sublineData?.subline.index, sublineData?.line]);
-
-  useEffect(() => {
-    setManuscriptsForChapter(currentRoute?.tractate, currentRoute?.chapter);
-  }, [currentRoute?.chapter, currentRoute?.tractate]);
+  const { sublineData, closeManuscriptPopup } = props;
 
   return (
     <Dialog
@@ -60,7 +42,8 @@ const ManuscriptPopup = (props: iProps) => {
       onClose={closeManuscriptPopup}
       TransitionComponent={Transition}>
       <Box display={'flex'} textAlign="center" position="relative" justifyContent="center">
-        <Box position="absolute" left="0"> {/* left changes to right */}
+        <Box position="absolute" left="0">
+          {/* left changes to right */}
           <IconButton onClick={closeManuscriptPopup}>
             <CloseIcon />
           </IconButton>
@@ -72,7 +55,7 @@ const ManuscriptPopup = (props: iProps) => {
         </Box>
       </Box>
       <Box sx={sx.zoomImage}>
-        <ZoomImage image={imageURL} />
+        <ZoomImage image={sublineData?.imageUrl} />
       </Box>
     </Dialog>
   );

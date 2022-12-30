@@ -122,4 +122,5 @@ export interface iManuscriptPopup {
   line: number;
   subline: iSubline;
   synopsisCode: string;
+  imageUrl?: string;
 }
