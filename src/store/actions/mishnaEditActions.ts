@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions';
-import { routeObject } from '../../routes/AdminRoutes';
+import { routeObject } from '../reducers/navigationReducer';
 import ExcerptService from '../../services/excerpt.service';
 import LineService from '../../services/line.service';
 import MishnaService from '../../services/mishna.service';

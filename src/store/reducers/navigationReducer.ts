@@ -1,4 +1,3 @@
-import { routeObject } from '../../routes/AdminRoutes';
 import { iChapter, iLine, iMishna, iTractate } from '../../types/types';
 import {
   RECEIVED_CURRENT_LOCATION,
@@ -18,6 +17,12 @@ import {
   SET_SELECTED_FOR_ROUTE,
 } from '../actions/navigationActions';
 
+export type routeObject = {
+  tractate: string;
+  chapter: string;
+  mishna: string;
+  line: string;
+};
 interface NavigationState {
   compositions: any;
   tractates: iTractate[];
