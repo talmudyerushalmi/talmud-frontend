@@ -9,7 +9,6 @@ interface Props {
 }
 const FieldSublines = (props: Props) => {
   const { sublines,onRemoveSource } = props  
-  console.log(sublines)
   return (
     <FieldArray
       name="sublines"
