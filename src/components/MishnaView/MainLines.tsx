@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import MainLine from './MainLine';
 import { iLine } from '../../types/types';
@@ -39,7 +39,6 @@ const MainLines = (props: Props) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { lines, userGroup, mishna } = props;
-  let sectionsIndex = 1;
 
   const route = useParams<routeObject>();
   if (!lines) {
@@ -62,8 +61,7 @@ const MainLines = (props: Props) => {
                 <Edit></Edit>
               </IconButton>
             ) : null}
-            {line.sugiaName ? <SugiaButton index={sectionsIndex++} line={line} /> : null}
-            <MainLine lineIndex={index} line={line} />
+            <MainLine key={line.lineNumber} lineIndex={index} line={line} />
           </div>
         );
       })}

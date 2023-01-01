@@ -219,7 +219,7 @@ const MainLineEditor = (props: Props) => {
             </>
           ) : null}
           <CheckboxField name={fieldName + '.piska' }/>
-          <SugiaField name={fieldName + '.sugia'}/>
+          <SugiaField name={fieldName + '.sugiaName'}/>
         </div>
         <MainLineDialog
           initialState={initialDialogState}

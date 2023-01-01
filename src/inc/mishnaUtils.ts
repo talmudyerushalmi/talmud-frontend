@@ -1,4 +1,4 @@
-import { iLine, iMishna } from '../types/types';
+import { iLine, iMishna, iSubline } from '../types/types';
 import * as _ from 'lodash';
 
 export function getSublines(mishna: iMishna) {
@@ -7,23 +7,17 @@ export function getSublines(mishna: iMishna) {
   return _.flatten(sublines);
 }
 
-export function getSugiaLines(currentMishna: iMishna, line: iLine) {
-  const lines = currentMishna.lines;
+export function getSugiaLines(currentMishna: iMishna, sugiaSubline: iSubline) {
   const sublines = getSublines(currentMishna);
-  const lineNextSugia = lines.find(
-    (mishnaLine) => mishnaLine.sugiaName && parseInt(mishnaLine.lineNumber!) > parseInt(line.lineNumber!)
-  );
-
+  const lineNextSugia = sublines.find((subline) => subline?.sugiaName && subline.index > sugiaSubline.index);
   let lineSugiaEnd;
+  let sugiaSublines;
   if (lineNextSugia) {
-    lineSugiaEnd = lines.find((l) => parseInt(l.lineNumber!) === parseInt(lineNextSugia.lineNumber!) - 1);
+    lineSugiaEnd = lineNextSugia;
+    sugiaSublines = sublines.slice(sugiaSubline.index - 1, lineSugiaEnd.index - 1);
   } else {
-    lineSugiaEnd = lines[lines.length - 1];
+    sugiaSublines = sublines.slice(sugiaSubline.index - 1, sublines.length);
   }
-  const sublineSugiaEnd = lineSugiaEnd.sublines[lineSugiaEnd.sublines.length - 1];
-  const sublineStartIndex = line.sublines![0].index - 1;
-  const sublineEndIndex = sublineSugiaEnd.index - 1;
 
-  const sugiaSublines = sublines.splice(sublineStartIndex, sublineEndIndex - sublineStartIndex + 1);
   return sugiaSublines;
 }
