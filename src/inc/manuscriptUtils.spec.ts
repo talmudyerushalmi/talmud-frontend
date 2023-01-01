@@ -1,5 +1,5 @@
 import { iManuscript, iManuscriptPopup } from '../types/types';
-import { getImageUrl } from './manuscriptUtils';
+import { getManuscript } from './manuscriptUtils';
 
 const manuscripts: iManuscript[] = [
   {
@@ -168,19 +168,19 @@ const sublineDataEqualLine3: iManuscriptPopup = {
 
 describe('getManuscriptImageUrl', () => {
   it('should return the correct manuscript', () => {
-    expect(getImageUrl(manuscripts, sublineData)).toEqual(
+    expect(getManuscript(manuscripts, sublineData)).toEqual(
       'https://assets.talmudyerushalmi.com/manuscripts/leiden/I363r.jpg'
     );
-    expect(getImageUrl(manuscripts, sublineData2)).toEqual(
+    expect(getManuscript(manuscripts, sublineData2)).toEqual(
       'https://assets.talmudyerushalmi.com/manuscripts/leiden/I365r.jpg'
     );
-    expect(getImageUrl(manuscripts, sublineDataEqualLine)).toEqual(
+    expect(getManuscript(manuscripts, sublineDataEqualLine)).toEqual(
       'https://assets.talmudyerushalmi.com/manuscripts/leiden/I364v.jpg'
     );
-    expect(getImageUrl(manuscripts, sublineDataEqualLine2)).toEqual(
+    expect(getManuscript(manuscripts, sublineDataEqualLine2)).toEqual(
       'https://assets.talmudyerushalmi.com/manuscripts/leiden/I363v.jpg'
     );
-    expect(getImageUrl(manuscripts, sublineDataEqualLine3)).toEqual(
+    expect(getManuscript(manuscripts, sublineDataEqualLine3)).toEqual(
       'https://assets.talmudyerushalmi.com/manuscripts/leiden/I364r.jpg'
     );
   });
