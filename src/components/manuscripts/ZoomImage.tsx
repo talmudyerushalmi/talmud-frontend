@@ -99,13 +99,14 @@ const ZoomImage = ({ image }) => {
   }, []);
 
   useEffect(() => {
+    if (!image) return;
     background.src = image;
 
     if (canvasRef.current) {
       background.onload = () => {
         // Get the image dimensions
         const { width, height } = background;
-        setOffset({x: -width/3, y: height/3}) // todo calculate initial offset better
+        setOffset({ x: -width / 3, y: height / 3 }); // todo calculate initial offset better
         canvasRef.current.width = width;
         canvasRef.current.height = height;
 
