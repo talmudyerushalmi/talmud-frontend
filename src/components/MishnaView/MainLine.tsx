@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { iLine } from '../../types/types';
+import SugiaButton from './SugiaButton';
 
 const importView = (component) => lazy(() => import(`./${component}`));
 
@@ -46,7 +47,12 @@ const MainLine = (props: Props) => {
         </React.Suspense>
         {line?.sublines
           ? line.sublines.map((subline, index) => {
-              return <SublineDisplay key={index} lineIndex={lineIndex} subline={subline} />;
+              return (
+                <div key={index}>
+                  {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
+                  <SublineDisplay key={index} lineIndex={lineIndex} subline={subline} />
+                </div>
+              );
             })
           : null}
       </Box>
