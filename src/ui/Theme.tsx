@@ -35,6 +35,8 @@ declare module '@mui/material/styles' {
     title: React.CSSProperties;
     category: React.CSSProperties;
     smallTitle: React.CSSProperties;
+    h2Roboto: React.CSSProperties;
+    h3Roboto: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
@@ -46,6 +48,8 @@ declare module '@mui/material/styles' {
     title?: React.CSSProperties;
     category?: React.CSSProperties;
     smallTitle?: React.CSSProperties;
+    h2Roboto: React.CSSProperties;
+    h3Roboto: React.CSSProperties;
   }
 }
 
@@ -59,6 +63,8 @@ declare module '@mui/material/Typography' {
     title: true;
     category: true;
     smallTitle: true;
+    h2Roboto: true;
+    h3Roboto: true;
   }
 }
 
@@ -81,6 +87,16 @@ export const themeConstants = {
 const breakpoints = createBreakpoints({});
 
 const theme = createTheme({
+  components: {
+    MuiTypography: {
+      defaultProps: {
+        variantMapping: {
+          h2Roboto: 'h2',
+          h3Roboto: 'h3',
+        },
+      },
+    },
+  },
   direction: 'rtl',
   custom: {
     smallTitle: {
@@ -92,6 +108,18 @@ const theme = createTheme({
     primary: { main: '#3f51b5' },
   },
   typography: {
+    fontFamily: [
+      'Frank Ruhl Libre',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
     h1: {
       fontSize: themeConstants.typography.h1.fontSize,
       fontWeight: 'bold',
@@ -105,7 +133,19 @@ const theme = createTheme({
         fontSize: '1.2rem',
       },
     },
+    h2Roboto: {
+      fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+      fontSize: '1.7rem',
+      [breakpoints.down('sm')]: {
+        fontSize: '1.2rem',
+      },
+    },
     h3: {
+      fontSize: '1.2rem',
+      fontWeight: 300,
+    },
+    h3Roboto: {
+      fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
       fontSize: '1.2rem',
       fontWeight: 300,
     },

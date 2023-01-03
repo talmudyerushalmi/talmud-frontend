@@ -32,7 +32,9 @@ const HomePage = (props) => {
   }, []);
   return (
     <>
-      <Container>
+      <Container style={{
+        fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif"
+      }}>
         <Paper className={classes.panel} style={{ marginTop: '12rem' }}>
           <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h1">תלמוד ירושלמי</Typography>
@@ -43,20 +45,20 @@ const HomePage = (props) => {
           <Typography style={{ textAlign: 'left', paddingBottom: '1rem' }}>ISF Grant 1717/19</Typography>
           <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div style={{ textAlign: 'right' }}>
-              <Typography variant="h2">מהדורה דיגיטלית</Typography>
-              <Typography variant="h2">בעריכת פרופ׳ מנחם כ״ץ</Typography>
+              <Typography variant="h2Roboto">מהדורה דיגיטלית</Typography>
+              <Typography variant="h2Roboto">בעריכת פרופ׳ מנחם כ״ץ</Typography>
               <br />
-              <Typography variant="h2">בהשתתפות ד״ר הלל גרשוני</Typography>
+              <Typography variant="h2Roboto">בהשתתפות ד״ר הלל גרשוני</Typography>
               <br />
-              <Typography variant="h3">פיתוח אתר ע״י ירון בר</Typography>
+              <Typography variant="h3Roboto">פיתוח אתר ע״י ירון בר</Typography>
             </div>
             <div style={{ textAlign: 'left' }}>
-              <Typography variant="h2">Digital Critical Edition</Typography>
-              <Typography variant="h2">Edited by Prof. Menachem Katz</Typography>
+              <Typography variant="h2Roboto">Digital Critical Edition</Typography>
+              <Typography variant="h2Roboto">Edited by Prof. Menachem Katz</Typography>
               <br />
-              <Typography variant="h2">In collaboration with Dr. Hillel Gershuni</Typography>
+              <Typography variant="h2Roboto">In collaboration with Dr. Hillel Gershuni</Typography>
               <br />
-              <Typography variant="h3">Site developed by Yaron Bar</Typography>
+              <Typography variant="h3Roboto">Site developed by Yaron Bar</Typography>
             </div>
           </Box>
 
