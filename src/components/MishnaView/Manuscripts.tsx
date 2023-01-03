@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useTranslation } from 'react-i18next';
-import RelatedService from '../../services/RelatedService';
+import RelatedService from '../../services/relatedService';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 
 export interface iManuscript {
