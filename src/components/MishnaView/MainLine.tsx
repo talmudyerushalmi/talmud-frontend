@@ -50,7 +50,7 @@ const MainLine = (props: Props) => {
               return (
                 <div key={index}>
                   {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
-                  <SublineDisplay key={index} lineIndex={lineIndex} subline={subline} />
+                  <SublineDisplay key={index} lineNumber={line.lineNumber} lineIndex={lineIndex} subline={subline} />
                 </div>
               );
             })
