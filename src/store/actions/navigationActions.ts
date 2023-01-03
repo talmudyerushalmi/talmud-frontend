@@ -3,6 +3,7 @@ import PageService from '../../services/pageService';
 import SettingsService from '../../services/settingsServince';
 import { iMishna } from '../../types/types';
 import { tryAsyncWithLoadingState } from './actionHelpers';
+import { setManuscriptsForChapter } from './relatedActions';
 
 export const REQUEST_START = 'REQUEST_START';
 export const REQUEST_COMPOSITIONS = 'REQUEST_COMPOSITIONS';
@@ -57,13 +58,12 @@ export const receivedCurrentSelection = (tractateData, chapterData, mishnaData, 
   selectedLineData: lineData
 });
 
-export const setRoute = (tractate, chapter, mishna, line) => ({
-  type: SET_ROUTE,
-  tractate,
-  chapter,
-  mishna,
-  line,
-});
+export const setRoute = (tractate, chapter, mishna, line) => {
+  return function (dispatch) {
+    dispatch({ type: SET_ROUTE, tractate, chapter, mishna, line });
+    dispatch(setManuscriptsForChapter(tractate, chapter));
+  };
+};
 
 export const setSelectedForRoute = (selectedTractate, selectedChapter, selectedMishna, selectedLine) => ({
   type: SET_SELECTED_FOR_ROUTE,
