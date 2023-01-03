@@ -9,7 +9,7 @@ const DRAG_FACTOR = 3;
 const ZoomImage = ({ image }) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(0.3);
-  const [draggind, setDragging] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
   const touch = useRef({ x: 0, y: 0 });
   const canvasRef = useRef<any>(null);
@@ -21,7 +21,7 @@ const ZoomImage = ({ image }) => {
 
   const handleWheel = (event) => {
     const { deltaY } = event;
-    if (!draggind) {
+    if (!dragging) {
       setZoom((zoom) => {
         return clamp(zoom + deltaY * SCROLL_SENSITIVITY * -1, MIN_ZOOM, MAX_ZOOM);
       });
@@ -29,7 +29,7 @@ const ZoomImage = ({ image }) => {
   };
 
   const handleMouseMove = (event) => {
-    if (draggind) {
+    if (dragging) {
       const { x, y } = touch.current;
       const { clientX, clientY } = event;
       setOffset({
@@ -126,7 +126,7 @@ const ZoomImage = ({ image }) => {
         height: 'auto',
         width: '100%',
         overflow: 'hidden',
-        cursor: draggind ? 'grabbing' : 'grab',
+        cursor: dragging ? 'grabbing' : 'grab',
       }}
       ref={containerRef}>
       <canvas
