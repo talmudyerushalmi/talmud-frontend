@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Tooltip, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { iLine, iMishna, iSubline } from '../../types/types';
@@ -6,6 +6,25 @@ import { connect } from 'react-redux';
 import { selectSublines } from '../../store/actions';
 import { getSugiaLines } from '../../inc/mishnaUtils';
 import * as _ from 'lodash';
+
+export class counter { // todo - maybe replace with context
+  static map = new Map();
+  static last = 0;
+  static reset() {
+    counter.last = 0;
+    counter.map.clear();
+  }
+  static get(i: number) {
+    let index = counter.map.get(i);
+    if (!index) {
+      counter.last++;
+      counter.map.set(i, counter.last);
+      return counter.last;
+    } else {
+      return index;
+    }
+  }
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,7 +61,6 @@ const mapStateToProps = (state) => ({
   currentMishna: state.navigation.currentMishna,
 });
 interface Props {
-  index: number;
   line: iLine;
   subline: iSubline;
   selectSublines: Function;
@@ -52,7 +70,7 @@ interface Props {
 }
 const SugiaButton = (props: Props) => {
   const classes = useStyles();
-  const { index, line, selectSublines, currentMishna, selectedSublines, showSugiaName, subline } = props;
+  const { line, selectSublines, currentMishna, selectedSublines, showSugiaName, subline } = props;
   let l = line?.sublines ? line?.sublines[0] : null;
 
   const selectSugiaHandler = () => {
@@ -70,7 +88,7 @@ const SugiaButton = (props: Props) => {
       <button onClick={selectSugiaHandler} className={classes.root}>
         <div className={classes.wrap}>
           <Typography align="center">
-            []{subline.sugiaName?.trim() !== '' ? ' ' + subline.sugiaName : null}
+            [{counter.get(subline.index)}]{subline.sugiaName?.trim() !== '' ? ' ' + subline.sugiaName : null}
           </Typography>
         </div>
       </button>

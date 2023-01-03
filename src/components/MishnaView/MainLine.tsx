@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { lazy, ReactElement, useRef } from 'react';
+import React, { lazy, ReactElement } from 'react';
 import SublineDisplay from './SublineDisplay';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
@@ -49,7 +49,7 @@ const MainLine = (props: Props) => {
           ? line.sublines.map((subline, index) => {
               return (
                 <div key={index}>
-                  {subline.sugiaName ? <SugiaButton index={9} line={line} subline={subline} /> : null}
+                  {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
                   <SublineDisplay key={index} lineIndex={lineIndex} subline={subline} />
                 </div>
               );
