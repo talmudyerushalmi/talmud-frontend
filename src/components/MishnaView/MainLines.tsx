@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import MainLine from './MainLine';
 import { iLine } from '../../types/types';
-import SugiaButton from './SugiaButton';
+import { counter } from './SugiaButton';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import { Edit } from '@mui/icons-material';
@@ -39,6 +39,10 @@ const MainLines = (props: Props) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { lines, userGroup, mishna } = props;
+
+  useEffect(()=>{
+    counter.reset();
+  },[lines])
 
   const route = useParams<routeObject>();
   if (!lines) {
