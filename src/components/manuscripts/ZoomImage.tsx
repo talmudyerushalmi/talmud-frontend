@@ -104,14 +104,7 @@ const ZoomImage = ({ image }) => {
 
     if (canvasRef.current) {
       background.onload = () => {
-        // Get the image dimensions
-        const { width, height } = background;
-        setOffset({ x: -width / 3, y: height / 3 }); // todo calculate initial offset better
-        canvasRef.current.width = width;
-        canvasRef.current.height = height;
-
-        // Set image as background
-        canvasRef.current.getContext('2d').drawImage(background, 0, 0);
+       setTimeout(()=>{ draw()}, 0)
       };
     }
   }, [background]);
