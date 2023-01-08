@@ -101,4 +101,13 @@ export interface iLine {
   sourceReference?: string;
   mainLine: string;
   sublines?: iSubline[];
+  parallels?: iInternalLink[];
+}
+
+export interface iInternalLink {
+  linkText: string;
+  tractate: string;
+  chapter: string;
+  mishna: string;
+  lineNumber: string;
 }
