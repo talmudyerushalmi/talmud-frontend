@@ -5,7 +5,6 @@ import { EditorState, ContentState } from 'draft-js';
 import SourceButtons from '../MainLineEditor/SourceButtons';
 import LineService from '../../../services/line.service';
 import { iLine, iMishna, iSubline, iSynopsis } from '../../../types/types';
-import SugiaField from '../SugiaField';
 import { getTextForSynopsis } from '../../../inc/synopsisUtils';
 import { Button } from '@mui/material';
 import FieldSublines from './FieldSublines';
@@ -30,7 +29,6 @@ const formikEnhancer = withFormik({
     return {
       mainLine: EditorState.createWithContent(ContentState.createFromText(textForEditor || '')),
       sublines: line?.sublines || [],
-      sugiaName: line?.sugiaName ? line.sugiaName : '',
     };
   },
   validationSchema: Yup.object().shape({
@@ -113,7 +111,6 @@ const EditLineForm = (props: FormikValues) => {
   };
   return (
     <Form>
-      <SugiaField name="sugiaName" />
       <SourceButtons
         sources={values.sublines}
         onAddSource={(source) => onAddSource(source)}

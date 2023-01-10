@@ -11,13 +11,14 @@ const SugiaField = (props: Props) => {
   const { setValue, setTouched } = helpers;
   const { value, touched } = meta;
   const [hasValue, setHasValue] = useState(!!value);
-  const [fieldName, setfieldName] = useState(value);
+
+  const [val, setVal] = useState(value);
 
   useEffect(() => {
     if (touched === false) {
-      setHasValue(value !== '');
+      setHasValue(Boolean(value));
     }
-    setfieldName(value);
+    setVal(value ? value : '');
   }, [touched, value]);
 
   const checkboxHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,16 +29,32 @@ const SugiaField = (props: Props) => {
     setTouched(true);
     setHasValue(checkNewVal);
   };
+
+  const mySetValue = (e) => {
+    setVal(e);
+  };
+  const setFormik = () => {
+    setValue(val);
+  };
+
   return (
     <>
       <Box style={{ display: 'flex' }}>
         <FormControlLabel control={<Checkbox checked={hasValue} onChange={checkboxHandler} />} label="סוגיה חדשה" />
         <TextField
           style={{ padding: '9px' }}
-          value={fieldName}
-          onChange={(e) => setValue(e.target.value)}
+          value={val}
+          onChange={(e) => mySetValue(e.target.value)}
+          onBlur={setFormik}
           disabled={!hasValue}
           placeholder="שם הסוגיה"
+          size="small"
+          margin="none"
+          sx={{
+            '& .MuiOutlinedInput-input': {
+              padding: '5px 10px',
+            },
+          }}
         />
       </Box>
     </>

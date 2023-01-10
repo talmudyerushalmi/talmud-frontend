@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import MainLine from './MainLine';
 import { iLine } from '../../types/types';
-import SugiaButton from './SugiaButton';
+import { counter } from './SugiaButton';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import { Edit } from '@mui/icons-material';
@@ -39,7 +39,10 @@ const MainLines = (props: Props) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { lines, userGroup, mishna } = props;
-  let sectionsIndex = 1;
+
+  useEffect(()=>{
+    counter.reset();
+  },[lines])
 
   const route = useParams<routeObject>();
   if (!lines) {
@@ -62,8 +65,7 @@ const MainLines = (props: Props) => {
                 <Edit></Edit>
               </IconButton>
             ) : null}
-            {line.sugiaName ? <SugiaButton index={sectionsIndex++} line={line} /> : null}
-            <MainLine lineIndex={index} line={line} />
+            <MainLine key={line.lineNumber} lineIndex={index} line={line} />
           </div>
         );
       })}

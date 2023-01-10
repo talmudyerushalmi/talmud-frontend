@@ -92,6 +92,7 @@ export interface iSubline {
   index: number;
   synopsis: iSynopsis[];
   piska?: boolean;
+  sugiaName?: string;
   offset?: number;
 }
 
@@ -102,7 +103,6 @@ export interface iLine {
   sourceReference?: string;
   mainLine: string;
   sublines?: iSubline[];
-  sugiaName?: string;
 }
 
 export interface iManuscript {
