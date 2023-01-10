@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { iManuscript, iManuscriptPopup } from '../../types/types';
 import Box from '@mui/material/Box';
@@ -40,6 +40,25 @@ export interface iProps {
 
 const ManuscriptPopup = (props: iProps) => {
   const { sublineData, closeManuscriptPopup, setSublineData, manuscriptsForChapter } = props;
+  const [prevSublineData, setPrevSublineData] = useState<iManuscriptPopup>({} as any);
+  const [nextSublineData, setNextSublineData] = useState<iManuscriptPopup>({} as any);
+
+  useEffect(() => {
+    const sublineDataPrev = {
+      line: (sublineData?.manuscript && sublineData.manuscript.fromLine - 1) || 0,
+      subline: sublineData?.subline,
+      synopsisCode: sublineData?.synopsisCode,
+    };
+    const sublineDataNext = {
+      line: (sublineData?.manuscript && sublineData.manuscript.toLine + 1) || 0,
+      subline: sublineData?.subline,
+      synopsisCode: sublineData?.synopsisCode,
+    };
+    const prevManuscript = getManuscript(manuscriptsForChapter, sublineDataPrev);
+    const nextManuscript = getManuscript(manuscriptsForChapter, sublineDataNext);
+    setPrevSublineData({ ...sublineDataPrev, manuscript: prevManuscript });
+    setNextSublineData({ ...sublineDataNext, manuscript: nextManuscript });
+  }, [manuscriptsForChapter, sublineData]);
 
   return (
     <Dialog
@@ -55,44 +74,26 @@ const ManuscriptPopup = (props: iProps) => {
             <CloseIcon />
           </IconButton>
         </Box>
-        <Box textAlign="center" sx={{ justifySelf: 'center' }}>
+        <Box textAlign="center" sx={{ justifySelf: 'center' }} width="100%">
           שורה - {sublineData?.subline.index}
           <br />
           <b> {sublineData?.subline.text} </b>
-          <Box display="flex" justifyContent="center">
+          <Box display="flex" justifyContent="space-between" mt="10px">
             <Button
               variant="contained"
+              disabled={!prevSublineData.manuscript}
               onClick={() => {
-                const sublineDataPrev = {
-                  line: (sublineData.manuscript && sublineData.manuscript.fromLine - 1) || 0,
-                  subline: sublineData.subline,
-                  synopsisCode: sublineData.synopsisCode,
-                };
-                const manuscript = getManuscript(manuscriptsForChapter, sublineDataPrev);
-                sublineData.manuscript &&
-                  setSublineData({
-                    ...sublineDataPrev,
-                    manuscript,
-                  });
+                setSublineData(prevSublineData);
               }}>
-              הקודם
+             {'<'} לדף הקודם 
             </Button>
             <Button
               variant="contained"
+              disabled={!nextSublineData.manuscript}
               onClick={() => {
-                const sublineDataNext = {
-                  line: (sublineData.manuscript && sublineData.manuscript.toLine + 1) || 0,
-                  subline: sublineData.subline,
-                  synopsisCode: sublineData.synopsisCode,
-                };
-                const manuscript = getManuscript(manuscriptsForChapter, sublineDataNext);
-                sublineData.manuscript &&
-                  setSublineData({
-                    ...sublineDataNext,
-                    manuscript,
-                  });
+                setSublineData(nextSublineData);
               }}>
-              הבא
+              לדף הבא {'>'}
             </Button>
           </Box>
         </Box>
