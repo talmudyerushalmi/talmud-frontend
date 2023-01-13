@@ -49,47 +49,27 @@ const MishnaViewOptions = (props) => {
 
   return (
     <FormGroup row>
-      {/*    <FormControlLabel
-        control={
-          <Checkbox
-            checked={divideToLines}
-            onChange={toggleDivideToLines}
-            name="checkedB"
-            color="primary"
-          />
-        }
-        label={t("Division to Lines") as string}
+      <FormControlLabel
+        control={<Checkbox checked={divideToLines} onChange={toggleDivideToLines} name="checkedB" color="primary" />}
+        label={t('Division to Lines') as string}
       />
       <FormControlLabel
         control={
-          <Checkbox
-            checked={showPunctuation}
-            onChange={toggleShowPunctuation}
-            name="checkedA"
-            color="primary"
-          />
+          <Checkbox checked={showPunctuation} onChange={toggleShowPunctuation} name="checkedA" color="primary" />
         }
-        label={t("Punctuation") as string}
-      /> */}
-      {/* <FormControlLabel
-        control={
-          <Checkbox
-            checked={showSources}
-            onChange={toggleShowSources}
-            name="hideSources"
-            color="primary"
-          />
-        }
-        label={t("References") as string}
-      /> */}
+        label={t('Punctuation') as string}
+      />
+      <FormControlLabel
+        control={<Checkbox checked={showSources} onChange={toggleShowSources} name="hideSources" color="primary" />}
+        label={t('References') as string}
+      />
       <Select
         sx={{
           '.MuiOutlinedInput-notchedOutline': { border: 'none' },
         }}
         value={showEditType}
         label=""
-        onChange={toggleEditType}
-      >
+        onChange={toggleEditType}>
         <MenuItem sx={{ direction: 'ltr' }} value={ShowEditType.ORIGINAL}>
           {t('Original') as string}
         </MenuItem>
@@ -107,8 +87,7 @@ const MishnaViewOptions = (props) => {
         }}
         target="_blank"
         href={`${process.env.REACT_APP_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}
-        download
-      >
+        download>
         [TEI]
       </Link>
     </FormGroup>
