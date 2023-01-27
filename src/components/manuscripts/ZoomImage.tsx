@@ -104,7 +104,9 @@ const ZoomImage = ({ image }) => {
 
     if (canvasRef.current) {
       background.onload = () => {
-       setTimeout(()=>{ draw()}, 0)
+        setTimeout(() => {
+          draw();
+        }, 0);
       };
     }
   }, [background]);
@@ -116,7 +118,7 @@ const ZoomImage = ({ image }) => {
   return (
     <Box
       sx={{
-        height: 'auto',
+        height: '100%',
         width: '100%',
         overflow: 'hidden',
         cursor: dragging ? 'grabbing' : 'grab',

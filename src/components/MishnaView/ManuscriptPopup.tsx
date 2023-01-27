@@ -4,17 +4,31 @@ import { iManuscript, iManuscriptPopup } from '../../types/types';
 import Box from '@mui/material/Box';
 import { setSublineData } from '../../store/actions/relatedActions';
 import ZoomImage from '../manuscripts/ZoomImage';
-import { Button, Dialog, IconButton } from '@mui/material';
+import { Dialog, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Transition } from '../shared/Transition';
 import { getManuscript } from '../../inc/manuscriptUtils';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const sx = {
   root: {
     border: 'none',
     direction: 'ltr', // the app changes the direction to rtl
   },
-  zoomImage: { height: 'auto', width: '100%', overflow: 'hidden', boxShadow: '0px 7px 13px 0px #010122', mx: 'auto' },
+  zoomImage: {
+    height: 'calc(100vh - 50px)',
+    width: '100%',
+    overflow: 'hidden',
+    boxShadow: '0px 7px 13px 0px #010122',
+    mx: 'auto',
+    position: 'relative',
+  },
+  arrowButton: {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    color: 'black',
+  },
 };
 
 const mapStateToProps = (state) => ({
@@ -78,27 +92,33 @@ const ManuscriptPopup = (props: iProps) => {
           שורה - {sublineData?.subline.index}
           <br />
           <b> {sublineData?.subline.text} </b>
-          <Box display="flex" justifyContent="space-between" mt="10px">
-            <Button
-              variant="contained"
-              disabled={!prevSublineData.manuscript}
-              onClick={() => {
-                setSublineData(prevSublineData);
-              }}>
-             {'<'} לדף הקודם 
-            </Button>
-            <Button
-              variant="contained"
-              disabled={!nextSublineData.manuscript}
-              onClick={() => {
-                setSublineData(nextSublineData);
-              }}>
-              לדף הבא {'>'}
-            </Button>
-          </Box>
         </Box>
       </Box>
       <Box sx={sx.zoomImage}>
+        <Box display="flex" justifyContent="space-between" mt="10px">
+          <IconButton
+            disabled={!prevSublineData.manuscript}
+            onClick={() => {
+              setSublineData(prevSublineData);
+            }}
+            sx={{ ...sx.arrowButton, left: '10px' }}>
+            <ArrowBackIosNewIcon
+              sx={{
+                transform: 'rotate(180deg)',
+                height: '50px',
+                width: '50px',
+              }}
+            />
+          </IconButton>
+          <IconButton
+            disabled={!nextSublineData.manuscript}
+            onClick={() => {
+              setSublineData(nextSublineData);
+            }}
+            sx={{ ...sx.arrowButton, right: '10px' }}>
+            <ArrowBackIosNewIcon sx={{ width: '50px', height: '50px' }} />
+          </IconButton>
+        </Box>
         <ZoomImage image={sublineData?.manuscript?.imageurl} />
       </Box>
     </Dialog>
