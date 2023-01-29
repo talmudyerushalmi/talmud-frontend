@@ -14,7 +14,7 @@ import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 const mapStateToProps = (state) => ({
   divideToLines: state.mishnaView.divideToLines,
   showPunctuation: state.mishnaView.showPunctuation,
-  showSources: state.mishnaView.showSources,
+  // showSources: state.mishnaView.showSources,
   showEditType: state.mishnaView.showEditType,
 });
 
@@ -25,9 +25,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   toggleDivideToLines: () => {
     dispatch(toggleDivideToLines());
   },
-  toggleShowSources: () => {
-    dispatch(toggleShowSources());
-  },
+  // toggleShowSources: () => {
+  //   dispatch(toggleShowSources());
+  // },
   toggleEditType: (e) => {
     dispatch(toggleEditType(e.target.value));
   },
@@ -39,7 +39,7 @@ const MishnaViewOptions = (props) => {
     showPunctuation,
     toggleShowPunctuation,
     toggleDivideToLines,
-    showSources,
+    // showSources,
     toggleShowSources,
     showEditType,
     toggleEditType,
@@ -59,10 +59,10 @@ const MishnaViewOptions = (props) => {
         }
         label={t('Punctuation') as string}
       />
-      <FormControlLabel
+      {/* <FormControlLabel
         control={<Checkbox checked={showSources} onChange={toggleShowSources} name="hideSources" color="primary" />}
         label={t('References') as string}
-      />
+      /> */}
       <Select
         sx={{
           '.MuiOutlinedInput-notchedOutline': { border: 'none' },
