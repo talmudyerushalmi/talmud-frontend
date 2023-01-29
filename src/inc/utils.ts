@@ -12,7 +12,7 @@ export function getNextLine(
     return null;
   }
   const nextLine = numeral(parseInt(line) + 1).format('00000');
-  const lineObj = mishnaDoc?.lines?.find((lineItem) => lineItem === nextLine);
+  const lineObj = mishnaDoc?.lines?.find((lineItem) => lineItem.lineNumber === nextLine);
   if (lineObj) {
     return {
       tractate,
@@ -52,7 +52,7 @@ export function getPreviousLine(
   }
   // if can move one line before
   let previousLine = numeral(parseInt(line) - 1).format('00000');
-  const lineObj = mishnaDoc?.lines?.find((lineItem) => lineItem === previousLine);
+  const lineObj = mishnaDoc?.lines?.find((lineItem) => lineItem.lineNumber === previousLine);
   if (lineObj) {
     return {
       tractate,

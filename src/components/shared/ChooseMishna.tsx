@@ -14,10 +14,10 @@ import { useTranslation } from 'react-i18next';
 import { routeObject } from '../../store/reducers/navigationReducer';
 import { iChapter, iMarker, iMishna, iTractate } from '../../types/types';
 import NavigationService from '../../services/NavigationService';
-import { setRoute } from '../../store/actions/navigationActions';
+import { leanLine } from './ChooseMishnaBar';
 
 export interface iMishnaForNavigation {
-  lines: string[];
+  lines: leanLine[];
   previous?: iMarker;
   next?: iMarker;
 }
@@ -79,7 +79,7 @@ const ChooseMishna = (props: Props) => {
   const [selectedMishna, setSelectedMishna] = useState<iMishna | null>(null);
   const [mishnaNavigation, setMishnaNavigation] = useState<iMishnaForNavigation | null>(null);
 
-  const [selectedLine, setSelectedLine] = useState<string | null>(null);
+  const [selectedLine, setSelectedLine] = useState<leanLine | null>(null);
 
   const setNavigation = async (tractate, chapter, mishna, line) => {
     const tractateData = tractates.find((t: iTractate) => t.id === tractate);
@@ -135,7 +135,7 @@ const ChooseMishna = (props: Props) => {
         selectedTractate,
         selectedChapter,
         selectedMishna,
-        selectedLine
+        selectedLine: selectedLine.lineNumber
       })
     }
 
