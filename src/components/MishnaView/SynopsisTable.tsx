@@ -13,7 +13,7 @@ import { iManuscript, iManuscriptPopup, iSubline } from '../../types/types';
 import { setSublineData } from '../../store/actions/relatedActions';
 import { connect } from 'react-redux';
 import ButtonUnstyled from '../shared/ButtonUnstyled';
-import { getImageUrl } from '../../inc/manuscriptUtils';
+import { getManuscript } from '../../inc/manuscriptUtils';
 
 const useStyles = makeStyles({
   table: {
@@ -91,7 +91,7 @@ const SynopsisTable = (props: Props) => {
               subline: subline,
               synopsisCode: synopsisRow.id,
             };
-            const imageUrl = getImageUrl(manuscriptsForChapter, sublineData);
+            const manuscript = getManuscript(manuscriptsForChapter, sublineData);
             const rawText = getSynopsisRaw(synopsisRow);
             const compositionType = synopsisRow.composition?.composition.type;
             let className = classes.default;
@@ -113,9 +113,9 @@ const SynopsisTable = (props: Props) => {
                 <Tooltip enterDelay={800} leaveDelay={200} title={sourceFullName(synopsisRow)}>
                   <TableCell style={{ fontWeight: 'bold' }} component="td" scope="row">
                     <ButtonUnstyled
-                      disabled={!imageUrl}
+                      disabled={!manuscript}
                       onClick={() => {
-                        setSublineData({ ...sublineData, imageUrl });
+                        setSublineData({ ...sublineData, manuscript });
                       }}>
                       {sourceName(synopsisRow)}
                     </ButtonUnstyled>
