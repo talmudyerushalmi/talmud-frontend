@@ -39,7 +39,7 @@ export const MakbilaMenu = (props: Props) => {
             )} `,
             tractate: e.selectedTractate.id,
             chapter: e.selectedChapter.id,
-            mishna: e.selectedMishna.id,
+            mishna: e.selectedMishna.mishna,
             lineNumber: e.selectedLine,
           };
           onUpdateInternalSources([...parallels, link]);
