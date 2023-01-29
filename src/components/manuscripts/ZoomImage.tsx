@@ -7,7 +7,7 @@ const MIN_ZOOM = 0.1;
 const DRAG_FACTOR = 3;
 
 const ZoomImage = ({ image }) => {
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [offset, setOffset] = useState({ x: 0, y: 300 });
   const [zoom, setZoom] = useState(0.3);
   const [dragging, setDragging] = useState(false);
 
@@ -104,9 +104,7 @@ const ZoomImage = ({ image }) => {
 
     if (canvasRef.current) {
       background.onload = () => {
-        setTimeout(() => {
-          draw();
-        }, 0);
+       setTimeout(()=>{ draw()}, 100)
       };
     }
   }, [background]);

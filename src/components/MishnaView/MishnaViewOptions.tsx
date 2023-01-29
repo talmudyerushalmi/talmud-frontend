@@ -111,6 +111,7 @@ const MishnaViewOptions = (props) => {
       >
         [TEI]
       </Link>
+      {/* <Manuscripts tractate={route!.tractate} chapter={route.chapter}/> */}
     </FormGroup>
   );
 };

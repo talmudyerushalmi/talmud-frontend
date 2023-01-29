@@ -54,6 +54,7 @@ const MainLines = (props: Props) => {
       {lines.map((line, index) => {
         return (
           <div key={line.lineNumber} className={classes.lines}>
+            {line.lineNumber}
             {userGroup === UserGroup.Editor ? (
               <IconButton
                 sx={{ position: 'absolute', display: { xs: 'none', sm: 'block' }, left: '-3rem', top: '-0.2rem' }}
