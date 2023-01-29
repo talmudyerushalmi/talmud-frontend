@@ -4,7 +4,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { connect } from 'react-redux';
 import { toggleShowPunctuation } from '../../store/actions';
-import { toggleDivideToLines, toggleEditType, toggleShowSources } from '../../store/actions/mishnaViewActions';
+import { toggleDivideToLines, toggleEditType } from '../../store/actions/mishnaViewActions';
 import { useTranslation } from 'react-i18next';
 import { Link, MenuItem, Select } from '@mui/material';
 import { useParams } from 'react-router-dom';
@@ -40,7 +40,7 @@ const MishnaViewOptions = (props) => {
     toggleShowPunctuation,
     toggleDivideToLines,
     // showSources,
-    toggleShowSources,
+    // toggleShowSources,
     showEditType,
     toggleEditType,
   } = props;
