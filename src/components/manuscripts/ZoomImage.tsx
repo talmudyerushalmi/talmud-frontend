@@ -116,7 +116,7 @@ const ZoomImage = ({ image }) => {
   return (
     <Box
       sx={{
-        height: 'auto',
+        height: '100%',
         width: '100%',
         overflow: 'hidden',
         cursor: dragging ? 'grabbing' : 'grab',

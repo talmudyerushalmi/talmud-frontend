@@ -29,10 +29,10 @@ export interface iMarker {
   lineTo: string;
 }
 
-export enum CompositionType{
+export enum CompositionType {
   PARALLEL = 'parallel',
   EXCERPT = 'excerpt',
-  YALKUT = 'yalkut'
+  YALKUT = 'yalkut',
 }
 export interface iSource {
   title: string;
@@ -122,5 +122,5 @@ export interface iManuscriptPopup {
   line: number;
   subline: iSubline;
   synopsisCode: string;
-  imageUrl?: string;
+  manuscript?: iManuscript;
 }
