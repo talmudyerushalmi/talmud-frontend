@@ -17,8 +17,6 @@ export default function LinkPopup(props: Props) {
 
 
   const handleClose = () => {
-    //  setOpen(false);
-    console.log('val ', makbila);
     onClose(makbila);
   };
 
@@ -41,7 +39,8 @@ export default function LinkPopup(props: Props) {
         }}
       />
       <DialogActions>
-        <Button onClick={handleClose}>בחר</Button>
+      <Button onClick={()=>{onClose(null)}}>בטל</Button>
+      <Button onClick={handleClose}>בחר</Button>
       </DialogActions>
     </Dialog>
   );
