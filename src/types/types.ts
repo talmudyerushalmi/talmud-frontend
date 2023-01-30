@@ -103,6 +103,7 @@ export interface iLine {
   sourceReference?: string;
   mainLine: string;
   sublines?: iSubline[];
+  parallels?: iInternalLink[];
 }
 
 export interface iManuscript {
@@ -123,4 +124,11 @@ export interface iManuscriptPopup {
   subline: iSubline;
   synopsisCode: string;
   manuscript?: iManuscript;
+}
+export interface iInternalLink {
+  linkText: string;
+  tractate: string;
+  chapter: string;
+  mishna: string;
+  lineNumber: string;
 }
