@@ -134,6 +134,15 @@ const ChooseMishna = (props: Props) => {
     }
   }, [selectedMishna]);
 
+  useEffect(()=>{
+    if (selectedMishna){
+      setSelectedMishna({...selectedMishna})
+    }
+  },[
+    selectedChapter
+  ])
+
+
   useEffect(() => {
     setNavigation(tractate, chapter, mishna, line);
   }, [tractate, chapter, mishna, line, tractates]);
