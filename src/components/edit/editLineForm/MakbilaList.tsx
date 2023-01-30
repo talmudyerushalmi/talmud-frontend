@@ -33,16 +33,18 @@ export const MakbilaMenu = (props: Props) => {
       <LinkPopup
         open={open}
         onClose={(e: iSelectedNavigation) => {
-          const link = {
-            linkText: `${e.selectedTractate.title_heb} ${hebrewMap.get(parseInt(e.selectedChapter.id))} ${hebrewMap.get(
-              parseInt(e.selectedMishna.mishna)
-            )} `,
-            tractate: e.selectedTractate.id,
-            chapter: e.selectedChapter.id,
-            mishna: e.selectedMishna.mishna,
-            lineNumber: e.selectedLine,
-          };
-          onUpdateInternalSources([...parallels, link]);
+          if (e) {
+            const link = {
+              linkText: `${e.selectedTractate.title_heb} ${hebrewMap.get(
+                parseInt(e.selectedChapter.id)
+              )} ${hebrewMap.get(parseInt(e.selectedMishna.mishna))} `,
+              tractate: e.selectedTractate.id,
+              chapter: e.selectedChapter.id,
+              mishna: e.selectedMishna.mishna,
+              lineNumber: e.selectedLine,
+            };
+            onUpdateInternalSources([...parallels, link]);
+          }
           setOpen(false);
         }}
       />
