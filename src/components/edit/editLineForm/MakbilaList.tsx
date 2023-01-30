@@ -89,7 +89,12 @@ const MakbilaList = (props: MakbilaListProps) => {
         <ListItemText id={labelId} primary={makbila.linkText} />
 
         <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="comments">
+          <IconButton
+            edge="end"
+            aria-label="open"
+            onClick={() => {
+              window.open(`/admin/edit/${makbila.tractate}/${makbila.chapter}/${makbila.mishna}/${makbila.lineNumber}`);
+            }}>
             <OpenInNewIcon />
           </IconButton>
           <IconButton
