@@ -1,6 +1,8 @@
 import { createTheme } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import { createBreakpoints } from '@mui/system';
+import { PaletteMode } from '@mui/material';
+import { useMemo } from 'react';
 declare module '@mui/material/styles' {
   interface Theme {
     custom: {
@@ -86,7 +88,8 @@ export const themeConstants = {
 
 const breakpoints = createBreakpoints({});
 
-const theme = createTheme({
+
+const theme = (mode: PaletteMode) => createTheme({
   components: {
     MuiTypography: {
       defaultProps: {
@@ -105,6 +108,7 @@ const theme = createTheme({
   },
 
   palette: {
+    mode,
     primary: { main: '#3f51b5' },
   },
   typography: {
