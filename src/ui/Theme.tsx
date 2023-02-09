@@ -2,7 +2,6 @@ import { createTheme } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import { createBreakpoints } from '@mui/system';
 import { PaletteMode } from '@mui/material';
-import { useMemo } from 'react';
 declare module '@mui/material/styles' {
   interface Theme {
     custom: {
@@ -88,159 +87,186 @@ export const themeConstants = {
 
 const breakpoints = createBreakpoints({});
 
-
-const theme = (mode: PaletteMode) => createTheme({
-  components: {
-    MuiTypography: {
-      defaultProps: {
-        variantMapping: {
-          h2Roboto: 'h2',
-          h3Roboto: 'h3',
+const theme = (mode: PaletteMode) =>
+  createTheme({
+    components: {
+      MuiTypography: {
+        defaultProps: {
+          variantMapping: {
+            h2Roboto: 'h2',
+            h3Roboto: 'h3',
+          },
         },
       },
     },
-  },
-  direction: 'rtl',
-  custom: {
-    smallTitle: {
-      color: '#795548',
-    },
-  },
-
-  palette: {
-    mode,
-    primary: { main: '#3f51b5' },
-  },
-  typography: {
-    fontFamily: [
-      'Frank Ruhl Libre',
-      '-apple-system',
-      'BlinkMacSystemFont',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    h1: {
-      fontSize: themeConstants.typography.h1.fontSize,
-      fontWeight: 'bold',
-      [breakpoints.down('md')]: {
-        fontSize: '2rem',
+    direction: 'rtl',
+    custom: {
+      smallTitle: {
+        color: '#795548',
       },
-    },
-    h2: {
-      fontSize: '1.7rem',
-      [breakpoints.down('sm')]: {
-        fontSize: '1.2rem',
-      },
-    },
-    h2Roboto: {
-      fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
-      fontSize: '1.7rem',
-      [breakpoints.down('sm')]: {
-        fontSize: '1.2rem',
-      },
-    },
-    h3: {
-      fontSize: '1.2rem',
-      fontWeight: 300,
-    },
-    h3Roboto: {
-      fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
-      fontSize: '1.2rem',
-      fontWeight: 300,
-    },
-    tab: {
-      textTransform: 'none',
-      fontWeight: 700,
-      fontSize: '1rem',
-    },
-    lineNumber: {
-      display: 'inline-block',
-      fontSize: '0.7rem',
-      color: 'grey',
-      padding: '0.25rem',
-      minWidth: '2rem',
-    },
-    sourceReference: {
-      fontSize: '0.7rem',
-      padding: '0.2rem',
-    },
-    manuscript: {
-      fontWeight: 'bold',
-      color: '#3f51b5',
-      padding: '0.2rem',
-    },
-    title: {
-      fontFamily: 'Merriweather,  sans-serif;',
-    },
-    category: {
-      fontSize: '0.8rem',
-      fontWeight: 'bold',
-      fontFamily: 'Merriweather,  sans-serif;',
-      padding: '0.3rem 1rem',
-      background: 'black',
-      color: 'white',
-    },
-    smallTitle: {
-      fontWeight: 'bold',
-      color: '#795548',
     },
 
-    //  fontSize: 20
-  },
-  links: {
-    linkButton: {
-      background: `${themeConstants.blue}`,
-      color: 'white',
-      fontWeight: 'bold',
-      padding: '0.4rem 1rem',
-      borderRadius: '0.5rem',
-      transition: 'background 0.3s, box-shadow 0.3s',
-      //@ts-ignore
-      '&:hover': {
-        background: '#ceebff',
-        color: `${themeConstants.blue}`,
-        textDecoration: 'none',
-        boxShadow: '#0000004d 0rem 0.1rem 0.4rem 0.2rem',
+    palette: {
+      mode,
+      ...(mode === 'light'
+        ? {
+            // palette values for light mode
+            // primary: amber,
+            // divider: amber[200],
+            // text: {
+            //   primary: grey[900],
+            //   secondary: grey[800],
+            // },
+            // background: {
+            //   default:'white',
+            //   paper: deepOrange[900],
+            // },
+          }
+        : {
+            // palette values for dark mode
+            // primary: deepOrange,
+            // divider: deepOrange[700],
+            // background: {
+            //   default: deepOrange[900],
+            //   paper: deepOrange[900],
+            // },
+            // text: {
+            //   primary: '#fff',
+            //   secondary: grey[500],
+            // },
+          }),
+      primary: { main: '#3f51b5' },
+    },
+    typography: {
+      fontFamily: [
+        'Frank Ruhl Libre',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+      h1: {
+        fontSize: themeConstants.typography.h1.fontSize,
+        fontWeight: 'bold',
+        [breakpoints.down('md')]: {
+          fontSize: '2rem',
+        },
+      },
+      h2: {
+        fontSize: '1.7rem',
+        [breakpoints.down('sm')]: {
+          fontSize: '1.2rem',
+        },
+      },
+      h2Roboto: {
+        fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+        fontSize: '1.7rem',
+        [breakpoints.down('sm')]: {
+          fontSize: '1.2rem',
+        },
+      },
+      h3: {
+        fontSize: '1.2rem',
+        fontWeight: 300,
+      },
+      h3Roboto: {
+        fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+        fontSize: '1.2rem',
+        fontWeight: 300,
+      },
+      tab: {
+        textTransform: 'none',
+        fontWeight: 700,
+        fontSize: '1rem',
+      },
+      lineNumber: {
+        display: 'inline-block',
+        fontSize: '0.7rem',
+        color: 'grey',
+        padding: '0.25rem',
+        minWidth: '2rem',
+      },
+      sourceReference: {
+        fontSize: '0.7rem',
+        padding: '0.2rem',
+      },
+      manuscript: {
+        fontWeight: 'bold',
+        color: '#3f51b5',
+        padding: '0.2rem',
+      },
+      title: {
+        fontFamily: 'Merriweather,  sans-serif;',
+      },
+      category: {
+        fontSize: '0.8rem',
+        fontWeight: 'bold',
+        fontFamily: 'Merriweather,  sans-serif;',
+        padding: '0.3rem 1rem',
+        background: 'black',
+        color: 'white',
+      },
+      smallTitle: {
+        fontWeight: 'bold',
+        color: '#795548',
+      },
+
+      //  fontSize: 20
+    },
+    links: {
+      linkButton: {
+        background: `${themeConstants.blue}`,
+        color: 'white',
+        fontWeight: 'bold',
+        padding: '0.4rem 1rem',
+        borderRadius: '0.5rem',
+        transition: 'background 0.3s, box-shadow 0.3s',
+        //@ts-ignore
+        '&:hover': {
+          background: '#ceebff',
+          color: `${themeConstants.blue}`,
+          textDecoration: 'none',
+          boxShadow: '#0000004d 0rem 0.1rem 0.4rem 0.2rem',
+        },
       },
     },
-  },
-  buttons: {
-    narrow: {
-      padding: '5px 10px 5px 0px',
-      minWidth: 'auto',
-    },
-  },
-  panels: {
-    standard: {
-      padding: '1rem',
-    },
-  },
-  layout: {
-    verticalCenter: {
-      justifyContent: 'space-around',
-      flexDirection: 'column',
-      height: '100%',
-    },
-    defaultPadding: {
-      padding: '1rem',
-    },
-    defaultBoxedItem: {
-      padding: '1rem',
-      marginBottom: '1rem',
-    },
-    centerFlex: {
-      display: 'flex',
-      '& > span': {
-        alignSelf: 'center',
+    buttons: {
+      narrow: {
+        padding: '5px 10px 5px 0px',
+        minWidth: 'auto',
       },
     },
-  },
-});
+    panels: {
+      standard: {
+        padding: '1rem',
+      },
+    },
+    layout: {
+      verticalCenter: {
+        justifyContent: 'space-around',
+        flexDirection: 'column',
+        height: '100%',
+      },
+      defaultPadding: {
+        padding: '1rem',
+      },
+      defaultBoxedItem: {
+        padding: '1rem',
+        marginBottom: '1rem',
+      },
+      centerFlex: {
+        display: 'flex',
+        '& > span': {
+          alignSelf: 'center',
+        },
+      },
+    },
+  });
 
 //theme.palette.augmentColor(theme.palette.extra, 500, 300, 700);
 export default theme;

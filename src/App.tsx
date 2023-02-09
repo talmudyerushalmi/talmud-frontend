@@ -3,13 +3,12 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import background from './assets/leiden2.jpg';
 import './App.css';
 import { Header } from './layout/Header';
-import { makeStyles } from '@mui/styles';
 import { ThemeProvider } from '@mui/material/styles';
 import { RTL } from './ui/RTL';
 import ViewMishnaPage from './pages/ViewMishnaPage';
 import HomePage from './pages/HomePage';
 import { Footer } from './layout/Footer';
-import { PaletteMode, StyledEngineProvider, Theme } from '@mui/material';
+import { PaletteMode, StyledEngineProvider, Theme, useTheme } from '@mui/material';
 import theme from './ui/Theme';
 import IntroductionPage from './pages/IntroductionPage';
 import PartnersPage from './pages/PartnersPage';
@@ -27,15 +26,6 @@ declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
-const useStyles = makeStyles({
-  default: {},
-  homepage: {
-    backgroundImage: `url(${background})`,
-    backgroundPosition: 'center -27rem',
-    minHeight: '100vh',
-  },
-});
 
 function App() {
   return (
@@ -84,15 +74,6 @@ function App() {
 export default App;
 
 const AppContainer = ({ children }) => {
-  const classes = useStyles();
-  const location = useLocation();
-
-  let coverClass = classes.default;
-
-  if (location.pathname === '/') {
-    coverClass = classes.homepage;
-  }
-
   const [mode, setMode] = useState<PaletteMode>('dark');
   const getTheme = useMemo(() => theme(mode), [mode]);
 
@@ -108,13 +89,36 @@ const AppContainer = ({ children }) => {
               },
             }}>
             <ThemeProvider theme={getTheme}>
-              <div className={coverClass} style={{ direction: 'rtl' }}>
-                {children}
-              </div>
+              <Background>{children}</Background>
             </ThemeProvider>
           </SettingsContext.Provider>
         </RTL>
       </Authenticator.Provider>
     </StyledEngineProvider>
+  );
+};
+
+const Background = ({ children }) => {
+  const t = useTheme();
+  const location = useLocation();
+
+  let homepage = location.pathname === '/';
+
+  return (
+    <div
+      style={{
+        direction: 'rtl',
+        ...(homepage
+          ? {
+              backgroundImage: `url(${background})`,
+              backgroundPosition: 'center -27rem',
+              minHeight: '100vh',
+            }
+          : {
+              background: t.palette.background.default,
+            }),
+      }}>
+      {children}
+    </div>
   );
 };

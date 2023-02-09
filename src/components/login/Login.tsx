@@ -18,7 +18,9 @@ export function Login() {
     }
   }, [route, navigate, from]);
   return (
-    <View className="auth-wrapper">
+    <View className="auth-wrapper" style={{
+      height:'100vh'
+    }}>
       <Authenticator socialProviders={['google']}></Authenticator>
     </View>
   );
