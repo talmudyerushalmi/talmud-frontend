@@ -271,6 +271,7 @@ const ChooseMishnaBar = (props: Props) => {
     return !selectedTractate;
   };
 
+  console.log('render choose line')
   return (
     <>
       <form
