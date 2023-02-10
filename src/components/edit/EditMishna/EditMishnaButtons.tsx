@@ -15,7 +15,7 @@ const EditMishnaButtons = (props) => {
       zIndex: 1,
       display: 'flex',
       flexDirection: 'column',
-      background: theme.palette.background
+      backgroundColor: theme.palette.background.default
     }}>
       <Button
         variant="outlined"
