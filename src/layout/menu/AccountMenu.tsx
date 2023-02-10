@@ -12,10 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { Hub } from 'aws-amplify';
 import { connect } from 'react-redux';
 import { getUserAuth, setUserAuth, signOut } from '../../store/actions/authActions';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useNavigate } from 'react-router-dom';
-import SettingsContext from '../../context/settings-context';
 
 const mapStateToProps = (state: any) => ({
   username: state.authentication.username,
@@ -42,7 +39,6 @@ interface Props {
 const AccountMenu = (props: Props) => {
   const { username, signOut, setUserAuth, getUserAuth } = props;
   const navigate = useNavigate();
-  const settingsContext =  React.useContext(SettingsContext);
 
   Hub.listen('auth', (data) => {
     const { payload } = data;
@@ -136,13 +132,6 @@ const AccountMenu = (props: Props) => {
           </MenuItem>
         )}
         <Divider />
-        <MenuItem
-          onClick={settingsContext.toggleMode}>
-          <ListItemIcon color="inherit">
-            {settingsContext.mode === 'light' ? <Brightness7Icon fontSize="small" /> : <Brightness4Icon fontSize="small" />}
-          </ListItemIcon>
-          {settingsContext.mode}
-        </MenuItem>
         {username ? (
           <MenuItem onClick={handleLogout}>
             <ListItemIcon>

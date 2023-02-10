@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { blue } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import { createBreakpoints } from '@mui/system';
 import { PaletteMode } from '@mui/material';
 declare module '@mui/material/styles' {
@@ -13,6 +13,11 @@ declare module '@mui/material/styles' {
     buttons: {
       narrow: React.CSSProperties;
     };
+    editor: {
+      default: React.CSSProperties;
+      inEdit: React.CSSProperties;
+      excerpt: React.CSSProperties;
+    }
   }
   // allow configuration using `createTheme`
   interface ThemeOptions {
@@ -25,6 +30,11 @@ declare module '@mui/material/styles' {
     buttons?: {
       narrow?: React.CSSProperties;
     };
+    editor?: {
+      default: React.CSSProperties;
+      inEdit: React.CSSProperties;
+      excerpt: React.CSSProperties;
+    }
   }
 }
 declare module '@mui/material/styles' {
@@ -104,6 +114,17 @@ const theme = (mode: PaletteMode) =>
       smallTitle: {
         color: '#795548',
       },
+    },
+    editor: {
+      ...(mode === 'light' ? {
+        default: { background: '#dddddd' },
+        inEdit: { background: 'white' },
+        excerpt: { background: 'lightblue', color: 'green' },
+      } : {
+        default: { background: grey[800]},
+        inEdit: { background: 'grey' },
+        excerpt: { background: 'grey', color: 'black' },
+      })
     },
 
     palette: {

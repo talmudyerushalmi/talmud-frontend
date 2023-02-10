@@ -1,24 +1,22 @@
-import { Button } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { Button, useTheme } from '@mui/material';
 import React from 'react';
 import { EXCERPT_TYPE } from './ExcerptDialog';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    position: 'sticky',
-    top: '5.5rem',
-    background: 'white',
-    zIndex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-  },
-}));
+
 const EditMishnaButtons = (props) => {
-  const classes = useStyles();
+  const theme = useTheme();
+
   const { onAddNewExcerpt } = props;
 
   return (
-    <div className={classes.root}>
+    <div style={{
+      position: 'sticky',
+      top: '5.5rem',
+      zIndex: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: theme.palette.background.default
+    }}>
       <Button
         variant="outlined"
         color="primary"

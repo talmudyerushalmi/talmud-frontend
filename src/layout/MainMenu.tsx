@@ -10,6 +10,10 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { UserGroup } from '../store/reducers/authReducer';
 import AccountMenu from './menu/AccountMenu';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import SettingsContext from '../context/settings-context';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const mapStateToProps = (state: any) => ({
   userGroup: state.authentication.userGroup,
@@ -31,6 +35,7 @@ const MainMenu = (props: any) => {
   const { userGroup } = props;
   const { t } = useTranslation();
   const classes = useStyles();
+  const settingsContext = React.useContext(SettingsContext);
 
   return (
     <div className={classes.root}>
@@ -50,13 +55,25 @@ const MainMenu = (props: any) => {
           </div>
           <Typography variant="h6" className={classes.title}></Typography>
           <LanguageSelector />
+          <Tooltip title={<div>{t("Light mode")}</div>}>
+            <Box onClick={settingsContext.toggleMode}>
+              <IconButton color="inherit">
+                {settingsContext.mode === 'light' ? (
+                  <Brightness7Icon fontSize="small" />
+                ) : (
+                  <Brightness4Icon fontSize="small" />
+                )}
+              </IconButton>
+            </Box>
+          </Tooltip>
+
           {userGroup === UserGroup.Editor ? (
             <>
               <AdminMenu />
             </>
           ) : null}
 
-          <AccountMenu/>
+          <AccountMenu />
         </Toolbar>
       </AppBar>
     </div>
