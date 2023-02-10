@@ -8,6 +8,7 @@ import { iExcerpt, iMishna } from '../../../types/types';
 import { excerptDecorator } from '../../editors/EditorDecorator';
 import { getContentFromMishna, getSelectionObject, getSelectionStateFromExcerpt } from '../../../inc/editorUtils';
 import { useCallback } from 'react';
+import { useTheme } from '@mui/material';
 
 const blockRenderMap = Map({
   unstyled: {
@@ -31,6 +32,8 @@ interface Props {
 const TextEditorMishna = (props: Props) => {
   const { mishna, onChangeSelection } = props;
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const theme = useTheme();
+
   const getContentWithEntities = useCallback((mishna: iMishna) => {
     let contentState = getContentFromMishna(mishna);
     mishna.excerpts.forEach((excerpt) => {
@@ -61,7 +64,7 @@ const TextEditorMishna = (props: Props) => {
   };
 
   return (
-    <div className="RichEditor-root">
+    <div className="RichEditor-root" style={{...theme.editor.default}}>
       <Editor
         keyBindingFn={keyBindingArrowsOnly}
         editorState={editorState}

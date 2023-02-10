@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Editor, EditorState } from 'draft-js';
 import '../text.css';
+import { useTheme } from '@mui/material';
 
 interface Props {
   selectionFrom?: number;
@@ -35,8 +36,22 @@ const TextEditor = (props: Props) => {
     setEditorState(editorState);
   };
 
+  const t = useTheme();
   return (
-    <div style={{ width: '100%', border: 'none', padding: 0 }} className="RichEditor-root">
+    <div
+      style={{
+        ...(readOnly
+          ? {
+              ...t.editor.default,
+            }
+          : {
+              ...t.editor.inEdit,
+            }),
+        width: '100%',
+        border: 'none',
+        padding: 0,
+      }}
+      className="RichEditor-root">
       <Editor
         customStyleMap={styleMap}
         readOnly={readOnly}
