@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Editor, EditorState } from 'draft-js';
+import { ContentState, Editor, EditorState } from 'draft-js';
 import '../text.css';
 import { useTheme } from '@mui/material';
 
@@ -11,18 +11,21 @@ interface Props {
   onChange?: Function;
 }
 
-const styleMap = {
-  STRIKETHROUGH: {
-    textDecoration: 'line-through',
-    color: 'red',
-  },
-  MARK: {
-    backgroundColor: 'lightblue',
-  },
-};
+
 const TextEditor = (props: Props) => {
   const { onChange, initialState, readOnly } = props;
   const [editorState, setEditorState] = useState(initialState);
+  const t = useTheme();
+
+  const styleMap = {
+    STRIKETHROUGH: {
+      textDecoration: 'line-through',
+      color: 'red',
+    },
+    MARK: {
+      ...t.editor.excerpt
+    },
+  };
 
   // needed to update the state when the prop changes
   useEffect(() => {
@@ -36,7 +39,6 @@ const TextEditor = (props: Props) => {
     setEditorState(editorState);
   };
 
-  const t = useTheme();
   return (
     <div
       style={{
