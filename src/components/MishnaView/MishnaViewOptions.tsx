@@ -4,7 +4,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { connect } from 'react-redux';
 import { toggleShowPunctuation } from '../../store/actions';
-import { toggleDivideToLines, toggleEditType, toggleShowSources } from '../../store/actions/mishnaViewActions';
+import { toggleDivideToLines, toggleEditType } from '../../store/actions/mishnaViewActions';
 import { useTranslation } from 'react-i18next';
 import { Link, MenuItem, Select } from '@mui/material';
 import { useParams } from 'react-router-dom';
@@ -14,7 +14,7 @@ import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 const mapStateToProps = (state) => ({
   divideToLines: state.mishnaView.divideToLines,
   showPunctuation: state.mishnaView.showPunctuation,
-  showSources: state.mishnaView.showSources,
+  // showSources: state.mishnaView.showSources,
   showEditType: state.mishnaView.showEditType,
 });
 
@@ -25,9 +25,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   toggleDivideToLines: () => {
     dispatch(toggleDivideToLines());
   },
-  toggleShowSources: () => {
-    dispatch(toggleShowSources());
-  },
+  // toggleShowSources: () => {
+  //   dispatch(toggleShowSources());
+  // },
   toggleEditType: (e) => {
     dispatch(toggleEditType(e.target.value));
   },
@@ -39,8 +39,8 @@ const MishnaViewOptions = (props) => {
     showPunctuation,
     toggleShowPunctuation,
     toggleDivideToLines,
-    showSources,
-    toggleShowSources,
+    // showSources,
+    // toggleShowSources,
     showEditType,
     toggleEditType,
   } = props;
@@ -59,10 +59,10 @@ const MishnaViewOptions = (props) => {
         }
         label={t('Punctuation') as string}
       />
-      <FormControlLabel
+      {/* <FormControlLabel
         control={<Checkbox checked={showSources} onChange={toggleShowSources} name="hideSources" color="primary" />}
         label={t('References') as string}
-      />
+      /> */}
       <Select
         sx={{
           '.MuiOutlinedInput-notchedOutline': { border: 'none' },
