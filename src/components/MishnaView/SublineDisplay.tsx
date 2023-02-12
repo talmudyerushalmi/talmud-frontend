@@ -1,4 +1,4 @@
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, IconButton, Typography } from '@mui/material';
+import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, IconButton, Typography, useTheme } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
@@ -27,7 +27,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '&.selected': { background: '#f2ff7385' },
     '&.MuiAccordion-root.Mui-expanded': { margin: 0 },
     '& p': { margin: 0 },
     '& .MuiAccordionSummary-root, & .MuiAccordionSummary-root.Mui-expanded': { minHeight: 0 },
@@ -75,6 +74,8 @@ const SublineDisplay = (props: Props) => {
     lineNumber,
   } = props;
   const classes = useStyles();
+  const theme = useTheme();
+
   const [expanded, setExpanded] = React.useState('');
 
   const isSelected = (subline: iSubline) => {
@@ -97,7 +98,8 @@ const SublineDisplay = (props: Props) => {
     handleExpand(`panelb${subline.index}`);
   };
 
-  const selectedClass = isSelected(subline) ? 'selected' : '';
+  const isSublineSelected = isSelected(subline);
+  const selectedClass = isSublineSelected ? 'selected' : '';
 
   let textToDisplay = subline.text;
   if (!showSources) {
@@ -111,7 +113,12 @@ const SublineDisplay = (props: Props) => {
         square={true}
         expanded={expanded === `panelb${subline.index}`}
         onClick={() => handleSelect(subline)}
-        className={`${classes.root} ${selectedClass} ${piskaClass}`}>
+        className={`${classes.root} ${selectedClass} ${piskaClass}`}
+        sx={{
+          ...(isSublineSelected ? theme.custom.selectionColor: null),
+        }}
+  
+      >
         <AccordionSummary sx={{ paddingRight: '0.25rem' }} aria-controls="subline-content">
           <Typography variant="lineNumber" component="span">
             {subline.index}

@@ -6,6 +6,7 @@ declare module '@mui/material/styles' {
   interface Theme {
     custom: {
       smallTitle: React.CSSProperties;
+      selectionColor: React.CSSProperties;
     };
     links: {
       linkButton: React.CSSProperties;
@@ -17,12 +18,16 @@ declare module '@mui/material/styles' {
       default: React.CSSProperties;
       inEdit: React.CSSProperties;
       excerpt: React.CSSProperties;
-    }
+      decorators: {
+        add: React.CSSProperties;
+      }
+    },
   }
   // allow configuration using `createTheme`
   interface ThemeOptions {
     custom?: {
       smallTitle?: React.CSSProperties;
+      selectionColor?: React.CSSProperties;
     };
     links?: {
       linkButton?: React.CSSProperties;
@@ -34,7 +39,10 @@ declare module '@mui/material/styles' {
       default: React.CSSProperties;
       inEdit: React.CSSProperties;
       excerpt: React.CSSProperties;
-    }
+      decorators: {
+        add: React.CSSProperties;
+      }
+    },
   }
 }
 declare module '@mui/material/styles' {
@@ -99,34 +107,6 @@ const breakpoints = createBreakpoints({});
 
 const theme = (mode: PaletteMode) =>
   createTheme({
-    components: {
-      MuiTypography: {
-        defaultProps: {
-          variantMapping: {
-            h2Roboto: 'h2',
-            h3Roboto: 'h3',
-          },
-        },
-      },
-    },
-    direction: 'rtl',
-    custom: {
-      smallTitle: {
-        color: '#795548',
-      },
-    },
-    editor: {
-      ...(mode === 'light' ? {
-        default: { background: '#dddddd' },
-        inEdit: { background: 'white' },
-        excerpt: { background: 'lightblue', color: 'green' },
-      } : {
-        default: { background: grey[800]},
-        inEdit: { background: 'grey' },
-        excerpt: { background: 'grey', color: 'black' },
-      })
-    },
-
     palette: {
       mode,
       ...(mode === 'light'
@@ -151,12 +131,56 @@ const theme = (mode: PaletteMode) =>
             //   default: deepOrange[900],
             //   paper: deepOrange[900],
             // },
-            // text: {
-            //   primary: '#fff',
-            //   secondary: grey[500],
-            // },
+            text: {
+              primary: '#fff',
+              secondary: grey[500],
+            },
           }),
       primary: { main: '#3f51b5' },
+    },
+    components: {
+      MuiTypography: {
+        defaultProps: {
+          variantMapping: {
+            h2Roboto: 'h2',
+            h3Roboto: 'h3',
+          },
+        },
+      },
+    },
+    direction: 'rtl',
+    custom: {
+      smallTitle: {
+        color: '#795548',
+      },
+      ...(mode === 'light' ? {
+        selectionColor: {background:'#f2ff7385'},
+      } : {
+        selectionColor: {background:'#252710'},
+      })
+    },
+    editor: {
+      ...(mode === 'light' ? {
+        default: {},
+        inEdit: { background: 'white' },
+        excerpt: { background: 'lightblue', color: 'green' },
+        decorators: {
+          add: {
+            color: 'blue'
+          }
+        }
+      } : {
+        default: { 
+         color: grey[400]
+        },
+        inEdit: { background: grey[800] },
+        excerpt: { background: 'grey', color: 'black' },
+        decorators: {
+          add: {
+            color: '#6f8bff'
+          }
+        }
+      })
     },
     typography: {
       fontFamily: [
