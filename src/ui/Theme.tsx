@@ -163,7 +163,7 @@ const theme = (mode: PaletteMode) =>
       ...(mode === 'light' ? {
         default: {},
         inEdit: { background: 'white' },
-        excerpt: { background: 'lightblue', color: 'green' },
+        excerpt: { background: '#ffd400', color: 'green' },
         decorators: {
           add: {
             color: 'blue'
@@ -174,7 +174,7 @@ const theme = (mode: PaletteMode) =>
          color: grey[400]
         },
         inEdit: { background: grey[800] },
-        excerpt: { background: 'grey', color: 'black' },
+        excerpt: { background: '#ffd400', color: 'black' },
         decorators: {
           add: {
             color: '#6f8bff'
