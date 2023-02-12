@@ -21,6 +21,7 @@ import EditLinePage from './pages/EditLinePage';
 import EditMishnaPage from './pages/EditMishnaPage';
 import { UserGroup } from './store/reducers/authReducer';
 import SettingsContext from './context/settings-context';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -74,7 +75,7 @@ function App() {
 export default App;
 
 const AppContainer = ({ children }) => {
-  const [mode, setMode] = useState<PaletteMode>('light');
+  const [mode, setMode] = useLocalStorage<PaletteMode>('light-mode','light');
   const getTheme = useMemo(() => theme(mode), [mode]);
 
   return (
