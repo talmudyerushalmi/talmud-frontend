@@ -48,6 +48,7 @@ i18n
           'Beta Version': 'מדגים יכולות',
           Original: 'מקורי',
           Edited: 'מתוקן',
+          'Light mode': 'מצב תצוגה'
         },
       },
     },

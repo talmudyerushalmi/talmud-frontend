@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Editor, EditorState } from 'draft-js';
+import { ContentState, Editor, EditorState } from 'draft-js';
 import '../text.css';
+import { useTheme } from '@mui/material';
 
 interface Props {
   selectionFrom?: number;
@@ -10,18 +11,21 @@ interface Props {
   onChange?: Function;
 }
 
-const styleMap = {
-  STRIKETHROUGH: {
-    textDecoration: 'line-through',
-    color: 'red',
-  },
-  MARK: {
-    backgroundColor: 'lightblue',
-  },
-};
+
 const TextEditor = (props: Props) => {
   const { onChange, initialState, readOnly } = props;
   const [editorState, setEditorState] = useState(initialState);
+  const t = useTheme();
+
+  const styleMap = {
+    STRIKETHROUGH: {
+      textDecoration: 'line-through',
+      color: 'red',
+    },
+    MARK: {
+      ...t.editor.excerpt
+    },
+  };
 
   // needed to update the state when the prop changes
   useEffect(() => {
@@ -36,7 +40,20 @@ const TextEditor = (props: Props) => {
   };
 
   return (
-    <div style={{ width: '100%', border: 'none', padding: 0 }} className="RichEditor-root">
+    <div
+      style={{
+        ...(readOnly
+          ? {
+              ...t.editor.default,
+            }
+          : {
+              ...t.editor.inEdit,
+            }),
+        width: '100%',
+        border: 'none',
+        padding: 0,
+      }}
+      className="RichEditor-root">
       <Editor
         customStyleMap={styleMap}
         readOnly={readOnly}

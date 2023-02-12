@@ -19,10 +19,6 @@
   padding: 20px;
 }
 
-.readonly .RichEditor-root {
-  background-color: #dddddd;
-}
-
 .RichEditor-editor {
   border-top: 1px solid #ddd;
   cursor: text;

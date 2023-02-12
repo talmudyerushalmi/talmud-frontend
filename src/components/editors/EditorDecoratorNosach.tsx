@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { Tooltip, useTheme } from '@mui/material';
 import { CompositeDecorator } from 'draft-js';
 import { NosachEntity } from '../edit/MainLineEditor/MainLineDialog';
 
@@ -29,6 +29,7 @@ const DeleteOriginal = (props) => {
   );
 };
 const Add = (props) => {
+  const theme = useTheme();
   const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
   const tooltip = (
     <>
@@ -37,7 +38,7 @@ const Add = (props) => {
     </>
   );
   return (
-    <div style={{ color: 'blue', display: 'inline-block' }}>
+    <div style={{display: 'inline-block', ...theme.editor.decorators.add }}>
       <Tooltip title={tooltip}>
         <span>{props.children}</span>
       </Tooltip>
@@ -66,6 +67,7 @@ const Correction = (props) => {
   );
 };
 const AddOriginal = (props) => {
+  const theme = useTheme();
   const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
   const tooltip = (
     <>
@@ -74,7 +76,7 @@ const AddOriginal = (props) => {
     </>
   );
   return (
-    <div style={{ color: 'blue', display: 'inline-block' }}>
+    <div style={{display: 'inline-block', ...theme.editor.decorators.add }}>
       <Tooltip title={tooltip}>
         <span>*</span>
       </Tooltip>
