@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { toggleShowPunctuation } from '../../store/actions';
 import { toggleDivideToLines, toggleEditType } from '../../store/actions/mishnaViewActions';
 import { useTranslation } from 'react-i18next';
-import { Link, MenuItem, Select } from '@mui/material';
+import { Link, MenuItem, Select, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { routeObject } from '../../store/reducers/navigationReducer';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
@@ -45,19 +45,26 @@ const MishnaViewOptions = (props) => {
     toggleEditType,
   } = props;
   const { t } = useTranslation();
+  const theme = useTheme();
   const route = useParams<routeObject>();
 
   return (
     <FormGroup row>
       <FormControlLabel
-        control={<Checkbox checked={divideToLines} onChange={toggleDivideToLines} name="checkedB" color="primary" />}
+        control={<Checkbox checked={divideToLines} onChange={toggleDivideToLines} name="checkedB"  />}
         label={t('Division to Lines') as string}
+        sx={{
+          color: theme.palette.text.primary
+        }}
       />
       <FormControlLabel
         control={
-          <Checkbox checked={showPunctuation} onChange={toggleShowPunctuation} name="checkedA" color="primary" />
+          <Checkbox checked={showPunctuation} onChange={toggleShowPunctuation} name="checkedA"  />
         }
         label={t('Punctuation') as string}
+        sx={{
+          color: theme.palette.text.primary
+        }}
       />
       {/* <FormControlLabel
         control={<Checkbox checked={showSources} onChange={toggleShowSources} name="hideSources" color="primary" />}

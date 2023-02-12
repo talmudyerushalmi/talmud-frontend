@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import React, { FC } from 'react';
 import { clearPunctutationFromText, hideSourceFromText } from '../../inc/synopsisUtils';
 import { iLine, iSubline } from '../../types/types';
@@ -11,6 +11,8 @@ interface Props {
 
 const UndividedText: FC<Props> = (props) => {
   const { lines, showPunctuation, /* showSources */ } = props;
+  const theme = useTheme();
+
   const sublines: iSubline[] = lines
     ?.reduce((acc, line) => {
       line.sublines && acc.push(line.sublines);
@@ -27,7 +29,9 @@ const UndividedText: FC<Props> = (props) => {
   }
   return (
     <>
-      <Typography style={{ textAlign: 'right' }}>{text}</Typography>
+      <Typography style={{ textAlign: 'right' }}
+      sx={{color: theme.palette.text.primary}}
+      >{text}</Typography>
     </>
   );
 };
