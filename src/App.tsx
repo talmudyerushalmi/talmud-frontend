@@ -74,7 +74,7 @@ function App() {
 export default App;
 
 const AppContainer = ({ children }) => {
-  const [mode, setMode] = useState<PaletteMode>('dark');
+  const [mode, setMode] = useState<PaletteMode>('light');
   const getTheme = useMemo(() => theme(mode), [mode]);
 
   return (
