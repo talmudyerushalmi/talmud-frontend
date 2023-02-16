@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
+import { combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './reducers/authReducer';
 import mishnaViewReducer from './reducers/mishnaViewReducer';
 import navigationReducer from './reducers/navigationReducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { devToolsEnhancer } from 'redux-devtools-extension';
 import mishnaEditReducer from './reducers/mishnaEditReducer';
 import generalReducer from './reducers/generalReducer';
 
@@ -15,7 +15,12 @@ const rootReducer = combineReducers({
   mishnaEdit: mishnaEditReducer,
 });
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+const store = configureStore({
+  reducer: rootReducer,
+  devTools: false,
+  enhancers: [devToolsEnhancer({})],
+})
+
 export default store;
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
