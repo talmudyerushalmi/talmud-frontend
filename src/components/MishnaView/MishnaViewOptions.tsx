@@ -83,6 +83,9 @@ const MishnaViewOptions = (props) => {
         <MenuItem sx={{ direction: 'ltr' }} value={ShowEditType.EDITED}>
           {t('Edited') as string}
         </MenuItem>
+        <MenuItem sx={{ direction: 'ltr' }} value={ShowEditType.COMBINED}>
+          {t('Combined') as string}
+        </MenuItem>
       </Select>
       <Link
         sx={{
