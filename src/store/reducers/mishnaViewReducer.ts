@@ -20,6 +20,7 @@ import { RECEIVE_MISHNA, SET_CURRENT_MISHNA } from '../actions/navigationActions
 export enum ShowEditType {
   ORIGINAL = 'ORIGINAL',
   EDITED = 'EDITED',
+  COMBINED = 'COMBINED'
 }
 interface ViewState {
   loading: boolean;
