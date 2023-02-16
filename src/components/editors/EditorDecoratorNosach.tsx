@@ -93,10 +93,10 @@ const AddCombined = (props) => {
     </>
   );
   return (
-    <div style={{ display: 'inline-block' }}>
-      <span>{'{'}</span>
+    <div style={{ display: 'inline-block', color:'blue' }}>
+      <span>{'<'}</span>
       <span>{props.children}</span>
-      <span>{'}'}</span>
+      <span>{'>'}</span>
     </div>
   );
 };
@@ -127,8 +127,10 @@ const DeleteCombined = (props) => {
     <div
       style={{
         display: 'inline-block',
+        color: 'red',
       }}>
-      <span>{'<'}</span><span>{props.children}</span>
+      <span>{'<'}</span>
+      <span>{props.children}</span>
       <span>{'>'}</span>
     </div>
   );
@@ -158,22 +160,21 @@ const CorrectionOriginal = (props) => {
 };
 
 const CorrectionCombined = (props) => {
-  const { editingComment, oldWord } = props.contentState.getEntity(props.entityKey).getData();
-  const tooltipText = `תוקן מ-  "${oldWord}"`;
-
-  const tip = (
-    <>
-      <div color="inherit" dir="rtl">
-        {tooltipText}
-      </div>
-      {editingComment}
-    </>
-  );
+  const { oldWord } = props.contentState.getEntity(props.entityKey).getData();
 
   return (
-    <div style={{ display: 'inline-block' }}>
-        <span>{'{'}</span><span>{oldWord}</span><span>{'}<'}</span><span>{props.children}</span><span>{'>'}</span>
-    </div>
+    <>
+      <div style={{ display: 'inline-block', color:'red' }}>
+        <span>{'{'}</span>
+        <span>{oldWord}</span>
+        <span>{'}'}</span>
+      </div>
+      <div style={{ display: 'inline-block',  color:'blue' }}>
+        <span>{'<'}</span>
+        <span>{props.children}</span>
+        <span>{'>'}</span>
+      </div>
+    </>
   );
 };
 
