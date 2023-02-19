@@ -22,6 +22,12 @@ declare module '@mui/material/styles' {
         add: React.CSSProperties;
       }
     },
+    layout: {
+      centerFlex: React.CSSProperties;
+      verticalCenter: React.CSSProperties;
+      defaultPadding: React.CSSProperties;
+      defaultBoxedItem: React.CSSProperties;
+    }
   }
   // allow configuration using `createTheme`
   interface ThemeOptions {
@@ -43,6 +49,12 @@ declare module '@mui/material/styles' {
         add: React.CSSProperties;
       }
     },
+    layout?: {
+      centerFlex: React.CSSProperties;
+      verticalCenter: React.CSSProperties;
+      defaultPadding: React.CSSProperties;
+      defaultBoxedItem: React.CSSProperties;
+    }
   }
 }
 declare module '@mui/material/styles' {
@@ -306,9 +318,9 @@ const theme = (mode: PaletteMode) =>
       },
       centerFlex: {
         display: 'flex',
-        '& > span': {
-          alignSelf: 'center',
-        },
+        // '& > span': {
+        //   alignSelf: 'center',
+        // },
       },
     },
   });
