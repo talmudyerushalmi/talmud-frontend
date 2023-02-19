@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React from 'react';
 import ExternalSourceDetails from '../ExternalSourceDetails';
@@ -10,17 +10,17 @@ const mapStateToProps = (state) => ({
 });
 
 interface Props {
-  tractateSettings: any
-  onAddSource: Function,
-  onRemoveSource: Function,
-  sources: iSubline[],
-  onAddExternalSource: (source:string)=>void
+  tractateSettings: any;
+  onAddSource: Function;
+  onRemoveSource: Function;
+  sources: iSubline[];
+  onAddExternalSource: (source: string) => void;
 }
 const SourceButtons = (props: Props) => {
   const { tractateSettings, onAddSource, onRemoveSource, sources } = props;
   let selected: string[] = [];
   if (sources.length && sources[0].synopsis) {
-    selected = sources[0]?.synopsis.filter((s) => s.type === 'direct_sources').map((s) => s.id);
+    selected = sources[0]?.synopsis.filter((s) => (s.type === 'direct_sources' || s.type === 'translation')).map((s) => s.id);
   }
   const { synopsisAllowed, synopsisList } = tractateSettings;
 
@@ -56,12 +56,7 @@ const SourceButtons = (props: Props) => {
           <ToggleButtonGroup value={selected}>
             {synopsisAllowed.map((button) => {
               return (
-                <ToggleButton
-                  key={button}
-                  onClick={(e) => updateSynopsis(button)}
-                  value={button}
-                  aria-label={button}
-                >
+                <ToggleButton key={button} onClick={(e) => updateSynopsis(button)} value={button} aria-label={button}>
                   {synopsisList[button].name}
                 </ToggleButton>
               );

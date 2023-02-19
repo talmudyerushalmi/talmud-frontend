@@ -66,7 +66,7 @@ export interface EditedText {
   editor?: any; // maybe can be removed
 }
 
-export type sourceType = 'direct_sources' | 'indirect_sources';
+export type sourceType = 'direct_sources' | 'indirect_sources' | 'translation';
 
 export interface iSynopsis {
   text: EditedText;
@@ -77,6 +77,7 @@ export interface iSynopsis {
   button_code: string;
   manuscript?: string;
   composition?: iSynopsisComposition;
+  location?: string;
 }
 
 interface iSynopsisComposition {
