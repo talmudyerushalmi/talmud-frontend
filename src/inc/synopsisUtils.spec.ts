@@ -1,4 +1,4 @@
-import { iSynopsis } from '../types/types';
+import { iSynopsis, SourceType } from '../types/types';
 import { getTextForSynopsis, hideSourceFromText } from './synopsisUtils';
 
 describe('synopsisUtils', () => {
@@ -16,14 +16,14 @@ describe('synopsisUtils', () => {
     const sourceGniza: iSynopsis = {
       id: '',
       text: { simpleText: '' },
-      type: 'direct_sources',
+      type: SourceType.DIRECT_SOURCES,
       code: 'gniza',
       name: 'גניזה א׳',
       button_code: 'gniza_1',
     };
     const sourceLeiden: iSynopsis = {
       id: '',
-      type: 'direct_sources',
+      type: SourceType.DIRECT_SOURCES,
       code: 'leiden',
       name: 'כתב יד ליידן',
       button_code: 'leiden',

@@ -66,8 +66,13 @@ export interface EditedText {
   content?: RawDraftContentState;
   editor?: any; // maybe can be removed
 }
+export enum SourceType {
+  DIRECT_SOURCES = 'direct_sources',
+  INDIRECT_SOURCES = 'indirect_sources',
+  TRANSLATION = 'translation'
+}
 
-export type sourceType = 'direct_sources' | 'indirect_sources' | 'translation';
+export type sourceType = SourceType.DIRECT_SOURCES| SourceType.INDIRECT_SOURCES | SourceType.TRANSLATION;
 
 export interface iSynopsis {
   text: EditedText;

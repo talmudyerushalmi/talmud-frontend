@@ -1,5 +1,5 @@
 import { convertFromRaw, EditorState } from 'draft-js';
-import { iSynopsis } from '../types/types';
+import { iSynopsis, SourceType } from '../types/types';
 import { getRawText } from './editorUtils';
 
 export function getSynopsisRaw(synopsis: iSynopsis) {
@@ -12,6 +12,7 @@ export function getSynopsisRaw(synopsis: iSynopsis) {
 }
 
 export function getTextForSynopsis(str: string, synopsis: iSynopsis): string {
+  if (synopsis.type === SourceType.TRANSLATION) {return str}
   const groupGnizaKricha = ['gniza', 'kricha'];
   const step1 = /(\(שם\)|''|\(.*?,.*?\)|<.*?>|\|.*?\||[.+:!{},])/g;
   const removeQuestionMark = /\?/g;

@@ -27,6 +27,9 @@ declare module '@mui/material/styles' {
       verticalCenter: React.CSSProperties;
       defaultPadding: React.CSSProperties;
       defaultBoxedItem: React.CSSProperties;
+    },
+    status: {
+      blue: React.CSSProperties['color']
     }
   }
   // allow configuration using `createTheme`
@@ -54,6 +57,9 @@ declare module '@mui/material/styles' {
       verticalCenter: React.CSSProperties;
       defaultPadding: React.CSSProperties;
       defaultBoxedItem: React.CSSProperties;
+    },
+    status: {
+      blue: React.CSSProperties['color']
     }
   }
 }
@@ -119,6 +125,13 @@ const breakpoints = createBreakpoints({});
 
 const theme = (mode: PaletteMode) =>
   createTheme({
+    status: {
+      ...(mode === 'light' ? {
+        blue: 'red',
+      } : {
+        blue: '#6f8bff',
+      })
+    },
     palette: {
       mode,
       ...(mode === 'light'

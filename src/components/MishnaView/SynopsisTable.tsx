@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,12 +8,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { getSynopsisRaw, synopsisMap } from '../../inc/synopsisUtils';
-import { Tooltip } from '@mui/material';
 import { iManuscript, iManuscriptPopup, iSubline } from '../../types/types';
 import { setSublineData } from '../../store/actions/relatedActions';
 import { connect } from 'react-redux';
 import ButtonUnstyled from '../shared/ButtonUnstyled';
 import { getManuscript } from '../../inc/manuscriptUtils';
+import { Tooltip, useTheme } from '@mui/material';
+import { iSynopsis, SourceType } from '../../types/types';
 
 const useStyles = makeStyles({
   table: {
@@ -32,13 +33,6 @@ const useStyles = makeStyles({
   cell: {
     padding: 0,
   },
-  parellel: {
-    '&.MuiTableCell-root': { color: 'red' },
-  },
-  excerpt: {
-    '&.MuiTableCell-root': { color: 'purple' },
-  },
-  default: {},
 });
 
 const mapStateToProps = (state) => ({
@@ -62,6 +56,25 @@ const SynopsisTable = (props: Props) => {
   const classes = useStyles();
   const { subline, setSublineData, lineNumber, manuscriptsForChapter } = props;
   const { synopsis } = subline;
+  const theme = useTheme();
+
+  const memoizedColor = useCallback((synopsis: iSynopsis)=>{
+    if (synopsis.type === SourceType.TRANSLATION) {
+      return theme.status.blue
+    }
+    const compositionType = synopsis.composition?.composition.type;
+    switch (compositionType) {
+      case 'parallel':
+        return 'red'
+      case 'excerpt':
+        return 'purple'
+      case 'yalkut':
+        return null;
+      case undefined:
+        return null;
+    }
+  },[theme])
+
 
   if (!synopsis) {
     return null;
@@ -93,21 +106,6 @@ const SynopsisTable = (props: Props) => {
             };
             const manuscript = getManuscript(manuscriptsForChapter, sublineData);
             const rawText = getSynopsisRaw(synopsisRow);
-            const compositionType = synopsisRow.composition?.composition.type;
-            let className = classes.default;
-            switch (compositionType) {
-              case 'parallel':
-                className = classes.parellel;
-                break;
-              case 'excerpt':
-                className = classes.excerpt;
-                break;
-              case 'yalkut':
-                className = classes.excerpt;
-                break;
-              case undefined:
-                className = classes.default;
-            }
             return rawText ? (
               <TableRow key={i}>
                 <Tooltip enterDelay={800} leaveDelay={200} title={sourceFullName(synopsisRow)}>
@@ -121,7 +119,9 @@ const SynopsisTable = (props: Props) => {
                     </ButtonUnstyled>
                   </TableCell>
                 </Tooltip>
-                <TableCell className={className} align="left">
+                <TableCell align="left" sx={{
+                  color: memoizedColor(synopsisRow)
+                }}>
                   {rawText}
                 </TableCell>
               </TableRow>
