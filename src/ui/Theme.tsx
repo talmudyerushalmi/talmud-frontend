@@ -127,7 +127,7 @@ const theme = (mode: PaletteMode) =>
   createTheme({
     status: {
       ...(mode === 'light' ? {
-        blue: 'red',
+        blue: 'blue',
       } : {
         blue: '#6f8bff',
       })
