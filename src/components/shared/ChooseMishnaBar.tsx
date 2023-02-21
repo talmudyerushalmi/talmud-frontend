@@ -16,8 +16,12 @@ import { iMarker, iMishna, iTractate } from '../../types/types';
 import NavigationService from '../../services/NavigationService';
 import { setRoute } from '../../store/actions/navigationActions';
 
+export interface leanLine {
+  lineNumber: string;
+  mainLine: string;
+}
 export interface iMishnaForNavigation {
-  lines: string[];
+  lines: leanLine[];
   previous?: iMarker;
   next?: iMarker;
 }
@@ -67,6 +71,10 @@ interface Props {
   setRoute: Function;
 }
 const ChooseMishnaBar = (props: Props) => {
+  const fetchLines = (mishna: string) => {
+    const controller = new AbortController();
+    return NavigationService.getMishnaForNavigation(tractate, selectedChapter?.id, mishna, controller);
+  };
   const { t } = useTranslation();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
   const classes = useStyles();
@@ -77,7 +85,7 @@ const ChooseMishnaBar = (props: Props) => {
   const [selectedMishna, setSelectedMishna] = useState<iMishna | null>(null);
   const [mishnaNavigation, setMishnaNavigation] = useState<iMishnaForNavigation | null>(null);
 
-  const [selectedLine, setSelectedLine] = useState<string | null>(null);
+  const [selectedLine, setSelectedLine] = useState<leanLine | null>(null);
 
   const setNavigation = async (tractate, chapter, mishna, line) => {
     const tractateData = tractates.find((t: iTractate) => t.id === tractate);
@@ -91,7 +99,13 @@ const ChooseMishnaBar = (props: Props) => {
           setSelectedMishna(matchMishna);
           // update lines
           if (line) {
-            setSelectedLine(line);
+            fetchLines(mishna)
+            .then((mishnaForNavigation) => {
+              let matchLine = mishnaForNavigation.lines.find(l => l.lineNumber === line)
+              if (matchLine) {
+                setSelectedLine(matchLine);
+              }
+            })
           }
         } else if (mishna === undefined) {
           //@ts-ignore
@@ -122,6 +136,14 @@ const ChooseMishnaBar = (props: Props) => {
         });
     }
   }, [selectedMishna]);
+
+  useEffect(()=>{
+    if (selectedMishna){
+      setSelectedMishna({...selectedMishna})
+    }
+  },[
+    selectedChapter
+  ])
 
   useEffect(() => {
     setRoute(tractate, chapter, mishna, line);
@@ -155,7 +177,7 @@ const ChooseMishnaBar = (props: Props) => {
           tractate: selectedTractate?.id,
           chapter: selectedChapter.id,
           mishna: selectedMishna.mishna,
-          line: selectedLine,
+          line: selectedLine.lineNumber,
         };
       } else {
         navigation = {
@@ -240,7 +262,7 @@ const ChooseMishnaBar = (props: Props) => {
         value={selectedLine}
         options={mishnaNavigation ? mishnaNavigation.lines : []}
         autoHighlight={true}
-        //getOptionLabel={option => option.lineNumber}
+        getOptionLabel={option => option.lineNumber || ""}
         renderInput={(params) => <TextField {...params} label="שורה" variant="outlined" />}
       />
     );
