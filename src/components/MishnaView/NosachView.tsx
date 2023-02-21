@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 import { iExcerpt, iSubline } from '../../types/types';
 import TextEditor from '../edit/MainLineEditor/TextEditor';
-import { compoundEditedNosachDecorators, compoundOriginalDecorators } from '../editors/EditorDecoratorNosach';
+import { compoundCombinedDecorators, compoundEditedNosachDecorators, compoundOriginalDecorators } from '../editors/EditorDecoratorNosach';
 
 interface Props {
   subline: iSubline;
@@ -31,6 +31,8 @@ const getDecorator = (showEditType: ShowEditType) => {
       return compoundEditedNosachDecorators;
     case ShowEditType.ORIGINAL:
       return compoundOriginalDecorators;
+    case ShowEditType.COMBINED:
+        return compoundCombinedDecorators;
   }
 };
 
@@ -112,28 +114,8 @@ const NosachView = (props: Props) => {
     setEditor(newEditorState);
   }, [subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, memoizedRemovePunctuation]);
 
-  // useEffect(()=>{
-  //   let newEditorState;
-  //   if (showEditType===ShowEditType.ORIGINAL) {
-  //     newEditorState = EditorState.createWithContent(
-  //       editor.getCurrentContent(),
-  //       compoundOriginalDecorators
-  //     );
-  //   }
-  //   if (showEditType===ShowEditType.EDITED) {
-  //     newEditorState = EditorState.createWithContent(
-  //       editor.getCurrentContent(),
-  //       compoundNosachDecorators
-  //     );
-  //   }
-
-  //   setEditor(newEditorState)
-  // },[showEditType])
-
   return (
-    <>
       <TextEditor selectionFrom={1} selectionTo={4} readOnly={true} initialState={editor} />
-    </>
   );
 };
 

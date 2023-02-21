@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,8 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { getSynopsisRaw, synopsisMap } from '../../inc/synopsisUtils';
-import { Tooltip } from '@mui/material';
-import { iSynopsis } from '../../types/types';
+import { Tooltip, useTheme } from '@mui/material';
+import { iSynopsis, SourceType } from '../../types/types';
 
 const useStyles = makeStyles({
   table: {
@@ -28,13 +28,6 @@ const useStyles = makeStyles({
   cell: {
     padding: 0,
   },
-  parellel: {
-    '&.MuiTableCell-root': { color: 'red' },
-  },
-  excerpt: {
-    '&.MuiTableCell-root': { color: 'purple' },
-  },
-  default: {},
 });
 
 interface Props {
@@ -43,6 +36,25 @@ interface Props {
 
 export default function SynopsisTable(props: Props) {
   const classes = useStyles();
+  const theme = useTheme();
+
+  const memoizedColor = useCallback((synopsis: iSynopsis)=>{
+    if (synopsis.type === SourceType.TRANSLATION) {
+      return theme.status.blue
+    }
+    const compositionType = synopsis.composition?.composition.type;
+    switch (compositionType) {
+      case 'parallel':
+        return 'red'
+      case 'excerpt':
+        return 'purple'
+      case 'yalkut':
+        return null;
+      case undefined:
+        return null;
+    }
+  },[theme])
+
   const { synopsis } = props;
 
   if (!synopsis) {
@@ -69,21 +81,6 @@ export default function SynopsisTable(props: Props) {
         <TableBody>
           {synopsis.map((synopsisRow, i) => {
             const rawText = getSynopsisRaw(synopsisRow);
-            const compositionType = synopsisRow.composition?.composition.type;
-            let className = classes.default;
-            switch (compositionType) {
-              case 'parallel':
-                className = classes.parellel;
-                break;
-              case 'excerpt':
-                className = classes.excerpt;
-                break;
-              case 'yalkut':
-                className = classes.excerpt;
-                break;
-              case undefined:
-                className = classes.default;
-            }
             return rawText ? (
               <TableRow key={i}>
                 <Tooltip enterDelay={800} leaveDelay={200} title={sourceFullName(synopsisRow)}>
@@ -91,7 +88,9 @@ export default function SynopsisTable(props: Props) {
                     {sourceName(synopsisRow)}
                   </TableCell>
                 </Tooltip>
-                <TableCell className={className} align="left">
+                <TableCell align="left" sx={{
+                  color: memoizedColor(synopsisRow)
+                }}>
                   {rawText}
                 </TableCell>
               </TableRow>

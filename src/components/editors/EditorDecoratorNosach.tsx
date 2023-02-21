@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { Tooltip, useTheme } from '@mui/material';
 import { CompositeDecorator } from 'draft-js';
 import { NosachEntity } from '../edit/MainLineEditor/MainLineDialog';
 
@@ -20,8 +20,7 @@ const DeleteOriginal = (props) => {
         textDecoration: 'line-through',
         color: 'red',
         display: 'inline-block',
-      }}
-    >
+      }}>
       <Tooltip title={editingComment}>
         <span>{props.children}</span>
       </Tooltip>
@@ -29,6 +28,7 @@ const DeleteOriginal = (props) => {
   );
 };
 const Add = (props) => {
+  const theme = useTheme();
   const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
   const tooltip = (
     <>
@@ -37,7 +37,7 @@ const Add = (props) => {
     </>
   );
   return (
-    <div style={{ color: 'blue', display: 'inline-block' }}>
+    <div style={{ display: 'inline-block', ...theme.editor.decorators.add }}>
       <Tooltip title={tooltip}>
         <span>{props.children}</span>
       </Tooltip>
@@ -66,6 +66,7 @@ const Correction = (props) => {
   );
 };
 const AddOriginal = (props) => {
+  const theme = useTheme();
   const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
   const tooltip = (
     <>
@@ -74,10 +75,23 @@ const AddOriginal = (props) => {
     </>
   );
   return (
-    <div style={{ color: 'blue', display: 'inline-block' }}>
+    <div style={{ display: 'inline-block', ...theme.editor.decorators.add }}>
       <Tooltip title={tooltip}>
         <span>*</span>
       </Tooltip>
+    </div>
+  );
+};
+
+const AddCombined = (props) => {
+  const theme = useTheme();
+  const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
+
+  return (
+    <div style={{ display: 'inline-block',  ...theme.editor.decorators.add }}>
+      <span>{'<'}</span>
+      <span>{props.children}</span>
+      <span>{'>'}</span>
     </div>
   );
 };
@@ -95,11 +109,24 @@ const Delete = (props) => {
       style={{
         color: 'red',
         display: 'inline-block',
-      }}
-    >
+      }}>
       <Tooltip title={tooltip}>
         <span>*</span>
       </Tooltip>
+    </div>
+  );
+};
+
+const DeleteCombined = (props) => {
+  return (
+    <div
+      style={{
+        display: 'inline-block',
+        color: 'red',
+      }}>
+      <span>{'<'}</span>
+      <span>{props.children}</span>
+      <span>{'>'}</span>
     </div>
   );
 };
@@ -127,6 +154,26 @@ const CorrectionOriginal = (props) => {
   );
 };
 
+const CorrectionCombined = (props) => {
+  const theme = useTheme();
+  const { oldWord } = props.contentState.getEntity(props.entityKey).getData();
+
+  return (
+    <>
+      <div style={{ display: 'inline-block', color:'red' }}>
+        <span>{'{'}</span>
+        <span>{oldWord}</span>
+        <span>{'}'}</span>
+      </div>
+      <div style={{ display: 'inline-block',   ...theme.editor.decorators.add }}>
+        <span>{'<'}</span>
+        <span>{props.children}</span>
+        <span>{'>'}</span>
+      </div>
+    </>
+  );
+};
+
 const Quote = (props) => {
   const { linkTo } = props.contentState.getEntity(props.entityKey).getData();
   return (
@@ -148,6 +195,11 @@ export const deleteOriginalDecorator = {
   component: DeleteOriginal,
 };
 
+export const deleteCombinedDecorator = {
+  strategy: getFindStrategy(NosachEntity.DELETE),
+  component: DeleteCombined,
+};
+
 export const addDecorator = {
   strategy: getFindStrategy(NosachEntity.ADD),
   component: Add,
@@ -156,6 +208,11 @@ export const addDecorator = {
 export const addOriginalDecorator = {
   strategy: getFindStrategy(NosachEntity.ADD),
   component: AddOriginal,
+};
+
+export const addCombinedDecorator = {
+  strategy: getFindStrategy(NosachEntity.ADD),
+  component: AddCombined,
 };
 
 export const quoteDecorator = {
@@ -173,6 +230,11 @@ export const correctionOriginalDecorator = {
   component: CorrectionOriginal,
 };
 
+export const correctionCombinedDecorator = {
+  strategy: getFindStrategy(NosachEntity.CORRECTION),
+  component: CorrectionCombined,
+};
+
 export const compoundEditedNosachDecorators = new CompositeDecorator([
   addDecorator,
   deleteDecorator,
@@ -185,6 +247,13 @@ export const compoundOriginalDecorators = new CompositeDecorator([
   deleteOriginalDecorator,
   quoteDecorator,
   correctionOriginalDecorator,
+]);
+
+export const compoundCombinedDecorators = new CompositeDecorator([
+  addCombinedDecorator,
+  deleteCombinedDecorator,
+  quoteDecorator,
+  correctionCombinedDecorator,
 ]);
 
 export const compoundNosachDecoratorsForEditing = new CompositeDecorator([

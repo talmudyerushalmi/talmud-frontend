@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React from 'react';
 import ExternalSourceDetails from '../ExternalSourceDetails';
@@ -23,7 +23,7 @@ const SourceButtons = (props: Props) => {
   const { tractateSettings, onAddSource, onRemoveSource, sources, parallels, onUpdateInternalSources } = props;
   let selected: string[] = [];
   if (sources.length && sources[0].synopsis) {
-    selected = sources[0]?.synopsis.filter((s) => s.type === 'direct_sources').map((s) => s.id);
+    selected = sources[0]?.synopsis.filter((s) => (s.type === 'direct_sources' || s.type === 'translation')).map((s) => s.id);
   }
   const { synopsisAllowed, synopsisList } = tractateSettings;
 
