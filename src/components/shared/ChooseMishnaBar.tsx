@@ -167,7 +167,7 @@ const ChooseMishnaBar = (props: Props) => {
     return () => {
       window.removeEventListener('keydown', keyPressHandler);
     };
-  }, [mishnaNavigation, line]);
+  }, [mishnaNavigation, line, chapter, tractate]);
 
   const handleNavigate = () => {
     let navigation;
