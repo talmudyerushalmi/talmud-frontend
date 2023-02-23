@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
-import TextEditorMishna from './TextEditorMishna2';
+import TextEditorMishna from './TextEditorMishna';
 import ExcerptList from './ExcerptList';
 import ExcerptDialog, { EXCERPT_TYPE } from './ExcerptDialog';
 import EditMishnaButtons from './EditMishnaButtons';
