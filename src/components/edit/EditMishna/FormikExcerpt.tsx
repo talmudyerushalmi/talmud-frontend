@@ -21,9 +21,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   closeExcerptDialog: () => {
     dispatch(closeExcerptDialog);
   },
-  requestCompositions: ()=>{
-    dispatch(requestCompositions())
-  }
+  requestCompositions: () => {
+    dispatch(requestCompositions());
+  },
 });
 const mapStateToProps = (state) => ({
   isSubmitting: state.mishnaEdit.isSubmitting,
@@ -64,6 +64,7 @@ const FormikWrapper = (props) => {
         editorStateComments: excerpt.key
           ? EditorState.createWithContent(convertFromRaw(excerpt.editorStateComments))
           : EditorState.createEmpty(),
+        link: excerpt?.link ? excerpt.link : '',
       }}
       validationSchema={excerptSchema}
       onSubmit={(values, props) => {
