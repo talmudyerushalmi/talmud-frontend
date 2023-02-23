@@ -27,7 +27,7 @@ if (typeof gtmId === 'string' && gtmId !== 'NONE') {
 }
 
 
-console.log(updatedAwsConfig)
+//console.log(updatedAwsConfig)
 Amplify.configure(updatedAwsConfig);
 let persistor = persistStore(store)
 
