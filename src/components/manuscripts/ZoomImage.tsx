@@ -104,7 +104,7 @@ const ZoomImage = ({ image }) => {
 
     if (canvasRef.current) {
       background.onload = () => {
-       setTimeout(()=>{ draw()}, 100)
+       setTimeout(()=>{ draw()}, 0)
       };
     }
   }, [background]);
