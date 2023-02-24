@@ -1,5 +1,6 @@
-import { Box } from '@mui/material';
 import React, { useRef, useMemo, useEffect, useState } from 'react';
+import { Box } from '@mui/material';
+import { debounce } from 'lodash';
 
 const SCROLL_SENSITIVITY = 0.0005;
 const MAX_ZOOM = 5;
@@ -48,7 +49,8 @@ const ZoomImage = ({ image }) => {
 
   const handleMouseUp = () => setDragging(false);
 
-  const draw = () => {
+  const draw = debounce(
+  () => {
     if (canvasRef.current) {
       const { width, height } = canvasRef.current;
       const context = canvasRef.current.getContext('2d');
@@ -69,7 +71,7 @@ const ZoomImage = ({ image }) => {
       // Draw image
       context.drawImage(background, x, y);
     }
-  };
+  }, 20);
 
   useEffect(() => {
     observer.current = new ResizeObserver((entries) => {
@@ -90,7 +92,6 @@ const ZoomImage = ({ image }) => {
     if (observer.current && containerRef.current) {
       observer.current.observe(containerRef.current);
     }
-
     return () => {
       if (containerRef.current) {
         observer.current!.unobserve(containerRef.current);
