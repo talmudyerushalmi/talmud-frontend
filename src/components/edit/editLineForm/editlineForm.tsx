@@ -4,7 +4,7 @@ import { withFormik, FormikProps, Form, FormikValues } from 'formik';
 import { EditorState, ContentState } from 'draft-js';
 import SourceButtons from '../MainLineEditor/SourceButtons';
 import LineService from '../../../services/line.service';
-import { iLine, iMishna, iSubline, iSynopsis } from '../../../types/types';
+import { iLine, iInternalLink, iMishna, iSubline, iSynopsis } from '../../../types/types';
 import { getTextForSynopsis } from '../../../inc/synopsisUtils';
 import { Button } from '@mui/material';
 import FieldSublines from './FieldSublines';
@@ -29,6 +29,7 @@ const formikEnhancer = withFormik({
     return {
       mainLine: EditorState.createWithContent(ContentState.createFromText(textForEditor || '')),
       sublines: line?.sublines || [],
+      parallels: line?.parallels || []
     };
   },
   validationSchema: Yup.object().shape({
@@ -55,8 +56,6 @@ const formikEnhancer = withFormik({
 // Shape of form values
 interface FormValues {
   sublines: iSubline[];
-  email: string;
-  password: string;
 }
 
 interface OtherProps {
@@ -81,6 +80,9 @@ const EditLineForm = (props: FormikValues) => {
     currentMishna,
   } = props;
   const [sources, setSources] = useState<iSynopsis[]>([]);
+  const onUpdateInternalSources = (parallels: iInternalLink[]) => {
+    setFieldValue('parallels', parallels)
+  }
   const onAddExternalSource = (source) => {
     console.log('ADD', source);
     setSources([...sources, source]);
@@ -113,9 +115,12 @@ const EditLineForm = (props: FormikValues) => {
     <Form>
       <SourceButtons
         sources={values.sublines}
+        parallels={values.parallels}
         onAddSource={(source) => onAddSource(source)}
         onRemoveSource={(id) => onRemoveSource(id)}
-        onAddExternalSource={onAddExternalSource}></SourceButtons>
+        onAddExternalSource={onAddExternalSource}
+        onUpdateInternalSources={onUpdateInternalSources}
+        ></SourceButtons>
       <FieldSublines 
       sublines={values.sublines}
       onRemoveSource={onRemoveSource} />

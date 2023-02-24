@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Editor, DefaultDraftBlockRenderMap } from 'draft-js';
+import { Editor, DefaultDraftBlockRenderMap, EditorState, ContentState, CompositeDecorator, Modifier } from 'draft-js';
 import '../text.css';
 import { Map } from 'immutable';
 import { NumberedBlock } from '../../editors/EditorBlocks';
 import { keyBindingArrowsOnly } from '../../editors/EditorKeyBindings';
+import { iExcerpt, iMishna } from '../../../types/types';
+import { excerptDecorator } from '../../editors/EditorDecorator';
+import { getContentFromMishna, getSelectionObject, getSelectionStateFromExcerpt } from '../../../inc/editorUtils';
+import { useCallback } from 'react';
+import { useTheme } from '@mui/material';
+import { cloneDeep } from 'lodash';
 
 const blockRenderMap = Map({
   unstyled: {
-    // element is used during paste or html conversion to auto match your component;
-    // it is also retained as part of this.props.children and not stripped out
     element: 'div',
     wrapper: <NumberedBlock />,
   },
@@ -16,22 +20,54 @@ const blockRenderMap = Map({
 
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
-const TextEditorMishna = (props) => {
-  const { onChange, initialState } = props;
-  const [editorState, setEditorState] = useState(initialState);
+const addEntity = (contentState: ContentState, excerpt: iExcerpt) => {
+  return contentState.createEntity('EXCERPT', 'MUTABLE', {
+    type: excerpt.type,
+  });
+};
 
-  // needed to update the state when the prop changes
+interface Props {
+  mishna: iMishna | null;
+  onChangeSelection: Function;
+}
+const TextEditorMishna = (props: Props) => {
+  const { mishna, onChangeSelection } = props;
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const theme = useTheme();
+
+  const getContentWithEntities = useCallback((mishna: iMishna) => {
+    let contentState = getContentFromMishna(mishna);
+    mishna.excerpts.forEach((excerpt) => {
+      contentState = addEntity(contentState, excerpt);
+      const entityKey = contentState.getLastCreatedEntityKey();
+      const selectionForExcerpt = getSelectionStateFromExcerpt(excerpt, contentState);
+      try {
+        contentState = Modifier.applyEntity(contentState, selectionForExcerpt, entityKey);
+      } catch (e) {
+        excerpt.flagNeedUpdate = true;
+      }
+    });
+    let newEditorState = EditorState.createWithContent(contentState, new CompositeDecorator([excerptDecorator]));
+    return newEditorState;
+  }, []);
+
   useEffect(() => {
-    setEditorState(initialState);
-  }, [initialState]); // add 'value' to the dependency list to recalculate state when value changes.
+    if (!mishna) {
+      return;
+    }
+    const mishnaClone = cloneDeep(mishna) // mishna is part of the state and here 
+                                          // we want to update its values locally
+    const newEditorState = getContentWithEntities(mishnaClone);
+    setEditorState(newEditorState);
+  }, [getContentWithEntities, mishna]);
 
   const _onChange = (editorState) => {
-    onChange(editorState);
+    onChangeSelection(getSelectionObject(editorState));
     setEditorState(editorState);
   };
 
   return (
-    <div className="RichEditor-root">
+    <div className="RichEditor-root" style={{...theme.editor.default}}>
       <Editor
         keyBindingFn={keyBindingArrowsOnly}
         editorState={editorState}

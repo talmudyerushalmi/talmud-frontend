@@ -66,8 +66,13 @@ export interface EditedText {
   content?: RawDraftContentState;
   editor?: any; // maybe can be removed
 }
+export enum SourceType {
+  DIRECT_SOURCES = 'direct_sources',
+  INDIRECT_SOURCES = 'indirect_sources',
+  TRANSLATION = 'translation'
+}
 
-export type sourceType = 'direct_sources' | 'indirect_sources';
+export type sourceType = SourceType.DIRECT_SOURCES| SourceType.INDIRECT_SOURCES | SourceType.TRANSLATION;
 
 export interface iSynopsis {
   text: EditedText;
@@ -103,6 +108,7 @@ export interface iLine {
   sourceReference?: string;
   mainLine: string;
   sublines?: iSubline[];
+  parallels?: iInternalLink[];
 }
 
 export interface iManuscript {
@@ -123,4 +129,11 @@ export interface iManuscriptPopup {
   subline: iSubline;
   synopsisCode: string;
   imageUrl?: string;
+}
+export interface iInternalLink {
+  linkText: string;
+  tractate: string;
+  chapter: string;
+  mishna: string;
+  lineNumber: string;
 }

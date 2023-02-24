@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import ShortTextIcon from '@mui/icons-material/ShortText';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Paper, Typography } from '@mui/material';
+import { Paper, Typography, useTheme } from '@mui/material';
 import { getExcerptTitle } from '../../../inc/excerptUtils';
 import { iExcerpt } from '../../../types/types';
 import { EXCERPT_TYPE } from './ExcerptDialog';
@@ -37,6 +37,7 @@ interface Props {
 const ExcerptList = (props: Props) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const theme = useTheme();
   const { excerpts, filter, admin, onDelete, onClick, onUpdateSelectionForExcerpt } = props;
 
   if (!excerpts) {
@@ -71,7 +72,9 @@ const ExcerptList = (props: Props) => {
   }
   return (
     <>
-      <Typography variant="h3">{listname}</Typography>
+      <Typography variant="h3" sx={{
+       color: theme.palette.text.primary
+      }}>{listname}</Typography>
       <Paper style={{ maxHeight: 400, overflow: 'auto' }}>
         <List className={classes.root}>
           {filteredExcerpts.map((excerpt) => {

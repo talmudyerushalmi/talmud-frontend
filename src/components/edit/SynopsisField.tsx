@@ -1,19 +1,26 @@
-import { Button, Grid } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
+import { Button, Grid, useTheme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import SynopsisTextEditor from './SynopsisTextEditor';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { iSynopsis } from '../../types/types';
 
 const useStyles = makeStyles((theme) => ({
-  centerFlex: { ...theme.layout.centerFlex, minWidth: '10rem', marginRight: '1rem' },
   narrow: { ...theme.buttons.narrow },
   editor: {
     '& .RichEditor-root': { padding: '5px' },
   },
 }));
 
-const SynopsisField = (props) => {
+interface Props {
+  source: iSynopsis;
+  onChange: Function;
+  onDelete: (e)=>void;
+}
+
+const SynopsisField = (props: Props) => {
   const classes = useStyles();
+  const theme = useTheme();
   const { source, onChange, onDelete } = props;
   const _onChange = (e) => {
     onChange({
@@ -25,7 +32,7 @@ const SynopsisField = (props) => {
   return (
     <>
       <Grid container>
-        <Grid item className={classes.centerFlex}>
+        <Grid item sx={{...theme.layout.centerFlex,  minWidth: '10rem', marginRight: '1rem'}}>
           {source.type === 'indirect_sources' ? (
             <Button onClick={onDelete} className={classes.narrow}>
               <HighlightOffIcon />

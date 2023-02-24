@@ -1,12 +1,17 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
+import { combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './reducers/authReducer';
 import mishnaViewReducer from './reducers/mishnaViewReducer';
 import navigationReducer from './reducers/navigationReducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import mishnaEditReducer from './reducers/mishnaEditReducer';
 import generalReducer from './reducers/generalReducer';
 import relatedReducer from './reducers/relatedReducer';
+import storage from 'redux-persist/lib/storage'
+import {
+  persistReducer,
+} from 'redux-persist'
+import { setupListeners } from '@reduxjs/toolkit/query'
+
 
 const rootReducer = combineReducers({
   general: generalReducer,
@@ -17,10 +22,29 @@ const rootReducer = combineReducers({
   related: relatedReducer,
 });
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
-export default store;
+
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+  whitelist: ['mishnaView'],
+}
+
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+})
+
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+
+
+setupListeners(store.dispatch)
+export default store

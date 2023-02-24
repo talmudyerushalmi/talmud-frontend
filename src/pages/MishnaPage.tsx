@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, useTheme } from '@mui/material';
 import MainText from '../components/MishnaView/MainText';
 import MishnaText from '../components/MishnaView/MishnaText';
 import { connect } from 'react-redux';
@@ -41,6 +41,7 @@ interface Props {
 const MishnaPage = (props: Props) => {
   const { currentMishna, getMishna, setMishnaViewOptions } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
+  const t = useTheme();
 
   useEffect(() => {
     setMishnaViewOptions();
@@ -61,7 +62,7 @@ const MishnaPage = (props: Props) => {
           position: 'sticky',
           top: '4rem',
           zIndex: 100,
-          background: 'white',
+          background: t.palette.background.default,
           boxShadow: '0rem 0rem 1rem 2px #0000005e',
         }}>
         <MishnaViewOptions />

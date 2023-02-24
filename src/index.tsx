@@ -10,6 +10,9 @@ import './i18n/i18n';
 import { BrowserRouter } from 'react-router-dom';
 import TagManager from 'react-gtm-module';
 import { Amplify } from 'aws-amplify';
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+
 console.log('process', process.env);
 
 const container = document.getElementById('root');
@@ -24,17 +27,20 @@ if (typeof gtmId === 'string' && gtmId !== 'NONE') {
 }
 
 
-console.log(updatedAwsConfig)
+//console.log(updatedAwsConfig)
 Amplify.configure(updatedAwsConfig);
+let persistor = persistStore(store)
 
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
+      <PersistGate persistor={persistor}>
         <div dir="rtl">
           <App />
         </div>
+        </PersistGate>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

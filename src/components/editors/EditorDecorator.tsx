@@ -1,3 +1,5 @@
+import { useTheme } from "@mui/material";
+
 function findExcerptEntities(contentBlock, callback, contentState) {
   contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
@@ -6,9 +8,11 @@ function findExcerptEntities(contentBlock, callback, contentState) {
 }
 
 const Excerpt = (props) => {
+  const theme = useTheme();
+  
   const { rawText } = props.contentState.getEntity(props.entityKey).getData();
   return (
-    <span title={rawText} style={{ backgroundColor: 'lightblue', color: 'green' }}>
+    <span title={rawText} style={{...theme.editor.excerpt}}>
       {props.children}
     </span>
   );

@@ -230,7 +230,9 @@ export function getContentRaw(editorState) {
 }
 
 export function editorInEventPath(event) {
-  return event.path.some((e) => e.classList && e.classList?.value.indexOf('Editor') !== -1);
+  return event
+    ?.composedPath()
+    .some((el) => el.classList && (el.localName === 'input' || el.classList?.value.indexOf('Editor') !== -1));
 }
 
 export function getContentStateArray(contentState: ContentState): RawDraftContentState[] {
