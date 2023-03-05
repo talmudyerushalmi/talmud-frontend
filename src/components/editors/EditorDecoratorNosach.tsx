@@ -124,9 +124,9 @@ const DeleteCombined = (props) => {
         display: 'inline-block',
         color: 'red',
       }}>
-      <span>{'<'}</span>
+      <span>{'{'}</span>
       <span>{props.children}</span>
-      <span>{'>'}</span>
+      <span>{'}'}</span>
     </div>
   );
 };
