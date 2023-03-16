@@ -14,17 +14,19 @@ import { useTranslation } from 'react-i18next';
 import { iInternalLink } from '../../../types/types';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SyncIcon from '@mui/icons-material/Sync';
 import LinkPopup from '../../popups/LinkPopup';
 import { iSelectedNavigation } from '../../shared/ChooseMishna';
-import { ListItemSecondaryAction } from '@mui/material';
+import { ListItemSecondaryAction, Tooltip } from '@mui/material';
 import { hebrewMap } from '../../../inc/utils';
 
 interface Props {
   parallels: iInternalLink[];
   onUpdateInternalSources: (parallels: iInternalLink[]) => void;
+  onSyncParallels: () => void;
 }
 export const MakbilaMenu = (props: Props) => {
-  const { parallels, onUpdateInternalSources } = props;
+  const { parallels, onUpdateInternalSources, onSyncParallels } = props;
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const btnCaption = `${t('Talmudic Parallels')} [${parallels.length}]`;
@@ -63,6 +65,9 @@ export const MakbilaMenu = (props: Props) => {
                 onAdd={() => {
                   setOpen(true);
                 }}
+                onSync={() => {
+                  onSyncParallels();
+                }}
               />
             </Menu>
           </React.Fragment>
@@ -76,12 +81,18 @@ interface MakbilaListProps {
   makbilot: iInternalLink[];
   onAdd: Function;
   onDelete: (parallels: iInternalLink[]) => void;
+  onSync: () => void;
 }
 const MakbilaList = (props: MakbilaListProps) => {
-  const { makbilot, onAdd, onDelete } = props;
+  const { makbilot, onAdd, onDelete, onSync } = props;
+  const { t } = useTranslation();
 
   const handleAdd = () => {
     onAdd();
+  };
+
+  const handleSync = () => {
+    onSync();
   };
   const items = makbilot.map((makbila, index) => {
     const labelId = `checkbox-list-label-${index}`;
@@ -117,9 +128,18 @@ const MakbilaList = (props: MakbilaListProps) => {
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       {items}
       <ListItem>
-        <ListItemButton dense onClick={handleAdd}>
-          <AddIcon />
-        </ListItemButton>
+        <Tooltip title={t('Add parallel') as string}>
+          <ListItemButton dense onClick={handleAdd}>
+            <AddIcon />
+          </ListItemButton>
+        </Tooltip>
+        {makbilot.length > 0 ? (
+          <Tooltip title={t('Sync parallels') as string}>
+            <ListItemButton dense onClick={handleSync}>
+              <SyncIcon />
+            </ListItemButton>
+          </Tooltip>
+        ) : null}
       </ListItem>
     </List>
   );

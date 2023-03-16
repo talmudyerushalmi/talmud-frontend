@@ -50,7 +50,9 @@ i18n
           Edited: 'מתוקן',
           Combined: 'משולב',
           "Manuscripts": "כתבי יד",
-          'Light mode': 'מצב תצוגה'
+          'Light mode': 'מצב תצוגה',
+          'Add parallel': 'הוסף מקבילה',
+          'Sync parallels': 'סנכרן מקורות מקבילים'
         },
       },
     },
