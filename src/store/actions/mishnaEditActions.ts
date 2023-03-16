@@ -4,10 +4,12 @@ import ExcerptService from '../../services/excerpt.service';
 import LineService from '../../services/line.service';
 import MishnaService from '../../services/mishna.service';
 import PageService from '../../services/pageService';
-import { iExcerpt } from '../../types/types';
+import { iExcerpt, iLineLink } from '../../types/types';
 import { setCurrentMishna } from './navigationActions';
 import { RawDraftContentState } from 'draft-js';
 import axios from 'axios';
+import { tryAsyncWithLoadingState } from './actionHelpers';
+import MishnaActionsService from '../../services/actions.mishna.service';
 
 export const REQUEST_MISHNA_FOR_EDIT = 'GET_MISHNA_FOR_EDIT';
 export const REQUEST_MISHNA_FOR_EDIT_DONE = 'REQUEST_MISHNA_FOR_EDIT_DONE';
@@ -21,6 +23,7 @@ export const DELETE_EXCERPT_DONE = 'DELETE_EXCERPT_DONE';
 export const SAVE_NOSACH = 'SAVE_NOSACH';
 export const SAVE_NOSACH_DONE = 'SAVE_NOSACH_DONE';
 export const DELETE_SUBLINE = 'DELETE_SUBLINE';
+export const SYNC_PARALLELS = 'SYNC_PARALLELS';
 export const DELETE_SUBLINE_DONE = 'DELETE_SUBLINE_DONE';
 export const SAVE_MISHNA_START = 'SAVE_MISHNA_START';
 export const SAVE_MISHNA = 'SAVE_MISHNA';
@@ -126,5 +129,12 @@ export const saveMishna = (route: routeObject, mishnaDTO: Object) => {
       type: SAVE_MISHNA_DONE,
       mishnaDoc,
     });
+  };
+};
+
+export const syncParallels = (lineLink: iLineLink) => {
+  return async function (dispatch, getState) {
+    let mishnaData = await tryAsyncWithLoadingState(dispatch, MishnaActionsService.syncParallels(lineLink.tractate, lineLink.chapter, lineLink.mishna, lineLink.lineNumber));
+    dispatch(setCurrentMishna(mishnaData));
   };
 };

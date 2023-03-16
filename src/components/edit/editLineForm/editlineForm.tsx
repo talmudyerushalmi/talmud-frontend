@@ -11,7 +11,7 @@ import FieldSublines from './FieldSublines';
 
 interface Props {
   line: iLine | null;
-  currentMishna: any;
+  currentMishna: iMishna;
 }
 
 const allowedSourcesForInitialText = ['leiden', 'dfus_rishon'];
@@ -77,6 +77,7 @@ const EditLineForm = (props: FormikValues) => {
     handleReset,
     setFieldValue,
     isSubmitting,
+    line,
     currentMishna,
   } = props;
   const [sources, setSources] = useState<iSynopsis[]>([]);
@@ -114,9 +115,11 @@ const EditLineForm = (props: FormikValues) => {
   return (
     <Form>
       <SourceButtons
+        line={line}
+        currentMishna={currentMishna}
         sources={values.sublines}
         parallels={values.parallels}
-        onAddSource={(source) => onAddSource(source)}
+        onAddSource={(source: iSynopsis) => onAddSource(source)}
         onRemoveSource={(id) => onRemoveSource(id)}
         onAddExternalSource={onAddExternalSource}
         onUpdateInternalSources={onUpdateInternalSources}

@@ -13,7 +13,9 @@ export interface iChapter {
 }
 export interface iMishna {
   id: string;
+  tractate: string;
   mishna: string;
+  chapter: string;
   lines: iLine[];
   excerpts: iExcerpt[];
   richTextMishna: RawDraftContentState | null;
@@ -110,10 +112,12 @@ export interface iLine {
   parallels?: iInternalLink[];
 }
 
-export interface iInternalLink {
-  linkText: string;
+export interface iLineLink {
   tractate: string;
   chapter: string;
   mishna: string;
   lineNumber: string;
+}
+export interface iInternalLink extends iLineLink {
+  linkText: string;
 }
