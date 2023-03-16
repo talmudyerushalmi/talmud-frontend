@@ -133,7 +133,6 @@ export interface iManuscriptPopup {
   manuscript?: iManuscript;
 }
 export interface iLineLink {
-  linkText: string;
   tractate: string;
   chapter: string;
   mishna: string;
