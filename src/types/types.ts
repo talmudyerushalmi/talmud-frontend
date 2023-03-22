@@ -126,7 +126,16 @@ export interface iComment {
   tractate: string;
 }
 
-export type iPostComment = Omit<iComment, 'commentID'>;
+export interface iPostComment {
+  tractate: string;
+  line: number;
+  text: string;
+  type: Omit<CommentType, CommentType.PUBLIC>;
+}
+
+export interface iUpdateComment extends iPostComment {
+  commentID: string;
+}
 
 export enum CommentType {
   PUBLIC = 'public',

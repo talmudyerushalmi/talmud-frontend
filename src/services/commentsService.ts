@@ -1,4 +1,4 @@
-import { iComments, iPostComment, iPublicCommentsByTractate } from '../types/types';
+import { iComments, iPostComment, iPublicCommentsByTractate, iUpdateComment } from '../types/types';
 import axiosInstance from './api';
 
 export class CommentService {
@@ -14,11 +14,11 @@ export class CommentService {
     return response.data;
   }
 
-  // static async updateComment(userID: string, comment: iPostComment): Promise<iComments | []> {
-  //   const url = `comments/update/${userID}`;
-  //   const response = await axiosInstance.put(url, comment);
-  //   return response.data;
-  // }
+  static async updateComment(userID: string, comment: iUpdateComment): Promise<iComments | []> {
+    const url = `comments/${userID}`;
+    const response = await axiosInstance.patch(url, comment);
+    return response.data;
+  }
 
   static async removeComment(userID: string, commentID: string): Promise<iComments | []> {
     const url = `comments/${userID}/${commentID}`;
@@ -32,7 +32,7 @@ export class CommentService {
     return response.data;
   }
 
-  static async getCommentsForModeration(): Promise<iComments | []> {
+  static async getCommentsForModeration(): Promise<iComments[]| []> {
     const url = `comments/moderation`;
     const response = await axiosInstance.get(url);
     return response.data;
