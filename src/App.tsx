@@ -11,7 +11,6 @@ import { Footer } from './layout/Footer';
 import { PaletteMode, StyledEngineProvider, Theme, useTheme } from '@mui/material';
 import theme from './ui/Theme';
 import IntroductionPage from './pages/IntroductionPage';
-import PartnersPage from './pages/PartnersPage';
 import SteeringPage from './pages/SteeringPage';
 import ViewChapterPage from './pages/ViewChapterPage';
 import RequireAuth from './components/login/RequireAuth';
@@ -36,7 +35,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/introduction" element={<IntroductionPage />} />
         <Route path="/steering" element={<SteeringPage />} />
-        <Route path="/partners" element={<PartnersPage />} />
         <Route path="/talmud/:tractate/:chapter/:mishna" element={<ViewMishnaPage />} />
         <Route path="/talmud/:tractate/:chapter" element={<ViewChapterPage />} />
         <Route path="/login" element={<Login />} />

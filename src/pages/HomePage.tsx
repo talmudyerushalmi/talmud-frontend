@@ -119,20 +119,6 @@ const HomePage = (props) => {
           >
             ועדת היגוי
           </Link>
-          <Link
-            to="/partners"
-            style={{
-              display: 'block',
-              width: '10rem',
-              margin: '0rem auto',
-              textAlign: 'center',
-              padding: '0.2rem',
-              color: 'white',
-            }}
-          >
-            שותפים
-          </Link>
-
           <a
             href="https://youtu.be/A1tMRN7iRxU"
             target="_blank"
