@@ -73,7 +73,7 @@ function App() {
 export default App;
 
 const AppContainer = ({ children }) => {
-  const [mode, setMode] = useLocalStorage<PaletteMode>('light-mode','light');
+  const [mode, setMode] = useLocalStorage<PaletteMode>('light-mode', 'light');
   const getTheme = useMemo(() => theme(mode), [mode]);
 
   return (
@@ -115,6 +115,8 @@ const Background = ({ children }) => {
             }
           : {
               background: t.palette.background.default,
+              color: t.palette.text.secondary,
+              height: '100vh',
             }),
       }}>
       {children}
