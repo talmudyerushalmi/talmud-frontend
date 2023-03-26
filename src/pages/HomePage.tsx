@@ -220,8 +220,8 @@ const HomePage = (props) => {
             </a>
           </p>
           <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography variant="h3">תלמוד ירושלמי (ע״ר)</Typography>
-            <Typography variant="h3">Talmud Yerushalmi Hadigitali (R.A.)</Typography>
+            <h3>תלמוד ירושלמי (ע״ר)</h3>
+            <h3>Talmud Yerushalmi Hadigitali (R.A.)</h3>
           </Box>
         </Paper>
       </Container>
