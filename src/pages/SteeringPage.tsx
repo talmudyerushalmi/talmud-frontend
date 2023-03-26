@@ -14,8 +14,8 @@ const SteeringPage = (props) => {
   }, []);
   return (
     <>
-      <Container>
-        <h1 style={{ textAlign: 'center' }}>The Steering Committee Members</h1>
+      <Container dir="ltr">
+        <h2>The Steering Committee Members</h2>
         <div dir="ltr">
           <ul>
             <li>Prof. Moscovitz Leib, Bar-Ilan University - Chair</li>
@@ -31,6 +31,16 @@ const SteeringPage = (props) => {
             <li>Prof. Sabato Mordechai, Bar-Ilan University</li>
             <li>Prof. Vishne Uzi, Bar-Ilan University</li>
           </ul>
+        </div>
+        <h2>Research Fellows</h2>
+        <div dir="ltr">
+        <h3>Senior Fellows</h3>
+        <p>Dr. Emmanuel Matey, Dr. Chanoch Gamliel, Dr. Shira Shmidman</p>
+        <h3>Research Fellows</h3>
+        <p>Daniel Ken, Or Liber</p>
+        <h2>Partners</h2>
+        <p>Shlomo Goren Chair for the Study of the Talmud Yerushalmi, Bar-Ilan University</p>
+          
         </div>
       </Container>
     </>
