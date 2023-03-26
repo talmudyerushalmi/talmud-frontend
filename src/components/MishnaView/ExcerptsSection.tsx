@@ -53,8 +53,7 @@ const ExcerptsSection = (props) => {
         display: 'flex',
         flexDirection: 'column',
       }}
-      ref={wrapperRef}
-    >
+      ref={wrapperRef}>
       <ExcerptDetailsView
         selectedExcerpt={selectedExcerpt}
         open={detailsExcerptPopup}
@@ -68,6 +67,7 @@ const ExcerptsSection = (props) => {
       <ExcerptsView type={EXCERPT_TYPE.BIBLIO} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.EXPLANATORY} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.DICTIONARY} expanded={expanded} excerpts={filteredExcerpts} />
+      <ExcerptsView type={EXCERPT_TYPE.COMMENTS} expanded={expanded} excerpts={['test']} />
     </div>
   );
 };

@@ -46,6 +46,12 @@ export const excerptsMap = new Map([
       title: 'Dictionary',
     },
   ],
+  [
+    EXCERPT_TYPE.COMMENTS,
+    {
+      title: 'Comments',
+    },
+  ],
 ]);
 
 export const getExcerptTitle = (excerpt: iExcerpt): string => {

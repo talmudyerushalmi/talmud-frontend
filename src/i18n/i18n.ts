@@ -49,7 +49,8 @@ i18n
           Original: 'מקורי',
           Edited: 'מתוקן',
           Combined: 'משולב',
-          'Light mode': 'מצב תצוגה'
+          'Light mode': 'מצב תצוגה',
+          Comments: 'הערות',
         },
       },
     },
