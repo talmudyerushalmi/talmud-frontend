@@ -116,7 +116,7 @@ const Background = ({ children }) => {
           : {
               background: t.palette.background.default,
               color: t.palette.text.secondary,
-              height: '100vh',
+              minHeight: '100vh',
             }),
       }}>
       {children}
