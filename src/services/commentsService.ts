@@ -2,8 +2,8 @@ import { iComments, iPostComment, iPublicCommentsByTractate, iUpdateComment } fr
 import axiosInstance from './api';
 
 export class CommentService {
-  static async getCommentsByUser(userID: string, tractate?: string): Promise<iComments | []> {
-    const url = `comments/${userID}${tractate && `/${tractate}`}`;
+  static async getCommentsByUser(userID: string): Promise<iComments | []> {
+    const url = `comments/${userID}`;
     const response = await axiosInstance.get(url);
     return response.data;
   }
@@ -32,7 +32,7 @@ export class CommentService {
     return response.data;
   }
 
-  static async getCommentsForModeration(): Promise<iComments[]| []> {
+  static async getCommentsForModeration(): Promise<iComments[] | []> {
     const url = `comments/moderation`;
     const response = await axiosInstance.get(url);
     return response.data;

@@ -11,6 +11,7 @@ import { iMishna } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
 import { getMishna } from '../store/actions/navigationActions';
 import { setMishnaViewOptions } from '../store/actions/mishnaViewActions';
+import { getPrivateComments } from '../store/actions/commentsActions';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: true,
@@ -22,6 +23,7 @@ const mapStateToProps = (state) => ({
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
   loading: state.navigation.loading,
+  // comments: state.comments.privateComments,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setMishnaViewOptions: () => {
@@ -30,20 +32,26 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getMishna: (tractate: string, chapter: string, mishna: string) => {
     dispatch(getMishna(tractate, chapter, mishna));
   },
+
+  getPrivateComments: () => {
+    dispatch(getPrivateComments('11'));
+  },
 });
 
 interface Props {
   currentMishna: iMishna;
   getMishna: Function;
   setMishnaViewOptions: Function;
+  getPrivateComments: Function;
 }
 const MishnaPage = (props: Props) => {
-  const { currentMishna, getMishna, setMishnaViewOptions } = props;
+  const { currentMishna, getMishna, setMishnaViewOptions, getPrivateComments } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
   const t = useTheme();
 
   useEffect(() => {
     setMishnaViewOptions();
+    getPrivateComments();
   }, []);
 
   useEffect(() => {
@@ -63,8 +71,7 @@ const MishnaPage = (props: Props) => {
           zIndex: 100,
           background: t.palette.background.default,
           boxShadow: '0rem 0rem 1rem 2px #0000005e',
-        }}
-      >
+        }}>
         <MishnaViewOptions />
       </Grid>
       <Grid item md={8}>
