@@ -60,7 +60,6 @@ const HomePage = (props) => {
               <Typography variant="h3Roboto">Site development: Yaron Bar</Typography>
             </div>
           </Box>
-
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Link
               to="/talmud/yevamot/001/001"
@@ -93,7 +92,6 @@ const HomePage = (props) => {
               מסכת גיטין
             </Link>
           </Box>
-
           <Link
             to="/introduction"
             style={{
@@ -206,10 +204,25 @@ const HomePage = (props) => {
               textAlign: 'center',
               display: 'block',
               margin: '1rem auto',
-              padding: '1rem',
             }}>
             The edition is being prepared... for updates, ideas and cooperation suggestions click here
           </a>
+          <p
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              display: 'block',
+              margin: '1rem auto',
+            }}>
+            To support the edition click{' '}
+            <a href="mailto:digital.yerushalmi@gmail.com" target="_blank" rel="noreferrer" style={{ color: 'white' }}>
+              here
+            </a>
+          </p>
+          <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Typography variant="h3">תלמוד ירושלמי (ע״ר)</Typography>
+            <Typography variant="h3">Talmud Yerushalmi Hadigitali (R.A.)</Typography>
+          </Box>
         </Paper>
       </Container>
     </>

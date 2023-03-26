@@ -45,11 +45,12 @@ i18n
           Punctuation: 'פיסוק',
           References: 'מראי מקום',
           'Jerusalem Talmud': 'תלמוד ירושלמי',
-          'Beta Version': 'מדגים יכולות',
+          'Beta Version': 'גרסת בטא',
           Original: 'מקורי',
           Edited: 'מתוקן',
           Combined: 'משולב',
-          'Light mode': 'מצב תצוגה'
+          'Light mode': 'מצב תצוגה',
+          'Demo': 'מדגים יכולות'
         },
       },
     },
