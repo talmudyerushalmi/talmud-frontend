@@ -31,7 +31,7 @@ export const Footer = () => {
             אתר בהקמה, אין לצטט בשלב זה
           </Grid>
           <Grid item sm={4}>
-            תשפ”ג 2023-2021
+            תשפ״א - תשפ״ג 2023-2021
             <img
               src={cc}
               style={{
