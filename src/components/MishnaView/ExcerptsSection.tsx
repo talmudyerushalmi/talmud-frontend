@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { selectExcerpt } from '../../store/actions';
+import { iComment, iComments, iPublicCommentsByTractate } from '../../types/types';
 import { themeConstants } from '../../ui/Theme';
 import { EXCERPT_TYPE } from '../edit/EditMishna/ExcerptDialog';
-import CommentsExcerptView from './CommentsExcerptsView';
+import { CommentsExcerptsView } from './CommentsExcerptsView';
 import ExcerptDetailsView from './ExcerptDetailsView';
 import ExcerptsView from './ExcerptsView';
 
@@ -13,6 +14,8 @@ const mapStateToProps = (state) => ({
   selectedExcerpt: state.mishnaView.selectedExcerpt,
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
+  publicComments: state.comments.publicComments,
+  privateComments: state.comments.privateComments,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   selectExcerpt: (excerpt) => {
@@ -20,8 +23,26 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-const ExcerptsSection = (props) => {
-  const { expanded, filteredExcerpts, detailsExcerptPopup, selectedExcerpt, selectExcerpt } = props;
+interface IProps {
+  expanded: boolean;
+  filteredExcerpts: any[];
+  detailsExcerptPopup: boolean;
+  selectedExcerpt: any;
+  selectExcerpt: (excerpt: any) => void;
+  publicComments: iPublicCommentsByTractate[];
+  privateComments: iComment[];
+}
+
+const ExcerptsSection = (props: IProps) => {
+  const {
+    expanded,
+    filteredExcerpts,
+    detailsExcerptPopup,
+    selectedExcerpt,
+    selectExcerpt,
+    publicComments,
+    privateComments,
+  } = props;
   function useOutsideAlerter(ref) {
     useEffect(() => {
       /**
@@ -68,8 +89,8 @@ const ExcerptsSection = (props) => {
       <ExcerptsView type={EXCERPT_TYPE.BIBLIO} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.EXPLANATORY} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.DICTIONARY} expanded={expanded} excerpts={filteredExcerpts} />
-      <CommentsExcerptView expanded={expanded} comments={[]} />
-      <CommentsExcerptView expanded={expanded} comments={[]} isPublicComments />
+      <CommentsExcerptsView expanded={expanded} comments={privateComments} />
+      <CommentsExcerptsView expanded={expanded} comments={publicComments} isPublicComments />
     </div>
   );
 };

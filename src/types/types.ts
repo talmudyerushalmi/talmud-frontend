@@ -149,4 +149,6 @@ export interface iComments {
   comments: iComment[];
 }
 
-export type iPublicCommentsByTractate = Omit<iComments, '_id'>;
+export type iPublicCommentsByTractate = iComments & {
+  userID: string;
+};
