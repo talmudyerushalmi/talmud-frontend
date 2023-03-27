@@ -15,7 +15,7 @@ const mapStateToProps = (state) => ({
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
   publicComments: state.comments.publicComments,
-  privateComments: state.comments.privateComments,
+  privateComments: state.comments.privateComments?.filter((c) => c.tractate === state.navigation.currentMishna.tractate),
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   selectExcerpt: (excerpt) => {
