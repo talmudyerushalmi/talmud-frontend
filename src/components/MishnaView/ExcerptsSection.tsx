@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { selectExcerpt } from '../../store/actions';
 import { themeConstants } from '../../ui/Theme';
 import { EXCERPT_TYPE } from '../edit/EditMishna/ExcerptDialog';
+import CommentsExcerptView from './CommentsExcerptsView';
 import ExcerptDetailsView from './ExcerptDetailsView';
 import ExcerptsView from './ExcerptsView';
 
@@ -67,7 +68,8 @@ const ExcerptsSection = (props) => {
       <ExcerptsView type={EXCERPT_TYPE.BIBLIO} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.EXPLANATORY} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.DICTIONARY} expanded={expanded} excerpts={filteredExcerpts} />
-      <ExcerptsView type={EXCERPT_TYPE.COMMENTS} expanded={expanded} excerpts={['test']} />
+      <CommentsExcerptView expanded={expanded} comments={[]} />
+      <CommentsExcerptView expanded={expanded} comments={[]} isPublicComments />
     </div>
   );
 };

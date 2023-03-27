@@ -3,12 +3,12 @@ import { CommentService } from '../../services/commentsService';
 import { iComments, iPostComment, iUpdateComment } from '../../types/types';
 import { tryAsyncWithLoadingState } from './actionHelpers';
 
-export const SET_COMMENTS = 'SET_PRIVATE_COMMENTS';
+export const SET_PRIVATE_COMMENTS = 'SET_PRIVATE_COMMENTS';
 export const SET_PUBLIC_COMMENTS = 'SET_PUBLIC_COMMENTS';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 
 export const setPrivateComments = (comments: iComments | []) => ({
-  type: SET_COMMENTS,
+  type: SET_PRIVATE_COMMENTS,
   comments,
 });
 
@@ -17,7 +17,14 @@ export const setPublicComments = (comments: iComments | []) => ({
   comments,
 });
 
-export const getPrivateComments = (userID: string) => {
+export const getComments = (tractate: string) => {
+  return async function (dispatch) {
+    dispatch(getPrivateComments());
+    dispatch(getPublicComments(tractate || 'yebamot'));
+  };
+};
+
+export const getPrivateComments = () => {
   return async function (dispatch: Dispatch, getState) {
     const username = getState().authentication?.userAuth?.username;
     const res = await tryAsyncWithLoadingState(dispatch, CommentService.getCommentsByUser(username || '12'));
@@ -28,7 +35,7 @@ export const getPrivateComments = (userID: string) => {
 export const getPublicComments = (tractate: string) => {
   return async function (dispatch: Dispatch) {
     const res = await tryAsyncWithLoadingState(dispatch, CommentService.getPublicCommentsByTractate(tractate));
-    dispatch(setPublicComments(res.comments));
+    dispatch(setPublicComments(res));
   };
 };
 
