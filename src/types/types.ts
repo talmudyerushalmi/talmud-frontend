@@ -19,6 +19,7 @@ export interface iMishna {
   richTextMishna: RawDraftContentState | null;
   previous?: iMarker;
   next?: iMarker;
+  tractate?: string;
 }
 
 export interface iMarker {
@@ -153,6 +154,6 @@ export interface iComments {
   comments: iComment[];
 }
 
-export type iPublicCommentsByTractate = iComments & {
+export type iPublicCommentsByTractate = iComment & {
   userID: string;
 };

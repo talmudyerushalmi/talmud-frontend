@@ -1,6 +1,6 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { EXCERPT_TYPE } from '../components/edit/EditMishna/ExcerptDialog';
-import { iComment, iExcerpt, iSubline } from '../types/types';
+import { iComment, iExcerpt, iPublicCommentsByTractate, iSubline } from '../types/types';
 import { getOffsetOfWordOccurence } from './textUtils';
 
 export const MUVAA = 'MUVAA';
@@ -120,6 +120,9 @@ export const excerptInSubline = (excerpt: iExcerpt, subline: iSubline) => {
   return subline.index >= excerpt.selection!.fromSubline! && subline.index <= excerpt.selection!.toSubline!;
 };
 
-export const commentInLines = (comment:iComment, fromLine: number, toLine: number) => {
+export const commentInLines = (comment: iComment | iPublicCommentsByTractate, fromLine?: number, toLine?: number) => {
+  if (!fromLine || !toLine) {
+    return false;
+  }
   return comment.line >= fromLine && comment.line <= toLine;
-}
+};

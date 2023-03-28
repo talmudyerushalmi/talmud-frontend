@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { selectExcerpt } from '../../store/actions';
 import { iComment, iMishna, iPublicCommentsByTractate } from '../../types/types';
@@ -8,6 +8,7 @@ import CommentsExcerptDetailsView from './CommentsExcerptDetailsView';
 import { CommentsExcerptsView } from './CommentsExcerptsView';
 import ExcerptDetailsView from './ExcerptDetailsView';
 import ExcerptsView from './ExcerptsView';
+import { commentInLines } from '../../inc/excerptUtils';
 
 const mapStateToProps = (state) => ({
   currentMishna: state.navigation.currentMishna,
@@ -16,9 +17,7 @@ const mapStateToProps = (state) => ({
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
   publicComments: state.comments.publicComments,
-  privateComments: state.comments.privateComments?.filter(
-    (c) => c.tractate === state.navigation.currentMishna.tractate
-  ),
+  privateComments: state.comments.privateComments,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   selectExcerpt: (excerpt) => {
@@ -46,6 +45,7 @@ const ExcerptsSection = (props: IProps) => {
     selectExcerpt,
     publicComments,
     privateComments,
+    currentMishna,
   } = props;
 
   function useOutsideAlerter(ref) {
@@ -70,6 +70,25 @@ const ExcerptsSection = (props: IProps) => {
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
+
+  const [publicCommentsByMishna, setPublicCommentsByMishna] = useState<iPublicCommentsByTractate[]>([]);
+  const [privateCommentsByMishna, setPrivateCommentsByMishna] = useState<iComment[]>([]);
+
+  useEffect(() => {
+    const fromLine = +currentMishna?.lines[0]?.lineNumber!;
+    const toLine = +currentMishna?.lines?.at(-1)?.lineNumber!;
+    const tractate = currentMishna?.tractate;
+
+    setPrivateCommentsByMishna(privateComments?.filter((comment) => commentInLines(comment, fromLine, toLine)));
+    setPublicCommentsByMishna(
+      publicComments?.filter((comment) => commentInLines(comment, fromLine, toLine) && comment.tractate === tractate)
+    );
+  }, [currentMishna?.lines, currentMishna?.tractate, privateComments, publicComments]);
+
+  useEffect(() => {
+    console.log('publicCommentsByMishna', publicCommentsByMishna);
+    console.log('privateCommentsByMishna', privateCommentsByMishna);
+  }, [publicCommentsByMishna, privateCommentsByMishna]);
 
   return (
     <div
@@ -99,8 +118,8 @@ const ExcerptsSection = (props: IProps) => {
       <ExcerptsView type={EXCERPT_TYPE.BIBLIO} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.EXPLANATORY} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.DICTIONARY} expanded={expanded} excerpts={filteredExcerpts} />
-      <CommentsExcerptsView expanded={expanded} comments={privateComments} />
-      <CommentsExcerptsView expanded={expanded} comments={publicComments} isPublicComments />
+      <CommentsExcerptsView expanded={expanded} comments={privateCommentsByMishna} />
+      <CommentsExcerptsView expanded={expanded} comments={publicCommentsByMishna} isPublicComments />
     </div>
   );
 };
