@@ -35,7 +35,7 @@ const SteeringPage = (props) => {
         <h2>Research Fellows</h2>
         <div dir="ltr">
         <h3>Senior Fellows</h3>
-        <p>Dr. Emmanuel Matey, Dr. Chanoch Gamliel, Dr. Shira Shmidman</p>
+        <p>Dr. Emmanuel Mastey, Dr. Chanoch Gamliel, Dr. Shira Shmidman</p>
         <h3>Research Fellows</h3>
         <p>Daniel Ken, Or Liber</p>
         <h2>Partners</h2>

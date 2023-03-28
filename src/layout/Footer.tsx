@@ -28,7 +28,7 @@ export const Footer = () => {
             מהדורה דיגיטלית Digital Critical Edition
           </Grid>
           <Grid item sm={4}>
-            אתר בהקמה, אין לצטט בשלב זה
+            אתר בהקמה
           </Grid>
           <Grid item sm={4}>
             תשפ״א - תשפ״ג 2023-2021
@@ -39,8 +39,7 @@ export const Footer = () => {
                 paddingRight: '0.3rem',
                 height: '1.5rem',
                 position: 'absolute',
-              }}
-            ></img>
+              }}></img>
           </Grid>
         </Grid>
       </Container>
