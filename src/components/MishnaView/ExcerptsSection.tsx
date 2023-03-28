@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { selectExcerpt } from '../../store/actions';
-import { iComment, iComments, iPublicCommentsByTractate } from '../../types/types';
+import { iComment, iMishna, iPublicCommentsByTractate } from '../../types/types';
 import { themeConstants } from '../../ui/Theme';
 import { EXCERPT_TYPE } from '../edit/EditMishna/ExcerptDialog';
+import CommentsExcerptDetailsView from './CommentsExcerptDetailsView';
 import { CommentsExcerptsView } from './CommentsExcerptsView';
 import ExcerptDetailsView from './ExcerptDetailsView';
 import ExcerptsView from './ExcerptsView';
@@ -15,7 +16,9 @@ const mapStateToProps = (state) => ({
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
   publicComments: state.comments.publicComments,
-  privateComments: state.comments.privateComments?.filter((c) => c.tractate === state.navigation.currentMishna.tractate),
+  privateComments: state.comments.privateComments?.filter(
+    (c) => c.tractate === state.navigation.currentMishna.tractate
+  ),
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   selectExcerpt: (excerpt) => {
@@ -31,6 +34,7 @@ interface IProps {
   selectExcerpt: (excerpt: any) => void;
   publicComments: iPublicCommentsByTractate[];
   privateComments: iComment[];
+  currentMishna: iMishna;
 }
 
 const ExcerptsSection = (props: IProps) => {
@@ -43,6 +47,7 @@ const ExcerptsSection = (props: IProps) => {
     publicComments,
     privateComments,
   } = props;
+
   function useOutsideAlerter(ref) {
     useEffect(() => {
       /**
@@ -77,11 +82,16 @@ const ExcerptsSection = (props: IProps) => {
       }}
       ref={wrapperRef}>
       <ExcerptDetailsView
-        selectedExcerpt={selectedExcerpt}
-        open={detailsExcerptPopup}
+        selectedExcerpt={selectedExcerpt?.type !== EXCERPT_TYPE.COMMENTS ? selectedExcerpt : null}
+        open={detailsExcerptPopup && selectedExcerpt?.type !== EXCERPT_TYPE.COMMENTS}
         onClose={() => {
           selectExcerpt(null);
         }}
+      />
+      <CommentsExcerptDetailsView
+        onClose={() => selectExcerpt(null)}
+        selectedComment={selectedExcerpt?.type === EXCERPT_TYPE.COMMENTS ? selectedExcerpt.comment : null}
+        open={detailsExcerptPopup && selectedExcerpt?.type === EXCERPT_TYPE.COMMENTS}
       />
       <ExcerptsView expanded={expanded} type={EXCERPT_TYPE.MAKBILA} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.MUVAA} expanded={expanded} excerpts={filteredExcerpts} />

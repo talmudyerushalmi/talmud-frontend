@@ -121,9 +121,11 @@ export interface iInternalLink {
 export interface iComment {
   commentID: string;
   line: number;
-  text: string;
+  text?: string;
   type: CommentType;
   tractate: string;
+  title: string;
+  subline?: number;
 }
 
 export interface iPostComment {
@@ -131,6 +133,8 @@ export interface iPostComment {
   line: number;
   text: string;
   type: Omit<CommentType, CommentType.PUBLIC>;
+  title: string;
+  subline?: number;
 }
 
 export interface iUpdateComment extends iPostComment {

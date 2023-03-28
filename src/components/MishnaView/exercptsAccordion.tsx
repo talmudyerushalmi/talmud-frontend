@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   rootExpanded: {
     overflow: 'hidden',
     '&.MuiPaper-root.MuiAccordion-root': { backgroundColor: 'rgba(0, 0, 0, .03)' },
-    // flexGrow: 1,
+    flexGrow: 1,
     '& >  .MuiCollapse-root': {
       height: '100% !important',
       overflow: 'scroll',

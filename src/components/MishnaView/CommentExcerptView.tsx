@@ -3,14 +3,25 @@ import React, { useEffect, useState } from 'react';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { selectExcerpt } from '../../store/actions';
 import { iComment } from '../../types/types';
+import { connect } from 'react-redux';
+import { EXCERPT_TYPE } from '../edit/EditMishna/ExcerptDialog';
 
 interface Props {
   comment: iComment;
   expanded: boolean;
+  selectExcerpt: (comment) => void;
 }
 
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  selectExcerpt: (sublineData) => {
+    dispatch(selectExcerpt(sublineData));
+  },
+});
+
 const CommentExcerptView = (props: Props) => {
-  const { comment, expanded } = props;
+  const { comment, expanded, selectExcerpt } = props;
   const [expandedState, setExpanded] = useState<string | null>(null);
 
   useEffect(() => {
@@ -21,7 +32,7 @@ const CommentExcerptView = (props: Props) => {
     if (!expandedState) {
       setExpanded(comment.commentID);
     } else {
-      selectExcerpt(comment);
+      selectExcerpt({ type: EXCERPT_TYPE.COMMENTS, comment });
       setExpanded(null);
     }
   };
@@ -32,14 +43,14 @@ const CommentExcerptView = (props: Props) => {
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <div>
             <Typography component="span">[{comment.line}]</Typography>{' '}
-            <Typography component="span">{comment.text}</Typography>
+            <Typography component="span">{comment.title}</Typography>
           </div>
         </AccordionSummary>
         <AccordionDetails>
-          <div dangerouslySetInnerHTML={{ __html: 'test' }}></div>
+          <div dangerouslySetInnerHTML={{ __html: comment?.text ?? '' }}></div>
         </AccordionDetails>
       </Accordion>
     </>
   );
 };
-export default CommentExcerptView;
+export default connect(mapStateToProps, mapDispatchToProps)(CommentExcerptView);
