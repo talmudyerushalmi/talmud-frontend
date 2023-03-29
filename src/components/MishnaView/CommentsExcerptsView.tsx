@@ -28,7 +28,7 @@ export const CommentsExcerptsView: FC<IProps> = ({ comments, expanded, isPublicC
       <AccordionDetails>
         <div style={{ width: '100%' }}>
           {comments?.map((comment) => (
-            <CommentExcerptView comment={comment} expanded={expanded} />
+            <CommentExcerptView comment={comment} expanded={expanded} key={comment.commentID} isPublicComments={isPublicComments}/>
           ))}
         </div>
       </AccordionDetails>

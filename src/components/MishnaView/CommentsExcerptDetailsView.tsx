@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Typography from '@mui/material/Typography';
-import { Card, IconButton } from '@mui/material';
+import { Box, Card, IconButton } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { iComment } from '../../types/types';
-import LinkIcon from '@mui/icons-material/Link';
+import { CommentType, iComment } from '../../types/types';
+import EditIcon from '@mui/icons-material/Edit';
+import EditCommentsDialog from '../comments/EditCommentsDialog';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { updateComment } from '../../store/actions/commentsActions';
 
 const useStyles = makeStyles({
   root: {
@@ -40,34 +43,64 @@ interface Props {
 }
 
 const CommentsExcerptDetailsView = (props: Props) => {
+  const commentState = useAppSelector((state) => state.mishnaView.selectedExcerpt);
+  const dispatch = useAppDispatch();
+
   const classes = useStyles();
   const { onClose, open, selectedComment } = props;
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const classRoot = open ? classes.openCard : classes.closedCard;
 
+  const handleUpdateSubmit = (comment: any) => {
+    const updatedComment = {
+      ...commentState.comment,
+      ...comment,
+      type: comment.type === CommentType.PRIVATE ? CommentType.PRIVATE : CommentType.MODERATION,
+    };
+
+    dispatch(updateComment(updatedComment));
+    setOpenModal(false);
+    onClose();
+  };
+
+  const renderEdit = commentState?.comment.userID === '12'; // TODO: change to current user id
+
   return (
-    <Card className={classRoot} dir="rtl" aria-labelledby="simple-dialog-title">
-      <IconButton
-        onClick={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}
-        size="large">
-        <CancelIcon />
-      </IconButton>
-      <IconButton
-        onClick={(e) => {
-          e.stopPropagation();
-          // edit
-        }}
-        size="small">
-        <LinkIcon />
-      </IconButton>
-      <Typography variant="h3" style={{ fontWeight: 'bold' }}>
-        שורה {selectedComment?.line} - {selectedComment?.title}
-      </Typography>
-      <div className={classes.content} dangerouslySetInnerHTML={{ __html: selectedComment?.text || '' }}></div>
-    </Card>
+    <>
+      <Card className={classRoot} dir="rtl" aria-labelledby="simple-dialog-title">
+        <Box display="flex" justifyContent="space-between">
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+            size="large">
+            <CancelIcon />
+          </IconButton>
+          {renderEdit && (
+            <IconButton
+              onClick={(e) => {
+                setOpenModal(true);
+              }}>
+              <EditIcon />
+            </IconButton>
+          )}
+        </Box>
+        <Typography variant="h3" style={{ fontWeight: 'bold' }}>
+          שורה {selectedComment?.subline} - {selectedComment?.title}
+        </Typography>
+        <div className={classes.content} dangerouslySetInnerHTML={{ __html: selectedComment?.text || '' }}></div>
+      </Card>
+      {renderEdit && (
+        <EditCommentsDialog
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          submitHandler={handleUpdateSubmit}
+          comment={commentState?.comment}
+        />
+      )}
+    </>
   );
 };
 

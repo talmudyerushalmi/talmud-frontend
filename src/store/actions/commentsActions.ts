@@ -59,8 +59,8 @@ export const removeComment = (commentID: string) => {
 export const updateComment = (comment: iUpdateComment) => {
   return async function (dispatch: Dispatch, getState) {
     const state = getState();
-    const username = state.authentication?.userAuth?.username;
-    const res = await tryAsyncWithLoadingState(dispatch, CommentService.updateComment(username, comment));
+    // const username = state.authentication?.userAuth?.username;
+    const res = await tryAsyncWithLoadingState(dispatch, CommentService.updateComment('12', comment));
     dispatch(setPrivateComments(res.comments));
     getPublicComments(state.navigation?.currentTractate);
   };

@@ -15,8 +15,8 @@ interface Props {
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  selectExcerpt: (sublineData) => {
-    dispatch(selectExcerpt(sublineData));
+  selectExcerpt: (comment) => {
+    dispatch(selectExcerpt(comment));
   },
 });
 
@@ -42,7 +42,7 @@ const CommentExcerptView = (props: Props) => {
       <Accordion square expanded={expandedState === comment.commentID} onClick={handleClick}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <div>
-            <Typography component="span">[{comment.line}]</Typography>{' '}
+            <Typography component="span">[{comment.subline}]</Typography>{' '}
             <Typography component="span">{comment.title}</Typography>
           </div>
         </AccordionSummary>

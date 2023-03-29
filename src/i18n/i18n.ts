@@ -52,6 +52,15 @@ i18n
           'Light mode': 'מצב תצוגה',
           'Public Comments': 'הערות ציבוריות',
           'Personal Comments': 'הערות אישיות',
+          'Required field': 'שדה חובה',
+          'Comment content': 'תוכן ההערה',
+          title: 'כותרת',
+          'Comment type': 'סוג ההערה',
+          'Public comment': 'הערה ציבורית',
+          'Personal comment': 'הערה אישית',
+          'Line number': 'מספר שורה',
+
+
         },
       },
     },

@@ -85,11 +85,6 @@ const ExcerptsSection = (props: IProps) => {
     );
   }, [currentMishna?.lines, currentMishna?.tractate, privateComments, publicComments]);
 
-  useEffect(() => {
-    console.log('publicCommentsByMishna', publicCommentsByMishna);
-    console.log('privateCommentsByMishna', privateCommentsByMishna);
-  }, [publicCommentsByMishna, privateCommentsByMishna]);
-
   return (
     <div
       style={{
