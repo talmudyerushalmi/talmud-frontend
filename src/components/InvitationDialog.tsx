@@ -19,6 +19,7 @@ const InvitationDialog: FC<IProps> = () => {
           direction: 'ltr',
           p: '20px',
           textAlign: 'center',
+          overflowWrap: 'break-word',
         }}>
         <Typography fontSize="30px">
           ערב לימוד ביום השנה הארבעים לפטירת מורנו הגר"ש ליברמן, זכרו לברכה, הערב (30/03/23) בשעה 20:30 קישור לזום -{' '}
