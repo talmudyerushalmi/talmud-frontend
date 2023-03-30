@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import background from './assets/leiden2.jpg';
 import './App.css';
@@ -8,7 +8,7 @@ import { RTL } from './ui/RTL';
 import ViewMishnaPage from './pages/ViewMishnaPage';
 import HomePage from './pages/HomePage';
 import { Footer } from './layout/Footer';
-import { PaletteMode, StyledEngineProvider, Theme, useTheme } from '@mui/material';
+import { Box, PaletteMode, StyledEngineProvider, Theme, useTheme } from '@mui/material';
 import theme from './ui/Theme';
 import IntroductionPage from './pages/IntroductionPage';
 import SteeringPage from './pages/SteeringPage';
@@ -21,6 +21,7 @@ import EditMishnaPage from './pages/EditMishnaPage';
 import { UserGroup } from './store/reducers/authReducer';
 import SettingsContext from './context/settings-context';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import InvitationDialog from './components/InvitationDialog';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -65,6 +66,9 @@ function App() {
           }
         />
       </Routes>
+      <Box>
+        <InvitationDialog />
+      </Box>
       <Footer />
     </AppContainer>
   );
