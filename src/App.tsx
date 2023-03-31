@@ -67,7 +67,7 @@ function App() {
         />
       </Routes>
       <Box>
-        <InvitationDialog />
+        {/* <InvitationDialog /> */}
       </Box>
       <Footer />
     </AppContainer>
