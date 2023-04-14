@@ -9,6 +9,7 @@ import { CommentsExcerptsView } from './CommentsExcerptsView';
 import ExcerptDetailsView from './ExcerptDetailsView';
 import ExcerptsView from './ExcerptsView';
 import { commentInLines } from '../../inc/excerptUtils';
+import { setSelectedComment } from '../../store/actions/commentsActions';
 
 const mapStateToProps = (state) => ({
   currentMishna: state.navigation.currentMishna,
@@ -18,10 +19,15 @@ const mapStateToProps = (state) => ({
   expanded: state.mishnaView.expanded,
   publicComments: state.comments.publicComments,
   privateComments: state.comments.privateComments,
+  commentModal: state.comments.commentModal,
+  selectedComment: state.comments.selectedComment,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   selectExcerpt: (excerpt) => {
     dispatch(selectExcerpt(excerpt));
+  },
+  setSelectedComment: (comment) => {
+    dispatch(setSelectedComment(comment));
   },
 });
 
@@ -34,6 +40,9 @@ interface IProps {
   publicComments: iPublicCommentsByTractate[];
   privateComments: iComment[];
   currentMishna: iMishna;
+  commentModal: boolean;
+  selectedComment: iComment;
+  setSelectedComment: (comment: iComment | null) => void;
 }
 
 const ExcerptsSection = (props: IProps) => {
@@ -46,6 +55,9 @@ const ExcerptsSection = (props: IProps) => {
     publicComments,
     privateComments,
     currentMishna,
+    commentModal,
+    selectedComment,
+    setSelectedComment,
   } = props;
 
   function useOutsideAlerter(ref) {
@@ -83,6 +95,9 @@ const ExcerptsSection = (props: IProps) => {
     setPublicCommentsByMishna(
       publicComments?.filter((comment) => commentInLines(comment, fromLine, toLine) && comment.tractate === tractate)
     );
+
+    console.log(privateComments);
+    console.log(publicComments);
   }, [currentMishna?.lines, currentMishna?.tractate, privateComments, publicComments]);
 
   return (
@@ -96,16 +111,17 @@ const ExcerptsSection = (props: IProps) => {
       }}
       ref={wrapperRef}>
       <ExcerptDetailsView
-        selectedExcerpt={selectedExcerpt?.type !== EXCERPT_TYPE.COMMENTS ? selectedExcerpt : null}
-        open={detailsExcerptPopup && selectedExcerpt?.type !== EXCERPT_TYPE.COMMENTS}
+        selectedExcerpt={selectedExcerpt}
+        open={detailsExcerptPopup}
         onClose={() => {
           selectExcerpt(null);
         }}
       />
       <CommentsExcerptDetailsView
-        onClose={() => selectExcerpt(null)}
-        selectedComment={selectedExcerpt?.type === EXCERPT_TYPE.COMMENTS ? selectedExcerpt.comment : null}
-        open={detailsExcerptPopup && selectedExcerpt?.type === EXCERPT_TYPE.COMMENTS}
+        onClose={() => setSelectedComment(null)}
+        selectedComment={selectedComment}
+        open={commentModal}
+        privateCommentsByMishna={privateCommentsByMishna}
       />
       <ExcerptsView expanded={expanded} type={EXCERPT_TYPE.MAKBILA} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.MUVAA} expanded={expanded} excerpts={filteredExcerpts} />

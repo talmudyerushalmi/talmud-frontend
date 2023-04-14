@@ -1,39 +1,38 @@
 import { Accordion, AccordionDetails, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import { selectExcerpt } from '../../store/actions';
 import { iComment } from '../../types/types';
 import { connect } from 'react-redux';
-import { EXCERPT_TYPE } from '../edit/EditMishna/ExcerptDialog';
+import { setSelectedComment } from '../../store/actions/commentsActions';
 
 interface Props {
   comment: iComment;
   expanded: boolean;
-  selectExcerpt: (comment) => void;
+  setSelectedComment: (comment) => void;
 }
 
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  selectExcerpt: (comment) => {
-    dispatch(selectExcerpt(comment));
+  setSelectedComment: (comment) => {
+    dispatch(setSelectedComment(comment));
   },
 });
 
 const CommentExcerptView = (props: Props) => {
-  const { comment, expanded, selectExcerpt } = props;
-  const [expandedState, setExpanded] = useState<string | null>(null);
+  const { comment, setSelectedComment } = props;
+  const [expandedState, setExpandedState] = useState<string | null>(null);
 
-  useEffect(() => {
-    setExpanded(expanded ? comment.commentID : null);
-  }, [expanded]);
+  // useEffect(() => {
+  //   setExpandedState(expanded ? comment.commentID : null);
+  // }, [expanded]);
 
   const handleClick = () => {
     if (!expandedState) {
-      setExpanded(comment.commentID);
+      setExpandedState(comment.commentID);
     } else {
-      selectExcerpt({ type: EXCERPT_TYPE.COMMENTS, comment });
-      setExpanded(null);
+      setSelectedComment(comment);
+      setExpandedState(null);
     }
   };
 

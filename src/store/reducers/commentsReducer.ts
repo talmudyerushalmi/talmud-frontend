@@ -1,6 +1,16 @@
-import { SET_PRIVATE_COMMENTS, SET_PUBLIC_COMMENTS } from '../actions/commentsActions';
+import {
+  SET_COMMENT_MODAL,
+  SET_PRIVATE_COMMENTS,
+  SET_PUBLIC_COMMENTS,
+  SET_SELECTED_COMMENT,
+} from '../actions/commentsActions';
 
-const initialState = {};
+const initialState = {
+  privateComments: [],
+  publicComments: [],
+  commentModal: false,
+  selectedComment: null,
+};
 
 const commentsReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -13,6 +23,18 @@ const commentsReducer = (state = initialState, action: any) => {
       return {
         ...state,
         publicComments: action.comments,
+      };
+
+    case SET_COMMENT_MODAL:
+      return {
+        ...state,
+        commentModal: action.open,
+      };
+    case SET_SELECTED_COMMENT:
+      return {
+        ...state,
+        selectedComment: action.comment,
+        commentModal: !!action.comment,
       };
     default:
       return state;
