@@ -27,8 +27,7 @@ const ViewMishnaPage = () => {
           },
         });
         window.scrollTo(0, 0);
-      }}
-    >
+      }}>
       <PageHeader></PageHeader>
       <PageContent>
         <MishnaPage></MishnaPage>

@@ -5,6 +5,7 @@ import mishnaViewReducer from './reducers/mishnaViewReducer';
 import navigationReducer from './reducers/navigationReducer';
 import mishnaEditReducer from './reducers/mishnaEditReducer';
 import generalReducer from './reducers/generalReducer';
+import relatedReducer from './reducers/relatedReducer';
 import storage from 'redux-persist/lib/storage'
 import {
   persistReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   authentication: authReducer,
   mishnaView: mishnaViewReducer,
   mishnaEdit: mishnaEditReducer,
+  related: relatedReducer,
 });
 
 

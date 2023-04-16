@@ -11,6 +11,7 @@ import { iMishna } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
 import { getMishna } from '../store/actions/navigationActions';
 import { setMishnaViewOptions } from '../store/actions/mishnaViewActions';
+import ManuscriptPopup from '../components/MishnaView/ManuscriptPopup';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: true,
@@ -63,8 +64,7 @@ const MishnaPage = (props: Props) => {
           zIndex: 100,
           background: t.palette.background.default,
           boxShadow: '0rem 0rem 1rem 2px #0000005e',
-        }}
-      >
+        }}>
         <MishnaViewOptions />
       </Grid>
       <Grid item md={8}>
@@ -78,6 +78,7 @@ const MishnaPage = (props: Props) => {
       <Grid item md={4}>
         <ExcerptsSection />
       </Grid>
+      <ManuscriptPopup />
     </Grid>
   );
 };

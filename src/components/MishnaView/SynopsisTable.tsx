@@ -8,6 +8,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { getSynopsisRaw, synopsisMap } from '../../inc/synopsisUtils';
+import { iManuscript, iManuscriptPopup, iSubline } from '../../types/types';
+import { setSublineData } from '../../store/actions/relatedActions';
+import { connect } from 'react-redux';
+import ButtonUnstyled from '../shared/ButtonUnstyled';
+import { getImageUrl } from '../../inc/manuscriptUtils';
 import { Tooltip, useTheme } from '@mui/material';
 import { iSynopsis, SourceType } from '../../types/types';
 
@@ -30,12 +35,27 @@ const useStyles = makeStyles({
   },
 });
 
+const mapStateToProps = (state) => ({
+  manuscriptsForChapter: state.related.manuscriptsForChapter,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setSublineData: (data: iManuscriptPopup) => {
+    dispatch(setSublineData(data));
+  },
+});
+
 interface Props {
-  synopsis: iSynopsis[];
+  subline: iSubline;
+  setSublineData: (data: iManuscriptPopup) => void;
+  lineNumber: string;
+  manuscriptsForChapter: iManuscript[];
 }
 
-export default function SynopsisTable(props: Props) {
+const SynopsisTable = (props: Props) => {
   const classes = useStyles();
+  const { subline, setSublineData, lineNumber, manuscriptsForChapter } = props;
+  const { synopsis } = subline;
   const theme = useTheme();
 
   const memoizedColor = useCallback((synopsis: iSynopsis)=>{
@@ -55,7 +75,6 @@ export default function SynopsisTable(props: Props) {
     }
   },[theme])
 
-  const { synopsis } = props;
 
   if (!synopsis) {
     return null;
@@ -79,13 +98,25 @@ export default function SynopsisTable(props: Props) {
       <Table className={classes.table} aria-label="simple table">
         <TableHead></TableHead>
         <TableBody>
-          {synopsis.map((synopsisRow, i) => {
+          {synopsis.map((synopsisRow, i: number) => {
+            const sublineData = {
+              line: +lineNumber,
+              subline: subline,
+              synopsisCode: synopsisRow.id,
+            };
+            const imageUrl = getImageUrl(manuscriptsForChapter, sublineData);
             const rawText = getSynopsisRaw(synopsisRow);
             return rawText ? (
               <TableRow key={i}>
                 <Tooltip enterDelay={800} leaveDelay={200} title={sourceFullName(synopsisRow)}>
                   <TableCell style={{ fontWeight: 'bold' }} component="td" scope="row">
-                    {sourceName(synopsisRow)}
+                    <ButtonUnstyled
+                      disabled={!imageUrl}
+                      onClick={() => {
+                        setSublineData({ ...sublineData, imageUrl });
+                      }}>
+                      {sourceName(synopsisRow)}
+                    </ButtonUnstyled>
                   </TableCell>
                 </Tooltip>
                 <TableCell align="left" sx={{
@@ -100,4 +131,6 @@ export default function SynopsisTable(props: Props) {
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SynopsisTable);
