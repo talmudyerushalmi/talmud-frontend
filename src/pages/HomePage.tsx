@@ -60,6 +60,21 @@ const HomePage = (props) => {
               <Typography variant="h3Roboto">Site development: Yaron Bar</Typography>
             </div>
           </Box>
+          <a
+            href="https://docs.google.com/document/d/1Rd9kpQMX7zWIy6hzR_pVzeu40cTC0ysD/edit"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: 'block',
+              width: '35rem',
+              margin: '0rem auto',
+              textAlign: 'center',
+              padding: '0.2rem',
+              color: 'white',
+              fontWeight: '900'
+            }}>
+            ISF workshop - Editions of Classical Jewish Literature in the Digital Era
+          </a>  
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Link
               to="/talmud/yevamot/001/001"
@@ -67,7 +82,7 @@ const HomePage = (props) => {
                 background: 'white',
                 display: 'block',
                 width: '10rem',
-                margin: '4rem 1rem',
+                margin: '2rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
                 borderRadius: '0.5rem',
@@ -82,7 +97,7 @@ const HomePage = (props) => {
                 background: 'white',
                 display: 'block',
                 width: '10rem',
-                margin: '4rem 1rem',
+                margin: '2rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
                 borderRadius: '0.5rem',
