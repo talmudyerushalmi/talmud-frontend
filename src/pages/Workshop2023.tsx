@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import { Container, Divider, Paper } from '@mui/material';
+import { Box, Container, Divider, Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import TagManager from 'react-gtm-module';
+import haifaImg from '../assets/haifa_uni.png';
+import scienceImg from '../assets/science.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,6 +94,28 @@ const Workshop2023Page = (props) => {
   return (
     <>
       <Container sx={{ textAlign: 'right' }}>
+        <Paper sx={{
+              marginBottom: '2rem'
+        }}>
+          <Box
+            display="flex"
+            sx={{
+              flexDirection: 'row-reverse',
+              justifyContent: 'space-between',
+              height: '14rem',
+            }}>
+            <img src={haifaImg} height="150" alt="haifa_uni" />
+            <Box sx={{ margin: '2rem 0', padding: '1rem' , textAlign:'center'}}>
+              <Typography variant="h1" align="center" >
+                Editions of Classical Jewish Literature in the Digital Era
+              </Typography>
+              <Typography>Research Workshop of the Israel Science Foundation</Typography>
+              <Typography>University of Haifa, June 18-20, 2023</Typography>
+            </Box>
+
+            <img src={scienceImg} height="150" alt="Israel Science Foundation" />
+          </Box>
+        </Paper>
         <Panel
           title="Sunday, June 18"
           secondaryTitle="Rabin Observatory, Rabin Building"
@@ -212,7 +236,10 @@ const Workshop2023Page = (props) => {
               time: '11:30-13:00',
               eventTitle: 'Talmudic Editions and Philology',
               speakers: [
-                { speaker: 'Adiel Schremer and Binyamin Katzoff', title: `Methodological Considerations Preparing Tosefta Neziqin Edition` },
+                {
+                  speaker: 'Adiel Schremer and Binyamin Katzoff',
+                  title: `Methodological Considerations Preparing Tosefta Neziqin Edition`,
+                },
                 { speaker: 'Richard Hidary', title: `A Model for a Digital Talmud Text and Intertextual Commentary` },
                 { speaker: 'Hector Patmore', title: `Philology: New Solutions to Old Problems` },
               ],
@@ -226,10 +253,13 @@ const Workshop2023Page = (props) => {
             {
               time: '14:15-15:30',
               eventTitle: 'Round Table (1): What Should a Rabbinic Digital Edition Look Like?',
-              speakers: [{speaker:'Chair', title: 'Shira Shmidman'},{speaker: 'Shlomi Efrati, David Fialkoff, Shlomi Tsemach [he]'}],
+              speakers: [
+                { speaker: 'Chair', title: 'Shira Shmidman' },
+                { speaker: 'Shlomi Efrati, David Fialkoff, Shlomi Tsemach [he]' },
+              ],
             },
             {
-              time:'',
+              time: '',
               break: true,
               eventTitle: 'Coffee Break',
               speakers: [],
@@ -261,7 +291,7 @@ const Workshop2023Page = (props) => {
           ]}
         />
 
-<Panel
+        <Panel
           title="Tuesday, June 20"
           secondaryTitle="Aviva and Sammy Ofer Observation Gallery, Eshkol Tower"
           items={[
@@ -278,8 +308,14 @@ const Workshop2023Page = (props) => {
                   speaker: 'Jonathan Milgram',
                   title: `Between Memra and Stam: On the Role of Memory in the Transmission of Statements in the Babylonian Talmud`,
                 },
-                { speaker: 'Shai Secunda', title: `Sea of Babylon: Mapping Non-Mishnaic “Digressions” in the Babylonian Talmud` },
-                { speaker: `Hillel Gershuni`, title: `Hachi Garsinan and Beyond: Has the Time Come for a Critical Edition of the Babylonian Talmud?` },
+                {
+                  speaker: 'Shai Secunda',
+                  title: `Sea of Babylon: Mapping Non-Mishnaic “Digressions” in the Babylonian Talmud`,
+                },
+                {
+                  speaker: `Hillel Gershuni`,
+                  title: `Hachi Garsinan and Beyond: Has the Time Come for a Critical Edition of the Babylonian Talmud?`,
+                },
               ],
             },
             {
@@ -293,8 +329,14 @@ const Workshop2023Page = (props) => {
               eventTitle: 'Digital Tools and Digital Editions',
               speakers: [
                 { speaker: 'Nachum Dershowitz', title: `Computational Paleography` },
-                { speaker: 'Daniel Stoekl Ben Ezra and Hayim Lapin', title: `Towards a Pipeline From eScriptorium to a Critical Edition for Rabbinic Texts` },
-                { speaker: 'Avi Shmidman', title: `Abbreviation Expansion in Digital Editions: from TEI to Neural Networks` },
+                {
+                  speaker: 'Daniel Stoekl Ben Ezra and Hayim Lapin',
+                  title: `Towards a Pipeline From eScriptorium to a Critical Edition for Rabbinic Texts`,
+                },
+                {
+                  speaker: 'Avi Shmidman',
+                  title: `Abbreviation Expansion in Digital Editions: from TEI to Neural Networks`,
+                },
               ],
             },
             {
@@ -306,14 +348,11 @@ const Workshop2023Page = (props) => {
             {
               time: '14:30-15:30',
               eventTitle: 'Round Table (2): Ancient Texts in the Digital Era – Concluding Thoughts',
-              speakers: [{speaker:'Menachem Katz, Hillel Gershuni, Vered Raziel-Kretzmer, Avi Shmidman [he]'}],
+              speakers: [{ speaker: 'Menachem Katz, Hillel Gershuni, Vered Raziel-Kretzmer, Avi Shmidman [he]' }],
             },
-            
           ]}
         />
         <br></br>
-
-        
       </Container>
     </>
   );
