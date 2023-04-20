@@ -74,14 +74,15 @@ const Speakers = (props: SpeakersProps) => {
     <ul style={{ direction: 'ltr' }}>
       {speakers.map((speaker) => {
         const titleTag = speaker.boldTitle ? <strong>{speaker.title}</strong> : <span>{speaker.title}</span>
+        const speakerTag = speaker.boldTitle ? <span>{speaker.speaker}</span> : <strong>{speaker.speaker}</strong>
         return (
           <li>
             {speaker.title ? (
               <p>
-                <strong>{speaker.speaker}</strong>: {titleTag}
+                {speakerTag}: {titleTag}
               </p>
             ) : (
-              <strong>{speaker.speaker}</strong>
+              speakerTag
             )}
           </li>
         );
