@@ -58,6 +58,7 @@ const Panel = (props: PanelProps) => {
 interface Speaker {
   speaker: string;
   title?: string;
+  boldTitle?: boolean;
 }
 interface SpeakersProps {
   speakers: Speaker[];
@@ -71,17 +72,20 @@ const Speakers = (props: SpeakersProps) => {
 
   return (
     <ul style={{ direction: 'ltr' }}>
-      {speakers.map((speaker) => (
-        <li>
-          {speaker.title ? (
-            <p>
-              <strong>{speaker.speaker}</strong>: {speaker.title}
-            </p>
-          ) : (
-            <strong>{speaker.speaker}</strong>
-          )}
-        </li>
-      ))}
+      {speakers.map((speaker) => {
+        const titleTag = speaker.boldTitle ? <strong>{speaker.title}</strong> : <span>{speaker.title}</span>
+        return (
+          <li>
+            {speaker.title ? (
+              <p>
+                <strong>{speaker.speaker}</strong>: {titleTag}
+              </p>
+            ) : (
+              <strong>{speaker.speaker}</strong>
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 };
@@ -163,7 +167,7 @@ const Workshop2023Page = (props) => {
             {
               time: '12:00-13:00',
               eventTitle: 'Open Discussion: Between Classical and Digital Editions of Jewish Literature',
-              speakers: [{ speaker: 'Chair', title: 'Menachem Katz' }],
+              speakers: [{ speaker: 'Chair', title: 'Menachem Katz', boldTitle: true }],
             },
             {
               time: '13:00-14:00',
@@ -262,7 +266,7 @@ const Workshop2023Page = (props) => {
               time: '14:15-15:30',
               eventTitle: 'Round Table (1): What Should a Rabbinic Digital Edition Look Like?',
               speakers: [
-                { speaker: 'Chair', title: 'Shira Shmidman' },
+                { speaker: 'Chair', title: 'Shira Shmidman', boldTitle: true },
                 { speaker: 'Shlomi Efrati, David Fialkoff, Shlomi Tsemach [he]' },
               ],
             },
