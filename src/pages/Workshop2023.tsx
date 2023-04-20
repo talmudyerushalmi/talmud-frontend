@@ -65,7 +65,6 @@ interface SpeakersProps {
 
 const Speakers = (props: SpeakersProps) => {
   const { speakers } = props;
-  console.log('speakers ', speakers);
   if (speakers.length === 0 || !speakers) {
     return null;
   }
@@ -73,7 +72,15 @@ const Speakers = (props: SpeakersProps) => {
   return (
     <ul style={{ direction: 'ltr' }}>
       {speakers.map((speaker) => (
-        <li>{speaker.title ? `${speaker.speaker}: ${speaker.title}` : speaker.speaker}</li>
+        <li>
+          {speaker.title ? (
+            <p>
+              <strong>{speaker.speaker}</strong>: {speaker.title}
+            </p>
+          ) : (
+            <strong>{speaker.speaker}</strong>
+          )}
+        </li>
       ))}
     </ul>
   );
@@ -94,9 +101,10 @@ const Workshop2023Page = (props) => {
   return (
     <>
       <Container sx={{ textAlign: 'right' }}>
-        <Paper sx={{
-              marginBottom: '2rem'
-        }}>
+        <Paper
+          sx={{
+            marginBottom: '2rem',
+          }}>
           <Box
             display="flex"
             sx={{
@@ -104,9 +112,9 @@ const Workshop2023Page = (props) => {
               justifyContent: 'space-between',
               height: '14rem',
             }}>
-            <img src={haifaImg} height="150" alt="haifa_uni" />
-            <Box sx={{ margin: '2rem 0', padding: '1rem' , textAlign:'center'}}>
-              <Typography variant="h1" align="center" >
+            <img src={haifaImg} style={{ padding: '1rem' }} height="150" alt="haifa_uni" />
+            <Box sx={{ margin: '2rem 0', padding: '1rem', textAlign: 'center' }}>
+              <Typography variant="h1" align="center">
                 Editions of Classical Jewish Literature in the Digital Era
               </Typography>
               <Typography>Research Workshop of the Israel Science Foundation</Typography>
@@ -265,7 +273,7 @@ const Workshop2023Page = (props) => {
               speakers: [],
             },
             {
-              time: '16:00-17:30',
+              time: '16:00-18:00',
               eventTitle: 'Old Manuscripts and New Possibilities',
               speakers: [
                 {
@@ -273,17 +281,21 @@ const Workshop2023Page = (props) => {
                   title: 'Digitized Patristic Manuscripts as Sources of Earlier Jewish Texts: Maccabees I and Eusebius',
                 },
                 {
-                  speaker: 'Bill Rebiger and Marcus Pöckelmann',
-                  title: `The First Scholarly Edition of the Kabbalistic Treatise Keter Shem Tov`,
+                  speaker: 'Bill Rebiger',
+                  title: `Constructing Texts with Modules: The Kabbalistic Treatise 'Keter Shem Ṭov' and Related Texts as a Challenge for Digital Editions`,
+                },
+                {
+                  speaker: 'Marcus Pöckelmann',
+                  title: `Showcasing the Features of the Collation Tool LERA for Scholarly Editing Hebrew Texts. Case Study: Keter Shem Ṭov`,
                 },
                 {
                   speaker: 'Maximilian de Molière',
-                  title: `Showcasing the Features of the Collation Tool LERA for Scholarly Editing Hebrew Texts. Case Study: Keter Shem Ṭov`,
+                  title: ``,
                 },
               ],
             },
             {
-              time: '18:00-20:00',
+              time: '18:30-20:00',
               break: true,
               eventTitle: 'Dinner',
               speakers: [],
