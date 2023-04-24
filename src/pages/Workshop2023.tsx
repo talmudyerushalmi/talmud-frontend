@@ -40,15 +40,15 @@ const Panel = (props: PanelProps) => {
     <Paper className={classes.panel} style={{ marginBottom: '3rem' }}>
       <h2>{title}</h2>
       <h3>{secondaryTitle}</h3>
-      {items.map((item) => {
+      {items.map((item, index) => {
         const title = item.time ? `${item.time}  ${item.eventTitle}` : `${item.eventTitle}`;
         return (
-          <>
+          <div key={index}>
             {item.break ? <Divider></Divider> : null}
             <h4 style={{ direction: 'ltr' }}>{title}</h4>
             <Speakers speakers={item.speakers} />
             {item.break ? <Divider></Divider> : null}
-          </>
+          </div>
         );
       })}
     </Paper>
@@ -72,11 +72,11 @@ const Speakers = (props: SpeakersProps) => {
 
   return (
     <ul style={{ direction: 'ltr' }}>
-      {speakers.map((speaker) => {
+      {speakers.map((speaker, index) => {
         const titleTag = speaker.boldTitle ? <strong>{speaker.title}</strong> : <span>{speaker.title}</span>
         const speakerTag = speaker.boldTitle ? <span>{speaker.speaker}</span> : <strong>{speaker.speaker}</strong>
         return (
-          <li>
+          <li key={index}>
             {speaker.title ? (
               <p>
                 {speakerTag}: {titleTag}
@@ -295,7 +295,7 @@ const Workshop2023Page = (props) => {
                 },
                 {
                   speaker: 'Maximilian de Molière',
-                  title: ``,
+                  title: `The Correspondence of R. Moses Zacuto: an Online Edition`,
                 },
               ],
             },
