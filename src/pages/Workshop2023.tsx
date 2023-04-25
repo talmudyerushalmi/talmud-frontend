@@ -177,9 +177,13 @@ const Workshop2023Page = (props) => {
               speakers: [],
             },
             {
-              time: '14:15-15:45',
+              time: '14:15-16:15',
               eventTitle: 'Digitizing Jewish Texts and Jewish Culture',
               speakers: [
+                {
+                  speaker: 'Jakub Zbrzeżny',
+                  title: 'Digitized Medieval Patristic Manuscripts as a Source of New Witnesses to Ancient Jewish Literature: the Case of Eusebius of Caesarea and the First Book of Maccabees',
+                },
                 {
                   speaker: 'Avriel Bar Levav',
                   title: 'Textual Intimacy in a Digital Age: An Ecology of Digital Texts in Jewish Culture',
@@ -201,7 +205,7 @@ const Workshop2023Page = (props) => {
               speakers: [],
             },
             {
-              time: '16:00-17:30',
+              time: '16:30-18:00',
               eventTitle: 'Editions of Medieval Works',
               speakers: [
                 { speaker: 'Pinchas Roth', title: 'In the Margins: Editing Medieval Rabbinic Responsa' },
@@ -278,13 +282,9 @@ const Workshop2023Page = (props) => {
               speakers: [],
             },
             {
-              time: '16:00-18:00',
-              eventTitle: 'Old Manuscripts and New Possibilities',
+              time: '16:00-17:30',
+              eventTitle: 'Digtal Editions of Kabbalistic Writings',
               speakers: [
-                {
-                  speaker: 'Jakub Zbrzeżny',
-                  title: 'Digitized Patristic Manuscripts as Sources of Earlier Jewish Texts: Maccabees I and Eusebius',
-                },
                 {
                   speaker: 'Bill Rebiger',
                   title: `Constructing Texts with Modules: The Kabbalistic Treatise 'Keter Shem Ṭov' and Related Texts as a Challenge for Digital Editions`,
@@ -300,7 +300,7 @@ const Workshop2023Page = (props) => {
               ],
             },
             {
-              time: '18:30-20:00',
+              time: '18:00-20:00',
               break: true,
               eventTitle: 'Dinner',
               speakers: [],
