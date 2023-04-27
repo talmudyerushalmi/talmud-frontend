@@ -255,7 +255,7 @@ const Workshop2023Page = (props) => {
               speakers: [
                 {
                   speaker: 'Adiel Schremer and Binyamin Katzoff',
-                  title: `Methodological Considerations Preparing Tosefta Neziqin Edition`,
+                  title: `Methodological Considerations Preparing Tosefta Neziqin Edition [he]`,
                 },
                 { speaker: 'Richard Hidary', title: `A Model for a Digital Talmud Text and Intertextual Commentary` },
                 { speaker: 'Hector Patmore', title: `Philology: New Solutions to Old Problems` },
