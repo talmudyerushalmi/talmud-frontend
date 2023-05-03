@@ -313,7 +313,7 @@ const Workshop2023Page = (props) => {
           secondaryTitle="Aviva and Sammy Ofer Observation Gallery, Eshkol Tower"
           items={[
             {
-              time: '9:00-9:30',
+              time: '9:00-9:15',
               eventTitle: 'Coffee and Registration',
               speakers: [],
             },
