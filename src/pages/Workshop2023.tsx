@@ -153,10 +153,10 @@ const Workshop2023Page = (props) => {
               time: '11:00-11:45',
               eventTitle: 'Sofer Stam: Special Session [he]',
               speakers: [
-                { speaker: 'Moshe Lavee' },
-                { speaker: 'Shmuel Londner' },
-                { speaker: 'Hadar Miller' },
-                { speaker: 'Yoav Phillips' },
+                { speaker: 'Chair and introduction', title: 'Moshe Lavee', boldTitle: true },
+                { speaker: 'Hadar Miller', title: 'Applying Text Reuse Detection in the Preparation of Digital Edition' },
+                { speaker: 'Samuel Londnder', title: 'Methods for Improving Automatic Transcription of Manuscripts' },
+                { speaker: 'Yoav Phillips', title: 'Expanding Text Reuse Detection and Automatic Transcription from Hebrew to Judeo Arabic' },
               ],
             },
             {
@@ -318,9 +318,10 @@ const Workshop2023Page = (props) => {
               speakers: [],
             },
             {
-              time: '9:30-11:00',
+              time: '9:15-11:15',
               eventTitle: 'The Babylonian Talmud',
               speakers: [
+                { speaker: 'Chair', title: 'Menachem Katz', boldTitle: true },
                 {
                   speaker: 'Jonathan Milgram',
                   title: `Between Memra and Stam: On the Role of Memory in the Transmission of Statements in the Babylonian Talmud`,
@@ -328,6 +329,10 @@ const Workshop2023Page = (props) => {
                 {
                   speaker: 'Shai Secunda',
                   title: `Sea of Babylon: Mapping Non-Mishnaic “Digressions” in the Babylonian Talmud`,
+                },
+                {
+                  speaker: `Aharon (Roni) Shweka`,
+                  title: ` Collating the Talmud: Perspectives on the Hachi Garsinan Project`,
                 },
                 {
                   speaker: `Hillel Gershuni`,
