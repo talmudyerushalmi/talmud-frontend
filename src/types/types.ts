@@ -121,36 +121,22 @@ export interface iInternalLink {
 
 export interface iComment {
   commentID: string;
-  line: number;
-  text?: string;
+  title: string;
+  text: string;
   type: CommentType;
   tractate: string;
-  title: string;
-  subline?: number;
-}
-
-export interface iPostComment {
-  tractate: string;
+  chapter: string;
+  mishna: string;
   line: number;
-  text: string;
-  type: iCommentTypeWithoutPublic;
-  title: string;
-  subline?: number;
+  fromWord: string;
+  toWord: string;
 }
 
-export type iCommentTypeWithoutPublic = Omit<CommentType, CommentType.PUBLIC>;
+export type iPostComment = Omit<iComment, 'commentID'>;
 
-export enum CommentTypeValues {
-  PUBLIC = 'public',
-  PRIVATE = 'private',
-}
-
-export interface iUpdateComment extends iPostComment {
-  commentID: string;
-}
+export interface iUpdateComment extends iPostComment {}
 
 export enum CommentType {
-  PUBLIC = 'public',
   PRIVATE = 'private',
   MODERATION = 'moderation',
 }

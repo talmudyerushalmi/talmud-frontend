@@ -3,6 +3,7 @@ import PageService from '../../services/pageService';
 import SettingsService from '../../services/settingsServince';
 import { iMishna } from '../../types/types';
 import { tryAsyncWithLoadingState } from './actionHelpers';
+import { getPrivateComments } from './commentsActions';
 
 export const REQUEST_START = 'REQUEST_START';
 export const REQUEST_COMPOSITIONS = 'REQUEST_COMPOSITIONS';
@@ -99,6 +100,7 @@ export function getMishna(tractate: string, chapter: string, mishna: string) {
     let mishnaData = await tryAsyncWithLoadingState(dispatch, PageService.getMishna(tractate, chapter, mishna));
     if (mishnaData) {
       dispatch(setCurrentMishna(mishnaData));
+      dispatch(getPrivateComments())
     }
   };
 }

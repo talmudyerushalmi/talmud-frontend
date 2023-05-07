@@ -11,7 +11,6 @@ import { iMishna } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
 import { getMishna } from '../store/actions/navigationActions';
 import { setMishnaViewOptions } from '../store/actions/mishnaViewActions';
-import { getComments } from '../store/actions/commentsActions';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: true,
@@ -32,30 +31,21 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   getMishna: (tractate: string, chapter: string, mishna: string) => {
     dispatch(getMishna(tractate, chapter, mishna));
   },
-
-  getComments: (tractate: string) => {
-    dispatch(getComments(tractate));
-  },
 });
 
 interface Props {
   currentMishna: iMishna;
   getMishna: Function;
   setMishnaViewOptions: Function;
-  getComments: Function;
 }
 const MishnaPage = (props: Props) => {
-  const { currentMishna, getMishna, setMishnaViewOptions, getComments } = props;
+  const { currentMishna, getMishna, setMishnaViewOptions } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
   const t = useTheme();
 
   useEffect(() => {
     setMishnaViewOptions();
   }, []);
-
-  useEffect(() => {
-    getComments(tractate);
-  }, [tractate]);
 
   useEffect(() => {
     getMishna(tractate, chapter, mishna);

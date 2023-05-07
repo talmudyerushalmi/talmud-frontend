@@ -1,13 +1,11 @@
 import {
   SET_COMMENT_MODAL,
   SET_PRIVATE_COMMENTS,
-  SET_PUBLIC_COMMENTS,
   SET_SELECTED_COMMENT,
 } from '../actions/commentsActions';
 
 const initialState = {
   privateComments: [],
-  publicComments: [],
   commentModal: false,
   selectedComment: null,
 };
@@ -19,12 +17,6 @@ const commentsReducer = (state = initialState, action: any) => {
         ...state,
         privateComments: action.comments,
       };
-    case SET_PUBLIC_COMMENTS:
-      return {
-        ...state,
-        publicComments: action.comments,
-      };
-
     case SET_COMMENT_MODAL:
       return {
         ...state,

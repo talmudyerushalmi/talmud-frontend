@@ -3,11 +3,12 @@ import makeStyles from '@mui/styles/makeStyles';
 import Typography from '@mui/material/Typography';
 import { Box, Card, IconButton } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { CommentType, iComment } from '../../types/types';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { iComment } from '../../types/types';
 import EditCommentsDialog from '../comments/EditCommentsDialog';
 import { useAppDispatch } from '../../app/hooks';
-import { updateComment } from '../../store/actions/commentsActions';
+import { getPrivateComments, removeComment, updateComment } from '../../store/actions/commentsActions';
 
 const useStyles = makeStyles({
   root: {
@@ -40,18 +41,16 @@ interface Props {
   onClose: Function;
   open: boolean;
   selectedComment: iComment;
-  privateCommentsByMishna: iComment[];
 }
 
 const CommentsExcerptDetailsView = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const classes = useStyles();
-  const { onClose, open, selectedComment,privateCommentsByMishna } = props;
+  const { onClose, open, selectedComment } = props;
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   if (!selectedComment) return null;
-  
 
   const classRoot = open ? classes.openCard : classes.closedCard;
 
@@ -59,15 +58,20 @@ const CommentsExcerptDetailsView = (props: Props) => {
     const updatedComment = {
       ...selectedComment,
       ...comment,
-      type: comment.type === CommentType.PRIVATE ? CommentType.PRIVATE : CommentType.MODERATION,
     };
 
     dispatch(updateComment(updatedComment));
     setOpenModal(false);
     onClose();
+    dispatch(getPrivateComments());
   };
 
-  const renderEditButton = privateCommentsByMishna.some((comment) => comment.commentID === selectedComment.commentID);
+  const handleRemoveComment = () => {
+    dispatch(removeComment(selectedComment.commentID));
+    setOpenModal(false);
+    onClose();
+    dispatch(getPrivateComments());
+  };
 
   return (
     <>
@@ -81,17 +85,23 @@ const CommentsExcerptDetailsView = (props: Props) => {
             size="large">
             <CancelIcon />
           </IconButton>
-          {!!renderEditButton && (
+          <Box>
             <IconButton
               onClick={(e) => {
                 setOpenModal(true);
               }}>
-              <EditIcon />
+              <EditIcon color="primary" />
             </IconButton>
-          )}
+            <IconButton
+              onClick={(e) => {
+                handleRemoveComment();
+              }}>
+              <DeleteIcon color="error" />
+            </IconButton>
+          </Box>
         </Box>
         <Typography variant="h3" style={{ fontWeight: 'bold' }}>
-          שורה {selectedComment?.subline} - {selectedComment?.title}
+          {selectedComment?.title}
         </Typography>
         <div className={classes.content} dangerouslySetInnerHTML={{ __html: selectedComment?.text || '' }}></div>
       </Card>

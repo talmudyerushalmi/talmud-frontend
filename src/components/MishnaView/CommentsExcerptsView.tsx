@@ -4,19 +4,18 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { ExcerptsAccordion } from './exercptsAccordion';
-import { iComment, iPublicCommentsByTractate } from '../../types/types';
+import { iComment } from '../../types/types';
 import CommentExcerptView from './CommentExcerptView';
 
 interface IProps {
-  comments: iComment[] | iPublicCommentsByTractate[];
+  comments: iComment[];
   expanded: boolean;
-  isPublicComments?: boolean;
 }
 
-export const CommentsExcerptsView: FC<IProps> = ({ comments, expanded, isPublicComments }) => {
+export const CommentsExcerptsView: FC<IProps> = ({ comments, expanded }) => {
   const { t } = useTranslation();
 
-  const title = isPublicComments ? 'Public Comments' : 'Personal Comments';
+  const title = 'Personal Comments';
 
   return (
     <ExcerptsAccordion>
@@ -28,7 +27,7 @@ export const CommentsExcerptsView: FC<IProps> = ({ comments, expanded, isPublicC
       <AccordionDetails>
         <div style={{ width: '100%' }}>
           {comments?.map((comment) => (
-            <CommentExcerptView comment={comment} expanded={expanded} key={comment.commentID} isPublicComments={isPublicComments}/>
+            <CommentExcerptView comment={comment} expanded={expanded} key={comment.commentID} />
           ))}
         </div>
       </AccordionDetails>
