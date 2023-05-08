@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
@@ -52,7 +52,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
     type: CommentType.PRIVATE,
   };
 
-  const { errors, handleChange, values, handleSubmit, touched } = useFormik({
+  const { errors, handleChange, values, handleSubmit, touched, resetForm } = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
@@ -69,6 +69,12 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
       onClose();
     },
   });
+
+  useEffect(() => {
+    if (commentModal) {
+      resetForm();
+    }
+  }, [commentModal]);
 
   return (
     <Dialog
