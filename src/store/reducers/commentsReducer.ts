@@ -1,12 +1,8 @@
-import {
-  SET_COMMENT_MODAL,
-  SET_PRIVATE_COMMENTS,
-  SET_SELECTED_COMMENT,
-} from '../actions/commentsActions';
+import { CommentModal, SET_COMMENT_MODAL, SET_PRIVATE_COMMENTS, SET_SELECTED_COMMENT } from '../actions/commentsActions';
 
 const initialState = {
   privateComments: [],
-  commentModal: false,
+  commentModal: null,
   selectedComment: null,
 };
 
@@ -20,13 +16,13 @@ const commentsReducer = (state = initialState, action: any) => {
     case SET_COMMENT_MODAL:
       return {
         ...state,
-        commentModal: action.open,
+        commentModal: action.payload,
       };
     case SET_SELECTED_COMMENT:
       return {
         ...state,
         selectedComment: action.comment,
-        commentModal: !!action.comment,
+        commentModal: { open: CommentModal.EDIT },
       };
     default:
       return state;

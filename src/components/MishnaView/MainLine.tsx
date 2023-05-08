@@ -22,6 +22,17 @@ interface Props {
 const MainLine = (props: Props) => {
   const { line, lineIndex, userAuth } = props;
   const [dynamicComponents, setdynamicComponents] = useState<ReactElement[]>([]);
+  const [hoverSubline, setHoverSubline] = React.useState<number>(-1);
+
+  const handleMouseLeave = () => {
+    setTimeout(() => {
+      setHoverSubline(-1);
+    }, 3000);
+  };
+
+  const handleMouseEnter = (subline: number) => {
+    setHoverSubline(subline);
+  };
 
   useEffect(() => {
     let dynamicComponentsToLoad = userAuth ? [] : [];
@@ -50,7 +61,14 @@ const MainLine = (props: Props) => {
               return (
                 <div key={index}>
                   {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
-                  <SublineDisplay key={index} lineIndex={lineIndex} subline={subline} />
+                  <SublineDisplay
+                    key={index}
+                    lineIndex={lineIndex}
+                    subline={subline}
+                    hoverSubline={hoverSubline}
+                    handleMouseLeave={handleMouseLeave}
+                    handleMouseEnter={handleMouseEnter}
+                  />
                 </div>
               );
             })

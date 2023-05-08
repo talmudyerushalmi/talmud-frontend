@@ -14,9 +14,23 @@ export const setPrivateComments = (comments: iComments | []) => ({
   comments,
 });
 
-export const setCommentModal = (open: boolean) => ({
+export enum CommentModal {
+  EDIT = 'edit',
+  CREATE = 'create',
+}
+
+export interface iCommentModal {
+  open?: CommentModal;
+  line?: number;
+  subline?: number;
+  sublineText?: string;
+  fromWord?: string;
+  toWord?: string;
+}
+
+export const setCommentModal = (payload: iCommentModal | null) => ({
   type: SET_COMMENT_MODAL,
-  open,
+  payload,
 });
 
 export const setSelectedComment = (comment: iComment | null) => ({
@@ -32,9 +46,20 @@ export const getPrivateComments = () => {
   };
 };
 
-export const createComment = (comment: iPostComment) => {
+type iCreateComment = Omit<iPostComment, 'tractate' | 'chapter' | 'mishna'>;
+
+export const createComment = (comment: iCreateComment) => {
   return async function (dispatch: Dispatch, getState) {
-    const res = await tryAsyncWithLoadingState(dispatch, UsersService.createComment(comment));
+    const { tractate, chapter, mishna } = getState().navigation.currentRoute;
+    const res = await tryAsyncWithLoadingState(
+      dispatch,
+      UsersService.createComment({
+        ...comment,
+        tractate,
+        chapter,
+        mishna,
+      })
+    );
     dispatch(setPrivateComments(res.comments));
   };
 };

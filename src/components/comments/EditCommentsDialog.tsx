@@ -35,7 +35,7 @@ const EditCommentsDialog: FC<IProps> = ({ open, onClose, submitHandler, comment 
     title: comment?.title || '',
   };
 
-  const { errors, handleChange, values, handleSubmit, touched, resetForm, setFieldValue } = useFormik({
+  const { errors, handleChange, values, handleSubmit, touched, resetForm } = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,

@@ -130,6 +130,7 @@ export interface iComment {
   line: number;
   fromWord: string;
   toWord: string;
+  subline: number;
 }
 
 export type iPostComment = Omit<iComment, 'commentID'>;

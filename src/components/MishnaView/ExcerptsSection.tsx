@@ -1,14 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { selectExcerpt } from '../../store/actions';
-import { iComment, iMishna, iPublicCommentsByTractate } from '../../types/types';
+import { iComment, iMishna } from '../../types/types';
 import { themeConstants } from '../../ui/Theme';
 import { EXCERPT_TYPE } from '../edit/EditMishna/ExcerptDialog';
 import CommentsExcerptDetailsView from './CommentsExcerptDetailsView';
 import { CommentsExcerptsView } from './CommentsExcerptsView';
 import ExcerptDetailsView from './ExcerptDetailsView';
 import ExcerptsView from './ExcerptsView';
-import { setSelectedComment } from '../../store/actions/commentsActions';
+import { CommentModal, iCommentModal, setSelectedComment } from '../../store/actions/commentsActions';
+import CreateCommentModal from './CreateCommentModal';
 
 const mapStateToProps = (state) => ({
   currentMishna: state.navigation.currentMishna,
@@ -35,10 +36,9 @@ interface IProps {
   detailsExcerptPopup: boolean;
   selectedExcerpt: any;
   selectExcerpt: (excerpt: any) => void;
-  publicComments: iPublicCommentsByTractate[];
   privateComments: iComment[];
   currentMishna: iMishna;
-  commentModal: boolean;
+  commentModal: iCommentModal | null;
   selectedComment: iComment;
   setSelectedComment: (comment: iComment | null) => void;
 }
@@ -99,7 +99,12 @@ const ExcerptsSection = (props: IProps) => {
       <CommentsExcerptDetailsView
         onClose={() => setSelectedComment(null)}
         selectedComment={selectedComment}
-        open={commentModal}
+        open={commentModal?.open === CommentModal.EDIT}
+      />
+      <CreateCommentModal
+        open={commentModal?.open === CommentModal.CREATE}
+        onClose={() => setSelectedComment(null)}
+        commentModal={commentModal}
       />
       <ExcerptsView expanded={expanded} type={EXCERPT_TYPE.MAKBILA} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.MUVAA} expanded={expanded} excerpts={filteredExcerpts} />
