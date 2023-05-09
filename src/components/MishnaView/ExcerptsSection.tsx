@@ -112,6 +112,7 @@ const ExcerptsSection = (props: IProps) => {
       <ExcerptsView type={EXCERPT_TYPE.BIBLIO} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.EXPLANATORY} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.DICTIONARY} expanded={expanded} excerpts={filteredExcerpts} />
+      <ExcerptsView type={EXCERPT_TYPE.COMMENT} expanded={expanded} excerpts={filteredExcerpts} />
       <CommentsExcerptsView expanded={expanded} comments={privateComments} />
     </div>
   );
