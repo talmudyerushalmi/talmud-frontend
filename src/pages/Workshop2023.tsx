@@ -73,8 +73,8 @@ const Speakers = (props: SpeakersProps) => {
   return (
     <ul style={{ direction: 'ltr' }}>
       {speakers.map((speaker, index) => {
-        const titleTag = speaker.boldTitle ? <strong>{speaker.title}</strong> : <span>{speaker.title}</span>
-        const speakerTag = speaker.boldTitle ? <span>{speaker.speaker}</span> : <strong>{speaker.speaker}</strong>
+        const titleTag = speaker.boldTitle ? <strong>{speaker.title}</strong> : <span>{speaker.title}</span>;
+        const speakerTag = speaker.boldTitle ? <span>{speaker.speaker}</span> : <strong>{speaker.speaker}</strong>;
         return (
           <li key={index}>
             {speaker.title ? (
@@ -160,7 +160,8 @@ const Workshop2023Page = (props) => {
               speakers: [
                 {
                   speaker: 'Jakub Zbrzeżny',
-                  title: 'Digitized Medieval Patristic Manuscripts as a Source of New Witnesses to Ancient Jewish Literature: the Case of Eusebius of Caesarea and the First Book of Maccabees',
+                  title:
+                    'Digitized Medieval Patristic Manuscripts as a Source of New Witnesses to Ancient Jewish Literature: the Case of Eusebius of Caesarea and the First Book of Maccabees',
                 },
                 {
                   speaker: 'Avriel Bar Levav',
@@ -350,14 +351,21 @@ const Workshop2023Page = (props) => {
               eventTitle: 'Round Table (2): Ancient Texts in the Digital Era – Concluding Thoughts',
               speakers: [{ speaker: 'Menachem Katz, Hillel Gershuni, Vered Raziel-Kretzmer, Avi Shmidman [he]' }],
             },
-			{
+            {
               time: '16:00-17:00',
               eventTitle: 'Sofer Stam: Special Session [he]',
+              break: true,
               speakers: [
                 { speaker: 'Chair and introduction', title: 'Moshe Lavee', boldTitle: true },
-                { speaker: 'Hadar Miller', title: 'Applying Text Reuse Detection in the Preparation of Digital Edition' },
+                {
+                  speaker: 'Hadar Miller',
+                  title: 'Applying Text Reuse Detection in the Preparation of Digital Edition',
+                },
                 { speaker: 'Samuel Londnder', title: 'Methods for Improving Automatic Transcription of Manuscripts' },
-                { speaker: 'Yoav Phillips', title: 'Expanding Text Reuse Detection and Automatic Transcription from Hebrew to Judeo Arabic' },
+                {
+                  speaker: 'Yoav Phillips',
+                  title: 'Expanding Text Reuse Detection and Automatic Transcription from Hebrew to Judeo Arabic',
+                },
               ],
             },
           ]}
