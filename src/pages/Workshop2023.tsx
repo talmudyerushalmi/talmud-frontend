@@ -134,39 +134,17 @@ const Workshop2023Page = (props) => {
           secondaryTitle="Rabin Observatory, Rabin Building"
           items={[
             {
-              time: '9:00-9:30',
+              time: '11:30-12:00',
               eventTitle: 'Coffee and Registration',
               speakers: [],
             },
             {
-              time: '9:30-10:30',
-              eventTitle: 'Opening Remarks',
-              speakers: [{ speaker: 'Efraim Lev' }, { speaker: 'Hillel Newman' }],
+              time: '12:30-12:20',
+              eventTitle: 'Greetings',
+              speakers: [{ speaker: 'Efraim Lev' }],
             },
             {
-              time: '',
-              break: true,
-              eventTitle: 'Coffee Break',
-              speakers: [],
-            },
-            {
-              time: '11:00-11:45',
-              eventTitle: 'Sofer Stam: Special Session [he]',
-              speakers: [
-                { speaker: 'Chair and introduction', title: 'Moshe Lavee', boldTitle: true },
-                { speaker: 'Hadar Miller', title: 'Applying Text Reuse Detection in the Preparation of Digital Edition' },
-                { speaker: 'Samuel Londnder', title: 'Methods for Improving Automatic Transcription of Manuscripts' },
-                { speaker: 'Yoav Phillips', title: 'Expanding Text Reuse Detection and Automatic Transcription from Hebrew to Judeo Arabic' },
-              ],
-            },
-            {
-              time: '',
-              break: true,
-              eventTitle: 'Coffee Break',
-              speakers: [],
-            },
-            {
-              time: '12:00-13:00',
+              time: '12:10-13:00',
               eventTitle: 'Open Discussion: Between Classical and Digital Editions of Jewish Literature',
               speakers: [{ speaker: 'Chair', title: 'Menachem Katz', boldTitle: true }],
             },
@@ -224,7 +202,7 @@ const Workshop2023Page = (props) => {
 
         <Panel
           title="Monday, June 19"
-          secondaryTitle="Room 165"
+          secondaryTitle="Aviva and Sammy Ofer Observation Gallery, Eshkol Tower"
           items={[
             {
               time: '9:00-9:30',
@@ -371,6 +349,16 @@ const Workshop2023Page = (props) => {
               time: '14:30-15:30',
               eventTitle: 'Round Table (2): Ancient Texts in the Digital Era – Concluding Thoughts',
               speakers: [{ speaker: 'Menachem Katz, Hillel Gershuni, Vered Raziel-Kretzmer, Avi Shmidman [he]' }],
+            },
+			{
+              time: '16:00-17:00',
+              eventTitle: 'Sofer Stam: Special Session [he]',
+              speakers: [
+                { speaker: 'Chair and introduction', title: 'Moshe Lavee', boldTitle: true },
+                { speaker: 'Hadar Miller', title: 'Applying Text Reuse Detection in the Preparation of Digital Edition' },
+                { speaker: 'Samuel Londnder', title: 'Methods for Improving Automatic Transcription of Manuscripts' },
+                { speaker: 'Yoav Phillips', title: 'Expanding Text Reuse Detection and Automatic Transcription from Hebrew to Judeo Arabic' },
+              ],
             },
           ]}
         />
