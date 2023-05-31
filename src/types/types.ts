@@ -130,10 +130,13 @@ export interface iManuscriptPopup {
   synopsisCode: string;
   imageUrl?: string;
 }
-export interface iInternalLink {
-  linkText: string;
+
+export interface iLink {
   tractate: string;
   chapter: string;
   mishna: string;
-  lineNumber: string;
+  lineNumber?: string;
+}
+export interface iInternalLink extends iLink {
+  linkText: string;
 }
