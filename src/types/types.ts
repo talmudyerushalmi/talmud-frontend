@@ -9,8 +9,10 @@ export interface iTractate {
 }
 export interface iChapter {
   id: string;
-  mishnaiot: iMishna[];
+  mishnaiot: refMishna[];
 }
+
+export type refMishna = Pick<iMishna, 'id' | 'mishna'>;
 export interface iMishna {
   id: string;
   mishna: string;

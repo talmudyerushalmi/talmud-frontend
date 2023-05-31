@@ -1,9 +1,8 @@
-import { Button, TextField, Grid, IconButton, Box } from '@mui/material';
-
-import makeStyles from '@mui/styles/makeStyles';
-
-import { Autocomplete } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
+import { Button, TextField, Grid, IconButton, Box } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { Autocomplete } from '@mui/material';
 import { requestTractates } from '../../store/actions';
 import { connect } from 'react-redux';
 import { editorInEventPath } from '../../inc/editorUtils';
@@ -12,25 +11,21 @@ import { useParams } from 'react-router';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { routeObject } from '../../store/reducers/navigationReducer';
-import { iChapter, iMarker, iMishna, iTractate } from '../../types/types';
+import { iChapter, iLink, iMarker, iMishna, iTractate } from '../../types/types';
 import NavigationService from '../../services/NavigationService';
-import { leanLine } from './ChooseMishnaBar';
+import useNavigationData from '../../hooks/useNavigationData';
 
-export interface iMishnaForNavigation {
+
+export interface leanLine {
+  lineNumber: string;
+  mainLine: string;
+}
+
+export interface iMishnaForNavigation extends refMishna {
   lines: leanLine[];
   previous?: iMarker;
   next?: iMarker;
 }
-
-const mapStateToProps = (state) => ({
-  tractates: state.navigation.tractates,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getTractates: () => {
-    dispatch(requestTractates());
-  },
-});
 
 const useStyles = makeStyles({
   option: {
@@ -45,9 +40,10 @@ const useStyles = makeStyles({
   },
 });
 
+export type refMishna = Pick<iMishna, 'id' | 'mishna'>;
 export interface leanChapter {
   id: string;
-  mishnaiot: Pick<iMishna, 'id' | 'mishna'>[];
+  mishnaiot: refMishna[];
 }
 
 export const ALL_CHAPTER = {
@@ -57,169 +53,138 @@ export const ALL_CHAPTER = {
 };
 
 export interface iSelectedNavigation {
-  selectedTractate: iTractate;
-  selectedChapter: leanChapter;
-  selectedMishna: iMishna;
-  selectedLine: string;
+  tractate: string;
+  chapter: string;
+  mishna: string;
+  lineNumber: string;
 }
 interface Props {
-  tractates: iTractate[];
-  getTractates: Function;
+  initValues: iLink;
   allChapterAllowed?: boolean;
+  navButtons?: boolean;
   onNavigationUpdated: (selected: iSelectedNavigation) => void;
+  onNavigationForward?: (selected: iSelectedNavigation) => void;
 }
-const ChooseMishna = (props: Props) => {
-  const fetchLines = (mishna: string) => {
-    const controller = new AbortController();
-    return NavigationService.getMishnaForNavigation(selectedTractate?.id, selectedChapter?.id, mishna, controller);
-  };
-  const { t } = useTranslation();
-  const { tractate, chapter, mishna, line } = useParams<routeObject>();
+const ChooseMishna = ({
+  initValues,
+  allChapterAllowed,
+  navButtons = true,
+  onNavigationUpdated,
+  onNavigationForward = ()=>{},
+}: Props) => {
+  // const { initValues, onNavigationUpdated, navButtons } = props;
   const classes = useStyles();
-  const { tractates, onNavigationUpdated, allChapterAllowed, getTractates } = props;
-
+  const { t } = useTranslation();
   const [selectedTractate, setSelectedTractate] = useState<iTractate | null>(null);
-  const [selectedChapter, setSelectedChapter] = useState<leanChapter | null>(null);
-  const [selectedMishna, setSelectedMishna] = useState<iMishna | null>(null);
-  const [mishnaNavigation, setMishnaNavigation] = useState<iMishnaForNavigation | null>(null);
-
+  const [selectedChapter, setSelectedChapter] = useState<iChapter | null>(null);
+  const [selectedMishna, setSelectedMishna] = useState<iMishnaForNavigation | null>(null);
   const [selectedLine, setSelectedLine] = useState<leanLine | null>(null);
 
-  const setNavigation = async (tractate, chapter, mishna, line) => {
-    const tractateData = tractates.find((t: iTractate) => t.id === tractate);
-    if (tractateData) {
-      setSelectedTractate(tractateData);
-      const matchChapter = tractateData.chapters.find((c) => c.id === chapter);
-      if (matchChapter) {
-        setSelectedChapter(matchChapter);
-        const matchMishna = matchChapter.mishnaiot.find((m) => m.mishna === mishna);
-        if (matchMishna) {
-          setSelectedMishna(matchMishna);
-          // update lines
-          if (line) {
-            fetchLines(mishna).then((mishnaForNavigation) => {
-              let matchLine = mishnaForNavigation.lines.find((l) => l.lineNumber === line);
-              if (matchLine) {
-                setSelectedLine(matchLine);
-              }
-            });
-          }
-        } else if (mishna === undefined) {
-          //@ts-ignore
-          setSelectedMishna(ALL_CHAPTER);
-        }
-      }
-    }
+  const { allTractates, tractateData, mishnaForNavigation } = useNavigationData(initValues);
+
+  const getMishnaForNavigation = (tractate: string, chapter: string, mishna: string) => {
+    const controller = new AbortController();
+    return NavigationService.getMishnaForNavigation(tractate, chapter, mishna, controller);
   };
 
   useEffect(() => {
-    getTractates();
-  }, []);
+    // console.log(`%c init values  ${initValues.tractate}  ${initValues.chapter} ${initValues.mishna}`, 'background: #222; color: #bada55');
+  }, [initValues]);
 
   useEffect(() => {
-    const fetchLines = (mishna: string) => {
-      const controller = new AbortController();
-      return NavigationService.getMishnaForNavigation(selectedTractate?.id, selectedChapter?.id, mishna, controller);
+    const chapterData = tractateData?.chapters.find((c) => c.id === initValues.chapter) || null;
+    //const mishnaData = chapterData?.mishnaiot.find(m=> m.mishna === initValues.mishna) || null
+    const lineData = mishnaForNavigation?.lines.find((l) => l.lineNumber === initValues.lineNumber);
+    setSelectedTractate(tractateData);
+    setSelectedChapter(chapterData);
+    setSelectedMishna(mishnaForNavigation);
+    if (lineData) {
+      setSelectedLine(lineData);
+    }
+  }, [tractateData, mishnaForNavigation]);
+
+  useEffect(() => {
+    console.log(
+      `%c update mishnaForNavigation  ${mishnaForNavigation?.lines.length}`,
+      'background: #222; color: #ffff55'
+    );
+  }, [mishnaForNavigation]);
+
+  useEffect(() => {
+    console.log(`%c need to init component to  ${initValues.tractate}`, 'background: #222; color: #ac0303');
+  }, [initValues]);
+
+  useEffect(() => {
+    emit();
+  }, [selectedTractate, selectedChapter, selectedMishna]);
+
+
+  const emit = debounce(() => {
+    if (selectedTractate == null || selectedChapter == null || selectedMishna == null) {
+      return;
+    }
+    const navigation: iSelectedNavigation = {
+      tractate: selectedTractate.id,
+      chapter: selectedChapter.id,
+      mishna: selectedMishna.mishna,
+      lineNumber: '',
     };
-    if (selectedMishna && selectedMishna.mishna !== ALL_CHAPTER.mishna) {
-      const mishna = selectedMishna.mishna;
-      fetchLines(mishna)
-        .then((mishnaForNavigation) => {
-          setMishnaNavigation(mishnaForNavigation);
-        })
-        // make sure to catch any error
-        .catch((error) => {
-          console.log('error looking for mishna', error, tractate, chapter, mishna);
-        });
+    onNavigationUpdated(navigation);
+  }, 20);
+
+  const onNavigateBack = () => {};
+
+  const onNavigateForward = () => {
+    console.log('navigate forward');
+    if (selectedMishna?.next == null || selectedChapter == null || selectedMishna == null) {
+      return;
     }
-  }, [selectedMishna]);
-
-  useEffect(()=>{
-    if (selectedMishna){
-      setSelectedMishna({...selectedMishna})
-    }
-  },[
-    selectedChapter
-  ])
-
-
-  useEffect(() => {
-    setNavigation(tractate, chapter, mishna, line);
-  }, [tractate, chapter, mishna, line, tractates]);
-
-  useEffect(() => {
-    if (selectedTractate && selectedChapter && selectedMishna && selectedLine) {
-      onNavigationUpdated({
-        selectedTractate,
-        selectedChapter,
-        selectedMishna,
-        selectedLine: selectedLine.lineNumber,
-      });
-    }
-  }, [selectedTractate, selectedChapter, selectedMishna, selectedLine]);
-
-  const renderMishna = () => {
-    let options;
-    if (allChapterAllowed) {
-      options = selectedChapter?.mishnaiot ? [...selectedChapter?.mishnaiot, ALL_CHAPTER] : [ALL_CHAPTER];
-    } else {
-      options = selectedChapter?.mishnaiot ? selectedChapter?.mishnaiot : [];
-    }
-    return (
-      <Autocomplete
-        classes={classes}
-        onChange={(e, value) => {
-          //@ts-ignore
-          setSelectedMishna(value);
-        }}
-        value={selectedMishna}
-        options={options}
-        autoHighlight={true}
-        getOptionLabel={(option) => hebrewMap.get(parseInt(option.mishna)) as string}
-        isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
-        renderInput={(params) => <TextField {...params} label={t('Halakha')} variant="outlined" />}
-      />
-    );
+  }
+ 
+  // };
+  const changeTractate = (_: any, value: iTractate | null) => {
+    // need to update chapter, mishna, and line
+    const firstChapter = value!.chapters[0];
+    const firstMishna = firstChapter.mishnaiot[0];
+    getMishnaForNavigation(value!.id, firstChapter.id, firstMishna.mishna).then((m) => {
+      setSelectedTractate(value);
+      setSelectedChapter(firstChapter);
+      setSelectedMishna(m);
+      setSelectedLine(m.lines[0])
+    });
   };
-
-  const renderLine = () => {
-    if (!line) {
-      return null;
-    }
-    return (
-      <Autocomplete
-        classes={classes}
-        onChange={(e, value) => {
-          setSelectedLine(value);
-        }}
-        value={selectedLine}
-        options={mishnaNavigation ? mishnaNavigation.lines : []}
-        autoHighlight={true}
-        getOptionLabel={(option) => option.lineNumber + ' ' + option.mainLine || ''}
-        ListboxProps={{
-          style: {
-            textAlign: 'right',
-          },
-        }}
-        renderInput={(params) => <TextField {...params} label="שורה" variant="outlined" />}
-      />
-    );
+  const changeChapter = (_: any, value: iChapter | null) => {
+    const firstMishna = value!.mishnaiot[0];
+    getMishnaForNavigation(selectedTractate!.id, value!.id, firstMishna.mishna).then((m) => {
+      setSelectedChapter(value);
+      setSelectedMishna(m);
+      setSelectedLine(m.lines[0])
+    });
+  };
+  const changeMishna = (_: any, value: iMishnaForNavigation | null) => {
+    getMishnaForNavigation(selectedTractate!.id, selectedChapter!.id, value!.mishna).then((m) => {
+      setSelectedMishna(m);
+      setSelectedLine(m.lines[0])
+    });
   };
 
   return (
     <>
       <Box mb={2} sx={{ display: 'flex', flexGrow: 10 }}>
+        {navButtons ? (
+          <IconButton
+            onClick={() => {
+              onNavigateBack();
+            }}
+            size="small">
+            <ArrowForward></ArrowForward>
+          </IconButton>
+        ) : null}
         <Autocomplete
           classes={classes}
-          onChange={(e, value) => {
-            setSelectedTractate(value);
-            const first = value?.chapters[0];
-            if (first) {
-              setSelectedChapter(first);
-            }
-          }}
+          onChange={changeTractate}
           value={selectedTractate}
-          options={tractates || []}
+          options={allTractates}
           autoHighlight={true}
           getOptionLabel={(option) => option.title_heb}
           isOptionEqualToValue={(option, value) => option?.id === value?.id}
@@ -227,9 +192,7 @@ const ChooseMishna = (props: Props) => {
         />
         <Autocomplete
           classes={classes}
-          onChange={(e, value) => {
-            setSelectedChapter(value);
-          }}
+          onChange={changeChapter}
           value={selectedChapter}
           options={selectedTractate?.chapters || []}
           autoHighlight={true}
@@ -237,11 +200,47 @@ const ChooseMishna = (props: Props) => {
           isOptionEqualToValue={(option, value) => option.id === value.id}
           renderInput={(params) => <TextField {...params} label={t('Chapter')} variant="outlined" />}
         />
-        {renderMishna()}
-        {renderLine()}
+        <Autocomplete
+          classes={classes}
+          //@ts-ignore
+          onChange={changeMishna}
+          value={selectedMishna}
+          options={selectedChapter?.mishnaiot || []}
+          autoHighlight={true}
+          getOptionLabel={(option) => hebrewMap.get(parseInt(option.mishna)) as string}
+          isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
+          renderInput={(params) => <TextField {...params} label={t('Halakha')} variant="outlined" />}
+        />
+        {initValues.lineNumber ? (
+          <Autocomplete
+            classes={classes}
+            onChange={(e, value) => {
+              setSelectedLine(value);
+            }}
+            value={selectedLine}
+            options={selectedMishna ? selectedMishna.lines : []}
+            autoHighlight={true}
+            getOptionLabel={(option) => option.lineNumber + ' ' + option.mainLine || ''}
+            ListboxProps={{
+              style: {
+                textAlign: 'right',
+              },
+            }}
+            renderInput={(params) => <TextField {...params} label="שורה" variant="outlined" />}
+          />
+        ) : null}
+        {navButtons ? (
+          <IconButton
+            onClick={() => {
+              onNavigateForward();
+            }}
+            size="small">
+            <ArrowBack></ArrowBack>
+          </IconButton>
+        ) : null}
       </Box>
     </>
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChooseMishna);
+export default ChooseMishna;

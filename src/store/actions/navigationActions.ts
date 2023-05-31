@@ -249,7 +249,7 @@ export function requestTractates() {
   return function (dispatch) {
     dispatch(startRequest());
     return PageService.getAllTractates().then(
-      (data) => dispatch(receivedTractates(data.tractates)),
+      (tractates) => dispatch(receivedTractates(tractates)),
       (error) => console.log('An error occurred.', error)
     );
   };

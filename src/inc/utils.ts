@@ -1,5 +1,5 @@
 import * as numeral from 'numeral';
-import { iMishnaForNavigation } from '../components/shared/ChooseMishnaBar';
+import { iMishnaForNavigation } from '../components/shared/ChooseMishna';
 
 export function getNextLine(
   tractate: string,

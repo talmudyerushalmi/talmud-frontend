@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import PageService from "../services/pageService"
 import { iLine, iLink, iTractate } from "../types/types"
 import NavigationService from "../services/NavigationService"
-import { iMishnaForNavigation } from "../components/shared/ChooseMishnaNew"
+import { iMishnaForNavigation } from "../components/shared/ChooseMishna"
 
 const useNavigationData = (link: iLink) => {
     const [allTractates, setAllTractates] = useState<iTractate[]>([])
