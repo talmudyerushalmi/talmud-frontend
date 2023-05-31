@@ -1,9 +1,16 @@
-import { CommentModal, SET_COMMENT_MODAL, SET_PRIVATE_COMMENTS, SET_SELECTED_COMMENT } from '../actions/commentsActions';
+import {
+  CommentModal,
+  SET_COMMENTS_FOR_MODERATION,
+  SET_COMMENT_MODAL,
+  SET_PRIVATE_COMMENTS,
+  SET_SELECTED_COMMENT,
+} from '../actions/commentsActions';
 
 const initialState = {
   privateComments: [],
   commentModal: null,
   selectedComment: null,
+  commentsForModeration: [],
 };
 
 const commentsReducer = (state = initialState, action: any) => {
@@ -23,6 +30,11 @@ const commentsReducer = (state = initialState, action: any) => {
         ...state,
         selectedComment: action.comment,
         commentModal: { open: CommentModal.EDIT },
+      };
+    case SET_COMMENTS_FOR_MODERATION:
+      return {
+        ...state,
+        commentsForModeration: action.comments,
       };
     default:
       return state;

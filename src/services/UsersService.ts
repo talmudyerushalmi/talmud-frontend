@@ -29,9 +29,21 @@ export class UsersService {
     return response.data;
   }
 
-  // static async getCommentsForModeration(): Promise<iComments[] | []> {
-  //   const url = `comments/moderation`;
-  //   const response = await axiosInstance.get(url);
-  //   return response.data;
-  // }
+  static async getCommentsForModeration(): Promise<iComments[] | []> {
+    const url = `${commentsURL}/moderation`;
+    const response = await axiosInstance.get(url);
+    return response.data;
+  }
+
+  static async approveComment(userID: string, commentID: string): Promise<iComments | []> {
+    const url = `${commentsURL}/moderation/${userID}/${commentID}`;
+    const response = await axiosInstance.post(url);
+    return response.data;
+  }
+
+  static async rejectComment(userID: string, commentID: string): Promise<iComments | []> {
+    const url = `${commentsURL}/moderation/${userID}/${commentID}`;
+    const response = await axiosInstance.delete(url);
+    return response.data;
+  }
 }

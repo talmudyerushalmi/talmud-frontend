@@ -120,6 +120,7 @@ export interface iInternalLink {
 }
 
 export interface iComment {
+  userID?: string;
   commentID: string;
   title: string;
   text: string;

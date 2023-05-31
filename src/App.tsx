@@ -22,6 +22,7 @@ import EditMishnaPage from './pages/EditMishnaPage';
 import { UserGroup } from './store/reducers/authReducer';
 import SettingsContext from './context/settings-context';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import ModerationCommentsPage from './pages/ModerationCommentsPage';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -57,6 +58,14 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route
+            path="comments/moderation"
+            element={
+              // <RequireAuth allowedGroups={[UserGroup.Editor]}>
+                <ModerationCommentsPage />
+              // </RequireAuth>
+            }
+          />
         </Route>
         <Route
           path="/protected"
@@ -75,7 +84,7 @@ function App() {
 export default App;
 
 const AppContainer = ({ children }) => {
-  const [mode, setMode] = useLocalStorage<PaletteMode>('light-mode','light');
+  const [mode, setMode] = useLocalStorage<PaletteMode>('light-mode', 'light');
   const getTheme = useMemo(() => theme(mode), [mode]);
 
   return (

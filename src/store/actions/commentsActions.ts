@@ -8,6 +8,7 @@ export const SET_PRIVATE_COMMENTS = 'SET_PRIVATE_COMMENTS';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const SET_COMMENT_MODAL = 'SET_COMMENT_MODAL';
 export const SET_SELECTED_COMMENT = 'SET_SELECTED_COMMENT';
+export const SET_COMMENTS_FOR_MODERATION = 'SET_COMMENTS_FOR_MODERATION';
 
 export const setPrivateComments = (comments: iComments | []) => ({
   type: SET_PRIVATE_COMMENTS,
@@ -36,6 +37,11 @@ export const setCommentModal = (payload: iCommentModal | null) => ({
 export const setSelectedComment = (comment: iComment | null) => ({
   type: SET_SELECTED_COMMENT,
   comment,
+});
+
+export const setCommentsForModeration = (comments: iComments | []) => ({
+  type: SET_COMMENTS_FOR_MODERATION,
+  comments,
 });
 
 export const getPrivateComments = () => {
@@ -75,5 +81,26 @@ export const updateComment = (comment: iUpdateComment) => {
   return async function (dispatch: Dispatch, getState) {
     await tryAsyncWithLoadingState(dispatch, UsersService.updateComment(comment));
     getPrivateComments();
+  };
+};
+
+export const getCommentsForModeration = () => {
+  return async function (dispatch: Dispatch, getState) {
+    const res = await tryAsyncWithLoadingState(dispatch, UsersService.getCommentsForModeration());
+    dispatch(setCommentsForModeration(res));
+  };
+};
+
+export const approveComment = (userID: string, commentID: string) => {
+  return async function (dispatch: Dispatch, getState) {
+    await tryAsyncWithLoadingState(dispatch, UsersService.approveComment(userID, commentID));
+    dispatch(getCommentsForModeration() as any);
+  };
+};
+
+export const rejectComment = (userID: string, commentID: string) => {
+  return async function (dispatch: Dispatch, getState) {
+    await tryAsyncWithLoadingState(dispatch, UsersService.rejectComment(userID, commentID));
+    dispatch(getCommentsForModeration() as any);
   };
 };
