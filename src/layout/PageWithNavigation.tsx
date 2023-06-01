@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ChooseMishnaBar, { ALL_CHAPTER } from '../components/shared/ChooseMishnaBar';
 import Spinner from '../components/shared/Spinner';
+import { iSelectedNavigation } from '../components/shared/ChooseMishna';
 
 const mapStateToProps = (state) => ({
   loading: state.general.loading,
@@ -17,12 +18,7 @@ export const PageContent = (props) => {
   return <Box width="100%">{props.children}</Box>;
 };
 
-interface iLink {
-  tractate: string;
-  chapter: string;
-  mishna: string;
-  line: string;
-}
+
 interface Props {
   linkPrefix: string;
   children: any;
@@ -35,9 +31,10 @@ const PageWithNavigationWithoutState = (props: Props) => {
 
   const navigate = useNavigate();
   let url: string;
-  const navigationSelectedHandler = (link: iLink) => {
-    if (link && link.line) {
-      url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}/${link.line}`;
+  const navigationSelectedHandler = (link: iSelectedNavigation) => {
+    console.log('should navigate to ', link)
+    if (link && link.lineNumber) {
+      url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}/${link.lineNumber}`;
     } else if (link.mishna === ALL_CHAPTER.mishna) {
       url = `${linkPrefix}/${link.tractate}/${link.chapter}`;
     } else {
@@ -52,7 +49,9 @@ const PageWithNavigationWithoutState = (props: Props) => {
   return (
     <Container style={{ paddingBottom: '6rem' }}>
       <Box mb={3}>
-        <ChooseMishnaBar allChapterAllowed={allChapterAllowed} onNavigationSelected={navigationSelectedHandler} />
+        <ChooseMishnaBar allChapterAllowed={allChapterAllowed}
+         onNavigationForward={navigationSelectedHandler}
+         onNavigationSelected={navigationSelectedHandler} />
       </Box>
       <Box   
         sx={{

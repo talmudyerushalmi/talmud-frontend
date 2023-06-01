@@ -33,7 +33,11 @@ interface Props {
 
 const selectButtonDisabled = () => false;
 
-const ChooseMishnaBar = ({ onNavigationSelected , onNavigationForward = ()=>{}}: Props) => {
+const ChooseMishnaBar = ({
+  allChapterAllowed = false,
+  onNavigationSelected,
+  onNavigationForward = () => {},
+}: Props) => {
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
   const [navigation, setNavigation] = useState<iSelectedNavigation>({
     tractate: tractate || '',
@@ -59,9 +63,6 @@ const ChooseMishnaBar = ({ onNavigationSelected , onNavigationForward = ()=>{}}:
     };
   }, [tractate, chapter, mishna, line]);
 
-  if (!tractate || !chapter || !mishna) {
-    return null;
-  }
 
   return (
     <form
@@ -71,16 +72,15 @@ const ChooseMishnaBar = ({ onNavigationSelected , onNavigationForward = ()=>{}}:
       }}>
       <Grid container>
         <Box sx={{ display: 'flex', flexGrow: 10 }}>
+          {`${tractate}, ${chapter}, ${mishna}, ${line}`}
           <ChooseMishnaNew
-            // initValues={link}
+            allChapterAllowed = {allChapterAllowed}
             onNavigationUpdated={(newNav) => {
-
-              setNavigation(newNav)
+              setNavigation(newNav);
             }}
             onNavigationForward={(navForward) => onNavigationForward(navForward)}
             {...memoizedProps}
           />
-          <div>{JSON.stringify(navigation)}</div>
         </Box>
         <Box mb={2} sx={{ display: 'flex', flexGrow: 1 }}>
           <Button
