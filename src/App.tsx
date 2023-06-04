@@ -23,6 +23,7 @@ import { UserGroup } from './store/reducers/authReducer';
 import SettingsContext from './context/settings-context';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import ModerationCommentsPage from './pages/ModerationCommentsPage';
+import CommentsAdminPage from './pages/CommentsAdminPage';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -59,13 +60,14 @@ function App() {
             }
           />
           <Route
-            path="comments/moderation"
+            path="comments"
             element={
               // <RequireAuth allowedGroups={[UserGroup.Editor]}>
-                <ModerationCommentsPage />
+              <CommentsAdminPage />
               // </RequireAuth>
-            }
-          />
+            }>
+            <Route index element={<ModerationCommentsPage />}></Route>
+          </Route>
         </Route>
         <Route
           path="/protected"

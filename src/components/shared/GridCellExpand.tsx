@@ -80,9 +80,12 @@ const GridCellExpand = React.memo(function GridCellExpand(props: GridCellExpandP
         {value}
       </Box>
       {showPopper && (
-        <Popper open={showFullCell && anchorEl !== null} anchorEl={anchorEl} style={{ width, marginLeft: -17 }}>
+        <Popper
+          open={showFullCell && anchorEl !== null}
+          anchorEl={anchorEl}
+          style={{ width, marginLeft: -17, direction: 'rtl' }}>
           <Paper elevation={1} style={{ minHeight: wrapper.current!.offsetHeight - 3 }}>
-            <Typography variant="body2" style={{ padding: 8 }}>
+            <Typography variant="body2" style={{ padding: 8 }} fontFamily={'system-ui'}>
               {value}
             </Typography>
           </Paper>
