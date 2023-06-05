@@ -139,9 +139,9 @@ const Workshop2023Page = (props) => {
               speakers: [],
             },
             {
-              time: '12:30-12:20',
+              time: '12:00-12:10',
               eventTitle: 'Greetings',
-              speakers: [{ speaker: 'Efraim Lev' }],
+              speakers: [{ speaker: 'Efraim Lev, Dean of the Faculty of Humanities' }],
             },
             {
               time: '12:10-13:00',
@@ -159,12 +159,12 @@ const Workshop2023Page = (props) => {
               eventTitle: 'Digitizing Jewish Texts and Jewish Culture',
               speakers: [
                 {
-                  speaker: 'Jakub Zbrzeżny',
+                  speaker: 'Jakub Zbrzezny',
                   title:
                     'Digitized Medieval Patristic Manuscripts as a Source of New Witnesses to Ancient Jewish Literature: the Case of Eusebius of Caesarea and the First Book of Maccabees',
                 },
                 {
-                  speaker: 'Avriel Bar Levav',
+                  speaker: 'Avriel Bar-Levav',
                   title: 'Textual Intimacy in a Digital Age: An Ecology of Digital Texts in Jewish Culture',
                 },
                 {
@@ -207,7 +207,7 @@ const Workshop2023Page = (props) => {
           items={[
             {
               time: '9:00-9:30',
-              eventTitle: 'Coffee and Registration',
+              eventTitle: 'Coffee',
               speakers: [],
             },
             {
@@ -293,7 +293,7 @@ const Workshop2023Page = (props) => {
           items={[
             {
               time: '9:00-9:15',
-              eventTitle: 'Coffee and Registration',
+              eventTitle: 'Coffee',
               speakers: [],
             },
             {
@@ -347,7 +347,7 @@ const Workshop2023Page = (props) => {
               speakers: [],
             },
             {
-              time: '14:30-15:30',
+              time: '14:15-15:30',
               eventTitle: 'Round Table (2): Ancient Texts in the Digital Era – Concluding Thoughts',
               speakers: [{ speaker: 'Menachem Katz, Hillel Gershuni, Vered Raziel-Kretzmer, Avi Shmidman [he]' }],
             },
@@ -364,7 +364,7 @@ const Workshop2023Page = (props) => {
                 { speaker: 'Samuel Londnder', title: 'Methods for Improving Automatic Transcription of Manuscripts' },
                 {
                   speaker: 'Yoav Phillips',
-                  title: 'Expanding Text Reuse Detection and Automatic Transcription from Hebrew to Judeo Arabic',
+                  title: 'Expanding Text Reuse Detection and Automatic Transcription from Judeo Arabic to Arabic',
                 },
               ],
             },
