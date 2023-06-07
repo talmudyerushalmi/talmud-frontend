@@ -17,7 +17,6 @@ export const CLEAR_MISHNAIOT = 'CLEAR_MISHNAIOT';
 export const ADD_MISHNA_TO_MISHNAIOT = 'ADD_MISHNA_TO_MISHNAIOT';
 
 export const selectSublines = (selectedSublines) => (dispatch, getState) => {
-  console.log(selectedSublines);
   dispatch({
     type: SELECT_SUBLINES,
     selectedSublines,

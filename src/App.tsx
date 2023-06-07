@@ -8,10 +8,9 @@ import { RTL } from './ui/RTL';
 import ViewMishnaPage from './pages/ViewMishnaPage';
 import HomePage from './pages/HomePage';
 import { Footer } from './layout/Footer';
-import { PaletteMode, StyledEngineProvider, Theme, useTheme } from '@mui/material';
+import { Box, PaletteMode, StyledEngineProvider, Theme, useTheme } from '@mui/material';
 import theme from './ui/Theme';
 import IntroductionPage from './pages/IntroductionPage';
-import PartnersPage from './pages/PartnersPage';
 import SteeringPage from './pages/SteeringPage';
 import ViewChapterPage from './pages/ViewChapterPage';
 import RequireAuth from './components/login/RequireAuth';
@@ -24,6 +23,8 @@ import SettingsContext from './context/settings-context';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import ModerationCommentsPage from './pages/ModerationCommentsPage';
 import CommentsAdminPage from './pages/CommentsAdminPage';
+import InvitationDialog from './components/InvitationDialog';
+import Workshop2023Page from './pages/Workshop2023';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -38,7 +39,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/introduction" element={<IntroductionPage />} />
         <Route path="/steering" element={<SteeringPage />} />
-        <Route path="/partners" element={<PartnersPage />} />
+        <Route path="/workshop2023" element={<Workshop2023Page />} />
         <Route path="/talmud/:tractate/:chapter/:mishna" element={<ViewMishnaPage />} />
         <Route path="/talmud/:tractate/:chapter" element={<ViewChapterPage />} />
         <Route path="/login" element={<Login />} />
@@ -78,6 +79,9 @@ function App() {
           }
         />
       </Routes>
+      <Box>
+        {/* <InvitationDialog /> */}
+      </Box>
       <Footer />
     </AppContainer>
   );
@@ -128,6 +132,8 @@ const Background = ({ children }) => {
             }
           : {
               background: t.palette.background.default,
+              color: t.palette.text.secondary,
+              minHeight: '100vh',
             }),
       }}>
       {children}

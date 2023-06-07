@@ -9,6 +9,9 @@ import commentsReducer from './reducers/commentsReducer';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import relatedReducer from './reducers/relatedReducer';
+
+
 
 const rootReducer = combineReducers({
   general: generalReducer,
@@ -17,6 +20,7 @@ const rootReducer = combineReducers({
   mishnaView: mishnaViewReducer,
   mishnaEdit: mishnaEditReducer,
   comments: commentsReducer,
+  related: relatedReducer,
 });
 
 const persistConfig = {

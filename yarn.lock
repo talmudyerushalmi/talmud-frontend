@@ -7145,6 +7145,11 @@
   resolved "https://registry.npmjs.org/@types/stack-utils/-/stack-utils-2.0.1.tgz"
   integrity sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
 
+"@types/stylis@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/stylis/-/stylis-4.0.2.tgz#311c62d68a23dfb01462d54b04549484a4c5cb2a"
+  integrity sha512-wtckGuk1eXUlUz0Qb1eXHG37Z7HWT2GfMdqRf8F/ifddTwadSS9Jwsqi4qtXk7cP7MtoyGVIHPElFCLc6HItbg==
+
 "@types/tapable@^1", "@types/tapable@^1.0.5":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.8.tgz#b94a4391c85666c7b73299fd3ad79d4faa435310"

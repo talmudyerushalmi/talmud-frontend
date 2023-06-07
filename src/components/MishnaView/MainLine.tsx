@@ -72,6 +72,7 @@ const MainLine = (props: Props) => {
                   {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
                   <SublineDisplay
                     key={index}
+                    lineNumber={line.lineNumber}
                     lineIndex={lineIndex}
                     subline={subline}
                     {...(isAuthenticated && hoverProps)}

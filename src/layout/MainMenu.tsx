@@ -51,7 +51,8 @@ const MainMenu = (props: any) => {
           <div style={{ fontSize: '1rem' }}>
             <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
               <span>{t('Jerusalem Talmud')} - </span>
-              <strong>{t('Beta Version')}</strong>
+              <strong>{t('Beta Version')},</strong>
+              <strong> {t('Demo')}</strong>
             </Link>
           </div>
           <Typography variant="h6" className={classes.title}></Typography>

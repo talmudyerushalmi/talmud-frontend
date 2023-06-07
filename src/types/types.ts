@@ -42,6 +42,7 @@ export interface iSource {
   type: CompositionType;
   region: string;
   author: string;
+  edition?: string;
 }
 
 export interface iExcerpt {
@@ -111,6 +112,25 @@ export interface iLine {
   parallels?: iInternalLink[];
 }
 
+export interface iManuscript {
+  slug: string;
+  imageurl: string;
+  thumbnail: string;
+  pageid: string;
+  fromSubline: number;
+  toSubline: number;
+  fromLine: number;
+  toLine: number;
+  anchorexpanded: string | null;
+  anchorref: string | null;
+}
+
+export interface iManuscriptPopup {
+  line: number;
+  subline: iSubline;
+  synopsisCode: string;
+  imageUrl?: string;
+}
 export interface iInternalLink {
   linkText: string;
   tractate: string;

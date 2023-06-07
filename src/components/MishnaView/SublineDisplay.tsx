@@ -68,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
   subline: iSubline;
-  lineIndex: number;
   selectedSublines: iSubline[];
   selectSublines: Function;
   selectedExcerpt: iExcerpt;
@@ -79,6 +78,7 @@ interface Props {
   handleMouseEnter: (subline: number) => void;
   handleMouseLeave: Function;
   setCommentModal: (setCommentModal: iCommentModal | null) => void;
+  lineNumber: string;
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -93,7 +93,7 @@ const SublineDisplay = (props: Props) => {
     handleMouseEnter,
     handleMouseLeave,
     setCommentModal,
-    lineIndex,
+    lineNumber,
   } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -125,7 +125,7 @@ const SublineDisplay = (props: Props) => {
     const [firstWord, lastWord] = getFirstAndLastWordOfString(subline.text);
     setCommentModal({
       open: CommentModal.CREATE,
-      line: lineIndex,
+      line: +lineNumber,
       subline: subline.index,
       fromWord: firstWord,
       toWord: lastWord,
@@ -189,7 +189,7 @@ const SublineDisplay = (props: Props) => {
           </AccordionActions>
         </AccordionSummary>
         <AccordionDetails>
-          <SynopsisTable synopsis={subline?.synopsis} />
+          <SynopsisTable subline={subline} lineNumber={lineNumber} />
         </AccordionDetails>
       </Accordion>
     </>
