@@ -63,9 +63,10 @@ function App() {
           <Route
             path="comments"
             element={
-              // <RequireAuth allowedGroups={[UserGroup.Editor]}>
-              <CommentsAdminPage />
-              // </RequireAuth>
+              // TODO: change to editor, and fix the navigation
+              <RequireAuth allowedGroups={[UserGroup.Editor]}>
+                <CommentsAdminPage />
+              </RequireAuth>
             }>
             <Route index element={<ModerationCommentsPage />}></Route>
           </Route>
@@ -79,9 +80,7 @@ function App() {
           }
         />
       </Routes>
-      <Box>
-        {/* <InvitationDialog /> */}
-      </Box>
+      <Box>{/* <InvitationDialog /> */}</Box>
       <Footer />
     </AppContainer>
   );
