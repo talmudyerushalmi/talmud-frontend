@@ -57,7 +57,7 @@ type iCreateComment = Omit<iPostComment, 'tractate' | 'chapter' | 'mishna'>;
 export const createComment = (comment: iCreateComment) => {
   return async function (dispatch: Dispatch, getState) {
     const { tractate, chapter, mishna } = getState().navigation.currentRoute;
-    const res = await tryAsyncWithLoadingState(
+    await tryAsyncWithLoadingState(
       dispatch,
       UsersService.createComment({
         ...comment,
@@ -66,21 +66,21 @@ export const createComment = (comment: iCreateComment) => {
         mishna,
       })
     );
-    dispatch(setPrivateComments(res.comments));
+    dispatch(getPrivateComments() as any);
   };
 };
 
 export const removeComment = (commentID: string) => {
   return async function (dispatch: Dispatch, getState) {
-    const res = await tryAsyncWithLoadingState(dispatch, UsersService.removeComment(commentID));
-    dispatch(setPrivateComments(res.comments));
+    await tryAsyncWithLoadingState(dispatch, UsersService.removeComment(commentID));
+    dispatch(getPrivateComments() as any);
   };
 };
 
 export const updateComment = (comment: iUpdateComment) => {
   return async function (dispatch: Dispatch, getState) {
     await tryAsyncWithLoadingState(dispatch, UsersService.updateComment(comment));
-    getPrivateComments();
+    dispatch(getPrivateComments() as any);
   };
 };
 

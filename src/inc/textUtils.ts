@@ -37,5 +37,8 @@ export const getFirstAndLastWordOfString = (text: string) =>{
   const words = text.split(' ');
   const firstWord = words[0];
   const lastWord = words.at(-1);
+  if (lastWord === ''){
+    return [firstWord, words.at(-2)];
+  }
   return [firstWord, lastWord];
 }

@@ -10,6 +10,7 @@ import ExcerptDetailsView from './ExcerptDetailsView';
 import ExcerptsView from './ExcerptsView';
 import { CommentModal, iCommentModal, setSelectedComment } from '../../store/actions/commentsActions';
 import CreateCommentModal from './CreateCommentModal';
+import { UserGroup } from '../../store/reducers/authReducer';
 
 const mapStateToProps = (state) => ({
   currentMishna: state.navigation.currentMishna,
@@ -20,6 +21,7 @@ const mapStateToProps = (state) => ({
   privateComments: state.comments.privateComments,
   commentModal: state.comments.commentModal,
   selectedComment: state.comments.selectedComment,
+  isAuthenticated: state.authentication.userGroup !== UserGroup.Unauthenticated,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   selectExcerpt: (excerpt) => {
@@ -41,6 +43,7 @@ interface IProps {
   commentModal: iCommentModal | null;
   selectedComment: iComment;
   setSelectedComment: (comment: iComment | null) => void;
+  isAuthenticated: boolean;
 }
 
 const ExcerptsSection = (props: IProps) => {
@@ -54,6 +57,7 @@ const ExcerptsSection = (props: IProps) => {
     commentModal,
     selectedComment,
     setSelectedComment,
+    isAuthenticated,
   } = props;
 
   function useOutsideAlerter(ref) {
@@ -96,24 +100,29 @@ const ExcerptsSection = (props: IProps) => {
           selectExcerpt(null);
         }}
       />
-      <CommentsExcerptDetailsView
-        onClose={() => setSelectedComment(null)}
-        selectedComment={selectedComment}
-        open={commentModal?.open === CommentModal.EDIT}
-      />
-      <CreateCommentModal
-        open={commentModal?.open === CommentModal.CREATE}
-        onClose={() => setSelectedComment(null)}
-        commentModal={commentModal}
-      />
+
       <ExcerptsView expanded={expanded} type={EXCERPT_TYPE.MAKBILA} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.MUVAA} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.NOSACH} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.BIBLIO} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.EXPLANATORY} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.DICTIONARY} expanded={expanded} excerpts={filteredExcerpts} />
-      <ExcerptsView type={EXCERPT_TYPE.COMMENT} expanded={expanded} excerpts={filteredExcerpts} />
-      <CommentsExcerptsView expanded={expanded} comments={privateComments} />
+      {isAuthenticated && (
+        <>
+          <ExcerptsView type={EXCERPT_TYPE.COMMENT} expanded={expanded} excerpts={filteredExcerpts} />
+          <CommentsExcerptsView expanded={expanded} comments={privateComments} />
+          <CommentsExcerptDetailsView
+            onClose={() => setSelectedComment(null)}
+            selectedComment={selectedComment}
+            open={commentModal?.open === CommentModal.EDIT}
+          />
+          <CreateCommentModal
+            open={commentModal?.open === CommentModal.CREATE}
+            onClose={() => setSelectedComment(null)}
+            commentModal={commentModal}
+          />
+        </>
+      )}
     </div>
   );
 };
