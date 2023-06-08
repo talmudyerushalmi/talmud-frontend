@@ -22,11 +22,12 @@ export enum CommentModal {
 
 export interface iCommentModal {
   open?: CommentModal;
-  line?: number;
+  lineNumber?: string;
   subline?: number;
   sublineText?: string;
   fromWord?: string;
   toWord?: string;
+  lineIndex?: number;
 }
 
 export const setCommentModal = (payload: iCommentModal | null) => ({
@@ -52,7 +53,7 @@ export const getPrivateComments = () => {
   };
 };
 
-type iCreateComment = Omit<iPostComment, 'tractate' | 'chapter' | 'mishna'>;
+type iCreateComment = Omit<iPostComment, 'tractate' | 'chapter' | 'mishna' | 'fromSubline' | 'toSubline'>;
 
 export const createComment = (comment: iCreateComment) => {
   return async function (dispatch: Dispatch, getState) {

@@ -41,7 +41,7 @@ const CommentExcerptView = (props: Props) => {
       <Accordion square expanded={expandedState === comment.commentID} onClick={handleClick}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <div>
-            <Typography component="span">[{comment.subline}]</Typography>{' '}
+            <Typography component="span">{`[${comment?.fromSubline} - ${comment?.toSubline}]`}</Typography>{' '}
             <Typography component="span" fontWeight="bold">
               {comment.title}
             </Typography>

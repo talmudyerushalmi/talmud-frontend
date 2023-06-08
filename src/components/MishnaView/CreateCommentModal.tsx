@@ -62,8 +62,8 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
           ...values,
           fromWord: commentModal?.fromWord ?? '',
           toWord: commentModal?.toWord ?? '',
-          line: commentModal?.line ?? -1,
-          subline: commentModal?.subline ?? -1,
+          lineNumber: commentModal?.lineNumber ?? '',
+          lineIndex: commentModal?.lineIndex ?? -1,
         })
       );
       onClose();

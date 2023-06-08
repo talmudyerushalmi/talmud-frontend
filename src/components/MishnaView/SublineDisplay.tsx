@@ -79,6 +79,7 @@ interface Props {
   handleMouseLeave: Function;
   setCommentModal: (setCommentModal: iCommentModal | null) => void;
   lineNumber: string;
+  lineIndex: number;
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -94,6 +95,7 @@ const SublineDisplay = (props: Props) => {
     handleMouseLeave,
     setCommentModal,
     lineNumber,
+    lineIndex
   } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -123,13 +125,15 @@ const SublineDisplay = (props: Props) => {
 
   const handleCreateCommentClick = (e) => {
     const [firstWord, lastWord] = getFirstAndLastWordOfString(subline.text);
+
     setCommentModal({
       open: CommentModal.CREATE,
-      line: +lineNumber,
+      lineNumber: lineNumber, 
       subline: subline.index,
       fromWord: firstWord,
       toWord: lastWord,
       sublineText: subline.text,
+      lineIndex: lineIndex,
     });
   };
 
@@ -141,7 +145,6 @@ const SublineDisplay = (props: Props) => {
     textToDisplay = hideSourceFromText(textToDisplay);
   }
   const markedSelection = excerptSelection(textToDisplay, subline, selectedExcerpt);
-
   return (
     <>
       {(hoverSubline === subline.index || commentButtonHover) && (

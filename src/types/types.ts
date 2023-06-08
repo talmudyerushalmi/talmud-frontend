@@ -148,13 +148,15 @@ export interface iComment {
   tractate: string;
   chapter: string;
   mishna: string;
-  line: number;
+  lineNumber: string;
   fromWord: string;
   toWord: string;
-  subline: number;
+  fromSubline: number;
+  toSubline: number;
+  lineIndex: number;
 }
 
-export type iPostComment = Omit<iComment, 'commentID'>;
+export type iPostComment = Omit<iComment, 'commentID' | 'fromSubline' | 'toSubline'>;
 
 export interface iUpdateComment extends iPostComment {}
 

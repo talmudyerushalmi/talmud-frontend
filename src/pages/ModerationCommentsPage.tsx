@@ -21,7 +21,10 @@ const ModerationCommentsPage: FC<IProps> = () => {
     id: item.commentID,
     title: item.title,
     text: item.text,
-    source: { path: `${item.tractate}/${item.chapter}/${item.mishna}`, subline: `תת שורה - ${item.subline}` },
+    source: {
+      path: `${item.tractate}/${item.chapter}/${item.mishna}`,
+      sublines: `${item.fromSubline} - ${item.toSubline}`,
+    },
     actions: {
       commentID: item.commentID,
       userID: item.userID,
@@ -44,7 +47,7 @@ const ModerationCommentsPage: FC<IProps> = () => {
             }}>
             <OpenInNewIcon />
           </IconButton>
-          <Typography variant="body1">{params.value.subline}</Typography>
+          <Typography variant="body1">{params.value.sublines}</Typography>
         </>
       ),
     },

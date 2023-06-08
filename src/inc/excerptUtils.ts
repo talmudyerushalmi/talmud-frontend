@@ -130,5 +130,5 @@ export const commentInLines = (comment: iComment | iPublicCommentsByTractate, fr
   if (!fromLine || !toLine) {
     return false;
   }
-  return comment.line >= fromLine && comment.line <= toLine;
+  return +comment.lineNumber >= fromLine && +comment.lineNumber <= toLine;
 };
