@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { UsersService } from '../../services/UsersService';
-import { iComments, iPostComment, iUpdateComment } from '../../types/types';
+import { iPostComment, iUpdateComment } from '../../types/types';
 import { tryAsyncWithLoadingState } from './actionHelpers';
 import { iComment } from '../../types/types';
 
@@ -10,7 +10,7 @@ export const SET_COMMENT_MODAL = 'SET_COMMENT_MODAL';
 export const SET_SELECTED_COMMENT = 'SET_SELECTED_COMMENT';
 export const SET_COMMENTS_FOR_MODERATION = 'SET_COMMENTS_FOR_MODERATION';
 
-export const setPrivateComments = (comments: iComments | []) => ({
+export const setPrivateComments = (comments: iComment[] | []) => ({
   type: SET_PRIVATE_COMMENTS,
   comments,
 });
@@ -40,7 +40,7 @@ export const setSelectedComment = (comment: iComment | null) => ({
   comment,
 });
 
-export const setCommentsForModeration = (comments: iComments | []) => ({
+export const setCommentsForModeration = (comments: iComment[]) => ({
   type: SET_COMMENTS_FOR_MODERATION,
   comments,
 });
