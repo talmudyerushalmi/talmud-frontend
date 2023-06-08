@@ -10,7 +10,7 @@ export const SET_COMMENT_MODAL = 'SET_COMMENT_MODAL';
 export const SET_SELECTED_COMMENT = 'SET_SELECTED_COMMENT';
 export const SET_COMMENTS_FOR_MODERATION = 'SET_COMMENTS_FOR_MODERATION';
 
-export const setPrivateComments = (comments: iComment[] | []) => ({
+export const setPrivateComments = (comments: iComment[]) => ({
   type: SET_PRIVATE_COMMENTS,
   comments,
 });
