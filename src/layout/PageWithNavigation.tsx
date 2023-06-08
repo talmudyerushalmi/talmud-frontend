@@ -31,7 +31,8 @@ interface Props {
   loading: boolean;
 }
 const PageWithNavigationWithoutState = (props: Props) => {
-  const { linkPrefix, allChapterAllowed, afterNavigateHandler, loading } = props;
+  const { linkPrefix, allChapterAllowed, afterNavigateHandler, loading } =
+    props;
 
   const navigate = useNavigate();
   let url: string;
@@ -52,7 +53,10 @@ const PageWithNavigationWithoutState = (props: Props) => {
   return (
     <Container style={{ paddingBottom: '6rem' }}>
       <Box mb={3}>
-        <ChooseMishnaBar allChapterAllowed={allChapterAllowed} onNavigationSelected={navigationSelectedHandler} />
+        <ChooseMishnaBar
+          allChapterAllowed={allChapterAllowed}
+          onNavigationSelected={navigationSelectedHandler}
+        />
       </Box>
       <Box   
         sx={{

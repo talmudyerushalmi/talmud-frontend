@@ -1,16 +1,26 @@
+
+import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import React from 'react';
 import ExternalSourceDetails from '../ExternalSourceDetails';
 import { connect } from 'react-redux';
-import { iInternalLink, iSubline } from '../../../types/types';
+import { iInternalLink, iLine, iLineLink, iMishna, iSubline } from '../../../types/types';
 import { MakbilaMenu } from '../editLineForm/MakbilaList';
+import { syncParallels } from '../../../store/actions/mishnaEditActions';
 
 const mapStateToProps = (state) => ({
   tractateSettings: state.mishnaEdit.tractateSettings,
 });
 
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onSyncParallels: (lineLink: iLineLink) => {
+    dispatch(syncParallels(lineLink));
+  },
+});
+
 interface Props {
+  line: iLine;
+  currentMishna: iMishna;
   tractateSettings: any;
   onAddSource: Function;
   onRemoveSource: Function;
@@ -18,9 +28,10 @@ interface Props {
   parallels: iInternalLink[];
   onAddExternalSource: (source: string) => void;
   onUpdateInternalSources: (parallels: iInternalLink[]) => void;
+  onSyncParallels: (lineLink: iLineLink)=>void;
 }
 const SourceButtons = (props: Props) => {
-  const { tractateSettings, onAddSource, onRemoveSource, sources, parallels, onUpdateInternalSources } = props;
+  const { tractateSettings, onAddSource, onRemoveSource, sources, parallels, line, currentMishna, onUpdateInternalSources, onSyncParallels } = props;
   let selected: string[] = [];
   if (sources.length && sources[0].synopsis) {
     selected = sources[0]?.synopsis.filter((s) => (s.type === 'direct_sources' || s.type === 'translation')).map((s) => s.id);
@@ -51,6 +62,10 @@ const SourceButtons = (props: Props) => {
       onRemoveSource(button);
     }
   };
+  const handleSyncParallels = ()=>{
+    if (!line.lineNumber) {return}
+    onSyncParallels({tractate: currentMishna.tractate, chapter: currentMishna.chapter, mishna: currentMishna.mishna, lineNumber: line.lineNumber})
+  }
 
   return (
     <>
@@ -74,10 +89,10 @@ const SourceButtons = (props: Props) => {
           />
         </Grid>
         <Grid item>
-          <MakbilaMenu parallels={parallels} onUpdateInternalSources={onUpdateInternalSources} />
+          <MakbilaMenu parallels={parallels} onUpdateInternalSources={onUpdateInternalSources} onSyncParallels={handleSyncParallels} />
         </Grid>
       </Grid>
     </>
   );
 };
-export default connect(mapStateToProps)(SourceButtons);
+export default connect(mapStateToProps, mapDispatchToProps)(SourceButtons);

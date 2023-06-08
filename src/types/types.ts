@@ -13,7 +13,9 @@ export interface iChapter {
 }
 export interface iMishna {
   id: string;
+  tractate: string;
   mishna: string;
+  chapter: string;
   lines: iLine[];
   excerpts: iExcerpt[];
   richTextMishna: RawDraftContentState | null;
@@ -129,10 +131,9 @@ export interface iManuscriptPopup {
   line: number;
   subline: iSubline;
   synopsisCode: string;
-  imageUrl?: string;
+  manuscript?: iManuscript;
 }
-export interface iInternalLink {
-  linkText: string;
+export interface iLineLink {
   tractate: string;
   chapter: string;
   mishna: string;
@@ -174,3 +175,7 @@ export interface iComments {
 export type iPublicCommentsByTractate = iComment & {
   userID: string;
 };
+
+export interface iInternalLink extends iLineLink {
+  linkText: string;
+}

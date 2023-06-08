@@ -12,7 +12,7 @@ import { iManuscript, iManuscriptPopup, iSubline } from '../../types/types';
 import { setSublineData } from '../../store/actions/relatedActions';
 import { connect } from 'react-redux';
 import ButtonUnstyled from '../shared/ButtonUnstyled';
-import { getImageUrl } from '../../inc/manuscriptUtils';
+import { getManuscript } from '../../inc/manuscriptUtils';
 import { Tooltip, useTheme } from '@mui/material';
 import { iSynopsis, SourceType } from '../../types/types';
 
@@ -104,16 +104,16 @@ const SynopsisTable = (props: Props) => {
               subline: subline,
               synopsisCode: synopsisRow.id,
             };
-            const imageUrl = getImageUrl(manuscriptsForChapter, sublineData);
+            const manuscript = getManuscript(manuscriptsForChapter, sublineData);
             const rawText = getSynopsisRaw(synopsisRow);
             return rawText ? (
               <TableRow key={i}>
                 <Tooltip enterDelay={800} leaveDelay={200} title={sourceFullName(synopsisRow)}>
                   <TableCell style={{ fontWeight: 'bold' }} component="td" scope="row">
                     <ButtonUnstyled
-                      disabled={!imageUrl}
+                      disabled={!manuscript}
                       onClick={() => {
-                        setSublineData({ ...sublineData, imageUrl });
+                        setSublineData({ ...sublineData, manuscript });
                       }}>
                       {sourceName(synopsisRow)}
                     </ButtonUnstyled>
