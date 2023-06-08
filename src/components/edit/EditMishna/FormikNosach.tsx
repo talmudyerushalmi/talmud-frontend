@@ -6,7 +6,6 @@ import RichTextEditorField from '../../editors/RichTextEditorField';
 import { RadioGroup, TextField } from 'formik-mui';
 import { convertFromRaw, EditorState } from 'draft-js';
 import { EditorSelectionObject, getContentRaw } from '../../../inc/editorUtils';
-import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { closeExcerptDialog, saveExcerpt } from '../../../store/actions/mishnaEditActions';
 import { EXCERPT_TYPE } from './ExcerptDialog';
@@ -24,17 +23,6 @@ const mapStateToProps = (state) => ({
   isSubmitting: state.mishnaEdit.isSubmitting,
 });
 
-const useStyles = makeStyles({
-  // need to specifiy direction for flex -
-  // wanted direction is rtl but RTL function switches it to ltr, so we put ltr..
-  option: {
-    direction: 'ltr',
-  },
-  root: {
-    marginBottom: '0.5rem',
-  },
-});
-
 interface Props {
   saveExcerpt: Function;
   closeExcerptDialog: Function;
@@ -43,7 +31,6 @@ interface Props {
   mishna: any;
 }
 const FormikWrapper = (props: Props) => {
-  const classes = useStyles();
   const { saveExcerpt, closeExcerptDialog, excerpt, selection, mishna } = props;
 
   return (
