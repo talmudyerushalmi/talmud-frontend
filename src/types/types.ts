@@ -13,7 +13,6 @@ export interface iChapter {
 }
 export interface iMishna {
   id: string;
-  tractate: string;
   mishna: string;
   chapter: string;
   lines: iLine[];
@@ -21,6 +20,7 @@ export interface iMishna {
   richTextMishna: RawDraftContentState | null;
   previous?: iMarker;
   next?: iMarker;
+  tractate?: string;
 }
 
 export interface iMarker {
@@ -71,10 +71,10 @@ export interface EditedText {
 export enum SourceType {
   DIRECT_SOURCES = 'direct_sources',
   INDIRECT_SOURCES = 'indirect_sources',
-  TRANSLATION = 'translation'
+  TRANSLATION = 'translation',
 }
 
-export type sourceType = SourceType.DIRECT_SOURCES| SourceType.INDIRECT_SOURCES | SourceType.TRANSLATION;
+export type sourceType = SourceType.DIRECT_SOURCES | SourceType.INDIRECT_SOURCES | SourceType.TRANSLATION;
 
 export interface iSynopsis {
   text: EditedText;
@@ -141,3 +141,39 @@ export interface iLineLink {
 export interface iInternalLink extends iLineLink {
   linkText: string;
 }
+
+export interface iComment {
+  userID?: string;
+  commentID: string;
+  title: string;
+  text: string;
+  type: CommentType;
+  tractate: string;
+  chapter: string;
+  mishna: string;
+  lineNumber: string;
+  fromWord: string;
+  toWord: string;
+  fromSubline: number;
+  toSubline: number;
+  lineIndex: number;
+}
+
+export type iPostComment = Omit<iComment, 'commentID' | 'fromSubline' | 'toSubline'>;
+
+export interface iUpdateComment extends iPostComment {}
+
+export enum CommentType {
+  PRIVATE = 'private',
+  MODERATION = 'moderation',
+}
+
+export interface iComments {
+  _id: string;
+  userID: string;
+  comments: iComment[];
+}
+
+export type iPublicCommentsByTractate = iComment & {
+  userID: string;
+};

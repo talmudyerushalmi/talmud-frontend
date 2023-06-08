@@ -53,6 +53,17 @@ i18n
           'Light mode': 'מצב תצוגה',
           'Add parallel': 'הוסף מקבילה',
           'Sync parallels': 'סנכרן מקורות מקבילים',
+          'Public Comments': 'הערות ציבוריות',
+          'Personal Comments': 'הערות אישיות',
+          'Required field': 'שדה חובה',
+          'Comment content': 'תוכן ההערה',
+          title: 'כותרת',
+          'Comment type': 'סוג ההערה',
+          'Public comment': 'הערה ציבורית',
+          'Personal comment': 'הערה אישית',
+          'Line number': 'מספר שורה',
+
+
           'Demo': 'מדגים יכולות'
         },
       },
