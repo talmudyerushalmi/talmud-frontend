@@ -22,6 +22,7 @@ import { UserGroup } from './store/reducers/authReducer';
 import SettingsContext from './context/settings-context';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import InvitationDialog from './components/InvitationDialog';
+
 import Workshop2023Page from './pages/Workshop2023';
 
 declare module '@mui/styles/defaultTheme' {
