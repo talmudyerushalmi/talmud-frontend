@@ -37,7 +37,7 @@ const SteeringPage = (props) => {
         <h3>Senior Fellows</h3>
         <p>Dr. Emmanuel Mastey, Dr. Chanoch Gamliel, Dr. Shira Shmidman</p>
         <h3>Research Fellows</h3>
-        <p>Daniel Ken, Or Liber</p>
+        <p>Daniel Caine, Or Liber</p>
         <h2>Partners</h2>
         <p>Shlomo Goren Chair for the Study of the Talmud Yerushalmi, Bar-Ilan University</p>
           

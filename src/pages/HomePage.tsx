@@ -60,6 +60,21 @@ const HomePage = (props) => {
               <Typography variant="h3Roboto">Site development: Yaron Bar</Typography>
             </div>
           </Box>
+          <Link
+              to="/workshop2023"
+              style={{
+                background: 'white',
+                display: 'block',
+                width: '20rem',
+                margin: '2rem auto',
+                textAlign: 'center',
+                padding: '1rem',
+                borderRadius: '0.5rem',
+                color: 'blue',
+                textDecoration: 'none',
+              }}>
+            ISF workshop - Editions of Classical Jewish Literature in the Digital Era
+            </Link>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Link
               to="/talmud/yevamot/001/001"
@@ -67,7 +82,7 @@ const HomePage = (props) => {
                 background: 'white',
                 display: 'block',
                 width: '10rem',
-                margin: '4rem 1rem',
+                margin: '2rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
                 borderRadius: '0.5rem',
@@ -82,7 +97,7 @@ const HomePage = (props) => {
                 background: 'white',
                 display: 'block',
                 width: '10rem',
-                margin: '4rem 1rem',
+                margin: '2rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
                 borderRadius: '0.5rem',
