@@ -14,7 +14,6 @@ const defaultAuthState = {
 
 function getGroup(userAuth: any) {
   const groups: string[] = userAuth.signInUserSession?.accessToken?.payload['cognito:groups'] || [];
-  console.log(groups);
   if (groups.includes(UserGroup.Editor)) {
     return UserGroup.Editor
   }

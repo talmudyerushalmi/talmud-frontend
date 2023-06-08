@@ -1,4 +1,13 @@
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, IconButton, Typography, useTheme } from '@mui/material';
+import {
+  Accordion,
+  AccordionActions,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  IconButton,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
@@ -7,9 +16,11 @@ import { selectSublines } from '../../store/actions';
 import { excerptSelection } from '../../inc/excerptUtils';
 import SynopsisTable from './SynopsisTable';
 import { hideSourceFromText } from '../../inc/synopsisUtils';
-import { iExcerpt, iLine, iSubline } from '../../types/types';
+import { iExcerpt, iSubline } from '../../types/types';
 import NosachView from './NosachView';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
+import { CommentModal, iCommentModal, setCommentModal } from '../../store/actions/commentsActions';
+import { getFirstAndLastWordOfString } from '../../inc/textUtils';
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -22,6 +33,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   selectSublines: (sublines) => {
     dispatch(selectSublines(sublines));
+  },
+  setCommentModal: (commentModal) => {
+    dispatch(setCommentModal(commentModal));
   },
 });
 
@@ -60,7 +74,12 @@ interface Props {
   showPunctuation: boolean;
   showSources: boolean;
   showEditType: ShowEditType;
+  hoverSubline: number;
+  handleMouseEnter: (subline: number) => void;
+  handleMouseLeave: Function;
+  setCommentModal: (setCommentModal: iCommentModal | null) => void;
   lineNumber: string;
+  lineIndex: number;
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -71,12 +90,18 @@ const SublineDisplay = (props: Props) => {
     showPunctuation,
     showSources,
     showEditType,
+    hoverSubline,
+    handleMouseEnter,
+    handleMouseLeave,
+    setCommentModal,
     lineNumber,
+    lineIndex
   } = props;
   const classes = useStyles();
   const theme = useTheme();
 
   const [expanded, setExpanded] = React.useState('');
+  const [commentButtonHover, setCommentButtonHover] = React.useState(false);
 
   const isSelected = (subline: iSubline) => {
     return selectedSublines.some((s) => s.index === subline.index);
@@ -98,6 +123,20 @@ const SublineDisplay = (props: Props) => {
     handleExpand(`panelb${subline.index}`);
   };
 
+  const handleCreateCommentClick = (e) => {
+    const [firstWord, lastWord] = getFirstAndLastWordOfString(subline.text);
+
+    setCommentModal({
+      open: CommentModal.CREATE,
+      lineNumber: lineNumber, 
+      subline: subline.index,
+      fromWord: firstWord,
+      toWord: lastWord,
+      sublineText: subline.text,
+      lineIndex: lineIndex,
+    });
+  };
+
   const isSublineSelected = isSelected(subline);
   const selectedClass = isSublineSelected ? 'selected' : '';
 
@@ -106,19 +145,34 @@ const SublineDisplay = (props: Props) => {
     textToDisplay = hideSourceFromText(textToDisplay);
   }
   const markedSelection = excerptSelection(textToDisplay, subline, selectedExcerpt);
-
   return (
     <>
+      {(hoverSubline === subline.index || commentButtonHover) && (
+        <Button
+          size="small"
+          sx={{
+            position: 'absolute',
+            left: -80,
+            zIndex: 100,
+            padding: 0,
+          }}
+          onMouseEnter={() => setCommentButtonHover(true)}
+          onMouseLeave={() => setCommentButtonHover(false)}
+          onClick={handleCreateCommentClick}>
+          הוסף הערה
+          {/* or <AddCommentIcon /> */}
+        </Button>
+      )}
       <Accordion
         square={true}
         expanded={expanded === `panelb${subline.index}`}
         onClick={() => handleSelect(subline)}
         className={`${classes.root} ${selectedClass} ${piskaClass}`}
         sx={{
-          ...(isSublineSelected ? theme.custom.selectionColor: null),
+          ...(isSublineSelected ? theme.custom.selectionColor : null),
         }}
-  
-      >
+        onMouseEnter={() => handleMouseEnter(subline.index)}
+        onMouseLeave={() => handleMouseLeave()}>
         <AccordionSummary sx={{ paddingRight: '0.25rem' }} aria-controls="subline-content">
           <Typography variant="lineNumber" component="span">
             {subline.index}
