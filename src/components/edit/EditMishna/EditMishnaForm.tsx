@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Formik, Form } from 'formik';
 import { Button, LinearProgress } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import RichTextEditorField from '../../editors/RichTextEditorField';
 import { convertToRaw } from 'draft-js';
 import * as Yup from 'yup';
@@ -28,7 +27,7 @@ const excerptSchema = Yup.object().shape({
 
 const FormikWrapper = (props) => {
   const route = useParams<routeObject>();
-  const { closeExcerptDialog, excerpt, mishna, currentMishna, saveMishna, isSubmitting } = props;
+  const { currentMishna, saveMishna, isSubmitting } = props;
 
   return (
     <Formik
