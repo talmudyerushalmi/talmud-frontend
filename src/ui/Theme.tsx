@@ -139,10 +139,10 @@ const theme = (mode: PaletteMode) =>
             // palette values for light mode
             // primary: amber,
             // divider: amber[200],
-            // text: {
-            //   primary: grey[900],
-            //   secondary: grey[800],
-            // },
+            text: {
+              primary: grey[900],
+              secondary: grey[800],
+            },
             // background: {
             //   default:'white',
             //   paper: deepOrange[900],
@@ -157,7 +157,7 @@ const theme = (mode: PaletteMode) =>
             //   paper: deepOrange[900],
             // },
             text: {
-              primary: '#fff',
+              primary: grey[400],
               secondary: grey[500],
             },
           }),

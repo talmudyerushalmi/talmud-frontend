@@ -1,8 +1,10 @@
-import { iManuscript } from '../types/types';
+import { iManuscript } from '../components/MishnaView/Manuscripts';
 import axiosInstance from './api';
 
+
 export interface iRelated {
-  manuscripts: iManuscript[];
+  manuscripts: iManuscript[]
+
 }
 export default class RelatedService {
   static async getRelated(tractate, chapter): Promise<iRelated> {

@@ -49,6 +49,7 @@ i18n
           Original: 'מקורי',
           Edited: 'מתוקן',
           Combined: 'משולב',
+          "Manuscripts": "כתבי יד",
           'Light mode': 'מצב תצוגה',
           'Public Comments': 'הערות ציבוריות',
           'Personal Comments': 'הערות אישיות',
@@ -59,8 +60,8 @@ i18n
           'Public comment': 'הערה ציבורית',
           'Personal comment': 'הערה אישית',
           'Line number': 'מספר שורה',
-
-
+          'Add parallel': 'הוסף מקבילה',
+          'Sync parallels': 'סנכרן מקורות מקבילים',
           'Demo': 'מדגים יכולות'
         },
       },
