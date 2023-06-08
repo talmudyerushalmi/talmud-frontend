@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Container, Divider, Paper, Typography } from '@mui/material';
+import { Box, Button, Container, Divider, Link, Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import TagManager from 'react-gtm-module';
 import haifaImg from '../assets/haifa_uni.png';
@@ -115,15 +115,22 @@ const Workshop2023Page = (props) => {
             sx={{
               flexDirection: 'row-reverse',
               justifyContent: 'space-between',
-              height: '14rem',
             }}>
             <img src={haifaImg} style={{ padding: '1rem' }} height="150" alt="haifa_uni" />
-            <Box sx={{ margin: '2rem 0', padding: '1rem', textAlign: 'center' }}>
+            <Box sx={{ margin: '0rem 0', padding: '1rem', textAlign: 'center' }}>
               <Typography variant="h1" align="center">
                 Editions of Classical Jewish Literature in the Digital Era
               </Typography>
               <Typography>Research Workshop of the Israel Science Foundation</Typography>
               <Typography>University of Haifa, June 18-20, 2023</Typography>
+              <Button
+                sx={{ margin: '2rem' }}
+                variant="contained"
+                onClick={() => {
+                  window.open('https://forms.gle/MKzaJ6QJ3CFhM2SH6', '_blank');
+                }}>
+                Free Registration Here
+              </Button>
             </Box>
 
             <img src={scienceImg} height="150" alt="Israel Science Foundation" />
