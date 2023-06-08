@@ -1,16 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { selectExcerpt } from '../../store/actions';
-import { iComment, iMishna } from '../../types/types';
 import { themeConstants } from '../../ui/Theme';
 import { EXCERPT_TYPE } from '../edit/EditMishna/ExcerptDialog';
-import CommentsExcerptDetailsView from './CommentsExcerptDetailsView';
-import { CommentsExcerptsView } from './CommentsExcerptsView';
 import ExcerptDetailsView from './ExcerptDetailsView';
 import ExcerptsView from './ExcerptsView';
-import { CommentModal, iCommentModal, setSelectedComment } from '../../store/actions/commentsActions';
-import CreateCommentModal from './CreateCommentModal';
-import { UserGroup } from '../../store/reducers/authReducer';
 
 const mapStateToProps = (state) => ({
   currentMishna: state.navigation.currentMishna,
@@ -18,48 +12,15 @@ const mapStateToProps = (state) => ({
   selectedExcerpt: state.mishnaView.selectedExcerpt,
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
-  privateComments: state.comments.privateComments,
-  commentModal: state.comments.commentModal,
-  selectedComment: state.comments.selectedComment,
-  isAuthenticated: state.authentication.userGroup !== UserGroup.Unauthenticated,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   selectExcerpt: (excerpt) => {
     dispatch(selectExcerpt(excerpt));
   },
-  setSelectedComment: (comment) => {
-    dispatch(setSelectedComment(comment));
-  },
 });
 
-interface IProps {
-  expanded: boolean;
-  filteredExcerpts: any[];
-  detailsExcerptPopup: boolean;
-  selectedExcerpt: any;
-  selectExcerpt: (excerpt: any) => void;
-  privateComments: iComment[];
-  currentMishna: iMishna;
-  commentModal: iCommentModal | null;
-  selectedComment: iComment;
-  setSelectedComment: (comment: iComment | null) => void;
-  isAuthenticated: boolean;
-}
-
-const ExcerptsSection = (props: IProps) => {
-  const {
-    expanded,
-    filteredExcerpts,
-    detailsExcerptPopup,
-    selectedExcerpt,
-    selectExcerpt,
-    privateComments,
-    commentModal,
-    selectedComment,
-    setSelectedComment,
-    isAuthenticated,
-  } = props;
-
+const ExcerptsSection = (props) => {
+  const { expanded, filteredExcerpts, detailsExcerptPopup, selectedExcerpt, selectExcerpt } = props;
   function useOutsideAlerter(ref) {
     useEffect(() => {
       /**
@@ -92,7 +53,8 @@ const ExcerptsSection = (props: IProps) => {
         display: 'flex',
         flexDirection: 'column',
       }}
-      ref={wrapperRef}>
+      ref={wrapperRef}
+    >
       <ExcerptDetailsView
         selectedExcerpt={selectedExcerpt}
         open={detailsExcerptPopup}
@@ -100,29 +62,12 @@ const ExcerptsSection = (props: IProps) => {
           selectExcerpt(null);
         }}
       />
-
       <ExcerptsView expanded={expanded} type={EXCERPT_TYPE.MAKBILA} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.MUVAA} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.NOSACH} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.BIBLIO} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.EXPLANATORY} expanded={expanded} excerpts={filteredExcerpts} />
       <ExcerptsView type={EXCERPT_TYPE.DICTIONARY} expanded={expanded} excerpts={filteredExcerpts} />
-      {isAuthenticated && (
-        <>
-          <ExcerptsView type={EXCERPT_TYPE.COMMENT} expanded={expanded} excerpts={filteredExcerpts} />
-          <CommentsExcerptsView expanded={expanded} comments={privateComments} />
-          <CommentsExcerptDetailsView
-            onClose={() => setSelectedComment(null)}
-            selectedComment={selectedComment}
-            open={commentModal?.open === CommentModal.EDIT}
-          />
-          <CreateCommentModal
-            open={commentModal?.open === CommentModal.CREATE}
-            onClose={() => setSelectedComment(null)}
-            commentModal={commentModal}
-          />
-        </>
-      )}
     </div>
   );
 };

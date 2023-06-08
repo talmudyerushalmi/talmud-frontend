@@ -1,6 +1,6 @@
 import { ContentState, convertToRaw } from 'draft-js';
 import { EXCERPT_TYPE } from '../components/edit/EditMishna/ExcerptDialog';
-import { iComment, iExcerpt, iPublicCommentsByTractate, iSubline } from '../types/types';
+import { iExcerpt, iSubline } from '../types/types';
 import { getOffsetOfWordOccurence } from './textUtils';
 
 export const MUVAA = 'MUVAA';
@@ -46,12 +46,6 @@ export const excerptsMap = new Map([
       title: 'Dictionary',
     },
   ],
-  [
-    EXCERPT_TYPE.COMMENT,
-    {
-      title: 'Public Comments',
-    }
-  ]
 ]);
 
 export const getExcerptTitle = (excerpt: iExcerpt): string => {
@@ -124,11 +118,4 @@ export const getSelectionRange = (excerpt) => {
 
 export const excerptInSubline = (excerpt: iExcerpt, subline: iSubline) => {
   return subline.index >= excerpt.selection!.fromSubline! && subline.index <= excerpt.selection!.toSubline!;
-};
-
-export const commentInLines = (comment: iComment | iPublicCommentsByTractate, fromLine?: number, toLine?: number) => {
-  if (!fromLine || !toLine) {
-    return false;
-  }
-  return +comment.lineNumber >= fromLine && +comment.lineNumber <= toLine;
 };

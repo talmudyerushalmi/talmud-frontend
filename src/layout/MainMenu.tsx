@@ -45,7 +45,6 @@ const MainMenu = (props: any) => {
         sx={{
           //backgroundColor:'#3f51b5',
           '& .MuiButton-root': { color: 'white' },
-          zIndex: (theme) => theme.zIndex.drawer + 1,
         }}>
         <Toolbar>
           <div style={{ fontSize: '1rem' }}>

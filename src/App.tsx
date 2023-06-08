@@ -21,8 +21,6 @@ import EditMishnaPage from './pages/EditMishnaPage';
 import { UserGroup } from './store/reducers/authReducer';
 import SettingsContext from './context/settings-context';
 import { useLocalStorage } from './hooks/useLocalStorage';
-import ModerationCommentsPage from './pages/ModerationCommentsPage';
-import CommentsAdminPage from './pages/CommentsAdminPage';
 import InvitationDialog from './components/InvitationDialog';
 import Workshop2023Page from './pages/Workshop2023';
 
@@ -60,16 +58,6 @@ function App() {
               </RequireAuth>
             }
           />
-          <Route
-            path="comments"
-            element={
-              // TODO: change to editor, and fix the navigation
-              <RequireAuth allowedGroups={[UserGroup.Editor]}>
-                <CommentsAdminPage />
-              </RequireAuth>
-            }>
-            <Route index element={<ModerationCommentsPage />}></Route>
-          </Route>
         </Route>
         <Route
           path="/protected"
@@ -80,7 +68,9 @@ function App() {
           }
         />
       </Routes>
-      <Box>{/* <InvitationDialog /> */}</Box>
+      <Box>
+        {/* <InvitationDialog /> */}
+      </Box>
       <Footer />
     </AppContainer>
   );
