@@ -19,7 +19,7 @@ export interface iMishna {
   richTextMishna: RawDraftContentState | null;
   previous?: iMarker;
   next?: iMarker;
-  tractate?: string;
+  tractate: string;
 }
 
 export interface iMarker {
@@ -165,7 +165,7 @@ export enum CommentType {
   MODERATION = 'moderation',
 }
 
-export interface iComments {
+export interface iUser {
   _id: string;
   userID: string;
   comments: iComment[];
