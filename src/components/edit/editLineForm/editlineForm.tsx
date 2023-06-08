@@ -58,26 +58,14 @@ interface FormValues {
   sublines: iSubline[];
 }
 
-interface OtherProps {
-  message: string;
-  currentMishna: iMishna;
-}
 interface Props {
   props: FormikProps<FormValues>;
 }
 const EditLineForm = (props: FormikValues) => {
   const {
     values,
-    touched,
-    dirty,
-    errors,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    handleReset,
     setFieldValue,
     isSubmitting,
-    currentMishna,
   } = props;
   const [sources, setSources] = useState<iSynopsis[]>([]);
   const onUpdateInternalSources = (parallels: iInternalLink[]) => {

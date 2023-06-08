@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router';
@@ -25,8 +25,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const EditMishna = (props) => {
   const { getEditSettings, getMishna } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     getEditSettings(tractate, chapter, mishna);

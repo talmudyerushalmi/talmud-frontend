@@ -7,7 +7,7 @@ import { selectSublines } from '../../store/actions';
 import { excerptSelection } from '../../inc/excerptUtils';
 import SynopsisTable from './SynopsisTable';
 import { hideSourceFromText } from '../../inc/synopsisUtils';
-import { iExcerpt, iLine, iSubline } from '../../types/types';
+import { iExcerpt, iSubline } from '../../types/types';
 import NosachView from './NosachView';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 

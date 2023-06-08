@@ -1,21 +1,12 @@
 import React from 'react';
 import { PageContent, PageHeader, PageWithNavigation } from '../layout/PageWithNavigation';
 import MishnaPage from './MishnaPage';
-import { Theme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useState } from 'react';
 import EditMishnaExcerpts from '../components/edit/EditMishna/EditMishnaExcerpts';
 import EditMishna from '../components/edit/EditMishna/EditMishna';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
 
 const EditMishnaPage = () => {
   const [value, setValue] = useState(0);

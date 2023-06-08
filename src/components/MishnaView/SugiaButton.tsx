@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Tooltip, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { iLine, iMishna, iSubline } from '../../types/types';
@@ -70,8 +70,7 @@ interface Props {
 }
 const SugiaButton = (props: Props) => {
   const classes = useStyles();
-  const { line, selectSublines, currentMishna, selectedSublines, showSugiaName, subline } = props;
-  let l = line?.sublines ? line?.sublines[0] : null;
+  const { selectSublines, currentMishna, selectedSublines, showSugiaName, subline } = props;
 
   const selectSugiaHandler = () => {
     const sugiaSublines = getSugiaLines(currentMishna, subline);

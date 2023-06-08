@@ -1,4 +1,4 @@
-import { iMishna, iSource } from '../types/types';
+import { iSource } from '../types/types';
 import axiosInstance from './api';
 
 export default class SettingsService {
@@ -13,7 +13,7 @@ export default class SettingsService {
   static async addSource(source: iSource) {
     const url = `${SettingsService.BASE}/compositions/add`;
     const data = { ...source };
-    const response = await axiosInstance.post(url, data);
+    await axiosInstance.post(url, data);
     await new Promise((res) => setTimeout(res, 1000));
 
    // return response.data;

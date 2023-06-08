@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Formik, Form } from 'formik';
-import { Button, LinearProgress, TextField as TextFieldOriginal } from '@mui/material';
+import { Button, LinearProgress } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import RichTextEditorField from '../../editors/RichTextEditorField';
 import { convertToRaw } from 'draft-js';
@@ -21,23 +21,13 @@ const mapStateToProps = (state) => ({
   currentMishna: state.navigation.currentMishna,
 });
 
-const useStyles = makeStyles({
-  // need to specifiy direction for flex -
-  // wanted direction is rtl but RTL function switches it to ltr, so we put ltr..
-  option: {
-    direction: 'ltr',
-  },
-  root: {
-    marginBottom: '0.5rem',
-  },
-});
+
 const excerptSchema = Yup.object().shape({
   // source: Yup.object().required("Required"),
 });
 
 const FormikWrapper = (props) => {
   const route = useParams<routeObject>();
-  const classes = useStyles();
   const { closeExcerptDialog, excerpt, mishna, currentMishna, saveMishna, isSubmitting } = props;
 
   return (

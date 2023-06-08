@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Grid } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Grid } from '@mui/material';
 import MainText from '../components/MishnaView/MainText';
 import MishnaText from '../components/MishnaView/MishnaText';
 import { connect } from 'react-redux';
@@ -18,7 +18,6 @@ const DEFAULT_OPTIONS = {
 const mapStateToProps = (state) => ({
   mishnaiot: state.mishnaView.mishnaiot,
   richTextMishnas: state.mishnaView.richTextMishnas,
-  loading: state.general.loading,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setViewOptions: () => {
@@ -35,11 +34,10 @@ interface Props {
   getRichMishnaiotForChapter: Function;
   getMishna: Function;
   setViewOptions: Function;
-  loading: boolean;
 }
 
 const ChapterPage = (props: Props) => {
-  const { mishnaiot, richTextMishnas, setViewOptions, getRichMishnaiotForChapter, loading } = props;
+  const { mishnaiot, richTextMishnas, setViewOptions, getRichMishnaiotForChapter } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
   useScroll(70, () => {
     getRichMishnaiotForChapter(tractate, chapter);
