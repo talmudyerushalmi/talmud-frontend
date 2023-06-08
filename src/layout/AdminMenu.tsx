@@ -46,6 +46,13 @@ const AdminMenu = (props: any) => {
       <Menu id="admin-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={handleViewMishna}>עמוד משנה</MenuItem>
         <MenuItem onClick={handleEditMishna}>עריכת משנה</MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate(`/admin/comments/moderation`);
+            handleClose();
+          }}>
+          בדיקת הערות
+        </MenuItem>
       </Menu>
     </>
   );
