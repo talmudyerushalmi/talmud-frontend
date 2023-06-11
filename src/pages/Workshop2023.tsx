@@ -29,7 +29,7 @@ interface item {
   time: string;
   break?: boolean;
   eventTitle: string;
-  speakers: Speaker[];
+  speakers: SpeakerProps[];
 }
 
 const Panel = (props: PanelProps) => {
@@ -55,14 +55,15 @@ const Panel = (props: PanelProps) => {
   );
 };
 
-interface Speaker {
+interface SpeakerProps {
   speaker: string;
   title?: string;
   academy?: string;
   boldTitle?: boolean;
+  chair?: boolean;
 }
 interface SpeakersProps {
-  speakers: Speaker[];
+  speakers: SpeakerProps[];
 }
 
 const Speakers = (props: SpeakersProps) => {
@@ -70,28 +71,43 @@ const Speakers = (props: SpeakersProps) => {
   if (speakers.length === 0 || !speakers) {
     return null;
   }
-//   speakers: [{ speaker: 'Chair', title: 'Menachem Katz', academy: 'University of Haifa', boldTitle: true }],
 
   return (
     <ul style={{ direction: 'ltr' }}>
       {speakers.map((speaker, index) => {
-        const academyTag = speaker.academy ? <i>({speaker?.academy})</i> : null;
-        const titleTag = speaker.boldTitle ? <strong>{speaker.title} {academyTag}</strong> : <span>{speaker.title}</span>;
-        const speakerTag = speaker.boldTitle ? <span>{speaker.speaker} </span> : 
-        <span><strong>{speaker.speaker}</strong> {academyTag}</span>;
         return (
           <li key={index}>
-            {speaker.title ? (
-              <p>
-                {speakerTag}: {titleTag}
-              </p>
-            ) : (
-              speakerTag
-            )}
+            <Speaker {...speaker} />
           </li>
         );
       })}
     </ul>
+  );
+};
+
+const Speaker = (props: SpeakerProps) => {
+  const { speaker, title, academy, boldTitle, chair } = props;
+  const academyTag = academy ? <i> ({academy})</i> : null;
+  const speakerTag = (
+    <span>
+      <strong>{speaker}</strong>
+      {academyTag}
+    </span>
+  );
+  const titleTag = title ? <span> - {title}</span> : null;
+
+  if (chair) {
+    return (
+      <div>
+        <span>Chair: </span> {speakerTag}
+      </div>
+    );
+  }
+  return (
+    <div>
+      <strong>{speaker}</strong>
+      {academyTag} {titleTag}
+    </div>
   );
 };
 
@@ -157,7 +173,7 @@ const Workshop2023Page = (props) => {
             {
               time: '12:10-13:00',
               eventTitle: 'Open Discussion: Between Classical and Digital Editions of Jewish Literature',
-              speakers: [{ speaker: 'Chair', title: 'Menachem Katz', academy: 'University of Haifa', boldTitle: true }],
+              speakers: [{ chair: true, speaker: 'Menachem Katz', academy: 'University of Haifa', boldTitle: true }],
             },
             {
               time: '13:00-14:00',
@@ -171,23 +187,23 @@ const Workshop2023Page = (props) => {
               speakers: [
                 {
                   speaker: 'Jakub Zbrzezny',
-				  academy: 'University of Aberdeen, UK',
+                  academy: 'University of Aberdeen, UK',
                   title:
                     'Digitized Medieval Patristic Manuscripts as a Source of New Witnesses to Ancient Jewish Literature: the Case of Eusebius of Caesarea and the First Book of Maccabees',
                 },
                 {
                   speaker: 'Avriel Bar-Levav',
-				  academy: 'The Open University of Israel',
+                  academy: 'The Open University of Israel',
                   title: 'Textual Intimacy in a Digital Age: An Ecology of Digital Texts in Jewish Culture',
                 },
                 {
                   speaker: 'Lilac Torgeman',
-				  academy: 'University of Haifa',
+                  academy: 'University of Haifa',
                   title: `Archival Research in Digital Humanities through Software Development: A Case Study of 'Casebook' [he]`,
                 },
                 {
                   speaker: 'Ivana Yael Nepalová',
-				  academy: 'Institute of Art History of the Czech Academy of Sciences',
+                  academy: 'Institute of Art History of the Czech Academy of Sciences',
                   title: `Tracing Holocaust-era Looted Jewish Books in Czech Libraries: Provenance Research and Digitization`,
                 },
               ],
@@ -202,18 +218,20 @@ const Workshop2023Page = (props) => {
               time: '16:30-18:00',
               eventTitle: 'Editions of Medieval Works',
               speakers: [
-                { speaker: 'Chair', title: 'Rachel Furst', academy: 'University of Haifa', boldTitle: true },
-				{ speaker: 'Pinchas Roth', 
-					academy: 'Bar-Ilan University',
-					title: 'In the Margins: Editing Medieval Rabbinic Responsa' },
+                { chair: true, speaker: 'Rachel Furst', academy: 'University of Haifa', boldTitle: true },
+                {
+                  speaker: 'Pinchas Roth',
+                  academy: 'Bar-Ilan University',
+                  title: 'In the Margins: Editing Medieval Rabbinic Responsa',
+                },
                 {
                   speaker: 'Mayer Lichtenstein',
-				  academy: 'Herzog Academic College',
+                  academy: 'Herzog Academic College',
                   title: `Mishne Torah: Towards an Edition That Reflects Editions [he]`,
                 },
                 {
                   speaker: `Doron Ya'akov`,
-				  academy: 'The Academy of the Hebrew Language',
+                  academy: 'The Academy of the Hebrew Language',
                   title: `Mishne Torah – The Historical Dictionary Project of the Hebrew Language [he]`,
                 },
               ],
@@ -234,12 +252,12 @@ const Workshop2023Page = (props) => {
               time: '9:30-11:00',
               eventTitle: 'Digital Resources',
               speakers: [
-			  { speaker: 'Chair', title: 'Hillel Gershuni', academy: 'University of Haifa', boldTitle: true },
+                { chair: true, speaker: 'Hillel Gershuni', academy: 'University of Haifa', boldTitle: true },
                 {
                   speaker: 'Ezra Brand',
                   title: `An Overview of Digital Resources for the Scholarly Study of Rabbinic Texts`,
                 },
-                { speaker: 'Hillel Novetsky',academy: 'Al HaTorah', title: `The Vision of 'Al Hatorah'` },
+                { speaker: 'Hillel Novetsky', academy: 'Al HaTorah', title: `The Vision of 'Al Hatorah'` },
                 { speaker: `Ya'akov Leufer`, academy: 'Dicta', title: `The Vocalized Talmud: The Challenges [he]` },
               ],
             },
@@ -253,14 +271,27 @@ const Workshop2023Page = (props) => {
               time: '11:30-13:00',
               eventTitle: 'Talmudic Editions and Philology',
               speakers: [
-                { speaker: 'Chair', title: 'Avraham Yoskovich', academy: 'University of Haifa and Ben-Gurion University', boldTitle: true },
-				{
+                {
+                  chair: true,
+                  speaker: 'Avraham Yoskovich',
+                  academy: 'University of Haifa and Ben-Gurion University',
+                  boldTitle: true,
+                },
+                {
                   speaker: 'Adiel Schremer and Binyamin Katzoff',
-				  academy: 'Bar-Ilan University',
+                  academy: 'Bar-Ilan University',
                   title: `Methodological Considerations Preparing Tosefta Neziqin Edition [he]`,
                 },
-                { speaker: 'Richard Hidary', academy: 'Yeshiva University, New York', title: `A Model for a Digital Talmud Text and Intertextual Commentary` },
-                { speaker: 'Hector Patmore', academy: 'KU Leuven, Belgium', title: `Philology: New Solutions to Old Problems` },
+                {
+                  speaker: 'Richard Hidary',
+                  academy: 'Yeshiva University, New York',
+                  title: `A Model for a Digital Talmud Text and Intertextual Commentary`,
+                },
+                {
+                  speaker: 'Hector Patmore',
+                  academy: 'KU Leuven, Belgium',
+                  title: `Philology: New Solutions to Old Problems`,
+                },
               ],
             },
             {
@@ -273,7 +304,7 @@ const Workshop2023Page = (props) => {
               time: '14:15-15:30',
               eventTitle: 'Round Table (1): What Should a Rabbinic Digital Edition Look Like?',
               speakers: [
-                { speaker: 'Chair', title: 'Shira Shmidman', boldTitle: true },
+                { chair: true, speaker: 'Shira Shmidman', boldTitle: true },
                 { speaker: 'Shlomi Efrati, David Fialkoff, Shlomi Tsemach [he]' },
               ],
             },
@@ -289,17 +320,17 @@ const Workshop2023Page = (props) => {
               speakers: [
                 {
                   speaker: 'Bill Rebiger',
-				  academy: 'Martin Luther University Halle-Wittenberg, Germany',
+                  academy: 'Martin Luther University Halle-Wittenberg, Germany',
                   title: `Constructing Texts with Modules: The Kabbalistic Treatise 'Keter Shem Ṭov' and Related Texts as a Challenge for Digital Editions`,
                 },
                 {
                   speaker: 'Marcus Pöckelmann',
-				  academy: 'Martin Luther University Halle-Wittenberg, Germany',
+                  academy: 'Martin Luther University Halle-Wittenberg, Germany',
                   title: `Showcasing the Features of the Collation Tool LERA for Scholarly Editing Hebrew Texts. Case Study: Keter Shem Ṭov`,
                 },
                 {
                   speaker: 'Maximilian de Molière',
-				  academy: 'Martin Luther University Halle-Wittenberg, Germany',
+                  academy: 'Martin Luther University Halle-Wittenberg, Germany',
                   title: `The Correspondence of R. Moses Zacuto: an Online Edition`,
                 },
               ],
@@ -326,25 +357,25 @@ const Workshop2023Page = (props) => {
               time: '9:15-11:15',
               eventTitle: 'The Babylonian Talmud',
               speakers: [
-                { speaker: 'Chair', title: 'Menachem Katz', boldTitle: true },
+                { chair: true, speaker: 'Menachem Katz', boldTitle: true },
                 {
                   speaker: 'Jonathan Milgram',
-				  academy: 'The Jewish Theological Seminary, New York',
+                  academy: 'The Jewish Theological Seminary, New York',
                   title: `Between Memra and Stam: On the Role of Memory in the Transmission of Statements in the Babylonian Talmud`,
                 },
                 {
                   speaker: 'Shai Secunda',
-				  academy: 'Bard College, New York, and Wissenschaftskolleg, Berlin',
+                  academy: 'Bard College, New York, and Wissenschaftskolleg, Berlin',
                   title: `Sea of Babylon: Mapping Non-Mishnaic “Digressions” in the Babylonian Talmud`,
                 },
                 {
                   speaker: `Aharon (Roni) Shweka`,
-				  academy: 'Bar-Ilan University',
+                  academy: 'Bar-Ilan University',
                   title: ` Collating the Talmud: Perspectives on the Hachi Garsinan Project`,
                 },
                 {
                   speaker: `Hillel Gershuni`,
-				  academy: 'University of Haifa',
+                  academy: 'University of Haifa',
                   title: `Hachi Garsinan and Beyond: Has the Time Come for a Critical Edition of the Babylonian Talmud?`,
                 },
               ],
@@ -359,17 +390,15 @@ const Workshop2023Page = (props) => {
               time: '11:30-13:00',
               eventTitle: 'Digital Tools and Digital Editions',
               speakers: [
-                { speaker: 'Nachum Dershowitz',
-				academy: 'Tel Aviv University',
-				title: `Computational Paleography` },
+                { speaker: 'Nachum Dershowitz', academy: 'Tel Aviv University', title: `Computational Paleography` },
                 {
                   speaker: 'Daniel Stoekl Ben Ezra and Hayim Lapin',
-				  academy: 'École Pratique des Hautes Études, Paris / University of Maryland',
+                  academy: 'École Pratique des Hautes Études, Paris / University of Maryland',
                   title: `Towards a Pipeline From eScriptorium to a Critical Edition for Rabbinic Texts`,
                 },
                 {
                   speaker: 'Avi Shmidman',
-				  academy: 'Bar-Ilan University and Dicta',
+                  academy: 'Bar-Ilan University and Dicta',
                   title: `Abbreviation Expansion in Digital Editions: from TEI to Neural Networks`,
                 },
               ],
@@ -383,24 +412,35 @@ const Workshop2023Page = (props) => {
             {
               time: '14:15-15:30',
               eventTitle: 'Round Table (2): Ancient Texts in the Digital Era – Concluding Thoughts',
-              speakers: [{ speaker: 'Chair', title: 'Gila Prebor', academy: 'Bar-Ilan University', boldTitle: true },
-			  { speaker: 'Menachem Katz, Hillel Gershuni, Vered Raziel-Kretzmer, Avi Shmidman [he]' }],
+              speakers: [
+                { chair: true, speaker: 'Gila Prebor', academy: 'Bar-Ilan University', boldTitle: true },
+                { speaker: 'Menachem Katz, Hillel Gershuni, Vered Raziel-Kretzmer, Avi Shmidman [he]' },
+              ],
             },
             {
               time: '16:00-17:00',
               eventTitle: 'Sofer Stam: Special Session',
               break: true,
               speakers: [
-                { speaker: 'Chair and introduction', title: 'Moshe Lavee', academy: 'University of Haifa', boldTitle: true },
+                {
+                  speaker: 'Chair and introduction',
+                  title: 'Moshe Lavee',
+                  academy: 'University of Haifa',
+                  boldTitle: true,
+                },
                 {
                   speaker: 'Hadar Miller',
-				  academy: 'University of Haifa',
+                  academy: 'University of Haifa',
                   title: 'Applying Text Reuse Detection in the Preparation of Digital Edition',
                 },
-                { speaker: 'Samuel Londnder', title: 'Methods for Improving Automatic Transcription of Manuscripts', academy: 'Tel Aviv University' },
+                {
+                  speaker: 'Samuel Londnder',
+                  title: 'Methods for Improving Automatic Transcription of Manuscripts',
+                  academy: 'Tel Aviv University',
+                },
                 {
                   speaker: 'Yoav Phillips',
-				  academy: 'University of Haifa',
+                  academy: 'University of Haifa',
                   title: 'Expanding Text Reuse Detection and Automatic Transcription from Judeo Arabic to Arabic',
                 },
               ],
