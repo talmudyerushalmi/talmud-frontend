@@ -76,7 +76,7 @@ const Speakers = (props: SpeakersProps) => {
     <ul style={{ direction: 'ltr' }}>
       {speakers.map((speaker, index) => {
         return (
-          <li key={index}>
+          <li key={index} style={{marginBottom:'0.5rem'}}>
             <Speaker {...speaker} />
           </li>
         );
@@ -87,14 +87,14 @@ const Speakers = (props: SpeakersProps) => {
 
 const Speaker = (props: SpeakerProps) => {
   const { speaker, title, academy, boldTitle, chair } = props;
-  const academyTag = academy ? <i> ({academy})</i> : null;
+  const academyTag = academy ? <span> ({academy})</span> : null;
   const speakerTag = (
     <span>
       <strong>{speaker}</strong>
       {academyTag}
     </span>
   );
-  const titleTag = title ? <span> - {title}</span> : null;
+  const titleTag = title ? <span>{title}</span> : null;
 
   if (chair) {
     return (
@@ -105,8 +105,11 @@ const Speaker = (props: SpeakerProps) => {
   }
   return (
     <div>
-      <strong>{speaker}</strong>
-      {academyTag} {titleTag}
+      <div>
+        <strong>{speaker}</strong>
+        {academyTag}
+      </div>
+      {titleTag}
     </div>
   );
 };
@@ -357,7 +360,7 @@ const Workshop2023Page = (props) => {
               time: '9:15-11:15',
               eventTitle: 'The Babylonian Talmud',
               speakers: [
-                { chair: true, speaker: 'Menachem Katz', boldTitle: true },
+                { chair: true, speaker: 'Menachem Katz',academy: 'University of Haifa', boldTitle: true },
                 {
                   speaker: 'Jonathan Milgram',
                   academy: 'The Jewish Theological Seminary, New York',
