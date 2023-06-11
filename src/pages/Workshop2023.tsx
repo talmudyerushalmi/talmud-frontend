@@ -421,13 +421,19 @@ const Workshop2023Page = (props) => {
               ],
             },
             {
-              time: '16:00-17:00',
+              time: '',
+              break: true,
+              eventTitle: 'Coffee Break',
+              speakers: [],
+            },
+            {
+              time: '16:00-17:30',
               eventTitle: 'Sofer Stam: Special Session',
               break: true,
               speakers: [
                 {
-                  speaker: 'Chair and introduction',
-                  title: 'Moshe Lavee',
+                  chair: true,
+                  speaker: 'Moshe Lavee',
                   academy: 'University of Haifa',
                   boldTitle: true,
                 },
