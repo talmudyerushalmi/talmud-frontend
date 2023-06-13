@@ -76,7 +76,7 @@ const Speakers = (props: SpeakersProps) => {
     <ul style={{ direction: 'ltr' }}>
       {speakers.map((speaker, index) => {
         return (
-          <li key={index} style={{marginBottom:'0.5rem'}}>
+          <li key={index} style={{ marginBottom: '0.5rem' }}>
             <Speaker {...speaker} />
           </li>
         );
@@ -146,9 +146,10 @@ const Workshop2023Page = (props) => {
               </Typography>
               <Typography>Research Workshop of the Israel Science Foundation</Typography>
               <Typography>University of Haifa, June 18-20, 2023</Typography>
-              <div style={{margin:'0.5rem'}}>
-              <Link href="https://drive.google.com/file/d/1aBOIwgTB6d96DFndNKsB73e8yvaIhL0N/view">Abstracts and Biographies
-</Link>
+              <div style={{ margin: '0.5rem' }}>
+                <Link href="https://drive.google.com/file/d/1aBOIwgTB6d96DFndNKsB73e8yvaIhL0N/view" target="_blank">
+                  Abstracts and Biographies
+                </Link>
               </div>
 
               <Button
@@ -365,7 +366,7 @@ const Workshop2023Page = (props) => {
               time: '9:15-11:15',
               eventTitle: 'The Babylonian Talmud',
               speakers: [
-                { chair: true, speaker: 'Menachem Katz',academy: 'University of Haifa', boldTitle: true },
+                { chair: true, speaker: 'Menachem Katz', academy: 'University of Haifa', boldTitle: true },
                 {
                   speaker: 'Jonathan Milgram',
                   academy: 'The Jewish Theological Seminary, New York',
