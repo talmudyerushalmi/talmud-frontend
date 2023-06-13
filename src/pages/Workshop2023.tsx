@@ -146,8 +146,13 @@ const Workshop2023Page = (props) => {
               </Typography>
               <Typography>Research Workshop of the Israel Science Foundation</Typography>
               <Typography>University of Haifa, June 18-20, 2023</Typography>
+              <div style={{margin:'0.5rem'}}>
+              <Link href="https://drive.google.com/file/d/1aBOIwgTB6d96DFndNKsB73e8yvaIhL0N/view">Abstracts and Biographies
+</Link>
+              </div>
+
               <Button
-                sx={{ margin: '2rem' }}
+                sx={{ margin: '1rem' }}
                 variant="contained"
                 onClick={() => {
                   window.open('https://forms.gle/MKzaJ6QJ3CFhM2SH6', '_blank');
