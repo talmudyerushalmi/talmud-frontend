@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import ReactGA from 'react-ga4';
 import { Container, Paper, Typography, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
@@ -20,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = (props) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: '/', title: 'Homepage' });
+  }, []);
 
   return (
     <>
@@ -52,20 +57,20 @@ const HomePage = (props) => {
             </div>
           </Box>
           <Link
-              to="/workshop2023"
-              style={{
-                background: 'white',
-                display: 'block',
-                width: '20rem',
-                margin: '2rem auto',
-                textAlign: 'center',
-                padding: '1rem',
-                borderRadius: '0.5rem',
-                color: 'blue',
-                textDecoration: 'none',
-              }}>
+            to="/workshop2023"
+            style={{
+              background: 'white',
+              display: 'block',
+              width: '20rem',
+              margin: '2rem auto',
+              textAlign: 'center',
+              padding: '1rem',
+              borderRadius: '0.5rem',
+              color: 'blue',
+              textDecoration: 'none',
+            }}>
             ISF workshop - Editions of Classical Jewish Literature in the Digital Era
-            </Link>
+          </Link>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Link
               to="/talmud/yevamot/001/001"

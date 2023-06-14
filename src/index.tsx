@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga4';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -9,8 +10,8 @@ import { updatedAwsConfig } from './amplify/awsconfig';
 import './i18n/i18n';
 import { BrowserRouter } from 'react-router-dom';
 import { Amplify } from 'aws-amplify';
-import { persistStore } from 'redux-persist'
-import { PersistGate } from 'redux-persist/integration/react'
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 
 console.log('process', process.env);
 
@@ -19,22 +20,20 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 
 const gtmId = process.env.REACT_APP_GTM_ID;
 if (typeof gtmId === 'string' && gtmId !== 'NONE') {
-
+  ReactGA.initialize(gtmId);
 }
 
-
 Amplify.configure(updatedAwsConfig);
-let persistor = persistStore(store)
-
+let persistor = persistStore(store);
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <div dir="rtl">
-          <App />
-        </div>
+        <PersistGate persistor={persistor}>
+          <div dir="rtl">
+            <App />
+          </div>
         </PersistGate>
       </Provider>
     </BrowserRouter>

@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
+import ReactGA from 'react-ga4'
 import { Container } from '@mui/material';
 
 const SteeringPage = (props) => {
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: '/talmud/*', title: 'SteeringCommittee' });
+  }, []);
 
   return (
     <>
