@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import ReactGA from 'react-ga4'
 import { Box, Button, Container, Divider, Link, Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import haifaImg from '../assets/haifa_uni.png';
@@ -115,6 +116,10 @@ const Speaker = (props: SpeakerProps) => {
 
 const Workshop2023Page = (props) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: '/workshop2023', title: 'GA4-Workshop' });
+  }, []);
 
   return (
     <>
