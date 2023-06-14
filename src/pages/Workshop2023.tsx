@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, Button, Container, Divider, Link, Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import TagManager from 'react-gtm-module';
 import haifaImg from '../assets/haifa_uni.png';
 import scienceImg from '../assets/science.png';
 
@@ -117,15 +116,6 @@ const Speaker = (props: SpeakerProps) => {
 const Workshop2023Page = (props) => {
   const classes = useStyles();
 
-  useEffect(() => {
-    TagManager.dataLayer({
-      dataLayer: {
-        event: 'pageview',
-        pagePath: window.location.href,
-        pageTitle: 'introduction',
-      },
-    });
-  }, []);
   return (
     <>
       <Container sx={{ textAlign: 'right' }}>

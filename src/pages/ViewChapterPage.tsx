@@ -1,19 +1,10 @@
 import React, { useEffect } from 'react';
 import { Footer } from '../layout/Footer';
 import { PageContent, PageHeader, PageWithNavigation } from '../layout/PageWithNavigation';
-import TagManager from 'react-gtm-module';
 import ChapterPage from './ChapterPage';
 
 const ViewChapterPage = () => {
-  useEffect(() => {
-    TagManager.dataLayer({
-      dataLayer: {
-        event: 'page_view',
-        pagePath: window.location.href,
-        title: 'mishna-view',
-      },
-    });
-  }, []);
+
   return (
     <PageWithNavigation
       allChapterAllowed={true}
