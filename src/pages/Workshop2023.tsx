@@ -118,7 +118,7 @@ const Workshop2023Page = (props) => {
   const classes = useStyles();
 
   useEffect(() => {
-    ReactGA.send({ hitType: 'pageview', page: '/workshop2023', title: 'GA4-Workshop' });
+    ReactGA.send({ hitType: 'pageview', page: '/workshop2023', title: 'Workshop' });
   }, []);
 
   return (

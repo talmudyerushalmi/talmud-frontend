@@ -23,7 +23,7 @@ const HomePage = (props) => {
   const classes = useStyles();
 
   useEffect(() => {
-    ReactGA.send({ hitType: 'pageview', page: '/', title: 'GA4-Homepage' });
+    ReactGA.send({ hitType: 'pageview', page: '/', title: 'Homepage' });
   }, []);
 
   return (
