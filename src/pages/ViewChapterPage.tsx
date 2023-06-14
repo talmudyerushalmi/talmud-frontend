@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Footer } from '../layout/Footer';
 import { PageContent, PageHeader, PageWithNavigation } from '../layout/PageWithNavigation';
 import ChapterPage from './ChapterPage';
@@ -10,13 +10,6 @@ const ViewChapterPage = () => {
       allChapterAllowed={true}
       linkPrefix="/talmud"
       afterNavigateHandler={() => {
-        TagManager.dataLayer({
-          dataLayer: {
-            event: 'page_view',
-            pagePath: window.location.href,
-            title: 'chapter-view',
-          },
-        });
         window.scrollTo(0, 0);
       }}
     >
