@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import { updatedAwsConfig } from './amplify/awsconfig';
 import './i18n/i18n';
 import { BrowserRouter } from 'react-router-dom';
-import TagManager from 'react-gtm-module';
 import { Amplify } from 'aws-amplify';
 import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -20,14 +19,10 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 
 const gtmId = process.env.REACT_APP_GTM_ID;
 if (typeof gtmId === 'string' && gtmId !== 'NONE') {
-  const tagManagerArgs = {
-    gtmId,
-  };
-  TagManager.initialize(tagManagerArgs);
+
 }
 
 
-//console.log(updatedAwsConfig)
 Amplify.configure(updatedAwsConfig);
 let persistor = persistStore(store)
 
