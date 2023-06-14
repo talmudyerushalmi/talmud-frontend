@@ -87,7 +87,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
       <DialogTitle id="form-dialog-title" textAlign="center">
         יצירת הערה
         <Box textAlign="center">
-          <Typography component="span">{commentModal?.sublineText}</Typography>
+          <Typography component="span">{commentModal?.lineText}</Typography>
         </Box>
       </DialogTitle>
       <DialogContent>
@@ -95,7 +95,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
           <TextField
             autoFocus
             name="title"
-            label={t('title')}
+            label={`${t('title')} / ד"ה`}
             type="text"
             fullWidth
             value={values.title}
@@ -123,13 +123,17 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
             </RadioGroup>
             {values?.type === CommentType.MODERATION && (
               <Typography color="InfoText" fontSize="0.9rem">
-                * ההערה תיבדק ותופיע ב"הערות ציבוריות" במידה תאושר
+                * ההערה תיבדק ותופיע במדור "הערות ציבוריות" אם תאושר. <br /> ניתן להשתמש בהערה ציבורית גם כדי לשלוח
+                הודעות תיקון לעורכים.
               </Typography>
             )}
           </FormControl>
-          <Box mx="auto">
+          <Box mx="auto" display="flex" gap={2}>
             <Button type="submit" variant="contained">
               אישור
+            </Button>
+            <Button onClick={onClose} variant="contained" color="error">
+              ביטול
             </Button>
           </Box>
         </Box>

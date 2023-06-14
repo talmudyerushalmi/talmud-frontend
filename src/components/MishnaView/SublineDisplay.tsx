@@ -78,8 +78,11 @@ interface Props {
   handleMouseEnter: (subline: number) => void;
   handleMouseLeave: Function;
   setCommentModal: (setCommentModal: iCommentModal | null) => void;
-  lineNumber: string;
-  lineIndex: number;
+  lineDetails: {
+    lineNumber: string;
+    lineIndex: number;
+    mainLine: string;
+  };
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -94,8 +97,7 @@ const SublineDisplay = (props: Props) => {
     handleMouseEnter,
     handleMouseLeave,
     setCommentModal,
-    lineNumber,
-    lineIndex
+    lineDetails,
   } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -128,12 +130,12 @@ const SublineDisplay = (props: Props) => {
 
     setCommentModal({
       open: CommentModal.CREATE,
-      lineNumber: lineNumber, 
+      lineNumber: lineDetails.lineNumber,
       subline: subline.index,
       fromWord: firstWord,
       toWord: lastWord,
-      sublineText: subline.text,
-      lineIndex: lineIndex,
+      lineText: lineDetails.mainLine,
+      lineIndex: lineDetails.lineIndex,
     });
   };
 
@@ -192,7 +194,7 @@ const SublineDisplay = (props: Props) => {
           </AccordionActions>
         </AccordionSummary>
         <AccordionDetails>
-          <SynopsisTable subline={subline} lineNumber={lineNumber} />
+          <SynopsisTable subline={subline} lineNumber={lineDetails.lineNumber} />
         </AccordionDetails>
       </Accordion>
     </>

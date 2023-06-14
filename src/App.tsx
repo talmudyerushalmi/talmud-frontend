@@ -63,12 +63,12 @@ function App() {
           <Route
             path="comments"
             element={
-              // TODO: change to editor, and fix the navigation
               <RequireAuth allowedGroups={[UserGroup.Editor]}>
                 <CommentsAdminPage />
               </RequireAuth>
             }>
-            <Route index element={<ModerationCommentsPage />}></Route>
+            <Route index element={<ModerationCommentsPage />} />
+            <Route path="moderation" element={<ModerationCommentsPage />} />
           </Route>
         </Route>
         <Route

@@ -26,7 +26,6 @@ const MainLine = (props: Props) => {
   const { line, lineIndex, userAuth, isAuthenticated } = props;
   const [dynamicComponents, setdynamicComponents] = useState<ReactElement[]>([]);
   const [hoverSubline, setHoverSubline] = React.useState<number>(-1);
-
   const handleMouseLeave = () => {
     setTimeout(() => {
       setHoverSubline(-1);
@@ -72,8 +71,11 @@ const MainLine = (props: Props) => {
                   {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
                   <SublineDisplay
                     key={index}
-                    lineNumber={line.lineNumber}
-                    lineIndex={lineIndex}
+                    lineDetails={{
+                      lineIndex,
+                      lineNumber: line.lineNumber,
+                      mainLine: line.mainLine,
+                    }}
                     subline={subline}
                     {...(isAuthenticated && hoverProps)}
                   />

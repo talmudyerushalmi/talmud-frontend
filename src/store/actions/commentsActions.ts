@@ -24,7 +24,7 @@ export interface iCommentModal {
   open?: CommentModal;
   lineNumber?: string;
   subline?: number;
-  sublineText?: string;
+  lineText?: string;
   fromWord?: string;
   toWord?: string;
   lineIndex?: number;
