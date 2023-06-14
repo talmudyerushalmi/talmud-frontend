@@ -23,7 +23,6 @@ export enum CommentModal {
 export interface iCommentModal {
   open?: CommentModal;
   lineNumber?: string;
-  subline?: number;
   lineText?: string;
   fromWord?: string;
   toWord?: string;

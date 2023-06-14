@@ -131,7 +131,6 @@ const SublineDisplay = (props: Props) => {
     setCommentModal({
       open: CommentModal.CREATE,
       lineNumber: lineDetails.lineNumber,
-      subline: subline.index,
       fromWord: firstWord,
       toWord: lastWord,
       lineText: lineDetails.mainLine,
