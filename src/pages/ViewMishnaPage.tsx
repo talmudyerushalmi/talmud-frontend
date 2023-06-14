@@ -6,7 +6,7 @@ import MishnaPage from './MishnaPage';
 
 const ViewMishnaPage = () => {
   useEffect(() => {
-    ReactGA.send({ hitType: 'pageview', page: '/talmud/yevamot', title: 'ViewMishnaPage' });
+    ReactGA.send({ hitType: 'pageview', page: '/talmud/*', title: 'ViewMishnaPage' });
   }, []);
 
   return (

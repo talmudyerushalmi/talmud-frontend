@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import ReactGA from 'react-ga4'
 import { Container, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -18,7 +19,9 @@ const useStyles = makeStyles((theme) => ({
 
 const IntroductionPage = (props) => {
   const classes = useStyles();
-
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: '/introduction', title: 'Introduction' });
+  }, []);
   return (
     <>
       <Container>
