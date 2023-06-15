@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import ReactGA from 'react-ga4'
-import { Box, Button, Container, Divider, Link, Paper, Typography } from '@mui/material';
+import ReactGA from 'react-ga4';
+import { Box, Button, Container, Divider, Hidden, Link, Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import haifaImg from '../assets/haifa_uni.png';
 import scienceImg from '../assets/science.png';
@@ -134,7 +134,9 @@ const Workshop2023Page = (props) => {
               flexDirection: 'row-reverse',
               justifyContent: 'space-between',
             }}>
-            <img src={haifaImg} style={{ padding: '1rem' }} height="150" alt="haifa_uni" />
+            <Hidden mdDown>
+              <img src={haifaImg} style={{ padding: '1rem' }} height="150" alt="haifa_uni" />
+            </Hidden>
             <Box sx={{ margin: '0rem 0', padding: '1rem', textAlign: 'center' }}>
               <Typography variant="h1" align="center">
                 Editions of Classical Jewish Literature in the Digital Era
@@ -157,7 +159,9 @@ const Workshop2023Page = (props) => {
               </Button>
             </Box>
 
-            <img src={scienceImg} height="150" alt="Israel Science Foundation" />
+            <Hidden mdDown>
+              <img src={scienceImg} height="150" alt="Israel Science Foundation" />
+            </Hidden>
           </Box>
         </Paper>
         <Panel

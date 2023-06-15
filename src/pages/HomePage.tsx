@@ -158,7 +158,7 @@ const HomePage = (props) => {
           <div
             style={{
               background: '#4067b5',
-              width: '50%',
+              maxWidth: '25rem',
               margin: '1rem auto',
               borderRadius: '0.5rem',
               padding: '1rem',
