@@ -193,6 +193,7 @@ const Workshop2023Page = (props) => {
               time: '14:15-16:15',
               eventTitle: 'Digitizing Jewish Texts and Jewish Culture',
               speakers: [
+                { chair: true, speaker: 'Avi Shmidman', academy: 'University of Bar-Ilan and DICTA', boldTitle: true },
                 {
                   speaker: 'Jakub Zbrzezny',
                   academy: 'University of Aberdeen, UK',
@@ -326,6 +327,7 @@ const Workshop2023Page = (props) => {
               time: '16:00-17:30',
               eventTitle: 'Digital Editions of Kabbalistic Writings',
               speakers: [
+                { chair: true, speaker: 'Avriel Bar-Levav', academy: 'The Open University of Israel', boldTitle: true },
                 {
                   speaker: 'Bill Rebiger',
                   academy: 'Martin Luther University Halle-Wittenberg, Germany',
@@ -398,6 +400,7 @@ const Workshop2023Page = (props) => {
               time: '11:30-13:00',
               eventTitle: 'Digital Tools and Digital Editions',
               speakers: [
+                { chair: true, speaker: 'Nachum Dershowitz', boldTitle: true },
                 { speaker: 'Nachum Dershowitz', academy: 'Tel Aviv University', title: `Computational Paleography` },
                 {
                   speaker: 'Daniel Stoekl Ben Ezra and Hayim Lapin',
