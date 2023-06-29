@@ -6,22 +6,41 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { iLine } from '../../types/types';
 import SugiaButton from './SugiaButton';
+import { UserGroup } from '../../store/reducers/authReducer';
 
 const importView = (component) => lazy(() => import(`./${component}`));
 
 const mapStateToProps = (state) => ({
   userAuth: state.authentication.userAuth,
+  isAuthenticated: state.authentication.userGroup !== UserGroup.Unauthenticated,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({});
 interface Props {
   line: iLine;
   lineIndex: number;
   userAuth: any;
+  isAuthenticated: boolean;
 }
 
 const MainLine = (props: Props) => {
-  const { line, lineIndex, userAuth } = props;
+  const { line, lineIndex, userAuth, isAuthenticated } = props;
   const [dynamicComponents, setdynamicComponents] = useState<ReactElement[]>([]);
+  const [hoverSubline, setHoverSubline] = React.useState<number>(-1);
+  const handleMouseLeave = () => {
+    setTimeout(() => {
+      setHoverSubline(-1);
+    }, 2000);
+  };
+
+  const handleMouseEnter = (subline: number) => {
+    setHoverSubline(subline);
+  };
+
+  const hoverProps = {
+    hoverSubline,
+    handleMouseLeave,
+    handleMouseEnter,
+  };
 
   useEffect(() => {
     let dynamicComponentsToLoad = userAuth ? [] : [];
@@ -50,7 +69,16 @@ const MainLine = (props: Props) => {
               return (
                 <div key={index}>
                   {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
-                  <SublineDisplay key={index} lineNumber={line.lineNumber} lineIndex={lineIndex} subline={subline} />
+                  <SublineDisplay
+                    key={index}
+                    lineDetails={{
+                      lineIndex,
+                      lineNumber: line.lineNumber,
+                      mainLine: line.mainLine,
+                    }}
+                    subline={subline}
+                    {...(isAuthenticated && hoverProps)}
+                  />
                 </div>
               );
             })

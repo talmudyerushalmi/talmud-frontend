@@ -23,6 +23,7 @@ const mapStateToProps = (state) => ({
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
   loading: state.navigation.loading,
+  // comments: state.comments.privateComments,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setMishnaViewOptions: () => {
