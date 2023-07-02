@@ -2,7 +2,9 @@ import { RootState } from '..';
 import PageService from '../../services/pageService';
 import SettingsService from '../../services/settingsServince';
 import { iMishna } from '../../types/types';
+import { UserGroup } from '../reducers/authReducer';
 import { tryAsyncWithLoadingState } from './actionHelpers';
+import { getPrivateComments } from './commentsActions';
 import { setManuscriptsForChapter } from './relatedActions';
 
 export const REQUEST_START = 'REQUEST_START';
@@ -95,10 +97,12 @@ export function getCurrentTractate() {
 }
 
 export function getMishna(tractate: string, chapter: string, mishna: string) {
-  return async function (dispatch) {
+  return async function (dispatch, getState) {
     let mishnaData = await tryAsyncWithLoadingState(dispatch, PageService.getMishna(tractate, chapter, mishna));
     if (mishnaData) {
       dispatch(setCurrentMishna(mishnaData));
+      const isAuthenticated = getState().authentication.userGroup !== UserGroup.Unauthenticated;
+      isAuthenticated && dispatch(getPrivateComments());
     }
   };
 }
