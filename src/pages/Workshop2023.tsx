@@ -86,7 +86,7 @@ const Speakers = (props: SpeakersProps) => {
 };
 
 const Speaker = (props: SpeakerProps) => {
-  const { speaker, title, academy, boldTitle, chair } = props;
+  const { speaker, title, academy, chair } = props;
   const academyTag = academy ? <span> ({academy})</span> : null;
   const speakerTag = (
     <span>

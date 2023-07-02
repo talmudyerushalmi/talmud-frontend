@@ -74,7 +74,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
     if (commentModal) {
       resetForm();
     }
-  }, [commentModal]);
+  }, [commentModal,resetForm]);
 
   return (
     <Dialog

@@ -32,18 +32,18 @@ const EditLinePage = (props) => {
 
   useEffect(() => {
     getCompositions();
-  }, []);
+  }, [getCompositions]);
 
   useEffect(() => {
     const lineObj = currentMishna?.lines?.find((lineItem) => lineItem.lineNumber === line);
     setLineObj(lineObj);
-  }, [currentMishna]);
+  }, [currentMishna,setLineObj,line]);
 
   useEffect(() => {
     getEditSettings(tractate, chapter, mishna);
     getMishna(tractate, chapter, mishna);
     return () => {};
-  }, [line]);
+  }, [line,getMishna,getEditSettings,tractate, chapter, mishna]);
 
   return (
     <PageWithNavigation

@@ -45,11 +45,11 @@ const ChapterPage = (props: Props) => {
 
   useEffect(() => {
     setViewOptions();
-  }, []);
+  }, [setViewOptions]);
 
   useEffect(() => {
     getRichMishnaiotForChapter(tractate, chapter, true);
-  }, [mishna, chapter, tractate]);
+  }, [mishna, chapter, tractate, getRichMishnaiotForChapter]);
 
   return (
     <Grid container spacing={2}>

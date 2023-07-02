@@ -31,7 +31,7 @@ const ExcerptView = (props: Props) => {
 
   useEffect(() => {
     setExpanded(expanded ? excerpt.key : null);
-  }, [expanded]);
+  }, [expanded,setExpanded]);
 
   const handleClick = () => {
     if (!expandedState) {
