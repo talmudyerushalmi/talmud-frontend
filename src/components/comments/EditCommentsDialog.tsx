@@ -51,7 +51,7 @@ const EditCommentsDialog: FC<IProps> = ({ open, onClose, submitHandler, comment 
         values: initialValues,
       });
     }
-  }, [comment]);
+  }, [comment,initialValues,resetForm]);
 
   useEffect(() => {
     console.log('errors', errors);

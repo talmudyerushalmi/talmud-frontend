@@ -17,6 +17,6 @@ const useScroll = (percentage: number, cb: any) => {
     return () => {
       window.removeEventListener('scroll', debounced);
     };
-  }, []);
+  }, [debounced]);
 };
 export default useScroll;

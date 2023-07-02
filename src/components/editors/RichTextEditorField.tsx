@@ -9,7 +9,7 @@ interface Props {
 
 const RichTextEditorField = (props: Props) => {
   const { label } = props;
-  const [field, meta, helpers] = useField(props);
+  const [, meta, helpers] = useField(props);
   const { value } = meta;
 
   const changeEditorState = (editorState) => {
