@@ -1,12 +1,10 @@
 import { Accordion, AccordionDetails, IconButton, Typography } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import React, { useEffect, useState } from 'react';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import draftToHtml from 'draftjs-to-html';
 import { connect } from 'react-redux';
 import { selectExcerpt } from '../../store/actions';
 import LinkIcon from '@mui/icons-material/Link';
-import { getExcerpt, isContentEmpty } from '../../inc/editorUtils';
+import { getExcerpt } from '../../inc/editorUtils';
 import { getSelectionRange } from '../../inc/excerptUtils';
 import { iExcerpt } from '../../types/types';
 
@@ -20,11 +18,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-const useStyles = makeStyles((theme) => ({
-  sourceReference: {
-    ...theme.typography.sourceReference,
-  },
-}));
+
 
 interface Props {
   excerpt: iExcerpt;
@@ -32,14 +26,12 @@ interface Props {
   selectExcerpt: Function;
 }
 const ExcerptView = (props: Props) => {
-  const classes = useStyles();
   const { excerpt, expanded, selectExcerpt } = props;
-  const key = excerpt.key;
   const [expandedState, setExpanded] = useState<number | null>(null);
 
   useEffect(() => {
     setExpanded(expanded ? excerpt.key : null);
-  }, [expanded]);
+  }, [expanded,setExpanded]);
 
   const handleClick = () => {
     if (!expandedState) {

@@ -23,6 +23,7 @@ const mapStateToProps = (state) => ({
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
   loading: state.navigation.loading,
+  // comments: state.comments.privateComments,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setMishnaViewOptions: () => {
@@ -45,11 +46,11 @@ const MishnaPage = (props: Props) => {
 
   useEffect(() => {
     setMishnaViewOptions();
-  }, []);
+  }, [setMishnaViewOptions]);
 
   useEffect(() => {
     getMishna(tractate, chapter, mishna);
-  }, [tractate, chapter, mishna]);
+  }, [tractate, chapter, mishna, getMishna]);
 
   return (
     <Grid container spacing={2}>

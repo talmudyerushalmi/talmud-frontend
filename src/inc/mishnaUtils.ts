@@ -1,4 +1,4 @@
-import { iLine, iMishna, iSubline } from '../types/types';
+import { iMishna, iSubline } from '../types/types';
 import * as _ from 'lodash';
 
 export function getSublines(mishna: iMishna) {

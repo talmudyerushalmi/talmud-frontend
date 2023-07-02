@@ -20,7 +20,7 @@ const AdminMenu = (props: any) => {
     const mishna = currentRoute.mishna ? currentRoute.mishna : '001';
     navigate(`/admin/edit/${tractate}/${chapter}/${mishna}`);
     handleClose();
-  }, [currentRoute]);
+  }, [currentRoute,navigate]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -36,7 +36,7 @@ const AdminMenu = (props: any) => {
     const mishna = currentRoute.mishna ? currentRoute.mishna : '001';
     navigate(`/talmud/${tractate}/${chapter}/${mishna}`);
     handleClose();
-  }, [currentRoute]);
+  }, [currentRoute,navigate]);
 
   return (
     <>
@@ -46,6 +46,13 @@ const AdminMenu = (props: any) => {
       <Menu id="admin-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={handleViewMishna}>עמוד משנה</MenuItem>
         <MenuItem onClick={handleEditMishna}>עריכת משנה</MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate(`/admin/comments/moderation`);
+            handleClose();
+          }}>
+          בדיקת הערות
+        </MenuItem>
       </Menu>
     </>
   );

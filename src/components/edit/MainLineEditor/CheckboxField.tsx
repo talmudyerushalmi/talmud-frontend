@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Checkbox, FormControlLabel, Typography } from '@mui/material';
 import { useField } from 'formik';
 
@@ -6,7 +6,7 @@ interface Props {
   name: string;
 }
 const CheckboxField = (props: Props) => {
-  const [checkboxField, meta, helpers] = useField({
+  const [, meta, helpers] = useField({
     name: props.name,
     type: "checkbox"
   });

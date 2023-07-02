@@ -85,8 +85,6 @@ const AddOriginal = (props) => {
 
 const AddCombined = (props) => {
   const theme = useTheme();
-  const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
-
   return (
     <div style={{ display: 'inline-block',  ...theme.editor.decorators.add }}>
       <span>{'<'}</span>

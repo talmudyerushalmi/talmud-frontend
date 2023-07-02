@@ -4,7 +4,7 @@ import { withFormik, FormikProps, Form, FormikValues } from 'formik';
 import { EditorState, ContentState } from 'draft-js';
 import SourceButtons from '../MainLineEditor/SourceButtons';
 import LineService from '../../../services/line.service';
-import { iLine, iInternalLink, iMishna, iSubline, iSynopsis } from '../../../types/types';
+import { iLine, iInternalLink, iSubline, iSynopsis } from '../../../types/types';
 import { getTextForSynopsis } from '../../../inc/synopsisUtils';
 import { Button } from '@mui/material';
 import FieldSublines from './FieldSublines';
@@ -58,26 +58,14 @@ interface FormValues {
   sublines: iSubline[];
 }
 
-interface OtherProps {
-  message: string;
-  currentMishna: iMishna;
-}
 interface Props {
   props: FormikProps<FormValues>;
 }
 const EditLineForm = (props: FormikValues) => {
   const {
     values,
-    touched,
-    dirty,
-    errors,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    handleReset,
     setFieldValue,
     isSubmitting,
-    currentMishna,
   } = props;
   const [sources, setSources] = useState<iSynopsis[]>([]);
   const onUpdateInternalSources = (parallels: iInternalLink[]) => {

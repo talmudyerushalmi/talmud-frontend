@@ -93,8 +93,7 @@ const EditMishnaExcerpts = (props) => {
             closeExcerptDialog();
           }}
           dialogOpen={excerptDialogOpen}
-          onAdd={addExcerpt}
-        ></ExcerptDialog>
+          onAdd={addExcerpt}></ExcerptDialog>
         <Grid item md={8}>
           <Grid container>
             <Grid item md={1}>
@@ -105,8 +104,7 @@ const EditMishnaExcerpts = (props) => {
                 onChangeSelection={(e) => {
                   setSelection(e);
                 }}
-                mishna={mishnaDoc}
-              ></TextEditorMishna>
+                mishna={mishnaDoc}></TextEditorMishna>
             </Grid>
           </Grid>
         </Grid>
@@ -115,8 +113,7 @@ const EditMishnaExcerpts = (props) => {
             style={{
               width: '100%',
               padding: '1rem',
-            }}
-          >
+            }}>
             <ExcerptList
               admin={true}
               filter={EXCERPT_TYPE.MUVAA}
@@ -127,8 +124,7 @@ const EditMishnaExcerpts = (props) => {
               onDelete={(excerptId) => {
                 deleteExcerpt(tractate, chapter, mishna, excerptId);
               }}
-              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
-            ></ExcerptList>
+              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}></ExcerptList>
             <ExcerptList
               admin={true}
               filter={EXCERPT_TYPE.MAKBILA}
@@ -139,8 +135,7 @@ const EditMishnaExcerpts = (props) => {
               onDelete={(excerptId) => {
                 deleteExcerpt(tractate, chapter, mishna, excerptId);
               }}
-              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
-            ></ExcerptList>
+              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}></ExcerptList>
             <ExcerptList
               admin={true}
               filter={EXCERPT_TYPE.NOSACH}
@@ -151,8 +146,7 @@ const EditMishnaExcerpts = (props) => {
               onDelete={(excerptId) => {
                 deleteExcerpt(tractate, chapter, mishna, excerptId);
               }}
-              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
-            ></ExcerptList>
+              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}></ExcerptList>
             <ExcerptList
               admin={true}
               filter={EXCERPT_TYPE.BIBLIO}
@@ -163,8 +157,7 @@ const EditMishnaExcerpts = (props) => {
               onDelete={(excerptId) => {
                 deleteExcerpt(tractate, chapter, mishna, excerptId);
               }}
-              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
-            ></ExcerptList>
+              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}></ExcerptList>
             <ExcerptList
               admin={true}
               filter={EXCERPT_TYPE.EXPLANATORY}
@@ -175,8 +168,7 @@ const EditMishnaExcerpts = (props) => {
               onDelete={(excerptId) => {
                 deleteExcerpt(tractate, chapter, mishna, excerptId);
               }}
-              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
-            ></ExcerptList>
+              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}></ExcerptList>
             <ExcerptList
               admin={true}
               filter={EXCERPT_TYPE.DICTIONARY}
@@ -187,8 +179,18 @@ const EditMishnaExcerpts = (props) => {
               onDelete={(excerptId) => {
                 deleteExcerpt(tractate, chapter, mishna, excerptId);
               }}
-              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}
-            ></ExcerptList>
+              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}></ExcerptList>
+            <ExcerptList
+              admin={true}
+              filter={EXCERPT_TYPE.COMMENT}
+              excerpts={mishnaDoc ? mishnaDoc.excerpts : []}
+              onClick={(excerpt) => {
+                openExcerptDialog(excerpt);
+              }}
+              onDelete={(excerptId) => {
+                deleteExcerpt(tractate, chapter, mishna, excerptId);
+              }}
+              onUpdateSelectionForExcerpt={onUpdateSelectionForExcerpt}></ExcerptList>
           </div>
         </Grid>
       </Grid>

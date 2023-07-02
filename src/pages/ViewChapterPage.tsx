@@ -1,31 +1,19 @@
 import React, { useEffect } from 'react';
+import ReactGA from 'react-ga4'
 import { Footer } from '../layout/Footer';
 import { PageContent, PageHeader, PageWithNavigation } from '../layout/PageWithNavigation';
-import TagManager from 'react-gtm-module';
 import ChapterPage from './ChapterPage';
 
 const ViewChapterPage = () => {
   useEffect(() => {
-    TagManager.dataLayer({
-      dataLayer: {
-        event: 'page_view',
-        pagePath: window.location.href,
-        title: 'mishna-view',
-      },
-    });
+    ReactGA.send({ hitType: 'pageview', page: '/talmud/*', title: 'ViewChapterPage' });
   }, []);
+  
   return (
     <PageWithNavigation
       allChapterAllowed={true}
       linkPrefix="/talmud"
       afterNavigateHandler={() => {
-        TagManager.dataLayer({
-          dataLayer: {
-            event: 'page_view',
-            pagePath: window.location.href,
-            title: 'chapter-view',
-          },
-        });
         window.scrollTo(0, 0);
       }}
     >

@@ -63,6 +63,9 @@ const ExcerptList = (props: Props) => {
     case EXCERPT_TYPE.DICTIONARY:
       listname = t('Dictionary');
       break;
+    case EXCERPT_TYPE.COMMENT:
+      listname = t('Public Comments');
+      break;
     default:
   }
 
@@ -72,9 +75,13 @@ const ExcerptList = (props: Props) => {
   }
   return (
     <>
-      <Typography variant="h3" sx={{
-       color: theme.palette.text.primary
-      }}>{listname}</Typography>
+      <Typography
+        variant="h3"
+        sx={{
+          color: theme.palette.text.primary,
+        }}>
+        {listname}
+      </Typography>
       <Paper style={{ maxHeight: 400, overflow: 'auto' }}>
         <List className={classes.root}>
           {filteredExcerpts.map((excerpt) => {
@@ -93,8 +100,7 @@ const ExcerptList = (props: Props) => {
                 button
                 onClick={() => {
                   onClick(excerpt);
-                }}
-              >
+                }}>
                 <ListItemText
                   id={labelId}
                   primary={getExcerptTitle(excerpt)}
@@ -109,8 +115,7 @@ const ExcerptList = (props: Props) => {
                       onClick={() => {
                         onUpdateSelectionForExcerpt(excerpt);
                       }}
-                      size="small"
-                    >
+                      size="small">
                       <ShortTextIcon />
                     </IconButton>
                     <IconButton
@@ -120,8 +125,7 @@ const ExcerptList = (props: Props) => {
                       onClick={() => {
                         onDelete(excerpt.key);
                       }}
-                      size="small"
-                    >
+                      size="small">
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>

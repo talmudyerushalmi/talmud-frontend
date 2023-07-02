@@ -7,7 +7,7 @@ interface Props {
 }
 
 const SugiaField = (props: Props) => {
-  const [_, meta, helpers] = useField(props);
+  const [, meta, helpers] = useField(props);
   const { setValue, setTouched } = helpers;
   const { value, touched } = meta;
   const [hasValue, setHasValue] = useState(!!value);
