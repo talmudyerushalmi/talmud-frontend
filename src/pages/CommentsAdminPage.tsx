@@ -12,15 +12,8 @@ import {
 import React, { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
-import CommentIcon from '@mui/icons-material/Comment';
 
-const sidebarItems = [
-  { text: 'בדיקת הערות', icon: <AnnouncementIcon /> },
-  {
-    text: 'הערות ציבוריות',
-    icon: <CommentIcon />,
-  },
-];
+const sidebarItems = [{ text: 'בדיקת הערות', icon: <AnnouncementIcon /> }];
 
 const CommentsAdminPage: FC = () => {
   return (

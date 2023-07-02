@@ -50,13 +50,16 @@ export const excerptsMap = new Map([
     EXCERPT_TYPE.COMMENT,
     {
       title: 'Public Comments',
-    }
-  ]
+    },
+  ],
 ]);
 
 export const getExcerptTitle = (excerpt: iExcerpt): string => {
-  if (excerpt?.type && ['MUVAA', 'MAKBILA'].includes(excerpt.type as string)) {
-    return `${excerpt?.source?.title} (${excerpt?.sourceLocation})`;
+  if (
+    excerpt?.type &&
+    [EXCERPT_TYPE.MUVAA, EXCERPT_TYPE.MAKBILA, EXCERPT_TYPE.COMMENT].includes(excerpt.type as EXCERPT_TYPE)
+  ) {
+    return `${excerpt?.source?.title} ${excerpt?.sourceLocation && `(${excerpt?.sourceLocation})`}`;
   }
   return excerpt?.sourceLocation ? excerpt.sourceLocation : '';
 };
