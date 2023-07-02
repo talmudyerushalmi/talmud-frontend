@@ -46,11 +46,11 @@ const MishnaPage = (props: Props) => {
 
   useEffect(() => {
     setMishnaViewOptions();
-  }, []);
+  }, [setMishnaViewOptions]);
 
   useEffect(() => {
     getMishna(tractate, chapter, mishna);
-  }, [tractate, chapter, mishna]);
+  }, [tractate, chapter, mishna, getMishna]);
 
   return (
     <Grid container spacing={2}>

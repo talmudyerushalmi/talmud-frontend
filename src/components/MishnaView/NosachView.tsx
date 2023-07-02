@@ -94,7 +94,7 @@ const NosachView = (props: Props) => {
     });
 
     return EditorState.createWithContent(contentState, getDecorator(showEditType));
-  }, []);
+  }, [showEditType]);
 
   useEffect(() => {
     let newEditorState;

@@ -13,12 +13,12 @@ const isLocalhost = Boolean(
   // Assuming you have two redirect URIs, and the first is for localhost and second is for production
   const [
     localRedirectSignIn,
-    productionRedirectSignIn,
+    //productionRedirectSignIn,
   ] = awsconfig.oauth.redirectSignIn.split(',');
   
   const [
     localRedirectSignOut,
-    productionRedirectSignOut,
+   // productionRedirectSignOut,
   ] = awsconfig.oauth.redirectSignOut.split(',');
   
   export const updatedAwsConfig = {

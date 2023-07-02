@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga4';
-import { Box, Button, Container, Divider, Hidden, Link, Paper, Typography } from '@mui/material';
+import { Box, Button, Container, Divider, Paper, Typography, Hidden, Link } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import haifaImg from '../assets/haifa_uni.png';
 import scienceImg from '../assets/science.png';
@@ -86,7 +86,7 @@ const Speakers = (props: SpeakersProps) => {
 };
 
 const Speaker = (props: SpeakerProps) => {
-  const { speaker, title, academy, boldTitle, chair } = props;
+  const { speaker, title, academy, chair } = props;
   const academyTag = academy ? <span> ({academy})</span> : null;
   const speakerTag = (
     <span>
@@ -115,8 +115,6 @@ const Speaker = (props: SpeakerProps) => {
 };
 
 const Workshop2023Page = (props) => {
-  const classes = useStyles();
-
   useEffect(() => {
     ReactGA.send({ hitType: 'pageview', page: '/workshop2023', title: 'Workshop' });
   }, []);

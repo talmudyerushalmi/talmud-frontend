@@ -16,7 +16,7 @@ const ZoomImage = ({ image }) => {
   const canvasRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const observer = useRef<ResizeObserver | null>(null);
-  const background = useMemo(() => new Image(), [image]);
+  const background = useMemo(() => new Image(), []);
 
   const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 

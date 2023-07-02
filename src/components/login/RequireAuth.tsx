@@ -1,6 +1,5 @@
 // RequireAuth.js
 import { useLocation, Navigate } from 'react-router-dom';
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { connect } from 'react-redux';
 import { UserGroup } from '../../store/reducers/authReducer';
 

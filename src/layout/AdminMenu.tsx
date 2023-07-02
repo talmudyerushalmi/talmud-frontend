@@ -20,7 +20,7 @@ const AdminMenu = (props: any) => {
     const mishna = currentRoute.mishna ? currentRoute.mishna : '001';
     navigate(`/admin/edit/${tractate}/${chapter}/${mishna}`);
     handleClose();
-  }, [currentRoute]);
+  }, [currentRoute,navigate]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -36,7 +36,7 @@ const AdminMenu = (props: any) => {
     const mishna = currentRoute.mishna ? currentRoute.mishna : '001';
     navigate(`/talmud/${tractate}/${chapter}/${mishna}`);
     handleClose();
-  }, [currentRoute]);
+  }, [currentRoute,navigate]);
 
   return (
     <>

@@ -34,6 +34,7 @@ export const Footer = () => {
             תשפ״א - תשפ״ג 2023-2021
             <img
               src={cc}
+              alt="cc"
               style={{
                 top: '0.15rem',
                 paddingRight: '0.3rem',

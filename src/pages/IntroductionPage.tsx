@@ -225,7 +225,7 @@ const IntroductionPage = (props) => {
               </a>
             </span>
             <span>
-              <a href="https://fjms.genizah.org" target="_blank">
+              <a href="https://fjms.genizah.org" target="_blank"  rel="noreferrer">
                 https://fjms.genizah.org
               </a>
             </span>
@@ -234,7 +234,7 @@ const IntroductionPage = (props) => {
           <p dir="rtl">
             <span>2. פרויקט המקבילות לירושלמי של אוניברסיטת בר אילן (</span>
             <span>
-              <a href="https://www.biu.ac.il/js/tl/yerushalmi" target="_blank">
+              <a href="https://www.biu.ac.il/js/tl/yerushalmi" target="_blank" rel="noreferrer">
                 https://www.biu.ac.il/js/tl/yerushalmi
               </a>
             </span>
@@ -249,7 +249,7 @@ const IntroductionPage = (props) => {
           <p dir="rtl">
             <span>4. מאגרי מידע לתלמוד הירושלמי של מ' פינצ'וק (</span>
             <span>
-              <a href="http://yerushalmidb.com" target="_blank">
+              <a href="http://yerushalmidb.com" target="_blank" rel="noreferrer">
                 http://yerushalmidb.com
               </a>
             </span>
@@ -261,7 +261,7 @@ const IntroductionPage = (props) => {
           <p dir="rtl">
             <span>6. פרויקט "מאגרים" של האקדמיה ללשון העברית (</span>
             <span>
-              <a href="http://maagarim.hebrew-academy.org.il" target="_blank">
+              <a href="http://maagarim.hebrew-academy.org.il" target="_blank" rel="noreferrer">
                 http://maagarim.hebrew-academy.org.il
               </a>
             </span>
@@ -270,7 +270,7 @@ const IntroductionPage = (props) => {
           <p dir="rtl">
             <span>7. מאגר עדי הנוסח של התלמוד הבבלי ע"ש סול ואוולין הנקינד והמפתח הביבליוגרפי לספרות התלמודית (</span>
             <span>
-              <a href="https://www.lieberman-institute.com" target="_blank">
+              <a href="https://www.lieberman-institute.com" target="_blank" rel="noreferrer">
                 https://www.lieberman-institute.com
               </a>
             </span>
@@ -279,7 +279,7 @@ const IntroductionPage = (props) => {
           <p dir="rtl">
             <span>8. פורטל FJMS לגניזה ולעדי נוסח של התלמוד הבבלי (</span>
             <span>
-              <a href="https://fjms.genizah.org" target="_blank">
+              <a href="https://fjms.genizah.org" target="_blank" rel="noreferrer">
                 https://fjms.genizah.org
               </a>
             </span>
@@ -288,7 +288,7 @@ const IntroductionPage = (props) => {
           <p dir="rtl">
             <span>9. כלים ממוחשבים למציאת מקבילות ומובאות שפותחו בידי DICTA (</span>
             <span>
-              <a href="http://dicta.org.il" target="_blank">
+              <a href="http://dicta.org.il" target="_blank" rel="noreferrer">
                 http://dicta.org.il
               </a>
             </span>
@@ -460,7 +460,7 @@ const IntroductionPage = (props) => {
                 </a>
               </span>
               <span>
-                <a href="https://nestjs.com/" target="_blank">
+                <a href="https://nestjs.com/" target="_blank" rel="noreferrer">
                   NestJS
                 </a>
               </span>
@@ -475,7 +475,7 @@ const IntroductionPage = (props) => {
                 </a>
               </span>
               <span>
-                <a href="https://reactjs.org/" target="_blank">
+                <a href="https://reactjs.org/" target="_blank" rel="noreferrer">
                   React
                 </a>
               </span>
@@ -484,7 +484,7 @@ const IntroductionPage = (props) => {
                 great flexibility and many supporting libraries (
               </span>
               <span>
-                <a href="https://mui.com/" target="_blank">
+                <a href="https://mui.com/" target="_blank" rel="noreferrer">
                   Material-UI
                 </a>
               </span>
@@ -495,7 +495,7 @@ const IntroductionPage = (props) => {
                 </a>
               </span>
               <span>
-                <a href="https://draftjs.org/" target="_blank">
+                <a href="https://draftjs.org/" target="_blank" rel="noreferrer">
                   DraftJS
                 </a>
               </span>
@@ -506,7 +506,7 @@ const IntroductionPage = (props) => {
                 </a>
               </span>
               <span>
-                <a href="https://formik.org/" target="_blank">
+                <a href="https://formik.org/" target="_blank" rel="noreferrer">
                   Formik
                 </a>
               </span>
@@ -519,7 +519,7 @@ const IntroductionPage = (props) => {
                 <a href="https://www.elastic.co/">&nbsp;</a>
               </span>
               <span>
-                <a href="https://www.elastic.co/" target="_blank">
+                <a href="https://www.elastic.co/" target="_blank" rel="noreferrer">
                   ElasticSearch
                 </a>
               </span>
@@ -530,7 +530,7 @@ const IntroductionPage = (props) => {
                 </a>
               </span>
               <span>
-                <a href="https://en.wikipedia.org/wiki/Inverted_index" target="_blank">
+                <a href="https://en.wikipedia.org/wiki/Inverted_index" target="_blank" rel="noreferrer">
                   inverted index
                 </a>
               </span>
@@ -540,12 +540,12 @@ const IntroductionPage = (props) => {
                 text-oriented algorithms such as fuzzy-search and word prefixes,
               </span>
               <span>
-                <a href="https://www.elastic.co/" target="_blank">
+                <a href="https://www.elastic.co/" target="_blank" rel="noreferrer">
                   &nbsp;
                 </a>
               </span>
               <span>
-                <a href="https://www.elastic.co/" target="_blank">
+                <a href="https://www.elastic.co/" target="_blank" rel="noreferrer">
                   ElasticSearch
                 </a>
               </span>
@@ -564,7 +564,7 @@ const IntroductionPage = (props) => {
                 </a>
               </span>
               <span>
-                <a href="https://github.com/talmudyerushalmi" target="_blank">
+                <a href="https://github.com/talmudyerushalmi" target="_blank" rel="noreferrer">
                   https://github.com/talmudyerushalmi
                 </a>
               </span>
@@ -596,7 +596,7 @@ const IntroductionPage = (props) => {
                 </a>
               </span>
               <span>
-                <a href="https://fjms.genizah.org/" target="_blank">
+                <a href="https://fjms.genizah.org/" target="_blank" rel="noreferrer">
                   https://fjms.genizah.org/
                 </a>
               </span>
@@ -619,7 +619,7 @@ const IntroductionPage = (props) => {
                 </a>
               </span>
               <span>
-                <a href="https://fjms.genizah.org/" target="_blank">
+                <a href="https://fjms.genizah.org/" target="_blank" rel="noreferrer">
                   https://fjms.genizah.org/
                 </a>
               </span>
@@ -630,7 +630,7 @@ const IntroductionPage = (props) => {
             <p dir="rtl">
               <span>מאגר עדי נוסח של התלמוד הבבלי ע"ש סול ואוולין הנקינד, המכון לחקר התלמוד ע"ש שאול ליברמן, </span>
               <span>
-                <a href="https://www.lieberman-institute.com/" target="_blank">
+                <a href="https://www.lieberman-institute.com/" target="_blank" rel="noreferrer">
                   https://www.lieberman-institute.com
                 </a>
               </span>
@@ -643,7 +643,7 @@ const IntroductionPage = (props) => {
                 </a>
               </span>
               <span>
-                <a href="https://maagarim.hebrew-academy.org.il/" target="_blank">
+                <a href="https://maagarim.hebrew-academy.org.il/" target="_blank" rel="noreferrer">
                   https://maagarim.hebrew-academy.org.il
                 </a>
               </span>
