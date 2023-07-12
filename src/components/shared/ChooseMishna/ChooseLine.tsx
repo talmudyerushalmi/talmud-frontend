@@ -27,7 +27,7 @@ const ChooseLine = (props: Props) => {
     if (lineSelected) {
       onSelectLine(lineSelected);
     }
-  }, [mishnaData]);
+  }, [mishnaData,lineNumber]);
 
   return (
     <Autocomplete
