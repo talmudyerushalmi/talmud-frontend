@@ -51,14 +51,24 @@ const ChooseMishnaForm = ({
     if (lineData) {
       link.lineNumber = lineData.lineNumber;
     }
-
-    emit(link);
-    emit(link);
     emit(link);
   }, [mishnaData, lineData]);
 
-  const onNavigateBack = () => {};
-  const onNavigateForward = () => {};
+  const getPrevious = () => {};
+  const onNavigateBack = () => {
+    if (mishnaData?.previous) {
+      console.log('prev ', mishnaData.previous);
+      setChapterName(mishnaData.previous.chapter);
+      setMishnaName(mishnaData.previous.mishna);
+    }
+  };
+
+  const onNavigateForward = () => {
+    if (mishnaData?.next) {
+      console.log('prev ', mishnaData.previous);
+      setChapterName(mishnaData.next.chapter);
+      setMishnaName(mishnaData.next.mishna);
+    }  };
 
   return (
     <>

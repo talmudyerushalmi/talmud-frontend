@@ -4,8 +4,9 @@ import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { hebrewMap } from '../../../inc/utils';
 import { iMishnaForNavigation } from '../ChooseMishna';
-import { leanChapter, refMishna } from './ChooseChapter';
+import { leanChapter } from './ChooseChapter';
 import NavigationService from '../../../services/NavigationService';
+import { refMishna } from '../../../types/types';
 
 interface Props {
   mishna: string;
@@ -42,6 +43,17 @@ const ChooseMishna = (props: Props) => {
       onSelectMishna(m);
     });
   }, [selectedMishna]);
+
+  useEffect(() => {
+    if (!selectedMishna) {
+      return;
+    }
+    const [tractateName, chapterName, mishnaName] = parseMishnaId(selectedMishna?.id);
+    fetchLines(tractateName, chapterName, mishna).then((m) => {
+      setSelectedMishna(m);
+      onSelectMishna(m);
+    });
+  }, [mishna]);
 
   useEffect(() => {
     const found = inChapter?.mishnaiot.find((m) => m.mishna === mishna);
