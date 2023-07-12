@@ -5,18 +5,27 @@ import ChooseMishna from './ChooseMishna';
 import { iMishnaForNavigation, leanLine } from '../ChooseMishna';
 import { iChapter, iLink, iTractate } from '../../../types/types';
 import ChooseLine from './ChooseLine';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { debounce } from 'lodash';
+import { ArrowBack, ArrowForward } from '@mui/icons-material';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
 interface Props {
   initValues: iLink;
-  onNavigationUpdated: Function;
+  allChapterAllowed?: boolean;
+  onNavigationUpdated: (navigation: iLink) => void;
+  navButtons?: boolean;
+  onButtonNavigation?: (navigation: iLink) => void;
 }
 
-const ChooseMishnaForm = (props: Props) => {
-  const { initValues, onNavigationUpdated } = props;
+const ChooseMishnaForm = ({
+  initValues,
+  allChapterAllowed,
+  navButtons = true,
+  onNavigationUpdated,
+  onButtonNavigation = (_) => {},
+}: Props) => {
   const [tractateName, setTractateName] = useState<string>(initValues.tractate);
   const [chapterName, setChapterName] = useState<string>(initValues.chapter);
   const [mishnaName, setMishnaName] = useState<string>(initValues.mishna);
@@ -48,9 +57,21 @@ const ChooseMishnaForm = (props: Props) => {
     emit(link);
   }, [mishnaData, lineData]);
 
+  const onNavigateBack = () => {};
+  const onNavigateForward = () => {};
+
   return (
     <>
       <Box mb={2} sx={{ display: 'flex', flexGrow: 10 }}>
+        {navButtons ? (
+          <IconButton
+            onClick={() => {
+              onNavigateBack();
+            }}
+            size="small">
+            <ArrowForward></ArrowForward>
+          </IconButton>
+        ) : null}
         <ChooseTractate
           tractate={tractateName}
           onSelectTractate={(t) => {
@@ -84,6 +105,16 @@ const ChooseMishnaForm = (props: Props) => {
               setLineData(l);
             }}
           />
+        ) : null}
+
+        {navButtons ? (
+          <IconButton
+            onClick={() => {
+              onNavigateForward();
+            }}
+            size="small">
+            <ArrowBack></ArrowBack>
+          </IconButton>
         ) : null}
       </Box>
     </>
