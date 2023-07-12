@@ -17,22 +17,22 @@ const ChooseTractate = (props: Props) => {
 
   const { t } = useTranslation();
 
-  const _onChange = (event: SyntheticEvent<Element, Event>, tractate: iTractate|null) => {
+  const _onChange = (event: SyntheticEvent<Element, Event>, tractate: iTractate | null) => {
     if (tractate) {
-      onSelectTractate(tractate)
+      onSelectTractate(tractate);
     }
   };
 
   useEffect(() => {
     PageService.getAllTractates().then(
       (tractates) => {
-        setAllTractates(tractates)
-        const found = tractates.find(t => t.id === tractate);
+        setAllTractates(tractates);
+        const found = tractates.find((t) => t.id === tractate);
         if (found) {
-            setSelectedTractate(found)
-            onSelectTractate(found)
+          setSelectedTractate(found);
+          onSelectTractate(found);
         }
-    },
+      },
       (error) => console.log('An error occurred.', error)
     );
   }, []);
@@ -53,6 +53,11 @@ const ChooseTractate = (props: Props) => {
       getOptionLabel={(option) => option.title_heb}
       isOptionEqualToValue={(option, value) => option?.id === value?.id}
       renderInput={(params) => <TextField {...params} label={t('Tractate')} variant="outlined" />}
+      ListboxProps={{
+        style: {
+          direction: 'rtl',
+        },
+      }}
     />
   );
 };
