@@ -1,45 +1,29 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Button, TextField, Grid, IconButton, Box } from '@mui/material';
+import React, { useMemo, useState } from 'react';
+import { Button, Grid, Box } from '@mui/material';
 
-import makeStyles from '@mui/styles/makeStyles';
 
-import { Autocomplete } from '@mui/material';
-import { requestTractates } from '../../store/actions';
-import { connect } from 'react-redux';
-import { editorInEventPath } from '../../inc/editorUtils';
-import { getNextLine, getPreviousLine, hebrewMap } from '../../inc/utils';
 import { useParams } from 'react-router';
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { routeObject } from '../../store/reducers/navigationReducer';
-import { iMarker, iMishna, iTractate } from '../../types/types';
-import NavigationService from '../../services/NavigationService';
-import { setRoute } from '../../store/actions/navigationActions';
-import ChooseMishnaNew, { iSelectedNavigation } from './ChooseMishna';
-import { boolean } from 'yup';
+import ChooseMishnaForm from './ChooseMishnaForm';
+import { routeObject } from '../../../store/reducers/navigationReducer';
+import { iLink } from '../../../types/types';
 
-export const ALL_CHAPTER = {
-  id: 'all',
-  mishna: '000',
-  mishnaRef: '',
-};
 
 interface Props {
   allChapterAllowed?: boolean;
-  onNavigationSelected: Function;
-  onNavigationForward?: Function;
-  //setRoute: Function;
+  onNavigationUpdated: Function;
+  onButtonNavigation?: (nav: iLink)=>void;
 }
 
 const selectButtonDisabled = () => false;
 
 const ChooseMishnaBar = ({
   allChapterAllowed = false,
-  onNavigationSelected,
-  onNavigationForward = () => {},
+  onNavigationUpdated,
+  onButtonNavigation = () => {},
 }: Props) => {
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
-  const [navigation, setNavigation] = useState<iSelectedNavigation>({
+  const [navigation, setNavigation] = useState<iLink>({
     tractate: tractate || '',
     chapter: chapter || '',
     mishna: mishna || '',
@@ -48,15 +32,14 @@ const ChooseMishnaBar = ({
   const { t } = useTranslation();
 
   const handleNavigate = (e) => {
-    console.log('activate navigation to ', navigation);
-    //s if (navigation.selectedChapter != )
-    onNavigationSelected(navigation);
+    onNavigationUpdated(navigation);
   };
   const memoizedProps = useMemo(() => {
-    const link = {
+    const link: iLink = {
       tractate: tractate || '',
       chapter: chapter || '',
       mishna: mishna || '',
+      lineNumber: line || ''
     };
     return {
       initValues: link,
@@ -71,14 +54,14 @@ const ChooseMishnaBar = ({
         handleNavigate(e);
       }}>
       <Grid container>
+        <span>new</span>
         <Box sx={{ display: 'flex', flexGrow: 10 }}>
-          {`${tractate}, ${chapter}, ${mishna}, ${line}`}
-          <ChooseMishnaNew
+           <ChooseMishnaForm 
             allChapterAllowed = {allChapterAllowed}
             onNavigationUpdated={(newNav) => {
               setNavigation(newNav);
             }}
-            onNavigationForward={(navForward) => onNavigationForward(navForward)}
+            onButtonNavigation={onButtonNavigation}
             {...memoizedProps}
           />
         </Box>
