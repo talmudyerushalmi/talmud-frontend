@@ -1,15 +1,19 @@
 import * as numeral from 'numeral';
 import { iMishnaForNavigation } from '../components/shared/ChooseMishna';
+import { iLink } from '../types/types';
 
-export function getNextLine(
+export function getNext(
   tractate: string,
   chapter: string,
   mishna: string,
   line: string,
   mishnaDoc: iMishnaForNavigation | null
-) {
-  if (!mishnaDoc) {
+): iLink | null {
+  if (!mishnaDoc?.next) {
     return null;
+  }
+  if (!line) {
+    return mishnaDoc.next;
   }
   const nextLine = numeral(parseInt(line) + 1).format('00000');
   const lineObj = mishnaDoc?.lines?.find((lineItem) => lineItem.lineNumber === nextLine);
@@ -18,56 +22,63 @@ export function getNextLine(
       tractate,
       chapter,
       mishna,
-      line: nextLine,
+      lineNumber: nextLine,
     };
   } else {
     if (mishnaDoc.next) {
       return {
         ...mishnaDoc.next,
-        line: mishnaDoc.next.lineFrom,
+        lineNumber: mishnaDoc.next.lineFrom,
       };
     } else return null;
   }
 }
 
-export function getPreviousLine(
+export function getPrevious(
   tractate: string,
   chapter: string,
   mishna: string,
-  line: string,
+  lineNumber: string,
   mishnaDoc: iMishnaForNavigation | null
-) {
+): iLink | null {
+  if (!mishnaDoc?.previous) {
+    return null;
+  }
+  if (!lineNumber) {
+    return mishnaDoc.previous;
+  }
   if (!mishnaDoc) {
     return null;
   }
 
   // if first line return
-  if (line === '00001' && chapter === '001') {
+  if (lineNumber === '00001' && chapter === '001') {
     return {
       tractate,
       chapter,
       mishna,
-      line,
+      lineNumber,
     };
   }
   // if can move one line before
-  let previousLine = numeral(parseInt(line) - 1).format('00000');
+  let previousLine = numeral(parseInt(lineNumber) - 1).format('00000');
   const lineObj = mishnaDoc?.lines?.find((lineItem) => lineItem.lineNumber === previousLine);
   if (lineObj) {
     return {
       tractate,
       chapter,
       mishna,
-      line: previousLine,
+      lineNumber: previousLine,
     };
   }
   // else need to move mishna before
   else if (mishnaDoc.previous) {
     return {
       ...mishnaDoc.previous,
-      line: mishnaDoc.previous.lineTo,
+      lineNumber: mishnaDoc.previous.lineTo,
     };
   }
+  return null
 }
 export const hebrewMap = new Map([
   [0, 'כל הפרק'],

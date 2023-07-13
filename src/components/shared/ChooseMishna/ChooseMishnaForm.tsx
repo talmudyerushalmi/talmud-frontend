@@ -8,6 +8,7 @@ import ChooseLine from './ChooseLine';
 import { Box, IconButton } from '@mui/material';
 import { debounce } from 'lodash';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { getNext, getPrevious } from '../../../inc/utils';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
@@ -43,6 +44,12 @@ const ChooseMishnaForm = ({
   );
 
   useEffect(() => {
+    if (initValues.lineNumber) {
+      setLineNumber(initValues.lineNumber);
+    }
+  }, [initValues]);
+
+  useEffect(() => {
     const link: iLink = {
       tractate: tractateName,
       chapter: chapterName,
@@ -54,30 +61,31 @@ const ChooseMishnaForm = ({
     emit(link);
   }, [mishnaData, lineData]);
 
-  const onNavigateBack = () => {
-    if (mishnaData?.previous) {
-      console.log('prev ', mishnaData.previous);
-      setChapterName(mishnaData.previous.chapter);
-      setMishnaName(mishnaData.previous.mishna);
-      onButtonNavigation({
-        tractate: tractateName,
-        chapter: mishnaData.previous.chapter,
-        mishna: mishnaData.previous.mishna
-      })
-    }
-  };
+  enum Direction {
+    BACK = 'BACK',
+    FORWARD = 'FORWARD',
+  }
 
-  const onNavigateForward = () => {
-    if (mishnaData?.next) {
-      console.log('next ', mishnaData.next);
-      setChapterName(mishnaData.next.chapter);
-      setMishnaName(mishnaData.next.mishna);
-      onButtonNavigation({
-        tractate: tractateName,
-        chapter: mishnaData.next.chapter,
-        mishna: mishnaData.next.mishna
-      })
-    }  };
+  const navigateHandler = (direction: Direction) => {
+    const navigateTo =
+      direction == Direction.BACK
+        ? getPrevious(tractateName, chapterName, mishnaName, lineNumber, mishnaData)
+        : getNext(tractateName, chapterName, mishnaName, lineNumber, mishnaData);
+    if (!navigateTo) {
+      return;
+    }
+    setChapterName(navigateTo.chapter);
+    setMishnaName(navigateTo.mishna);
+    if (navigateTo.lineNumber) {
+      setLineNumber(navigateTo.lineNumber);
+    }
+    onButtonNavigation({
+      tractate: tractateName,
+      chapter: navigateTo.chapter,
+      mishna: navigateTo.mishna,
+      lineNumber: navigateTo.lineNumber,
+    });
+  };
 
   return (
     <>
@@ -85,7 +93,7 @@ const ChooseMishnaForm = ({
         {navButtons ? (
           <IconButton
             onClick={() => {
-              onNavigateBack();
+              navigateHandler(Direction.BACK);
             }}
             size="small">
             <ArrowForward></ArrowForward>
@@ -129,7 +137,7 @@ const ChooseMishnaForm = ({
         {navButtons ? (
           <IconButton
             onClick={() => {
-              onNavigateForward();
+              navigateHandler(Direction.FORWARD);
             }}
             size="small">
             <ArrowBack></ArrowBack>
