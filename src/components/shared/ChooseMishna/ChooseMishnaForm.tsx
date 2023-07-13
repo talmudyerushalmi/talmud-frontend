@@ -37,6 +37,7 @@ const ChooseMishnaForm = ({
 
   const emit = useCallback(
     debounce((link) => {
+      console.log('emit link', link);
       onNavigationUpdated(link);
     }, DEBOUNCE_NAVIGATION_CHANGES),
     []
@@ -53,12 +54,11 @@ const ChooseMishnaForm = ({
       tractate: tractateName,
       chapter: chapterName,
       mishna: mishnaName,
+      lineNumber: lineNumber,
     };
-    if (lineData) {
-      link.lineNumber = lineData.lineNumber;
-    }
+
     emit(link);
-  }, [mishnaData, lineData]);
+  }, [chapterData, mishnaData, lineData]);
 
   enum Direction {
     BACK = 'BACK',
@@ -114,7 +114,7 @@ const ChooseMishnaForm = ({
           }}
         />
         <ChooseMishna
-          mishna={mishnaName}
+          mishnaName={mishnaName}
           inChapter={chapterData}
           allChapterAllowed={allChapterAllowed}
           onSelectMishna={(m) => {

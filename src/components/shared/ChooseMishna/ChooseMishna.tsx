@@ -1,4 +1,4 @@
-import React, { useState, useEffect, SyntheticEvent } from 'react';
+import React, { useState, useEffect, SyntheticEvent, useCallback } from 'react';
 import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -21,20 +21,27 @@ export const ALL_CHAPTER: iMishnaForNavigation = {
 };
 
 interface Props {
-  mishna: string;
+  mishnaName: string;
   allChapterAllowed?: boolean;
   inChapter: leanChapter | null;
   onSelectMishna: (mishna: iMishnaForNavigation) => void;
 }
 
 const ChooseMishna = (props: Props) => {
-  const { mishna, onSelectMishna, inChapter, allChapterAllowed } = props;
+  const { mishnaName, onSelectMishna, inChapter, allChapterAllowed } = props;
   const [selectedMishna, setSelectedMishna] = useState<refMishna | null>(null);
+  const [selectedMishnaData, setSelectedMishnaData] = useState<iMishnaForNavigation | null>(null);
   const [mishnaiot, setMishnaiot] = useState<refMishna[] | []>([]);
   const { t } = useTranslation();
 
   const _onChange = (event: SyntheticEvent<Element, Event>, mishna: refMishna | null) => {
-    setSelectedMishna(mishna);
+    if (!mishna) {
+      return;
+    }
+    const [tractateName, chapterName, mishnaName] = parseMishnaId(mishna.id);
+    fetchLines(tractateName, chapterName, mishnaName).then((m) => {
+      onSelectMishna(m);
+    });
   };
 
   function parseMishnaId(id: string) {
@@ -43,36 +50,35 @@ const ChooseMishna = (props: Props) => {
   }
 
   const fetchLines = (tractate: string, chapter: string, mishna: string) => {
+    if (tractate == ALL_CHAPTER.id) {
+      return Promise.resolve(ALL_CHAPTER);
+    }
     const controller = new AbortController();
     return NavigationService.getMishnaForNavigation(tractate, chapter, mishna, controller);
   };
 
   useEffect(() => {
-    if (!selectedMishna?.id) {
-      return;
+    let mishnaiotOptions = inChapter?.mishnaiot ? [...inChapter?.mishnaiot] : [];
+    if (allChapterAllowed) {
+      mishnaiotOptions.push(ALL_CHAPTER);
     }
-    const [tractateName, chapterName, mishnaName] = parseMishnaId(selectedMishna?.id);
-    fetchLines(tractateName, chapterName, mishnaName).then((m) => {
-      onSelectMishna(m);
-    });
-  }, [selectedMishna]);
+    //1. update options from chapter data
+    setMishnaiot(mishnaiotOptions);
 
-  useEffect(() => {
-    if (!selectedMishna) {
-      return;
+    let found = mishnaiotOptions.find((m) => m.mishna === mishnaName);
+    if (mishnaName == '' && allChapterAllowed) {
+      found = ALL_CHAPTER;
     }
-    const [tractateName, chapterName, mishnaName] = parseMishnaId(selectedMishna?.id);
-    fetchLines(tractateName, chapterName, mishna).then((m) => {
-      setSelectedMishna(m);
-      onSelectMishna(m);
-    });
-  }, [mishna]);
+    //2. update selected mishna if found
+    if (found) {
+      setSelectedMishna(found);
 
-  useEffect(() => {
-    const found = inChapter?.mishnaiot.find((m) => m.mishna === mishna);
-    setMishnaiot(inChapter?.mishnaiot || []);
-    setSelectedMishna(found || null);
-  }, [inChapter]);
+      const [tractateName, chapterName, mishnaName] = parseMishnaId(found.id);
+      fetchLines(tractateName, chapterName, mishnaName).then((m) => {
+        onSelectMishna(m);
+      });
+    }
+  }, [inChapter, mishnaName]);
 
   return (
     <>
@@ -93,7 +99,7 @@ const ChooseMishna = (props: Props) => {
         renderInput={(params) => <TextField {...params} label={t('Halakha')} variant="outlined" />}
         ListboxProps={{
           style: {
-            textAlign: 'right',
+            direction: 'rtl',
           },
         }}
       />
