@@ -16,18 +16,19 @@ export interface iMishnaForNavigation extends refMishna {
 
 export const ALL_CHAPTER: iMishnaForNavigation = {
   id: 'all',
-  mishna: '000',
-  lines: []
+  mishna: 'all',
+  lines: [],
 };
 
 interface Props {
   mishna: string;
+  allChapterAllowed?: boolean;
   inChapter: leanChapter | null;
   onSelectMishna: (mishna: iMishnaForNavigation) => void;
 }
 
 const ChooseMishna = (props: Props) => {
-  const { mishna, onSelectMishna, inChapter } = props;
+  const { mishna, onSelectMishna, inChapter, allChapterAllowed } = props;
   const [selectedMishna, setSelectedMishna] = useState<refMishna | null>(null);
   const [mishnaiot, setMishnaiot] = useState<refMishna[] | []>([]);
   const { t } = useTranslation();
@@ -87,7 +88,7 @@ const ChooseMishna = (props: Props) => {
         value={selectedMishna}
         options={mishnaiot}
         autoHighlight={true}
-        getOptionLabel={(option) => hebrewMap.get(parseInt(option.mishna)) as string}
+        getOptionLabel={(option) => hebrewMap.get(option.mishna) as string}
         isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
         renderInput={(params) => <TextField {...params} label={t('Halakha')} variant="outlined" />}
         ListboxProps={{

@@ -116,6 +116,7 @@ const ChooseMishnaForm = ({
         <ChooseMishna
           mishna={mishnaName}
           inChapter={chapterData}
+          allChapterAllowed={allChapterAllowed}
           onSelectMishna={(m) => {
             setMishnaData(m);
             setMishnaName(m.mishna);

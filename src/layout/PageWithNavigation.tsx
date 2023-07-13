@@ -42,7 +42,6 @@ const PageWithNavigationWithoutState = (props: Props) => {
     } else {
       url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}`;
     }
-    console.log('navigate to ',url)
     navigate(url);
     if (afterNavigateHandler) {
       afterNavigateHandler();

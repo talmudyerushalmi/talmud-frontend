@@ -50,7 +50,7 @@ const ChooseChapter = (props: Props) => {
         value={selectedChapter}
         options={inTractate?.chapters || []}
         autoHighlight={true}
-        getOptionLabel={(option) => hebrewMap.get(parseInt(option.id)) as string}
+        getOptionLabel={(option) => hebrewMap.get(option.id) as string}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         renderInput={(params) => <TextField {...params} label={t('Chapter')} variant="outlined" />}
         ListboxProps={{
