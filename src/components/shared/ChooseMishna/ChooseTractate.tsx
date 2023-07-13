@@ -23,6 +23,14 @@ const ChooseTractate = (props: Props) => {
     }
   };
 
+  useEffect(()=>{
+    const found = allTractates.find((t) => t.id === tractate);
+    if (found) {
+      setSelectedTractate(found);
+      onSelectTractate(found);
+    }
+  }, [tractate]);
+
   useEffect(() => {
     PageService.getAllTractates().then(
       (tractates) => {
