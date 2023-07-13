@@ -1,6 +1,6 @@
 import * as numeral from 'numeral';
-import { iMishnaForNavigation } from '../components/shared/ChooseMishna';
 import { iLink } from '../types/types';
+import { iMishnaForNavigation } from '../components/shared/ChooseMishna/ChooseMishna';
 
 export function getNext(
   tractate: string,

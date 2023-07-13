@@ -3,10 +3,22 @@ import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { hebrewMap } from '../../../inc/utils';
-import { iMishnaForNavigation } from '../ChooseMishna';
 import { leanChapter } from './ChooseChapter';
 import NavigationService from '../../../services/NavigationService';
-import { refMishna } from '../../../types/types';
+import { iMarker, refMishna } from '../../../types/types';
+import { leanLine } from './ChooseLine';
+
+export interface iMishnaForNavigation extends refMishna {
+  lines: leanLine[];
+  previous?: iMarker;
+  next?: iMarker;
+}
+
+export const ALL_CHAPTER: iMishnaForNavigation = {
+  id: 'all',
+  mishna: '000',
+  lines: []
+};
 
 interface Props {
   mishna: string;

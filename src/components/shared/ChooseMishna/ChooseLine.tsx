@@ -1,7 +1,12 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { iMishnaForNavigation, leanLine } from '../ChooseMishna';
+import { iMishnaForNavigation } from './ChooseMishna';
+
+export interface leanLine {
+  lineNumber: string;
+  mainLine: string;
+}
 
 interface Props {
   lineNumber: string;

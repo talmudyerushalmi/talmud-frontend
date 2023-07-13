@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ChooseTractate from './ChooseTractate';
 import ChooseChapter from './ChooseChapter';
-import ChooseMishna from './ChooseMishna';
-import { iMishnaForNavigation, leanLine } from '../ChooseMishna';
+import ChooseMishna, { iMishnaForNavigation } from './ChooseMishna';
 import { iChapter, iLink, iTractate } from '../../../types/types';
-import ChooseLine from './ChooseLine';
+import ChooseLine, { leanLine } from './ChooseLine';
 import { Box, IconButton } from '@mui/material';
 import { debounce } from 'lodash';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';

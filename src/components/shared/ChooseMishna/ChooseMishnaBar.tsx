@@ -54,7 +54,6 @@ const ChooseMishnaBar = ({
         handleNavigate(e);
       }}>
       <Grid container>
-        <span>new</span>
         <Box sx={{ display: 'flex', flexGrow: 10 }}>
            <ChooseMishnaForm 
             allChapterAllowed = {allChapterAllowed}
