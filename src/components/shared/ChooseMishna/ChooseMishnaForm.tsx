@@ -8,12 +8,15 @@ import { Box, IconButton } from '@mui/material';
 import { debounce } from 'lodash';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { getNext, getPrevious } from '../../../inc/utils';
+import useKeypress from '../../../hooks/useKeypress';
+import { editorInEventPath } from '../../../inc/editorUtils';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
 interface Props {
   initValues: iLink;
   allChapterAllowed?: boolean;
+  keypressNavigation?: boolean;
   onNavigationUpdated: (navigation: iLink) => void;
   navButtons?: boolean;
   onButtonNavigation?: (navigation: iLink) => void;
@@ -22,6 +25,7 @@ interface Props {
 const ChooseMishnaForm = ({
   initValues,
   allChapterAllowed,
+  keypressNavigation = false,
   navButtons = true,
   onNavigationUpdated,
   onButtonNavigation = (_) => {},
@@ -35,9 +39,22 @@ const ChooseMishnaForm = ({
   const [mishnaData, setMishnaData] = useState<iMishnaForNavigation | null>(null);
   const [lineData, setLineData] = useState<leanLine | null>(null);
 
+  const dialogPopupOpen = () => {
+    return document.querySelector('.MuiDialog-root') !== null;
+  };
+  useKeypress('ArrowLeft', (e: KeyboardEvent) => {
+    if (keypressNavigation && !editorInEventPath(e) && !dialogPopupOpen()) {
+      navigateHandler(Direction.FORWARD);
+    }
+  });
+  useKeypress('ArrowRight', (e: KeyboardEvent) => {
+    if (keypressNavigation && !editorInEventPath(e) && !dialogPopupOpen()) {
+      navigateHandler(Direction.BACK);
+    }
+  });
+
   const emit = useCallback(
     debounce((link) => {
-      console.log('emit link', link);
       onNavigationUpdated(link);
     }, DEBOUNCE_NAVIGATION_CHANGES),
     []

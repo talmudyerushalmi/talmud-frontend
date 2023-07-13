@@ -53,6 +53,7 @@ const PageWithNavigationWithoutState = (props: Props) => {
       <Box mb={3}>
         <ChooseMishnaBar
           allChapterAllowed={allChapterAllowed}
+          keypressNavigation={true}
           onButtonNavigation={navigationSelectedHandler}
           onNavigationUpdated={navigationSelectedHandler}
         />

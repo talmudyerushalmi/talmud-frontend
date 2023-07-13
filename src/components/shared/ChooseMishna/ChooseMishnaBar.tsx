@@ -1,24 +1,24 @@
 import React, { useMemo, useState } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 
-
 import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import ChooseMishnaForm from './ChooseMishnaForm';
 import { routeObject } from '../../../store/reducers/navigationReducer';
 import { iLink } from '../../../types/types';
 
-
 interface Props {
   allChapterAllowed?: boolean;
+  keypressNavigation?: boolean;
   onNavigationUpdated: Function;
-  onButtonNavigation?: (nav: iLink)=>void;
+  onButtonNavigation?: (nav: iLink) => void;
 }
 
 const selectButtonDisabled = () => false;
 
 const ChooseMishnaBar = ({
   allChapterAllowed = false,
+  keypressNavigation = false,
   onNavigationUpdated,
   onButtonNavigation = () => {},
 }: Props) => {
@@ -39,13 +39,12 @@ const ChooseMishnaBar = ({
       tractate: tractate || '',
       chapter: chapter || '',
       mishna: mishna || '',
-      lineNumber: line || ''
+      lineNumber: line || '',
     };
     return {
       initValues: link,
     };
   }, [tractate, chapter, mishna, line]);
-
 
   return (
     <form
@@ -55,8 +54,9 @@ const ChooseMishnaBar = ({
       }}>
       <Grid container>
         <Box sx={{ display: 'flex', flexGrow: 10 }}>
-           <ChooseMishnaForm 
-            allChapterAllowed = {allChapterAllowed}
+          <ChooseMishnaForm
+            allChapterAllowed
+            keypressNavigation
             onNavigationUpdated={(newNav) => {
               setNavigation(newNav);
             }}
