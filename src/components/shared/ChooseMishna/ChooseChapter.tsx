@@ -2,7 +2,7 @@ import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { iMishna, iTractate, refMishna } from '../../../types/types';
+import { iTractate, refMishna } from '../../../types/types';
 import { hebrewMap } from '../../../inc/utils';
 
 export interface leanChapter {

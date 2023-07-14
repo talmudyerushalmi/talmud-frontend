@@ -1,4 +1,4 @@
-import React, { useState, useEffect, SyntheticEvent, useCallback } from 'react';
+import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +30,6 @@ interface Props {
 const ChooseMishna = (props: Props) => {
   const { mishnaName, onSelectMishna, inChapter, allChapterAllowed } = props;
   const [selectedMishna, setSelectedMishna] = useState<refMishna | null>(null);
-  const [selectedMishnaData, setSelectedMishnaData] = useState<iMishnaForNavigation | null>(null);
   const [mishnaiot, setMishnaiot] = useState<refMishna[] | []>([]);
   const { t } = useTranslation();
 
@@ -50,7 +49,7 @@ const ChooseMishna = (props: Props) => {
   }
 
   const fetchLines = (tractate: string, chapter: string, mishna: string) => {
-    if (tractate == ALL_CHAPTER.id) {
+    if (tractate === ALL_CHAPTER.id) {
       return Promise.resolve(ALL_CHAPTER);
     }
     const controller = new AbortController();
@@ -66,7 +65,7 @@ const ChooseMishna = (props: Props) => {
     setMishnaiot(mishnaiotOptions);
 
     let found = mishnaiotOptions.find((m) => m.mishna === mishnaName);
-    if (mishnaName == '' && allChapterAllowed) {
+    if (mishnaName === '' && allChapterAllowed) {
       found = ALL_CHAPTER;
     }
     //2. update selected mishna if found

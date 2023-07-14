@@ -16,6 +16,6 @@ const useKeypress = (keyCode: string, cb: any) => {
     return () => {
       window.removeEventListener('keydown', keypressHandler);
     };
-  }, []);
+  }, [keyCode]);
 };
 export default useKeypress;

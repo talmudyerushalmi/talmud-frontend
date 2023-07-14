@@ -13,6 +13,10 @@ import { editorInEventPath } from '../../../inc/editorUtils';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
+enum Direction {
+  BACK = 'BACK',
+  FORWARD = 'FORWARD',
+}
 interface Props {
   initValues: iLink;
   allChapterAllowed?: boolean;
@@ -77,14 +81,9 @@ const ChooseMishnaForm = ({
     emit(link);
   }, [chapterData, mishnaData, lineData]);
 
-  enum Direction {
-    BACK = 'BACK',
-    FORWARD = 'FORWARD',
-  }
-
   const navigateHandler = (direction: Direction) => {
     const navigateTo =
-      direction == Direction.BACK
+      direction === Direction.BACK
         ? getPrevious(tractateName, chapterName, mishnaName, lineNumber, mishnaData)
         : getNext(tractateName, chapterName, mishnaName, lineNumber, mishnaData);
     if (!navigateTo) {
