@@ -33,7 +33,12 @@ export default function LinkPopup(props: Props) {
       <DialogTitle>בחר מקבילה</DialogTitle>
 
       <ChooseMishnaForm
-        initValues={{ tractate: 'yevamot', chapter: '001', mishna: '001', lineNumber: '00001' }}
+        initValues={{
+          tractate: '',
+          chapter: '',
+          mishna: '',
+          lineNumber: '00001',
+        }}
         allChapterAllowed={false}
         onNavigationUpdated={(e: iLink) => {
           console.log('selected ', e);

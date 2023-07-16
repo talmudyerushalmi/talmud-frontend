@@ -53,7 +53,7 @@ const ChooseLine = (props: Props) => {
           textAlign: 'right',
         },
       }}
-      renderInput={(params) => <TextField {...params} label={t('שורה')} variant="outlined" />}
+      renderInput={(params) => <TextField {...params} label={t('Line')} variant="outlined" />}
     />
   );
 };

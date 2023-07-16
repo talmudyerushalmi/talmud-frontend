@@ -18,7 +18,7 @@ enum Direction {
   FORWARD = 'FORWARD',
 }
 interface Props {
-  initValues: iLink;
+  initValues: iLink | null;
   allChapterAllowed?: boolean;
   keypressNavigation?: boolean;
   onNavigationUpdated: (navigation: iLink) => void;
@@ -34,9 +34,9 @@ const ChooseMishnaForm = ({
   onNavigationUpdated,
   onButtonNavigation = (_) => {},
 }: Props) => {
-  const [tractateName, setTractateName] = useState<string>(initValues.tractate);
-  const [chapterName, setChapterName] = useState<string>(initValues.chapter);
-  const [mishnaName, setMishnaName] = useState<string>(initValues.mishna);
+  const [tractateName, setTractateName] = useState<string>(initValues?.tractate || '');
+  const [chapterName, setChapterName] = useState<string>(initValues?.chapter || '');
+  const [mishnaName, setMishnaName] = useState<string>(initValues?.mishna || '');
   const [lineNumber, setLineNumber] = useState<string>(initValues?.lineNumber || '');
   const [tractateData, setTractateData] = useState<iTractate | null>(null);
   const [chapterData, setChapterData] = useState<iChapter | null>(null);
@@ -63,12 +63,6 @@ const ChooseMishnaForm = ({
     }, DEBOUNCE_NAVIGATION_CHANGES),
     []
   );
-
-  useEffect(() => {
-    if (initValues.lineNumber) {
-      setLineNumber(initValues.lineNumber);
-    }
-  }, [initValues]);
 
   useEffect(() => {
     const link: iLink = {
