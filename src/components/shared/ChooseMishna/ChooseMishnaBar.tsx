@@ -6,13 +6,22 @@ import { useTranslation } from 'react-i18next';
 import ChooseMishnaForm from './ChooseMishnaForm';
 import { routeObject } from '../../../store/reducers/navigationReducer';
 import { iLink } from '../../../types/types';
+import { connect } from 'react-redux';
+import { setRoute } from '../../../store/actions/navigationActions';
 
 interface Props {
   allChapterAllowed?: boolean;
   keypressNavigation?: boolean;
   onNavigationUpdated: Function;
   onButtonNavigation?: (nav: iLink) => void;
+  setRoute: (tractate: string, chapter: string, mishna: string, line: string) => void;
 }
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  setRoute: (tractate: string, chapter: string, mishna: string, line: string) => {
+    dispatch(setRoute(tractate, chapter, mishna, line));
+  },
+});
 
 const selectButtonDisabled = () => false;
 
@@ -21,6 +30,7 @@ const ChooseMishnaBar = ({
   keypressNavigation = false,
   onNavigationUpdated,
   onButtonNavigation = () => {},
+  setRoute,
 }: Props) => {
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
   const [navigation, setNavigation] = useState<iLink>({
@@ -41,6 +51,9 @@ const ChooseMishnaBar = ({
       mishna: mishna || '',
       lineNumber: line || '',
     };
+    if (tractate && chapter && mishna) {
+      setRoute(tractate, chapter, mishna, line || '');
+    }
     return {
       initValues: link,
     };
@@ -80,4 +93,4 @@ const ChooseMishnaBar = ({
   );
 };
 
-export default ChooseMishnaBar;
+export default connect(() => ({}), mapDispatchToProps)(ChooseMishnaBar);
