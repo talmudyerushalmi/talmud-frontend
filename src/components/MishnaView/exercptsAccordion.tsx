@@ -9,18 +9,20 @@ const useStyles = makeStyles((theme) => ({
     '&:not(:last-child)': {
       borderBottom: 0,
     },
-    minHeight: '3.5rem',
+    minHeight: '2rem',
   },
   rootExpanded: {
+    maxHeight: '200px',
     overflow: 'hidden',
     '&.MuiPaper-root.MuiAccordion-root': { backgroundColor: 'rgba(0, 0, 0, .03)' },
+    '&.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation1.MuiAccordion-root.Mui-expanded.MuiAccordion-gutters.makeStyles-rootExpanded-12.muirtl-t4qmgb-MuiPaper-root-MuiAccordion-root': {margin: '1px'},
     flexGrow: 1,
     '& >  .MuiCollapse-root': {
-      height: '100% !important',
+      height: '50% !important',
       overflow: 'scroll',
     },
     '& > .MuiCollapse-root > .MuiCollapse-wrapper > .MuiCollapse-wrapperInner > div > .MuiAccordionDetails-root': {
-      marginBottom: '5rem',
+      marginBottom: '3rem',
     },
   },
 }));
