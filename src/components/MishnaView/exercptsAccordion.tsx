@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   rootExpanded: {
     //drop down label stays up top, does not expand
     '& .muirtl-1ibip0b-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded': {minHeight: '1px'},
+    '& .muirtl-19ny162-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded': {minHeight: '1px'},
     //decrease spaces in drop down between entries
     '& .muirtl-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root': {minHeight: '1px'},
     '& .muirtl-o4b71y-MuiAccordionSummary-content': {margin: '1px'},
