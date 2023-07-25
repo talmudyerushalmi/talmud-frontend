@@ -1,6 +1,7 @@
 import React from 'react';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import { ButtonBase } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExcerptView from './ExcerptView';
 import { excerptsMap } from '../../inc/excerptUtils';
@@ -20,7 +21,23 @@ export default function ExcerptsView(props) {
 
   return (
     <ExcerptsAccordion>
-      <AccordionSummary>
+      <AccordionSummary
+        sx={{
+          minHeight: '1px',
+          //need space between '& .
+          '& .muirtl-o4b71y-MuiAccordionSummary-content': { margin: '1px' },
+          '&.muirtl-t4qmgb-MuiPaper-root-MuiAccordion-root.Mui-expanded': { margin: '1px' },
+          //  '&.muirtl-tssa3v-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded':
+          //   {minHeight: '1px'},
+          // '& .muirtl-tssa3v-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded': { minHeight: '0px' },
+          // '& .muirtl-o4b71y-MuiAccordionSummary-content.Mui-expanded': { margin: '1px' },
+          '& .muirtl-o4b71y-MuiAccordionSummary-content.Mui-expanded': { margin: '1px 0' },
+          '& .muirtl-tssa3v-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded': { minHeight: '1px' },
+          '& .muirtl-ed1dbh-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded':
+           {minHeight: '1px'},
+           '& .muirtl-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root':
+           {color: 'blue'},
+        }}>
         <Typography>
           {t(title)} - {filteredList.length}
         </Typography>
