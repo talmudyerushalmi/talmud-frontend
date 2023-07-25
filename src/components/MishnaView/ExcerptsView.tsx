@@ -24,7 +24,6 @@ export default function ExcerptsView(props) {
       <AccordionSummary
         sx={{
           minHeight: '1px',
-          color: 'red',
           //need space between '& .
           '& .muirtl-o4b71y-MuiAccordionSummary-content': { margin: '1px' },
           '&.muirtl-t4qmgb-MuiPaper-root-MuiAccordion-root.Mui-expanded': { margin: '1px' },
