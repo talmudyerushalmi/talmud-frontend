@@ -44,8 +44,12 @@ const ChooseMishna = (props: Props) => {
   };
 
   function parseMishnaId(id: string) {
-    const strings = id.split('_');
-    return [strings[0], strings[1], strings[2]];
+    const regex = /^(\w+)_(\d+)_(\d+)$/;
+    const match = id.match(regex);
+    if (!match) {
+      return ["","",""]
+    }
+    return  [match[1], match[2], match[3]];
   }
 
   const fetchLines = (tractate: string, chapter: string, mishna: string) => {
