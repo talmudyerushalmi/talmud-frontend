@@ -37,6 +37,10 @@ const ChooseMishna = (props: Props) => {
     if (!mishna) {
       return;
     }
+    if (mishna.id === ALL_CHAPTER.id) {
+      onSelectMishna(ALL_CHAPTER)
+      return;
+    }
     const [tractateName, chapterName, mishnaName] = parseMishnaId(mishna.id);
     fetchLines(tractateName, chapterName, mishnaName).then((m) => {
       onSelectMishna(m);
