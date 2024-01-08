@@ -3,8 +3,6 @@ import ReactGA from 'react-ga4';
 import { Container, Paper, Typography, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
-import i18next from 'i18next';
-import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,8 +21,6 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = (props) => {
   const classes = useStyles();
-  const { t } = useTranslation();
-  const guideUrl = `https://assets.talmudyerushalmi.com/documents/guide_${i18next.resolvedLanguage}.pdf`
 
   useEffect(() => {
     ReactGA.send({ hitType: 'pageview', page: '/', title: 'Homepage' });
@@ -119,18 +115,35 @@ const HomePage = (props) => {
             }}>
             מבוא
           </Link>
-          <Link
-            to={guideUrl}
-            target='_blank'
+          <div
             style={{
-              display: 'block',
-              width: '15rem',
-              margin: '0rem auto',
-              textAlign: 'center',
-              color: 'white',
+              display: 'flex',
+              justifyContent: 'space-around',
+              maxWidth: '26rem',
+              margin: '0 auto',
             }}>
-            {t("guide_" + i18next.resolvedLanguage)}
-          </Link>
+            <Link
+              to="https://assets.talmudyerushalmi.com/documents/guide_he.pdf"
+              target="_blank"
+              style={{
+                display: 'block',
+                textAlign: 'center',
+                color: 'white',
+              }}>
+              מדריך לשימוש במהדורה
+            </Link>
+            <Link
+              to="https://assets.talmudyerushalmi.com/documents/guide_en-US.pdf"
+              target="_blank"
+              style={{
+                display: 'block',
+                textAlign: 'center',
+                color: 'white',
+              }}>
+              Guide for the Edition
+            </Link>
+          </div>
+
           <a
             href="http://ircdl2022.dei.unipd.it/downloads/papers/IRCDL_2022_paper_3.pdf"
             target="_blank"

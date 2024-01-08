@@ -57,7 +57,7 @@ const MainMenu = (props: any) => {
               <strong> {t('Demo')}</strong>
             </Link>
             <Link to={url} target="_blank" style={{ textDecoration: 'none', color: 'white', marginRight: '2rem', marginLeft: '2rem' }}>
-              <span>{t("guide_" + i18next.resolvedLanguage)}</span>
+              <span>{t("Guide for the Edition")}</span>
             </Link>
           </div>
           <Typography variant="h6" className={classes.title}></Typography>

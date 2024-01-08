@@ -63,7 +63,7 @@ i18n
           'Line number': 'מספר שורה',
           Line: 'שורה ',
           Demo: 'מדגים יכולות',
-          guide_he: 'מדריך (עברית)',
+          'Guide for the Edition': 'מדריך לשימוש במהדורה',
           Logout: 'התנתק',
           Login: 'התחבר',
         },
