@@ -26,7 +26,9 @@ i18n
     // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
     resources: {
       'en-US': {
-        translation: {},
+        translation: {
+          'guide_en-US': "Guide (english)"
+        },
       },
       he: {
         translation: {
@@ -61,6 +63,9 @@ i18n
           'Line number': 'מספר שורה',
           Line: 'שורה ',
           Demo: 'מדגים יכולות',
+          'Guide for the Edition': 'מדריך לשימוש במהדורה',
+          Logout: 'התנתק',
+          Login: 'התחבר',
         },
       },
     },

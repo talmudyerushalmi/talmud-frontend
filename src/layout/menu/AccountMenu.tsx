@@ -13,6 +13,7 @@ import { Hub } from 'aws-amplify';
 import { connect } from 'react-redux';
 import { getUserAuth, setUserAuth, signOut } from '../../store/actions/authActions';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const mapStateToProps = (state: any) => ({
   username: state.authentication.username,
@@ -38,6 +39,7 @@ interface Props {
 }
 const AccountMenu = (props: Props) => {
   const { username, signOut, setUserAuth, getUserAuth } = props;
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   Hub.listen('auth', (data) => {
@@ -128,7 +130,7 @@ const AccountMenu = (props: Props) => {
             <ListItemIcon>
               <Login fontSize="small" />
             </ListItemIcon>
-            Login
+            {t("Login")}
           </MenuItem>
         )}
         <Divider />
@@ -137,7 +139,7 @@ const AccountMenu = (props: Props) => {
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>
-            Logout
+            {t("Logout")}
           </MenuItem>
         ) : null}
       </Menu>

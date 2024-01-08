@@ -14,6 +14,7 @@ import { Box, IconButton, Tooltip } from '@mui/material';
 import SettingsContext from '../context/settings-context';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import i18next from 'i18next';
 
 const mapStateToProps = (state: any) => ({
   userGroup: state.authentication.userGroup,
@@ -36,6 +37,7 @@ const MainMenu = (props: any) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const settingsContext = React.useContext(SettingsContext);
+  const url = `https://assets.talmudyerushalmi.com/documents/guide_${i18next.resolvedLanguage}.pdf`
 
   return (
     <div className={classes.root}>
@@ -48,11 +50,14 @@ const MainMenu = (props: any) => {
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}>
         <Toolbar>
-          <div style={{ fontSize: '1rem' }}>
+          <div style={{ fontSize: '1rem', display:'flex' }}>
             <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
               <span>{t('Jerusalem Talmud')} - </span>
               <strong>{t('Beta Version')},</strong>
               <strong> {t('Demo')}</strong>
+            </Link>
+            <Link to={url} target="_blank" style={{ textDecoration: 'none', color: 'white', marginRight: '2rem', marginLeft: '2rem' }}>
+              <span>{t("Guide for the Edition")}</span>
             </Link>
           </div>
           <Typography variant="h6" className={classes.title}></Typography>
