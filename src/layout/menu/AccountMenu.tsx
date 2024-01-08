@@ -13,6 +13,8 @@ import { Hub } from 'aws-amplify';
 import { connect } from 'react-redux';
 import { getUserAuth, setUserAuth, signOut } from '../../store/actions/authActions';
 import { useNavigate } from 'react-router-dom';
+import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const mapStateToProps = (state: any) => ({
   username: state.authentication.username,
@@ -38,6 +40,7 @@ interface Props {
 }
 const AccountMenu = (props: Props) => {
   const { username, signOut, setUserAuth, getUserAuth } = props;
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   Hub.listen('auth', (data) => {
@@ -71,6 +74,11 @@ const AccountMenu = (props: Props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleGetGuide = () => {
+    const url = `https://assets.talmudyerushalmi.com/documents/guide_${i18next.resolvedLanguage}.pdf`
+    window.open(url)
+  }
 
   return (
     <React.Fragment>
@@ -131,6 +139,7 @@ const AccountMenu = (props: Props) => {
             Login
           </MenuItem>
         )}
+        <MenuItem onClick={handleGetGuide}>{t("guide_" + i18next.resolvedLanguage)}</MenuItem>
         <Divider />
         {username ? (
           <MenuItem onClick={handleLogout}>
