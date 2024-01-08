@@ -136,7 +136,7 @@ const AccountMenu = (props: Props) => {
             <ListItemIcon>
               <Login fontSize="small" />
             </ListItemIcon>
-            Login
+            {t("Login")}
           </MenuItem>
         )}
         <MenuItem onClick={handleGetGuide}>{t("guide_" + i18next.resolvedLanguage)}</MenuItem>
@@ -146,7 +146,7 @@ const AccountMenu = (props: Props) => {
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>
-            Logout
+            {t("Logout")}
           </MenuItem>
         ) : null}
       </Menu>
