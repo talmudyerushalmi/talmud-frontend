@@ -19,6 +19,7 @@ import { useFormik } from 'formik';
 import { createComment, iCommentModal } from '../../store/actions/commentsActions';
 import { CommentType } from '../../types/types';
 import { useAppDispatch } from '../../app/hooks';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 interface IProps {
   open: boolean;
@@ -39,6 +40,9 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
   const { t } = useTranslation();
   const requiredField = t('Required field');
   const dispatch = useAppDispatch();
+  // get user name from local storage
+  const [user] = useLocalStorage('CognitoIdentityServiceProvider', {});
+  const cognitoUserName = user.UserAttributes.find((attr: any) => attr.Name === 'name').Value ?? '';
 
   const validationSchema = yup.object({
     text: yup.string().required(requiredField),
@@ -61,6 +65,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
       dispatch(
         createComment({
           ...values,
+          userName: values?.userName || cognitoUserName,
           fromWord: commentModal?.fromWord ?? '',
           toWord: commentModal?.toWord ?? '',
           lineNumber: commentModal?.lineNumber ?? '',
@@ -129,9 +134,8 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
                     autoFocus
                     name="userName"
                     label={`${t('Comment Writer Name')}`}
-                    required={values.type === CommentType.MODERATION}
                     type="text"
-                    variant='filled'
+                    variant="filled"
                     value={values.userName}
                     onChange={handleChange}
                     error={touched.userName && !!errors.userName}
@@ -145,6 +149,8 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
               <Typography color="InfoText" fontSize="0.9rem">
                 * ההערה תיבדק ותופיע במדור "הערות ציבוריות" אם תאושר. <br /> ניתן להשתמש בהערה ציבורית גם כדי לשלוח
                 הודעות תיקון לעורכים.
+                <br />
+                במידה ולא יוקלד שם, השם שיוצג יהיה השם של המשתמש המחובר לפי חשבון גוגל.
               </Typography>
             )}
           </FormControl>
