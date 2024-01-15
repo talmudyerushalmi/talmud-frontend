@@ -18,8 +18,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-
-
 interface Props {
   excerpt: iExcerpt;
   expanded: boolean;
@@ -31,7 +29,7 @@ const ExcerptView = (props: Props) => {
 
   useEffect(() => {
     setExpanded(expanded ? excerpt.key : null);
-  }, [expanded,setExpanded]);
+  }, [expanded, setExpanded]);
 
   const handleClick = () => {
     if (!expandedState) {
@@ -52,8 +50,7 @@ const ExcerptView = (props: Props) => {
         <AccordionSummary
           className={excerpt.link ? 'linked-excerpt' : ''}
           aria-controls="panel1d-content"
-          id="panel1d-header"
-        >
+          id="panel1d-header">
           {excerpt.link ? (
             <IconButton
               sx={{
@@ -64,8 +61,7 @@ const ExcerptView = (props: Props) => {
                 e.stopPropagation();
                 window.open(excerpt.link, '_blank')?.focus();
               }}
-              size="small"
-            >
+              size="small">
               <LinkIcon />
             </IconButton>
           ) : null}
@@ -74,7 +70,9 @@ const ExcerptView = (props: Props) => {
             <Typography style={{ fontWeight: 'bold' }} component="span">
               {excerpt.source?.title}{' '}
             </Typography>
-            <Typography component="span">{excerpt.sourceLocation}</Typography>
+            <Typography component={excerpt.sourceLocation?.includes('\n') ? 'p' : 'span'}>
+              {excerpt.sourceLocation}
+            </Typography>
           </div>
         </AccordionSummary>
         <AccordionDetails>

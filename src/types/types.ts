@@ -146,6 +146,7 @@ export interface iInternalLink extends iLink {
 
 export interface iComment {
   userID?: string;
+  userName: string;
   commentID: string;
   title: string;
   text: string;

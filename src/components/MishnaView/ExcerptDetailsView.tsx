@@ -57,8 +57,7 @@ const ExcerptDetailsView = (props: Props) => {
           e.stopPropagation();
           onClose();
         }}
-        size="large"
-      >
+        size="large">
         <CancelIcon />
       </IconButton>
       {selectedExcerpt?.link ? (
@@ -67,14 +66,15 @@ const ExcerptDetailsView = (props: Props) => {
             e.stopPropagation();
             window.open(selectedExcerpt.link, '_blank')?.focus();
           }}
-          size="small"
-        >
+          size="small">
           <LinkIcon />
         </IconButton>
       ) : null}
       <Typography variant="h3" style={{ fontWeight: 'bold' }}>
         {selectedExcerpt?.source?.title}
-        <Typography component="span"> {selectedExcerpt?.sourceLocation}</Typography>
+        <Typography component={selectedExcerpt?.sourceLocation?.includes('\n') ? 'p' : 'span'}>
+          {selectedExcerpt?.sourceLocation}
+        </Typography>
       </Typography>
       <Typography>[{selectionRange}]</Typography>
 

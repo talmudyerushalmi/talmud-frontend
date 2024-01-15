@@ -51,6 +51,7 @@ i18n
           Combined: 'משולב',
           'Light mode': 'מצב תצוגה',
           'Public Comments': 'הערות ציבוריות',
+          'Comment Writer Name': 'שם כותב ההערה',
           'Personal Comments': 'הערות אישיות',
           'Required field': 'שדה חובה',
           'Comment content': 'תוכן ההערה',

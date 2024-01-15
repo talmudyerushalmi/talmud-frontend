@@ -18,9 +18,10 @@ const ModerationCommentsPage: FC<IProps> = () => {
   }, [dispatch]);
 
   const rows = commentsForModeration.map((item) => ({
-    id: item.commentID,
+    id: item.userID,
     title: item.title,
     text: item.text,
+    userName: item.userName,
     source: {
       path: `${item.tractate}/${item.chapter}/${item.mishna}`,
       sublines: `${item.fromSubline} - ${item.toSubline}`,
@@ -32,7 +33,8 @@ const ModerationCommentsPage: FC<IProps> = () => {
   }));
 
   const columns = [
-    { field: 'id', headerName: 'מזהה הערה', width: 150 },
+    { field: 'id', headerName: 'מזהה משתמש', width: 200, renderCell: renderCellExpand },
+    { field: 'userName', headerName: 'שם המשתמש *לפי המשתמש', width: 150, renderCell: renderCellExpand },
     { field: 'title', headerName: 'כותרת', width: 150, renderCell: renderCellExpand },
     { field: 'text', headerName: 'תוכן הערה', flex: 1, minWidth: 150, renderCell: renderCellExpand },
     {
