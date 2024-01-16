@@ -85,11 +85,22 @@ const AddOriginal = (props) => {
 
 const AddCombined = (props) => {
   const theme = useTheme();
+  const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
+  const tooltip = (
+    <>
+      <div dir="rtl">תוספת: "{props.children}"</div>
+      <div>{editingComment}</div>
+    </>
+  );
   return (
-    <div style={{ display: 'inline-block',  ...theme.editor.decorators.add }}>
-      <span>{'<'}</span>
-      <span>{props.children}</span>
-      <span>{'>'}</span>
+    <div style={{ display: 'inline-block', ...theme.editor.decorators.add }}>
+      <Tooltip title={tooltip}>
+        <div>
+          <span>{'<'}</span>
+          <span>{props.children}</span>
+          <span>{'>'}</span>
+        </div>
+      </Tooltip>
     </div>
   );
 };
@@ -155,19 +166,23 @@ const CorrectionOriginal = (props) => {
 const CorrectionCombined = (props) => {
   const theme = useTheme();
   const { oldWord } = props.contentState.getEntity(props.entityKey).getData();
-
+  const { editingComment } = props.contentState.getEntity(props.entityKey).getData();
   return (
     <>
-      <div style={{ display: 'inline-block', color:'red' }}>
-        <span>{'{'}</span>
-        <span>{oldWord}</span>
-        <span>{'}'}</span>
-      </div>
-      <div style={{ display: 'inline-block',   ...theme.editor.decorators.add }}>
-        <span>{'<'}</span>
-        <span>{props.children}</span>
-        <span>{'>'}</span>
-      </div>
+      <Tooltip title={editingComment}>
+        <div style={{display: 'inline-block'}}>
+          <div style={{ display: 'inline-block', color: 'red' }}>
+            <span>{'{'}</span>
+            <span>{oldWord}</span>
+            <span>{'}'}</span>
+          </div>
+          <div style={{ display: 'inline-block', ...theme.editor.decorators.add }}>
+            <span>{'<'}</span>
+            <span>{props.children}</span>
+            <span>{'>'}</span>
+          </div>
+        </div>
+      </Tooltip>
     </>
   );
 };

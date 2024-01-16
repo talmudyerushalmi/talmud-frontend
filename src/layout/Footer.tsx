@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => {
 
 export const Footer = () => {
   const classes = useStyles();
+  const year = `2021-${new Date().getFullYear()}`
+  const hebYear = 'תשפ״א - תשפ״ד'
+  const fullYear = `${hebYear} ${year}`
   return (
     <footer className={classes.root}>
       <Container>
@@ -31,7 +34,7 @@ export const Footer = () => {
             אתר בהקמה
           </Grid>
           <Grid item sm={4}>
-            תשפ״א - תשפ״ג 2023-2021
+            {fullYear}
             <img
               src={cc}
               alt="cc"

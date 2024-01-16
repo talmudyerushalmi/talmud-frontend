@@ -37,6 +37,10 @@ const ChooseMishna = (props: Props) => {
     if (!mishna) {
       return;
     }
+    if (mishna.id === ALL_CHAPTER.id) {
+      onSelectMishna(ALL_CHAPTER)
+      return;
+    }
     const [tractateName, chapterName, mishnaName] = parseMishnaId(mishna.id);
     fetchLines(tractateName, chapterName, mishnaName).then((m) => {
       onSelectMishna(m);
@@ -44,8 +48,12 @@ const ChooseMishna = (props: Props) => {
   };
 
   function parseMishnaId(id: string) {
-    const strings = id.split('_');
-    return [strings[0], strings[1], strings[2]];
+    const regex = /^(\w+)_(\d+)_(\d+)$/;
+    const match = id.match(regex);
+    if (!match) {
+      return ["","",""]
+    }
+    return  [match[1], match[2], match[3]];
   }
 
   const fetchLines = (tractate: string, chapter: string, mishna: string) => {
