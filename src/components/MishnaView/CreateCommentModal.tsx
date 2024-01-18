@@ -18,8 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { createComment, iCommentModal } from '../../store/actions/commentsActions';
 import { CommentType } from '../../types/types';
-import { useAppDispatch } from '../../app/hooks';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 interface IProps {
   open: boolean;
@@ -40,9 +39,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
   const { t } = useTranslation();
   const requiredField = t('Required field');
   const dispatch = useAppDispatch();
-  // get user name from local storage
-  const [user] = useLocalStorage('CognitoIdentityServiceProvider', {});
-  const cognitoUserName = user?.UserAttributes?.find((attr: any) => attr.Name === 'name').Value ?? '';
+  const username = useAppSelector((state) => state.authentication.username);
 
   const validationSchema = yup.object({
     text: yup.string().required(requiredField),
@@ -65,7 +62,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
       dispatch(
         createComment({
           ...values,
-          userName: values?.userName || cognitoUserName,
+          userName: values?.userName || username,
           fromWord: commentModal?.fromWord ?? '',
           toWord: commentModal?.toWord ?? '',
           lineNumber: commentModal?.lineNumber ?? '',
