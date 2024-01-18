@@ -42,7 +42,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
   const dispatch = useAppDispatch();
   // get user name from local storage
   const [user] = useLocalStorage('CognitoIdentityServiceProvider', {});
-  const cognitoUserName = user.UserAttributes.find((attr: any) => attr.Name === 'name').Value ?? '';
+  const cognitoUserName = user?.UserAttributes?.find((attr: any) => attr.Name === 'name').Value ?? '';
 
   const validationSchema = yup.object({
     text: yup.string().required(requiredField),
