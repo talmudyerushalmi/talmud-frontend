@@ -7,7 +7,7 @@ export const MUVAA = 'MUVAA';
 export const MAKBILA = 'MAKBILA';
 export const NOSACH = 'NOSACH';
 
-export type iExcerptType = 'MUVAA' | 'MAKBILA' | 'NOSACH' | null;
+export type iExcerptType = 'MUVAA' | 'MAKBILA' | 'NOSACH' | 'COMMENT' | null;
 
 export const excerptsMap = new Map([
   [

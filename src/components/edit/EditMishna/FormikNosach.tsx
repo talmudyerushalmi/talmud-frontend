@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { Button, LinearProgress, FormControlLabel, Radio } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import RichTextEditorField from '../../editors/RichTextEditorField';
 import { RadioGroup, TextField } from 'formik-mui';
 import { convertFromRaw, EditorState } from 'draft-js';
