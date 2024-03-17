@@ -57,7 +57,7 @@ const HomePage = (props) => {
               <Typography variant="h3Roboto">Site development: Yaron Bar</Typography>
             </div>
           </Box>
-          <Box style={{marginTop:'1rem', marginBottom:'1rem'}}>
+          <Box style={{padding:'1rem', maxWidth:'600px', margin: '2rem auto', color:'black', border: '2px solid blue', background:'white'}}>
             <Contentful id="3ok9sYTx6RApf5klH223c4"></Contentful>
           </Box>
           <Link

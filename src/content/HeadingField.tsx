@@ -19,7 +19,7 @@ const HeadingField = (props: Props) => {
   console.log('ContentField', fieldValue);
   return (
     <>
-      <div>
+      <div style={{textAlign:'center'}}>
         {fieldValue.content.map((f, i) => {
           if (isFieldText(f)) {
             return <TextField heading={true} key={i} fieldValue={f} />;

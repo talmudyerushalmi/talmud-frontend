@@ -11,8 +11,7 @@ const TextField = (props: Props) => {
   const { fieldValue, heading } = props;
   return (
     <>
-      {heading} 
-      <Typography variant={heading?'h2':'body1'}>{fieldValue.value}</Typography>
+      <Typography  variant={heading?'h6':'body1'}>{fieldValue.value}</Typography>
     </>
   );
 };
