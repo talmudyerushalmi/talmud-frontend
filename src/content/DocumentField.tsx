@@ -1,30 +1,29 @@
-import React from 'react'
-import { ContentDocument, isFieldDocument, isFieldParagraph } from './types'
-import ParagraphField from './ParagraphField'
-
+import React from 'react';
+import { ContentDocument, isFieldDocument, isFieldParagraph, isHeading } from './types';
+import ParagraphField from './ParagraphField';
+import HeadingField from './HeadingField';
 
 interface Props {
-    fieldValue: ContentDocument
+  fieldValue: ContentDocument;
 }
 
-const DocumentField = (props: Props)=>{
+const DocumentField = (props: Props) => {
+  const { fieldValue } = props;
+  console.log('ContentField', fieldValue);
+  return (
+    <>
+      <div>
+        {fieldValue.content.map((f) => {
+          if (isFieldParagraph(f)) {
+            return <ParagraphField fieldValue={f} />;
+          }
+          if (isHeading(f)) {
+            return <HeadingField fieldValue={f} />;
+          }
+        })}
+      </div>
+    </>
+  );
+};
 
-    const { fieldValue } = props
-    console.log('ContentField', fieldValue)
-    return (
-        <>
-
-{ fieldValue.content.map(f => {
-    isFieldParagraph(f)? <ParagraphField fieldValue={f} /> : null
-})}
-        DocField
-        {/* <div>{fieldName}</div>
-        <div>{JSON.stringify(fieldValue)}</div> */}
-        {/* <div>{fieldName}</div>
-        <div>{JSON.parse(fieldValue)}</div> */}
-      </>
-    )
-}
-
-export default DocumentField
-
+export default DocumentField;

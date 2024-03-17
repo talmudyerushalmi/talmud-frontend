@@ -20,8 +20,17 @@ export interface ContentParagraphField extends ContentField {
   content: ContentField[]
 }
 
-export interface TextField extends ContentField {
+export interface ContentTextField extends ContentField {
   value: string
+}
+
+export interface ContentHyperLinkField extends ContentField {
+  content: ContentField[]
+  data: {uri: string}
+}
+
+export interface ContentHeadingField extends ContentField {
+  content: ContentField[]
 }
 
 export function isFieldDocument(
@@ -38,6 +47,18 @@ export function isFieldParagraph(
 
 export function isFieldText(
   field: ContentField
-): field is TextField {
+): field is ContentTextField {
   return field.nodeType == "text"
+}
+
+export function isHyperlink(
+  field: ContentField
+): field is ContentHyperLinkField {
+  return field.nodeType == "hyperlink"
+}
+
+export function isHeading(
+  field: ContentField
+): field is ContentHeadingField {
+  return field.nodeType == "heading-1"
 }

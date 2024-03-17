@@ -40,7 +40,6 @@ Object.entries(content.fields).map(([k,v]) => {
     
 
 
-    content page
       </Grid>
   );
 };

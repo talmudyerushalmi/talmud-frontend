@@ -14,13 +14,13 @@ interface Props {
   fieldValue: ContentParagraphField;
 }
 
-const ParagraphField = (props: Props) => {
+const HeadingField = (props: Props) => {
   const { fieldValue } = props;
   console.log('ContentField', fieldValue);
   return (
     <>
       <div>
-        paragraph
+        heading
         {fieldValue.content.map((f) => {
           if (isFieldText(f)) {
             return <TextField fieldValue={f} />;
@@ -38,4 +38,4 @@ const ParagraphField = (props: Props) => {
   );
 };
 
-export default ParagraphField;
+export default HeadingField;

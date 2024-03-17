@@ -1,9 +1,9 @@
 import React from 'react'
-import { ContentDocument, TextField, isFieldDocument, isFieldParagraph, isFieldText } from './types'
+import { ContentDocument, ContentTextField, isFieldDocument, isFieldParagraph, isFieldText } from './types'
 
 
 interface Props {
-    fieldValue: TextField
+    fieldValue: ContentTextField
 }
 
 const TextField = (props: Props)=>{
@@ -11,9 +11,7 @@ const TextField = (props: Props)=>{
     const { fieldValue } = props
     return (
         <>
-
-
-        Textfield
+        {fieldValue.value}
         {/* <div>{fieldName}</div>
         <div>{JSON.stringify(fieldValue)}</div> */}
         {/* <div>{fieldName}</div>
