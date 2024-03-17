@@ -9,9 +9,10 @@ interface Props {
 
 const TextField = (props: Props) => {
   const { fieldValue, heading } = props;
+  if (fieldValue.value=="") return null
   return (
     <>
-      <Typography  variant={heading?'h6':'body1'}>{fieldValue.value}</Typography>
+      {heading ? <Typography variant={'h6'}>{fieldValue.value}</Typography> : <span>{fieldValue.value}</span>}
     </>
   );
 };

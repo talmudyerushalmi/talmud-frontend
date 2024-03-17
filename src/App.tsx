@@ -39,7 +39,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/introduction" element={<IntroductionPage />} />
-        <Route path="/content" element={<ContentPage />} />
+        <Route path="/ezer" element={<ContentPage id="01MW7qnvV1EIasMLVwrRdC" />} />
         <Route path="/steering" element={<SteeringPage />} />
         <Route path="/workshop2023" element={<Workshop2023Page />} />
         <Route path="/talmud/:tractate/:chapter/:mishna" element={<ViewMishnaPage />} />
