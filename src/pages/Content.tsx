@@ -18,7 +18,7 @@ const ContentPage = () => {
   const [content, setContent] = useState<Content|null>(null)
   useEffect(()=>{
 
-    ContentService.GetContent().then(c => {console.log(c); setContent(c)})
+    ContentService.GetContent("3ok9sYTx6RApf5klH223c4").then(c => {console.log(c); setContent(c)})
     function fetch(){
       
     }
