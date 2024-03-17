@@ -21,7 +21,11 @@ const Contentful = (props: Props) => {
 
   return (
     <>
-      {/* {content?.fields['title'] ? <Typography variant="h2">{content?.fields['title']}</Typography> :null} */}
+      {content?.fields['title'] ? (
+        <Typography style={{ textAlign: 'center' }} variant="h2">
+          {content?.fields['title']}
+        </Typography>
+      ) : null}
       {content?.fields
         ? Object.entries(content.fields).map(([k, v]) => {
             return <ContentField key={k} fieldName={k} fieldValue={v} />;

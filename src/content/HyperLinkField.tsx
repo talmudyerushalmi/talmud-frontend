@@ -19,7 +19,7 @@ const HyperLinkField = (props: Props) => {
   const content = fieldValue.content[0];
   return (
     <>
-      <a href={fieldValue.data.uri} style={{textDecoration:'none', color:'inherit'}}>{isFieldText(content) ? <TextField heading={heading} fieldValue={content} /> : null}</a>
+      <a href={fieldValue.data.uri} style={{textDecoration:'underline', color:'inherit'}}>{isFieldText(content) ? <TextField heading={heading} fieldValue={content} /> : null}</a>
     </>
   );
 };
