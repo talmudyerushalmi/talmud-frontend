@@ -3,6 +3,7 @@ import ReactGA from 'react-ga4';
 import { Container, Paper, Typography, Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
+import Contentful from '../content/Contentful';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +57,7 @@ const HomePage = (props) => {
               <Typography variant="h3Roboto">Site development: Yaron Bar</Typography>
             </div>
           </Box>
+          <Contentful id="3ok9sYTx6RApf5klH223c4"></Contentful>
           <Link
             to="/workshop2023"
             style={{

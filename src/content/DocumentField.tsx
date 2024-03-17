@@ -1,7 +1,8 @@
 import React from 'react';
-import { ContentDocument, isFieldDocument, isFieldParagraph, isHeading } from './types';
+import { ContentDocument, isFieldParagraph, isHR, isHeading } from './types';
 import ParagraphField from './ParagraphField';
 import HeadingField from './HeadingField';
+import HRField from './HRField';
 
 interface Props {
   fieldValue: ContentDocument;
@@ -9,16 +10,18 @@ interface Props {
 
 const DocumentField = (props: Props) => {
   const { fieldValue } = props;
-  console.log('ContentField', fieldValue);
   return (
     <>
       <div>
-        {fieldValue.content.map((f) => {
+        {fieldValue.content.map((f, i) => {
           if (isFieldParagraph(f)) {
-            return <ParagraphField fieldValue={f} />;
+            return <ParagraphField key={i} fieldValue={f} />;
           }
           if (isHeading(f)) {
-            return <HeadingField fieldValue={f} />;
+            return <HeadingField key={i} fieldValue={f} />;
+          }
+          if (isHR(f)) {
+            return <HRField />;
           }
         })}
       </div>

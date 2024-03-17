@@ -33,6 +33,9 @@ export interface ContentHeadingField extends ContentField {
   content: ContentField[]
 }
 
+export interface ContentHr extends ContentField {
+}
+
 export function isFieldDocument(
   field: ContentField
 ): field is ContentDocument {
@@ -61,4 +64,10 @@ export function isHeading(
   field: ContentField
 ): field is ContentHeadingField {
   return field.nodeType == "heading-1"
+}
+
+export function isHR(
+  field: ContentField
+): field is ContentHr {
+  return field.nodeType == "hr"
 }

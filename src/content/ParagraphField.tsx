@@ -20,13 +20,12 @@ const ParagraphField = (props: Props) => {
   return (
     <>
       <div>
-        paragraph
-        {fieldValue.content.map((f) => {
+        {fieldValue.content.map((f,i) => {
           if (isFieldText(f)) {
-            return <TextField fieldValue={f} />;
+            return <TextField key={i} fieldValue={f} />;
           }
           if (isHyperlink(f)) {
-            return <HyperLinkField fieldValue={f} />;
+            return <HyperLinkField key={i} fieldValue={f} />;
           }
         })}
       </div>

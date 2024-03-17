@@ -20,20 +20,15 @@ const HeadingField = (props: Props) => {
   return (
     <>
       <div>
-        heading
-        {fieldValue.content.map((f) => {
+        {fieldValue.content.map((f, i) => {
           if (isFieldText(f)) {
-            return <TextField fieldValue={f} />;
+            return <TextField heading={true} key={i} fieldValue={f} />;
           }
           if (isHyperlink(f)) {
-            return <HyperLinkField fieldValue={f} />;
+            return <HyperLinkField heading={true} key={i} fieldValue={f} />;
           }
         })}
       </div>
-      {/* <div>{fieldName}</div>
-        <div>{JSON.stringify(fieldValue)}</div> */}
-      {/* <div>{fieldName}</div>
-        <div>{JSON.parse(fieldValue)}</div> */}
     </>
   );
 };

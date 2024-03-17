@@ -1,24 +1,20 @@
-import React from 'react'
-import { ContentDocument, ContentTextField, isFieldDocument, isFieldParagraph, isFieldText } from './types'
-
+import React from 'react';
+import { ContentDocument, ContentTextField, isFieldDocument, isFieldParagraph, isFieldText } from './types';
+import { Typography } from '@mui/material';
 
 interface Props {
-    fieldValue: ContentTextField
+  fieldValue: ContentTextField;
+  heading?: boolean;
 }
 
-const TextField = (props: Props)=>{
+const TextField = (props: Props) => {
+  const { fieldValue, heading } = props;
+  return (
+    <>
+      {heading} 
+      <Typography variant={heading?'h2':'body1'}>{fieldValue.value}</Typography>
+    </>
+  );
+};
 
-    const { fieldValue } = props
-    return (
-        <>
-        {fieldValue.value}
-        {/* <div>{fieldName}</div>
-        <div>{JSON.stringify(fieldValue)}</div> */}
-        {/* <div>{fieldName}</div>
-        <div>{JSON.parse(fieldValue)}</div> */}
-      </>
-    )
-}
-
-export default TextField
-
+export default TextField;

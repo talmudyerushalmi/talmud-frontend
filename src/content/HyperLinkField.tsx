@@ -11,14 +11,15 @@ import TextField from './TextField';
 
 interface Props {
   fieldValue: ContentHyperLinkField;
+  heading?: boolean
 }
 
 const HyperLinkField = (props: Props) => {
-  const { fieldValue } = props;
+  const { fieldValue, heading } = props
   const content = fieldValue.content[0];
   return (
     <>
-      <a href={fieldValue.data.uri}>{isFieldText(content) ? <TextField fieldValue={content} /> : null}</a>
+      <a href={fieldValue.data.uri} style={{textDecoration:'none', color:'inherit'}}>{isFieldText(content) ? <TextField heading={heading} fieldValue={content} /> : null}</a>
     </>
   );
 };
