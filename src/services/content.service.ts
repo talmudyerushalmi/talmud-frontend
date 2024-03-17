@@ -5,9 +5,9 @@ import { Content } from '../content/types';
 
 export default class ContentService {
 
-  static async GetContent(): Promise<Content | null> {
+  static async GetContent(id: string): Promise<Content | null> {
 
-    const url = `https://cdn.contentful.com/spaces/hpk56ofsdu1h/environments/master/entries/72BKx42zS7UF9hK2yRMisE?access_token=88Cc9MmuDbVSdfjrVejQ5rzxBy3N3R4CF7B5UqSw0GA`;
+    const url = `https://cdn.contentful.com/spaces/${process.env.REACT_APP_CONTENTFUL_SPACE}/environments/master/entries/${id}?access_token=${process.env.REACT_APP_CONTENTFUL_TOKEN}`;
     try {
       const res = await axiosInstance.get(url);
       return res.data;
