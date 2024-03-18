@@ -40,7 +40,7 @@ const HomePage = (props) => {
           </Box>
         </Paper>
         <Paper className={classes.panel}>
-          <Typography style={{ textAlign: 'left', paddingBottom: '1rem' }}>ISF Grant 1717/19</Typography>
+        <Typography style={{ textAlign: 'left' }}>ISF Grant 1717/19, ISF Grant 1295/22</Typography>
           <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div style={{ textAlign: 'right' }}>
               <Typography variant="h2Roboto">מהדורה דיגיטלית</Typography>
@@ -60,21 +60,6 @@ const HomePage = (props) => {
           <Box style={{padding:'1rem', maxWidth:'600px', margin: '2rem auto', color:'black', boxShadow:'0px 0px 40px black', background:'white'}}>
             <Contentful id="3ok9sYTx6RApf5klH223c4"></Contentful>
           </Box>
-          <Link
-            to="/workshop2023"
-            style={{
-              background: 'white',
-              display: 'block',
-              width: '20rem',
-              margin: '2rem auto',
-              textAlign: 'center',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-              color: 'blue',
-              textDecoration: 'none',
-            }}>
-            ISF workshop - Editions of Classical Jewish Literature in the Digital Era
-          </Link>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Link
               to="/talmud/yevamot/001/001"
@@ -82,19 +67,24 @@ const HomePage = (props) => {
                 background: 'white',
                 display: 'block',
                 width: '10rem',
-                margin: '2rem 1rem',
+                margin: '0rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
                 borderRadius: '0.5rem',
                 color: 'blue',
                 textDecoration: 'none',
+                boxShadow: '0px 2px 23px black',
+                fontWeight: 700,
+                fontSize: '1.2rem',
               }}>
               מסכת יבמות
             </Link>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Link
               to="/talmud/gittin/001/001"
               style={{
-                background: 'white',
+                background: '#c9c9c9',
                 display: 'block',
                 width: '10rem',
                 margin: '2rem 1rem',
@@ -105,6 +95,51 @@ const HomePage = (props) => {
                 textDecoration: 'none',
               }}>
               מסכת גיטין
+            </Link>
+            <Link
+              to="/talmud/sota/001/001"
+              style={{
+                background: '#c9c9c9',
+                display: 'block',
+                width: '10rem',
+                margin: '2rem 1rem',
+                textAlign: 'center',
+                padding: '1rem',
+                borderRadius: '0.5rem',
+                color: 'blue',
+                textDecoration: 'none',
+              }}>
+              מסכת סוטה
+            </Link>
+            <Link
+              to="/talmud/ketubbot/001/001"
+              style={{
+                background: '#c9c9c9',
+                display: 'block',
+                width: '10rem',
+                margin: '2rem 1rem',
+                textAlign: 'center',
+                padding: '1rem',
+                borderRadius: '0.5rem',
+                color: 'blue',
+                textDecoration: 'none',
+              }}>
+              מסכת כתובות
+            </Link>
+            <Link
+              to="/talmud/qiddushin/001/001"
+              style={{
+                background: '#c9c9c9',
+                display: 'block',
+                width: '10rem',
+                margin: '2rem 1rem',
+                textAlign: 'center',
+                padding: '1rem',
+                borderRadius: '0.5rem',
+                color: 'blue',
+                textDecoration: 'none',
+              }}>
+              מסכת קידושין (מודפסת) 
             </Link>
           </Box>
           <Link
@@ -146,98 +181,6 @@ const HomePage = (props) => {
               }}>
               Guide for the Edition
             </Link>
-          </div>
-
-          <a
-            href="http://ircdl2022.dei.unipd.it/downloads/papers/IRCDL_2022_paper_3.pdf"
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              display: 'block',
-              width: '20rem',
-              margin: '0rem auto',
-              textAlign: 'center',
-              padding: '0.2rem',
-              color: 'white',
-            }}>
-            Talmud Yerushalmi Critical Digital Edition
-          </a>
-          <Link
-            to="/steering"
-            style={{
-              display: 'block',
-              width: '14rem',
-              margin: '0rem auto',
-              textAlign: 'center',
-              padding: '0.2rem',
-              color: 'white',
-            }}>
-            ועדת היגוי, עמיתי מחקר ושותפים
-          </Link>
-          <a
-            href="https://youtu.be/A1tMRN7iRxU"
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              color: 'white',
-              textAlign: 'center',
-              display: 'block',
-              width: '10rem',
-              margin: '0rem auto',
-              padding: '0.2rem',
-            }}>
-            סרטון הדגמה
-          </a>
-          <div
-            style={{
-              background: '#4067b5',
-              maxWidth: '25rem',
-              margin: '1rem auto',
-              borderRadius: '0.5rem',
-              padding: '1rem',
-            }}>
-            <a
-              href="https://drive.google.com/file/d/1-Zbc3BVqnMOkUNbyWRzgJqrnezAiM9Rz/view?usp=sharing"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: 'block',
-                width: '20rem',
-                margin: '0rem auto',
-                textAlign: 'center',
-                padding: '0.2rem',
-                color: 'white',
-              }}>
-              ירושלמי יבמות פרק ראשון - מפת הסוגיות
-            </a>
-            <a
-              href="https://drive.google.com/file/d/1PmksMSQAKQaaTHctMu7zWQiGeVwq3_ds/view"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: 'block',
-                width: '20rem',
-                margin: '0rem auto',
-                textAlign: 'center',
-                padding: '0.2rem',
-                color: 'white',
-              }}>
-              מחברות מנחמיות - תוספתא יבמות
-            </a>
-            <a
-              href="https://drive.google.com/file/d/1SBz_14fXj4zd9JOFE0UpNIgtGTHWbZpo/view?usp=sharing"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: 'block',
-                width: '20rem',
-                margin: '0rem auto',
-                textAlign: 'center',
-                padding: '0.2rem',
-                color: 'white',
-              }}>
-              מחברות מנחמיות - בבלי יבמות פרק ראשון
-            </a>
           </div>
           <a
             href="https://forms.gle/rYsJ9ZV3vic5Xrcb9"
