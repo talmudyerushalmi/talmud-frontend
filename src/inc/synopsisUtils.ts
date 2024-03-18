@@ -73,4 +73,10 @@ export const synopsisMap = new Map([
       title: 'כ2',
     },
   ],
+  [
+    'rome',
+    {
+      title: 'ר',
+    },
+  ],
 ]);
