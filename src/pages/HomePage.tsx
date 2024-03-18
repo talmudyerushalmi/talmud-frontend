@@ -40,7 +40,7 @@ const HomePage = (props) => {
           </Box>
         </Paper>
         <Paper className={classes.panel}>
-        <Typography style={{ textAlign: 'left' }}>ISF Grant 1717/19, ISF Grant 1295/22</Typography>
+          <Typography style={{ textAlign: 'left' }}>ISF Grant 1717/19, ISF Grant 1295/22</Typography>
           <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div style={{ textAlign: 'right' }}>
               <Typography variant="h2Roboto">מהדורה דיגיטלית</Typography>
@@ -57,7 +57,15 @@ const HomePage = (props) => {
               <Typography variant="h3Roboto">Site development: Yaron Bar</Typography>
             </div>
           </Box>
-          <Box style={{padding:'1rem', maxWidth:'600px', margin: '2rem auto', color:'black', boxShadow:'0px 0px 40px black', background:'white'}}>
+          <Box
+            style={{
+              padding: '1rem',
+              maxWidth: '600px',
+              margin: '2rem auto',
+              color: 'black',
+              boxShadow: '0px 0px 40px black',
+              background: 'white',
+            }}>
             <Contentful id="3ok9sYTx6RApf5klH223c4"></Contentful>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -67,7 +75,7 @@ const HomePage = (props) => {
                 background: 'white',
                 display: 'block',
                 width: '10rem',
-                margin: '0rem 1rem',
+                margin: '1rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
                 borderRadius: '0.5rem',
@@ -80,19 +88,20 @@ const HomePage = (props) => {
               מסכת יבמות
             </Link>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', overflow: 'scroll' }}>
             <Link
               to="/talmud/gittin/001/001"
               style={{
                 background: '#c9c9c9',
-                display: 'block',
+                display: 'grid',
                 width: '10rem',
-                margin: '2rem 1rem',
+                margin: '1rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
                 borderRadius: '0.5rem',
                 color: 'blue',
                 textDecoration: 'none',
+                alignItems: 'center',
               }}>
               מסכת גיטין
             </Link>
@@ -100,14 +109,15 @@ const HomePage = (props) => {
               to="/talmud/sota/001/001"
               style={{
                 background: '#c9c9c9',
-                display: 'block',
+                display: 'grid',
                 width: '10rem',
-                margin: '2rem 1rem',
+                margin: '1rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
                 borderRadius: '0.5rem',
                 color: 'blue',
                 textDecoration: 'none',
+                alignItems: 'center',
               }}>
               מסכת סוטה
             </Link>
@@ -115,14 +125,15 @@ const HomePage = (props) => {
               to="/talmud/ketubbot/001/001"
               style={{
                 background: '#c9c9c9',
-                display: 'block',
+                display: 'grid',
                 width: '10rem',
-                margin: '2rem 1rem',
+                margin: '1rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
                 borderRadius: '0.5rem',
                 color: 'blue',
                 textDecoration: 'none',
+                alignItems: 'center',
               }}>
               מסכת כתובות
             </Link>
@@ -130,16 +141,17 @@ const HomePage = (props) => {
               to="/talmud/qiddushin/001/001"
               style={{
                 background: '#c9c9c9',
-                display: 'block',
+                display: 'grid',
                 width: '10rem',
-                margin: '2rem 1rem',
+                margin: '1rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
                 borderRadius: '0.5rem',
                 color: 'blue',
                 textDecoration: 'none',
+                alignItems: 'center',
               }}>
-              מסכת קידושין (מודפסת) 
+              מסכת קידושין (מודפסת)
             </Link>
           </Box>
           <Link

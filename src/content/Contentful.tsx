@@ -17,7 +17,7 @@ const Contentful = (props: Props) => {
       setContent(c);
     });
     function fetch() {}
-  }, []);
+  }, [id]);
 
   return (
     <>
