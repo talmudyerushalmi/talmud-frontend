@@ -13,7 +13,6 @@ import { Amplify } from 'aws-amplify';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
-console.log('process', process.env);
 
 const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript

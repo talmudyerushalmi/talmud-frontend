@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { UserGroup } from '../store/reducers/authReducer';
 import AccountMenu from './menu/AccountMenu';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, Hidden, IconButton, Tooltip } from '@mui/material';
 import SettingsContext from '../context/settings-context';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -53,13 +53,28 @@ const MainMenu = (props: any) => {
           <div style={{ fontSize: '1rem', display:'flex' }}>
             <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
               <span>{t('Jerusalem Talmud')} - </span>
-              <strong>{t('Beta Version')},</strong>
-              <strong> {t('Demo')}</strong>
+              <strong>{t('Beta Version')}</strong>
             </Link>
             <Link to={url} target="_blank" style={{ textDecoration: 'none', color: 'white', marginRight: '2rem', marginLeft: '2rem' }}>
               <span>{t("Guide for the Edition")}</span>
             </Link>
           </div>
+          <Hidden mdDown>
+          <div style={{ fontSize: '1rem', display:'flex',minWidth: '18rem', justifyContent: 'space-around', flexGrow: 0.1}}>
+            <Link to="/manuscripts" style={{ textDecoration: 'none', color: 'white' }}>
+              <span>{t('Manuscripts')}</span>
+            </Link>
+            <Link to="/resources" style={{ textDecoration: 'none', color: 'white' }}>
+              <span>{t('Resources')}</span>
+            </Link>
+            <Link to="/qiddushin" style={{ textDecoration: 'none', color: 'white' }}>
+              <span>{t('Qiddushin')}</span>
+            </Link>
+            <Link to="/about" style={{ textDecoration: 'none', color: 'white' }}>
+              <span>{t('About')}</span>
+            </Link>
+          </div>
+          </Hidden>
           <Typography variant="h6" className={classes.title}></Typography>
           <LanguageSelector />
           <Tooltip title={<div>{t("Light mode")}</div>}>
