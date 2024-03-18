@@ -88,13 +88,12 @@ const HomePage = (props) => {
               מסכת יבמות
             </Link>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center', overflow: 'scroll' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center',     flexWrap: 'wrap' }}>
             <Link
               to="/talmud/gittin/001/001"
               style={{
                 background: '#c9c9c9',
                 display: 'grid',
-                width: '10rem',
                 margin: '1rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
@@ -110,7 +109,6 @@ const HomePage = (props) => {
               style={{
                 background: '#c9c9c9',
                 display: 'grid',
-                width: '10rem',
                 margin: '1rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
@@ -126,7 +124,6 @@ const HomePage = (props) => {
               style={{
                 background: '#c9c9c9',
                 display: 'grid',
-                width: '10rem',
                 margin: '1rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
@@ -142,7 +139,6 @@ const HomePage = (props) => {
               style={{
                 background: '#c9c9c9',
                 display: 'grid',
-                width: '10rem',
                 margin: '1rem 1rem',
                 textAlign: 'center',
                 padding: '1rem',
