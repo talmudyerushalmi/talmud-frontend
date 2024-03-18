@@ -21,7 +21,7 @@ const DocumentField = (props: Props) => {
             return <HeadingField key={i} fieldValue={f} />;
           }
           if (isHR(f)) {
-            return <HRField />;
+            return <HRField key={i}/>;
           }
         })}
       </div>

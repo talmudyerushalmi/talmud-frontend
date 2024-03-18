@@ -3,6 +3,8 @@ import ContentService from '../services/content.service';
 import { Content } from '../content/types';
 import ContentField from '../content/ContentField';
 import { Typography } from '@mui/material';
+import i18next from 'i18next';
+import { localeMap } from '../inc/utils';
 
 interface Props {
   id: string;
@@ -11,13 +13,20 @@ interface Props {
 const Contentful = (props: Props) => {
   const { id } = props;
   const [content, setContent] = useState<Content | null>(null);
+  const [currentLang, setCurrentLang] = useState<string>(i18next.language);
+
   useEffect(() => {
-    ContentService.GetContent(id).then((c) => {
-      console.log(c);
+    i18next.on('languageChanged', function (lng) {
+      setCurrentLang(lng);
+    });
+  }, []);
+
+  useEffect(() => {
+    ContentService.GetContent(id, localeMap.get(currentLang)).then((c) => {
       setContent(c);
     });
     function fetch() {}
-  }, [id]);
+  }, [id, currentLang]);
 
   return (
     <>

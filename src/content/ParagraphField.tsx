@@ -16,11 +16,10 @@ interface Props {
 
 const ParagraphField = (props: Props) => {
   const { fieldValue } = props;
-  console.log('ContentField', fieldValue);
   return (
     <>
       <div>
-        {fieldValue.content.map((f,i) => {
+        {fieldValue.content.map((f, i) => {
           if (isFieldText(f)) {
             return <TextField key={i} fieldValue={f} />;
           }
@@ -29,10 +28,6 @@ const ParagraphField = (props: Props) => {
           }
         })}
       </div>
-      {/* <div>{fieldName}</div>
-        <div>{JSON.stringify(fieldValue)}</div> */}
-      {/* <div>{fieldName}</div>
-        <div>{JSON.parse(fieldValue)}</div> */}
     </>
   );
 };
