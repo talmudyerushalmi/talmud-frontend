@@ -63,7 +63,7 @@ export function isHyperlink(
 export function isHeading(
   field: ContentField
 ): field is ContentHeadingField {
-  return field.nodeType == "heading-1"
+  return (["heading-1","heading-2","heading-3"].findIndex((v)=>v==field.nodeType) != -1)
 }
 
 export function isHR(

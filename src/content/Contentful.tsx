@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ContentService from '../services/content.service';
 import { Content } from '../content/types';
 import ContentField from '../content/ContentField';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import i18next from 'i18next';
 import { localeMap } from '../inc/utils';
 
@@ -28,8 +28,10 @@ const Contentful = (props: Props) => {
     function fetch() {}
   }, [id, currentLang]);
 
+  const direction = currentLang == 'he' ? 'rtl' : 'ltr';
+
   return (
-    <>
+    <Box style={{ direction: direction }}>
       {content?.fields['title'] ? (
         <Typography style={{ textAlign: 'center' }} variant="h2">
           {content?.fields['title']}
@@ -40,7 +42,7 @@ const Contentful = (props: Props) => {
             return <ContentField key={k} fieldName={k} fieldValue={v} />;
           })
         : null}
-    </>
+    </Box>
   );
 };
 
