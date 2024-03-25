@@ -17,8 +17,9 @@ const ModerationCommentsPage: FC<IProps> = () => {
     dispatch(getCommentsForModeration());
   }, [dispatch]);
 
-  const rows = commentsForModeration.map((item) => ({
-    id: item.userID,
+  const rows = commentsForModeration.map((item, index) => ({
+    id: index,
+    userID: item.userID,
     title: item.title,
     text: item.text,
     userName: item.userName,
@@ -33,7 +34,7 @@ const ModerationCommentsPage: FC<IProps> = () => {
   }));
 
   const columns = [
-    { field: 'id', headerName: 'מזהה משתמש', width: 200, renderCell: renderCellExpand },
+    { field: 'userID', headerName: 'מזהה משתמש', width: 200, renderCell: renderCellExpand },
     { field: 'userName', headerName: 'שם המשתמש *לפי המשתמש', width: 150, renderCell: renderCellExpand },
     { field: 'title', headerName: 'כותרת', width: 150, renderCell: renderCellExpand },
     { field: 'text', headerName: 'תוכן הערה', flex: 1, minWidth: 150, renderCell: renderCellExpand },
