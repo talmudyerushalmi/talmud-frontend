@@ -7,9 +7,7 @@ import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { renderCellExpand } from '../components/shared/GridCellExpand';
 
-interface IProps {}
-
-const ModerationCommentsPage: FC<IProps> = () => {
+const ModerationCommentsPage: FC = () => {
   const dispatch = useAppDispatch();
   const commentsForModeration = useAppSelector((state: any) => state.comments.commentsForModeration as iComment[]);
 
