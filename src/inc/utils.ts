@@ -107,3 +107,8 @@ export const hebrewMap = new Map([
   ['022', 'כב'],
   ['023', 'כג'],
 ]);
+
+export const localeMap = new Map([
+  ['he', 'he-IL'],
+  ['en-US', 'en-US'],
+]);

@@ -25,6 +25,7 @@ import ModerationCommentsPage from './pages/ModerationCommentsPage';
 import CommentsAdminPage from './pages/CommentsAdminPage';
 import InvitationDialog from './components/InvitationDialog';
 import Workshop2023Page from './pages/Workshop2023';
+import ContentPage from './pages/Content';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -38,6 +39,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/introduction" element={<IntroductionPage />} />
+        <Route path="/qiddushin" element={<ContentPage id="5ul3ijbJSM9QUQYNgyIpMY" />} />
+        <Route path="/manuscripts" element={<ContentPage id="5m3nEbtZvWUFaArO4Vz5Wo" />} />
+        <Route path="/about" element={<ContentPage id="4MQcUAxH4Y9lei9RVlLrHe" />} />
+        <Route path="/resources" element={<ContentPage id="01MW7qnvV1EIasMLVwrRdC" />} />
         <Route path="/steering" element={<SteeringPage />} />
         <Route path="/workshop2023" element={<Workshop2023Page />} />
         <Route path="/talmud/:tractate/:chapter/:mishna" element={<ViewMishnaPage />} />

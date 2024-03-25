@@ -67,6 +67,10 @@ i18n
           'Guide for the Edition': 'מדריך לשימוש במהדורה',
           Logout: 'התנתק',
           Login: 'התחבר',
+          Qiddushin: 'קידושין',
+          Resources: 'חומרי עזר',
+          Manuscripts: 'כתבי יד',
+          About: 'על אודות'
         },
       },
     },
