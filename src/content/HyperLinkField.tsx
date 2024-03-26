@@ -11,7 +11,7 @@ import TextField from './TextField';
 
 interface Props {
   fieldValue: ContentHyperLinkField;
-  heading?: boolean
+  heading?: string
 }
 
 const HyperLinkField = (props: Props) => {
