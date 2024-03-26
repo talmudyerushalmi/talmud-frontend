@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { createComment, iCommentModal } from '../../store/actions/commentsActions';
 import { CommentType } from '../../types/types';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 interface IProps {
   open: boolean;
@@ -39,6 +39,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
   const { t } = useTranslation();
   const requiredField = t('Required field');
   const dispatch = useAppDispatch();
+  const username = useAppSelector((state) => state.authentication.username);
 
   const validationSchema = yup.object({
     text: yup.string().required(requiredField),
@@ -49,6 +50,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
   const initialValues = {
     text: '',
     title: '',
+    userName: '',
     type: CommentType.PRIVATE,
   };
 
@@ -60,6 +62,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
       dispatch(
         createComment({
           ...values,
+          userName: values?.userName || username,
           fromWord: commentModal?.fromWord ?? '',
           toWord: commentModal?.toWord ?? '',
           lineNumber: commentModal?.lineNumber ?? '',
@@ -74,7 +77,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
     if (commentModal) {
       resetForm();
     }
-  }, [commentModal,resetForm]);
+  }, [commentModal, resetForm]);
 
   return (
     <Dialog
@@ -97,6 +100,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
             name="title"
             label={`${t('title')} / ד"ה`}
             type="text"
+            required
             fullWidth
             value={values.title}
             onChange={handleChange}
@@ -108,6 +112,7 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
             label={t('Comment content')}
             type="text"
             fullWidth
+            required
             value={values.text}
             onChange={handleChange}
             error={touched.text && !!errors.text}
@@ -115,16 +120,34 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
             rows={4}
             multiline
           />
-          <FormControl>
+          <FormControl required>
             <FormLabel id="type">{t('Comment type')}</FormLabel>
             <RadioGroup aria-labelledby="type" name="type" value={values.type} onChange={handleChange}>
               <FormControlLabel value={CommentType.PRIVATE} control={<Radio />} label={t('Personal comment')} />
-              <FormControlLabel value={CommentType.MODERATION} control={<Radio />} label={t('Public comment')} />
+              <Box display="flex">
+                <FormControlLabel value={CommentType.MODERATION} control={<Radio />} label={t('Public comment')} />
+                {values.type === CommentType.MODERATION && (
+                  <TextField
+                    autoFocus
+                    name="userName"
+                    label={`${t('Comment Writer Name')}`}
+                    type="text"
+                    variant="filled"
+                    value={values.userName}
+                    onChange={handleChange}
+                    error={touched.userName && !!errors.userName}
+                    helperText={touched.text && errors.userName}
+                  />
+                )}
+              </Box>
+              <br />
             </RadioGroup>
             {values?.type === CommentType.MODERATION && (
               <Typography color="InfoText" fontSize="0.9rem">
                 * ההערה תיבדק ותופיע במדור "הערות ציבוריות" אם תאושר. <br /> ניתן להשתמש בהערה ציבורית גם כדי לשלוח
                 הודעות תיקון לעורכים.
+                <br />
+                במידה ולא יוקלד שם, השם שיוצג יהיה השם של המשתמש המחובר לפי חשבון גוגל.
               </Typography>
             )}
           </FormControl>

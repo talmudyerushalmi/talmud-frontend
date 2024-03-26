@@ -8,6 +8,7 @@ import { EditorSelectionObject } from '../../../inc/editorUtils';
 import { connect } from 'react-redux';
 import { iExcerpt } from '../../../types/types';
 import FormikNosach from './FormikNosach';
+import FormikCommentExcerpt from './FormikCommentExcerpt';
 
 export enum EXCERPT_TYPE {
   MUVAA = 'MUVAA',
@@ -21,6 +22,7 @@ export enum EXCERPT_TYPE {
 
 const GROUP_NOSACH = [EXCERPT_TYPE.NOSACH, EXCERPT_TYPE.BIBLIO, EXCERPT_TYPE.EXPLANATORY, EXCERPT_TYPE.DICTIONARY];
 const GROUP_MAKBILA = [EXCERPT_TYPE.MAKBILA, EXCERPT_TYPE.MUVAA];
+const GROUP_COMMENT = [EXCERPT_TYPE.COMMENT];
 
 const mapStateToProps = (state) => ({
   excerptDialogOpen: state.mishnaEdit.excerptDialogOpen,
@@ -44,6 +46,10 @@ const ExcerptDialog = (props: Props) => {
     selection?.fromWordTotal
   })
     עד שורה ${selection!.toLine}, "${selection!.toWord}" (${selection?.toWordOccurence}/${selection?.toWordTotal})`;
+
+  const commentSelectionInfo = `משורה ${selection!.fromLine} עד שורה ${selection!.toLine}`;
+  const isComment = editedExcerpt?.type === EXCERPT_TYPE.COMMENT;
+
   const handleClose = (e) => {
     // check if synthetic event or excerpt
     if (e && ['MUVAA', 'MAKBILA'].includes(e.type)) {
@@ -65,8 +71,7 @@ const ExcerptDialog = (props: Props) => {
           selection={selection}
           name={'passing name'}
           handleSubmit={(values) => console.log('handle submitting', values)}
-          handleClose={(values) => handleClose(values)}
-        ></FormikExcerpt>
+          handleClose={(values) => handleClose(values)}></FormikExcerpt>
       );
     }
     if (editedExcerpt.type && GROUP_NOSACH.includes(editedExcerpt.type as EXCERPT_TYPE)) {
@@ -78,8 +83,16 @@ const ExcerptDialog = (props: Props) => {
           selection={selection}
           name={'passing name'}
           handleSubmit={(values) => console.log('handle submitting', values)}
-          handleClose={(values) => handleClose(values)}
-        ></FormikNosach>
+          handleClose={(values) => handleClose(values)}></FormikNosach>
+      );
+    }
+    if (editedExcerpt.type && GROUP_COMMENT.includes(editedExcerpt.type as EXCERPT_TYPE)) {
+      return (
+        <FormikCommentExcerpt
+          mishna={mishna}
+          excerpt={editedExcerpt}
+          selection={selection as EditorSelectionObject}
+        ></FormikCommentExcerpt>
       );
     }
   };
@@ -91,11 +104,10 @@ const ExcerptDialog = (props: Props) => {
         style={{ direction: 'rtl' }}
         open={dialogOpen}
         onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
+        aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">עריכת קטע טקסט</DialogTitle>
         <DialogContent>
-          <p>{selectionInfo}</p>
+          <p>{isComment ? commentSelectionInfo : selectionInfo}</p>
           {FormToShow(editedExcerpt)}
           <DialogContentText></DialogContentText>
         </DialogContent>

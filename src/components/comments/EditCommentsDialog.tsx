@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
@@ -30,10 +30,13 @@ const EditCommentsDialog: FC<IProps> = ({ open, onClose, submitHandler, comment 
     title: yup.string().required(requiredField),
   });
 
-  const initialValues = {
-    text: comment?.text || 0,
-    title: comment?.title || '',
-  };
+  const initialValues = useMemo(
+    () => ({
+      text: comment?.text || 0,
+      title: comment?.title || '',
+    }),
+    [comment]
+  );
 
   const { errors, handleChange, values, handleSubmit, touched, resetForm } = useFormik({
     initialValues,
@@ -51,11 +54,7 @@ const EditCommentsDialog: FC<IProps> = ({ open, onClose, submitHandler, comment 
         values: initialValues,
       });
     }
-  }, [comment,initialValues,resetForm]);
-
-  useEffect(() => {
-    console.log('errors', errors);
-  }, [errors]);
+  }, [comment, initialValues, resetForm]);
 
   return (
     <Dialog

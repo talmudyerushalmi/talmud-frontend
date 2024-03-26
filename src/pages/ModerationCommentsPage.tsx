@@ -7,9 +7,7 @@ import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { renderCellExpand } from '../components/shared/GridCellExpand';
 
-interface IProps {}
-
-const ModerationCommentsPage: FC<IProps> = () => {
+const ModerationCommentsPage: FC = () => {
   const dispatch = useAppDispatch();
   const commentsForModeration = useAppSelector((state: any) => state.comments.commentsForModeration as iComment[]);
 
@@ -17,10 +15,12 @@ const ModerationCommentsPage: FC<IProps> = () => {
     dispatch(getCommentsForModeration());
   }, [dispatch]);
 
-  const rows = commentsForModeration.map((item) => ({
-    id: item.commentID,
+  const rows = commentsForModeration.map((item, index) => ({
+    id: index,
+    userID: item.userID,
     title: item.title,
     text: item.text,
+    userName: item.userName,
     source: {
       path: `${item.tractate}/${item.chapter}/${item.mishna}`,
       sublines: `${item.fromSubline} - ${item.toSubline}`,
@@ -32,7 +32,8 @@ const ModerationCommentsPage: FC<IProps> = () => {
   }));
 
   const columns = [
-    { field: 'id', headerName: 'מזהה הערה', width: 150 },
+    { field: 'userID', headerName: 'מזהה משתמש', width: 200, renderCell: renderCellExpand },
+    { field: 'userName', headerName: 'שם המשתמש *לפי המשתמש', width: 150, renderCell: renderCellExpand },
     { field: 'title', headerName: 'כותרת', width: 150, renderCell: renderCellExpand },
     { field: 'text', headerName: 'תוכן הערה', flex: 1, minWidth: 150, renderCell: renderCellExpand },
     {
