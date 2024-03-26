@@ -5,13 +5,19 @@ import ContentField from '../content/ContentField';
 import { Box, Typography } from '@mui/material';
 import i18next from 'i18next';
 import { localeMap } from '../inc/utils';
+import { connect } from 'react-redux';
 
 interface Props {
   id: string;
+  items: any;
 }
 
+const mapStateToProps = (state: any) => ({
+  items: state.contentful.items,
+});
+
 const Contentful = (props: Props) => {
-  const { id } = props;
+  const { id, items } = props;
   const [content, setContent] = useState<Content | null>(null);
   const [currentLang, setCurrentLang] = useState<string>(i18next.language);
 
@@ -22,11 +28,14 @@ const Contentful = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    ContentService.GetContent(id, localeMap.get(currentLang)).then((c) => {
-      setContent(c);
-    });
-    function fetch() {}
-  }, [id, currentLang]);
+    if (items && id && currentLang) {
+      const lang = localeMap.get(currentLang) || ""
+      if (items.hasOwnProperty(lang) && items[lang].hasOwnProperty(id)) {
+        const content = items[lang][id]
+        setContent(content)
+      }
+    }
+  }, [id, currentLang, items]);
 
   const direction = currentLang == 'he' ? 'rtl' : 'ltr';
 
@@ -46,4 +55,4 @@ const Contentful = (props: Props) => {
   );
 };
 
-export default Contentful;
+export default connect(mapStateToProps)(Contentful);
