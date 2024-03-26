@@ -1,8 +1,9 @@
 import React from 'react';
-import { ContentDocument, isFieldParagraph, isHR, isHeading } from './types';
+import { ContentDocument, isEmbeddedAssetBlock, isFieldParagraph, isHR, isHeading } from './types';
 import ParagraphField from './ParagraphField';
 import HeadingField from './HeadingField';
 import HRField from './HRField';
+import EmbeddedAssetBlock from './EmbeddedAssetBlock';
 
 interface Props {
   fieldValue: ContentDocument;
@@ -22,6 +23,9 @@ const DocumentField = (props: Props) => {
           }
           if (isHR(f)) {
             return <HRField key={i}/>;
+          }
+          if (isEmbeddedAssetBlock(f)) {
+            return <EmbeddedAssetBlock fieldValue={f} key={i}/>;
           }
         })}
       </div>

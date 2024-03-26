@@ -65,6 +65,8 @@ const HomePage = (props) => {
               color: 'black',
               boxShadow: '0px 0px 40px black',
               background: 'white',
+              maxHeight: '20rem',
+              overflow: 'scroll',
             }}>
             <Contentful id="3ok9sYTx6RApf5klH223c4"></Contentful>
           </Box>
@@ -88,7 +90,7 @@ const HomePage = (props) => {
               מסכת יבמות
             </Link>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center',     flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link
               to="/talmud/gittin/001/001"
               style={{

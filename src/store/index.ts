@@ -10,6 +10,7 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import relatedReducer from './reducers/relatedReducer';
+import contentfulReducer from './reducers/contentfulReducer';
 
 
 
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   mishnaEdit: mishnaEditReducer,
   comments: commentsReducer,
   related: relatedReducer,
+  contentful: contentfulReducer,
 });
 
 const persistConfig = {
