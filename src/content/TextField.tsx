@@ -4,15 +4,19 @@ import { Typography } from '@mui/material';
 
 interface Props {
   fieldValue: ContentTextField;
-  heading?: boolean;
+  heading?: string;
 }
 
 const TextField = (props: Props) => {
   const { fieldValue, heading } = props;
-  if (fieldValue.value=="") return null
+  if (fieldValue.value == '') return null;
+  const variant = `h${heading}`;
   return (
     <>
-      {heading ? <Typography variant={'h6'}>{fieldValue.value}</Typography> : <span>{fieldValue.value}</span>}
+      {
+        //@ts-ignore
+        heading ? <Typography variant={variant}>{fieldValue.value}</Typography> : <span>{fieldValue.value}</span>
+      }
     </>
   );
 };
