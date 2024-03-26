@@ -11,7 +11,7 @@ const ContentPage = (props: Props) => {
   const { id } = props;
 
   return (
-    <Container>
+    <Container style={{paddingBottom:'4rem'}}>
       <Contentful id={id}></Contentful>
     </Container>
   );
