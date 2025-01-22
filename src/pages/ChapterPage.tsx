@@ -65,7 +65,7 @@ const ChapterPage = (props: Props) => {
           background: 'white',
           boxShadow: '0rem 0rem 1rem 2px #0000005e',
         }}
-      >
+        className="mishna-view-options">
         <MishnaViewOptions />
       </Grid>
       <Grid item md={12}>

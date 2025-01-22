@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import background from './assets/leiden2.jpg';
 import './App.css';
+import './styles/print.css';
 import { Header } from './layout/Header';
 import { ThemeProvider } from '@mui/material/styles';
 import { RTL } from './ui/RTL';

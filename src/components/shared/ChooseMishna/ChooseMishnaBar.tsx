@@ -1,13 +1,15 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 
 import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import ChooseMishnaForm from './ChooseMishnaForm';
+import { PrintHeader } from '../PrintHeader';
 import { routeObject } from '../../../store/reducers/navigationReducer';
-import { iLink } from '../../../types/types';
+import { iLink, iTractate } from '../../../types/types';
 import { connect } from 'react-redux';
 import { setRoute } from '../../../store/actions/navigationActions';
+import PageService from '../../../services/pageService';
 
 interface Props {
   allChapterAllowed?: boolean;
@@ -40,6 +42,11 @@ const ChooseMishnaBar = ({
     lineNumber: line || '',
   });
   const { t } = useTranslation();
+  const [allTractates, setAllTractates] = useState<iTractate[]>([]);
+
+  useEffect(() => {
+    PageService.getAllTractates().then((tractates) => setAllTractates(tractates));
+  }, []);
 
   const handleNavigate = (e) => {
     onNavigationUpdated(navigation);
@@ -60,36 +67,42 @@ const ChooseMishnaBar = ({
   }, [tractate, chapter, mishna, line]);
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleNavigate(e);
-      }}>
-      <Grid container>
-        <Box sx={{ display: 'flex', flexGrow: 10 }}>
-          <ChooseMishnaForm
-            allChapterAllowed
-            keypressNavigation
-            onNavigationUpdated={(newNav) => {
-              setNavigation(newNav);
-            }}
-            onButtonNavigation={onButtonNavigation}
-            {...memoizedProps}
-          />
-        </Box>
-        <Box mb={2} sx={{ display: 'flex', flexGrow: 1 }}>
-          <Button
-            sx={{ width: '100%' }}
-            type="submit"
-            variant="contained"
-            color="primary"
-            onClick={handleNavigate}
-            disabled={selectButtonDisabled()}>
-            {t('Go')}
-          </Button>
-        </Box>
-      </Grid>
-    </form>
+    <>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleNavigate(e);
+        }}
+        className="choose-mishna-bar-form">
+        <Grid container>
+          <Box sx={{ display: 'flex', flexGrow: 10 }}>
+            <ChooseMishnaForm
+              allChapterAllowed
+              keypressNavigation
+              onNavigationUpdated={(newNav) => {
+                setNavigation(newNav);
+              }}
+              onButtonNavigation={onButtonNavigation}
+              {...memoizedProps}
+              allTractates={allTractates}
+            />
+          </Box>
+          <Box mb={2} sx={{ display: 'flex', flexGrow: 1 }}>
+            <Button
+              sx={{ width: '100%' }}
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={handleNavigate}
+              disabled={selectButtonDisabled()}>
+              {t('Go')}
+            </Button>
+          </Box>
+        </Grid>
+      </form>
+      {/* Print version */}
+      <PrintHeader allTractates={allTractates} />
+    </>
   );
 };
 
