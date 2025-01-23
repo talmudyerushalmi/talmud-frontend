@@ -42,11 +42,13 @@
 
   @page {
     @top-right {
-      content: "תלמוד ירושלמי הדיגיטלי בעריכת פרופ' מנחם כ\"ץ";
+      content: "תלמוד ירושלמי הדיגיטלי בעריכת מנחם כ\"ץ גרסת בטא 2025 תשפ״ה";
+      font-size: 15px;
     }
 
     @top-left {
       content: "www.talmudyerushalmi.com";
+      font-size: 15px;
     }
   }
 
