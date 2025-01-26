@@ -24,6 +24,7 @@ interface Props {
   onNavigationUpdated: (navigation: iLink) => void;
   navButtons?: boolean;
   onButtonNavigation?: (navigation: iLink) => void;
+  allTractates?: iTractate[];
 }
 
 const ChooseMishnaForm = ({
@@ -33,6 +34,7 @@ const ChooseMishnaForm = ({
   navButtons = true,
   onNavigationUpdated,
   onButtonNavigation = (_) => {},
+  allTractates,
 }: Props) => {
   const [tractateName, setTractateName] = useState<string>(initValues?.tractate || '');
   const [chapterName, setChapterName] = useState<string>(initValues?.chapter || '');
@@ -110,6 +112,7 @@ const ChooseMishnaForm = ({
         ) : null}
         <ChooseTractate
           tractate={tractateName}
+          allTractates={allTractates}
           onSelectTractate={(t) => {
             setTractateName(t.id);
             setTractateData(t);

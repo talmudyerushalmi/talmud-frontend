@@ -65,10 +65,11 @@ const MishnaPage = (props: Props) => {
           zIndex: 100,
           background: t.palette.background.default,
           boxShadow: '0rem 0rem 1rem 2px #0000005e',
-        }}>
+        }}
+        className="mishna-view-options">
         <MishnaViewOptions />
       </Grid>
-      <Grid item md={8}>
+      <Grid item md={8} className="mishna-text-container">
         <Grid container justifyContent="center" item sm={12}>
           <Grid item md={12} mb={2}>
             <MishnaText mishna={mishna} html={getHTMLFromRawContent(currentMishna?.richTextMishna)} />
@@ -76,7 +77,7 @@ const MishnaPage = (props: Props) => {
         </Grid>
         <MainText lines={currentMishna?.lines} mishna={currentMishna?.mishna} />
       </Grid>
-      <Grid item md={4}>
+      <Grid item md={4} className="excerpts-section">
         <ExcerptsSection />
       </Grid>
       <ManuscriptPopup />
