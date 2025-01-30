@@ -13,6 +13,9 @@ export const PrintHeader: React.FC<PrintHeaderProps> = ({ allTractates }) => {
   const { tractate, chapter, mishna } = useParams<routeObject>();
   const { t } = useTranslation();
 
+  const tractateTitle = allTractates.find((item) => item.id === tractate)?.title_heb;
+  const chapterTitle = hebrewMap.get(chapter || '');
+  const halakhaTitle = mishna ? hebrewMap.get(mishna || '') : undefined;
   return (
     <div className="print-choose-mishna-bar">
       <Typography
@@ -24,17 +27,27 @@ export const PrintHeader: React.FC<PrintHeaderProps> = ({ allTractates }) => {
             margin: '0 8px',
             opacity: 0.7,
           },
+          '@media print': {
+            '@page': {
+              '@top-left': {
+                content: `"ירושלמי ${t('Tractate')} ${tractateTitle} ${t('Chapter')} ${chapterTitle}${
+                  halakhaTitle ? ` ${t('Halakha')} ${halakhaTitle}` : ''
+                }"`,
+                fontSize: '15px',
+              },
+            },
+          },
         }}>
-        {t('Tractate')} {allTractates.find((item) => item.id === tractate)?.title_heb}
+        {t('Tractate')} {tractateTitle}
         <span className="separator">•</span>
-        {t('Chapter')} {hebrewMap.get(chapter || '')}
-        {hebrewMap.get(mishna || '') && (
+        {t('Chapter')} {chapterTitle}
+        {mishna && (
           <>
             <span className="separator">•</span>
-            {t('Mishna')} {hebrewMap.get(mishna || '')}
+            {t('Halakha')} {halakhaTitle}
           </>
         )}
       </Typography>
     </div>
   );
-}; 
+};
