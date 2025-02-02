@@ -33,7 +33,7 @@ export const PrintHeader: React.FC<PrintHeaderProps> = ({ allTractates }) => {
                 content: `"ירושלמי ${t('Tractate')} ${tractateTitle} ${t('Chapter')} ${chapterTitle}${
                   halakhaTitle ? ` ${t('Halakha')} ${halakhaTitle}` : ''
                 }"`,
-                fontSize: '15px',
+                fontSize: '13px',
               },
             },
           },
