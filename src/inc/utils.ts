@@ -110,5 +110,6 @@ export const hebrewMap = new Map([
 
 export const localeMap = new Map([
   ['he', 'he-IL'],
+  ['he-IL', 'he-IL'],
   ['en-US', 'en-US'],
 ]);
