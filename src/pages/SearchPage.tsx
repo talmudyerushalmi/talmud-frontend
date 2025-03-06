@@ -59,7 +59,7 @@ const SearchPage: FC<IProps> = () => {
               overflow: 'unset',
             }}
             onClick={() => {
-              navigate(`/${tractate}/${chapter}/${mishna}`);
+              navigate(`/talmud/${tractate}/${chapter}/${mishna}`);
             }}>
             <Typography
               sx={{
