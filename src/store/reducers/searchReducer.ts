@@ -1,4 +1,5 @@
 import { SEARCH_TEXT } from '../actions/searchActions';
+import { RawDraftContentState } from 'draft-js';
 
 const initialState = {
   searchResults: [],
@@ -6,8 +7,9 @@ const initialState = {
 
 export interface ISearchResult {
   guid: string;
-  mainLine: string;
   lineNumber: string;
+  sublineIndex: number;
+  nosach: RawDraftContentState;
 }
 
 export interface SearchState {

@@ -7,6 +7,8 @@ import { ISearchResult } from '../store/reducers/searchReducer';
 import { base64ToJson } from '../inc/base64ToJson';
 import { hebrewMap } from '../inc/utils';
 import PageService from '../services/pageService';
+import { ShowEditType } from '../store/reducers/mishnaViewReducer';
+import NosachView from '../components/MishnaView/NosachView';
 
 interface IProps {}
 
@@ -33,26 +35,11 @@ const SearchPage: FC<IProps> = () => {
     });
   }, []);
 
-  // Helper function to highlight text
-  const highlightText = (text: string) => {
-    const regex = new RegExp(`(${queryText})`, 'gi');
-    const parts = text.split(regex);
-
-    return parts.map((part, index) =>
-      regex.test(part) ? (
-        <span key={index} style={{ backgroundColor: 'yellow' }}>
-          {part}
-        </span>
-      ) : (
-        part
-      )
-    );
-  };
-
   return (
     <Box display="flex" gap={{ md: 1, xs: 1 }} flexDirection="column" alignItems="center" mb={8}>
       {searchResults.map((result, index) => {
-        const [tractate, chapter, mishna] = result?.guid.split('_');
+        const [tractate, chapter, mishna] = result.guid.split('_');
+
         return (
           <Card
             key={index}
@@ -72,7 +59,7 @@ const SearchPage: FC<IProps> = () => {
               overflow: 'unset',
             }}
             onClick={() => {
-              navigate(`/talmud/${tractate}/${chapter}/${mishna}`);
+              navigate(`/${tractate}/${chapter}/${mishna}`);
             }}>
             <Typography
               sx={{
@@ -97,7 +84,21 @@ const SearchPage: FC<IProps> = () => {
               {allTractates.find((item) => item.id === tractate)?.title_heb}, {hebrewMap.get(chapter)},{' '}
               {hebrewMap.get(mishna)}
             </Typography>
-            <Typography sx={{ fontSize: 17, lineHeight: 1.8 }}>{highlightText(result?.mainLine)}</Typography>
+            {result.nosach && (
+              <Box sx={{ fontSize: 17, lineHeight: 1.8, direction: 'rtl' }}>
+                <NosachView
+                  subline={{
+                    nosach: result.nosach,
+                    text: result.nosach.blocks[0].text,
+                    index: result.sublineIndex,
+                    synopsis: [],
+                  }}
+                  showEditType={ShowEditType.COMBINED}
+                  showPunctuation={true}
+                  searchTerm={queryText}
+                />
+              </Box>
+            )}
           </Card>
         );
       })}
