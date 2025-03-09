@@ -15,9 +15,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 
 const container = document.getElementById('root');
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 
-const gtmId = process.env.REACT_APP_GTM_ID;
+const gtmId = import.meta.env.VITE_GTM_ID;
 if (typeof gtmId === 'string' && gtmId !== 'NONE') {
   ReactGA.initialize(gtmId);
 }
