@@ -8,7 +8,6 @@ import {
   compoundEditedNosachDecorators,
   compoundOriginalDecorators,
 } from '../editors/EditorDecoratorNosach';
-import { CompositeDecorator } from 'draft-js';
 
 interface Props {
   subline: iSubline;
@@ -17,7 +16,6 @@ interface Props {
   showPunctuation?: boolean;
   showEditType: ShowEditType;
   selectedExcerpt?: iExcerpt;
-  searchTerm?: string;
 }
 
 const findWithRegex = (regex, contentBlock, callback) => {
@@ -31,57 +29,15 @@ const findWithRegex = (regex, contentBlock, callback) => {
   }
 };
 
-const findSearchTerm = (searchTerm) => {
-  return (contentBlock, callback, contentState) => {
-    if (!searchTerm) return;
-
-    const text = contentBlock.getText();
-    const regex = new RegExp(`(${searchTerm})`, 'gi');
-    let matchArr;
-
-    while ((matchArr = regex.exec(text)) !== null) {
-      const start = matchArr.index;
-      const end = start + matchArr[0].length;
-      callback(start, end);
-    }
-  };
-};
-
-const SearchHighlight = (props) => {
-  return <span style={{ backgroundColor: 'yellow', padding: '0 2px' }}>{props.children}</span>;
-};
-
-const getDecorator = (showEditType: ShowEditType, searchTerm?: string) => {
-  let baseDecorator;
+const getDecorator = (showEditType: ShowEditType) => {
   switch (showEditType) {
     case ShowEditType.EDITED:
-      baseDecorator = compoundEditedNosachDecorators;
-      break;
+      return compoundEditedNosachDecorators;
     case ShowEditType.ORIGINAL:
-      baseDecorator = compoundOriginalDecorators;
-      break;
+      return compoundOriginalDecorators;
     case ShowEditType.COMBINED:
-      baseDecorator = compoundCombinedDecorators;
-      break;
-    default:
-      baseDecorator = compoundOriginalDecorators;
+      return compoundCombinedDecorators;
   }
-
-  if (!searchTerm) {
-    return baseDecorator;
-  }
-
-  const existingDecorators = baseDecorator.getDecorators
-    ? baseDecorator.getDecorators()
-    : baseDecorator._decorators || [];
-
-  return new CompositeDecorator([
-    {
-      strategy: findSearchTerm(searchTerm),
-      component: SearchHighlight,
-    },
-    ...(Array.isArray(existingDecorators) ? existingDecorators : []),
-  ]);
 };
 
 const lineSelected = (excerpt: iExcerpt, subline: iSubline) => {
@@ -111,7 +67,7 @@ const mark = (editorState: EditorState, markFrom, markTo) => {
 };
 
 const NosachView = (props: Props) => {
-  const { subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, searchTerm } = props;
+  const { subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType } = props;
 
   const [editor, setEditor] = useState(EditorState.createEmpty());
 
@@ -142,16 +98,16 @@ const NosachView = (props: Props) => {
         contentState = Modifier.replaceText(contentState, selectionState, '');
       });
 
-      return EditorState.createWithContent(contentState, getDecorator(showEditType, searchTerm));
+      return EditorState.createWithContent(contentState, getDecorator(showEditType));
     },
-    [showEditType, searchTerm]
+    [showEditType]
   );
 
   useEffect(() => {
     let newEditorState;
     if (subline.nosach) {
       let initContent = convertFromRaw(subline.nosach);
-      newEditorState = EditorState.createWithContent(initContent, getDecorator(showEditType, searchTerm));
+      newEditorState = EditorState.createWithContent(initContent, getDecorator(showEditType));
       if (!showPunctuation) {
         newEditorState = memoizedRemovePunctuation(newEditorState);
       }
@@ -163,16 +119,7 @@ const NosachView = (props: Props) => {
       newEditorState = EditorState.createWithContent(ContentState.createFromText(''));
     }
     setEditor(newEditorState);
-  }, [
-    subline,
-    markFrom,
-    markTo,
-    showPunctuation,
-    selectedExcerpt,
-    showEditType,
-    memoizedRemovePunctuation,
-    searchTerm,
-  ]);
+  }, [subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, memoizedRemovePunctuation]);
 
   return <TextEditor selectionFrom={1} selectionTo={4} readOnly={true} initialState={editor} />;
 };
