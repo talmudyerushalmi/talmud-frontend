@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Auth } from 'aws-amplify';
 
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_DB_HOST,
+  baseURL: import.meta.env.VITE_DB_HOST,
   headers: {},
 });
 
