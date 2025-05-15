@@ -8,7 +8,7 @@ import { iLine } from '../../types/types';
 import SugiaButton from './SugiaButton';
 import { UserGroup } from '../../store/reducers/authReducer';
 
-const importView = (component) => lazy(() => import(/* @vite-ignore */`./${component}`));
+const importView = (component) => lazy(() => import(`./${component}`));
 
 const mapStateToProps = (state) => ({
   userAuth: state.authentication.userAuth,

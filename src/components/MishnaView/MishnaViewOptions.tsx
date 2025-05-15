@@ -108,7 +108,7 @@ const MishnaViewOptions = (props) => {
           verticalAlign: 'middle',
         }}
         target="_blank"
-        href={`${import.meta.env.VITE_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}
+        href={`${process.env.REACT_APP_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}
         download>
         [TEI]
       </Link>
