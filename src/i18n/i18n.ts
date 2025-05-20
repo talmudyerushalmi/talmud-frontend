@@ -27,7 +27,7 @@ i18n
     resources: {
       'en-US': {
         translation: {
-          'guide_en-US': "Guide (english)"
+          'guide_en-US': 'Guide (english)',
         },
       },
       he: {
@@ -70,7 +70,8 @@ i18n
           Qiddushin: 'קידושין',
           Resources: 'משאבים',
           Manuscripts: 'כתבי יד',
-          About: 'על אודות'
+          About: 'על אודות',
+          'Support for the Edition': 'תמיכה במהדורה',
         },
       },
     },

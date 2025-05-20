@@ -29,10 +29,10 @@ const Contentful = (props: Props) => {
 
   useEffect(() => {
     if (items && id && currentLang) {
-      const lang = localeMap.get(currentLang) || ""
+      const lang = localeMap.get(currentLang) || '';
       if (items.hasOwnProperty(lang) && items[lang].hasOwnProperty(id)) {
-        const content = items[lang][id]
-        setContent(content)
+        const content = items[lang][id];
+        setContent(content);
       }
     }
   }, [id, currentLang, items]);

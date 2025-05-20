@@ -212,9 +212,9 @@ const HomePage = (props) => {
               margin: '1rem auto',
             }}>
             To support the edition click{' '}
-            <a href="mailto:digital.yerushalmi@gmail.com" target="_blank" rel="noreferrer" style={{ color: 'white' }}>
+            <Link to="/support" rel="noreferrer" style={{ color: 'white' }}>
               here
-            </a>
+            </Link>
           </p>
           <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
             <h3>תלמוד ירושלמי (ע״ר)</h3>
