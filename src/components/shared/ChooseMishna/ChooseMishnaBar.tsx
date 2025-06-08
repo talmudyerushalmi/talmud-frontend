@@ -1,14 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 
 import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import ChooseMishnaForm from './ChooseMishnaForm';
+import { PrintHeader } from '../PrintHeader';
 import { routeObject } from '../../../store/reducers/navigationReducer';
-import { iLink } from '../../../types/types';
+import { iLink, iTractate } from '../../../types/types';
 import { connect } from 'react-redux';
 import { setRoute } from '../../../store/actions/navigationActions';
 import SearchBar from './SearchBar';
+import PageService from '../../../services/pageService';
 
 interface Props {
   allChapterAllowed?: boolean;
@@ -41,6 +43,11 @@ const ChooseMishnaBar = ({
     lineNumber: line || '',
   });
   const { t } = useTranslation();
+  const [allTractates, setAllTractates] = useState<iTractate[]>([]);
+
+  useEffect(() => {
+    PageService.getAllTractates().then((tractates) => setAllTractates(tractates));
+  }, []);
 
   const handleNavigate = (e) => {
     onNavigationUpdated(navigation);
@@ -66,7 +73,8 @@ const ChooseMishnaBar = ({
         onSubmit={(e) => {
           e.preventDefault();
           handleNavigate(e);
-        }}>
+        }}
+        className="choose-mishna-bar-form">
         <Grid container>
           <Box sx={{ display: 'flex', flexGrow: 10 }}>
             <ChooseMishnaForm
@@ -77,6 +85,7 @@ const ChooseMishnaBar = ({
               }}
               onButtonNavigation={onButtonNavigation}
               {...memoizedProps}
+              allTractates={allTractates}
             />
           </Box>
           <Box mb={2} sx={{ display: 'flex', flexGrow: 1 }}>
@@ -93,6 +102,8 @@ const ChooseMishnaBar = ({
         </Grid>
       </form>
       <SearchBar />
+      {/* Print version */}
+      <PrintHeader allTractates={allTractates} />
     </>
   );
 };

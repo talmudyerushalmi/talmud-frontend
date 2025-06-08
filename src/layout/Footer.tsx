@@ -20,11 +20,11 @@ const useStyles = makeStyles((theme) => {
 
 export const Footer = () => {
   const classes = useStyles();
-  const year = `2021-${new Date().getFullYear()}`
-  const hebYear = 'תשפ״א - תשפ״ד'
-  const fullYear = `${hebYear} ${year}`
+  const year = `2021-${new Date().getFullYear()}`;
+  const hebYear = 'תשפ״א - תשפ״ד';
+  const fullYear = `${hebYear} ${year}`;
   return (
-    <footer className={classes.root}>
+    <footer className={`${classes.root} footer`}>
       <Container>
         <Grid container>
           <Grid item sm={4}>

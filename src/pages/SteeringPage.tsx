@@ -13,11 +13,12 @@ const SteeringPage = (props) => {
         <h2>The Steering Committee Members</h2>
         <div dir="ltr">
           <ul>
-            <li>Prof. Moscovitz Leib, Bar-Ilan University - Chair</li>
             <li>Prof. Amir Amihood, Bar-Ilan University</li>
+            <li>Prof. Aviad Hacohen, The Academic Center for Law and Science</li>
             <li>Rabbi Dr. Lichtenstein Meir, Herzog College</li>
             <li>Prof. Lubotzky Alexander, The Hebrew University of Jerusalem</li>
             <li>Prof. Morgenstern Matthias, Universität Tübingen</li>
+            <li>Prof. Moscovitz Leib, Bar-Ilan University - Chair</li>
             <li>Prof. Naeh Shlomo, The Hebrew University of Jerusalem</li>
             <li>Prof. Noam Vered, Tel Aviv University</li>
             <li>Prof. Ofer Yosef, Bar-Ilan University</li>

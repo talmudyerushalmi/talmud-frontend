@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { toggleShowPunctuation } from '../../store/actions';
 import { toggleDivideToLines, toggleEditType, toggleShowSources } from '../../store/actions/mishnaViewActions';
 import { useTranslation } from 'react-i18next';
-import { Link, MenuItem, Select } from '@mui/material';
+import { Link, MenuItem, Select, IconButton, Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { routeObject } from '../../store/reducers/navigationReducer';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
+import PrintIcon from '@mui/icons-material/Print';
 
 const mapStateToProps = (state) => ({
   divideToLines: state.mishnaView.divideToLines,
@@ -46,7 +47,7 @@ const MishnaViewOptions = (props) => {
   const route = useParams<routeObject>();
 
   return (
-    <FormGroup row>
+    <FormGroup row sx={{ alignItems: 'center' }}>
       {/*    <FormControlLabel
         control={
           <Checkbox
@@ -86,8 +87,7 @@ const MishnaViewOptions = (props) => {
         }}
         value={showEditType}
         label=""
-        onChange={toggleEditType}
-      >
+        onChange={toggleEditType}>
         <MenuItem sx={{ direction: 'ltr' }} value={ShowEditType.ORIGINAL}>
           {t('Original') as string}
         </MenuItem>
@@ -98,6 +98,7 @@ const MishnaViewOptions = (props) => {
           {t('Combined') as string}
         </MenuItem>
       </Select>
+
       <Link
         sx={{
           textDecoration: 'none',
@@ -108,10 +109,14 @@ const MishnaViewOptions = (props) => {
         }}
         target="_blank"
         href={`${process.env.REACT_APP_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}
-        download
-      >
+        download>
         [TEI]
       </Link>
+      <Box marginLeft="auto" marginRight={2}>
+        <IconButton onClick={() => window.print()} size="small" aria-label={t('Print')}>
+          <PrintIcon />
+        </IconButton>
+      </Box>
     </FormGroup>
   );
 };

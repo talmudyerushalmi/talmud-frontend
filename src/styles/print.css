@@ -1,0 +1,50 @@
+.print-choose-mishna-bar {
+  display: none;
+}
+
+.print-app-header {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 2cm;
+  }
+
+  .footer {
+    display: none;
+  }
+
+  .App-header {
+    display: none;
+  }
+
+  .excerpts-section {
+    display: none;
+  }
+
+  .choose-mishna-bar-form {
+    display: none;
+  }
+
+  .mishna-view-options {
+    display: none;
+  }
+
+  .print-choose-mishna-bar {
+    display: block;
+    margin-bottom: 2rem;
+  }
+
+  .mishna-text-container {
+    padding-top: 0 !important;
+  }
+
+  @page {
+    @top-right {
+      content: "תלמוד ירושלמי הדיגיטלי בעריכת מנחם כ\"ץ גרסת בטא 2025 תשפ״ה";
+      font-size: 13px;
+    }
+  }
+
+}

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import background from './assets/leiden2.jpg';
 import './App.css';
+import './styles/print.css';
 import { Header } from './layout/Header';
 import { ThemeProvider } from '@mui/material/styles';
 import { RTL } from './ui/RTL';
@@ -27,6 +28,7 @@ import InvitationDialog from './components/InvitationDialog';
 import Workshop2023Page from './pages/Workshop2023';
 import ContentPage from './pages/Content';
 import SearchPage from './pages/SearchPage';
+import AboutPage from './pages/AboutPage';
 
 declare global {
   interface Window {
@@ -51,9 +53,10 @@ function App() {
         <Route path="/qiddushin" element={<ContentPage id="5ul3ijbJSM9QUQYNgyIpMY" />} />
         <Route path="/manuscripts" element={<ContentPage id="5m3nEbtZvWUFaArO4Vz5Wo" />} />
         <Route path="/about/technological-stack" element={<ContentPage id="7FvV82tq3C3r7pCPmDeSkg" />} />
-        <Route path="/about" element={<ContentPage id="4MQcUAxH4Y9lei9RVlLrHe" />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/resources" element={<ContentPage id="01MW7qnvV1EIasMLVwrRdC" />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/support" element={<ContentPage id="1qdQ4fRDcSkpqh9ebHff8S" />} />
         <Route path="/steering" element={<SteeringPage />} />
         <Route path="/workshop2023" element={<Workshop2023Page />} />
         <Route path="/talmud/:tractate/:chapter/:mishna" element={<ViewMishnaPage />} />

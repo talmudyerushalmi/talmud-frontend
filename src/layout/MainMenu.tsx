@@ -48,9 +48,10 @@ const MainMenu = (props: any) => {
   const settingsContext = React.useContext(SettingsContext);
   const url = `https://assets.talmudyerushalmi.com/documents/guide_${i18next.resolvedLanguage}.pdf`;
 
-  useEffect(()=>{
-    getAllContentItems()
-  }, [])
+  useEffect(() => {
+    getAllContentItems();
+  }, []);
+  
   return (
     <div className={classes.root}>
       <AppBar
@@ -86,17 +87,21 @@ const MainMenu = (props: any) => {
               <Link to="/manuscripts" style={{ textDecoration: 'none', color: 'white' }}>
                 <span>{t('Manuscripts')}</span>
               </Link>
-              <span style={{margin:'0 1rem'}}>|</span>
+              <span style={{ margin: '0 1rem' }}>|</span>
               <Link to="/resources" style={{ textDecoration: 'none', color: 'white' }}>
                 <span>{t('Resources')}</span>
               </Link>
-              <span style={{margin:'0 1rem'}}>|</span>
+              <span style={{ margin: '0 1rem' }}>|</span>
               <Link to="/qiddushin" style={{ textDecoration: 'none', color: 'white' }}>
                 <span>{t('Qiddushin')}</span>
               </Link>
-              <span style={{margin:'0 1rem'}}>|</span>
+              <span style={{ margin: '0 1rem' }}>|</span>
               <Link to="/about" style={{ textDecoration: 'none', color: 'white' }}>
                 <span>{t('About')}</span>
+              </Link>
+              <span style={{ margin: '0 1rem' }}>|</span>
+              <Link to="/support" style={{ textDecoration: 'none', color: 'white' }}>
+                <span>{t('Support for the Edition')}</span>
               </Link>
             </div>
           </Hidden>
