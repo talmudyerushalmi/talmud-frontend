@@ -27,7 +27,16 @@ import CommentsAdminPage from './pages/CommentsAdminPage';
 import InvitationDialog from './components/InvitationDialog';
 import Workshop2023Page from './pages/Workshop2023';
 import ContentPage from './pages/Content';
+import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
+
+declare global {
+  interface Window {
+    Buffer: typeof Buffer;
+  }
+}
+
+window.Buffer = window.Buffer || require('buffer').Buffer;
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -46,6 +55,7 @@ function App() {
         <Route path="/about/technological-stack" element={<ContentPage id="7FvV82tq3C3r7pCPmDeSkg" />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/resources" element={<ContentPage id="01MW7qnvV1EIasMLVwrRdC" />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/support" element={<ContentPage id="1qdQ4fRDcSkpqh9ebHff8S" />} />
         <Route path="/steering" element={<SteeringPage />} />
         <Route path="/workshop2023" element={<Workshop2023Page />} />

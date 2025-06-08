@@ -3,7 +3,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 import { iExcerpt, iSubline } from '../../types/types';
 import TextEditor from '../edit/MainLineEditor/TextEditor';
-import { compoundCombinedDecorators, compoundEditedNosachDecorators, compoundOriginalDecorators } from '../editors/EditorDecoratorNosach';
+import {
+  compoundCombinedDecorators,
+  compoundEditedNosachDecorators,
+  compoundOriginalDecorators,
+} from '../editors/EditorDecoratorNosach';
 
 interface Props {
   subline: iSubline;
@@ -32,7 +36,7 @@ const getDecorator = (showEditType: ShowEditType) => {
     case ShowEditType.ORIGINAL:
       return compoundOriginalDecorators;
     case ShowEditType.COMBINED:
-        return compoundCombinedDecorators;
+      return compoundCombinedDecorators;
   }
 };
 
@@ -67,34 +71,37 @@ const NosachView = (props: Props) => {
 
   const [editor, setEditor] = useState(EditorState.createEmpty());
 
-  const memoizedRemovePunctuation = useCallback((editorState: EditorState) => {
-    const regex = new RegExp('[-,.?]', 'g');
-    const selectionsToReplace: SelectionState[] = [];
-    const blockMap = editorState.getCurrentContent().getBlockMap();
+  const memoizedRemovePunctuation = useCallback(
+    (editorState: EditorState) => {
+      const regex = new RegExp('[-,.?]', 'g');
+      const selectionsToReplace: SelectionState[] = [];
+      const blockMap = editorState.getCurrentContent().getBlockMap();
 
-    blockMap.forEach((contentBlock) =>
-      findWithRegex(regex, contentBlock, (start, end) => {
-        if (!contentBlock) {
-          return;
-        }
-        const blockKey = contentBlock.getKey();
-        const blockSelection = SelectionState.createEmpty(blockKey).merge({
-          anchorOffset: start,
-          focusOffset: end,
-        });
+      blockMap.forEach((contentBlock) =>
+        findWithRegex(regex, contentBlock, (start, end) => {
+          if (!contentBlock) {
+            return;
+          }
+          const blockKey = contentBlock.getKey();
+          const blockSelection = SelectionState.createEmpty(blockKey).merge({
+            anchorOffset: start,
+            focusOffset: end,
+          });
 
-        selectionsToReplace.push(blockSelection);
-      })
-    );
+          selectionsToReplace.push(blockSelection);
+        })
+      );
 
-    let contentState = editorState.getCurrentContent();
+      let contentState = editorState.getCurrentContent();
 
-    selectionsToReplace.forEach((selectionState) => {
-      contentState = Modifier.replaceText(contentState, selectionState, '');
-    });
+      selectionsToReplace.forEach((selectionState) => {
+        contentState = Modifier.replaceText(contentState, selectionState, '');
+      });
 
-    return EditorState.createWithContent(contentState, getDecorator(showEditType));
-  }, [showEditType]);
+      return EditorState.createWithContent(contentState, getDecorator(showEditType));
+    },
+    [showEditType]
+  );
 
   useEffect(() => {
     let newEditorState;
@@ -114,9 +121,7 @@ const NosachView = (props: Props) => {
     setEditor(newEditorState);
   }, [subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, memoizedRemovePunctuation]);
 
-  return (
-      <TextEditor selectionFrom={1} selectionTo={4} readOnly={true} initialState={editor} />
-  );
+  return <TextEditor selectionFrom={1} selectionTo={4} readOnly={true} initialState={editor} />;
 };
 
 export default NosachView;

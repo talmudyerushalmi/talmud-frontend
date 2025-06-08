@@ -11,6 +11,7 @@ import { persistReducer } from 'redux-persist';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import relatedReducer from './reducers/relatedReducer';
 import contentfulReducer from './reducers/contentfulReducer';
+import { searchReducer } from './reducers/searchReducer';
 
 
 
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   comments: commentsReducer,
   related: relatedReducer,
   contentful: contentfulReducer,
+  search: searchReducer,
 });
 
 const persistConfig = {

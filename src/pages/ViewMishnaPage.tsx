@@ -9,6 +9,10 @@ const ViewMishnaPage = () => {
     ReactGA.send({ hitType: 'pageview', page: '/talmud/*', title: 'ViewMishnaPage' });
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <PageWithNavigation
       allChapterAllowed={true}

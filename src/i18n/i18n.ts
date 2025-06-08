@@ -71,6 +71,16 @@ i18n
           Resources: 'משאבים',
           Manuscripts: 'כתבי יד',
           About: 'על אודות',
+          'Free search in the tractate': 'חיפוש חופשי במסכת',
+
+          'Searching...': 'מחפש...',
+          'No results found for': 'לא נמצאו תוצאות עבור',
+          'Try searching for different words': 'נסה לחפש מילים אחרות',
+          'Enter search terms to begin': 'הזן מילות חיפוש כדי להתחיל',
+          'in tractate': 'במסכת',
+
+          'Enter search terms...': 'הקלד מילות חיפוש...',
+          Search: 'חפש',
           'Support for the Edition': 'תמיכה במהדורה',
         },
       },

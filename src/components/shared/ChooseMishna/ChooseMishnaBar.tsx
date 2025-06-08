@@ -9,6 +9,7 @@ import { routeObject } from '../../../store/reducers/navigationReducer';
 import { iLink, iTractate } from '../../../types/types';
 import { connect } from 'react-redux';
 import { setRoute } from '../../../store/actions/navigationActions';
+import SearchBar from './SearchBar';
 import PageService from '../../../services/pageService';
 
 interface Props {
@@ -100,6 +101,7 @@ const ChooseMishnaBar = ({
           </Box>
         </Grid>
       </form>
+      <SearchBar />
       {/* Print version */}
       <PrintHeader allTractates={allTractates} />
     </>
