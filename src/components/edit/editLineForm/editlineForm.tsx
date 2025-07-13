@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
-import { withFormik, FormikProps, Form, FormikValues } from 'formik';
+import { withFormik, FormikValues, Form } from 'formik';
 import { EditorState, ContentState } from 'draft-js';
 import SourceButtons from '../MainLineEditor/SourceButtons';
 import LineService from '../../../services/line.service';
@@ -9,7 +9,7 @@ import { getTextForSynopsis } from '../../../inc/synopsisUtils';
 import { Button } from '@mui/material';
 import FieldSublines from './FieldSublines';
 
-interface Props {
+interface EditLineFormProps {
   line: iLine | null;
   currentMishna: any;
 }
@@ -17,7 +17,7 @@ interface Props {
 const allowedSourcesForInitialText = ['leiden', 'dfus_rishon'];
 
 const formikEnhancer = withFormik({
-  mapPropsToValues: (props: Props) => {
+  mapPropsToValues: (props: EditLineFormProps) => {
     const { line } = props;
     const textForEditor = line?.sublines
       ? line.sublines
@@ -29,7 +29,7 @@ const formikEnhancer = withFormik({
     return {
       mainLine: EditorState.createWithContent(ContentState.createFromText(textForEditor || '')),
       sublines: line?.sublines || [],
-      parallels: line?.parallels || []
+      parallels: line?.parallels || [],
     };
   },
   validationSchema: Yup.object().shape({
@@ -53,24 +53,12 @@ const formikEnhancer = withFormik({
   enableReinitialize: true,
 });
 
-// Shape of form values
-interface FormValues {
-  sublines: iSubline[];
-}
-
-interface Props {
-  props: FormikProps<FormValues>;
-}
 const EditLineForm = (props: FormikValues) => {
-  const {
-    values,
-    setFieldValue,
-    isSubmitting,
-  } = props;
+  const { values, setFieldValue, isSubmitting } = props;
   const [sources, setSources] = useState<iSynopsis[]>([]);
   const onUpdateInternalSources = (parallels: iInternalLink[]) => {
-    setFieldValue('parallels', parallels)
-  }
+    setFieldValue('parallels', parallels);
+  };
   const onAddExternalSource = (source) => {
     console.log('ADD', source);
     setSources([...sources, source]);
@@ -93,7 +81,7 @@ const EditLineForm = (props: FormikValues) => {
       if (allowedSourcesForInitialText.includes(source.id)) {
         addedSynopsis.text = { simpleText: getTextForSynopsis(subline.text, source) };
       } else {
-        addedSynopsis.text = { simpleText: "" };
+        addedSynopsis.text = { simpleText: '' };
       }
       subline.synopsis.push(addedSynopsis);
     });
@@ -107,13 +95,12 @@ const EditLineForm = (props: FormikValues) => {
         onAddSource={(source) => onAddSource(source)}
         onRemoveSource={(id) => onRemoveSource(id)}
         onAddExternalSource={onAddExternalSource}
-        onUpdateInternalSources={onUpdateInternalSources}
-        ></SourceButtons>
-      <FieldSublines 
-      sublines={values.sublines}
-      onRemoveSource={onRemoveSource} />
+        onUpdateInternalSources={onUpdateInternalSources}></SourceButtons>
+      <FieldSublines sublines={values.sublines} onRemoveSource={onRemoveSource} />
 
-      <Button type="submit" disabled={isSubmitting}>שמור</Button>
+      <Button type="submit" disabled={isSubmitting}>
+        שמור
+      </Button>
     </Form>
   );
 };

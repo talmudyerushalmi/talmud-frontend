@@ -2,20 +2,19 @@ import { IconButton, InputAdornment, Paper, TextField } from '@mui/material';
 import { FC, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { objectToBase64 } from '../../../inc/objectToBase64';
-import { useAppSelector } from '../../../app/hooks';
 
-interface IProps {}
+interface SearchBarProps {
+  tractate?: string;
+  onSearch?: (searchValue: string, tractate?: string) => void;
+}
 
-const SearchBar: FC<IProps> = () => {
+const SearchBar: FC<SearchBarProps> = ({ tractate, onSearch }) => {
   const { t } = useTranslation();
-  const tractate = useAppSelector((state) => state.navigation?.currentMishna?.tractate);
-  const navigate = useNavigate();
-  const [searchValue, setSearchValue] = useState<string | null>(null);
+  const [searchValue, setSearchValue] = useState<string>('');
+
   const handleSearch = () => {
-    if (searchValue) {
-      navigate(`/search?query=${objectToBase64({ text: searchValue, tractate: tractate })}`);
+    if (searchValue && onSearch) {
+      onSearch(searchValue, tractate);
     }
   };
 
@@ -44,6 +43,7 @@ const SearchBar: FC<IProps> = () => {
         }}
         label={t('Free search in the tractate')}
         size="small"
+        value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         InputProps={{
           endAdornment: (

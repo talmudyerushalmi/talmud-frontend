@@ -1,90 +1,71 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { Button, Grid, Box } from '@mui/material';
-
-import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import ChooseMishnaForm from './ChooseMishnaForm';
 import { PrintHeader } from '../PrintHeader';
-import { routeObject } from '../../../store/reducers/navigationReducer';
 import { iLink, iTractate } from '../../../types/types';
-import { connect } from 'react-redux';
-import { setRoute } from '../../../store/actions/navigationActions';
 import SearchBar from './SearchBar';
-import PageService from '../../../services/pageService';
 
-interface Props {
+interface ChooseMishnaBarProps {
+  // Data passed from parent
+  allTractates: iTractate[];
+  currentNavigation: iLink;
+  initValues: iLink;
+  currentTractate?: string;
+
+  // Settings
   allChapterAllowed?: boolean;
   keypressNavigation?: boolean;
-  onNavigationUpdated: Function;
+
+  // Callbacks
+  onNavigationUpdated: (navigation: iLink) => void;
   onButtonNavigation?: (nav: iLink) => void;
-  setRoute: (tractate: string, chapter: string, mishna: string, line: string) => void;
+  onSubmit?: (navigation: iLink) => void;
+  onSearch?: (searchValue: string, tractate?: string) => void;
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  setRoute: (tractate: string, chapter: string, mishna: string, line: string) => {
-    dispatch(setRoute(tractate, chapter, mishna, line));
-  },
-});
-
-const selectButtonDisabled = () => false;
-
 const ChooseMishnaBar = ({
+  allTractates,
+  currentNavigation,
+  initValues,
+  currentTractate,
   allChapterAllowed = false,
   keypressNavigation = false,
   onNavigationUpdated,
   onButtonNavigation = () => {},
-  setRoute,
-}: Props) => {
-  const { tractate, chapter, mishna, line } = useParams<routeObject>();
-  const [navigation, setNavigation] = useState<iLink>({
-    tractate: tractate || '',
-    chapter: chapter || '',
-    mishna: mishna || '',
-    lineNumber: line || '',
-  });
+  onSubmit,
+  onSearch,
+}: ChooseMishnaBarProps) => {
   const { t } = useTranslation();
-  const [allTractates, setAllTractates] = useState<iTractate[]>([]);
 
-  useEffect(() => {
-    PageService.getAllTractates().then((tractates) => setAllTractates(tractates));
-  }, []);
-
-  const handleNavigate = (e) => {
-    onNavigationUpdated(navigation);
-  };
-  const memoizedProps = useMemo(() => {
-    const link: iLink = {
-      tractate: tractate || '',
-      chapter: chapter || '',
-      mishna: mishna || '',
-      lineNumber: line || '',
-    };
-    if (tractate && chapter && mishna) {
-      setRoute(tractate, chapter, mishna, line || '');
+  const handleNavigate = (navigation: iLink) => {
+    if (onSubmit) {
+      onSubmit(navigation);
+    } else {
+      onNavigationUpdated(navigation);
     }
-    return {
-      initValues: link,
-    };
-  }, [tractate, chapter, mishna, line]);
+  };
+
+  const selectButtonDisabled = () => {
+    return !currentNavigation.tractate || !currentNavigation.chapter || !currentNavigation.mishna;
+  };
 
   return (
     <>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleNavigate(e);
+          handleNavigate(currentNavigation);
         }}
         className="choose-mishna-bar-form">
         <Grid container>
           <Box sx={{ display: 'flex', flexGrow: 10 }}>
             <ChooseMishnaForm
-              allChapterAllowed
-              keypressNavigation
-              onNavigationUpdated={(newNav) => {
-                setNavigation(newNav);
-              }}
+              allChapterAllowed={allChapterAllowed}
+              keypressNavigation={keypressNavigation}
+              onNavigationUpdated={onNavigationUpdated}
               onButtonNavigation={onButtonNavigation}
-              {...memoizedProps}
+              initValues={initValues}
               allTractates={allTractates}
             />
           </Box>
@@ -94,18 +75,18 @@ const ChooseMishnaBar = ({
               type="submit"
               variant="contained"
               color="primary"
-              onClick={handleNavigate}
+              onClick={() => handleNavigate(currentNavigation)}
               disabled={selectButtonDisabled()}>
               {t('Go')}
             </Button>
           </Box>
         </Grid>
       </form>
-      <SearchBar />
+      <SearchBar tractate={currentTractate} onSearch={onSearch} />
       {/* Print version */}
       <PrintHeader allTractates={allTractates} />
     </>
   );
 };
 
-export default connect(() => ({}), mapDispatchToProps)(ChooseMishnaBar);
+export default ChooseMishnaBar;

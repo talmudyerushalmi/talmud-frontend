@@ -1,7 +1,7 @@
 import { Box, Container } from '@mui/material';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import ChooseMishnaBar from '../components/shared/ChooseMishna/ChooseMishnaBar';
+import ChooseMishnaBarContainer from '../components/shared/ChooseMishna/ChooseMishnaBarContainer';
 import Spinner from '../components/shared/Spinner';
 import { iLink } from '../types/types';
 import { ALL_CHAPTER } from '../components/shared/ChooseMishna/ChooseMishna';
@@ -51,7 +51,7 @@ const PageWithNavigationWithoutState = (props: Props) => {
   return (
     <Container style={{ paddingBottom: '3rem' }}>
       <Box mb={3}>
-        <ChooseMishnaBar
+        <ChooseMishnaBarContainer
           allChapterAllowed={allChapterAllowed}
           keypressNavigation={true}
           onButtonNavigation={navigationSelectedHandler}
