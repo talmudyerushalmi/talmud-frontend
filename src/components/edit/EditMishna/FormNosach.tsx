@@ -25,7 +25,7 @@ interface Props {
   saveExcerpt: Function;
   closeExcerptDialog: Function;
   excerpt: iExcerpt;
-  selection: EditorSelectionObject;
+  selection: EditorSelectionObject | null;
   mishna: any;
   isSubmitting: boolean;
 }
@@ -51,7 +51,7 @@ const FormNosach = (props: Props) => {
       editorStateFullQuote: excerpt.key
         ? EditorState.createWithContent(convertFromRaw(excerpt.editorStateFullQuote))
         : EditorState.createEmpty(),
-      sourceLocation: selection.firstWords || '',
+      sourceLocation: selection?.firstWords || '',
       short: excerpt?.short ? excerpt.short : '',
       link: excerpt?.link ? excerpt.link : '',
     },

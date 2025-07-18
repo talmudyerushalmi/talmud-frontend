@@ -75,9 +75,7 @@ const ExcerptDialog = (props: Props) => {
       );
     }
     if (editedExcerpt.type && GROUP_NOSACH.includes(editedExcerpt.type as EXCERPT_TYPE)) {
-      return (
-        <FormNosach mishna={mishna} excerpt={editedExcerpt} selection={selection as EditorSelectionObject}></FormNosach>
-      );
+      return <FormNosach mishna={mishna} excerpt={editedExcerpt} selection={selection}></FormNosach>;
     }
     if (editedExcerpt.type && GROUP_COMMENT.includes(editedExcerpt.type as EXCERPT_TYPE)) {
       return (
