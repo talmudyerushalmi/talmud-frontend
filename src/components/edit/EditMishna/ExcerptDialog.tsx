@@ -7,8 +7,8 @@ import FormikExcerpt from './FormikExcerpt';
 import { EditorSelectionObject } from '../../../inc/editorUtils';
 import { connect } from 'react-redux';
 import { iExcerpt } from '../../../types/types';
-import FormikNosach from './FormikNosach';
 import FormikCommentExcerpt from './FormikCommentExcerpt';
+import FormNosach from './FormNosach';
 
 export enum EXCERPT_TYPE {
   MUVAA = 'MUVAA',
@@ -76,14 +76,7 @@ const ExcerptDialog = (props: Props) => {
     }
     if (editedExcerpt.type && GROUP_NOSACH.includes(editedExcerpt.type as EXCERPT_TYPE)) {
       return (
-        <FormikNosach
-          mishna={mishna}
-          compositions={compositions}
-          excerpt={editedExcerpt}
-          selection={selection}
-          name={'passing name'}
-          handleSubmit={(values) => console.log('handle submitting', values)}
-          handleClose={(values) => handleClose(values)}></FormikNosach>
+        <FormNosach mishna={mishna} excerpt={editedExcerpt} selection={selection as EditorSelectionObject}></FormNosach>
       );
     }
     if (editedExcerpt.type && GROUP_COMMENT.includes(editedExcerpt.type as EXCERPT_TYPE)) {
@@ -91,8 +84,7 @@ const ExcerptDialog = (props: Props) => {
         <FormikCommentExcerpt
           mishna={mishna}
           excerpt={editedExcerpt}
-          selection={selection as EditorSelectionObject}
-        ></FormikCommentExcerpt>
+          selection={selection as EditorSelectionObject}></FormikCommentExcerpt>
       );
     }
   };
