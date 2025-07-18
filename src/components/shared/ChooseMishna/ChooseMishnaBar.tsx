@@ -59,12 +59,22 @@ const ChooseMishnaBar = ({
       mishna: mishna || '',
       lineNumber: line || '',
     };
-    if (tractate && chapter && mishna) {
-      setRoute(tractate, chapter, mishna, line || '');
-    }
     return {
       initValues: link,
     };
+  }, [tractate, chapter, mishna, line]);
+
+  const [currentRoute, setCurrentRoute] = useState<string>('');
+
+  useEffect(() => {
+    if (tractate && chapter && mishna) {
+      const newRoute = `${tractate}-${chapter}-${mishna}-${line || ''}`;
+      if (currentRoute !== newRoute) {
+        setRoute(tractate, chapter, mishna, line || '');
+        setCurrentRoute(newRoute);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tractate, chapter, mishna, line]);
 
   return (
