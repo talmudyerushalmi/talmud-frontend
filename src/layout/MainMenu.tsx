@@ -88,6 +88,10 @@ const MainMenu = (props: any) => {
                 <span>{t('Manuscripts')}</span>
               </Link>
               <span style={{ margin: '0 1rem' }}>|</span>
+              <Link to="/manuscripts_desc" style={{ textDecoration: 'none', color: 'white' }}>
+                <span>{t('NewManuscriptsDescription')}</span>
+              </Link>
+              <span style={{ margin: '0 1rem' }}>|</span>
               <Link to="/resources" style={{ textDecoration: 'none', color: 'white' }}>
                 <span>{t('Resources')}</span>
               </Link>
