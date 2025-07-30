@@ -55,6 +55,7 @@ function App() {
         <Route path="/about/technological-stack" element={<ContentPage id="7FvV82tq3C3r7pCPmDeSkg" />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/resources" element={<ContentPage id="01MW7qnvV1EIasMLVwrRdC" />} />
+        <Route path="/manuscripts_desc" element={<ContentPage id="QQ7x8myAyoTb9OdPf6hRZ" />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/support" element={<ContentPage id="1qdQ4fRDcSkpqh9ebHff8S" />} />
         <Route path="/steering" element={<SteeringPage />} />
