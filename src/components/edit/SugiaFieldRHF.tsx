@@ -1,40 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { useField } from 'formik';
+import { useController, Control } from 'react-hook-form';
 import { Box, Checkbox, FormControlLabel, TextField } from '@mui/material';
 
 interface Props {
   name: string;
+  control: Control<any>;
 }
 
-const SugiaField = (props: Props) => {
-  const [, meta, helpers] = useField(props);
-  const { setValue, setTouched } = helpers;
-  const { value, touched } = meta;
-  const [hasValue, setHasValue] = useState(!!value);
+const SugiaFieldRHF = (props: Props) => {
+  const { name, control } = props;
+  const {
+    field: { value, onChange, onBlur },
+    fieldState: { isTouched },
+  } = useController({
+    name,
+    control,
+  });
 
+  const [hasValue, setHasValue] = useState(!!value);
   const [val, setVal] = useState(value);
 
   useEffect(() => {
-    if (touched === false) {
+    if (!isTouched) {
       setHasValue(Boolean(value));
     }
     setVal(value ? value : '');
-  }, [touched, value]);
+  }, [isTouched, value]);
 
   const checkboxHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checkNewVal = e.target.checked;
     if (value) {
-      setValue('');
+      onChange('');
     }
-    setTouched(true);
     setHasValue(checkNewVal);
   };
 
-  const mySetValue = (e) => {
+  const mySetValue = (e: string) => {
     setVal(e);
   };
-  const setFormik = () => {
-    setValue(val);
+
+  const setFormValue = () => {
+    onChange(val);
+    onBlur();
   };
 
   return (
@@ -45,7 +52,7 @@ const SugiaField = (props: Props) => {
           style={{ padding: '9px' }}
           value={val}
           onChange={(e) => mySetValue(e.target.value)}
-          onBlur={setFormik}
+          onBlur={setFormValue}
           disabled={!hasValue}
           placeholder="שם הסוגיה"
           size="small"
@@ -60,4 +67,4 @@ const SugiaField = (props: Props) => {
     </>
   );
 };
-export default SugiaField;
+export default SugiaFieldRHF;

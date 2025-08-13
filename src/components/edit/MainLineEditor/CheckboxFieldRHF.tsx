@@ -1,22 +1,26 @@
 import React from 'react';
 import { Checkbox, FormControlLabel, Typography } from '@mui/material';
-import { useField } from 'formik';
+import { useController, Control } from 'react-hook-form';
 
 interface Props {
   name: string;
+  control: Control<any>;
 }
-const CheckboxField = (props: Props) => {
-  const [, meta, helpers] = useField({
-    name: props.name,
-    type: "checkbox"
+
+const CheckboxFieldRHF = (props: Props) => {
+  const { name, control } = props;
+  const {
+    field: { value, onChange },
+  } = useController({
+    name,
+    control,
+    defaultValue: false,
   });
-  const { setValue } = helpers;
-  const { value } = meta;
 
   const checkboxHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checkNewVal = e.target.checked;
-    setValue(checkNewVal);
+    onChange(e.target.checked);
   };
+
   return (
     <>
       <FormControlLabel
@@ -27,4 +31,4 @@ const CheckboxField = (props: Props) => {
   );
 };
 
-export default CheckboxField;
+export default CheckboxFieldRHF;

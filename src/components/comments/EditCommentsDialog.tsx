@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
 import * as yup from 'yup';
-import { useFormik } from 'formik';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
 import { iComment } from '../../types/types';
 
@@ -32,29 +33,33 @@ const EditCommentsDialog: FC<IProps> = ({ open, onClose, submitHandler, comment 
 
   const initialValues = useMemo(
     () => ({
-      text: comment?.text || 0,
+      text: comment?.text || '',
       title: comment?.title || '',
     }),
     [comment]
   );
 
-  const { errors, handleChange, values, handleSubmit, touched, resetForm } = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values) => {
-      console.log(values);
-      submitHandler(values);
-    },
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, touchedFields },
+    reset,
+  } = useForm({
+    defaultValues: initialValues,
+    resolver: yupResolver(validationSchema),
+    mode: 'onBlur',
   });
+
+  const onSubmit = (values: any) => {
+    console.log(values);
+    submitHandler(values);
+  };
 
   useEffect(() => {
     if (comment) {
-      resetForm({
-        values: initialValues,
-      });
+      reset(initialValues);
     }
-  }, [comment, initialValues, resetForm]);
+  }, [comment, initialValues, reset]);
 
   return (
     <Dialog
@@ -68,27 +73,23 @@ const EditCommentsDialog: FC<IProps> = ({ open, onClose, submitHandler, comment 
         עריכת הערה
       </DialogTitle>
       <DialogContent>
-        <Box component="form" onSubmit={handleSubmit} sx={sx.form}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={sx.form}>
           <TextField
             autoFocus
-            name="title"
+            {...register('title')}
             label={t('title')}
             type="text"
             fullWidth
-            value={values.title}
-            onChange={handleChange}
-            error={touched.title && !!errors.title}
-            helperText={touched.text && errors.title}
+            error={touchedFields.title && !!errors.title}
+            helperText={touchedFields.title && errors.title?.message}
           />
           <TextField
-            name="text"
+            {...register('text')}
             label={t('Comment content')}
             type="text"
             fullWidth
-            value={values.text}
-            onChange={handleChange}
-            error={touched.text && !!errors.text}
-            helperText={touched.text && errors.text}
+            error={touchedFields.text && !!errors.text}
+            helperText={touchedFields.text && errors.text?.message}
             rows={4}
             multiline
           />
