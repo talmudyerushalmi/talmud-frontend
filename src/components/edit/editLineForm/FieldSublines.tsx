@@ -1,34 +1,35 @@
-import { FieldArray } from 'formik';
 import React from 'react';
-import { iSubline } from '../../../types/types';
+import { useFieldArray, Control } from 'react-hook-form';
 import SublineField from './SublineField';
 
 interface Props {
-    sublines: iSubline[];
-    onRemoveSource: (i: number)=>void
+  control: Control<any>;
+  onRemoveSource: (i: number) => void;
 }
+
 const FieldSublines = (props: Props) => {
-  const { sublines,onRemoveSource } = props  
+  const { control, onRemoveSource } = props;
+  const { fields } = useFieldArray({
+    control,
+    name: 'sublines',
+  });
+
   return (
-    <FieldArray
-      name="sublines"
-      render={(arrayHelpers) => (
-        <div>
-          {sublines.map((_, index: number) => (
-            <div key={index}>
-              <SublineField
-                index={index}
-                name={`sublines[${index}]`}
-                onRemoveSource={(idToRemove: number) => {
-                  onRemoveSource(idToRemove);
-                }}
-              />
-            </div>
-          ))}
+    <div>
+      {fields.map((field, index: number) => (
+        <div key={field.id}>
+          <SublineField
+            index={index}
+            name={`sublines[${index}]`}
+            control={control}
+            onRemoveSource={(idToRemove: number) => {
+              onRemoveSource(idToRemove);
+            }}
+          />
         </div>
-      )}
-    />
+      ))}
+    </div>
   );
 };
 
-export default FieldSublines
+export default FieldSublines;

@@ -3,12 +3,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import FormikExcerpt from './FormikExcerpt';
 import { EditorSelectionObject } from '../../../inc/editorUtils';
 import { connect } from 'react-redux';
 import { iExcerpt } from '../../../types/types';
-import FormikNosach from './FormikNosach';
-import FormikCommentExcerpt from './FormikCommentExcerpt';
+import FormCommentExcerpt from './FormCommentExcerpt';
+import FormNosach from './FormNosach';
+import FormExcerpt from './FormExcerpt';
 
 export enum EXCERPT_TYPE {
   MUVAA = 'MUVAA',
@@ -64,35 +64,25 @@ const ExcerptDialog = (props: Props) => {
     }
     if (editedExcerpt?.type && GROUP_MAKBILA.includes(editedExcerpt.type as EXCERPT_TYPE)) {
       return (
-        <FormikExcerpt
+        <FormExcerpt
           mishna={mishna}
           compositions={compositions}
           excerpt={editedExcerpt}
           selection={selection}
           name={'passing name'}
           handleSubmit={(values) => console.log('handle submitting', values)}
-          handleClose={(values) => handleClose(values)}></FormikExcerpt>
+          handleClose={(values) => handleClose(values)}></FormExcerpt>
       );
     }
     if (editedExcerpt.type && GROUP_NOSACH.includes(editedExcerpt.type as EXCERPT_TYPE)) {
-      return (
-        <FormikNosach
-          mishna={mishna}
-          compositions={compositions}
-          excerpt={editedExcerpt}
-          selection={selection}
-          name={'passing name'}
-          handleSubmit={(values) => console.log('handle submitting', values)}
-          handleClose={(values) => handleClose(values)}></FormikNosach>
-      );
+      return <FormNosach mishna={mishna} excerpt={editedExcerpt} selection={selection}></FormNosach>;
     }
     if (editedExcerpt.type && GROUP_COMMENT.includes(editedExcerpt.type as EXCERPT_TYPE)) {
       return (
-        <FormikCommentExcerpt
+        <FormCommentExcerpt
           mishna={mishna}
           excerpt={editedExcerpt}
-          selection={selection as EditorSelectionObject}
-        ></FormikCommentExcerpt>
+          selection={selection as EditorSelectionObject}></FormCommentExcerpt>
       );
     }
   };

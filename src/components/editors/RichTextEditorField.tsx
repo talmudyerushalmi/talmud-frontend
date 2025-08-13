@@ -1,28 +1,24 @@
-import React from 'react';
-import { useField } from 'formik';
+import { Controller, Control } from 'react-hook-form';
 import RichTextEditor from './RichTextEditor';
 
 interface Props {
   name: string;
+  control: Control<any>;
   label: string;
 }
 
-const RichTextEditorField = (props: Props) => {
-  const { label } = props;
-  const [, meta, helpers] = useField(props);
-  const { value } = meta;
-
-  const changeEditorState = (editorState) => {
-    helpers.setValue(editorState);
-  };
-
+const RichTextEditorField = ({ name, control, label }: Props) => {
   return (
-    <>
-      <div style={{}}>
-        <label>{label}</label>
-        <RichTextEditor editorState={value} onChange={changeEditorState} />
-      </div>
-    </>
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { onChange, value } }) => (
+        <div>
+          <label>{label}</label>
+          <RichTextEditor editorState={value} onChange={onChange} />
+        </div>
+      )}
+    />
   );
 };
 

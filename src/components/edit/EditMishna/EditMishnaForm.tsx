@@ -1,68 +1,63 @@
 import * as React from 'react';
-import { Formik, Form } from 'formik';
+import { useForm } from 'react-hook-form';
 import { Button, LinearProgress } from '@mui/material';
 import RichTextEditorField from '../../editors/RichTextEditorField';
 import { convertToRaw } from 'draft-js';
-import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { saveMishna } from '../../../store/actions/mishnaEditActions';
 import { useParams } from 'react-router';
 import { routeObject } from '../../../store/reducers/navigationReducer';
 import { getContentOrEmpty } from '../../../inc/editorUtils';
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  saveMishna: (route, saveMishnaDTO) => {
+const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
+  saveMishna: (route: any, saveMishnaDTO: any) => {
     dispatch(saveMishna(route, saveMishnaDTO));
   },
 });
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   isSubmitting: state.mishnaEdit.isSubmitting,
   currentMishna: state.navigation.currentMishna,
 });
 
+interface FormValues {
+  richTextMishna: any;
+  richTextTosefta: any;
+  richTextBavli: any;
+}
 
-const excerptSchema = Yup.object().shape({
-  // source: Yup.object().required("Required"),
-});
-
-const FormikWrapper = (props) => {
+const FormikWrapper = (props: any) => {
   const route = useParams<routeObject>();
   const { currentMishna, saveMishna, isSubmitting } = props;
 
+  const { control, handleSubmit } = useForm<FormValues>({
+    defaultValues: {
+      richTextMishna: getContentOrEmpty(currentMishna?.richTextMishna),
+      richTextTosefta: getContentOrEmpty(currentMishna?.richTextTosefta),
+      richTextBavli: getContentOrEmpty(currentMishna?.richTextBavli),
+    },
+  });
+
+  const onSubmit = (values: FormValues) => {
+    const save = {
+      ...values,
+      richTextMishna: convertToRaw(values.richTextMishna.getCurrentContent()),
+      richTextTosefta: convertToRaw(values.richTextTosefta.getCurrentContent()),
+      richTextBavli: convertToRaw(values.richTextBavli.getCurrentContent()),
+    };
+    saveMishna(route, save);
+  };
+
   return (
-    <Formik
-      enableReinitialize={true}
-      initialValues={{
-        richTextMishna: getContentOrEmpty(currentMishna?.richTextMishna),
-        richTextTosefta: getContentOrEmpty(currentMishna?.richTextTosefta),
-        richTextBavli: getContentOrEmpty(currentMishna?.richTextBavli),
-      }}
-      validationSchema={excerptSchema}
-      onSubmit={(values, props) => {
-        const save = {
-          ...values,
-          richTextMishna: convertToRaw(values.richTextMishna.getCurrentContent()),
-          richTextTosefta: convertToRaw(values.richTextTosefta.getCurrentContent()),
-          richTextBavli: convertToRaw(values.richTextBavli.getCurrentContent()),
-        };
-        saveMishna(route, save);
-      }}
-    >
-      {({ submitForm, setFieldValue, values, errors }) => {
-        return (
-          <Form style={{ direction: 'rtl', width: '100%' }}>
-            <RichTextEditorField name="richTextMishna" label="משנה" />
-            <RichTextEditorField name="richTextTosefta" label="תוספתא" />
-            <RichTextEditorField name="richTextBavli" label="בבלי" />
-            {isSubmitting && <LinearProgress />}
-            <br />
-            <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
-              שמור
-            </Button>
-          </Form>
-        );
-      }}
-    </Formik>
+    <form onSubmit={handleSubmit(onSubmit)} style={{ direction: 'rtl', width: '100%' }}>
+      <RichTextEditorField name="richTextMishna" control={control} label="משנה" />
+      <RichTextEditorField name="richTextTosefta" control={control} label="תוספתא" />
+      <RichTextEditorField name="richTextBavli" control={control} label="בבלי" />
+      {isSubmitting && <LinearProgress />}
+      <br />
+      <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
+        שמור
+      </Button>
+    </form>
   );
 };
 

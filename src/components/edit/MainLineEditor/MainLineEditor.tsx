@@ -10,6 +10,7 @@ import { compoundNosachDecoratorsForEditing } from '../../editors/EditorDecorato
 import { InitialEntityDialogState, MainLineDialog, NosachEntity } from './MainLineDialog';
 import { getContentStateArray, getFinalText, getSelectedText } from '../../../inc/editorUtils';
 import SugiaField from '../SugiaField';
+import { Control } from 'react-hook-form';
 
 export interface EditingData {
   editingComment: string | undefined;
@@ -22,6 +23,7 @@ interface Props {
   onSave: Function;
   fieldName: string;
   content: RawDraftContentState;
+  control: Control<any>;
 }
 
 enum MODE {
@@ -52,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainLineEditor = (props: Props) => {
-  const { content, onSave, fieldName } = props;
+  const { content, onSave, fieldName, control } = props;
 
   const classes = useStyles();
 
@@ -192,8 +194,7 @@ const MainLineEditor = (props: Props) => {
             onClick={btnEditHandler}
             disabled={mode === MODE.EDIT}
             color="primary"
-            aria-label="edit"
-          >
+            aria-label="edit">
             <Edit />
           </IconButton>
           {mode === MODE.EDIT ? (
@@ -218,8 +219,8 @@ const MainLineEditor = (props: Props) => {
               </Button>
             </>
           ) : null}
-          <CheckboxField name={fieldName + '.piska' }/>
-          <SugiaField name={fieldName + '.sugiaName'}/>
+          <CheckboxField name={fieldName + '.piska'} control={control} />
+          <SugiaField name={fieldName + '.sugiaName'} control={control} />
         </div>
         <MainLineDialog
           initialState={initialDialogState}

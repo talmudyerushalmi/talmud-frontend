@@ -2,9 +2,8 @@ import * as React from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import AddIcon from '@mui/icons-material/Add';
-import { DialogContent, FormGroup, MenuItem, Button, IconButton } from '@mui/material';
-import { Field, Form, Formik } from 'formik';
-import { TextField, Select } from 'formik-mui';
+import { DialogContent, FormGroup, MenuItem, Button, IconButton, TextField, Select } from '@mui/material';
+import { useForm, Controller } from 'react-hook-form';
 import { CompositionType } from '../../../types/types';
 import SettingsService from '../../../services/settingsServince';
 
@@ -14,65 +13,83 @@ export interface CompositionDialogProps {
   onAdd: Function;
 }
 
+interface FormValues {
+  title: string;
+  secondary_title: string;
+  type: CompositionType;
+  date: string;
+  region: string;
+  author: string;
+  edition: string;
+}
+
 const CompositionDialog = (props: CompositionDialogProps) => {
   const { onClose, onAdd, open } = props;
+
+  const { register, control, handleSubmit } = useForm<FormValues>({
+    defaultValues: {
+      title: '',
+      secondary_title: '',
+      type: CompositionType.EXCERPT,
+      date: '',
+      region: '',
+      author: '',
+      edition: '',
+    },
+  });
+
+  const onSubmit = (values: FormValues) => {
+    SettingsService.addSource({ ...values }).then((res) => {
+      onAdd();
+      onClose();
+    });
+  };
 
   return (
     <Dialog style={{ direction: 'rtl' }} open={open}>
       <DialogTitle>הוסף חיבור</DialogTitle>
       <DialogContent>
-        <Formik
-          initialValues={{
-            title: '',
-            secondary_title: '',
-            type: CompositionType.EXCERPT,
-            date: '',
-            region: '',
-            author: '',
-            edition: '',
-          }}
-          onSubmit={(values, actions) => {
-            SettingsService.addSource({ ...values }).then((res) => {
-              onAdd();
-              onClose();
-            });
-          }}>
-          <Form>
-            <FormGroup sx={{ margin: '1rem 0' }}>
-              <Field component={TextField} type="text" name="title" label="שם חיבור" />
-            </FormGroup>
-            <FormGroup sx={{ margin: '1rem 0' }}>
-              <Field component={TextField} type="text" name="secondary_title" label="שם משני" />
-            </FormGroup>
-            <FormGroup sx={{ margin: '1rem 0' }}>
-              <Field component={Select} name="type" label="סוג">
-                <MenuItem value={CompositionType.PARALLEL}>מקבילה</MenuItem>
-                <MenuItem value={CompositionType.EXCERPT}>מובאה</MenuItem>
-                <MenuItem value={CompositionType.YALKUT}>ילקוט</MenuItem>
-              </Field>
-            </FormGroup>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormGroup sx={{ margin: '1rem 0' }}>
+            <TextField {...register('title')} type="text" label="שם חיבור" />
+          </FormGroup>
+          <FormGroup sx={{ margin: '1rem 0' }}>
+            <TextField {...register('secondary_title')} type="text" label="שם משני" />
+          </FormGroup>
+          <FormGroup sx={{ margin: '1rem 0' }}>
+            <Controller
+              name="type"
+              control={control}
+              render={({ field }) => (
+                <Select {...field} label="סוג">
+                  <MenuItem value={CompositionType.PARALLEL}>מקבילה</MenuItem>
+                  <MenuItem value={CompositionType.EXCERPT}>מובאה</MenuItem>
+                  <MenuItem value={CompositionType.YALKUT}>ילקוט</MenuItem>
+                </Select>
+              )}
+            />
+          </FormGroup>
 
-            <FormGroup sx={{ margin: '1rem 0' }}>
-              <Field component={TextField} type="text" name="date" label="תאריך החיבור" />
-            </FormGroup>
-            <FormGroup sx={{ margin: '1rem 0' }}>
-              <Field component={TextField} type="text" name="region" label="אזור החיבור" />
-            </FormGroup>
-            <FormGroup sx={{ margin: '1rem 0' }}>
-              <Field component={TextField} type="text" name="author" label="מחבר" />
-            </FormGroup>
-            <FormGroup sx={{ margin: '1rem 0' }}>
-              <Field component={TextField} type="text" name="edition" label="מהדורה" />
-            </FormGroup>
-            <Button type="submit">הוסף</Button>
-            <Button
-              onClick={() => {
-                onClose();
-              }}>
-              בטל
-            </Button>
-          </Form>
-        </Formik>
+          <FormGroup sx={{ margin: '1rem 0' }}>
+            <TextField {...register('date')} type="text" label="תאריך החיבור" />
+          </FormGroup>
+          <FormGroup sx={{ margin: '1rem 0' }}>
+            <TextField {...register('region')} type="text" label="אזור החיבור" />
+          </FormGroup>
+          <FormGroup sx={{ margin: '1rem 0' }}>
+            <TextField {...register('author')} type="text" label="מחבר" />
+          </FormGroup>
+          <FormGroup sx={{ margin: '1rem 0' }}>
+            <TextField {...register('edition')} type="text" label="מהדורה" />
+          </FormGroup>
+          <Button type="submit">הוסף</Button>
+          <Button
+            onClick={() => {
+              onClose();
+            }}>
+            בטל
+          </Button>
+        </form>
       </DialogContent>
     </Dialog>
   );

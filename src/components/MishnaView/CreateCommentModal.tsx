@@ -15,7 +15,8 @@ import {
 import React, { FC, useEffect } from 'react';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { useFormik } from 'formik';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { createComment, iCommentModal } from '../../store/actions/commentsActions';
 import { CommentType } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -39,12 +40,13 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
   const { t } = useTranslation();
   const requiredField = t('Required field');
   const dispatch = useAppDispatch();
-  const username = useAppSelector((state) => state.authentication.username);
+  const username = useAppSelector((state) => state.authentication?.username);
 
   const validationSchema = yup.object({
     text: yup.string().required(requiredField),
     title: yup.string().required(requiredField),
     type: yup.mixed<CommentType>().oneOf([CommentType.PRIVATE, CommentType.MODERATION]).required(requiredField),
+    userName: yup.string().optional(),
   });
 
   const initialValues = {
@@ -54,30 +56,40 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
     type: CommentType.PRIVATE,
   };
 
-  const { errors, handleChange, values, handleSubmit, touched, resetForm } = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values) => {
-      dispatch(
-        createComment({
-          ...values,
-          userName: values?.userName || username,
-          fromWord: commentModal?.fromWord ?? '',
-          toWord: commentModal?.toWord ?? '',
-          lineNumber: commentModal?.lineNumber ?? '',
-          lineIndex: commentModal?.lineIndex ?? -1,
-        })
-      );
-      onClose();
-    },
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, touchedFields },
+    reset,
+    watch,
+  } = useForm({
+    defaultValues: initialValues,
+    resolver: yupResolver(validationSchema),
+    mode: 'onChange',
   });
+
+  const typeValue = watch('type');
+
+  const onSubmit = (values: any) => {
+    dispatch(
+      createComment({
+        ...values,
+        userName: values?.userName || username,
+        fromWord: commentModal?.fromWord ?? '',
+        toWord: commentModal?.toWord ?? '',
+        lineNumber: commentModal?.lineNumber ?? '',
+        lineIndex: commentModal?.lineIndex ?? -1,
+      })
+    );
+    onClose();
+  };
 
   useEffect(() => {
     if (commentModal) {
-      resetForm();
+      reset();
     }
-  }, [commentModal, resetForm]);
+  }, [commentModal, reset]);
 
   return (
     <Dialog
@@ -94,55 +106,55 @@ const CreateCommentModal: FC<IProps> = ({ open, onClose, commentModal }) => {
         </Box>
       </DialogTitle>
       <DialogContent>
-        <Box component="form" onSubmit={handleSubmit} sx={sx.form}>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={sx.form}>
           <TextField
             autoFocus
-            name="title"
+            {...register('title')}
             label={`${t('title')} / ד"ה`}
             type="text"
             required
             fullWidth
-            value={values.title}
-            onChange={handleChange}
-            error={touched.title && !!errors.title}
-            helperText={touched.text && errors.title}
+            error={touchedFields.title && !!errors.title}
+            helperText={touchedFields.title && errors.title?.message}
           />
           <TextField
-            name="text"
+            {...register('text')}
             label={t('Comment content')}
             type="text"
             fullWidth
             required
-            value={values.text}
-            onChange={handleChange}
-            error={touched.text && !!errors.text}
-            helperText={touched.text && errors.text}
+            error={touchedFields.text && !!errors.text}
+            helperText={touchedFields.text && errors.text?.message}
             rows={4}
             multiline
           />
           <FormControl required>
             <FormLabel id="type">{t('Comment type')}</FormLabel>
-            <RadioGroup aria-labelledby="type" name="type" value={values.type} onChange={handleChange}>
-              <FormControlLabel value={CommentType.PRIVATE} control={<Radio />} label={t('Personal comment')} />
-              <Box display="flex">
-                <FormControlLabel value={CommentType.MODERATION} control={<Radio />} label={t('Public comment')} />
-                {values.type === CommentType.MODERATION && (
-                  <TextField
-                    autoFocus
-                    name="userName"
-                    label={`${t('Comment Writer Name')}`}
-                    type="text"
-                    variant="filled"
-                    value={values.userName}
-                    onChange={handleChange}
-                    error={touched.userName && !!errors.userName}
-                    helperText={touched.text && errors.userName}
-                  />
-                )}
-              </Box>
-              <br />
-            </RadioGroup>
-            {values?.type === CommentType.MODERATION && (
+            <Controller
+              name="type"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup aria-labelledby="type" {...field}>
+                  <FormControlLabel value={CommentType.PRIVATE} control={<Radio />} label={t('Personal comment')} />
+                  <Box display="flex">
+                    <FormControlLabel value={CommentType.MODERATION} control={<Radio />} label={t('Public comment')} />
+                    {typeValue === CommentType.MODERATION && (
+                      <TextField
+                        autoFocus
+                        {...register('userName')}
+                        label={`${t('Comment Writer Name')}`}
+                        type="text"
+                        variant="filled"
+                        error={touchedFields.userName && !!errors.userName}
+                        helperText={touchedFields.userName && errors.userName?.message}
+                      />
+                    )}
+                  </Box>
+                  <br />
+                </RadioGroup>
+              )}
+            />
+            {typeValue === CommentType.MODERATION && (
               <Typography color="InfoText" fontSize="0.9rem">
                 * ההערה תיבדק ותופיע במדור "הערות ציבוריות" אם תאושר. <br /> ניתן להשתמש בהערה ציבורית גם כדי לשלוח
                 הודעות תיקון לעורכים.

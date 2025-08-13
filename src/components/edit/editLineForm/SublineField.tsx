@@ -1,5 +1,5 @@
-import { useField } from 'formik';
 import React from 'react';
+import { Control, useController } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { IconButton, Paper, Tooltip } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
@@ -11,12 +11,17 @@ import { useParams } from 'react-router';
 import { RemoveCircle } from '@mui/icons-material';
 import { RawDraftContentState } from 'draft-js';
 
-const mapStateToProps = (state) => ({});
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  saveNosach: async (route: Partial<routeObject>, index: number, newNosach: RawDraftContentState, nosachText: string[]) => {
+const mapStateToProps = (state: any) => ({});
+const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
+  saveNosach: async (
+    route: Partial<routeObject>,
+    index: number,
+    newNosach: RawDraftContentState,
+    nosachText: string[]
+  ) => {
     dispatch(saveNosach(route, index, newNosach, nosachText));
   },
-  deleteSubline: async (route: routeObject, index: number, subline: number) => {
+  deleteSubline: async (route: routeObject, index: number) => {
     dispatch(deleteSubline(route, index));
   },
 });
@@ -35,28 +40,35 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
   name: string;
   index: number;
-  onRemoveSource: Function;
-  saveNosach: (route: Partial<routeObject>, line: number, nosachnosach: RawDraftContentState, nosachText: string[]) => void;
-  deleteSubline: Function;
+  control: Control<any>;
+  onRemoveSource: (id: number) => void;
+  saveNosach: (route: Partial<routeObject>, line: number, nosach: RawDraftContentState, nosachText: string[]) => void;
+  deleteSubline: (route: routeObject, index: number) => void;
 }
+
 const SublineField = (props: Props) => {
   const route = useParams<routeObject>();
-  const [field, meta, helpers] = useField(props.name);
-  const { value } = meta;
-  const { index, onRemoveSource, saveNosach, deleteSubline } = props;
+  const { name, index, control, onRemoveSource, saveNosach, deleteSubline } = props;
+
+  const {
+    field: { value, onChange },
+  } = useController({ name, control });
 
   if (!value?.synopsis) {
     value.synopsis = [];
   }
 
-  const updateSource = (newVal) => {
-    const indexToUpdate = value.synopsis.findIndex((s) => s.id === newVal.id);
-    value.synopsis[indexToUpdate] = newVal;
-    helpers.setValue(value);
+  const updateSource = (newVal: any) => {
+    const indexToUpdate = value.synopsis.findIndex((s: any) => s.id === newVal.id);
+    const updatedSynopsis = [...value.synopsis];
+    if (indexToUpdate >= 0) {
+      updatedSynopsis[indexToUpdate] = newVal;
+    }
+    onChange({ ...value, synopsis: updatedSynopsis });
   };
 
   const deleteSublineHandler = () => {
-    deleteSubline(route, value.index);
+    deleteSubline(route as unknown as routeObject, value.index);
   };
 
   return (
@@ -64,7 +76,8 @@ const SublineField = (props: Props) => {
       <Paper elevation={3} style={{ marginBottom: '1rem', padding: '0.5rem' }}>
         <SublineTitle index={index} onClick={deleteSublineHandler} />
         <MainLineEditor
-          fieldName = {field.name}
+          control={control}
+          fieldName={name}
           lines={[value.text]}
           content={value.nosach}
           onSave={(nosach: RawDraftContentState, nosachText: string[]) => {
@@ -72,12 +85,12 @@ const SublineField = (props: Props) => {
           }}
         />
 
-        {value.synopsis.map((source) => {
+        {value.synopsis.map((source: any) => {
           return (
             <div key={source.id}>
               <SynopsisField
                 source={source}
-                onChange={(newVal) => {
+                onChange={(newVal: any) => {
                   updateSource(newVal);
                 }}
                 onDelete={() => {
@@ -92,7 +105,7 @@ const SublineField = (props: Props) => {
   );
 };
 
-const SublineTitle = (props) => {
+const SublineTitle = (props: { index: number; onClick: () => void }) => {
   const classes = useStyles();
   const { index, onClick } = props;
   const removeButton = (
@@ -105,4 +118,5 @@ const SublineTitle = (props) => {
 
   return <div style={{ direction: 'rtl', position: 'relative' }}>{index > 0 ? removeButton : null}</div>;
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(SublineField);
