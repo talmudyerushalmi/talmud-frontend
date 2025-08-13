@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Button, LinearProgress, FormControlLabel, Radio, RadioGroup, TextField } from '@mui/material';
-import RichTextEditorFieldRHF from '../../editors/RichTextEditorFieldRHF';
+import RichTextEditorField from '../../editors/RichTextEditorField';
 import { convertFromRaw, EditorState } from 'draft-js';
 import { EditorSelectionObject, getContentRaw } from '../../../inc/editorUtils';
 import { connect } from 'react-redux';
@@ -96,7 +96,7 @@ const FormNosach = (props: Props) => {
         )}
       />
 
-      <RichTextEditorFieldRHF name="editorStateFullQuote" control={control} label="הערת נוסח" />
+      <RichTextEditorField name="editorStateFullQuote" control={control} label="הערת נוסח" />
 
       <TextField
         {...register('short')}

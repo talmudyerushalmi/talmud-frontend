@@ -5,11 +5,11 @@ import makeStyles from '@mui/styles/makeStyles';
 import {} from '../../../types/types';
 import { ContentState, convertFromRaw, EditorState, Modifier, RawDraftContentState } from 'draft-js';
 import { CheckCircle, Close, Edit } from '@mui/icons-material';
-import CheckboxFieldRHF from './CheckboxFieldRHF';
+import CheckboxField from './CheckboxField';
 import { compoundNosachDecoratorsForEditing } from '../../editors/EditorDecoratorNosach';
 import { InitialEntityDialogState, MainLineDialog, NosachEntity } from './MainLineDialog';
 import { getContentStateArray, getFinalText, getSelectedText } from '../../../inc/editorUtils';
-import SugiaFieldRHF from '../SugiaFieldRHF';
+import SugiaField from '../SugiaField';
 import { Control } from 'react-hook-form';
 
 export interface EditingData {
@@ -219,8 +219,8 @@ const MainLineEditor = (props: Props) => {
               </Button>
             </>
           ) : null}
-          <CheckboxFieldRHF name={fieldName + '.piska'} control={control} />
-          <SugiaFieldRHF name={fieldName + '.sugiaName'} control={control} />
+          <CheckboxField name={fieldName + '.piska'} control={control} />
+          <SugiaField name={fieldName + '.sugiaName'} control={control} />
         </div>
         <MainLineDialog
           initialState={initialDialogState}

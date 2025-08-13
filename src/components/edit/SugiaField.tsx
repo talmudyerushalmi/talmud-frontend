@@ -7,7 +7,7 @@ interface Props {
   control: Control<any>;
 }
 
-const SugiaFieldRHF = (props: Props) => {
+const SugiaField = (props: Props) => {
   const { name, control } = props;
   const {
     field: { value, onChange, onBlur },
@@ -67,4 +67,4 @@ const SugiaFieldRHF = (props: Props) => {
     </>
   );
 };
-export default SugiaFieldRHF;
+export default SugiaField;

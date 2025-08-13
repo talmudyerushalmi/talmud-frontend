@@ -6,7 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { EditorSelectionObject } from '../../../inc/editorUtils';
 import { connect } from 'react-redux';
 import { iExcerpt } from '../../../types/types';
-import CommentExcerptForm from './CommentExcerptForm';
+import FormCommentExcerpt from './FormCommentExcerpt';
 import FormNosach from './FormNosach';
 import FormExcerpt from './FormExcerpt';
 
@@ -79,10 +79,10 @@ const ExcerptDialog = (props: Props) => {
     }
     if (editedExcerpt.type && GROUP_COMMENT.includes(editedExcerpt.type as EXCERPT_TYPE)) {
       return (
-        <CommentExcerptForm
+        <FormCommentExcerpt
           mishna={mishna}
           excerpt={editedExcerpt}
-          selection={selection as EditorSelectionObject}></CommentExcerptForm>
+          selection={selection as EditorSelectionObject}></FormCommentExcerpt>
       );
     }
   };

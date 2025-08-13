@@ -7,7 +7,7 @@ interface Props {
   label: string;
 }
 
-const RichTextEditorFieldRHF = ({ name, control, label }: Props) => {
+const RichTextEditorField = ({ name, control, label }: Props) => {
   return (
     <Controller
       name={name}
@@ -22,4 +22,4 @@ const RichTextEditorFieldRHF = ({ name, control, label }: Props) => {
   );
 };
 
-export default RichTextEditorFieldRHF;
+export default RichTextEditorField;

@@ -7,7 +7,7 @@ interface Props {
   control: Control<any>;
 }
 
-const CheckboxFieldRHF = (props: Props) => {
+const CheckboxField = (props: Props) => {
   const { name, control } = props;
   const {
     field: { value, onChange },
@@ -31,4 +31,4 @@ const CheckboxFieldRHF = (props: Props) => {
   );
 };
 
-export default CheckboxFieldRHF;
+export default CheckboxField;

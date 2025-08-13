@@ -46,7 +46,7 @@ interface Props {
   deleteSubline: (route: routeObject, index: number) => void;
 }
 
-const SublineFieldRHF = (props: Props) => {
+const SublineField = (props: Props) => {
   const route = useParams<routeObject>();
   const { name, index, control, onRemoveSource, saveNosach, deleteSubline } = props;
 
@@ -119,4 +119,4 @@ const SublineTitle = (props: { index: number; onClick: () => void }) => {
   return <div style={{ direction: 'rtl', position: 'relative' }}>{index > 0 ? removeButton : null}</div>;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SublineFieldRHF);
+export default connect(mapStateToProps, mapDispatchToProps)(SublineField);

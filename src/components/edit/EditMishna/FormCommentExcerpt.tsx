@@ -39,7 +39,7 @@ const commentSchema = Yup.object().shape({
   comment: Yup.string().required('Required'),
 });
 
-const CommentExcerptForm: FC<IProps> = ({
+const FormCommentExcerpt: FC<IProps> = ({
   saveExcerpt,
   closeExcerptDialog,
   excerpt,
@@ -116,4 +116,4 @@ const CommentExcerptForm: FC<IProps> = ({
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentExcerptForm);
+export default connect(mapStateToProps, mapDispatchToProps)(FormCommentExcerpt);

@@ -7,7 +7,7 @@ import LineService from '../../../services/line.service';
 import { iLine, iInternalLink, iSubline, iSynopsis } from '../../../types/types';
 import { getTextForSynopsis } from '../../../inc/synopsisUtils';
 import { Button } from '@mui/material';
-import FieldSublinesRHF from './FieldSublinesRHF';
+import FieldSublines from './FieldSublines';
 
 interface Props {
   line: iLine | null;
@@ -116,7 +116,7 @@ const EditLineForm = (props: Props) => {
         onAddExternalSource={onAddExternalSource}
         onUpdateInternalSources={onUpdateInternalSources}
       />
-      <FieldSublinesRHF control={control} onRemoveSource={onRemoveSource} />
+      <FieldSublines control={control} onRemoveSource={onRemoveSource} />
 
       <Button type="submit" disabled={isSubmitting}>
         שמור

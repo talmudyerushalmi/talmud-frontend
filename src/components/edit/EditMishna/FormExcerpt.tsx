@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, LinearProgress, FormControlLabel, Radio, TextField, RadioGroup, Checkbox } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import makeStyles from '@mui/styles/makeStyles';
-import RichTextEditorFieldRHF from '../../editors/RichTextEditorFieldRHF';
+import RichTextEditorField from '../../editors/RichTextEditorField';
 import { convertFromRaw, EditorState } from 'draft-js';
 import { getContentRaw } from '../../../inc/editorUtils';
 import * as Yup from 'yup';
@@ -161,7 +161,7 @@ const FormExcerpt = (props: any) => {
         <AddComposition onAdd={requestCompositions} />
       </Box>
       <TextField {...register('sourceLocation')} type="text" label="מיקום בחיבור" fullWidth margin="normal" />
-      <RichTextEditorFieldRHF name="editorStateFullQuote" control={control} label="ציטוט מלא" />
+      <RichTextEditorField name="editorStateFullQuote" control={control} label="ציטוט מלא" />
       <TextField
         {...register('short')}
         type="text"
@@ -172,7 +172,7 @@ const FormExcerpt = (props: any) => {
         margin="normal"
       />
       <TextField {...register('synopsis')} type="text" label="סינופסיס" fullWidth multiline margin="normal" />
-      <RichTextEditorFieldRHF name="editorStateComments" control={control} label="הערות" />
+      <RichTextEditorField name="editorStateComments" control={control} label="הערות" />
       <TextField
         {...register('link')}
         type="url"

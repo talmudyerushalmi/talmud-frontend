@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, LinearProgress } from '@mui/material';
-import RichTextEditorFieldRHF from '../../editors/RichTextEditorFieldRHF';
+import RichTextEditorField from '../../editors/RichTextEditorField';
 import { convertToRaw } from 'draft-js';
 import { connect } from 'react-redux';
 import { saveMishna } from '../../../store/actions/mishnaEditActions';
@@ -49,9 +49,9 @@ const FormikWrapper = (props: any) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ direction: 'rtl', width: '100%' }}>
-      <RichTextEditorFieldRHF name="richTextMishna" control={control} label="משנה" />
-      <RichTextEditorFieldRHF name="richTextTosefta" control={control} label="תוספתא" />
-      <RichTextEditorFieldRHF name="richTextBavli" control={control} label="בבלי" />
+      <RichTextEditorField name="richTextMishna" control={control} label="משנה" />
+      <RichTextEditorField name="richTextTosefta" control={control} label="תוספתא" />
+      <RichTextEditorField name="richTextBavli" control={control} label="בבלי" />
       {isSubmitting && <LinearProgress />}
       <br />
       <Button type="submit" variant="contained" color="primary" disabled={isSubmitting}>
