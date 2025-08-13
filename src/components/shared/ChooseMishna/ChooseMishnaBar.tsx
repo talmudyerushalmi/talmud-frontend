@@ -9,6 +9,8 @@ import { routeObject } from '../../../store/reducers/navigationReducer';
 import { iLink, iTractate } from '../../../types/types';
 import SearchBar from './SearchBar';
 import PageService from '../../../services/pageService';
+import { useAppDispatch } from '../../../app/hooks';
+import { setRoute } from '../../../store/actions/navigationActions';
 
 interface Props {
   allChapterAllowed?: boolean;
@@ -25,6 +27,7 @@ const ChooseMishnaBar = ({
   onNavigationUpdated,
   onButtonNavigation = () => {},
 }: Props) => {
+  const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
   const [navigation, setNavigation] = useState<iLink>({
     tractate: tractate || '',
@@ -42,6 +45,12 @@ const ChooseMishnaBar = ({
   const handleNavigate = (e) => {
     onNavigationUpdated(navigation);
   };
+
+  useEffect(() => {
+    if (navigation.tractate && navigation.chapter && navigation.mishna) {
+      dispatch(setRoute(navigation.tractate, navigation.chapter, navigation.mishna, navigation.lineNumber));
+    }
+  }, [navigation, dispatch]);
 
   return (
     <>
