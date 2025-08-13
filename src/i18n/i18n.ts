@@ -28,8 +28,9 @@ i18n
       'en-US': {
         translation: {
           'guide_en-US': 'Guide (english)',
+          'NewManuscriptsDescription': 'New! Manuscripts Description',
         },
-      },
+      },    
       he: {
         translation: {
           Tractate: 'מסכת',
@@ -69,6 +70,7 @@ i18n
           Login: 'התחבר',
           Qiddushin: 'קידושין',
           Resources: 'משאבים',
+          'NewManuscriptsDescription': 'חדש! תיאורי כתבי יד',
           Manuscripts: 'כתבי יד',
           About: 'על אודות',
           'Free search in the tractate': 'חיפוש חופשי במסכת',

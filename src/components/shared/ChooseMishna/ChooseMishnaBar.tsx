@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid, Box } from '@mui/material';
 
 import { useParams } from 'react-router';
@@ -7,24 +7,17 @@ import ChooseMishnaForm from './ChooseMishnaForm';
 import { PrintHeader } from '../PrintHeader';
 import { routeObject } from '../../../store/reducers/navigationReducer';
 import { iLink, iTractate } from '../../../types/types';
-import { connect } from 'react-redux';
-import { setRoute } from '../../../store/actions/navigationActions';
 import SearchBar from './SearchBar';
 import PageService from '../../../services/pageService';
+import { useAppDispatch } from '../../../app/hooks';
+import { setRoute } from '../../../store/actions/navigationActions';
 
 interface Props {
   allChapterAllowed?: boolean;
   keypressNavigation?: boolean;
   onNavigationUpdated: Function;
   onButtonNavigation?: (nav: iLink) => void;
-  setRoute: (tractate: string, chapter: string, mishna: string, line: string) => void;
 }
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  setRoute: (tractate: string, chapter: string, mishna: string, line: string) => {
-    dispatch(setRoute(tractate, chapter, mishna, line));
-  },
-});
 
 const selectButtonDisabled = () => false;
 
@@ -33,8 +26,8 @@ const ChooseMishnaBar = ({
   keypressNavigation = false,
   onNavigationUpdated,
   onButtonNavigation = () => {},
-  setRoute,
 }: Props) => {
+  const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
   const [navigation, setNavigation] = useState<iLink>({
     tractate: tractate || '',
@@ -52,30 +45,12 @@ const ChooseMishnaBar = ({
   const handleNavigate = (e) => {
     onNavigationUpdated(navigation);
   };
-  const memoizedProps = useMemo(() => {
-    const link: iLink = {
-      tractate: tractate || '',
-      chapter: chapter || '',
-      mishna: mishna || '',
-      lineNumber: line || '',
-    };
-    return {
-      initValues: link,
-    };
-  }, [tractate, chapter, mishna, line]);
-
-  const [currentRoute, setCurrentRoute] = useState<string>('');
 
   useEffect(() => {
     if (tractate && chapter && mishna) {
-      const newRoute = `${tractate}-${chapter}-${mishna}-${line || ''}`;
-      if (currentRoute !== newRoute) {
-        setRoute(tractate, chapter, mishna, line || '');
-        setCurrentRoute(newRoute);
-      }
+      dispatch(setRoute(tractate, chapter, mishna, line));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tractate, chapter, mishna, line]);
+  }, [tractate, chapter, mishna, line, dispatch]);
 
   return (
     <>
@@ -94,7 +69,7 @@ const ChooseMishnaBar = ({
                 setNavigation(newNav);
               }}
               onButtonNavigation={onButtonNavigation}
-              {...memoizedProps}
+              initValues={navigation}
               allTractates={allTractates}
             />
           </Box>
@@ -118,4 +93,4 @@ const ChooseMishnaBar = ({
   );
 };
 
-export default connect(() => ({}), mapDispatchToProps)(ChooseMishnaBar);
+export default ChooseMishnaBar;

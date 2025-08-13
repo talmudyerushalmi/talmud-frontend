@@ -20,8 +20,13 @@ export interface ContentParagraphField extends ContentField {
   content: ContentField[]
 }
 
+export interface Marks {
+  type: string  
+}
+
 export interface ContentTextField extends ContentField {
   value: string
+  marks?: Marks[]
 }
 
 export interface ContentHyperLinkField extends ContentField {
