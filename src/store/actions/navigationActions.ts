@@ -62,8 +62,8 @@ export const receivedCurrentSelection = (tractateData, chapterData, mishnaData, 
 
 export const setRoute = (tractate, chapter, mishna, line) => {
   return function (dispatch) {
-    dispatch({ type: SET_ROUTE, tractate, chapter, mishna, line });
     dispatch(setManuscriptsForChapter(tractate, chapter));
+    dispatch({ type: SET_ROUTE, tractate, chapter, mishna, line });
   };
 };
 

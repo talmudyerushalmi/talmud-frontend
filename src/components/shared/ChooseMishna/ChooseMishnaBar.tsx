@@ -47,10 +47,10 @@ const ChooseMishnaBar = ({
   };
 
   useEffect(() => {
-    if (navigation.tractate && navigation.chapter && navigation.mishna) {
-      dispatch(setRoute(navigation.tractate, navigation.chapter, navigation.mishna, navigation.lineNumber));
+    if (tractate && chapter && mishna) {
+      dispatch(setRoute(tractate, chapter, mishna, line));
     }
-  }, [navigation, dispatch]);
+  }, [tractate, chapter, mishna, line, dispatch]);
 
   return (
     <>
