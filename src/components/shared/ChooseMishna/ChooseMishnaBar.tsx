@@ -7,7 +7,6 @@ import ChooseMishnaForm from './ChooseMishnaForm';
 import { PrintHeader } from '../PrintHeader';
 import { routeObject } from '../../../store/reducers/navigationReducer';
 import { iLink, iTractate } from '../../../types/types';
-import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
 import PageService from '../../../services/pageService';
 
@@ -85,4 +84,4 @@ const ChooseMishnaBar = ({
   );
 };
 
-export default connect(() => ({}))(ChooseMishnaBar);
+export default ChooseMishnaBar;
