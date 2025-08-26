@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { EditorState, ContentState } from 'draft-js';
 import SourceButtons from '../MainLineEditor/SourceButtons';
 import LineService from '../../../services/line.service';
-import { iLine, iInternalLink, iSubline, iSynopsis } from '../../../types/types';
+import { iLine, iInternalLink, iSubline, iSynopsis, SourceType } from '../../../types/types';
 import { getTextForSynopsis } from '../../../inc/synopsisUtils';
 import { Button } from '@mui/material';
 import FieldSublines from './FieldSublines';
@@ -70,7 +70,6 @@ const EditLineForm = (props: Props) => {
     setValue('parallels', parallels);
   };
   const onAddExternalSource = (source: any) => {
-    console.log('ADD', source);
     setSources([...sources, source]);
   };
   const onRemoveSource = (id: any) => {
@@ -101,9 +100,19 @@ const EditLineForm = (props: Props) => {
     setValue('sublines', updatedSublines);
   };
   const onSubmit = (data: FormValues) => {
-    LineService.saveLine(currentMishna.tractate, currentMishna.chapter, currentMishna.mishna, line!.lineNumber!, {
+    // Filter out parallel sources before saving
+    const filteredData = {
       ...data,
-    });
+      sublines: data.sublines.map(subline => ({
+        ...subline,
+        synopsis: subline.synopsis.filter(synopsis => {
+          // EXCLUDE parallel sources from save (string comparison for runtime data)
+          return synopsis.type !== 'parallel_source';
+        })
+      }))
+    };
+    
+    LineService.saveLine(currentMishna.tractate, currentMishna.chapter, currentMishna.mishna, line!.lineNumber!, filteredData);
   };
 
   return (

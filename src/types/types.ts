@@ -73,9 +73,10 @@ export enum SourceType {
   DIRECT_SOURCES = 'direct_sources',
   INDIRECT_SOURCES = 'indirect_sources',
   TRANSLATION = 'translation',
+  PARALLEL_SOURCE = 'parallel_source',
 }
 
-export type sourceType = SourceType.DIRECT_SOURCES | SourceType.INDIRECT_SOURCES | SourceType.TRANSLATION;
+export type sourceType = SourceType.DIRECT_SOURCES | SourceType.INDIRECT_SOURCES | SourceType.TRANSLATION | SourceType.PARALLEL_SOURCE;
 
 export interface iSynopsis {
   text: EditedText;
@@ -102,6 +103,7 @@ export interface iSubline {
   piska?: boolean;
   sugiaName?: string;
   offset?: number;
+  sourcetype?: sourceType;
 }
 
 export interface iLine {

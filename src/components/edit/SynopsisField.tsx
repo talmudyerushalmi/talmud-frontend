@@ -3,12 +3,21 @@ import { Button, Grid, useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import SynopsisTextEditor from './SynopsisTextEditor';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { iSynopsis } from '../../types/types';
+import { iSynopsis, SourceType } from '../../types/types';
 
 const useStyles = makeStyles((theme) => ({
   narrow: { ...theme.buttons.narrow },
   editor: {
     '& .RichEditor-root': { padding: '5px' },
+  },
+  parallelReadonly: {
+    backgroundColor: theme.palette.grey[300],
+    border: `2px solid ${theme.palette.grey[400]}`,
+    opacity: 0.8,
+    '& .RichEditor-root': { 
+      padding: '5px',
+      backgroundColor: theme.palette.grey[200],
+    },
   },
 }));
 
@@ -22,7 +31,16 @@ const SynopsisField = (props: Props) => {
   const classes = useStyles();
   const theme = useTheme();
   const { source, onChange, onDelete } = props;
+  
+  // Check if this is a parallel source that should be read-only
+  const isParallelSource = source.type === SourceType.PARALLEL_SOURCE || source.type === 'parallel_source';
+  
   const _onChange = (e) => {
+    // Prevent changes for parallel sources
+    if (isParallelSource) {
+      return;
+    }
+    
     onChange({
       ...source,
       text: e,
@@ -33,19 +51,27 @@ const SynopsisField = (props: Props) => {
     <>
       <Grid container>
         <Grid item sx={{...theme.layout.centerFlex,  minWidth: '10rem', marginRight: '1rem'}}>
-          {source.type === 'indirect_sources' ? (
+          {source.type === 'indirect_sources' && !isParallelSource ? (
             <Button onClick={onDelete} className={classes.narrow}>
               <HighlightOffIcon />
             </Button>
           ) : null}
-          <span>
+          <span style={{ 
+            color: isParallelSource ? '#666' : 'inherit',
+            fontWeight: isParallelSource ? 'bold' : 'normal'
+          }}>
             {source.name} {source.location}
           </span>
         </Grid>
-        <Grid item style={{ flexGrow: 1 }} className={classes.editor}>
+        <Grid 
+          item 
+          style={{ flexGrow: 1 }} 
+          className={isParallelSource ? classes.parallelReadonly : classes.editor}
+        >
           <SynopsisTextEditor
             source={source}
             value={source.text}
+            readOnly={isParallelSource}
             onChange={(editor) => {
               _onChange(editor);
             }}
