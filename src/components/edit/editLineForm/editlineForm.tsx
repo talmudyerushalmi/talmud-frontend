@@ -115,6 +115,7 @@ const EditLineForm = (props: Props) => {
         onRemoveSource={(id) => onRemoveSource(id)}
         onAddExternalSource={onAddExternalSource}
         onUpdateInternalSources={onUpdateInternalSources}
+        currentLineSublines={line?.sublines}
       />
       <FieldSublines control={control} onRemoveSource={onRemoveSource} />
 

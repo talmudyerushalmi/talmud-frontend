@@ -11,7 +11,7 @@ import Menu from '@mui/material/Menu';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import AddIcon from '@mui/icons-material/Add';
 import { useTranslation } from 'react-i18next';
-import { iInternalLink, iLink } from '../../../types/types';
+import { iInternalLink, iLink, iSubline } from '../../../types/types';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LinkPopup from '../../popups/LinkPopup';
@@ -21,9 +21,10 @@ import { hebrewMap } from '../../../inc/utils';
 interface Props {
   parallels: iInternalLink[];
   onUpdateInternalSources: (parallels: iInternalLink[]) => void;
+  currentLineSublines?: iSubline[];
 }
 export const MakbilaMenu = (props: Props) => {
-  const { parallels, onUpdateInternalSources } = props;
+  const { parallels, onUpdateInternalSources, currentLineSublines } = props;
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const btnCaption = `${t('Talmudic Parallels')} [${parallels.length}]`;
@@ -31,14 +32,31 @@ export const MakbilaMenu = (props: Props) => {
     <>
       <LinkPopup
         open={open}
+        currentLineSublines={currentLineSublines}
         onClose={(makbila: iLink | null) => {
           if (makbila) {
+            let linkText = `${hebrewMap.get(makbila.chapter)} ${hebrewMap.get(makbila.mishna)} ${makbila.lineNumber}`;
+            
+            // Add subline info to the display text
+            const sublineParts: string[] = [];
+            if (makbila.currentSublineIndex !== undefined) {
+              sublineParts.push(`נוכחית: ${makbila.currentSublineIndex + 1}`);
+            }
+            if (makbila.sublineIndex !== undefined) {
+              sublineParts.push(`יעד: ${makbila.sublineIndex + 1}`);
+            }
+            if (sublineParts.length > 0) {
+              linkText += ` [${sublineParts.join(', ')}]`;
+            }
+            
             const link = {
-              linkText: `${hebrewMap.get(makbila.chapter)} ${hebrewMap.get(makbila.mishna)} ${makbila.lineNumber}`,
+              linkText,
               tractate: makbila.tractate,
               chapter: makbila.chapter,
               mishna: makbila.mishna,
               lineNumber: makbila.lineNumber,
+              ...(makbila.sublineIndex !== undefined && { sublineIndex: makbila.sublineIndex }),
+              ...(makbila.currentSublineIndex !== undefined && { currentSublineIndex: makbila.currentSublineIndex }),
             };
             onUpdateInternalSources([...parallels, link]);
           }
