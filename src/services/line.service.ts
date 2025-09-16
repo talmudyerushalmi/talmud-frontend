@@ -1,11 +1,29 @@
 import { RawDraftContentState } from 'draft-js';
-import { iMishna } from '../types/types';
+import { iMishna, iInternalLink } from '../types/types';
 import axiosInstance from './api';
 
 export default class LineService {
+  // Convert frontend format to backend InternalParallelLink format
+  private static convertParallelsToBackend(parallels: iInternalLink[]): any[] {
+    return parallels.map(parallel => ({
+      linkText: parallel.linkText,
+      tractate: parallel.tractate,
+      chapter: parallel.chapter,
+      mishna: parallel.mishna,
+      lineNumber: parallel.lineNumber,
+      sublineIndex: parallel.sublineIndex,
+      sourceSublineIndex: parallel.currentSublineIndex,
+    }));
+  }
+
   static async saveLine(tractate: string, chapter: string, mishna: string, line: string, values: any) {
     const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}`;
     const data = { ...values };
+    
+    // Convert parallels from frontend format to backend format
+    if (data.parallels && Array.isArray(data.parallels)) {
+      data.parallels = this.convertParallelsToBackend(data.parallels);
+    }
     const s = await axiosInstance.post(url, data);
     return s.data;
   }

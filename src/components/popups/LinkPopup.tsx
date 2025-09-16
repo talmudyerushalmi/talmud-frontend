@@ -2,11 +2,10 @@ import * as React from 'react';
 
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { Button, DialogActions, Divider, Typography, Box } from '@mui/material';
+import { Button, DialogActions, Divider, Typography, Box, Grid, Paper, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import ChooseMishnaForm from '../shared/ChooseMishna/ChooseMishnaForm';
 import { iLink, iTractate, iSubline } from '../../types/types';
 import PageService from '../../services/pageService';
-import { Autocomplete, TextField } from '@mui/material';
 
 interface Props {
   open: boolean;
@@ -51,11 +50,12 @@ export default function LinkPopup(props: Props) {
   const handleClose = () => {
     if (makbila) {
       // Return the link with both subline indices
-      onClose({
+      const linkWithSublines = {
         ...makbila,
         ...(selectedSublineIndex !== undefined && { sublineIndex: selectedSublineIndex }),
         ...(currentSublineIndex !== undefined && { currentSublineIndex: currentSublineIndex })
-      });
+      };
+      onClose(linkWithSublines);
     } else {
       onClose(makbila);
     }
@@ -100,61 +100,115 @@ export default function LinkPopup(props: Props) {
         }}
       />
 
-      {/* Sublines of the picked line */}
-      {selectedLineSublines.length > 0 && (
+      {/* Side-by-side subline selection */}
+      {(selectedLineSublines.length > 0 || currentLineSublines.length > 0) && (
         <>
           <Divider sx={{ my: 2 }} />
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            בחר תת-שורה מהשורה שנבחרה:
+          <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
+            בחר תת-שורות מתואמות
           </Typography>
-          <Autocomplete
-            sx={{ minWidth: 300 }}
-            value={selectedLineSublines[selectedSublineIndex || 0] || null}
-            onChange={(event, newValue) => {
-              if (newValue) {
-                const index = selectedLineSublines.findIndex(s => s === newValue);
-                setSelectedSublineIndex(index);
-              }
-            }}
-            options={selectedLineSublines}
-            getOptionLabel={(option) => {
-              const index = selectedLineSublines.findIndex(s => s === option);
-              const truncatedText = option.text.substring(0, 50) + (option.text.length > 50 ? '...' : '');
-              return `${index + 1}: ${truncatedText}`;
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="תת-שורה" variant="outlined" />
+          
+          <Grid container spacing={3}>
+            {/* Current Line Sublines */}
+            {currentLineSublines.length > 0 && (
+              <Grid item xs={6}>
+                <Paper elevation={2} sx={{ p: 2 }}>
+                  <FormControl component="fieldset" fullWidth>
+                    <FormLabel component="legend" sx={{ mb: 2, fontWeight: 'bold' }}>
+                      השורה הנוכחית
+                    </FormLabel>
+                    <RadioGroup
+                      value={currentSublineIndex !== undefined ? currentSublineIndex.toString() : ''}
+                      onChange={(event) => {
+                        const index = parseInt(event.target.value);
+                        setCurrentSublineIndex(index);
+                      }}
+                    >
+                      {currentLineSublines.map((subline, index) => (
+                        <FormControlLabel
+                          key={index}
+                          value={index.toString()}
+                          control={<Radio />}
+                          label={
+                            <Box>
+                              <Typography variant="subtitle2" color="primary">
+                                תת-שורה {index + 1}
+                              </Typography>
+                              <Typography variant="body2" sx={{ 
+                                direction: 'rtl', 
+                                textAlign: 'right',
+                                lineHeight: 1.6,
+                                maxWidth: '300px'
+                              }}>
+                                {subline.text}
+                              </Typography>
+                            </Box>
+                          }
+                          sx={{ 
+                            alignItems: 'flex-start',
+                            mb: 2,
+                            '& .MuiFormControlLabel-label': {
+                              width: '100%'
+                            }
+                          }}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                </Paper>
+              </Grid>
             )}
-          />
-        </>
-      )}
 
-      {/* Current line sublines picker */}
-      {currentLineSublines.length > 0 && (
-        <>
-          <Divider sx={{ my: 2 }} />
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            בחר תת-שורה מהשורה הנוכחית:
-          </Typography>
-          <Autocomplete
-            sx={{ minWidth: 300 }}
-            value={currentLineSublines[currentSublineIndex || 0] || null}
-            onChange={(event, newValue) => {
-              if (newValue) {
-                const index = currentLineSublines.findIndex(s => s === newValue);
-                setCurrentSublineIndex(index);
-              }
-            }}
-            options={currentLineSublines}
-            getOptionLabel={(option) => {
-              const index = currentLineSublines.findIndex(s => s === option);
-              const truncatedText = option.text.substring(0, 50) + (option.text.length > 50 ? '...' : '');
-              return `${index + 1}: ${truncatedText}`;
-            }}
-            renderInput={(params) => (
-              <TextField {...params} label="תת-שורה נוכחית" variant="outlined" />
+            {/* Target Line Sublines */}
+            {selectedLineSublines.length > 0 && (
+              <Grid item xs={currentLineSublines.length > 0 ? 6 : 12}>
+                <Paper elevation={2} sx={{ p: 2 }}>
+                  <FormControl component="fieldset" fullWidth>
+                    <FormLabel component="legend" sx={{ mb: 2, fontWeight: 'bold' }}>
+                      השורה שנבחרה (יעד)
+                    </FormLabel>
+                    <RadioGroup
+                      value={selectedSublineIndex !== undefined ? selectedSublineIndex.toString() : ''}
+                      onChange={(event) => {
+                        const index = parseInt(event.target.value);
+                        setSelectedSublineIndex(index);
+                      }}
+                    >
+                      {selectedLineSublines.map((subline, index) => (
+                        <FormControlLabel
+                          key={index}
+                          value={index.toString()}
+                          control={<Radio />}
+                          label={
+                            <Box>
+                              <Typography variant="subtitle2" color="primary">
+                                תת-שורה {index + 1}
+                              </Typography>
+                              <Typography variant="body2" sx={{ 
+                                direction: 'rtl', 
+                                textAlign: 'right',
+                                lineHeight: 1.6,
+                                maxWidth: '300px'
+                              }}>
+                                {subline.text}
+                              </Typography>
+                            </Box>
+                          }
+                          sx={{ 
+                            alignItems: 'flex-start',
+                            mb: 2,
+                            '& .MuiFormControlLabel-label': {
+                              width: '100%'
+                            }
+                          }}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                </Paper>
+              </Grid>
             )}
-          />
+          </Grid>
         </>
       )}
       <DialogActions>

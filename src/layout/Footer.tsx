@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => {
 export const Footer = () => {
   const classes = useStyles();
   const year = `2021-${new Date().getFullYear()}`;
-  const hebYear = 'תשפ״א - תשפ״ד';
+  const hebYear = 'תשפ״א - תשפ״ו';
   const fullYear = `${hebYear} ${year}`;
   return (
     <footer className={`${classes.root} footer`}>

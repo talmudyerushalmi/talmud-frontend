@@ -1,5 +1,5 @@
 import { RawDraftContentState } from 'draft-js';
-import { iMishna, iTractate } from '../types/types';
+import { iMishna, iTractate, iInternalLink } from '../types/types';
 import axiosInstance from './api';
 
 export interface RichTextsMishnas {
@@ -14,6 +14,41 @@ interface getChapterReponse {
 }
 
 export default class PageService {
+  // Convert backend InternalParallelLink format to frontend format  
+  private static convertParallelLinksToFrontend(parallelLinks: any[]): iInternalLink[] {
+    return parallelLinks
+      .filter(parallel => parallel && parallel.tractate) // Safety check
+      .map(parallel => ({
+        linkText: parallel.linkText || '',
+        tractate: parallel.tractate || '',
+        chapter: parallel.chapter || '',
+        mishna: parallel.mishna || '',
+        lineNumber: parallel.lineNumber || '',
+        sublineIndex: parallel.sublineIndex,
+        currentSublineIndex: parallel.sourceSublineIndex,
+      }));
+  }
+
+  private static convertMishnaParallels(mishnaData: any): iMishna {
+    if (mishnaData && mishnaData.lines) {
+      mishnaData.lines = mishnaData.lines.map(line => {
+        if (line.parallels && Array.isArray(line.parallels) && line.parallels.length > 0) {
+          try {
+            line.parallels = this.convertParallelLinksToFrontend(line.parallels);
+          } catch (error) {
+            console.error('Error converting parallels for line:', line.lineNumber, error);
+            console.error('Parallel data:', JSON.stringify(line.parallels, null, 2));
+            line.parallels = []; // Fallback to empty array
+          }
+        } else {
+          // Ensure parallels is always an array
+          line.parallels = line.parallels || [];
+        }
+        return line;
+      });
+    }
+    return mishnaData;
+  }
   static async getPage(tractate, chapter, mishna) {
     const url = `/mishna/${tractate}/${chapter}/${mishna}`;
     const s = await axiosInstance.get(url);
@@ -28,7 +63,7 @@ export default class PageService {
   static async getMishna(tractate: string, chapter: string, mishna: string): Promise<iMishna> {
     const url = `/mishna/${tractate}/${chapter}/${mishna}`;
     const response = await axiosInstance.get(url);
-    return response.data;
+    return this.convertMishnaParallels(response.data);
   }
 
   static async getChapter(tractate: string, chapter: string, mishna = 1): Promise<getChapterReponse> {
@@ -42,6 +77,10 @@ export default class PageService {
     let response;
     try {
       response = await axiosInstance.get(url);
+      // Convert backend SublineLink format to frontend InternalLink format
+      if (response.data.mishnaDoc) {
+        response.data.mishnaDoc = this.convertMishnaParallels(response.data.mishnaDoc);
+      }
     } catch (e) {
       alert(e);
     }

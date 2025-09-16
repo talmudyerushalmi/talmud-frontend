@@ -100,10 +100,20 @@ const EditLineForm = (props: Props) => {
     });
     setValue('sublines', updatedSublines);
   };
-  const onSubmit = (data: FormValues) => {
-    LineService.saveLine(currentMishna.tractate, currentMishna.chapter, currentMishna.mishna, line!.lineNumber!, {
-      ...data,
-    });
+  const onSubmit = async (data: FormValues) => {
+    try {
+      await LineService.saveLine(currentMishna.tractate, currentMishna.chapter, currentMishna.mishna, line!.lineNumber!, {
+        ...data,
+      });
+      
+      // Success notification
+      alert('✅ השורה נשמרה בהצלחה!\n(Line saved successfully!)');
+      
+    } catch (error) {
+      // Error notification
+      alert('❌ שגיאה בשמירת השורה\n(Error saving line)\n\n' + error.message);
+      console.error('Save error:', error);
+    }
   };
 
   return (
