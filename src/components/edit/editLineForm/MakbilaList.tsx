@@ -17,36 +17,47 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LinkPopup from '../../popups/LinkPopup';
 import { ListItemSecondaryAction } from '@mui/material';
 import { hebrewMap } from '../../../inc/utils';
+import LineService from '../../../services/line.service';
+import { Snackbar, Alert } from '@mui/material';
 
 interface Props {
   parallels: iInternalLink[];
   onUpdateInternalSources: (parallels: iInternalLink[]) => void;
   currentLineSublines?: iSubline[];
+  currentMishna: any;
+  currentLineNumber: string;
 }
 export const MakbilaMenu = (props: Props) => {
-  const { parallels, onUpdateInternalSources, currentLineSublines } = props;
+  const { parallels, onUpdateInternalSources, currentLineSublines, currentMishna, currentLineNumber } = props;
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [snackbar, setSnackbar] = useState<{open: boolean, message: string, severity: 'success' | 'error'}>({
+    open: false, 
+    message: '', 
+    severity: 'success'
+  });
   const btnCaption = `${t('Talmudic Parallels')} [${parallels.length}]`;
   return (
     <>
       <LinkPopup
         open={open}
         currentLineSublines={currentLineSublines}
-        onClose={(makbila: iLink | null) => {
+        onClose={async (makbila: any) => {
           if (makbila) {
             let linkText = `${hebrewMap.get(makbila.chapter)} ${hebrewMap.get(makbila.mishna)} ${makbila.lineNumber}`;
             
-            // Add subline info to the display text
-            const sublineParts: string[] = [];
-            if (makbila.currentSublineIndex !== undefined) {
-              sublineParts.push(`נוכחית: ${makbila.currentSublineIndex + 1}`);
-            }
-            if (makbila.sublineIndex !== undefined) {
-              sublineParts.push(`יעד: ${makbila.sublineIndex + 1}`);
-            }
-            if (sublineParts.length > 0) {
-              linkText += ` [${sublineParts.join(', ')}]`;
+            // Add multiple subline pairs info to the display text
+            if (makbila.selectedSublineIndices && makbila.currentSublineIndices) {
+              const currentIndices = makbila.currentSublineIndices as number[];
+              const targetIndices = makbila.selectedSublineIndices as number[];
+              
+              if (currentIndices.length > 0 && targetIndices.length > 0) {
+                const pairStrings = currentIndices.map((sourceIdx, i) => {
+                  const targetIdx = targetIndices[i];
+                  return `${sourceIdx + 1}→${targetIdx + 1}`;
+                });
+                linkText += ` [זוגות: ${pairStrings.join(', ')}]`;
+              }
             }
             
             const link = {
@@ -55,10 +66,40 @@ export const MakbilaMenu = (props: Props) => {
               chapter: makbila.chapter,
               mishna: makbila.mishna,
               lineNumber: makbila.lineNumber,
-              ...(makbila.sublineIndex !== undefined && { sublineIndex: makbila.sublineIndex }),
-              ...(makbila.currentSublineIndex !== undefined && { currentSublineIndex: makbila.currentSublineIndex }),
+              selectedSublineIndices: makbila.selectedSublineIndices,
+              currentSublineIndices: makbila.currentSublineIndices,
             };
-            onUpdateInternalSources([...parallels, link]);
+
+            // Save the parallel immediately to database
+            try {
+              const updatedParallels = [...parallels, link];
+              await LineService.saveParallels(
+                currentMishna.tractate, 
+                currentMishna.chapter, 
+                currentMishna.mishna, 
+                currentLineNumber, 
+                updatedParallels
+              );
+              
+              // Update UI after successful save
+              onUpdateInternalSources(updatedParallels);
+              
+              // Success notification
+              setSnackbar({
+                open: true,
+                message: 'הקישור נשמר בהצלחה!',
+                severity: 'success'
+              });
+              
+            } catch (error) {
+              // Error notification
+              setSnackbar({
+                open: true,
+                message: `שגיאה בשמירת הקישור: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                severity: 'error'
+              });
+              console.error('Save parallel error:', error);
+            }
           }
           setOpen(false);
         }}
@@ -83,6 +124,23 @@ export const MakbilaMenu = (props: Props) => {
           </React.Fragment>
         )}
       </PopupState>
+      
+      {/* Gentle notification snackbar */}
+      <Snackbar 
+        open={snackbar.open} 
+        autoHideDuration={4000}
+        onClose={() => setSnackbar(prev => ({...prev, open: false}))}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={() => setSnackbar(prev => ({...prev, open: false}))}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

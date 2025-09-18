@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { Button, DialogActions, Divider, Typography, Box, Grid, Paper, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Button, DialogActions, Divider, Typography, Box, Grid, Paper, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import ChooseMishnaForm from '../shared/ChooseMishna/ChooseMishnaForm';
 import { iLink, iTractate, iSubline } from '../../types/types';
 import PageService from '../../services/pageService';
@@ -24,8 +24,8 @@ export default function LinkPopup(props: Props) {
     lineNumber: '00001',
   });
   const [selectedLineSublines, setSelectedLineSublines] = React.useState<iSubline[]>([]);
-  const [selectedSublineIndex, setSelectedSublineIndex] = React.useState<number | undefined>(undefined);
-  const [currentSublineIndex, setCurrentSublineIndex] = React.useState<number | undefined>(undefined);
+  const [selectedSublineIndices, setSelectedSublineIndices] = React.useState<number[]>([]);
+  const [currentSublineIndices, setCurrentSublineIndices] = React.useState<number[]>([]);
 
   React.useEffect(() => {
     PageService.getAllTractates().then((tractates) => {
@@ -47,18 +47,37 @@ export default function LinkPopup(props: Props) {
     });
   }, []);
 
+  // Reset all selections when dialog opens
+  React.useEffect(() => {
+    if (open) {
+      setSelectedSublineIndices([]);
+      setCurrentSublineIndices([]);
+      setMakbila(null);
+      setSelectedLineSublines([]);
+    }
+  }, [open]);
+
   const handleClose = () => {
     if (makbila) {
-      // Return the link with both subline indices
+      // Return the link with multiple subline pairs
       const linkWithSublines = {
         ...makbila,
-        ...(selectedSublineIndex !== undefined && { sublineIndex: selectedSublineIndex }),
-        ...(currentSublineIndex !== undefined && { currentSublineIndex: currentSublineIndex })
+        selectedSublineIndices,
+        currentSublineIndices
       };
       onClose(linkWithSublines);
     } else {
       onClose(makbila);
     }
+  };
+
+  // Check if selection is valid (equal number of sublines selected on both sides)
+  const isSelectionValid = () => {
+    if (currentLineSublines.length === 0 || selectedLineSublines.length === 0) {
+      return makbila !== null; // If no sublines, just need a line selected
+    }
+    return currentSublineIndices.length > 0 && 
+           currentSublineIndices.length === selectedSublineIndices.length;
   };
 
   return (
@@ -114,21 +133,45 @@ export default function LinkPopup(props: Props) {
               <Grid item xs={6}>
                 <Paper elevation={2} sx={{ p: 2 }}>
                   <FormControl component="fieldset" fullWidth>
-                    <FormLabel component="legend" sx={{ mb: 2, fontWeight: 'bold' }}>
-                      השורה הנוכחית
-                    </FormLabel>
-                    <RadioGroup
-                      value={currentSublineIndex !== undefined ? currentSublineIndex.toString() : ''}
-                      onChange={(event) => {
-                        const index = parseInt(event.target.value);
-                        setCurrentSublineIndex(index);
-                      }}
-                    >
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                      <FormLabel component="legend" sx={{ fontWeight: 'bold' }}>
+                        השורה הנוכחית ({currentSublineIndices.length} נבחרו)
+                      </FormLabel>
+                      <Checkbox
+                        size="small"
+                        indeterminate={currentSublineIndices.length > 0 && currentSublineIndices.length < currentLineSublines.length}
+                        checked={currentSublineIndices.length === currentLineSublines.length && currentLineSublines.length > 0}
+                        onChange={(event) => {
+                          if (event.target.checked) {
+                            // Select all
+                            setCurrentSublineIndices(currentLineSublines.map((_, index) => index));
+                          } else {
+                            // Deselect all
+                            setCurrentSublineIndices([]);
+                          }
+                        }}
+                        sx={{ 
+                          '& .MuiSvgIcon-root': { fontSize: 20 },
+                          ml: 1
+                        }}
+                      />
+                    </Box>
+                    <FormGroup>
                       {currentLineSublines.map((subline, index) => (
                         <FormControlLabel
                           key={index}
-                          value={index.toString()}
-                          control={<Radio />}
+                          control={
+                            <Checkbox 
+                              checked={currentSublineIndices.includes(index)}
+                              onChange={(event) => {
+                                if (event.target.checked) {
+                                  setCurrentSublineIndices([...currentSublineIndices, index].sort((a, b) => a - b));
+                                } else {
+                                  setCurrentSublineIndices(currentSublineIndices.filter(i => i !== index));
+                                }
+                              }}
+                            />
+                          }
                           label={
                             <Box>
                               <Typography variant="subtitle2" color="primary">
@@ -153,7 +196,7 @@ export default function LinkPopup(props: Props) {
                           }}
                         />
                       ))}
-                    </RadioGroup>
+                    </FormGroup>
                   </FormControl>
                 </Paper>
               </Grid>
@@ -164,21 +207,45 @@ export default function LinkPopup(props: Props) {
               <Grid item xs={currentLineSublines.length > 0 ? 6 : 12}>
                 <Paper elevation={2} sx={{ p: 2 }}>
                   <FormControl component="fieldset" fullWidth>
-                    <FormLabel component="legend" sx={{ mb: 2, fontWeight: 'bold' }}>
-                      השורה שנבחרה (יעד)
-                    </FormLabel>
-                    <RadioGroup
-                      value={selectedSublineIndex !== undefined ? selectedSublineIndex.toString() : ''}
-                      onChange={(event) => {
-                        const index = parseInt(event.target.value);
-                        setSelectedSublineIndex(index);
-                      }}
-                    >
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                      <FormLabel component="legend" sx={{ fontWeight: 'bold' }}>
+                        השורה שנבחרה - יעד ({selectedSublineIndices.length} נבחרו)
+                      </FormLabel>
+                      <Checkbox
+                        size="small"
+                        indeterminate={selectedSublineIndices.length > 0 && selectedSublineIndices.length < selectedLineSublines.length}
+                        checked={selectedSublineIndices.length === selectedLineSublines.length && selectedLineSublines.length > 0}
+                        onChange={(event) => {
+                          if (event.target.checked) {
+                            // Select all
+                            setSelectedSublineIndices(selectedLineSublines.map((_, index) => index));
+                          } else {
+                            // Deselect all
+                            setSelectedSublineIndices([]);
+                          }
+                        }}
+                        sx={{ 
+                          '& .MuiSvgIcon-root': { fontSize: 20 },
+                          ml: 1
+                        }}
+                      />
+                    </Box>
+                    <FormGroup>
                       {selectedLineSublines.map((subline, index) => (
                         <FormControlLabel
                           key={index}
-                          value={index.toString()}
-                          control={<Radio />}
+                          control={
+                            <Checkbox 
+                              checked={selectedSublineIndices.includes(index)}
+                              onChange={(event) => {
+                                if (event.target.checked) {
+                                  setSelectedSublineIndices([...selectedSublineIndices, index].sort((a, b) => a - b));
+                                } else {
+                                  setSelectedSublineIndices(selectedSublineIndices.filter(i => i !== index));
+                                }
+                              }}
+                            />
+                          }
                           label={
                             <Box>
                               <Typography variant="subtitle2" color="primary">
@@ -203,7 +270,7 @@ export default function LinkPopup(props: Props) {
                           }}
                         />
                       ))}
-                    </RadioGroup>
+                    </FormGroup>
                   </FormControl>
                 </Paper>
               </Grid>
@@ -218,7 +285,21 @@ export default function LinkPopup(props: Props) {
           }}>
           בטל
         </Button>
-        <Button onClick={handleClose}>בחר</Button>
+        
+        {/* Show validation message */}
+        {(currentLineSublines.length > 0 || selectedLineSublines.length > 0) && !isSelectionValid() && (
+          <Typography variant="body2" color="error" sx={{ mx: 2 }}>
+            יש לבחור מספר זהה של תת-שורות משני הצדדים
+          </Typography>
+        )}
+        
+        <Button 
+          onClick={handleClose}
+          disabled={!isSelectionValid()}
+          variant={isSelectionValid() ? "contained" : "outlined"}
+        >
+          בחר
+        </Button>
       </DialogActions>
     </Dialog>
   );

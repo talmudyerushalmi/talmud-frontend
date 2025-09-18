@@ -4,16 +4,39 @@ import axiosInstance from './api';
 
 export default class LineService {
   // Convert frontend format to backend InternalParallelLink format
-  private static convertParallelsToBackend(parallels: iInternalLink[]): any[] {
-    return parallels.map(parallel => ({
-      linkText: parallel.linkText,
-      tractate: parallel.tractate,
-      chapter: parallel.chapter,
-      mishna: parallel.mishna,
-      lineNumber: parallel.lineNumber,
-      sublineIndex: parallel.sublineIndex,
-      sourceSublineIndex: parallel.currentSublineIndex,
-    }));
+  private static convertParallelsToBackend(parallels: any[]): any[] {
+    return parallels.map(parallel => {
+      const result: any = {
+        linkText: parallel.linkText,
+        tractate: parallel.tractate,
+        chapter: parallel.chapter,
+        mishna: parallel.mishna,
+        lineNumber: parallel.lineNumber,
+      };
+
+      // Handle new multiple subline pairs format
+      if (parallel.selectedSublineIndices && parallel.currentSublineIndices) {
+        const currentIndices = parallel.currentSublineIndices as number[];
+        const targetIndices = parallel.selectedSublineIndices as number[];
+        
+        if (currentIndices.length > 0 && targetIndices.length > 0) {
+          result.sublinePairs = currentIndices.map((sourceIndex, i) => ({
+            sourceIndex,
+            targetIndex: targetIndices[i]
+          }));
+        }
+      }
+      
+      // Backward compatibility for old single-subline format
+      if (parallel.sublineIndex !== undefined) {
+        result.sublineIndex = parallel.sublineIndex;
+      }
+      if (parallel.currentSublineIndex !== undefined) {
+        result.sourceSublineIndex = parallel.currentSublineIndex;
+      }
+
+      return result;
+    });
   }
 
   static async saveLine(tractate: string, chapter: string, mishna: string, line: string, values: any) {
@@ -24,6 +47,16 @@ export default class LineService {
     if (data.parallels && Array.isArray(data.parallels)) {
       data.parallels = this.convertParallelsToBackend(data.parallels);
     }
+    const s = await axiosInstance.post(url, data);
+    return s.data;
+  }
+
+  // Save only parallel links for a specific line
+  static async saveParallels(tractate: string, chapter: string, mishna: string, line: string, parallels: any[]) {
+    const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/parallels`;
+    const data = {
+      parallels: this.convertParallelsToBackend(parallels)
+    };
     const s = await axiosInstance.post(url, data);
     return s.data;
   }

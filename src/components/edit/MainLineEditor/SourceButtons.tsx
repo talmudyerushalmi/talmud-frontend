@@ -19,9 +19,11 @@ interface Props {
   onAddExternalSource: (source: string) => void;
   onUpdateInternalSources: (parallels: iInternalLink[]) => void;
   currentLineSublines?: iSubline[];
+  currentMishna?: any;
+  currentLineNumber?: string;
 }
 const SourceButtons = (props: Props) => {
-  const { tractateSettings, onAddSource, onRemoveSource, sources, parallels, onUpdateInternalSources, currentLineSublines } = props;
+  const { tractateSettings, onAddSource, onRemoveSource, sources, parallels, onUpdateInternalSources, currentLineSublines, currentMishna, currentLineNumber } = props;
   let selected: string[] = [];
   if (sources.length && sources[0].synopsis) {
     selected = sources[0]?.synopsis.filter((s) => (s.type === 'direct_sources' || s.type === 'translation')).map((s) => s.id);
@@ -79,6 +81,8 @@ const SourceButtons = (props: Props) => {
             parallels={parallels} 
             onUpdateInternalSources={onUpdateInternalSources}
             currentLineSublines={currentLineSublines}
+            currentMishna={currentMishna}
+            currentLineNumber={currentLineNumber || ''}
           />
         </Grid>
       </Grid>
