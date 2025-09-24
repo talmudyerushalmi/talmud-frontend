@@ -37,7 +37,6 @@ export default class PageService {
             line.parallels = this.convertParallelLinksToFrontend(line.parallels);
           } catch (error) {
             console.error('Error converting parallels for line:', line.lineNumber, error);
-            console.error('Parallel data:', JSON.stringify(line.parallels, null, 2));
             line.parallels = []; // Fallback to empty array
           }
         } else {

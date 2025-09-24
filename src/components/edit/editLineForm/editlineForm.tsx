@@ -84,14 +84,12 @@ const EditLineForm = (props: Props) => {
     const handleInput = () => {
       if (!hasChanges) {
         setHasChanges(true);
-        console.log('🔥 Input detected - Button should turn blue!');
       }
     };
 
     const handleKeyDown = () => {
       if (!hasChanges) {
         setHasChanges(true);
-        console.log('🔥 Keydown detected - Button should turn blue!');
       }
     };
 
@@ -111,7 +109,6 @@ const EditLineForm = (props: Props) => {
   // Reset changes when navigating to a different line
   useEffect(() => {
     setHasChanges(false);
-    console.log('🔄 Navigated to new line - Button reset to gray/disabled', navigationKey);
   }, [navigationKey]); // Reset when any part of navigation changes
 
   const onUpdateInternalSources = (parallels: iInternalLink[]) => {
@@ -119,7 +116,6 @@ const EditLineForm = (props: Props) => {
     setHasChanges(true); // Mark as changed when parallels are updated
   };
   const onAddExternalSource = (source: any) => {
-    console.log('ADD', source);
     setSources([...sources, source]);
     setHasChanges(true); // Mark as changed when external source is added
   };
@@ -171,7 +167,6 @@ const EditLineForm = (props: Props) => {
       // Reset button to gray/disabled after successful save
       setHasChanges(false);
       reset(values); // Reset form dirty state with current values
-      console.log('💾 Save successful - Button reset to gray/disabled');
       
     } catch (error) {
       // Error notification

@@ -98,7 +98,6 @@ export default function LinkPopup(props: Props) {
         allChapterAllowed={false}
         allTractates={allTractates}
         onNavigationUpdated={(e: iLink) => {
-          console.log('selected ', e);
           setMakbila(e);
           
           // When a line is selected, fetch its sublines

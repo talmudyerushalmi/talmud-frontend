@@ -98,7 +98,6 @@ export const MakbilaMenu = (props: Props) => {
                 message: `שגיאה בשמירת הקישור: ${error instanceof Error ? error.message : 'Unknown error'}`,
                 severity: 'error'
               });
-              console.error('Save parallel error:', error);
             }
           }
           setOpen(false);
