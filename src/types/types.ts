@@ -139,8 +139,8 @@ export interface iLink {
   chapter: string;
   mishna: string;
   lineNumber?: string;
-  sublineIndex?: number;
-  currentSublineIndex?: number;
+  selectedSublineIndices?: number[];
+  currentSublineIndices?: number[];
 }
 export interface iInternalLink extends iLink {
   linkText: string;

@@ -14,7 +14,7 @@ export default class LineService {
         lineNumber: parallel.lineNumber,
       };
 
-      // Handle new multiple subline pairs format
+      // Convert frontend format to backend sublinePairs format
       if (parallel.selectedSublineIndices && parallel.currentSublineIndices) {
         const currentIndices = parallel.currentSublineIndices as number[];
         const targetIndices = parallel.selectedSublineIndices as number[];
@@ -25,14 +25,6 @@ export default class LineService {
             targetIndex: targetIndices[i]
           }));
         }
-      }
-      
-      // Backward compatibility for old single-subline format
-      if (parallel.sublineIndex !== undefined) {
-        result.sublineIndex = parallel.sublineIndex;
-      }
-      if (parallel.currentSublineIndex !== undefined) {
-        result.sourceSublineIndex = parallel.currentSublineIndex;
       }
 
       return result;

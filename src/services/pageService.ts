@@ -24,8 +24,8 @@ export default class PageService {
         chapter: parallel.chapter || '',
         mishna: parallel.mishna || '',
         lineNumber: parallel.lineNumber || '',
-        sublineIndex: parallel.sublineIndex,
-        currentSublineIndex: parallel.sourceSublineIndex,
+        selectedSublineIndices: parallel.sublinePairs?.map((pair: any) => pair.targetIndex) || [],
+        currentSublineIndices: parallel.sublinePairs?.map((pair: any) => pair.sourceIndex) || [],
       }));
   }
 
