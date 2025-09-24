@@ -76,10 +76,6 @@ export default class PageService {
     let response;
     try {
       response = await axiosInstance.get(url);
-      // Convert backend SublineLink format to frontend InternalLink format
-      if (response.data.mishnaDoc) {
-        response.data.mishnaDoc = this.convertMishnaParallels(response.data.mishnaDoc);
-      }
     } catch (e) {
       alert(e);
     }
