@@ -44,12 +44,11 @@ interface Props {
   onRemoveSource: (id: number) => void;
   saveNosach: (route: Partial<routeObject>, line: number, nosach: RawDraftContentState, nosachText: string[]) => void;
   deleteSubline: (route: routeObject, index: number) => void;
-  onFieldChange?: () => void;
 }
 
 const SublineField = (props: Props) => {
   const route = useParams<routeObject>();
-  const { name, index, control, onRemoveSource, saveNosach, deleteSubline, onFieldChange } = props;
+  const { name, index, control, onRemoveSource, saveNosach, deleteSubline } = props;
 
   const {
     field: { value, onChange },
@@ -84,7 +83,6 @@ const SublineField = (props: Props) => {
           onSave={(nosach: RawDraftContentState, nosachText: string[]) => {
             saveNosach(route, value.index, nosach, nosachText);
           }}
-          onFieldChange={onFieldChange}
         />
 
         {value.synopsis.map((source: any) => {
