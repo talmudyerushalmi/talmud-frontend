@@ -7,7 +7,9 @@ import SourceButtons from '../MainLineEditor/SourceButtons';
 import LineService from '../../../services/line.service';
 import { iLine, iInternalLink, iSubline, iSynopsis } from '../../../types/types';
 import { getTextForSynopsis } from '../../../inc/synopsisUtils';
-import { Button, Snackbar, Alert } from '@mui/material';
+import { Button } from '@mui/material';
+import { useSnackbar } from '../../../hooks/useSnackbar';
+import NotificationSnackbar from '../../shared/NotificationSnackbar';
 import FieldSublines from './FieldSublines';
 
 interface Props {
@@ -68,11 +70,7 @@ const EditLineForm = (props: Props) => {
 
   const values = watch();
   const [sources, setSources] = useState<iSynopsis[]>([]);
-  const [snackbar, setSnackbar] = useState<{open: boolean, message: string, severity: 'success' | 'error'}>({
-    open: false, 
-    message: '', 
-    severity: 'success'
-  });
+  const { snackbar, showSuccess, showError, hideSnackbar } = useSnackbar();
   const [hasChanges, setHasChanges] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -158,11 +156,7 @@ const EditLineForm = (props: Props) => {
       });
       
       // Success notification
-      setSnackbar({
-        open: true,
-        message: 'השורה נשמרה בהצלחה!',
-        severity: 'success'
-      });
+      showSuccess('השורה נשמרה בהצלחה!');
       
       // Reset button to gray/disabled after successful save
       setHasChanges(false);
@@ -170,11 +164,7 @@ const EditLineForm = (props: Props) => {
       
     } catch (error) {
       // Error notification
-      setSnackbar({
-        open: true,
-        message: `שגיאה בשמירת השורה: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        severity: 'error'
-      });
+      showError(`שגיאה בשמירת השורה: ${error instanceof Error ? error.message : 'Unknown error'}`);
       console.error('Save error:', error);
     }
   };
@@ -204,22 +194,11 @@ const EditLineForm = (props: Props) => {
         שמור
       </Button>
       
-      {/* Gentle notification snackbar */}
-      <Snackbar 
-        open={snackbar.open} 
-        autoHideDuration={4000}
-        onClose={() => setSnackbar(prev => ({...prev, open: false}))}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert 
-          onClose={() => setSnackbar(prev => ({...prev, open: false}))}
-          severity={snackbar.severity}
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+      {/* Notification snackbar */}
+      <NotificationSnackbar 
+        snackbar={snackbar}
+        onClose={hideSnackbar}
+      />
     </form>
   );
 };

@@ -18,7 +18,8 @@ import LinkPopup from '../../popups/LinkPopup';
 import { ListItemSecondaryAction } from '@mui/material';
 import { hebrewMap } from '../../../inc/utils';
 import LineService from '../../../services/line.service';
-import { Snackbar, Alert } from '@mui/material';
+import { useSnackbar } from '../../../hooks/useSnackbar';
+import NotificationSnackbar from '../../shared/NotificationSnackbar';
 
 interface Props {
   parallels: iInternalLink[];
@@ -31,11 +32,7 @@ export const MakbilaMenu = (props: Props) => {
   const { parallels, onUpdateInternalSources, currentLineSublines, currentMishna, currentLineNumber } = props;
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [snackbar, setSnackbar] = useState<{open: boolean, message: string, severity: 'success' | 'error'}>({
-    open: false, 
-    message: '', 
-    severity: 'success'
-  });
+  const { snackbar, showSuccess, showError, hideSnackbar } = useSnackbar();
   const btnCaption = `${t('Talmudic Parallels')} [${parallels.length}]`;
   return (
     <>
@@ -85,19 +82,11 @@ export const MakbilaMenu = (props: Props) => {
               onUpdateInternalSources(updatedParallels);
               
               // Success notification
-              setSnackbar({
-                open: true,
-                message: 'הקישור נשמר בהצלחה!',
-                severity: 'success'
-              });
+              showSuccess('הקישור נשמר בהצלחה!');
               
             } catch (error) {
               // Error notification
-              setSnackbar({
-                open: true,
-                message: `שגיאה בשמירת הקישור: ${error instanceof Error ? error.message : 'Unknown error'}`,
-                severity: 'error'
-              });
+              showError(`שגיאה בשמירת הקישור: ${error instanceof Error ? error.message : 'Unknown error'}`);
             }
           }
           setOpen(false);
@@ -124,22 +113,11 @@ export const MakbilaMenu = (props: Props) => {
         )}
       </PopupState>
       
-      {/* Gentle notification snackbar */}
-      <Snackbar 
-        open={snackbar.open} 
-        autoHideDuration={4000}
-        onClose={() => setSnackbar(prev => ({...prev, open: false}))}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert 
-          onClose={() => setSnackbar(prev => ({...prev, open: false}))}
-          severity={snackbar.severity}
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+      {/* Notification snackbar */}
+      <NotificationSnackbar 
+        snackbar={snackbar}
+        onClose={hideSnackbar}
+      />
     </>
   );
 };
