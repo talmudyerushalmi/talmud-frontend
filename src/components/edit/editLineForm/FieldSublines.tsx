@@ -5,11 +5,10 @@ import SublineField from './SublineField';
 interface Props {
   control: Control<any>;
   onRemoveSource: (i: number) => void;
-  onFieldChange?: () => void;
 }
 
 const FieldSublines = (props: Props) => {
-  const { control, onRemoveSource, onFieldChange } = props;
+  const { control, onRemoveSource } = props;
   const { fields } = useFieldArray({
     control,
     name: 'sublines',
@@ -26,7 +25,6 @@ const FieldSublines = (props: Props) => {
             onRemoveSource={(idToRemove: number) => {
               onRemoveSource(idToRemove);
             }}
-            onFieldChange={onFieldChange}
           />
         </div>
       ))}
