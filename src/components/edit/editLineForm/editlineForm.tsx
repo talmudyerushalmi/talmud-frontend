@@ -27,7 +27,7 @@ const allowedSourcesForInitialText = ['leiden', 'dfus_rishon'];
 interface FormValues {
   mainLine: any;
   sublines: iSubline[];
-  parallels: iInternalLink[];
+  // parallels removed - managed in separate state since they save immediately
 }
 
 const EditLineForm = (props: Props) => {
@@ -52,7 +52,6 @@ const EditLineForm = (props: Props) => {
     defaultValues: {
       mainLine: EditorState.createEmpty(),
       sublines: [],
-      parallels: [],
     },
     mode: 'all', // Enable immediate change detection during typing
     // resolver: yupResolver(validationSchema),
@@ -62,14 +61,15 @@ const EditLineForm = (props: Props) => {
     if (line) {
       reset({
         mainLine: EditorState.createWithContent(ContentState.createFromText(textForEditor || '')),
-        parallels: line.parallels || [],
         sublines: line.sublines || [],
       });
+      setParallels(line.parallels || []); // Initialize parallels in separate state
     }
   }, [line, textForEditor, reset]);
 
   const values = watch();
   const [sources, setSources] = useState<iSynopsis[]>([]);
+  const [parallels, setParallels] = useState<iInternalLink[]>([]); // Separate state for parallels
   const { snackbar, showSuccess, showError, hideSnackbar } = useSnackbar();
   const [hasChanges, setHasChanges] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -109,9 +109,9 @@ const EditLineForm = (props: Props) => {
     setHasChanges(false);
   }, [navigationKey]); // Reset when any part of navigation changes
 
-  const onUpdateInternalSources = (parallels: iInternalLink[]) => {
-    setValue('parallels', parallels);
-    setHasChanges(true); // Mark as changed when parallels are updated
+  const onUpdateInternalSources = (updatedParallels: iInternalLink[]) => {
+    setParallels(updatedParallels); // Update separate parallels state
+    // Note: No need to mark hasChanges since parallels save immediately
   };
   const onAddExternalSource = (source: any) => {
     setSources([...sources, source]);
@@ -148,12 +148,8 @@ const EditLineForm = (props: Props) => {
   };
   const onSubmit = async (data: FormValues) => {
     try {
-      // Remove parallels from data since they're saved immediately when created
-      const { parallels, ...dataWithoutParallels } = data;
-      
-      await LineService.saveLine(currentMishna.tractate, currentMishna.chapter, currentMishna.mishna, line!.lineNumber!, {
-        ...dataWithoutParallels,
-      });
+      // Save main line data directly (parallels are already saved separately)
+      await LineService.saveLine(currentMishna.tractate, currentMishna.chapter, currentMishna.mishna, line!.lineNumber!, data);
       
       // Success notification
       showSuccess('השורה נשמרה בהצלחה!');
@@ -174,7 +170,7 @@ const EditLineForm = (props: Props) => {
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <SourceButtons
         sources={values.sublines}
-        parallels={values.parallels}
+        parallels={parallels}
         onAddSource={(source) => onAddSource(source)}
         onRemoveSource={(id) => onRemoveSource(id)}
         onAddExternalSource={onAddExternalSource}
