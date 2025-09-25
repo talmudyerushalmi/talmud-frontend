@@ -33,13 +33,7 @@ export default class LineService {
 
   static async saveLine(tractate: string, chapter: string, mishna: string, line: string, values: any) {
     const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}`;
-    const data = { ...values };
-    
-    // Convert parallels from frontend format to backend format
-    if (data.parallels && Array.isArray(data.parallels)) {
-      data.parallels = this.convertParallelsToBackend(data.parallels);
-    }
-    const s = await axiosInstance.post(url, data);
+    const s = await axiosInstance.post(url, values);
     return s.data;
   }
 
