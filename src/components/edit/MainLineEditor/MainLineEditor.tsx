@@ -24,7 +24,6 @@ interface Props {
   fieldName: string;
   content: RawDraftContentState;
   control: Control<any>;
-  onFieldChange?: () => void;
 }
 
 enum MODE {
@@ -55,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainLineEditor = (props: Props) => {
-  const { content, onSave, fieldName, control, onFieldChange } = props;
+  const { content, onSave, fieldName, control } = props;
 
   const classes = useStyles();
 
@@ -93,10 +92,6 @@ const MainLineEditor = (props: Props) => {
   };
   const editorChange = (e) => {
     setEditor(e);
-    // Trigger immediate change detection on every keystroke
-    if (onFieldChange) {
-      onFieldChange();
-    }
   };
   const btnSaveHandler = () => {
     setMode(MODE.READONLY);
