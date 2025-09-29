@@ -34,12 +34,48 @@ export const MakbilaMenu = (props: Props) => {
   const [open, setOpen] = useState(false);
   const { snackbar, showSuccess, showError, hideSnackbar } = useSnackbar();
   const btnCaption = `${t('Talmudic Parallels')} [${parallels.length}]`;
+  
+  // Generic function to save parallels and handle UI updates
+  const saveParallelsToDb = async (updatedParallels: iParallelLink[], successMessage: string, errorPrefix: string) => {
+    try {
+      await LineService.saveParallels(
+        currentMishna.tractate, 
+        currentMishna.chapter, 
+        currentMishna.mishna, 
+        currentLineNumber, 
+        updatedParallels
+      );
+      
+      // Update UI after successful save
+      onUpdateInternalSources(updatedParallels);
+      
+      // Success notification
+      showSuccess(successMessage);
+      
+    } catch (error) {
+      // Error notification
+      showError(`${errorPrefix}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+  
+  // Handle adding a new parallel
+  const handleAddParallel = async (link: iParallelLink) => {
+    const updatedParallels = [...parallels, link];
+    await saveParallelsToDb(updatedParallels, 'המקבילה נשמרה בהצלחה!', 'שגיאה בשמירת המקבילה');
+  };
+  
+  // Handle deleting a parallel
+  const handleDeleteParallel = async (index: number) => {
+    const updatedParallels = [...parallels];
+    updatedParallels.splice(index, 1);
+    await saveParallelsToDb(updatedParallels, 'המקבילה נמחקה בהצלחה!', 'שגיאה במחיקת המקבילה');
+  };
   return (
     <>
       <LinkPopup
         open={open}
         currentLineSublines={currentLineSublines}
-        onClose={async (makbila: iLink | null) => {
+        onClose={async (makbila: (iLink & { selectedSublineIndices?: number[]; currentSublineIndices?: number[]; }) | null) => {
           if (makbila) {
             let linkText = `${hebrewMap.get(makbila.chapter)} ${hebrewMap.get(makbila.mishna)} ${makbila.lineNumber}`;
             
@@ -67,27 +103,8 @@ export const MakbilaMenu = (props: Props) => {
               currentSublineIndices: makbila.currentSublineIndices,
             };
 
-            // Save the parallel immediately to database
-            try {
-              const updatedParallels = [...parallels, link];
-              await LineService.saveParallels(
-                currentMishna.tractate, 
-                currentMishna.chapter, 
-                currentMishna.mishna, 
-                currentLineNumber, 
-                updatedParallels
-              );
-              
-              // Update UI after successful save
-              onUpdateInternalSources(updatedParallels);
-              
-              // Success notification
-              showSuccess('הקישור נשמר בהצלחה!');
-              
-            } catch (error) {
-              // Error notification
-              showError(`שגיאה בשמירת הקישור: ${error instanceof Error ? error.message : 'Unknown error'}`);
-            }
+            // Handle add in parent - save to database and update UI
+            await handleAddParallel(link);
           }
           setOpen(false);
         }}
@@ -101,9 +118,7 @@ export const MakbilaMenu = (props: Props) => {
             <Menu {...bindMenu(popupState)}>
               <MakbilaList
                 makbilot={parallels}
-                onDelete={(parallels) => {
-                  onUpdateInternalSources(parallels);
-                }}
+                onDelete={handleDeleteParallel}
                 onAdd={() => {
                   setOpen(true);
                 }}
@@ -125,7 +140,7 @@ export const MakbilaMenu = (props: Props) => {
 interface MakbilaListProps {
   makbilot: iParallelLink[];
   onAdd: Function;
-  onDelete: (parallels: iParallelLink[]) => void;
+  onDelete: (index: number) => void;
 }
 const MakbilaList = (props: MakbilaListProps) => {
   const { makbilot, onAdd, onDelete } = props;
@@ -151,9 +166,7 @@ const MakbilaList = (props: MakbilaListProps) => {
           </IconButton>
           <IconButton
             onClick={() => {
-              const newParallels = [...makbilot];
-              newParallels.splice(index, 1);
-              onDelete(newParallels);
+              onDelete(index);
             }}
             edge="end"
             aria-label="delete">

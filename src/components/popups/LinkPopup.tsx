@@ -4,12 +4,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { Button, DialogActions, Divider, Typography, Box, Grid, Paper, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import ChooseMishnaForm from '../shared/ChooseMishna/ChooseMishnaForm';
-import { iLink, iTractate, iSubline } from '../../types/types';
+import { iLink, iParallelLink, iTractate, iSubline } from '../../types/types';
 import PageService from '../../services/pageService';
 
 interface Props {
   open: boolean;
-  onClose: (link: iLink | null) => void;
+  onClose: (link: (iLink & { selectedSublineIndices?: number[]; currentSublineIndices?: number[]; }) | null) => void;
   currentLineSublines?: iSubline[];
 }
 
