@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { EditorState, ContentState } from 'draft-js';
 import SourceButtons from '../MainLineEditor/SourceButtons';
 import LineService from '../../../services/line.service';
-import { iLine, iInternalLink, iSubline, iSynopsis } from '../../../types/types';
+import { iLine, iParallelLink, iSubline, iSynopsis } from '../../../types/types';
 import { getTextForSynopsis } from '../../../inc/synopsisUtils';
 import { Button } from '@mui/material';
 import { useSnackbar } from '../../../hooks/useSnackbar';
@@ -69,7 +69,7 @@ const EditLineForm = (props: Props) => {
 
   const values = watch();
   const [sources, setSources] = useState<iSynopsis[]>([]);
-  const [parallels, setParallels] = useState<iInternalLink[]>([]); // Separate state for parallels
+  const [parallels, setParallels] = useState<iParallelLink[]>([]); // Separate state for parallels
   const { snackbar, showSuccess, showError, hideSnackbar } = useSnackbar();
   const [hasChanges, setHasChanges] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -109,7 +109,7 @@ const EditLineForm = (props: Props) => {
     setHasChanges(false);
   }, [navigationKey]); // Reset when any part of navigation changes
 
-  const onUpdateInternalSources = (updatedParallels: iInternalLink[]) => {
+  const onUpdateInternalSources = (updatedParallels: iParallelLink[]) => {
     setParallels(updatedParallels); // Update separate parallels state
     // Note: No need to mark hasChanges since parallels save immediately
   };

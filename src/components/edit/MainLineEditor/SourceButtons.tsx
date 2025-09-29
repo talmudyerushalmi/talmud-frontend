@@ -3,7 +3,7 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React from 'react';
 import ExternalSourceDetails from '../ExternalSourceDetails';
 import { connect } from 'react-redux';
-import { iInternalLink, iSubline } from '../../../types/types';
+import { iParallelLink, iSubline, iMishna } from '../../../types/types';
 import { MakbilaMenu } from '../editLineForm/MakbilaList';
 
 const mapStateToProps = (state) => ({
@@ -15,11 +15,11 @@ interface Props {
   onAddSource: Function;
   onRemoveSource: Function;
   sources: iSubline[];
-  parallels: iInternalLink[];
+  parallels: iParallelLink[];
   onAddExternalSource: (source: string) => void;
-  onUpdateInternalSources: (parallels: iInternalLink[]) => void;
+  onUpdateInternalSources: (parallels: iParallelLink[]) => void;
   currentLineSublines?: iSubline[];
-  currentMishna?: any;
+  currentMishna?: iMishna & { chapter: string };
   currentLineNumber?: string;
 }
 const SourceButtons = (props: Props) => {
@@ -81,7 +81,7 @@ const SourceButtons = (props: Props) => {
             parallels={parallels} 
             onUpdateInternalSources={onUpdateInternalSources}
             currentLineSublines={currentLineSublines}
-            currentMishna={currentMishna}
+            currentMishna={currentMishna!}
             currentLineNumber={currentLineNumber || ''}
           />
         </Grid>

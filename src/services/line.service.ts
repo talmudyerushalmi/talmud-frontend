@@ -1,12 +1,12 @@
 import { RawDraftContentState } from 'draft-js';
-import { iMishna, iInternalLink } from '../types/types';
+import { iMishna, iParallelLink } from '../types/types';
 import axiosInstance from './api';
 
 export default class LineService {
   // Convert frontend format to backend InternalParallelLink format
-  private static convertParallelsToBackend(parallels: any[]): any[] {
+  private static convertParallelsToBackend(parallels: iParallelLink[]): iParallelLink[] {
     return parallels.map(parallel => {
-      const result: any = {
+      const result: iParallelLink = {
         linkText: parallel.linkText,
         tractate: parallel.tractate,
         chapter: parallel.chapter,
@@ -14,13 +14,14 @@ export default class LineService {
         lineNumber: parallel.lineNumber,
       };
 
-      // Convert frontend format to backend sublinePairs format
+      // Convert frontend arrays to backend sublinePairs format
       if (parallel.selectedSublineIndices && parallel.currentSublineIndices) {
-        const currentIndices = parallel.currentSublineIndices as number[];
-        const targetIndices = parallel.selectedSublineIndices as number[];
+        const currentIndices = parallel.currentSublineIndices;
+        const targetIndices = parallel.selectedSublineIndices;
         
         if (currentIndices.length > 0 && targetIndices.length > 0) {
-          result.sublinePairs = currentIndices.map((sourceIndex, i) => ({
+          // Add sublinePairs to the backend format (not part of interface)
+          (result as any).sublinePairs = currentIndices.map((sourceIndex, i) => ({
             sourceIndex,
             targetIndex: targetIndices[i]
           }));
@@ -38,7 +39,7 @@ export default class LineService {
   }
 
   // Save only parallel links for a specific line
-  static async saveParallels(tractate: string, chapter: string, mishna: string, line: string, parallels: any[]) {
+  static async saveParallels(tractate: string, chapter: string, mishna: string, line: string, parallels: iParallelLink[]) {
     const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/parallels`;
     const data = {
       parallels: this.convertParallelsToBackend(parallels)

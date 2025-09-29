@@ -111,7 +111,7 @@ export interface iLine {
   sourceReference?: string;
   mainLine: string;
   sublines?: iSubline[];
-  parallels?: iInternalLink[];
+  parallels?: iParallelLink[];
 }
 
 export interface iManuscript {
@@ -139,11 +139,12 @@ export interface iLink {
   chapter: string;
   mishna: string;
   lineNumber?: string;
+}
+export interface iParallelLink extends iLink {
+  linkText: string;
+  // UI uses arrays for React state and rendering
   selectedSublineIndices?: number[];
   currentSublineIndices?: number[];
-}
-export interface iInternalLink extends iLink {
-  linkText: string;
 }
 
 

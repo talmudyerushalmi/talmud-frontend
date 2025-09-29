@@ -1,6 +1,7 @@
 import { RawDraftContentState } from 'draft-js';
-import { iMishna, iTractate, iInternalLink } from '../types/types';
+import { iMishna, iTractate, iParallelLink } from '../types/types';
 import axiosInstance from './api';
+
 
 export interface RichTextsMishnas {
   mishna: string;
@@ -15,7 +16,7 @@ interface getChapterReponse {
 
 export default class PageService {
   // Convert backend InternalParallelLink format to frontend format  
-  private static convertParallelLinksToFrontend(parallelLinks: any[]): iInternalLink[] {
+  private static convertParallelLinksToFrontend(parallelLinks: Partial<iParallelLink>[]): iParallelLink[] {
     return parallelLinks
       .filter(parallel => parallel && parallel.tractate) // Safety check
       .map(parallel => ({
@@ -24,27 +25,34 @@ export default class PageService {
         chapter: parallel.chapter || '',
         mishna: parallel.mishna || '',
         lineNumber: parallel.lineNumber || '',
-        selectedSublineIndices: parallel.sublinePairs?.map((pair: any) => pair.targetIndex) || [],
-        currentSublineIndices: parallel.sublinePairs?.map((pair: any) => pair.sourceIndex) || [],
+        selectedSublineIndices: (parallel as any).sublinePairs?.map((pair: any) => pair.targetIndex) || [],
+        currentSublineIndices: (parallel as any).sublinePairs?.map((pair: any) => pair.sourceIndex) || [],
       }));
   }
 
-  private static convertMishnaParallels(mishnaData: any): iMishna {
+  private static convertMishnaParallels(mishnaData: iMishna): iMishna {
     if (mishnaData && mishnaData.lines) {
-      mishnaData.lines = mishnaData.lines.map(line => {
+      const convertedLines = mishnaData.lines.map(line => {
+        let convertedParallels: iParallelLink[] = [];
         if (line.parallels && Array.isArray(line.parallels) && line.parallels.length > 0) {
           try {
-            line.parallels = this.convertParallelLinksToFrontend(line.parallels);
+            convertedParallels = this.convertParallelLinksToFrontend(line.parallels);
           } catch (error) {
             console.error('Error converting parallels for line:', line.lineNumber, error);
-            line.parallels = []; // Fallback to empty array
+            convertedParallels = []; // Fallback to empty array
           }
-        } else {
-          // Ensure parallels is always an array
-          line.parallels = line.parallels || [];
         }
-        return line;
+        
+        return {
+          ...line,
+          parallels: convertedParallels
+        };
       });
+      
+      return {
+        ...mishnaData,
+        lines: convertedLines
+      } as iMishna;
     }
     return mishnaData;
   }

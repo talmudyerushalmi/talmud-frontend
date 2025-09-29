@@ -11,7 +11,7 @@ import Menu from '@mui/material/Menu';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import AddIcon from '@mui/icons-material/Add';
 import { useTranslation } from 'react-i18next';
-import { iInternalLink, iLink, iSubline } from '../../../types/types';
+import { iParallelLink, iLink, iSubline, iMishna } from '../../../types/types';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LinkPopup from '../../popups/LinkPopup';
@@ -22,10 +22,10 @@ import { useSnackbar } from '../../../hooks/useSnackbar';
 import NotificationSnackbar from '../../shared/NotificationSnackbar';
 
 interface Props {
-  parallels: iInternalLink[];
-  onUpdateInternalSources: (parallels: iInternalLink[]) => void;
+  parallels: iParallelLink[];
+  onUpdateInternalSources: (parallels: iParallelLink[]) => void;
   currentLineSublines?: iSubline[];
-  currentMishna: any;
+  currentMishna: iMishna & { chapter: string }; // Add chapter property that exists in practice
   currentLineNumber: string;
 }
 export const MakbilaMenu = (props: Props) => {
@@ -39,7 +39,7 @@ export const MakbilaMenu = (props: Props) => {
       <LinkPopup
         open={open}
         currentLineSublines={currentLineSublines}
-        onClose={async (makbila: any) => {
+        onClose={async (makbila: iLink | null) => {
           if (makbila) {
             let linkText = `${hebrewMap.get(makbila.chapter)} ${hebrewMap.get(makbila.mishna)} ${makbila.lineNumber}`;
             
@@ -123,9 +123,9 @@ export const MakbilaMenu = (props: Props) => {
 };
 
 interface MakbilaListProps {
-  makbilot: iInternalLink[];
+  makbilot: iParallelLink[];
   onAdd: Function;
-  onDelete: (parallels: iInternalLink[]) => void;
+  onDelete: (parallels: iParallelLink[]) => void;
 }
 const MakbilaList = (props: MakbilaListProps) => {
   const { makbilot, onAdd, onDelete } = props;
