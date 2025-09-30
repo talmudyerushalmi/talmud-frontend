@@ -3,6 +3,7 @@ import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { hebrewMap } from '../../../inc/utils';
+import { getTractate, getChapter, getMishna } from '../../../inc/mishnaUtils';
 import { leanChapter } from './ChooseChapter';
 import NavigationService from '../../../services/NavigationService';
 import { iMarker, refMishna } from '../../../types/types';
@@ -41,20 +42,14 @@ const ChooseMishna = (props: Props) => {
       onSelectMishna(ALL_CHAPTER)
       return;
     }
-    const [tractateName, chapterName, mishnaName] = parseMishnaId(mishna.id);
+    const tractateName = getTractate(mishna);
+    const chapterName = getChapter(mishna);
+    const mishnaName = mishna.mishna || getMishna(mishna);
     fetchLines(tractateName, chapterName, mishnaName).then((m) => {
       onSelectMishna(m);
     });
   };
 
-  function parseMishnaId(id: string) {
-    const regex = /^(\w+)_(\d+)_(\d+)$/;
-    const match = id.match(regex);
-    if (!match) {
-      return ["","",""]
-    }
-    return  [match[1], match[2], match[3]];
-  }
 
   const fetchLines = (tractate: string, chapter: string, mishna: string) => {
     if (tractate === ALL_CHAPTER.id) {
@@ -80,7 +75,9 @@ const ChooseMishna = (props: Props) => {
     if (found) {
       setSelectedMishna(found);
 
-      const [tractateName, chapterName, mishnaName] = parseMishnaId(found.id);
+      const tractateName = getTractate(found);
+      const chapterName = getChapter(found);
+      const mishnaName = found.mishna || getMishna(found);
       fetchLines(tractateName, chapterName, mishnaName).then((m) => {
         onSelectMishna(m);
       });

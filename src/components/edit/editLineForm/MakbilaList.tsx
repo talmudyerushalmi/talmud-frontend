@@ -17,6 +17,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LinkPopup from '../../popups/LinkPopup';
 import { ListItemSecondaryAction } from '@mui/material';
 import { hebrewMap } from '../../../inc/utils';
+import { getTractate, getChapter } from '../../../inc/mishnaUtils';
 import LineService from '../../../services/line.service';
 import { useSnackbar } from '../../../hooks/useSnackbar';
 import NotificationSnackbar from '../../shared/NotificationSnackbar';
@@ -25,7 +26,7 @@ interface Props {
   parallels: iParallelLink[];
   onUpdateInternalSources: (parallels: iParallelLink[]) => void;
   currentLineSublines?: iSubline[];
-  currentMishna: iMishna & { chapter: string }; // Add chapter property that exists in practice
+  currentMishna: iMishna;
   currentLineNumber: string;
 }
 export const MakbilaMenu = (props: Props) => {
@@ -37,10 +38,18 @@ export const MakbilaMenu = (props: Props) => {
   
   // Generic function to save parallels and handle UI updates
   const saveParallelsToDb = async (updatedParallels: iParallelLink[], successMessage: string, errorPrefix: string) => {
+    const tractate = getTractate(currentMishna);
+    const chapter = getChapter(currentMishna);
+    
+    if (!tractate || !chapter) {
+      showError('לא ניתן לשמור - מידע המשנה לא זמין עדיין');
+      return;
+    }
+    
     try {
       await LineService.saveParallels(
-        currentMishna.tractate, 
-        currentMishna.chapter, 
+        tractate, 
+        chapter, 
         currentMishna.mishna, 
         currentLineNumber, 
         updatedParallels

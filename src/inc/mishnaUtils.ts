@@ -21,3 +21,42 @@ export function getSugiaLines(currentMishna: iMishna, sugiaSubline: iSubline) {
 
   return sugiaSublines;
 }
+
+/**
+ * Simple utility functions for extracting data from mishna GUID
+ */
+
+type GuidObject = { guid?: string; id?: string; };
+
+/**
+ * Gets the tractate from any object with guid or id property
+ */
+export function getTractate(data: GuidObject): string {
+  const guid = data.guid || data.id;
+  if (!guid) return '';
+  
+  const parts = guid.split('_');
+  return parts[0] || '';
+}
+
+/**
+ * Gets the chapter from any object with guid or id property
+ */
+export function getChapter(data: GuidObject): string {
+  const guid = data.guid || data.id;
+  if (!guid) return '';
+  
+  const parts = guid.split('_');
+  return parts[1] || '';
+}
+
+/**
+ * Gets the mishna from any object with guid or id property
+ */
+export function getMishna(data: GuidObject): string {
+  const guid = data.guid || data.id;
+  if (!guid) return '';
+  
+  const parts = guid.split('_');
+  return parts[2] || '';
+}

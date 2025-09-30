@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ISearchResult } from '../../store/reducers/searchReducer';
 import { hebrewMap } from '../../inc/utils';
+import { getTractate, getChapter, getMishna } from '../../inc/mishnaUtils';
 import NosachView from '../MishnaView/NosachView';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 import { iTractate } from '../../types/types';
@@ -68,7 +69,9 @@ const SearchResults: FC<SearchResultsProps> = ({ isLoading, searchResults, query
       )}
 
       {searchResults.map((result, index) => {
-        const [tractate, chapter, mishna] = result.guid.split('_');
+        const tractate = getTractate(result);
+        const chapter = getChapter(result);
+        const mishna = getMishna(result);
         const tractateInfo = allTractates.find((item) => item.id === tractate);
         const tractateTitle = tractateInfo?.title_heb || tractate;
 

@@ -22,6 +22,7 @@ export interface iMishna {
   previous?: iMarker;
   next?: iMarker;
   tractate: string;
+  guid: string;
 }
 
 export interface iMarker {
