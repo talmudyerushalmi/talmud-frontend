@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { iExcerpt } from '../../../types/types';
 import { EditorSelectionObject } from '../../../inc/editorUtils';
 import { closeExcerptDialog, saveExcerpt } from '../../../store/actions/mishnaEditActions';
+import { getTractate, getChapter } from '../../../inc/mishnaUtils';
 import * as Yup from 'yup';
 
 interface IProps {
@@ -71,7 +72,7 @@ const FormCommentExcerpt: FC<IProps> = ({
         blocks: [{ ...excerpt.editorStateFullQuote.blocks[0], text: values.comment }],
       },
     };
-    saveExcerpt(mishna.tractate, mishna.chapter, mishna.mishna, excerptToSave);
+    saveExcerpt(getTractate(mishna), getChapter(mishna), mishna.mishna, excerptToSave);
   };
 
   return (

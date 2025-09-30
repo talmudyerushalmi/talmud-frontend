@@ -3,7 +3,7 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React from 'react';
 import ExternalSourceDetails from '../ExternalSourceDetails';
 import { connect } from 'react-redux';
-import { iInternalLink, iSubline } from '../../../types/types';
+import { iParallelLink, iSubline, iMishna } from '../../../types/types';
 import { MakbilaMenu } from '../editLineForm/MakbilaList';
 
 const mapStateToProps = (state) => ({
@@ -15,12 +15,15 @@ interface Props {
   onAddSource: Function;
   onRemoveSource: Function;
   sources: iSubline[];
-  parallels: iInternalLink[];
+  parallels: iParallelLink[];
   onAddExternalSource: (source: string) => void;
-  onUpdateInternalSources: (parallels: iInternalLink[]) => void;
+  onUpdateInternalSources: (parallels: iParallelLink[]) => void;
+  currentLineSublines?: iSubline[];
+  currentMishna?: iMishna;
+  currentLineNumber?: string;
 }
 const SourceButtons = (props: Props) => {
-  const { tractateSettings, onAddSource, onRemoveSource, sources, parallels, onUpdateInternalSources } = props;
+  const { tractateSettings, onAddSource, onRemoveSource, sources, parallels, onUpdateInternalSources, currentLineSublines, currentMishna, currentLineNumber } = props;
   let selected: string[] = [];
   if (sources.length && sources[0].synopsis) {
     selected = sources[0]?.synopsis.filter((s) => (s.type === 'direct_sources' || s.type === 'translation')).map((s) => s.id);
@@ -74,7 +77,13 @@ const SourceButtons = (props: Props) => {
           />
         </Grid>
         <Grid item>
-          <MakbilaMenu parallels={parallels} onUpdateInternalSources={onUpdateInternalSources} />
+          <MakbilaMenu 
+            parallels={parallels} 
+            onUpdateInternalSources={onUpdateInternalSources}
+            currentLineSublines={currentLineSublines}
+            currentMishna={currentMishna!}
+            currentLineNumber={currentLineNumber || ''}
+          />
         </Grid>
       </Grid>
     </>

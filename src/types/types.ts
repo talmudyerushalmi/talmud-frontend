@@ -21,7 +21,7 @@ export interface iMishna {
   richTextMishna: RawDraftContentState | null;
   previous?: iMarker;
   next?: iMarker;
-  tractate: string;
+  guid: string;
 }
 
 export interface iMarker {
@@ -111,7 +111,7 @@ export interface iLine {
   sourceReference?: string;
   mainLine: string;
   sublines?: iSubline[];
-  parallels?: iInternalLink[];
+  parallels?: iParallelLink[];
 }
 
 export interface iManuscript {
@@ -140,9 +140,13 @@ export interface iLink {
   mishna: string;
   lineNumber?: string;
 }
-export interface iInternalLink extends iLink {
+export interface iParallelLink extends iLink {
   linkText: string;
+  // UI uses arrays for React state and rendering
+  selectedSublineIndices?: number[];
+  currentSublineIndices?: number[];
 }
+
 
 export interface iComment {
   userID?: string;
