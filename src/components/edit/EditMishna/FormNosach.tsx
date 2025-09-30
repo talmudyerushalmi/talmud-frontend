@@ -6,6 +6,7 @@ import { convertFromRaw, EditorState } from 'draft-js';
 import { EditorSelectionObject, getContentRaw } from '../../../inc/editorUtils';
 import { connect } from 'react-redux';
 import { closeExcerptDialog, saveExcerpt } from '../../../store/actions/mishnaEditActions';
+import { getTractate, getChapter } from '../../../inc/mishnaUtils';
 import { EXCERPT_TYPE } from './ExcerptDialog';
 import { iExcerpt } from '../../../types/types';
 
@@ -63,7 +64,7 @@ const FormNosach = (props: Props) => {
       selection,
       editorStateFullQuote: getContentRaw(values.editorStateFullQuote),
     };
-    saveExcerpt(mishna.tractate, mishna.chapter, mishna.mishna, excerptToSave);
+    saveExcerpt(getTractate(mishna), getChapter(mishna), mishna.mishna, excerptToSave);
   });
 
   return (

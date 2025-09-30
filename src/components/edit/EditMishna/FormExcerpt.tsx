@@ -10,6 +10,7 @@ import { getContentRaw } from '../../../inc/editorUtils';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { closeExcerptDialog, saveExcerpt } from '../../../store/actions/mishnaEditActions';
+import { getTractate, getChapter } from '../../../inc/mishnaUtils';
 import AddComposition from '../addComposition/AddComposition';
 import { Box } from '@mui/system';
 import { CompositionType } from '../../../types/types';
@@ -108,7 +109,7 @@ const FormExcerpt = (props: any) => {
       editorStateFullQuote: getContentRaw(data.editorStateFullQuote),
       editorStateComments: getContentRaw(data.editorStateComments),
     };
-    saveExcerpt(mishna.tractate, mishna.chapter, mishna.mishna, excerptToSave);
+    saveExcerpt(getTractate(mishna), getChapter(mishna), mishna.mishna, excerptToSave);
   };
   const allowedTypes =
     values?.type === 'MUVAA' ? [CompositionType.YALKUT, CompositionType.EXCERPT] : [CompositionType.PARALLEL];

@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { objectToBase64 } from '../../../inc/objectToBase64';
 import { useAppSelector } from '../../../app/hooks';
+import { getTractate } from '../../../inc/mishnaUtils';
 
 interface IProps {}
 
 const SearchBar: FC<IProps> = () => {
   const { t } = useTranslation();
-  const tractate = useAppSelector((state) => state.navigation?.currentMishna?.tractate);
+  const currentMishna = useAppSelector((state) => state.navigation?.currentMishna);
+  const tractate = currentMishna ? getTractate(currentMishna) : null;
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState<string | null>(null);
   const handleSearch = () => {

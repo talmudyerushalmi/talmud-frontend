@@ -7,6 +7,7 @@ import SourceButtons from '../MainLineEditor/SourceButtons';
 import LineService from '../../../services/line.service';
 import { iLine, iParallelLink, iSubline, iSynopsis } from '../../../types/types';
 import { getTextForSynopsis } from '../../../inc/synopsisUtils';
+import { getTractate, getChapter } from '../../../inc/mishnaUtils';
 import { Button } from '@mui/material';
 import { useSnackbar } from '../../../hooks/useSnackbar';
 import NotificationSnackbar from '../../shared/NotificationSnackbar';
@@ -149,7 +150,7 @@ const EditLineForm = (props: Props) => {
   const onSubmit = async (data: FormValues) => {
     try {
       // Save main line data directly (parallels are already saved separately)
-      await LineService.saveLine(currentMishna.tractate, currentMishna.chapter, currentMishna.mishna, line!.lineNumber!, data);
+      await LineService.saveLine(getTractate(currentMishna), getChapter(currentMishna), currentMishna.mishna, line!.lineNumber!, data);
       
       // Success notification
       showSuccess('השורה נשמרה בהצלחה!');

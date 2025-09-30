@@ -21,7 +21,6 @@ export interface iMishna {
   richTextMishna: RawDraftContentState | null;
   previous?: iMarker;
   next?: iMarker;
-  tractate: string;
   guid: string;
 }
 

@@ -19,7 +19,7 @@ interface Props {
   onAddExternalSource: (source: string) => void;
   onUpdateInternalSources: (parallels: iParallelLink[]) => void;
   currentLineSublines?: iSubline[];
-  currentMishna?: iMishna & { chapter: string };
+  currentMishna?: iMishna;
   currentLineNumber?: string;
 }
 const SourceButtons = (props: Props) => {
