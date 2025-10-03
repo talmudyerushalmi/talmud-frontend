@@ -47,7 +47,7 @@ export const MakbilaMenu = (props: Props) => {
     }
     
     try {
-      await LineService.saveParallels(
+      const response = await LineService.saveParallels(
         tractate, 
         chapter, 
         currentMishna.mishna, 
@@ -55,8 +55,19 @@ export const MakbilaMenu = (props: Props) => {
         updatedParallels
       );
       
-      // Update UI after successful save
-      onUpdateInternalSources(updatedParallels);
+      // Use the updated parallels from backend response (has Hebrew linkText)
+      const currentLine = response.lines?.find(line => line.lineNumber === currentLineNumber);
+      const rawBackendParallels = currentLine?.parallels || updatedParallels;
+      
+      // Convert backend format to frontend format (sublinePairs -> selectedSublineIndices)
+      const convertedParallels = rawBackendParallels.map(parallel => ({
+        ...parallel,
+        selectedSublineIndices: (parallel as any).sublinePairs?.map((pair: any) => pair.targetIndex) || [],
+        currentSublineIndices: (parallel as any).sublinePairs?.map((pair: any) => pair.sourceIndex) || [],
+      }));
+      
+      // Update UI with converted data
+      onUpdateInternalSources(convertedParallels);
       
       // Success notification
       showSuccess(successMessage);
@@ -86,24 +97,8 @@ export const MakbilaMenu = (props: Props) => {
         currentLineSublines={currentLineSublines}
         onClose={async (makbila: (iLink & { selectedSublineIndices?: number[]; currentSublineIndices?: number[]; }) | null) => {
           if (makbila) {
-            let linkText = `${hebrewMap.get(makbila.chapter)} ${hebrewMap.get(makbila.mishna)} ${makbila.lineNumber}`;
-            
-            // Add multiple subline pairs info to the display text
-            if (makbila.selectedSublineIndices && makbila.currentSublineIndices) {
-              const currentIndices = makbila.currentSublineIndices as number[];
-              const targetIndices = makbila.selectedSublineIndices as number[];
-              
-              if (currentIndices.length > 0 && targetIndices.length > 0) {
-                const pairStrings = currentIndices.map((sourceIdx, i) => {
-                  const targetIdx = targetIndices[i];
-                  return `${sourceIdx + 1}→${targetIdx + 1}`;
-                });
-                linkText += ` [זוגות: ${pairStrings.join(', ')}]`;
-              }
-            }
-            
             const link = {
-              linkText,
+              linkText: '', // Backend will generate Hebrew linkText
               tractate: makbila.tractate,
               chapter: makbila.chapter,
               mishna: makbila.mishna,
@@ -157,12 +152,24 @@ const MakbilaList = (props: MakbilaListProps) => {
   const handleAdd = () => {
     onAdd();
   };
+  
   const items = makbilot.map((makbila, index) => {
     const labelId = `checkbox-list-label-${index}`;
+    
+    // Check if this parallel has subline indexes - if not, show in red
+    const hasIndexes = makbila.selectedSublineIndices && makbila.selectedSublineIndices.length > 0;
+    const textColor = hasIndexes ? 'inherit' : 'error.main';
+    
+    // Just use the linkText from backend - it already has Hebrew tractate name
+    const displayText = makbila.linkText;
 
     return (
       <ListItem key={index} sx={{ width: '10rem' }}>
-        <ListItemText id={labelId} primary={makbila.linkText} />
+        <ListItemText 
+          id={labelId} 
+          primary={displayText}
+          sx={{ color: textColor }}
+        />
 
         <ListItemSecondaryAction>
           <IconButton
