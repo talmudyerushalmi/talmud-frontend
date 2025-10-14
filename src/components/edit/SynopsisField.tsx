@@ -19,6 +19,14 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.grey[200],
     },
   },
+  parallelLabel: {
+    color: '#666',
+    fontWeight: 'bold',
+  },
+  normalLabel: {
+    color: 'inherit',
+    fontWeight: 'normal',
+  },
 }));
 
 interface Props {
@@ -33,7 +41,7 @@ const SynopsisField = (props: Props) => {
   const { source, onChange, onDelete } = props;
   
   // Check if this is a parallel source that should be read-only
-  const isParallelSource = source.type === SourceType.PARALLEL_SOURCE || source.type === 'parallel_source';
+  const isParallelSource = source.type === SourceType.PARALLEL_SOURCE;
   
   const _onChange = (e) => {
     // Prevent changes for parallel sources
@@ -56,10 +64,7 @@ const SynopsisField = (props: Props) => {
               <HighlightOffIcon />
             </Button>
           ) : null}
-          <span style={{ 
-            color: isParallelSource ? '#666' : 'inherit',
-            fontWeight: isParallelSource ? 'bold' : 'normal'
-          }}>
+          <span className={isParallelSource ? classes.parallelLabel : classes.normalLabel}>
             {source.name} {source.location}
           </span>
         </Grid>
