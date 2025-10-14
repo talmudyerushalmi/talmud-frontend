@@ -1,7 +1,6 @@
 import { RawDraftContentState } from 'draft-js';
 import { iMishna, iTractate, iParallelLink } from '../types/types';
 import axiosInstance from './api';
-import { hebrewMap } from '../inc/utils';
 
 
 export interface RichTextsMishnas {
@@ -21,7 +20,6 @@ export default class PageService {
     return parallelLinks
       .filter(parallel => parallel && parallel.tractate) // Safety check
       .map(parallel => ({
-        // Use linkText from backend (it has Hebrew tractate names)
         linkText: parallel.linkText || '',
         tractate: parallel.tractate || '',
         chapter: parallel.chapter || '',
