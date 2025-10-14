@@ -5,8 +5,6 @@ import axiosInstance from './api';
 export default class LineService {
   // Convert frontend format to backend InternalParallelLink format
   private static convertParallelsToBackend(parallels: iParallelLink[]): iParallelLink[] {
-    console.log('🔍 Converting parallels to backend format:', parallels);
-    
     return parallels.map(parallel => {
       const result: iParallelLink = {
         linkText: parallel.linkText,
@@ -21,24 +19,15 @@ export default class LineService {
         const currentIndices = parallel.currentSublineIndices;
         const targetIndices = parallel.selectedSublineIndices;
         
-        console.log('🔍 Processing parallel for backend:', {
-          parallel,
-          currentIndices,
-          targetIndices
-        });
-        
         if (currentIndices.length > 0 && targetIndices.length > 0) {
           // Add sublinePairs to the backend format (not part of interface)
           (result as any).sublinePairs = currentIndices.map((sourceIndex, i) => ({
             sourceIndex,
             targetIndex: targetIndices[i]
           }));
-          
-          console.log('🔍 Generated sublinePairs:', (result as any).sublinePairs);
         }
       }
 
-      console.log('✅ Converted result:', result);
       return result;
     });
   }
