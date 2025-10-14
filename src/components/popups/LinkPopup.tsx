@@ -48,64 +48,75 @@ export default function LinkPopup(props: Props) {
     });
   }, []);
 
-  // Reset all selections when dialog opens
+  // Initialize dialog state when opened
   React.useEffect(() => {
-    if (open) {
-      if (editingParallel) {
-        // Pre-populate for editing
-        setMakbila({
-          tractate: editingParallel.tractate,
-          chapter: editingParallel.chapter,
-          mishna: editingParallel.mishna,
-          lineNumber: editingParallel.lineNumber
-        });
-        
-        // Pre-populate for editing - use indices as stored (no swapping needed)
-        setSelectedSublineIndices(editingParallel.selectedSublineIndices || []);
-        setCurrentSublineIndices(editingParallel.currentSublineIndices || []);
-        
-        // Fetch the target line's sublines for editing
-        PageService.getMishna(editingParallel.tractate, editingParallel.chapter, editingParallel.mishna)
-          .then((mishnaData) => {
-            const selectedLine = mishnaData.lines.find(l => l.lineNumber === editingParallel.lineNumber);
-            if (selectedLine && selectedLine.sublines) {
-              setSelectedLineSublines(selectedLine.sublines);
-            } else {
-              setSelectedLineSublines([]);
-            }
-          })
-          .catch(() => {
-            setSelectedLineSublines([]);
-          });
-      } else {
-        // Reset for new parallel
-        setSelectedSublineIndices([]);
-        setCurrentSublineIndices([]);
-        setMakbila(null);
-        setSelectedLineSublines([]);
-      }
+    if (!open) return;
+
+    if (editingParallel) {
+      initializeEditMode();
+    } else {
+      resetToAddMode();
     }
   }, [open, editingParallel]);
 
+  const initializeEditMode = async () => {
+    // Pre-populate form with existing parallel data
+    setMakbila({
+      tractate: editingParallel!.tractate,
+      chapter: editingParallel!.chapter,
+      mishna: editingParallel!.mishna,
+      lineNumber: editingParallel!.lineNumber
+    });
+    
+    setSelectedSublineIndices(editingParallel!.selectedSublineIndices || []);
+    setCurrentSublineIndices(editingParallel!.currentSublineIndices || []);
+    
+    // Load target line sublines for editing
+    try {
+      const mishnaData = await PageService.getMishna(
+        editingParallel!.tractate, 
+        editingParallel!.chapter, 
+        editingParallel!.mishna
+      );
+      const selectedLine = mishnaData.lines.find(l => l.lineNumber === editingParallel!.lineNumber);
+      setSelectedLineSublines(selectedLine?.sublines || []);
+    } catch {
+      setSelectedLineSublines([]);
+    }
+  };
+
+  const resetToAddMode = () => {
+    setSelectedSublineIndices([]);
+    setCurrentSublineIndices([]);
+    setMakbila(null);
+    setSelectedLineSublines([]);
+  };
+
+  const handleNavigationUpdate = async (link: iLink) => {
+    setMakbila(link);
+    
+    // Load sublines when a complete line is selected
+    if (link.tractate && link.chapter && link.mishna && link.lineNumber) {
+      try {
+        const mishnaData = await PageService.getMishna(link.tractate, link.chapter, link.mishna);
+        const selectedLine = mishnaData.lines.find(l => l.lineNumber === link.lineNumber);
+        setSelectedLineSublines(selectedLine?.sublines || []);
+      } catch {
+        setSelectedLineSublines([]);
+      }
+    }
+  };
+
   const handleClose = () => {
     if (makbila) {
-      // Return the link with the selected subline pairs (no swapping needed)
       const linkWithSublines = {
         ...makbila,
         selectedSublineIndices,
         currentSublineIndices
       };
-      
-      console.log('🔍 LinkPopup returning data:', {
-        editing: !!editingParallel,
-        selectedSublineIndices,
-        currentSublineIndices,
-        linkWithSublines
-      });
-      
       onClose(linkWithSublines);
     } else {
-      onClose(makbila);
+      onClose(null);
     }
   };
 
@@ -132,33 +143,10 @@ export default function LinkPopup(props: Props) {
       <DialogTitle>{editingParallel ? 'ערוך מקבילה' : 'בחר מקבילה'}</DialogTitle>
 
       <ChooseMishnaForm
-        initValues={editingParallel ? {
-          tractate: editingParallel.tractate,
-          chapter: editingParallel.chapter,
-          mishna: editingParallel.mishna,
-          lineNumber: editingParallel.lineNumber
-        } : defaultValues}
+        initValues={editingParallel || defaultValues}
         allChapterAllowed={false}
         allTractates={allTractates}
-        onNavigationUpdated={(e: iLink) => {
-          setMakbila(e);
-          
-          // When a line is selected, fetch its sublines
-          if (e.tractate && e.chapter && e.mishna && e.lineNumber) {
-            PageService.getMishna(e.tractate, e.chapter, e.mishna)
-              .then((mishnaData) => {
-                const selectedLine = mishnaData.lines.find(l => l.lineNumber === e.lineNumber);
-                if (selectedLine && selectedLine.sublines) {
-                  setSelectedLineSublines(selectedLine.sublines);
-                } else {
-                  setSelectedLineSublines([]);
-                }
-              })
-              .catch(() => {
-                setSelectedLineSublines([]);
-              });
-          }
-        }}
+        onNavigationUpdated={handleNavigationUpdate}
       />
 
       {/* Side-by-side subline selection */}
