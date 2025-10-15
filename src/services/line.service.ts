@@ -38,15 +38,44 @@ export default class LineService {
     return s.data;
   }
 
-  // Save only parallel links for a specific line
-  static async saveParallels(tractate: string, chapter: string, mishna: string, line: string, parallels: iParallelLink[]) {
-    const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/parallels`;
-    const data = {
-      parallels: this.convertParallelsToBackend(parallels)
-    };
-    const s = await axiosInstance.post(url, data);
+  // NEW GRANULAR PARALLEL OPERATIONS
+
+  /**
+   * Add a single parallel relationship
+   */
+  static async addParallel(tractate: string, chapter: string, mishna: string, line: string, parallel: iParallelLink) {
+    const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/parallel/add`;
+    const backendParallel = this.convertParallelsToBackend([parallel])[0];
+    const s = await axiosInstance.post(url, backendParallel);
     return s.data;
   }
+
+  /**
+   * Delete a single parallel relationship
+   */
+  static async deleteParallel(tractate: string, chapter: string, mishna: string, line: string, parallel: iParallelLink) {
+    const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/parallel`;
+    const backendParallel = this.convertParallelsToBackend([parallel])[0];
+    const s = await axiosInstance.delete(url, { data: backendParallel });
+    return s.data;
+  }
+
+  /**
+   * Update a single parallel relationship
+   */
+  static async updateParallel(tractate: string, chapter: string, mishna: string, line: string, oldParallel: iParallelLink, newParallel: iParallelLink) {
+    const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/parallel`;
+    const data = {
+      oldParallel: this.convertParallelsToBackend([oldParallel])[0],
+      newParallel: this.convertParallelsToBackend([newParallel])[0]
+    };
+    const s = await axiosInstance.put(url, data);
+    return s.data;
+  }
+
+  // OLD METHOD REMOVED - Use granular operations instead:
+  // LineService.addParallel(), LineService.deleteParallel(), LineService.updateParallel()
+
   static async saveNosach(
     tractate: string,
     chapter: string,

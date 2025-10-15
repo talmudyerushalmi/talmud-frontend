@@ -20,6 +20,7 @@ import { ListItemSecondaryAction } from '@mui/material';
 import { hebrewMap } from '../../../inc/utils';
 import { getTractate, getChapter } from '../../../inc/mishnaUtils';
 import LineService from '../../../services/line.service';
+import PageService from '../../../services/pageService';
 import { useSnackbar } from '../../../hooks/useSnackbar';
 import NotificationSnackbar from '../../shared/NotificationSnackbar';
 
@@ -38,8 +39,8 @@ export const MakbilaMenu = (props: Props) => {
   const { snackbar, showSuccess, showError, hideSnackbar } = useSnackbar();
   const btnCaption = `${t('Talmudic Parallels')} [${parallels.length}]`;
   
-  // Generic function to save parallels and handle UI updates
-  const saveParallelsToDb = async (updatedParallels: iParallelLink[], successMessage: string, errorPrefix: string) => {
+  // Handle adding a new parallel (using NEW granular operation)
+  const handleAddParallel = async (link: iParallelLink) => {
     const tractate = getTractate(currentMishna);
     const chapter = getChapter(currentMishna);
     
@@ -47,125 +48,130 @@ export const MakbilaMenu = (props: Props) => {
       showError('לא ניתן לשמור - מידע המשנה לא זמין עדיין');
       return;
     }
-    
+
     try {
-      // SIMPLE FIX: Check if any parallels are in the same mishna
-      const sameMishnaParallels = updatedParallels.filter(p => 
-        p.tractate === tractate && 
-        p.chapter === chapter && 
-        p.mishna === currentMishna.mishna
-      );
+      // Check if it's a same-mishna parallel
+      const isSameMishna = link.tractate === tractate && 
+                          link.chapter === chapter && 
+                          link.mishna === currentMishna.mishna;
       
-      if (sameMishnaParallels.length > 0) {
-        console.log('🔍 Detected same-mishna parallels, using sequential saves to avoid conflicts');
+      if (isSameMishna) {
+        // For same-mishna parallels, use sequential operations to avoid conflicts
+        await LineService.addParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, link);
         
-        // For same-mishna parallels, save each line separately with a delay
-        for (const parallel of sameMishnaParallels) {
-          // Save to current line first
-          await LineService.saveParallels(
-            tractate, 
-            chapter, 
-            currentMishna.mishna, 
-            currentLineNumber, 
-            [parallel] // Save one at a time
-          );
-          
-          // Small delay to avoid conflicts
-          await new Promise(resolve => setTimeout(resolve, 200));
-          
-          // Save reciprocal to the parallel line
-          const reciprocalParallel = {
-            ...parallel,
+        // Small delay to avoid conflicts
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        // Add reciprocal
+        const reciprocalParallel = {
+          ...link,
+          tractate,
+          chapter,
+          mishna: currentMishna.mishna,
+          lineNumber: currentLineNumber,
+          selectedSublineIndices: link.currentSublineIndices,
+          currentSublineIndices: link.selectedSublineIndices,
+        };
+        
+        await LineService.addParallel(
+          link.tractate,
+          link.chapter || '',
+          link.mishna || '',
+          link.lineNumber || '',
+          reciprocalParallel
+        );
+      } else {
+        // For cross-mishna parallels, single operation (backend handles reciprocal)
+        await LineService.addParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, link);
+      }
+      
+      // Refresh the UI by refetching the mishna
+      const updatedMishna = await PageService.getMishna(tractate, chapter, currentMishna.mishna);
+      const currentLine = updatedMishna.lines?.find(line => line.lineNumber === currentLineNumber);
+      // PageService.getMishna() already converts sublinePairs to selectedSublineIndices
+      const updatedParallels = currentLine?.parallels || [];
+      
+      onUpdateInternalSources(updatedParallels);
+      showSuccess('המקבילה נוספה בהצלחה!');
+    } catch (error) {
+      console.error('Error adding parallel:', error);
+      showError('שגיאה בהוספת המקבילה');
+    }
+  };
+  
+  // Handle deleting a parallel (using NEW granular operation)
+  const handleDeleteParallel = async (index: number) => {
+    const tractate = getTractate(currentMishna);
+    const chapter = getChapter(currentMishna);
+    
+    if (!tractate || !chapter) {
+      showError('לא ניתן למחוק - מידע המשנה לא זמין עדיין');
+      return;
+    }
+
+    const parallelToDelete = parallels[index];
+    if (!parallelToDelete) {
+      showError('מקבילה לא נמצאה');
+      return;
+    }
+
+    try {
+      // Check if it's a same-mishna parallel
+      const isSameMishna = parallelToDelete.tractate === tractate && 
+                          parallelToDelete.chapter === chapter && 
+                          parallelToDelete.mishna === currentMishna.mishna;
+      
+      if (isSameMishna) {
+        // For same-mishna parallels, delete both sides sequentially
+        await LineService.deleteParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, parallelToDelete);
+        
+        // Small delay to avoid conflicts
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        // Delete reciprocal
+        await LineService.deleteParallel(
+          parallelToDelete.tractate,
+          parallelToDelete.chapter || '',
+          parallelToDelete.mishna || '',
+          parallelToDelete.lineNumber || '',
+          {
+            ...parallelToDelete,
             tractate,
             chapter,
             mishna: currentMishna.mishna,
             lineNumber: currentLineNumber,
-            // Invert the indices for the reciprocal
-            selectedSublineIndices: parallel.currentSublineIndices,
-            currentSublineIndices: parallel.selectedSublineIndices,
-          };
-          
-          await LineService.saveParallels(
-            parallel.tractate,
-            parallel.chapter,
-            parallel.mishna || '',
-            parallel.lineNumber || '',
-            [reciprocalParallel]
-          );
-          
-          console.log('🔍 Saved same-mishna parallel pair:', {
-            original: `${currentLineNumber} -> ${parallel.lineNumber}`,
-            reciprocal: `${parallel.lineNumber} -> ${currentLineNumber}`
-          });
-        }
-        
-        // Now get the updated data for UI
-        const response = await LineService.saveParallels(
-          tractate, 
-          chapter, 
-          currentMishna.mishna, 
-          currentLineNumber, 
-          updatedParallels
+          }
         );
-        
-        const currentLine = response.lines?.find(line => line.lineNumber === currentLineNumber);
-        const rawBackendParallels = currentLine?.parallels || updatedParallels;
-        
-        const convertedParallels = rawBackendParallels.map(parallel => ({
-          ...parallel,
-          selectedSublineIndices: (parallel as any).sublinePairs?.map((pair: any) => pair.targetIndex) || [],
-          currentSublineIndices: (parallel as any).sublinePairs?.map((pair: any) => pair.sourceIndex) || [],
-        }));
-        
-        onUpdateInternalSources(convertedParallels);
-        
       } else {
-        // For different-mishna parallels, use the normal approach
-        const response = await LineService.saveParallels(
-          tractate, 
-          chapter, 
-          currentMishna.mishna, 
-          currentLineNumber, 
-          updatedParallels
-        );
-        
-        const currentLine = response.lines?.find(line => line.lineNumber === currentLineNumber);
-        const rawBackendParallels = currentLine?.parallels || updatedParallels;
-        
-        const convertedParallels = rawBackendParallels.map(parallel => ({
-          ...parallel,
-          selectedSublineIndices: (parallel as any).sublinePairs?.map((pair: any) => pair.targetIndex) || [],
-          currentSublineIndices: (parallel as any).sublinePairs?.map((pair: any) => pair.sourceIndex) || [],
-        }));
-        
-        onUpdateInternalSources(convertedParallels);
+        // For cross-mishna parallels, single operation (backend handles reciprocal)
+        await LineService.deleteParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, parallelToDelete);
       }
       
-      // Success notification
-      showSuccess(successMessage);
+      // Refresh the UI by refetching the mishna
+      const updatedMishna = await PageService.getMishna(tractate, chapter, currentMishna.mishna);
+      const currentLine = updatedMishna.lines?.find(line => line.lineNumber === currentLineNumber);
+      // PageService.getMishna() already converts sublinePairs to selectedSublineIndices
+      const updatedParallels = currentLine?.parallels || [];
       
+      onUpdateInternalSources(updatedParallels);
+      showSuccess('המקבילה נמחקה בהצלחה!');
     } catch (error) {
-      // Error notification
-      showError(`${errorPrefix}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error('Error deleting parallel:', error);
+      showError('שגיאה במחיקת המקבילה');
     }
   };
-  
-  // Handle adding a new parallel
-  const handleAddParallel = async (link: iParallelLink) => {
-    const updatedParallels = [...parallels, link];
-    await saveParallelsToDb(updatedParallels, 'המקבילה נשמרה בהצלחה!', 'שגיאה בשמירת המקבילה');
-  };
-  
-  // Handle deleting a parallel
-  const handleDeleteParallel = async (index: number) => {
-    const updatedParallels = [...parallels];
-    updatedParallels.splice(index, 1);
-    await saveParallelsToDb(updatedParallels, 'המקבילה נמחקה בהצלחה!', 'שגיאה במחיקת המקבילה');
-  };
 
-  // Handle editing a parallel (delete + create approach)
+  // Handle editing a parallel (using NEW granular operation)
   const handleEditParallel = async (editedParallel: iParallelLink) => {
-    // Find the index of the parallel being edited
+    const tractate = getTractate(currentMishna);
+    const chapter = getChapter(currentMishna);
+    
+    if (!tractate || !chapter) {
+      showError('לא ניתן לעדכן - מידע המשנה לא זמין עדיין');
+      return;
+    }
+
+    // Find the original parallel being edited
     const indexToReplace = parallels.findIndex(p => 
       p.tractate === editingParallel?.tractate &&
       p.chapter === editingParallel?.chapter &&
@@ -173,10 +179,71 @@ export const MakbilaMenu = (props: Props) => {
       p.lineNumber === editingParallel?.lineNumber
     );
     
-    if (indexToReplace !== -1) {
-      const updatedParallels = [...parallels];
-      updatedParallels[indexToReplace] = editedParallel;
-      await saveParallelsToDb(updatedParallels, 'המקבילה עודכנה בהצלחה!', 'שגיאה בעדכון המקבילה');
+    if (indexToReplace === -1 || !editingParallel) {
+      showError('מקבילה מקורית לא נמצאה');
+      return;
+    }
+
+    const originalParallel = parallels[indexToReplace];
+
+    try {
+      // Check if it's a same-mishna parallel
+      const isSameMishna = originalParallel.tractate === tractate && 
+                          originalParallel.chapter === chapter && 
+                          originalParallel.mishna === currentMishna.mishna;
+      
+      if (isSameMishna) {
+        // For same-mishna parallels, handle both sides sequentially
+        await LineService.updateParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, originalParallel, editedParallel);
+        
+        // Small delay to avoid conflicts
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        // Update reciprocal
+        const originalReciprocal = {
+          ...originalParallel,
+          tractate,
+          chapter,
+          mishna: currentMishna.mishna,
+          lineNumber: currentLineNumber,
+          selectedSublineIndices: originalParallel.currentSublineIndices,
+          currentSublineIndices: originalParallel.selectedSublineIndices,
+        };
+
+        const newReciprocal = {
+          ...editedParallel,
+          tractate,
+          chapter,
+          mishna: currentMishna.mishna,
+          lineNumber: currentLineNumber,
+          selectedSublineIndices: editedParallel.currentSublineIndices,
+          currentSublineIndices: editedParallel.selectedSublineIndices,
+        };
+        
+        await LineService.updateParallel(
+          originalParallel.tractate,
+          originalParallel.chapter || '',
+          originalParallel.mishna || '',
+          originalParallel.lineNumber || '',
+          originalReciprocal,
+          newReciprocal
+        );
+      } else {
+        // For cross-mishna parallels, single operation (backend handles reciprocal)
+        await LineService.updateParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, originalParallel, editedParallel);
+      }
+      
+      // Refresh the UI by refetching the mishna
+      const updatedMishna = await PageService.getMishna(tractate, chapter, currentMishna.mishna);
+      const currentLine = updatedMishna.lines?.find(line => line.lineNumber === currentLineNumber);
+      // PageService.getMishna() already converts sublinePairs to selectedSublineIndices
+      const updatedParallels = currentLine?.parallels || [];
+      
+      onUpdateInternalSources(updatedParallels);
+      showSuccess('המקבילה עודכנה בהצלחה!');
+    } catch (error) {
+      console.error('Error updating parallel:', error);
+      showError('שגיאה בעדכון המקבילה');
     }
   };
   return (
@@ -274,11 +341,17 @@ const MakbilaList = (props: MakbilaListProps) => {
 
     return (
       <ListItem key={index} sx={{ width: '10rem' }}>
-        <ListItemText 
-          id={labelId} 
-          primary={displayText}
-          sx={{ color: textColor }}
-        />
+        <ListItemButton
+          onClick={() => {
+            window.open(`/admin/edit/${makbila.tractate}/${makbila.chapter}/${makbila.mishna}/${makbila.lineNumber}`);
+          }}
+        >
+          <ListItemText 
+            id={labelId} 
+            primary={displayText}
+            sx={{ color: textColor }}
+          />
+        </ListItemButton>
 
         <ListItemSecondaryAction>
           <IconButton
