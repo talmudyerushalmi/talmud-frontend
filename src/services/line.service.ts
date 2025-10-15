@@ -62,14 +62,12 @@ export default class LineService {
 
   /**
    * Update a single parallel relationship
+   * Only needs the new parallel data - backend finds the old one automatically
    */
-  static async updateParallel(tractate: string, chapter: string, mishna: string, line: string, oldParallel: iParallelLink, newParallel: iParallelLink) {
+  static async updateParallel(tractate: string, chapter: string, mishna: string, line: string, newParallel: iParallelLink) {
     const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}/parallel`;
-    const data = {
-      oldParallel: this.convertParallelsToBackend([oldParallel])[0],
-      newParallel: this.convertParallelsToBackend([newParallel])[0]
-    };
-    const s = await axiosInstance.put(url, data);
+    const backendParallel = this.convertParallelsToBackend([newParallel])[0];
+    const s = await axiosInstance.put(url, backendParallel);
     return s.data;
   }
 

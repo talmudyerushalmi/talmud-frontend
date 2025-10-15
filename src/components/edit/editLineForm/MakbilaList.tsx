@@ -194,7 +194,7 @@ export const MakbilaMenu = (props: Props) => {
       
       if (isSameMishna) {
         // For same-mishna parallels, handle both sides sequentially
-        await LineService.updateParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, originalParallel, editedParallel);
+        await LineService.updateParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, editedParallel);
         
         // Small delay to avoid conflicts
         await new Promise(resolve => setTimeout(resolve, 200));
@@ -225,12 +225,11 @@ export const MakbilaMenu = (props: Props) => {
           originalParallel.chapter || '',
           originalParallel.mishna || '',
           originalParallel.lineNumber || '',
-          originalReciprocal,
           newReciprocal
         );
       } else {
         // For cross-mishna parallels, single operation (backend handles reciprocal)
-        await LineService.updateParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, originalParallel, editedParallel);
+        await LineService.updateParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, editedParallel);
       }
       
       // Refresh the UI by refetching the mishna
