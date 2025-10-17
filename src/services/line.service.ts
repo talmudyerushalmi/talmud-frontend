@@ -33,8 +33,19 @@ export default class LineService {
   }
 
   static async saveLine(tractate: string, chapter: string, mishna: string, line: string, values: any) {
+    // Filter out read-only sources before sending to backend
+    const cleanedValues = {
+      ...values,
+      sublines: values.sublines?.map(subline => ({
+        ...subline,
+        synopsis: subline.synopsis?.filter(s => 
+          s.type !== 'parallel_source'  // Only filter out parallel sources, keep direct_sources!
+        ) || []
+      })) || []
+    };
+    
     const url = `/edit/mishna/${tractate}/${chapter}/${mishna}/${line}`;
-    const s = await axiosInstance.post(url, values);
+    const s = await axiosInstance.post(url, cleanedValues);
     return s.data;
   }
 
