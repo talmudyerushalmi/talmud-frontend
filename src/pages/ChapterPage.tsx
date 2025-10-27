@@ -74,7 +74,7 @@ const ChapterPage = (props: Props) => {
             {richTextMishnas.map((mishna, index) => (
               <MishnaText
                 key={mishna.mishna}
-                mishna={parseInt(mishna.mishna)}
+                mishna={mishna.mishna}
                 html={getHTMLFromRawContent(mishna?.richTextMishna)}
               />
             ))}

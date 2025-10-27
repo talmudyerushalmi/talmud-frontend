@@ -66,6 +66,7 @@ export function getRichMishnaiotForChapter(tractate: string, chapter: string, ne
       type: ADD_MISHNA_TO_MISHNAIOT,
       mishna: { ...res.mishnaDocument },
       totalMishnaiot: res.totalMishnaiot,
+      richTextsMishnas: res.richTextsMishnas,
     });
   };
 }
