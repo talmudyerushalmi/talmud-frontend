@@ -120,14 +120,16 @@ const mishnaViewReducer = (state = initialState, action) => {
         ...state,
         totalMishnaiot: null,
         mishnaiot: [],
+        richTextMishnas: [],
       };
     case ADD_MISHNA_TO_MISHNAIOT:
-      const mishnaiot = state.mishnaiot;
-      mishnaiot.push(action.mishna);
+      // Don't mutate state - create a new array with the new mishna
       return {
         ...state,
         totalMishnaiot: action.totalMishnaiot,
-        mishnaiot: [...mishnaiot],
+        mishnaiot: [...state.mishnaiot, action.mishna],
+        // Set richTextMishnas only once (it's the same for all mishnaiot in the chapter)
+        richTextMishnas: state.richTextMishnas.length === 0 ? action.richTextsMishnas : state.richTextMishnas,
       };
     default:
       return state;
