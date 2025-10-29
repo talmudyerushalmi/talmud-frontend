@@ -15,7 +15,7 @@ import { setRoute } from '../../../store/actions/navigationActions';
 interface Props {
   allChapterAllowed?: boolean;
   keypressNavigation?: boolean;
-  onNavigationUpdated: Function;
+  onNavigationUpdated: (nav: iLink) => void;
   onButtonNavigation?: (nav: iLink) => void;
 }
 
@@ -29,12 +29,13 @@ const ChooseMishnaBar = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
-  const [navigation, setNavigation] = useState<iLink>({
+  // Derive navigation directly from URL params instead of using state
+  const navigation: iLink = {
     tractate: tractate || '',
     chapter: chapter || '',
     mishna: mishna || '',
     lineNumber: line || '',
-  });
+  };
   const { t } = useTranslation();
   const [allTractates, setAllTractates] = useState<iTractate[]>([]);
 
@@ -63,11 +64,10 @@ const ChooseMishnaBar = ({
         <Grid container>
           <Box sx={{ display: 'flex', flexGrow: 10 }}>
             <ChooseMishnaForm
+              key={`${navigation.tractate}-${navigation.chapter}-${navigation.mishna}-${navigation.lineNumber}`}
               allChapterAllowed
               keypressNavigation
-              onNavigationUpdated={(newNav) => {
-                setNavigation(newNav);
-              }}
+              onNavigationUpdated={onNavigationUpdated}
               onButtonNavigation={onButtonNavigation}
               initValues={navigation}
               allTractates={allTractates}
