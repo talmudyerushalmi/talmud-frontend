@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, useTheme } from '@mui/material';
+import { Button, Grid, useTheme, Tooltip } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import SynopsisTextEditor from './SynopsisTextEditor';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -35,6 +35,34 @@ interface Props {
   onDelete: (e)=>void;
 }
 
+/**
+ * Shortens parallel source description
+ * Example: "סוטה ב ה [00175] - כתב יד ליידן" -> "סוטה ב ה - ל"
+ */
+const shortenParallelSourceName = (name: string): string => {
+  // Pattern: "tractate chapter mishna [lineNumber] - sourceName"
+  const match = name.match(/^(.+?)\s+\[[\d]+\]\s+-\s+(.+)$/);
+  
+  if (!match) {
+    return name; // Return original if pattern doesn't match
+  }
+  
+  const tractateChapterMishna = match[1]; // "סוטה ב ה"
+  const sourceName = match[2]; // "כתב יד ליידן"
+  
+  // Map of source abbreviations
+  const sourceAbbreviations: { [key: string]: string } = {
+    'כתב יד ליידן': 'ל',
+    'כתב יד רומי': 'ר',
+    'דפוס ראשון': 'ד',
+    'קריאה 2': 'כ2',
+  };
+  
+  const abbreviatedSource = sourceAbbreviations[sourceName] || sourceName;
+  
+  return `${tractateChapterMishna} - ${abbreviatedSource}`;
+};
+
 const SynopsisField = (props: Props) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -54,6 +82,14 @@ const SynopsisField = (props: Props) => {
       text: e,
     });
   };
+  
+  // Get display name (shortened for parallel sources, original for others)
+  const displayName = isParallelSource 
+    ? shortenParallelSourceName(source.name) 
+    : source.name;
+  
+  // Full name for tooltip (only for parallel sources)
+  const fullName = isParallelSource ? source.name : null;
 
   return (
     <>
@@ -64,9 +100,17 @@ const SynopsisField = (props: Props) => {
               <HighlightOffIcon />
             </Button>
           ) : null}
-          <span className={isParallelSource ? classes.parallelLabel : classes.normalLabel}>
-            {source.name} {source.location}
-          </span>
+          {fullName ? (
+            <Tooltip title={fullName} arrow placement="top">
+              <span className={isParallelSource ? classes.parallelLabel : classes.normalLabel}>
+                {displayName} {source.location}
+              </span>
+            </Tooltip>
+          ) : (
+            <span className={isParallelSource ? classes.parallelLabel : classes.normalLabel}>
+              {displayName} {source.location}
+            </span>
+          )}
         </Grid>
         <Grid 
           item 
