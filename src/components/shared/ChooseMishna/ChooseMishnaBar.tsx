@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, Box } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 
 import { useParams } from 'react-router';
-import { useTranslation } from 'react-i18next';
 import ChooseMishnaForm from './ChooseMishnaForm';
 import { PrintHeader } from '../PrintHeader';
 import { routeObject } from '../../../store/reducers/navigationReducer';
@@ -19,8 +18,6 @@ interface Props {
   onButtonNavigation?: (nav: iLink) => void;
 }
 
-const selectButtonDisabled = () => false;
-
 const ChooseMishnaBar = ({
   allChapterAllowed = false,
   keypressNavigation = false,
@@ -36,16 +33,11 @@ const ChooseMishnaBar = ({
     mishna: mishna || '',
     lineNumber: line || '',
   };
-  const { t } = useTranslation();
   const [allTractates, setAllTractates] = useState<iTractate[]>([]);
 
   useEffect(() => {
     PageService.getAllTractates().then((tractates) => setAllTractates(tractates));
   }, []);
-
-  const handleNavigate = (e) => {
-    onNavigationUpdated(navigation);
-  };
 
   useEffect(() => {
     if (tractate && chapter && mishna) {
@@ -55,14 +47,9 @@ const ChooseMishnaBar = ({
 
   return (
     <>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleNavigate(e);
-        }}
-        className="choose-mishna-bar-form">
+      <Box className="choose-mishna-bar-form">
         <Grid container>
-          <Box sx={{ display: 'flex', flexGrow: 10 }}>
+          <Box sx={{ display: 'flex', flexGrow: 1 }}>
             <ChooseMishnaForm
               key={`${navigation.tractate}-${navigation.chapter}-${navigation.mishna}-${navigation.lineNumber}`}
               allChapterAllowed
@@ -73,19 +60,8 @@ const ChooseMishnaBar = ({
               allTractates={allTractates}
             />
           </Box>
-          <Box mb={2} sx={{ display: 'flex', flexGrow: 1 }}>
-            <Button
-              sx={{ width: '100%' }}
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={handleNavigate}
-              disabled={selectButtonDisabled()}>
-              {t('Go')}
-            </Button>
-          </Box>
         </Grid>
-      </form>
+      </Box>
       <SearchBar />
       {/* Print version */}
       <PrintHeader allTractates={allTractates} />
