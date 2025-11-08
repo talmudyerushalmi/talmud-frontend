@@ -12,6 +12,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import relatedReducer from './reducers/relatedReducer';
 import contentfulReducer from './reducers/contentfulReducer';
 import { searchReducer } from './reducers/searchReducer';
+import synopsisReducer from './reducers/synopsisReducer';
 
 
 
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   related: relatedReducer,
   contentful: contentfulReducer,
   search: searchReducer,
+  synopsis: synopsisReducer,
 });
 
 const persistConfig = {

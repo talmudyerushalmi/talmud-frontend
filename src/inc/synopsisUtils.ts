@@ -54,42 +54,21 @@ export function hideSourceFromText(str) {
   return str ? str.replace(step1, '').trim() : '';
 }
 
-export const synopsisMap = new Map([
-  ['leiden', { title: 'ל' }],
-  ['leiden_2', { title: 'ל2' }],
-  ['rome', { title: 'ר' }],
-  ['escorial', { title: 'א' }],
-  ['munich', { title: 'מ' }],
-  ['oxford', { title: 'או' }],
-  ['dfus_rishon', { title: 'ד' }],
-  ['gniza_1', { title: 'ג1' }],
-  ['gniza_2', { title: 'ג2' }],
-  ['gniza_3', { title: 'ג3' }],
-  ['gniza_4', { title: 'ג4' }],
-  ['gniza_5', { title: 'ג5' }],
-  ['gniza_6', { title: 'ג6' }],
-  ['gniza_7', { title: 'ג7' }],
-  ['gniza_8', { title: 'ג8' }],
-  ['gniza_9', { title: 'ג9' }],
-  ['gniza_10', { title: 'ג10' }],
-  ['gniza_11', { title: 'ג11' }],
-  ['kricha_1', { title: 'כ1' }],
-  ['kricha_2', { title: 'כ2' }],
-  ['kricha_3', { title: 'כ3' }],
-  ['kricha_4', { title: 'כ4' }],
-  ['kricha_5', { title: 'כ5' }],
-  ['kricha_6', { title: 'כ6' }],
-  ['kricha_7', { title: 'כ7' }],
-  ['kricha_8', { title: 'כ8' }],
-  ['kricha_13', { title: 'כ13' }],
-  ['kricha_14', { title: 'כ14' }],
-  ['likutim_2', { title: 'לק2' }],
-  ['likutim_3', { title: 'לק3' }],
-  ['likutim_4', { title: 'לק4' }],
-  ['likutim_5', { title: 'לק5' }],
-  ['likutim_12', { title: 'לק12' }],
-  ['likutim_l_1', { title: 'לק-ל1' }],
-  ['likutim_l_2', { title: 'לק-ל2' }],
-  ['likutim_l_3', { title: 'לק-ל3' }],
-  ['translation', { title: 'ת' }],
-]);
+/**
+ * Build synopsis map from synopsisList stored in Redux
+ * Returns a Map with button_code as key and object with title (shortName) as value
+ */
+export function buildSynopsisMap(synopsisList: any): Map<string, { title: string }> {
+  const map = new Map();
+  
+  if (synopsisList) {
+    Object.keys(synopsisList).forEach(key => {
+      const item = synopsisList[key];
+      if (item.button_code && item.shortName) {
+        map.set(item.button_code, { title: item.shortName });
+      }
+    });
+  }
+  
+  return map;
+}

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { getSynopsisRaw, synopsisMap } from '../../inc/synopsisUtils';
+import { getSynopsisRaw, buildSynopsisMap } from '../../inc/synopsisUtils';
 import { iManuscript, iManuscriptPopup, iSubline } from '../../types/types';
 import { setSublineData } from '../../store/actions/relatedActions';
 import { connect } from 'react-redux';
@@ -15,6 +15,7 @@ import ButtonUnstyled from '../shared/ButtonUnstyled';
 import { getImageUrl } from '../../inc/manuscriptUtils';
 import { Tooltip, useTheme } from '@mui/material';
 import { iSynopsis, SourceType } from '../../types/types';
+import { useAppSelector } from '../../app/hooks';
 
 const useStyles = makeStyles({
   table: {
@@ -57,6 +58,10 @@ const SynopsisTable = (props: Props) => {
   const { subline, setSublineData, lineNumber, manuscriptsForChapter } = props;
   const { synopsis } = subline;
   const theme = useTheme();
+  
+  // Get synopsis list from Redux and build the map
+  const synopsisList = useAppSelector((state) => state.synopsis.synopsisList);
+  const synopsisMap = useMemo(() => buildSynopsisMap(synopsisList), [synopsisList]);
 
   const memoizedColor = useCallback((synopsis: iSynopsis)=>{
     if (synopsis.type === SourceType.TRANSLATION) {

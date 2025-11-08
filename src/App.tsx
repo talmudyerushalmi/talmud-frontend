@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import background from './assets/leiden2.jpg';
 import './App.css';
@@ -29,6 +29,8 @@ import Workshop2023Page from './pages/Workshop2023';
 import ContentPage from './pages/Content';
 import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
+import { useAppDispatch } from './app/hooks';
+import { fetchSynopsisList } from './store/actions/synopsisActions';
 
 declare global {
   interface Window {
@@ -44,6 +46,13 @@ declare module '@mui/styles/defaultTheme' {
 }
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  // Fetch synopsis list on app initialization
+  useEffect(() => {
+    dispatch(fetchSynopsisList());
+  }, [dispatch]);
+
   return (
     <AppContainer>
       <Header />
