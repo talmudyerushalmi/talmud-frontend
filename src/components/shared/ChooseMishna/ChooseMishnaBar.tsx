@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, Box } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 
 import { useParams } from 'react-router';
-import { useTranslation } from 'react-i18next';
 import ChooseMishnaForm from './ChooseMishnaForm';
 import { PrintHeader } from '../PrintHeader';
 import { routeObject } from '../../../store/reducers/navigationReducer';
@@ -15,11 +14,9 @@ import { setRoute } from '../../../store/actions/navigationActions';
 interface Props {
   allChapterAllowed?: boolean;
   keypressNavigation?: boolean;
-  onNavigationUpdated: Function;
+  onNavigationUpdated: (nav: iLink) => void;
   onButtonNavigation?: (nav: iLink) => void;
 }
-
-const selectButtonDisabled = () => false;
 
 const ChooseMishnaBar = ({
   allChapterAllowed = false,
@@ -29,22 +26,18 @@ const ChooseMishnaBar = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
-  const [navigation, setNavigation] = useState<iLink>({
+  // Derive navigation directly from URL params instead of using state
+  const navigation: iLink = {
     tractate: tractate || '',
     chapter: chapter || '',
     mishna: mishna || '',
     lineNumber: line || '',
-  });
-  const { t } = useTranslation();
+  };
   const [allTractates, setAllTractates] = useState<iTractate[]>([]);
 
   useEffect(() => {
     PageService.getAllTractates().then((tractates) => setAllTractates(tractates));
   }, []);
-
-  const handleNavigate = (e) => {
-    onNavigationUpdated(navigation);
-  };
 
   useEffect(() => {
     if (tractate && chapter && mishna) {
@@ -54,38 +47,21 @@ const ChooseMishnaBar = ({
 
   return (
     <>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleNavigate(e);
-        }}
-        className="choose-mishna-bar-form">
+      <Box className="choose-mishna-bar-form">
         <Grid container>
-          <Box sx={{ display: 'flex', flexGrow: 10 }}>
+          <Box sx={{ display: 'flex', flexGrow: 1 }}>
             <ChooseMishnaForm
+              key={`${navigation.tractate}-${navigation.chapter}-${navigation.mishna}-${navigation.lineNumber}`}
               allChapterAllowed
               keypressNavigation
-              onNavigationUpdated={(newNav) => {
-                setNavigation(newNav);
-              }}
+              onNavigationUpdated={onNavigationUpdated}
               onButtonNavigation={onButtonNavigation}
               initValues={navigation}
               allTractates={allTractates}
             />
           </Box>
-          <Box mb={2} sx={{ display: 'flex', flexGrow: 1 }}>
-            <Button
-              sx={{ width: '100%' }}
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={handleNavigate}
-              disabled={selectButtonDisabled()}>
-              {t('Go')}
-            </Button>
-          </Box>
         </Grid>
-      </form>
+      </Box>
       <SearchBar />
       {/* Print version */}
       <PrintHeader allTractates={allTractates} />

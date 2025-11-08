@@ -2,7 +2,9 @@ import * as React from 'react';
 
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { Button, DialogActions, Divider, Typography, Box, Grid, Paper, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Button, DialogActions, Divider, Typography, Box, Grid, Paper, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, IconButton, Tooltip } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import ChooseMishnaForm from '../shared/ChooseMishna/ChooseMishnaForm';
 import { iLink, iParallelLink, iTractate, iSubline } from '../../types/types';
 import PageService from '../../services/pageService';
@@ -97,13 +99,30 @@ export default function LinkPopup(props: Props) {
     
     // Load sublines when a complete line is selected
     if (link.tractate && link.chapter && link.mishna && link.lineNumber) {
-      try {
-        const mishnaData = await PageService.getMishna(link.tractate, link.chapter, link.mishna);
-        const selectedLine = mishnaData.lines.find(l => l.lineNumber === link.lineNumber);
-        setSelectedLineSublines(selectedLine?.sublines || []);
-      } catch {
-        setSelectedLineSublines([]);
-      }
+      await loadTargetLineSublines(link);
+    }
+  };
+
+  // Extracted function to load target line sublines (for refresh functionality)
+  const loadTargetLineSublines = async (link: iLink) => {
+    try {
+      const mishnaData = await PageService.getMishna(link.tractate, link.chapter, link.mishna);
+      const selectedLine = mishnaData.lines.find(l => l.lineNumber === link.lineNumber);
+      setSelectedLineSublines(selectedLine?.sublines || []);
+    } catch {
+      setSelectedLineSublines([]);
+    }
+  };
+
+  const handleRefresh = async () => {
+    if (makbila && makbila.tractate && makbila.chapter && makbila.mishna && makbila.lineNumber) {
+      await loadTargetLineSublines(makbila);
+    }
+  };
+
+  const handleOpenInNewTab = () => {
+    if (makbila && makbila.tractate && makbila.chapter && makbila.mishna && makbila.lineNumber) {
+      window.open(`/admin/edit/${makbila.tractate}/${makbila.chapter}/${makbila.mishna}/${makbila.lineNumber}`);
     }
   };
 
@@ -140,7 +159,32 @@ export default function LinkPopup(props: Props) {
           width: '90%',
         },
       }}>
-      <DialogTitle>{editingParallel ? 'ערוך מקבילה' : 'בחר מקבילה'}</DialogTitle>
+      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span>{editingParallel ? 'ערוך מקבילה' : 'בחר מקבילה'}</span>
+        <Box>
+          {makbila && makbila.tractate && makbila.chapter && makbila.mishna && makbila.lineNumber && (
+            <>
+              <Tooltip title="רענן נתונים">
+                <IconButton 
+                  onClick={handleRefresh}
+                  size="small"
+                  sx={{ mr: 1 }}
+                >
+                  <RefreshIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="פתח בכרטיסייה חדשה">
+                <IconButton 
+                  onClick={handleOpenInNewTab}
+                  size="small"
+                >
+                  <OpenInNewIcon />
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
+        </Box>
+      </DialogTitle>
 
       <ChooseMishnaForm
         initValues={editingParallel || defaultValues}

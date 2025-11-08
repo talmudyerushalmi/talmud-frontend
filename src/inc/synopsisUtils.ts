@@ -54,29 +54,21 @@ export function hideSourceFromText(str) {
   return str ? str.replace(step1, '').trim() : '';
 }
 
-export const synopsisMap = new Map([
-  [
-    'leiden',
-    {
-      title: 'ל',
-    },
-  ],
-  [
-    'dfus_rishon',
-    {
-      title: 'ד',
-    },
-  ],
-  [
-    'kricha_2',
-    {
-      title: 'כ2',
-    },
-  ],
-  [
-    'rome',
-    {
-      title: 'ר',
-    },
-  ],
-]);
+/**
+ * Build synopsis map from synopsisList stored in Redux
+ * Returns a Map with button_code as key and object with title (shortName) as value
+ */
+export function buildSynopsisMap(synopsisList: any): Map<string, { title: string }> {
+  const map = new Map();
+  
+  if (synopsisList) {
+    Object.keys(synopsisList).forEach(key => {
+      const item = synopsisList[key];
+      if (item.button_code && item.shortName) {
+        map.set(item.button_code, { title: item.shortName });
+      }
+    });
+  }
+  
+  return map;
+}

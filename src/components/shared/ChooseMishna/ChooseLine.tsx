@@ -27,12 +27,16 @@ const ChooseLine = (props: Props) => {
 
   useEffect(() => {
     const found = mishnaData?.lines.find((l) => l.lineNumber === lineNumber);
-    const lineSelected = found || mishnaData?.lines[0] || null;
-    setSelectedLine(lineSelected);
-    if (lineSelected) {
-      onSelectLine(lineSelected);
+    // Only update if we actually found the line - don't fall back to first line
+    if (found) {
+      setSelectedLine(found);
+      onSelectLine(found);
+    } else if (!lineNumber && mishnaData?.lines?.[0]) {
+      // Only use first line as fallback if no lineNumber was specified
+      setSelectedLine(mishnaData.lines[0]);
+      onSelectLine(mishnaData.lines[0]);
     }
-  }, [mishnaData,lineNumber]);
+  }, [mishnaData, lineNumber]);
 
   return (
     <Autocomplete

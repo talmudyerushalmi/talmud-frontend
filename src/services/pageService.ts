@@ -96,4 +96,10 @@ export default class PageService {
     return response.data.tractates;
   }
 
+  static async getSynopsisList(): Promise<any> {
+    const url = `/settings/synopsis/list`;
+    const response = await axiosInstance.get(url);
+    return response.data;
+  }
+
 }
