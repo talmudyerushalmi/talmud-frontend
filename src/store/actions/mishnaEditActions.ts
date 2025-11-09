@@ -14,6 +14,7 @@ export const REQUEST_MISHNA_FOR_EDIT_DONE = 'REQUEST_MISHNA_FOR_EDIT_DONE';
 export const SAVE_EXCERPT_START = 'SAVE_EXCERPT_START';
 export const SAVE_EXCERPT = 'SAVE_EXCERPT';
 export const SAVE_EXCERPT_DONE = 'SAVE_EXCERPT_DONE';
+export const SAVE_EXCERPT_ERROR = 'SAVE_EXCERPT_ERROR';
 export const OPEN_EXCERPT_DIALOG = 'OPEN_EXCERPT_DIALOG';
 export const CLOSE_EXCERPT_DIALOG = 'CLOSE_EXCERPT_DIALOG';
 export const DELETE_EXCERPT_START = 'DELETE_EXCERPT_START';
@@ -39,11 +40,30 @@ export const saveExcerpt = (tractate, chapter, mishna, excerpt) => {
       response = await ExcerptService.saveExcerpt(tractate, chapter, mishna, excerpt);
       mishnaDoc = response.data;
     } catch (err) {
+      let errorMessage = 'שגיאה בשמירת הקטע';
+      
       if (axios.isAxiosError(err)) {
-        console.error(err.response?.data);
+        console.error('Error saving excerpt:', err.response?.data);
+        const errorData = err.response?.data;
+        
+        if (errorData?.message) {
+          errorMessage = `שגיאה: ${errorData.message}`;
+        } else if (err.response?.status === 404) {
+          errorMessage = 'שגיאה: הנתיב לא נמצא. אנא בדוק שכל השדות מלאים כראוי.';
+        } else if (err.response?.status === 400) {
+          errorMessage = 'שגיאה: נתונים לא תקינים. אנא בדוק את הטופס.';
+        }
       } else {
-        console.error(err);
+        console.error('Unexpected error:', err);
       }
+      
+      // Show error to user
+      alert(errorMessage);
+      
+      dispatch({
+        type: SAVE_EXCERPT_ERROR,
+        error: errorMessage,
+      });
       return;
     }
 

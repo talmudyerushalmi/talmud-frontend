@@ -64,7 +64,7 @@ const FormNosach = (props: Props) => {
       selection,
       editorStateFullQuote: getContentRaw(values.editorStateFullQuote),
     };
-    saveExcerpt(getTractate(mishna), getChapter(mishna), mishna.mishna, excerptToSave);
+    saveExcerpt(mishna.tractate, mishna.chapter, mishna.mishna, excerptToSave);
   });
 
   return (

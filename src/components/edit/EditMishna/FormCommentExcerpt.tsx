@@ -72,7 +72,7 @@ const FormCommentExcerpt: FC<IProps> = ({
         blocks: [{ ...excerpt.editorStateFullQuote.blocks[0], text: values.comment }],
       },
     };
-    saveExcerpt(getTractate(mishna), getChapter(mishna), mishna.mishna, excerptToSave);
+    saveExcerpt(mishna.tractate, mishna.chapter, mishna.mishna, excerptToSave);
   };
 
   return (
