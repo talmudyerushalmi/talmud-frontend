@@ -5,7 +5,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { EditorSelectionObject } from '../../../inc/editorUtils';
 import { connect } from 'react-redux';
-import { iExcerpt } from '../../../types/types';
+import { iExcerpt, iMishna } from '../../../types/types';
 import FormCommentExcerpt from './FormCommentExcerpt';
 import FormNosach from './FormNosach';
 import FormExcerpt from './FormExcerpt';
@@ -36,7 +36,7 @@ interface Props {
   editedExcerpt: iExcerpt;
   selection: EditorSelectionObject;
   compositions: any;
-  mishna: any;
+  mishna: iMishna;
 }
 const ExcerptDialog = (props: Props) => {
   const { onAdd, dialogOpen, onClose, editedExcerpt, mishna, compositions } = props;
