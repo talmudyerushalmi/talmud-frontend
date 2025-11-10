@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { closeExcerptDialog, saveExcerpt } from '../../../store/actions/mishnaEditActions';
 import { getTractate, getChapter } from '../../../inc/mishnaUtils';
 import { EXCERPT_TYPE } from './ExcerptDialog';
-import { iExcerpt } from '../../../types/types';
+import { iExcerpt, iMishna } from '../../../types/types';
 
 const mapDispatchToProps = (dispatch: any) => ({
   saveExcerpt: (tractate: string, chapter: string, mishna: string, excerpt: any) => {
@@ -27,7 +27,7 @@ interface Props {
   closeExcerptDialog: Function;
   excerpt: iExcerpt;
   selection: EditorSelectionObject | null;
-  mishna: any;
+  mishna: iMishna;
   isSubmitting: boolean;
 }
 
@@ -64,7 +64,7 @@ const FormNosach = (props: Props) => {
       selection,
       editorStateFullQuote: getContentRaw(values.editorStateFullQuote),
     };
-    saveExcerpt(mishna.tractate, mishna.chapter, mishna.mishna, excerptToSave);
+    saveExcerpt(getTractate(mishna), getChapter(mishna), mishna.mishna, excerptToSave);
   });
 
   return (

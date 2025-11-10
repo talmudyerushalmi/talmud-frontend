@@ -109,7 +109,7 @@ const FormExcerpt = (props: any) => {
       editorStateFullQuote: getContentRaw(data.editorStateFullQuote),
       editorStateComments: getContentRaw(data.editorStateComments),
     };
-    saveExcerpt(mishna.tractate, mishna.chapter, mishna.mishna, excerptToSave);
+    saveExcerpt(getTractate(mishna), getChapter(mishna), mishna.mishna, excerptToSave);
   };
   const allowedTypes =
     values?.type === 'MUVAA' ? [CompositionType.YALKUT, CompositionType.EXCERPT] : [CompositionType.PARALLEL];
