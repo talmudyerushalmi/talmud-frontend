@@ -85,7 +85,7 @@ const EditMishnaExcerpts = (props) => {
     <>
       <Grid container>
         <ExcerptDialog
-          mishna={{ tractate, chapter, mishna }}
+          mishna={mishnaDoc}
           compositions={compositions}
           // selection={excerpt?.selection || getSelectionObject(mishnaEditor)}
           selection={selection}
