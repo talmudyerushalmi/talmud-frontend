@@ -1,7 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import { Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { routeObject } from '../../store/reducers/navigationReducer';
 import { hebrewMap } from '../../inc/utils';
 
@@ -11,7 +10,6 @@ interface PrintHeaderProps {
 
 export const PrintHeader: React.FC<PrintHeaderProps> = ({ allTractates }) => {
   const { tractate, chapter, mishna } = useParams<routeObject>();
-  const { t } = useTranslation();
 
   const tractateTitle = allTractates.find((item) => item.id === tractate)?.title_heb;
   const chapterTitle = hebrewMap.get(chapter || '');
@@ -30,21 +28,21 @@ export const PrintHeader: React.FC<PrintHeaderProps> = ({ allTractates }) => {
           '@media print': {
             '@page': {
               '@top-left': {
-                content: `"ירושלמי ${t('Tractate')} ${tractateTitle} ${t('Chapter')} ${chapterTitle}${
-                  halakhaTitle ? ` ${t('Halakha')} ${halakhaTitle}` : ''
+                content: `"ירושלמי מסכת ${tractateTitle} פרק ${chapterTitle}${
+                  halakhaTitle ? ` הלכה ${halakhaTitle}` : ''
                 }"`,
                 fontSize: '13px',
               },
             },
           },
         }}>
-        {t('Tractate')} {tractateTitle}
+        מסכת {tractateTitle}
         <span className="separator">•</span>
-        {t('Chapter')} {chapterTitle}
+        פרק {chapterTitle}
         {mishna && (
           <>
             <span className="separator">•</span>
-            {t('Halakha')} {halakhaTitle}
+            הלכה {halakhaTitle}
           </>
         )}
       </Typography>
