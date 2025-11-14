@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { connect } from 'react-redux';
-import { iExcerpt } from '../../../types/types';
+import { iExcerpt, iMishna } from '../../../types/types';
 import { EditorSelectionObject } from '../../../inc/editorUtils';
 import { closeExcerptDialog, saveExcerpt } from '../../../store/actions/mishnaEditActions';
 import { getTractate, getChapter } from '../../../inc/mishnaUtils';
@@ -14,7 +14,7 @@ interface IProps {
   closeExcerptDialog: Function;
   excerpt: iExcerpt;
   selection: EditorSelectionObject;
-  mishna: any;
+  mishna: iMishna;
   isSubmitting?: boolean;
 }
 

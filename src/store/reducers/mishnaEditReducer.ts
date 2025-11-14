@@ -6,6 +6,7 @@ import {
   REQUEST_MISHNA_FOR_EDIT_DONE,
   SAVE_EXCERPT,
   SAVE_EXCERPT_START,
+  SAVE_EXCERPT_ERROR,
   SAVE_MISHNA_DONE,
   SAVE_MISHNA_START,
   SAVE_NOSACH,
@@ -62,6 +63,12 @@ const mishnaEditReducer = (state = initialState, action) => {
         isSubmitting: false,
         excerptDialogOpen: false,
         mishnaDoc: action.mishnaDoc,
+      };
+    case SAVE_EXCERPT_ERROR:
+      return {
+        ...state,
+        isSubmitting: false,
+        // Keep dialog open so user can fix the issue
       };
     case DELETE_EXCERPT_DONE:
       return {
