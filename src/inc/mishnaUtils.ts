@@ -24,6 +24,11 @@ export function getSugiaLines(currentMishna: iMishna, sugiaSubline: iSubline) {
 
 /**
  * Simple utility functions for extracting data from mishna GUID
+ * 
+ * GUID format: <tractate>_<chapter>_<mishna>
+ * Where <tractate> may contain underscores (e.g., avoda_zara, bava_qama)
+ * <chapter> is always 3 digits (e.g., 001, 002, 010)
+ * <mishna> is always 3 digits (e.g., 001, 002, 010)
  */
 
 type GuidObject = { guid?: string; id?: string; };
@@ -36,7 +41,11 @@ export function getTractate(data: GuidObject): string {
   if (!guid) return '';
   
   const parts = guid.split('_');
-  return parts[0] || '';
+  // Chapter and mishna are both always 3 digits
+  // So we take everything except the last 2 parts
+  if (parts.length < 3) return '';
+  
+  return parts.slice(0, -2).join('_');
 }
 
 /**
@@ -47,7 +56,10 @@ export function getChapter(data: GuidObject): string {
   if (!guid) return '';
   
   const parts = guid.split('_');
-  return parts[1] || '';
+  // Chapter is the second-to-last part
+  if (parts.length < 2) return '';
+  
+  return parts[parts.length - 2];
 }
 
 /**
@@ -58,5 +70,6 @@ export function getMishna(data: GuidObject): string {
   if (!guid) return '';
   
   const parts = guid.split('_');
-  return parts[2] || '';
+  // Mishna is the last part
+  return parts[parts.length - 1] || '';
 }
