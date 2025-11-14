@@ -24,6 +24,7 @@ const SearchBar: FC<IProps> = () => {
   return (
     <Paper
       component="form"
+      className="search-bar-form"
       onSubmit={(e) => {
         e.preventDefault();
         handleSearch();
@@ -35,6 +36,9 @@ const SearchBar: FC<IProps> = () => {
         width: { md: 400, xs: '100%' },
         boxShadow: 'none',
         mb: 4,
+        '@media print': {
+          display: 'none',
+        },
       }}>
       <TextField
         sx={{
