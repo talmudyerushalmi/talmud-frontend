@@ -186,7 +186,12 @@ const SublineDisplay = (props: Props) => {
             markTo={markedSelection?.to}
             subline={subline}
           />
-          <AccordionActions sx={{ padding: 0 }}>
+          <AccordionActions sx={{ 
+            padding: 0,
+            '@media print': {
+              display: 'none',
+            },
+          }}>
             <IconButton style={{ padding: 0 }} size="small" onClick={handleExpandClick}>
               <ExpandMoreIcon />
             </IconButton>
