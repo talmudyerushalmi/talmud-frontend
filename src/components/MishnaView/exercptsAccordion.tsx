@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: 'center',
     },
     '& .MuiAccordionDetails-root': {
-      padding: '2px 16px 8px 16px',
+      padding: '0px 16px 0px 16px',
     },
   },
   rootExpanded: {
@@ -38,18 +38,13 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '-8px',
     },
     '&.MuiAccordion-root:before': { display: 'none' },
-    flexGrow: 1,
-    '& >  .MuiCollapse-root': {
-      height: '100% !important',
-      overflow: 'scroll',
-    },
     '& > .MuiCollapse-root > .MuiCollapse-wrapper > .MuiCollapse-wrapperInner > div > .MuiAccordionDetails-root': {
-      marginBottom: '5rem',
-      padding: '2px 16px 8px 16px',
+      padding: '0px 16px 8px 16px',
+      marginTop: '-14px',
     },
     '& .MuiAccordionSummary-root': {
       minHeight: 'auto',
-      padding: '8px 16px 0px 16px',
+      padding: '2px 16px 0px 16px',
       display: 'flex',
       alignItems: 'center',
     },
