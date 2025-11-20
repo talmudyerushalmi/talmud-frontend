@@ -29,9 +29,6 @@ import Workshop2023Page from './pages/Workshop2023';
 import ContentPage from './pages/Content';
 import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
-import { useAppDispatch } from './app/hooks';
-import { fetchSynopsisList } from './store/actions/synopsisActions';
-
 declare global {
   interface Window {
     Buffer: typeof Buffer;
@@ -46,12 +43,6 @@ declare module '@mui/styles/defaultTheme' {
 }
 
 function App() {
-  const dispatch = useAppDispatch();
-
-  // Fetch synopsis list on app initialization
-  useEffect(() => {
-    dispatch(fetchSynopsisList());
-  }, [dispatch]);
 
   return (
     <AppContainer>
