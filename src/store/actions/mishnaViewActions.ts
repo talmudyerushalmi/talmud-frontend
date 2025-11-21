@@ -55,18 +55,55 @@ export function getRichMishnaiotForChapter(tractate: string, chapter: string, ne
     }
     let state = getState();
     const mishnaiot = state.mishnaView.mishnaiot.length;
-    if (mishnaiot === state.mishnaView.totalMishnaiot || state.general.loading) {
+    
+    // If already loading or already have all mishnas, return
+    if (state.general.loading) {
       return;
     }
-    dispatch(startLoading());
-    const res = await PageService.getChapter(tractate, chapter, mishnaiot + 1);
-    dispatch(stopLoading());
+    
+    // If we already have some mishnas and haven't loaded all yet, continue lazy loading
+    if (mishnaiot > 0 && mishnaiot < state.mishnaView.totalMishnaiot) {
+      dispatch(startLoading());
+      const res = await PageService.getChapter(tractate, chapter, mishnaiot + 1);
+      dispatch(stopLoading());
 
-    dispatch({
-      type: ADD_MISHNA_TO_MISHNAIOT,
-      mishna: { ...res.mishnaDocument },
-      totalMishnaiot: res.totalMishnaiot,
-      richTextsMishnas: res.richTextsMishnas,
-    });
+      dispatch({
+        type: ADD_MISHNA_TO_MISHNAIOT,
+        mishna: { ...res.mishnaDocument },
+        totalMishnaiot: res.totalMishnaiot,
+        richTextsMishnas: res.richTextsMishnas,
+      });
+      return;
+    }
+    
+    // If starting fresh (newChapter or no mishnas), load ALL mishnas at once
+    if (mishnaiot === 0) {
+      dispatch(startLoading());
+      
+      // Get first mishna to know total count
+      const firstRes = await PageService.getChapter(tractate, chapter, 1);
+      const totalMishnaiot = firstRes.totalMishnaiot;
+      
+      // Dispatch first mishna
+      dispatch({
+        type: ADD_MISHNA_TO_MISHNAIOT,
+        mishna: { ...firstRes.mishnaDocument },
+        totalMishnaiot: firstRes.totalMishnaiot,
+        richTextsMishnas: firstRes.richTextsMishnas,
+      });
+      
+      // Load remaining mishnas
+      for (let i = 2; i <= totalMishnaiot; i++) {
+        const res = await PageService.getChapter(tractate, chapter, i);
+        dispatch({
+          type: ADD_MISHNA_TO_MISHNAIOT,
+          mishna: { ...res.mishnaDocument },
+          totalMishnaiot: res.totalMishnaiot,
+          richTextsMishnas: res.richTextsMishnas,
+        });
+      }
+      
+      dispatch(stopLoading());
+    }
   };
 }
