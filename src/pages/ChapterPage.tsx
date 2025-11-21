@@ -10,7 +10,6 @@ import { iMishna } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
 import { RichTextsMishnas } from '../services/pageService';
 import { getRichMishnaiotForChapter, setMishnaViewOptions } from '../store/actions/mishnaViewActions';
-import useScroll from '../hooks/useScroll';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: false,
@@ -39,9 +38,6 @@ interface Props {
 const ChapterPage = (props: Props) => {
   const { mishnaiot, richTextMishnas, setViewOptions, getRichMishnaiotForChapter } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
-  useScroll(70, () => {
-    getRichMishnaiotForChapter(tractate, chapter);
-  });
 
   useEffect(() => {
     setViewOptions();
