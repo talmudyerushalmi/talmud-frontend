@@ -44,6 +44,30 @@
     padding-top: 0 !important;
   }
 
+  /* Hide edit icon buttons (dots on the right) */
+  .MuiIconButton-root {
+    display: none !important;
+  }
+
+  /* Remove gray separator lines from sugia sections */
+  button > div {
+    border-bottom: none !important;
+  }
+
+  /* Remove gray lines between sublines (accordion borders) */
+  .MuiAccordion-root {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .MuiAccordion-root:before {
+    display: none !important;
+  }
+
+  .MuiAccordionSummary-root {
+    border: none !important;
+  }
+
   @page {
     @top-right {
       content: "תלמוד ירושלמי הדיגיטלי בעריכת מנחם כ\"ץ גרסת בטא 2025 תשפ״ה";
