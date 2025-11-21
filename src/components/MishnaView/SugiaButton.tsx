@@ -86,7 +86,7 @@ const SugiaButton = (props: Props) => {
     return (
       <button onClick={selectSugiaHandler} className={classes.root}>
         <div className={classes.wrap}>
-          <Typography align="center">
+          <Typography align="center" sx={{ fontSize: '0.85rem' }}>
             [{counter.get(subline.index)}]{subline.sugiaName?.trim() !== '' ? ' ' + subline.sugiaName : null}
           </Typography>
         </div>
