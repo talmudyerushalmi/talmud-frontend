@@ -50,40 +50,8 @@ export const MakbilaMenu = (props: Props) => {
     }
 
     try {
-      // Check if it's a same-mishna parallel
-      const isSameMishna = link.tractate === tractate && 
-                          link.chapter === chapter && 
-                          link.mishna === currentMishna.mishna;
-      
-      if (isSameMishna) {
-        // For same-mishna parallels, use sequential operations to avoid conflicts
-        await LineService.addParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, link);
-        
-        // Small delay to avoid conflicts
-        await new Promise(resolve => setTimeout(resolve, 200));
-        
-        // Add reciprocal
-        const reciprocalParallel = {
-          ...link,
-          tractate,
-          chapter,
-          mishna: currentMishna.mishna,
-          lineNumber: currentLineNumber,
-          selectedSublineIndices: link.currentSublineIndices,
-          currentSublineIndices: link.selectedSublineIndices,
-        };
-        
-        await LineService.addParallel(
-          link.tractate,
-          link.chapter || '',
-          link.mishna || '',
-          link.lineNumber || '',
-          reciprocalParallel
-        );
-      } else {
-        // For cross-mishna parallels, single operation (backend handles reciprocal)
-        await LineService.addParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, link);
-      }
+      // Backend now handles both same-mishna and cross-mishna reciprocal addition
+      await LineService.addParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, link);
       
       // Refresh the UI by refetching the mishna
       const updatedMishna = await PageService.getMishna(tractate, chapter, currentMishna.mishna);
@@ -116,36 +84,8 @@ export const MakbilaMenu = (props: Props) => {
     }
 
     try {
-      // Check if it's a same-mishna parallel
-      const isSameMishna = parallelToDelete.tractate === tractate && 
-                          parallelToDelete.chapter === chapter && 
-                          parallelToDelete.mishna === currentMishna.mishna;
-      
-      if (isSameMishna) {
-        // For same-mishna parallels, delete both sides sequentially
-        await LineService.deleteParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, parallelToDelete);
-        
-        // Small delay to avoid conflicts
-        await new Promise(resolve => setTimeout(resolve, 200));
-        
-        // Delete reciprocal
-        await LineService.deleteParallel(
-          parallelToDelete.tractate,
-          parallelToDelete.chapter || '',
-          parallelToDelete.mishna || '',
-          parallelToDelete.lineNumber || '',
-          {
-            ...parallelToDelete,
-            tractate,
-            chapter,
-            mishna: currentMishna.mishna,
-            lineNumber: currentLineNumber,
-          }
-        );
-      } else {
-        // For cross-mishna parallels, single operation (backend handles reciprocal)
-        await LineService.deleteParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, parallelToDelete);
-      }
+      // Backend now handles both same-mishna and cross-mishna reciprocal deletion
+      await LineService.deleteParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, parallelToDelete);
       
       // Refresh the UI by refetching the mishna
       const updatedMishna = await PageService.getMishna(tractate, chapter, currentMishna.mishna);
