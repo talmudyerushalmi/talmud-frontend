@@ -27,6 +27,12 @@
   color: #61dafb;
 }
 
+/* Main content text size for Halakha view */
+.public-DraftEditor-content {
+  font-size: 15px;
+  line-height: 1.8;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
