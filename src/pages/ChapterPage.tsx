@@ -47,6 +47,11 @@ const ChapterPage = (props: Props) => {
     getRichMishnaiotForChapter(tractate, chapter, true);
   }, [mishna, chapter, tractate, getRichMishnaiotForChapter]);
 
+  // Sort mishnaiot by mishna number to ensure correct order
+  const sortedMishnaiot = [...mishnaiot].sort((a, b) => {
+    return parseInt(a.mishna) - parseInt(b.mishna);
+  });
+
   return (
     <Grid container spacing={2}>
       <Grid
@@ -76,7 +81,7 @@ const ChapterPage = (props: Props) => {
             ))}
           </Grid>
         </Grid>
-        {mishnaiot.map((mishna, index) => {
+        {sortedMishnaiot.map((mishna, index) => {
           return <MainText key={index} lines={mishna?.lines} mishna={mishna?.mishna} />;
         })}
       </Grid>
