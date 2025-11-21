@@ -199,7 +199,7 @@ const SublineDisplay = (props: Props) => {
             </IconButton>
           </AccordionActions>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ padding: '0.1rem 1rem' }}>
           <SynopsisTable subline={subline} lineNumber={lineDetails.lineNumber} />
         </AccordionDetails>
       </Accordion>
