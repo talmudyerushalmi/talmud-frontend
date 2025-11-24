@@ -9,7 +9,7 @@ import {
   useTheme,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { connect } from 'react-redux';
 import { selectSublines } from '../../store/actions';
@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
       margin: 0,
       justifyContent: 'space-between',
     },
+  },
+  selected: {
+    // This class is applied via global CSS in App.css
   },
   lineroot: {
     display: 'flex',
@@ -141,7 +144,22 @@ const SublineDisplay = (props: Props) => {
   };
 
   const isSublineSelected = isSelected(subline);
-  const selectedClass = isSublineSelected ? 'selected' : '';
+  const selectedClass = isSublineSelected ? `${classes.selected} selected` : '';
+  const accordionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const parent = accordionRef.current?.parentElement;
+    if (parent) {
+      const nextSibling = parent.nextElementSibling;
+      if (nextSibling) {
+        if (isSublineSelected) {
+          nextSibling.classList.add('after-selected');
+        } else {
+          nextSibling.classList.remove('after-selected');
+        }
+      }
+    }
+  }, [isSublineSelected]);
 
   let textToDisplay = subline.text;
   if (!showSources) {
@@ -167,7 +185,9 @@ const SublineDisplay = (props: Props) => {
         </Button>
       )}
       <Accordion
+        ref={accordionRef}
         square={true}
+        elevation={0}
         expanded={expanded === `panelb${subline.index}`}
         onClick={() => handleSelect(subline)}
         className={`${classes.root} ${selectedClass} ${piskaClass}`}

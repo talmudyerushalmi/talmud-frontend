@@ -82,10 +82,14 @@ const SugiaButton = (props: Props) => {
     }
   };
 
+  // Check if this Sugia is currently selected
+  const sugiaSublines = getSugiaLines(currentMishna, subline);
+  const isSugiaSelected = sugiaSublines.length > 0 && _.difference(sugiaSublines, selectedSublines).length === 0;
+
   const Button = () => {
     return (
       <button onClick={selectSugiaHandler} className={classes.root}>
-        <div className={classes.wrap}>
+        <div className={classes.wrap} style={{ borderBottom: isSugiaSelected ? 'none' : undefined }}>
           <Typography align="center" sx={{ fontSize: '0.85rem' }}>
             [{counter.get(subline.index)}]{subline.sugiaName?.trim() !== '' ? ' ' + subline.sugiaName : null}
           </Typography>
