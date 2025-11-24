@@ -33,6 +33,28 @@
   line-height: 1.8;
 }
 
+/* Remove gray divider lines when highlighting Sugia or single lines */
+.MuiAccordion-root.selected {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.MuiAccordion-root.selected::before,
+.MuiAccordion-root.selected::after {
+  display: none !important;
+}
+
+/* Hide gray line on the next accordion after a selected one (for single line selection) */
+div.after-selected .MuiAccordion-root {
+  border-top: none !important;
+  margin-top: -1px !important;
+}
+
+div.after-selected .MuiAccordion-root::before,
+div.after-selected .MuiAccordion-root::after {
+  display: none !important;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
