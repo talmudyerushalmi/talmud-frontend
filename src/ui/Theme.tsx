@@ -179,7 +179,7 @@ const theme = (mode: PaletteMode) =>
         color: '#795548',
       },
       ...(mode === 'light' ? {
-        selectionColor: {background:'#f2ff7385'},
+        selectionColor: {background:'#ffff9970'},
       } : {
         selectionColor: {background:'#252710'},
       })
