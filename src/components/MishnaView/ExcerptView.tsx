@@ -50,7 +50,11 @@ const ExcerptView = (props: Props) => {
         <AccordionSummary
           className={excerpt.link ? 'linked-excerpt' : ''}
           aria-controls="panel1d-content"
-          id="panel1d-header">
+          id="panel1d-header"
+          sx={{
+            paddingTop: '0 !important',
+            paddingBottom: '0 !important',
+          }}>
           {excerpt.link ? (
             <IconButton
               sx={{
@@ -75,7 +79,11 @@ const ExcerptView = (props: Props) => {
             </Typography>
           </div>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ 
+          paddingTop: '0 !important', 
+          paddingBottom: '0 !important',
+          marginTop: '-1rem' 
+        }}>
           <div dangerouslySetInnerHTML={{ __html: short }}></div>
         </AccordionDetails>
       </Accordion>
