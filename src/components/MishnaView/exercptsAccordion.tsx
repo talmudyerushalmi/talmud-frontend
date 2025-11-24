@@ -25,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
       margin: '0',
       display: 'flex',
       alignItems: 'center',
+      fontSize: '1.05rem',
+      '& .MuiTypography-root': {
+        fontSize: '1.05rem',
+      },
     },
     '& .MuiAccordionDetails-root': {
       padding: '0px 16px 0px 16px',
