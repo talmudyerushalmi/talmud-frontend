@@ -82,7 +82,7 @@ const ExcerptView = (props: Props) => {
         <AccordionDetails sx={{ 
           paddingTop: '0 !important', 
           paddingBottom: '0 !important',
-          marginTop: '-1rem' 
+          marginTop: '-1.5rem' 
         }}>
           <div dangerouslySetInnerHTML={{ __html: short }}></div>
         </AccordionDetails>
