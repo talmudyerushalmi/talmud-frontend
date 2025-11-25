@@ -72,7 +72,9 @@ const ExcerptDetailsView = (props: Props) => {
       ) : null}
       <Typography variant="h3" style={{ fontWeight: 'bold' }}>
         {selectedExcerpt?.source?.title}
-        <Typography component={selectedExcerpt?.sourceLocation?.includes('\n') ? 'p' : 'span'}>
+        <Typography 
+          component={selectedExcerpt?.sourceLocation?.includes('\n') ? 'p' : 'span'}
+          sx={{ marginLeft: '0.5rem' }}>
           {selectedExcerpt?.sourceLocation}
         </Typography>
       </Typography>
