@@ -114,16 +114,33 @@ const ChooseMishnaForm = ({
           tractate={tractateName}
           allTractates={allTractates}
           onSelectTractate={(t) => {
+            const tractateChanged = t.id !== tractateName;
             setTractateName(t.id);
             setTractateData(t);
+            // Reset to first chapter and first mishna when tractate changes
+            if (tractateChanged && t.chapters?.length > 0) {
+              const firstChapter = t.chapters[0];
+              setChapterName(firstChapter.id);
+              setChapterData(firstChapter);
+              if (firstChapter.mishnaiot?.length > 0) {
+                setMishnaName(firstChapter.mishnaiot[0].mishna);
+              }
+              setMishnaData(null);
+            }
           }}
         />
         <ChooseChapter
           chapter={chapterName}
           inTractate={tractateData}
           onSelectChapter={(c) => {
+            const chapterChanged = c.id !== chapterName;
             setChapterName(c.id);
             setChapterData(c);
+            // Reset to first mishna when chapter changes
+            if (chapterChanged && c.mishnaiot?.length > 0) {
+              setMishnaName(c.mishnaiot[0].mishna);
+              setMishnaData(null);
+            }
           }}
         />
         <ChooseMishna
