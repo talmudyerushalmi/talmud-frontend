@@ -111,71 +111,18 @@ export const MakbilaMenu = (props: Props) => {
       return;
     }
 
-    // Find the original parallel being edited
-    const indexToReplace = parallels.findIndex(p => 
-      p.tractate === editingParallel?.tractate &&
-      p.chapter === editingParallel?.chapter &&
-      p.mishna === editingParallel?.mishna &&
-      p.lineNumber === editingParallel?.lineNumber
-    );
-    
-    if (indexToReplace === -1 || !editingParallel) {
+    if (!editingParallel) {
       showError('מקבילה מקורית לא נמצאה');
       return;
     }
 
-    const originalParallel = parallels[indexToReplace];
-
     try {
-      // Check if it's a same-mishna parallel
-      const isSameMishna = originalParallel.tractate === tractate && 
-                          originalParallel.chapter === chapter && 
-                          originalParallel.mishna === currentMishna.mishna;
-      
-      if (isSameMishna) {
-        // For same-mishna parallels, handle both sides sequentially
-        await LineService.updateParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, editedParallel);
-        
-        // Small delay to avoid conflicts
-        await new Promise(resolve => setTimeout(resolve, 200));
-        
-        // Update reciprocal
-        const originalReciprocal = {
-          ...originalParallel,
-          tractate,
-          chapter,
-          mishna: currentMishna.mishna,
-          lineNumber: currentLineNumber,
-          selectedSublineIndices: originalParallel.currentSublineIndices,
-          currentSublineIndices: originalParallel.selectedSublineIndices,
-        };
-
-        const newReciprocal = {
-          ...editedParallel,
-          tractate,
-          chapter,
-          mishna: currentMishna.mishna,
-          lineNumber: currentLineNumber,
-          selectedSublineIndices: editedParallel.currentSublineIndices,
-          currentSublineIndices: editedParallel.selectedSublineIndices,
-        };
-        
-        await LineService.updateParallel(
-          originalParallel.tractate,
-          originalParallel.chapter || '',
-          originalParallel.mishna || '',
-          originalParallel.lineNumber || '',
-          newReciprocal
-        );
-      } else {
-        // For cross-mishna parallels, single operation (backend handles reciprocal)
-        await LineService.updateParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, editedParallel);
-      }
+      // Backend now handles both same-mishna and cross-mishna reciprocal updates
+      await LineService.updateParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, editedParallel);
       
       // Refresh the UI by refetching the mishna
       const updatedMishna = await PageService.getMishna(tractate, chapter, currentMishna.mishna);
       const currentLine = updatedMishna.lines?.find(line => line.lineNumber === currentLineNumber);
-      // PageService.getMishna() already converts sublinePairs to selectedSublineIndices
       const updatedParallels = currentLine?.parallels || [];
       
       onUpdateInternalSources(updatedParallels);
