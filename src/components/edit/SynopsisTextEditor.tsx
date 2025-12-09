@@ -34,10 +34,11 @@ interface Props {
   onChange: Function;
   value: EditedText;
   source: iSynopsis;
+  readOnly?: boolean;
 }
 const SynopsisTextEditor = (props: Props) => {
   const classes = useStyles();
-  const { onChange, value, source } = props;
+  const { onChange, value, source, readOnly = false } = props;
 
   // return (
   //   <pre>{JSON.stringify(value)}</pre>
@@ -49,6 +50,9 @@ const SynopsisTextEditor = (props: Props) => {
   }, [source, value]);
 
   const _onChange = (editorState) => {
+    if (readOnly) {
+      return;
+    }
     setEditorState(editorState);
   };
   const collectSublineDetails = (editorState: EditorState) => {
@@ -76,11 +80,14 @@ const SynopsisTextEditor = (props: Props) => {
           editorState={editorState}
           onChange={(editorState) => _onChange(editorState)}
           onBlur={() => {
-            onChange(collectSublineDetails(editorState));
+            if (!readOnly) {
+              onChange(collectSublineDetails(editorState));
+            }
           }}
           //   onFocus={e => moveSelectionToEnd()}
           preserveSelectionOnBlur={true}
           textAlignment="right"
+          readOnly={readOnly}
         />
       </div>
     </div>

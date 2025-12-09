@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import background from './assets/leiden2.jpg';
 import './App.css';
@@ -29,7 +29,6 @@ import Workshop2023Page from './pages/Workshop2023';
 import ContentPage from './pages/Content';
 import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
-
 declare global {
   interface Window {
     Buffer: typeof Buffer;
@@ -44,6 +43,7 @@ declare module '@mui/styles/defaultTheme' {
 }
 
 function App() {
+
   return (
     <AppContainer>
       <Header />

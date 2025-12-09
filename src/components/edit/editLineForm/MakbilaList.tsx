@@ -14,11 +14,13 @@ import { useTranslation } from 'react-i18next';
 import { iParallelLink, iLink, iSubline, iMishna } from '../../../types/types';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import LinkPopup from '../../popups/LinkPopup';
 import { ListItemSecondaryAction } from '@mui/material';
 import { hebrewMap } from '../../../inc/utils';
 import { getTractate, getChapter } from '../../../inc/mishnaUtils';
 import LineService from '../../../services/line.service';
+import PageService from '../../../services/pageService';
 import { useSnackbar } from '../../../hooks/useSnackbar';
 import NotificationSnackbar from '../../shared/NotificationSnackbar';
 
@@ -33,11 +35,12 @@ export const MakbilaMenu = (props: Props) => {
   const { parallels, onUpdateInternalSources, currentLineSublines, currentMishna, currentLineNumber } = props;
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [editingParallel, setEditingParallel] = useState<iParallelLink | null>(null);
   const { snackbar, showSuccess, showError, hideSnackbar } = useSnackbar();
   const btnCaption = `${t('Talmudic Parallels')} [${parallels.length}]`;
   
-  // Generic function to save parallels and handle UI updates
-  const saveParallelsToDb = async (updatedParallels: iParallelLink[], successMessage: string, errorPrefix: string) => {
+  // Handle adding a new parallel (using NEW granular operation)
+  const handleAddParallel = async (link: iParallelLink) => {
     const tractate = getTractate(currentMishna);
     const chapter = getChapter(currentMishna);
     
@@ -45,65 +48,105 @@ export const MakbilaMenu = (props: Props) => {
       showError('לא ניתן לשמור - מידע המשנה לא זמין עדיין');
       return;
     }
-    
+
     try {
-      await LineService.saveParallels(
-        tractate, 
-        chapter, 
-        currentMishna.mishna, 
-        currentLineNumber, 
-        updatedParallels
-      );
+      // Backend now handles both same-mishna and cross-mishna reciprocal addition
+      await LineService.addParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, link);
       
-      // Update UI after successful save
+      // Refresh the UI by refetching the mishna
+      const updatedMishna = await PageService.getMishna(tractate, chapter, currentMishna.mishna);
+      const currentLine = updatedMishna.lines?.find(line => line.lineNumber === currentLineNumber);
+      // PageService.getMishna() already converts sublinePairs to selectedSublineIndices
+      const updatedParallels = currentLine?.parallels || [];
+      
       onUpdateInternalSources(updatedParallels);
-      
-      // Success notification
-      showSuccess(successMessage);
-      
+      showSuccess('המקבילה נוספה בהצלחה!');
     } catch (error) {
-      // Error notification
-      showError(`${errorPrefix}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error('Error adding parallel:', error);
+      showError('שגיאה בהוספת המקבילה');
     }
   };
   
-  // Handle adding a new parallel
-  const handleAddParallel = async (link: iParallelLink) => {
-    const updatedParallels = [...parallels, link];
-    await saveParallelsToDb(updatedParallels, 'המקבילה נשמרה בהצלחה!', 'שגיאה בשמירת המקבילה');
-  };
-  
-  // Handle deleting a parallel
+  // Handle deleting a parallel (using NEW granular operation)
   const handleDeleteParallel = async (index: number) => {
-    const updatedParallels = [...parallels];
-    updatedParallels.splice(index, 1);
-    await saveParallelsToDb(updatedParallels, 'המקבילה נמחקה בהצלחה!', 'שגיאה במחיקת המקבילה');
+    const tractate = getTractate(currentMishna);
+    const chapter = getChapter(currentMishna);
+    
+    if (!tractate || !chapter) {
+      showError('לא ניתן למחוק - מידע המשנה לא זמין עדיין');
+      return;
+    }
+
+    const parallelToDelete = parallels[index];
+    if (!parallelToDelete) {
+      showError('מקבילה לא נמצאה');
+      return;
+    }
+
+    try {
+      // Backend now handles both same-mishna and cross-mishna reciprocal deletion
+      await LineService.deleteParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, parallelToDelete);
+      
+      // Refresh the UI by refetching the mishna
+      const updatedMishna = await PageService.getMishna(tractate, chapter, currentMishna.mishna);
+      const currentLine = updatedMishna.lines?.find(line => line.lineNumber === currentLineNumber);
+      // PageService.getMishna() already converts sublinePairs to selectedSublineIndices
+      const updatedParallels = currentLine?.parallels || [];
+      
+      onUpdateInternalSources(updatedParallels);
+      showSuccess('המקבילה נמחקה בהצלחה!');
+    } catch (error) {
+      console.error('Error deleting parallel:', error);
+      showError('שגיאה במחיקת המקבילה');
+    }
+  };
+
+  // Handle editing a parallel (using NEW granular operation)
+  const handleEditParallel = async (editedParallel: iParallelLink) => {
+    const tractate = getTractate(currentMishna);
+    const chapter = getChapter(currentMishna);
+    
+    if (!tractate || !chapter) {
+      showError('לא ניתן לעדכן - מידע המשנה לא זמין עדיין');
+      return;
+    }
+
+    if (!editingParallel) {
+      showError('מקבילה מקורית לא נמצאה');
+      return;
+    }
+
+    try {
+      // Backend now handles both same-mishna and cross-mishna reciprocal updates
+      await LineService.updateParallel(tractate, chapter, currentMishna.mishna, currentLineNumber, editedParallel);
+      
+      // Refresh the UI by refetching the mishna
+      const updatedMishna = await PageService.getMishna(tractate, chapter, currentMishna.mishna);
+      const currentLine = updatedMishna.lines?.find(line => line.lineNumber === currentLineNumber);
+      const updatedParallels = currentLine?.parallels || [];
+      
+      onUpdateInternalSources(updatedParallels);
+      showSuccess('המקבילה עודכנה בהצלחה!');
+    } catch (error) {
+      console.error('Error updating parallel:', error);
+      showError('שגיאה בעדכון המקבילה');
+    }
   };
   return (
     <>
       <LinkPopup
         open={open}
         currentLineSublines={currentLineSublines}
+        editingParallel={editingParallel}
         onClose={async (makbila: (iLink & { selectedSublineIndices?: number[]; currentSublineIndices?: number[]; }) | null) => {
           if (makbila) {
-            let linkText = `${hebrewMap.get(makbila.chapter)} ${hebrewMap.get(makbila.mishna)} ${makbila.lineNumber}`;
-            
-            // Add multiple subline pairs info to the display text
-            if (makbila.selectedSublineIndices && makbila.currentSublineIndices) {
-              const currentIndices = makbila.currentSublineIndices as number[];
-              const targetIndices = makbila.selectedSublineIndices as number[];
-              
-              if (currentIndices.length > 0 && targetIndices.length > 0) {
-                const pairStrings = currentIndices.map((sourceIdx, i) => {
-                  const targetIdx = targetIndices[i];
-                  return `${sourceIdx + 1}→${targetIdx + 1}`;
-                });
-                linkText += ` [זוגות: ${pairStrings.join(', ')}]`;
-              }
-            }
+            console.log('🔍 MakbilaList received data from LinkPopup:', {
+              editing: !!editingParallel,
+              makbila
+            });
             
             const link = {
-              linkText,
+              linkText: '', // Backend will generate Hebrew linkText
               tractate: makbila.tractate,
               chapter: makbila.chapter,
               mishna: makbila.mishna,
@@ -112,10 +155,18 @@ export const MakbilaMenu = (props: Props) => {
               currentSublineIndices: makbila.currentSublineIndices,
             };
 
-            // Handle add in parent - save to database and update UI
-            await handleAddParallel(link);
+            console.log('🔍 MakbilaList sending to backend:', link);
+
+            if (editingParallel) {
+              // Handle edit
+              await handleEditParallel(link);
+            } else {
+              // Handle add
+              await handleAddParallel(link);
+            }
           }
           setOpen(false);
+          setEditingParallel(null); // Reset editing state
         }}
       />
       <PopupState variant="popover" popupId="demo-popup-menu">
@@ -128,7 +179,12 @@ export const MakbilaMenu = (props: Props) => {
               <MakbilaList
                 makbilot={parallels}
                 onDelete={handleDeleteParallel}
+                onEdit={(index: number) => {
+                  setEditingParallel(parallels[index]);
+                  setOpen(true);
+                }}
                 onAdd={() => {
+                  setEditingParallel(null); // Ensure we're not editing
                   setOpen(true);
                 }}
               />
@@ -150,19 +206,38 @@ interface MakbilaListProps {
   makbilot: iParallelLink[];
   onAdd: Function;
   onDelete: (index: number) => void;
+  onEdit: (index: number) => void;
 }
 const MakbilaList = (props: MakbilaListProps) => {
-  const { makbilot, onAdd, onDelete } = props;
+  const { makbilot, onAdd, onDelete, onEdit } = props;
 
   const handleAdd = () => {
     onAdd();
   };
+  
   const items = makbilot.map((makbila, index) => {
     const labelId = `checkbox-list-label-${index}`;
+    
+    // Check if this parallel has subline indexes - if not, show in red
+    const hasIndexes = makbila.selectedSublineIndices && makbila.selectedSublineIndices.length > 0;
+    const textColor = hasIndexes ? 'inherit' : 'error.main';
+    
+    // Just use the linkText from backend - it already has Hebrew tractate name
+    const displayText = makbila.linkText;
 
     return (
       <ListItem key={index} sx={{ width: '10rem' }}>
-        <ListItemText id={labelId} primary={makbila.linkText} />
+        <ListItemButton
+          onClick={() => {
+            window.open(`/admin/edit/${makbila.tractate}/${makbila.chapter}/${makbila.mishna}/${makbila.lineNumber}`);
+          }}
+        >
+          <ListItemText 
+            id={labelId} 
+            primary={displayText}
+            sx={{ color: textColor }}
+          />
+        </ListItemButton>
 
         <ListItemSecondaryAction>
           <IconButton
@@ -172,6 +247,14 @@ const MakbilaList = (props: MakbilaListProps) => {
               window.open(`/admin/edit/${makbila.tractate}/${makbila.chapter}/${makbila.mishna}/${makbila.lineNumber}`);
             }}>
             <OpenInNewIcon />
+          </IconButton>
+          <IconButton
+            edge="end"
+            aria-label="edit"
+            onClick={() => {
+              onEdit(index);
+            }}>
+            <EditIcon />
           </IconButton>
           <IconButton
             onClick={() => {

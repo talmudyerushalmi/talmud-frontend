@@ -12,6 +12,8 @@ import { routeObject } from '../store/reducers/navigationReducer';
 import { getMishna } from '../store/actions/navigationActions';
 import { setMishnaViewOptions } from '../store/actions/mishnaViewActions';
 import ManuscriptPopup from '../components/MishnaView/ManuscriptPopup';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { fetchSynopsisList } from '../store/actions/synopsisActions';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: true,
@@ -43,6 +45,15 @@ const MishnaPage = (props: Props) => {
   const { currentMishna, getMishna, setMishnaViewOptions } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
   const t = useTheme();
+  const dispatch = useAppDispatch();
+  
+  // Fetch synopsis list for SynopsisTable component
+  const synopsisLoaded = useAppSelector((state) => state.synopsis.loaded);
+  useEffect(() => {
+    if (!synopsisLoaded) {
+      dispatch(fetchSynopsisList());
+    }
+  }, [dispatch, synopsisLoaded]);
 
   useEffect(() => {
     setMishnaViewOptions();

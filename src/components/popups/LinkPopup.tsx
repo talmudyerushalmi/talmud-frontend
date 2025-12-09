@@ -2,7 +2,9 @@ import * as React from 'react';
 
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { Button, DialogActions, Divider, Typography, Box, Grid, Paper, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Button, DialogActions, Divider, Typography, Box, Grid, Paper, FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox, IconButton, Tooltip } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import ChooseMishnaForm from '../shared/ChooseMishna/ChooseMishnaForm';
 import { iLink, iParallelLink, iTractate, iSubline } from '../../types/types';
 import PageService from '../../services/pageService';
@@ -11,10 +13,11 @@ interface Props {
   open: boolean;
   onClose: (link: (iLink & { selectedSublineIndices?: number[]; currentSublineIndices?: number[]; }) | null) => void;
   currentLineSublines?: iSubline[];
+  editingParallel?: iParallelLink | null; // For editing existing parallel
 }
 
 export default function LinkPopup(props: Props) {
-  const { open, onClose, currentLineSublines = [] } = props;
+  const { open, onClose, currentLineSublines = [], editingParallel = null } = props;
   const [makbila, setMakbila] = React.useState<iLink | null>(null);
   const [allTractates, setAllTractates] = React.useState<iTractate[]>([]);
   const [defaultValues, setDefaultValues] = React.useState<iLink>({
@@ -47,19 +50,84 @@ export default function LinkPopup(props: Props) {
     });
   }, []);
 
-  // Reset all selections when dialog opens
+  // Initialize dialog state when opened
   React.useEffect(() => {
-    if (open) {
-      setSelectedSublineIndices([]);
-      setCurrentSublineIndices([]);
-      setMakbila(null);
+    if (!open) return;
+
+    if (editingParallel) {
+      initializeEditMode();
+    } else {
+      resetToAddMode();
+    }
+  }, [open, editingParallel]);
+
+  const initializeEditMode = async () => {
+    // Pre-populate form with existing parallel data
+    setMakbila({
+      tractate: editingParallel!.tractate,
+      chapter: editingParallel!.chapter,
+      mishna: editingParallel!.mishna,
+      lineNumber: editingParallel!.lineNumber
+    });
+    
+    setSelectedSublineIndices(editingParallel!.selectedSublineIndices || []);
+    setCurrentSublineIndices(editingParallel!.currentSublineIndices || []);
+    
+    // Load target line sublines for editing
+    try {
+      const mishnaData = await PageService.getMishna(
+        editingParallel!.tractate, 
+        editingParallel!.chapter, 
+        editingParallel!.mishna
+      );
+      const selectedLine = mishnaData.lines.find(l => l.lineNumber === editingParallel!.lineNumber);
+      setSelectedLineSublines(selectedLine?.sublines || []);
+    } catch {
       setSelectedLineSublines([]);
     }
-  }, [open]);
+  };
+
+  const resetToAddMode = () => {
+    setSelectedSublineIndices([]);
+    setCurrentSublineIndices([]);
+    setMakbila(null);
+    setSelectedLineSublines([]);
+  };
+
+  const handleNavigationUpdate = async (link: iLink) => {
+    setMakbila(link);
+    
+    // Load sublines when a complete line is selected
+    if (link.tractate && link.chapter && link.mishna && link.lineNumber) {
+      await loadTargetLineSublines(link);
+    }
+  };
+
+  // Extracted function to load target line sublines (for refresh functionality)
+  const loadTargetLineSublines = async (link: iLink) => {
+    try {
+      const mishnaData = await PageService.getMishna(link.tractate, link.chapter, link.mishna);
+      const selectedLine = mishnaData.lines.find(l => l.lineNumber === link.lineNumber);
+      setSelectedLineSublines(selectedLine?.sublines || []);
+    } catch {
+      setSelectedLineSublines([]);
+    }
+  };
+
+  const handleRefresh = async () => {
+    if (makbila && makbila.tractate && makbila.chapter && makbila.mishna && makbila.lineNumber) {
+      await loadTargetLineSublines(makbila);
+    }
+  };
+
+  const handleOpenInNewTab = () => {
+    if (makbila && makbila.tractate && makbila.chapter && makbila.mishna && makbila.lineNumber) {
+      window.open(`/admin/edit/${makbila.tractate}/${makbila.chapter}/${makbila.mishna}/${makbila.lineNumber}`);
+    }
+  };
 
   const handleClose = () => {
     if (makbila) {
-      // Return the link with multiple subline pairs
       const linkWithSublines = {
         ...makbila,
         selectedSublineIndices,
@@ -67,7 +135,7 @@ export default function LinkPopup(props: Props) {
       };
       onClose(linkWithSublines);
     } else {
-      onClose(makbila);
+      onClose(null);
     }
   };
 
@@ -91,31 +159,38 @@ export default function LinkPopup(props: Props) {
           width: '90%',
         },
       }}>
-      <DialogTitle>בחר מקבילה</DialogTitle>
+      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span>{editingParallel ? 'ערוך מקבילה' : 'בחר מקבילה'}</span>
+        <Box>
+          {makbila && makbila.tractate && makbila.chapter && makbila.mishna && makbila.lineNumber && (
+            <>
+              <Tooltip title="רענן נתונים">
+                <IconButton 
+                  onClick={handleRefresh}
+                  size="small"
+                  sx={{ mr: 1 }}
+                >
+                  <RefreshIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="פתח בכרטיסייה חדשה">
+                <IconButton 
+                  onClick={handleOpenInNewTab}
+                  size="small"
+                >
+                  <OpenInNewIcon />
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
+        </Box>
+      </DialogTitle>
 
       <ChooseMishnaForm
-        initValues={defaultValues}
+        initValues={editingParallel || defaultValues}
         allChapterAllowed={false}
         allTractates={allTractates}
-        onNavigationUpdated={(e: iLink) => {
-          setMakbila(e);
-          
-          // When a line is selected, fetch its sublines
-          if (e.tractate && e.chapter && e.mishna && e.lineNumber) {
-            PageService.getMishna(e.tractate, e.chapter, e.mishna)
-              .then((mishnaData) => {
-                const selectedLine = mishnaData.lines.find(l => l.lineNumber === e.lineNumber);
-                if (selectedLine && selectedLine.sublines) {
-                  setSelectedLineSublines(selectedLine.sublines);
-                } else {
-                  setSelectedLineSublines([]);
-                }
-              })
-              .catch(() => {
-                setSelectedLineSublines([]);
-              });
-          }
-        }}
+        onNavigationUpdated={handleNavigationUpdate}
       />
 
       {/* Side-by-side subline selection */}
@@ -297,7 +372,7 @@ export default function LinkPopup(props: Props) {
           disabled={!isSelectionValid()}
           variant={isSelectionValid() ? "contained" : "outlined"}
         >
-          בחר
+          {editingParallel ? 'עדכן' : 'בחר'}
         </Button>
       </DialogActions>
     </Dialog>

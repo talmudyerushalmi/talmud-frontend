@@ -27,7 +27,9 @@ export function getNext(
   } else {
     if (mishnaDoc.next) {
       return {
-        ...mishnaDoc.next,
+        tractate: mishnaDoc.next.tractate,
+        chapter: mishnaDoc.next.chapter,
+        mishna: mishnaDoc.next.mishna,
         lineNumber: mishnaDoc.next.lineFrom,
       };
     } else return null;
@@ -41,26 +43,16 @@ export function getPrevious(
   lineNumber: string,
   mishnaDoc: iMishnaForNavigation | null
 ): iLink | null {
-  if (!mishnaDoc?.previous) {
-    return null;
-  }
-  if (!lineNumber) {
-    return mishnaDoc.previous;
-  }
   if (!mishnaDoc) {
     return null;
   }
 
-  // if first line return
-  if (lineNumber === '00001' && chapter === '001') {
-    return {
-      tractate,
-      chapter,
-      mishna,
-      lineNumber,
-    };
+  // If no line number, navigate to previous mishna
+  if (!lineNumber) {
+    return mishnaDoc.previous || null;
   }
-  // if can move one line before
+
+  // Try to move one line back within current mishna
   let previousLine = numeral(parseInt(lineNumber) - 1).format('00000');
   const lineObj = mishnaDoc?.lines?.find((lineItem) => lineItem.lineNumber === previousLine);
   if (lineObj) {
@@ -71,13 +63,18 @@ export function getPrevious(
       lineNumber: previousLine,
     };
   }
-  // else need to move mishna before
-  else if (mishnaDoc.previous) {
+
+  // Can't move back within current mishna, try to go to previous mishna
+  if (mishnaDoc.previous) {
     return {
-      ...mishnaDoc.previous,
+      tractate: mishnaDoc.previous.tractate,
+      chapter: mishnaDoc.previous.chapter,
+      mishna: mishnaDoc.previous.mishna,
       lineNumber: mishnaDoc.previous.lineTo,
     };
   }
+
+  // Already at the first line of first mishna - can't go back
   return null;
 }
 
