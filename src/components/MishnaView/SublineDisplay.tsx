@@ -56,7 +56,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   selected: {
-    // This class is applied via global CSS in App.css
+    '&.MuiAccordion-root': {
+      border: 'none !important',
+      boxShadow: 'none !important',
+      '&::before, &::after': {
+        display: 'none !important',
+      },
+    },
   },
   lineroot: {
     display: 'flex',
@@ -144,7 +150,7 @@ const SublineDisplay = (props: Props) => {
   };
 
   const isSublineSelected = isSelected(subline);
-  const selectedClass = isSublineSelected ? `${classes.selected} selected` : '';
+  const selectedClass = isSublineSelected ? classes.selected : '';
   const accordionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
