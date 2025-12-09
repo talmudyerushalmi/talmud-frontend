@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     '&.MuiAccordion-root': {
       border: 'none !important',
       boxShadow: 'none !important',
-      '&::before, &::after': {
+      '&::after': {
         display: 'none !important',
       },
     },
