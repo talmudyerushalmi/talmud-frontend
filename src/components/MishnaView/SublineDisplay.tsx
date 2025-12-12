@@ -220,7 +220,20 @@ const SublineDisplay = (props: Props) => {
               display: 'none',
             },
           }}>
-            <IconButton style={{ padding: 0 }} size="small" onClick={handleExpandClick}>
+            <IconButton 
+              component="div"
+              role="button"
+              tabIndex={0}
+              aria-label="Expand subline details"
+              style={{ padding: 0 }} 
+              size="small" 
+              onClick={handleExpandClick}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleExpandClick(e);
+                }
+              }}>
               <ExpandMoreIcon />
             </IconButton>
           </AccordionActions>

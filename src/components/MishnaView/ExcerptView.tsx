@@ -57,6 +57,10 @@ const ExcerptView = (props: Props) => {
           }}>
           {excerpt.link ? (
             <IconButton
+              component="div"
+              role="button"
+              tabIndex={0}
+              aria-label="Open link in new tab"
               sx={{
                 position: 'absolute',
                 right: '0.5rem',
@@ -64,6 +68,13 @@ const ExcerptView = (props: Props) => {
               onClick={(e) => {
                 e.stopPropagation();
                 window.open(excerpt.link, '_blank')?.focus();
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(excerpt.link, '_blank')?.focus();
+                }
               }}
               size="small">
               <LinkIcon />
