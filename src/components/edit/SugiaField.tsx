@@ -18,7 +18,7 @@ const SugiaField = (props: Props) => {
   });
 
   const [hasValue, setHasValue] = useState(!!value);
-  const [val, setVal] = useState(value);
+  const [val, setVal] = useState(value || '');
 
   useEffect(() => {
     if (!isTouched) {
