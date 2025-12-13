@@ -17,7 +17,7 @@ const FieldSublines = (props: Props) => {
   return (
     <div>
       {fields.map((field, index: number) => (
-        <div key={field.id}>
+        <div key={field.id} style={{ paddingTop: index === 0 ? '1rem' : 0 }}>
           <SublineField
             index={index}
             name={`sublines[${index}]`}

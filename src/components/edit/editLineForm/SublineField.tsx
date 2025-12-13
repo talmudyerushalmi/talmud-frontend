@@ -73,7 +73,7 @@ const SublineField = (props: Props) => {
 
   return (
     <>
-      <Paper elevation={3} style={{ marginBottom: '1rem', padding: '0.5rem' }}>
+      <Paper elevation={3} style={{ marginBottom: '1rem', padding: '0.5rem', paddingTop: '1rem' }}>
         <SublineTitle index={index} onClick={deleteSublineHandler} />
         <MainLineEditor
           control={control}
