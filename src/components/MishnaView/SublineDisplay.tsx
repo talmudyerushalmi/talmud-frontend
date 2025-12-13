@@ -179,7 +179,7 @@ const SublineDisplay = (props: Props) => {
           size="small"
           sx={{
             position: 'absolute',
-            left: -80,
+            left: -120,
             zIndex: 100,
             padding: 0,
           }}
