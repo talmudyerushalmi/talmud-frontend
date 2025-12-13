@@ -3,7 +3,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import MainLine from './MainLine';
 import { iLine } from '../../types/types';
 import { counter } from './SugiaButton';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import { routeObject } from '../../store/reducers/navigationReducer';
@@ -37,7 +37,6 @@ interface Props {
 }
 const MainLines = (props: Props) => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const { lines, userGroup, mishna } = props;
 
   useEffect(()=>{
@@ -56,11 +55,9 @@ const MainLines = (props: Props) => {
           <div key={line.lineNumber} className={classes.lines}>
             {userGroup === UserGroup.Editor ? (
               <IconButton
+                component={Link}
+                to={`/admin/edit/${route.tractate}/${route.chapter}/${mishna}/${line.lineNumber}/`}
                 sx={{ position: 'absolute', display: { xs: 'none', sm: 'block' }, left: '-3rem', top: '-0.2rem' }}
-                onClick={() => {
-                  const url = `/admin/edit/${route.tractate}/${route.chapter}/${mishna}/${line.lineNumber}/`;
-                  navigate(url);
-                }}
                 size="small">
                 <Edit></Edit>
               </IconButton>
