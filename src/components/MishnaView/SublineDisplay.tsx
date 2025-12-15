@@ -21,6 +21,7 @@ import NosachView from './NosachView';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 import { CommentModal, iCommentModal, setCommentModal } from '../../store/actions/commentsActions';
 import { getFirstAndLastWordOfString } from '../../inc/textUtils';
+import { UserGroup } from '../../store/reducers/authReducer';
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -28,6 +29,7 @@ const mapStateToProps = (state) => ({
   showPunctuation: state.mishnaView.showPunctuation,
   showSources: state.mishnaView.showSources,
   showEditType: state.mishnaView.showEditType,
+  userGroup: state.authentication.userGroup,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -94,6 +96,7 @@ interface Props {
     lineIndex: number;
     mainLine: string;
   };
+  userGroup: UserGroup;
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -109,6 +112,7 @@ const SublineDisplay = (props: Props) => {
     handleMouseLeave,
     setCommentModal,
     lineDetails,
+    userGroup,
   } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -179,7 +183,7 @@ const SublineDisplay = (props: Props) => {
           size="small"
           sx={{
             position: 'absolute',
-            left: -120,
+            left: userGroup === UserGroup.Editor ? -120 : '-3rem',
             zIndex: 100,
             padding: 0,
           }}
