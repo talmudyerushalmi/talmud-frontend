@@ -29,8 +29,8 @@
 
 /* Main content text size for Halakha view */
 .public-DraftEditor-content {
-  font-size: 15px;
-  line-height: 1.8;
+  font-size: 17px;
+  line-height: 2.0;
 }
 
 /* Hide gray line on the next accordion after a selected one (for single line selection) */
