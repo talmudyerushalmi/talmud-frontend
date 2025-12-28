@@ -10,6 +10,7 @@ import SearchBar from './SearchBar';
 import PageService from '../../../services/pageService';
 import { useAppDispatch } from '../../../app/hooks';
 import { setRoute } from '../../../store/actions/navigationActions';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   allChapterAllowed?: boolean;
@@ -25,6 +26,8 @@ const ChooseMishnaBar = ({
   onButtonNavigation = () => {},
 }: Props) => {
   const dispatch = useAppDispatch();
+  const { i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
   // Derive navigation directly from URL params instead of using state
   const navigation: iLink = {
@@ -58,11 +61,17 @@ const ChooseMishnaBar = ({
               onButtonNavigation={onButtonNavigation}
               initValues={navigation}
               allTractates={allTractates}
+              isHebrew={isHebrew}
             />
           </Box>
         </Grid>
       </Box>
-      <SearchBar />
+      <Box sx={{ display: 'flex', width: '100%', flexDirection: isHebrew ? 'row' : 'row-reverse' }}>
+        <Box sx={{ marginRight: isHebrew ? 0 : '30px' }}>
+          <SearchBar />
+        </Box>
+        {isHebrew && <Box sx={{ flexGrow: 1 }} />}
+      </Box>
       {/* Print version */}
       <PrintHeader allTractates={allTractates} />
     </>

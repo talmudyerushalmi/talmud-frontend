@@ -10,7 +10,6 @@ import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { getNext, getPrevious } from '../../../inc/utils';
 import useKeypress from '../../../hooks/useKeypress';
 import { editorInEventPath } from '../../../inc/editorUtils';
-import { useTranslation } from 'react-i18next';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
@@ -26,6 +25,7 @@ interface Props {
   navButtons?: boolean;
   onButtonNavigation?: (navigation: iLink) => void;
   allTractates?: iTractate[];
+  isHebrew: boolean;
 }
 
 const ChooseMishnaForm = ({
@@ -36,9 +36,8 @@ const ChooseMishnaForm = ({
   onNavigationUpdated,
   onButtonNavigation = (_) => {},
   allTractates,
+  isHebrew,
 }: Props) => {
-  const { i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
   const [tractateName, setTractateName] = useState<string>(initValues?.tractate || '');
   const [chapterName, setChapterName] = useState<string>(initValues?.chapter || '');
   const [mishnaName, setMishnaName] = useState<string>(initValues?.mishna || '');
@@ -103,7 +102,7 @@ const ChooseMishnaForm = ({
 
   return (
     <>
-      <Box mb={2} sx={{ display: 'flex', flexGrow: 10 }}>
+      <Box mb={2} sx={{ display: 'flex', flexGrow: 10, flexDirection: isHebrew ? 'row' : 'row-reverse' }}>
         {navButtons ? (
           <IconButton
             onClick={() => {
