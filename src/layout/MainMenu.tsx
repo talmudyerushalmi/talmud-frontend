@@ -47,6 +47,12 @@ const MainMenu = (props: any) => {
   const classes = useStyles();
   const settingsContext = React.useContext(SettingsContext);
   const url = `https://assets.talmudyerushalmi.com/documents/guide_${i18next.resolvedLanguage}.pdf`;
+  const isRTL = i18n.language === 'he';
+  const direction = isRTL ? 'rtl' : 'ltr';
+  
+  // Check if we're in staging environment
+  const staging = process.env.REACT_APP_ENV === 'staging' || 
+                  window.location.hostname.includes('staging');
 
   useEffect(() => {
     getAllContentItems();
@@ -58,7 +64,7 @@ const MainMenu = (props: any) => {
         position="fixed"
         dir="rtl"
         sx={{
-          //backgroundColor:'#3f51b5',
+          backgroundColor: staging ? '#6a1b9a' : undefined, // Slightly purple for staging
           '& .MuiButton-root': { color: 'white' },
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}>
@@ -107,6 +113,12 @@ const MainMenu = (props: any) => {
               <Link to="/support" style={{ textDecoration: 'none', color: 'white' }}>
                 <span>{t('Support for the Edition')}</span>
               </Link>
+              {staging && (
+                <>
+                  <span style={{ margin: '0 1rem' }}>|</span>
+                  <span style={{ color: 'red' }}>סביבת סטיג׳ינג</span>
+                </>
+              )}
             </div>
           </Hidden>
           <Typography variant="h6" className={classes.title}></Typography>
