@@ -14,10 +14,11 @@ interface Props {
   chapter: string;
   inTractate: iTractate | null;
   onSelectChapter: (tractate: leanChapter) => void;
+  isHebrew: boolean;
 }
 
 const ChooseChapter = (props: Props) => {
-  const { chapter, onSelectChapter, inTractate } = props;
+  const { chapter, onSelectChapter, inTractate, isHebrew } = props;
   const [selectedChapter, setSelectedChapter] = useState<leanChapter | null>(null);
 
   const { t } = useTranslation();
@@ -50,7 +51,7 @@ const ChooseChapter = (props: Props) => {
         value={selectedChapter}
         options={inTractate?.chapters || []}
         autoHighlight={true}
-        getOptionLabel={(option) => hebrewMap.get(option.id) as string}
+        getOptionLabel={(option) => isHebrew ? (hebrewMap.get(option.id) as string) : option.id}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         renderInput={(params) => <TextField {...params} label={t('Chapter')} variant="outlined" />}
         ListboxProps={{

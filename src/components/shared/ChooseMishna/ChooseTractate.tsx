@@ -8,10 +8,11 @@ interface Props {
   tractate: string;
   onSelectTractate: (tractate: iTractate) => void;
   allTractates?: iTractate[];
+  isHebrew: boolean;
 }
 
 const ChooseTractate = (props: Props) => {
-  const { tractate, onSelectTractate, allTractates } = props;
+  const { tractate, onSelectTractate, allTractates, isHebrew } = props;
   const [selectedTractate, setSelectedTractate] = useState<iTractate | null>(null);
 
   const { t } = useTranslation();
@@ -43,7 +44,7 @@ const ChooseTractate = (props: Props) => {
       value={selectedTractate}
       options={allTractates || []}
       autoHighlight={true}
-      getOptionLabel={(option) => option.title_heb}
+      getOptionLabel={(option) => isHebrew ? option.title_heb : option.id}
       isOptionEqualToValue={(option, value) => option?.id === value?.id}
       renderInput={(params) => <TextField {...params} label={t('Tractate')} variant="outlined" />}
       ListboxProps={{

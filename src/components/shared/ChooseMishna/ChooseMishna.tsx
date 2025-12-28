@@ -2,8 +2,8 @@ import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { hebrewMap } from '../../../inc/utils';
 import { getTractate, getChapter, getMishna } from '../../../inc/mishnaUtils';
+import { hebrewMap } from '../../../inc/utils';
 import { leanChapter } from './ChooseChapter';
 import NavigationService from '../../../services/NavigationService';
 import { iMarker, refMishna } from '../../../types/types';
@@ -26,10 +26,11 @@ interface Props {
   allChapterAllowed?: boolean;
   inChapter: leanChapter | null;
   onSelectMishna: (mishna: iMishnaForNavigation) => void;
+  isHebrew: boolean;
 }
 
 const ChooseMishna = (props: Props) => {
-  const { mishnaName, onSelectMishna, inChapter, allChapterAllowed } = props;
+  const { mishnaName, onSelectMishna, inChapter, allChapterAllowed, isHebrew } = props;
   const [selectedMishna, setSelectedMishna] = useState<refMishna | null>(null);
   const [mishnaiot, setMishnaiot] = useState<refMishna[] | []>([]);
   const { t } = useTranslation();
@@ -98,7 +99,7 @@ const ChooseMishna = (props: Props) => {
         value={selectedMishna}
         options={mishnaiot}
         autoHighlight={true}
-        getOptionLabel={(option) => hebrewMap.get(option.mishna) as string}
+        getOptionLabel={(option) => isHebrew ? (hebrewMap.get(option.mishna) as string) : option.mishna}
         isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
         renderInput={(params) => <TextField {...params} label={t('Halakha')} variant="outlined" />}
         ListboxProps={{
