@@ -33,6 +33,11 @@
   line-height: 2.0;
 }
 
+/* Font size for piska (bold-brown Sugia headers) */
+.piska .public-DraftEditor-content {
+  font-size: 15px;
+}
+
 /* Hide gray line on the next accordion after a selected one (for single line selection) */
 div.after-selected .MuiAccordion-root {
   border-top: none !important;
