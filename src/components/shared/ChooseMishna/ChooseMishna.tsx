@@ -90,9 +90,16 @@ const ChooseMishna = (props: Props) => {
       <Autocomplete
         sx={{
           minWidth: 100,
-          flex: 'auto',
-          '&.MuiAutocomplete-root  .MuiOutlinedInput-root .MuiAutocomplete-input': {
+          flex: 1,
+          direction: isHebrew ? 'rtl' : 'ltr',
+          '&.MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input': {
             padding: 0,
+          },
+          '& .MuiAutocomplete-endAdornment': {
+            left: isHebrew ? 'unset !important' : '7px !important',
+            right: isHebrew ? '7px !important' : 'unset !important',
+            display: 'flex',
+            flexDirection: 'row-reverse !important',
           },
         }}
         onChange={_onChange}
@@ -101,10 +108,30 @@ const ChooseMishna = (props: Props) => {
         autoHighlight={true}
         getOptionLabel={(option) => isHebrew ? (hebrewMap.get(option.mishna) as string) : option.mishna}
         isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
-        renderInput={(params) => <TextField {...params} label={t('Halakha')} variant="outlined" />}
+        renderInput={(params) => (
+          <TextField 
+            {...params} 
+            label={t('Halakha')} 
+            variant="outlined" 
+            sx={{ 
+              '& .MuiInputBase-input': {
+                textAlign: isHebrew ? 'left' : 'right',
+                marginRight: isHebrew ? 0 : '-50px',
+              },
+              '& .MuiInputLabel-root': {
+                left: isHebrew ? 0 : 'unset',
+                right: isHebrew ? 'unset' : 30,
+                transformOrigin: isHebrew ? 'top left' : 'top right',
+              },
+              '& .MuiOutlinedInput-notchedOutline legend': {
+                textAlign: isHebrew ? 'left' : 'right',
+              },
+            }} 
+          />
+        )}
         ListboxProps={{
           style: {
-            direction: 'rtl',
+            direction: isHebrew ? 'rtl' : 'ltr',
           },
         }}
       />
