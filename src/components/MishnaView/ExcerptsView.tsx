@@ -28,7 +28,7 @@ export default function ExcerptsView(props) {
         }
       }}>
         <Typography>
-          {t(title)} - {filteredList.length}
+          {t(title)} - {filteredList.length || 0}
         </Typography>
       </AccordionSummary>
       <AccordionDetails sx={{ padding: 0 }}>

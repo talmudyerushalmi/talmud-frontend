@@ -27,7 +27,7 @@ export const CommentsExcerptsView: FC<IProps> = ({ comments, expanded }) => {
         }
       }}>
         <Typography>
-          {t(title)} - {comments?.length}
+          {t(title)} - {comments?.length || 0}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
