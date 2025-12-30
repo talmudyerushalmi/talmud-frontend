@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignItems: 'center',
       fontSize: '1.05rem',
+      // marginTop: '0.5px',
+      // marginBottom: '0.5px',
       '& .MuiTypography-root': {
         fontSize: '1.05rem',
       },
