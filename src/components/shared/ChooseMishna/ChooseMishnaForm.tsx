@@ -109,7 +109,7 @@ const ChooseMishnaForm = ({
               navigateHandler(Direction.BACK);
             }}
             size="small">
-            <ArrowForward></ArrowForward>
+            {isHebrew ? <ArrowForward /> : <ArrowBack />}
           </IconButton>
         ) : null}
         <ChooseTractate
@@ -175,7 +175,7 @@ const ChooseMishnaForm = ({
               navigateHandler(Direction.FORWARD);
             }}
             size="small">
-            <ArrowBack></ArrowBack>
+            {isHebrew ? <ArrowBack /> : <ArrowForward />}
           </IconButton>
         ) : null}
       </Box>
