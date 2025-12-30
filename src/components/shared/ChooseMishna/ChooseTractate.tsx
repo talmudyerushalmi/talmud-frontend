@@ -17,6 +17,13 @@ const ChooseTractate = (props: Props) => {
 
   const { t } = useTranslation();
 
+  const formatTractateName = (id: string): string => {
+    return id
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  };
+
   const _onChange = (event: SyntheticEvent<Element, Event>, tractate: iTractate | null) => {
     if (tractate) {
       onSelectTractate(tractate);
@@ -44,7 +51,7 @@ const ChooseTractate = (props: Props) => {
       value={selectedTractate}
       options={allTractates || []}
       autoHighlight={true}
-      getOptionLabel={(option) => isHebrew ? option.title_heb : option.id}
+      getOptionLabel={(option) => isHebrew ? option.title_heb : formatTractateName(option.id)}
       isOptionEqualToValue={(option, value) => option?.id === value?.id}
       renderInput={(params) => <TextField {...params} label={t('Tractate')} variant="outlined" />}
       ListboxProps={{
