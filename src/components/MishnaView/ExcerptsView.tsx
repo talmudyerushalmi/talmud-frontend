@@ -9,7 +9,8 @@ import { ExcerptsAccordion } from './exercptsAccordion';
 
 export default function ExcerptsView(props) {
   const { excerpts, expanded, type } = props;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
 
   const title = excerptsMap.get(type)?.title || '';
   const filteredList = excerpts?.filter((excerpt) => excerpt.type === type);
@@ -20,7 +21,12 @@ export default function ExcerptsView(props) {
 
   return (
     <ExcerptsAccordion>
-      <AccordionSummary>
+      <AccordionSummary sx={{
+        '& .MuiTypography-root': {
+          marginLeft: isHebrew ? 0 : 'auto',
+          marginRight: isHebrew ? 'auto' : 0,
+        }
+      }}>
         <Typography>
           {t(title)} - {filteredList.length}
         </Typography>

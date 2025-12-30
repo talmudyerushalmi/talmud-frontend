@@ -13,13 +13,19 @@ interface IProps {
 }
 
 export const CommentsExcerptsView: FC<IProps> = ({ comments, expanded }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
 
   const title = 'Personal Comments';
 
   return (
     <ExcerptsAccordion>
-      <AccordionSummary>
+      <AccordionSummary sx={{
+        '& .MuiTypography-root': {
+          marginLeft: isHebrew ? 0 : 'auto',
+          marginRight: isHebrew ? 'auto' : 0,
+        }
+      }}>
         <Typography>
           {t(title)} - {comments?.length}
         </Typography>
