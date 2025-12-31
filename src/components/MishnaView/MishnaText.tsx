@@ -25,15 +25,17 @@ const useStyles = makeStyles((theme) => {
 
 const MishnaText = (props) => {
   const { html, mishna } = props;
-  const mishnaTitle = mishna ? `[משנה ${hebrewMap.get(mishna)}]` : null;
+  const hebrewLetter = mishna ? hebrewMap.get(mishna) : '';
+  
+  // Prepend the Hebrew letter in square brackets to the beginning of the HTML content
+  const contentWithLetter = hebrewLetter 
+    ? `<span style="color: black; font-size: 0.9em; font-weight: normal; margin-left: 0.01rem;">[${hebrewLetter}]</span> ${html}`
+    : html;
 
   const classes = useStyles();
   return (
     <Paper elevation={0} className={classes.root}>
-      <Typography variant="h6" style={{ fontSize: '1rem' }}>
-        {mishnaTitle}
-      </Typography>
-      <div dangerouslySetInnerHTML={{ __html: html }}></div>
+      <div dangerouslySetInnerHTML={{ __html: contentWithLetter }}></div>
     </Paper>
   );
 };

@@ -10,7 +10,6 @@ import { iMishna } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
 import { RichTextsMishnas } from '../services/pageService';
 import { getRichMishnaiotForChapter, setMishnaViewOptions } from '../store/actions/mishnaViewActions';
-import useScroll from '../hooks/useScroll';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: false,
@@ -39,9 +38,6 @@ interface Props {
 const ChapterPage = (props: Props) => {
   const { mishnaiot, richTextMishnas, setViewOptions, getRichMishnaiotForChapter } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
-  useScroll(70, () => {
-    getRichMishnaiotForChapter(tractate, chapter);
-  });
 
   useEffect(() => {
     setViewOptions();
@@ -50,6 +46,11 @@ const ChapterPage = (props: Props) => {
   useEffect(() => {
     getRichMishnaiotForChapter(tractate, chapter, true);
   }, [mishna, chapter, tractate, getRichMishnaiotForChapter]);
+
+  // Sort mishnaiot by mishna number to ensure correct order
+  const sortedMishnaiot = [...mishnaiot].sort((a, b) => {
+    return parseInt(a.mishna) - parseInt(b.mishna);
+  });
 
   return (
     <Grid container spacing={2}>
@@ -74,13 +75,13 @@ const ChapterPage = (props: Props) => {
             {richTextMishnas.map((mishna, index) => (
               <MishnaText
                 key={mishna.mishna}
-                mishna={parseInt(mishna.mishna)}
+                mishna={mishna.mishna}
                 html={getHTMLFromRawContent(mishna?.richTextMishna)}
               />
             ))}
           </Grid>
         </Grid>
-        {mishnaiot.map((mishna, index) => {
+        {sortedMishnaiot.map((mishna, index) => {
           return <MainText key={index} lines={mishna?.lines} mishna={mishna?.mishna} />;
         })}
       </Grid>

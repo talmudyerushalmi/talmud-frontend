@@ -9,7 +9,7 @@ import {
   useTheme,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { connect } from 'react-redux';
 import { selectSublines } from '../../store/actions';
@@ -41,7 +41,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '&.MuiAccordion-root.Mui-expanded': { margin: 0 },
+    '&.MuiAccordion-root': { margin: 0, marginBottom: '-8px' },
+    '&.MuiAccordion-root.Mui-expanded': { margin: 0, marginBottom: '-8px' },
+    '&.MuiAccordion-root:before': { display: 'none' },
     '& p': { margin: 0 },
     '& .MuiAccordionSummary-root, & .MuiAccordionSummary-root.Mui-expanded': { minHeight: 0 },
     '& .MuiAccordionSummary.Mui-expanded': { background: 'yellow', minHeight: 0 },
@@ -51,6 +53,15 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiAccordionSummary-content': {
       margin: 0,
       justifyContent: 'space-between',
+    },
+  },
+  selected: {
+    '&.MuiAccordion-root': {
+      border: 'none !important',
+      boxShadow: 'none !important',
+      '&::after': {
+        display: 'none !important',
+      },
     },
   },
   lineroot: {
@@ -139,7 +150,22 @@ const SublineDisplay = (props: Props) => {
   };
 
   const isSublineSelected = isSelected(subline);
-  const selectedClass = isSublineSelected ? 'selected' : '';
+  const selectedClass = isSublineSelected ? classes.selected : '';
+  const accordionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const parent = accordionRef.current?.parentElement;
+    if (parent) {
+      const nextSibling = parent.nextElementSibling;
+      if (nextSibling) {
+        if (isSublineSelected) {
+          nextSibling.classList.add('after-selected');
+        } else {
+          nextSibling.classList.remove('after-selected');
+        }
+      }
+    }
+  }, [isSublineSelected]);
 
   let textToDisplay = subline.text;
   if (!showSources) {
@@ -165,7 +191,9 @@ const SublineDisplay = (props: Props) => {
         </Button>
       )}
       <Accordion
+        ref={accordionRef}
         square={true}
+        elevation={0}
         expanded={expanded === `panelb${subline.index}`}
         onClick={() => handleSelect(subline)}
         className={`${classes.root} ${selectedClass} ${piskaClass}`}
@@ -186,13 +214,18 @@ const SublineDisplay = (props: Props) => {
             markTo={markedSelection?.to}
             subline={subline}
           />
-          <AccordionActions sx={{ padding: 0 }}>
+          <AccordionActions sx={{ 
+            padding: 0,
+            '@media print': {
+              display: 'none',
+            },
+          }}>
             <IconButton style={{ padding: 0 }} size="small" onClick={handleExpandClick}>
               <ExpandMoreIcon />
             </IconButton>
           </AccordionActions>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ padding: '0.1rem 1rem' }}>
           <SynopsisTable subline={subline} lineNumber={lineDetails.lineNumber} />
         </AccordionDetails>
       </Accordion>

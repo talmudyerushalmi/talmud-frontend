@@ -25,12 +25,10 @@ export default function ExcerptsView(props) {
           {t(title)} - {filteredList.length}
         </Typography>
       </AccordionSummary>
-      <AccordionDetails>
-        <div style={{ width: '100%', height: '300px' }}>
-          {filteredList.map((excerpt) => (
-            <ExcerptView key={excerpt.key} expanded={expanded} excerpt={excerpt} />
-          ))}
-        </div>
+      <AccordionDetails sx={{ padding: 0 }}>
+        {filteredList.map((excerpt) => (
+          <ExcerptView key={excerpt.key} expanded={expanded} excerpt={excerpt} />
+        ))}
       </AccordionDetails>
     </ExcerptsAccordion>
   );

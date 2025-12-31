@@ -19,8 +19,8 @@ import { useAppSelector } from '../../app/hooks';
 
 const useStyles = makeStyles({
   table: {
-    marginBottom: '0.3rem',
-    marginTop: '0.3rem',
+    marginBottom: '0.01rem',
+    marginTop: '0.01rem',
     '& .MuiTableCell-root': {
       paddingTop: 0,
       paddingBottom: 0,
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     },
     '& td:first-child': {
       width: '3rem',
-      padding: '0.2rem',
+      padding: '0.1rem',
     },
   },
   cell: {
@@ -146,7 +146,7 @@ const SynopsisTable = (props: Props) => {
             return rawText ? (
               <TableRow key={i}>
                 <Tooltip enterDelay={800} leaveDelay={200} title={sourceFullName(synopsisRow)}>
-                  <TableCell style={{ fontWeight: 'bold' }} component="td" scope="row">
+                  <TableCell style={{ fontWeight: 'bold', whiteSpace: 'nowrap', width: 'auto' }} component="td" scope="row">
                     <ButtonUnstyled
                       disabled={!imageUrl}
                       onClick={() => {

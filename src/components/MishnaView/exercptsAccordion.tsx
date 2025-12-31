@@ -5,22 +5,57 @@ import Accordion from '@mui/material/Accordion';
 const useStyles = makeStyles((theme) => ({
   root: {
     overflow: 'hidden',
-    '&.MuiPaper-root.MuiAccordion-root': { backgroundColor: 'rgba(0, 0, 0, .03)' },
+    '&.MuiPaper-root.MuiAccordion-root': { 
+      backgroundColor: 'rgba(0, 0, 0, .03)',
+      margin: 0,
+      marginBottom: '-8px',
+    },
+    '&.MuiAccordion-root:before': { display: 'none' },
     '&:not(:last-child)': {
       borderBottom: 0,
     },
-    minHeight: '3.5rem',
+    minHeight: 'auto',
+    '& .MuiAccordionSummary-root': {
+      minHeight: 'auto',
+      padding: '8px 16px 0px 16px',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    '& .MuiAccordionSummary-content': {
+      margin: '0',
+      display: 'flex',
+      alignItems: 'center',
+      fontSize: '1.05rem',
+      '& .MuiTypography-root': {
+        fontSize: '1.05rem',
+      },
+    },
+    '& .MuiAccordionDetails-root': {
+      padding: '0px 16px 0px 16px',
+    },
   },
   rootExpanded: {
     overflow: 'hidden',
-    '&.MuiPaper-root.MuiAccordion-root': { backgroundColor: 'rgba(0, 0, 0, .03)' },
-    flexGrow: 1,
-    '& >  .MuiCollapse-root': {
-      height: '100% !important',
-      overflow: 'scroll',
+    '&.MuiPaper-root.MuiAccordion-root': { 
+      backgroundColor: 'rgba(0, 0, 0, .03)',
+      margin: 0,
+      marginBottom: '-8px',
     },
+    '&.MuiAccordion-root:before': { display: 'none' },
     '& > .MuiCollapse-root > .MuiCollapse-wrapper > .MuiCollapse-wrapperInner > div > .MuiAccordionDetails-root': {
-      marginBottom: '5rem',
+      padding: '0px 16px 8px 16px',
+      marginTop: '-14px',
+    },
+    '& .MuiAccordionSummary-root': {
+      minHeight: 'auto',
+      padding: '2px 16px 0px 16px',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    '& .MuiAccordionSummary-content': {
+      margin: '0',
+      display: 'flex',
+      alignItems: 'center',
     },
   },
 }));
