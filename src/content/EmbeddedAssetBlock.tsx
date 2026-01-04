@@ -31,6 +31,10 @@ const EmbeddedAssetBlock = (props: Props) => {
       setImageUrl(asset.fields.file.url);
     } else {
       setImageUrl('');
+      // Warn only when language data is loaded but asset is missing (real problem)
+      if (includes[currentLang]) {
+        console.warn(`Contentful asset not found: ${id} for language: ${currentLang}`);
+      }
     }
   }, [includes, fieldValue, currentLang]);
 
