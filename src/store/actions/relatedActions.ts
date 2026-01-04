@@ -14,7 +14,7 @@ export const setManuscriptsForChapter = (tractate: string, chapter: string) => {
       related: { manuscriptsForChapter },
     } = getState();
     // if the current route is the same as the tractate and chapter, don't fetch the data
-    if (currentRoute.tractate === tractate && currentRoute.chapter === chapter && manuscriptsForChapter.length > 0) {
+    if (currentRoute?.tractate === tractate && currentRoute?.chapter === chapter && manuscriptsForChapter.length > 0) {
       return;
     }
     const data = await RelatedService.getRelated(tractate, chapter);

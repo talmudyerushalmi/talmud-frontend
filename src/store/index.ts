@@ -41,6 +41,11 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
+      immutableCheck: {
+        // Increase threshold to 100ms to avoid warnings with large state
+        warnAfter: 100,
+        // Or disable completely: false
+      },
     }),
 });
 

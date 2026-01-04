@@ -26,15 +26,22 @@ const EmbeddedAssetBlock = (props: Props) => {
 
   useEffect(() => {
     const id = fieldValue.data.target.sys.id;
-    const asset = includes[currentLang][id];
-    const file = asset['fields']['file']['url'];
-    setImageUrl(file);
+    const asset = includes[currentLang]?.[id];
+    if (asset?.fields?.file?.url) {
+      setImageUrl(asset.fields.file.url);
+    } else {
+      setImageUrl('');
+      // Warn only when language data is loaded but asset is missing (real problem)
+      if (includes[currentLang]) {
+        console.warn(`Contentful asset not found: ${id} for language: ${currentLang}`);
+      }
+    }
   }, [includes, fieldValue, currentLang]);
 
   return (
     <>
       <div style={{ textAlign: 'center' }}>
-        <img style={{ maxWidth: '100%' }} src={imageUrl}></img>
+        {imageUrl && <img style={{ maxWidth: '100%' }} src={imageUrl} alt="" />}
       </div>
     </>
   );
