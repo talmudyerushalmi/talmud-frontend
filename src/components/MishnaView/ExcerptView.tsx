@@ -33,8 +33,10 @@ const ExcerptView = (props: Props) => {
 
   const handleClick = () => {
     if (!expandedState) {
+      selectExcerpt(excerpt);  // Highlight lines when opening
       setExpanded(excerpt.key);
     } else {
+      selectExcerpt(null);  // Clear highlighting when closing
       setExpanded(null);
     }
   };

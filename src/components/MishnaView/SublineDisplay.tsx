@@ -171,6 +171,20 @@ const SublineDisplay = (props: Props) => {
     }
   }, [isSublineSelected]);
 
+  // Auto-scroll to the first line of the selected excerpt
+  useEffect(() => {
+    if (
+      selectedExcerpt &&
+      selectedExcerpt.selection?.fromSubline === subline.index &&
+      accordionRef.current
+    ) {
+      accordionRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, [selectedExcerpt, subline.index]);
+
   let textToDisplay = subline.text;
   if (!showSources) {
     textToDisplay = hideSourceFromText(textToDisplay);
