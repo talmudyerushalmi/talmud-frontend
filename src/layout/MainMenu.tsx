@@ -43,7 +43,7 @@ interface Props {
 
 const MainMenu = (props: any) => {
   const { userGroup, getAllContentItems } = props;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const classes = useStyles();
   const settingsContext = React.useContext(SettingsContext);
   const url = `https://assets.talmudyerushalmi.com/documents/guide_${i18next.resolvedLanguage}.pdf`;
@@ -62,7 +62,7 @@ const MainMenu = (props: any) => {
     <div className={classes.root}>
       <AppBar
         position="fixed"
-        dir="rtl"
+        dir={direction}
         sx={{
           backgroundColor: staging ? '#6a1b9a' : undefined, // Slightly purple for staging
           '& .MuiButton-root': { color: 'white' },
@@ -77,7 +77,12 @@ const MainMenu = (props: any) => {
             <Link
               to={url}
               target="_blank"
-              style={{ textDecoration: 'none', color: 'white', marginRight: '2rem', marginLeft: '2rem' }}>
+              style={{ 
+                textDecoration: 'none', 
+                color: 'white', 
+                [isRTL ? 'marginRight' : 'marginLeft']: '2rem',
+                [isRTL ? 'marginLeft' : 'marginRight']: '2rem'
+              }}>
               <span>{t('Guide for the Edition')}</span>
             </Link>
           </div>
