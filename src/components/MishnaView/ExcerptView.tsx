@@ -35,7 +35,6 @@ const ExcerptView = (props: Props) => {
     if (!expandedState) {
       setExpanded(excerpt.key);
     } else {
-      selectExcerpt(excerpt);
       setExpanded(null);
     }
   };
