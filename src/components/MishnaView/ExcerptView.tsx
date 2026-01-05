@@ -1,5 +1,5 @@
 import { Accordion, AccordionDetails, IconButton, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { connect } from 'react-redux';
 import { selectExcerpt } from '../../store/actions';
@@ -10,6 +10,7 @@ import { iExcerpt } from '../../types/types';
 
 const mapStateToProps = (state) => ({
   selectedSublineData: state.mishnaView.selectedSublineData,
+  selectedExcerpt: state.mishnaView.selectedExcerpt,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -20,24 +21,20 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 interface Props {
   excerpt: iExcerpt;
-  expanded: boolean;
   selectExcerpt: Function;
+  selectedExcerpt: iExcerpt | null;
 }
 const ExcerptView = (props: Props) => {
-  const { excerpt, expanded, selectExcerpt } = props;
-  const [expandedState, setExpanded] = useState<number | null>(null);
-
-  useEffect(() => {
-    setExpanded(expanded ? excerpt.key : null);
-  }, [expanded, setExpanded]);
+  const { excerpt, selectExcerpt, selectedExcerpt } = props;
+  
+  // Derive expanded state directly from selectedExcerpt
+  const isExpanded = selectedExcerpt?.key === excerpt.key;
 
   const handleClick = () => {
-    if (!expandedState) {
-      selectExcerpt(excerpt);  // Highlight lines when opening
-      setExpanded(excerpt.key);
+    if (!isExpanded) {
+      selectExcerpt(excerpt);
     } else {
-      selectExcerpt(null);  // Clear highlighting when closing
-      setExpanded(null);
+      selectExcerpt(null);
     }
   };
 
@@ -47,7 +44,7 @@ const ExcerptView = (props: Props) => {
 
   return (
     <>
-      <Accordion square expanded={expandedState === excerpt.key} onClick={handleClick}>
+      <Accordion square expanded={isExpanded} onClick={handleClick}>
         <AccordionSummary
           className={excerpt.link ? 'linked-excerpt' : ''}
           aria-controls="panel1d-content"
