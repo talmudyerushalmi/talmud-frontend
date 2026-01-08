@@ -51,7 +51,7 @@ const MainMenu = (props: any) => {
   const direction = isRTL ? 'rtl' : 'ltr';
   
   // Check if we're in staging environment
-  const staging = process.env.REACT_APP_ENV === 'staging' || 
+  const staging = process.env.USER_BRANCH === 'staging' || 
                   window.location.hostname.includes('staging');
 
   useEffect(() => {
