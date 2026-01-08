@@ -50,8 +50,9 @@ const ExcerptView = (props: Props) => {
           aria-controls="panel1d-content"
           id="panel1d-header"
           sx={{
-            paddingTop: '0 !important',
-            paddingBottom: '0 !important',
+            paddingTop: '0.3rem !important',
+            paddingBottom: '0.3rem !important',
+            fontSize: '1.05rem',
           }}>
           {excerpt.link ? (
             <IconButton
