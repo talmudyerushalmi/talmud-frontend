@@ -44,14 +44,18 @@ const ChooseChapter = (props: Props) => {
           minWidth: 100,
           flex: 1,
           direction: isHebrew ? 'rtl' : 'ltr',
+          // Isolate from global RTL context
+          ...(!isHebrew && {
+            '& *': { direction: 'ltr' },
+          }),
           '&.MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input': {
             padding: 0,
           },
           '& .MuiAutocomplete-endAdornment': {
-            left: isHebrew ? 'unset !important' : '7px !important',
-            right: isHebrew ? '7px !important' : 'unset !important',
+            left: isHebrew ? 'unset' : '7px',
+            right: isHebrew ? '7px' : 'unset',
             display: 'flex',
-            flexDirection: 'row-reverse !important',
+            flexDirection: 'row-reverse',
           },
         }}
         onChange={_onChange}

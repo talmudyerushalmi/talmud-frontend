@@ -41,15 +41,33 @@ const SearchBar: FC<IProps> = () => {
           display: 'none',
         },
       }}>
-      <Box dir={isHebrew ? 'rtl' : 'ltr'} sx={{ flex: 1, ml: { md: '30px' } }}>
+      <Box 
+        dir={isHebrew ? 'rtl' : 'ltr'} 
+        sx={{ 
+          flex: 1, 
+          ml: { md: '30px' },
+          // Isolate from global RTL context for English
+          ...(!isHebrew && {
+            '& *': { direction: 'ltr' },
+          }),
+        }}>
         <TextField
           fullWidth
           sx={{
             '& .MuiInputBase-root': { p: 0 },
             ...(!isHebrew && {
-              '& .MuiInputLabel-root': { left: 'unset !important', right: '30px !important', transformOrigin: 'top right' },
-              '& .MuiInputLabel-root:not(.MuiInputLabel-shrink)': { left: '160px !important', right: 'unset !important' },
-              '& .MuiOutlinedInput-notchedOutline legend': { marginLeft: 'auto' },
+              '& .MuiInputLabel-root': { 
+                left: 'unset', 
+                right: '30px', 
+                transformOrigin: 'top right',
+              },
+              '& .MuiInputLabel-root:not(.MuiInputLabel-shrink)': { 
+                left: '160px', 
+                right: 'unset',
+              },
+              '& .MuiOutlinedInput-notchedOutline legend': { 
+                marginLeft: 'auto',
+              },
             }),
           }}
           label={t('Free search in the tractate')}

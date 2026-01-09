@@ -34,13 +34,17 @@ const MishnaViewOptions = (props) => {
         sx={{
           '.MuiOutlinedInput-notchedOutline': { border: 'none' },
           direction: isHebrew ? 'rtl' : 'ltr',
+          // Isolate from global RTL context
+          ...(!isHebrew && {
+            '& *': { direction: 'ltr' },
+          }),
           minWidth: isHebrew ? 'auto' : '120px',
           '& .MuiSelect-select': {
             paddingRight: isHebrew ? '14px' : '24px',
             paddingLeft: isHebrew ? '32px' : '14px',
           },
           '& .MuiSvgIcon-root': {
-            right: isHebrew ? '7px !important' : '105px !important',
+            right: isHebrew ? '7px' : '105px',
           },
         }}
         value={showEditType}
