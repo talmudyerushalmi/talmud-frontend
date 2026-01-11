@@ -20,7 +20,7 @@ export const getChooseMishnaAutocompleteStyles = (isHebrew: boolean) => ({
     display: 'flex',
     flexDirection: 'row-reverse',
     ...(!isHebrew && {
-      transform: 'translateX(-290px) translateY(-12px)',
+      transform: 'translateX(calc(100% - 60px)) translateY(-12px)',
     }),
   },
 });
