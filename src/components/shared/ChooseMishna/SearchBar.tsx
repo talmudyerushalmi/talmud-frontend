@@ -53,8 +53,12 @@ const SearchBar: FC<IProps> = () => {
         }}>
         <TextField
           fullWidth
+          value={searchValue}
           sx={{
             '& .MuiInputBase-root': { p: 0 },
+            '& .MuiInputBase-input': {
+              textAlign: isHebrew ? 'left' : 'right',
+            },
             ...(!isHebrew && {
               '& .MuiInputLabel-root': { 
                 left: 'unset', 
@@ -73,17 +77,27 @@ const SearchBar: FC<IProps> = () => {
           label={t('Free search in the tractate')}
           size="small"
           onChange={(e) => setSearchValue(e.target.value)}
-          inputProps={{
-            style: !isHebrew ? { paddingLeft: '14px' } : {},
+          InputLabelProps={{
+            shrink: searchValue ? true : false,
           }}
           InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton type="submit" aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
+            ...(isHebrew ? {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton type="submit" aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            } : {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton type="submit" aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }),
           }}
         />
       </Box>

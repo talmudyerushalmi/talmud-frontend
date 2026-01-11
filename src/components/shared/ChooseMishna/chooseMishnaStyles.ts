@@ -24,3 +24,22 @@ export const getChooseMishnaAutocompleteStyles = (isHebrew: boolean) => ({
     }),
   },
 });
+
+/**
+ * Shared styles for TextField components in ChooseMishna forms
+ * Handles RTL/LTR text alignment and label positioning
+ */
+export const getChooseMishnaTextFieldStyles = (isHebrew: boolean) => ({
+  '& .MuiInputBase-input': {
+    textAlign: isHebrew ? 'left' : 'right',
+    marginRight: isHebrew ? 0 : '-50px',
+  },
+  '& .MuiInputLabel-root': {
+    left: isHebrew ? 0 : 'unset',
+    right: isHebrew ? 'unset' : 30,
+    transformOrigin: isHebrew ? 'top left' : 'top right',
+  },
+  '& .MuiOutlinedInput-notchedOutline legend': {
+    textAlign: isHebrew ? 'left' : 'right',
+  },
+});

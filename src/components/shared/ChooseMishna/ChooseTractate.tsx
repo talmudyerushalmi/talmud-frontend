@@ -3,7 +3,7 @@ import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { iTractate } from '../../../types/types';
-import { getChooseMishnaAutocompleteStyles } from './chooseMishnaStyles';
+import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './chooseMishnaStyles';
 
 interface Props {
   tractate: string;
@@ -53,20 +53,7 @@ const ChooseTractate = (props: Props) => {
           {...params} 
           label={t('Tractate')} 
           variant="outlined" 
-          sx={{ 
-            '& .MuiInputBase-input': {
-              textAlign: isHebrew ? 'left' : 'right',
-              marginRight: isHebrew ? 0 : '-50px',
-            },
-            '& .MuiInputLabel-root': {
-              left: isHebrew ? 0 : 'unset',
-              right: isHebrew ? 'unset' : 30,
-              transformOrigin: isHebrew ? 'top left' : 'top right',
-            },
-            '& .MuiOutlinedInput-notchedOutline legend': {
-              textAlign: isHebrew ? 'left' : 'right',
-            },
-          }} 
+          sx={getChooseMishnaTextFieldStyles(isHebrew)} 
         />
       )}
       ListboxProps={{

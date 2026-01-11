@@ -7,7 +7,7 @@ import { hebrewMap } from '../../../inc/utils';
 import { leanChapter } from './ChooseChapter';
 import NavigationService from '../../../services/NavigationService';
 import { iMarker, refMishna } from '../../../types/types';
-import { getChooseMishnaAutocompleteStyles } from './chooseMishnaStyles';
+import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './chooseMishnaStyles';
 import { leanLine } from './ChooseLine';
 
 export interface iMishnaForNavigation extends refMishna {
@@ -101,20 +101,7 @@ const ChooseMishna = (props: Props) => {
             {...params} 
             label={t('Halakha')} 
             variant="outlined" 
-            sx={{ 
-              '& .MuiInputBase-input': {
-                textAlign: isHebrew ? 'left' : 'right',
-                marginRight: isHebrew ? 0 : '-50px',
-              },
-              '& .MuiInputLabel-root': {
-                left: isHebrew ? 0 : 'unset',
-                right: isHebrew ? 'unset' : 30,
-                transformOrigin: isHebrew ? 'top left' : 'top right',
-              },
-              '& .MuiOutlinedInput-notchedOutline legend': {
-                textAlign: isHebrew ? 'left' : 'right',
-              },
-            }} 
+            sx={getChooseMishnaTextFieldStyles(isHebrew)} 
           />
         )}
         ListboxProps={{
