@@ -4,6 +4,7 @@ import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { iTractate, refMishna } from '../../../types/types';
 import { hebrewMap } from '../../../inc/utils';
+import { getChooseMishnaAutocompleteStyles } from './chooseMishnaStyles';
 
 export interface leanChapter {
   id: string;
@@ -40,27 +41,7 @@ const ChooseChapter = (props: Props) => {
   return (
     <>
       <Autocomplete
-        sx={{
-          minWidth: 100,
-          flex: 1,
-          direction: isHebrew ? 'rtl' : 'ltr',
-          // Isolate from global RTL context
-          ...(!isHebrew && {
-            '& *': { direction: 'ltr' },
-          }),
-          '&.MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input': {
-            padding: 0,
-          },
-          '& .MuiAutocomplete-endAdornment': {
-            left: isHebrew ? 'unset' : '7px',
-            right: isHebrew ? '7px' : 'unset',
-            display: 'flex',
-            flexDirection: 'row-reverse',
-            ...(!isHebrew && {
-              transform: 'translateX(-290px) translateY(-12px)',
-            }),
-          },
-        }}
+        sx={getChooseMishnaAutocompleteStyles(isHebrew)}
         onChange={_onChange}
         value={selectedChapter}
         options={inTractate?.chapters || []}

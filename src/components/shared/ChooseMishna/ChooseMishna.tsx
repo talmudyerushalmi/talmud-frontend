@@ -7,6 +7,7 @@ import { hebrewMap } from '../../../inc/utils';
 import { leanChapter } from './ChooseChapter';
 import NavigationService from '../../../services/NavigationService';
 import { iMarker, refMishna } from '../../../types/types';
+import { getChooseMishnaAutocompleteStyles } from './chooseMishnaStyles';
 import { leanLine } from './ChooseLine';
 
 export interface iMishnaForNavigation extends refMishna {
@@ -88,27 +89,7 @@ const ChooseMishna = (props: Props) => {
   return (
     <>
       <Autocomplete
-        sx={{
-          minWidth: 100,
-          flex: 1,
-          direction: isHebrew ? 'rtl' : 'ltr',
-          // Isolate from global RTL context
-          ...(!isHebrew && {
-            '& *': { direction: 'ltr' },
-          }),
-          '&.MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input': {
-            padding: 0,
-          },
-          '& .MuiAutocomplete-endAdornment': {
-            left: isHebrew ? 'unset' : '7px',
-            right: isHebrew ? '7px' : 'unset',
-            display: 'flex',
-            flexDirection: 'row-reverse',
-            ...(!isHebrew && {
-              transform: 'translateX(-290px) translateY(-12px)',
-            }),
-          },
-        }}
+        sx={getChooseMishnaAutocompleteStyles(isHebrew)}
         onChange={_onChange}
         value={selectedMishna}
         options={mishnaiot}
