@@ -104,6 +104,9 @@ const ChooseMishna = (props: Props) => {
             right: isHebrew ? '7px' : 'unset',
             display: 'flex',
             flexDirection: 'row-reverse',
+            ...(!isHebrew && {
+              transform: 'translateX(-290px) translateY(-12px)',
+            }),
           },
         }}
         onChange={_onChange}
