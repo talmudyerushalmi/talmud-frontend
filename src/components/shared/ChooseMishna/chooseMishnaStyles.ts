@@ -1,4 +1,12 @@
 /**
+ * Removes leading zeros from numeric strings
+ * Used for displaying chapter and mishna numbers in English mode
+ */
+export const formatNumericId = (id: string): string => {
+  return parseInt(id, 10).toString();
+};
+
+/**
  * Shared styles for Autocomplete components in ChooseMishna forms
  * Handles RTL/LTR positioning of endAdornment (dropdown arrow and clear button)
  */

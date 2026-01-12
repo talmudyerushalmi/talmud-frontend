@@ -7,7 +7,7 @@ import { hebrewMap } from '../../../inc/utils';
 import { leanChapter } from './ChooseChapter';
 import NavigationService from '../../../services/NavigationService';
 import { iMarker, refMishna } from '../../../types/types';
-import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './chooseMishnaStyles';
+import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './chooseMishnaStyles';
 import { leanLine } from './ChooseLine';
 
 export interface iMishnaForNavigation extends refMishna {
@@ -98,7 +98,7 @@ const ChooseMishna = (props: Props) => {
           if (option.mishna === 'all') {
             return t('The whole chapter');
           }
-          return isHebrew ? (hebrewMap.get(option.mishna) as string) : option.mishna;
+          return isHebrew ? (hebrewMap.get(option.mishna) as string) : formatNumericId(option.mishna);
         }}
         isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
         renderInput={(params) => (

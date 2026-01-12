@@ -4,7 +4,7 @@ import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { iTractate, refMishna } from '../../../types/types';
 import { hebrewMap } from '../../../inc/utils';
-import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './chooseMishnaStyles';
+import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './chooseMishnaStyles';
 
 export interface leanChapter {
   id: string;
@@ -46,7 +46,7 @@ const ChooseChapter = (props: Props) => {
         value={selectedChapter}
         options={inTractate?.chapters || []}
         autoHighlight={true}
-        getOptionLabel={(option) => isHebrew ? (hebrewMap.get(option.id) as string) : option.id}
+        getOptionLabel={(option) => isHebrew ? (hebrewMap.get(option.id) as string) : formatNumericId(option.id)}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         renderInput={(params) => (
           <TextField 
