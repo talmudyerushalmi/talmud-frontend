@@ -94,7 +94,12 @@ const ChooseMishna = (props: Props) => {
         value={selectedMishna}
         options={mishnaiot}
         autoHighlight={true}
-        getOptionLabel={(option) => isHebrew ? (hebrewMap.get(option.mishna) as string) : option.mishna}
+        getOptionLabel={(option) => {
+          if (option.mishna === 'all') {
+            return t('The whole chapter');
+          }
+          return isHebrew ? (hebrewMap.get(option.mishna) as string) : option.mishna;
+        }}
         isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
         renderInput={(params) => (
           <TextField 

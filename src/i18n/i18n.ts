@@ -84,6 +84,7 @@ i18n
           'Enter search terms...': 'הקלד מילות חיפוש...',
           Search: 'חפש',
           'Support for the Edition': 'תמיכה במהדורה',
+          'The whole chapter': 'כל הפרק',
         },
       },
     },
