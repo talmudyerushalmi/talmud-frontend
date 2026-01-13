@@ -9,14 +9,14 @@ interface Props {
   tractate: string;
   onSelectTractate: (tractate: iTractate) => void;
   allTractates?: iTractate[];
-  isHebrew: boolean;
 }
 
 const ChooseTractate = (props: Props) => {
-  const { tractate, onSelectTractate, allTractates, isHebrew } = props;
+  const { tractate, onSelectTractate, allTractates } = props;
   const [selectedTractate, setSelectedTractate] = useState<iTractate | null>(null);
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
 
   const formatTractateName = (id: string): string => {
     return id

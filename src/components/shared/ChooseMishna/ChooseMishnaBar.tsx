@@ -61,7 +61,6 @@ const ChooseMishnaBar = ({
               onButtonNavigation={onButtonNavigation}
               initValues={navigation}
               allTractates={allTractates}
-              isHebrew={isHebrew}
             />
           </Box>
         </Grid>

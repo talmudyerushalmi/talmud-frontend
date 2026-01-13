@@ -27,14 +27,14 @@ interface Props {
   allChapterAllowed?: boolean;
   inChapter: leanChapter | null;
   onSelectMishna: (mishna: iMishnaForNavigation) => void;
-  isHebrew: boolean;
 }
 
 const ChooseMishna = (props: Props) => {
-  const { mishnaName, onSelectMishna, inChapter, allChapterAllowed, isHebrew } = props;
+  const { mishnaName, onSelectMishna, inChapter, allChapterAllowed } = props;
   const [selectedMishna, setSelectedMishna] = useState<refMishna | null>(null);
   const [mishnaiot, setMishnaiot] = useState<refMishna[] | []>([]);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
 
   const _onChange = (event: SyntheticEvent<Element, Event>, mishna: refMishna | null) => {
     if (!mishna) {

@@ -10,6 +10,7 @@ import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { getNext, getPrevious } from '../../../inc/utils';
 import useKeypress from '../../../hooks/useKeypress';
 import { editorInEventPath } from '../../../inc/editorUtils';
+import { useTranslation } from 'react-i18next';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
@@ -25,7 +26,6 @@ interface Props {
   navButtons?: boolean;
   onButtonNavigation?: (navigation: iLink) => void;
   allTractates?: iTractate[];
-  isHebrew: boolean;
 }
 
 const ChooseMishnaForm = ({
@@ -36,8 +36,9 @@ const ChooseMishnaForm = ({
   onNavigationUpdated,
   onButtonNavigation = (_) => {},
   allTractates,
-  isHebrew,
 }: Props) => {
+  const { i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
   const [tractateName, setTractateName] = useState<string>(initValues?.tractate || '');
   const [chapterName, setChapterName] = useState<string>(initValues?.chapter || '');
   const [mishnaName, setMishnaName] = useState<string>(initValues?.mishna || '');
@@ -115,7 +116,6 @@ const ChooseMishnaForm = ({
         <ChooseTractate
           tractate={tractateName}
           allTractates={allTractates}
-          isHebrew={isHebrew}
           onSelectTractate={(t) => {
             const tractateChanged = t.id !== tractateName;
             setTractateName(t.id);
@@ -135,7 +135,6 @@ const ChooseMishnaForm = ({
         <ChooseChapter
           chapter={chapterName}
           inTractate={tractateData}
-          isHebrew={isHebrew}
           onSelectChapter={(c) => {
             const chapterChanged = c.id !== chapterName;
             setChapterName(c.id);
@@ -151,7 +150,6 @@ const ChooseMishnaForm = ({
           mishnaName={mishnaName}
           inChapter={chapterData}
           allChapterAllowed={allChapterAllowed}
-          isHebrew={isHebrew}
           onSelectMishna={(m) => {
             setMishnaData(m);
             setMishnaName(m.mishna);

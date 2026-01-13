@@ -15,14 +15,14 @@ interface Props {
   chapter: string;
   inTractate: iTractate | null;
   onSelectChapter: (tractate: leanChapter) => void;
-  isHebrew: boolean;
 }
 
 const ChooseChapter = (props: Props) => {
-  const { chapter, onSelectChapter, inTractate, isHebrew } = props;
+  const { chapter, onSelectChapter, inTractate } = props;
   const [selectedChapter, setSelectedChapter] = useState<leanChapter | null>(null);
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
 
   const _onChange = (event: SyntheticEvent<Element, Event>, chapter: leanChapter | null) => {
     if (chapter) {
