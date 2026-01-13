@@ -141,6 +141,13 @@ export interface iLink {
   chapter: string;
   mishna: string;
   lineNumber?: string;
+  highlightWord?: number;
+  dafAmudMarkers?: Array<{
+    line: string;
+    word_pos: number;
+    daf: string;
+    amud: string;
+  }>;
 }
 export interface iParallelLink extends iLink {
   linkText: string;

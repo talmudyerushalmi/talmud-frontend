@@ -42,7 +42,8 @@ const PageWithNavigationWithoutState = (props: Props) => {
     } else {
       url = `${linkPrefix}/${link.tractate}/${link.chapter}/${link.mishna}`;
     }
-    navigate(url);
+    // Pass dafAmudMarkers through navigation state if present
+    navigate(url, { state: { dafAmudMarkers: link.dafAmudMarkers } });
     if (afterNavigateHandler) {
       afterNavigateHandler();
     }

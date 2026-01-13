@@ -97,6 +97,12 @@ interface Props {
     mainLine: string;
   };
   userGroup: UserGroup;
+  dafAmudMarker?: {
+    line: string;
+    word_pos: number;
+    daf: string;
+    amud: string;
+  };
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -113,6 +119,7 @@ const SublineDisplay = (props: Props) => {
     setCommentModal,
     lineDetails,
     userGroup,
+    dafAmudMarker,
   } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -231,6 +238,7 @@ const SublineDisplay = (props: Props) => {
             markFrom={markedSelection?.from}
             markTo={markedSelection?.to}
             subline={subline}
+            dafAmudMarker={dafAmudMarker}
           />
           <AccordionActions sx={{ 
             padding: 0,

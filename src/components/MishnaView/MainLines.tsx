@@ -34,10 +34,16 @@ interface Props {
   lines: iLine[];
   userGroup: any;
   mishna: string;
+  dafAmudMarkers?: Array<{
+    line: string;
+    word_pos: number;
+    daf: string;
+    amud: string;
+  }>;
 }
 const MainLines = (props: Props) => {
   const classes = useStyles();
-  const { lines, userGroup, mishna } = props;
+  const { lines, userGroup, mishna, dafAmudMarkers } = props;
 
   useEffect(()=>{
     counter.reset();
@@ -51,6 +57,19 @@ const MainLines = (props: Props) => {
   return (
     <div className={classes.root}>
       {lines.map((line, index) => {
+        // Find marker for this line - pad the marker line number to match the format
+        const marker = dafAmudMarkers?.find(m => {
+          const paddedLine = m.line.padStart(5, '0');
+          return paddedLine === line.lineNumber;
+        });
+        
+        // Debug logging
+        if (dafAmudMarkers && dafAmudMarkers.length > 0 && index === 0) {
+          console.log('MainLines - dafAmudMarkers:', dafAmudMarkers);
+          console.log('MainLines - first line.lineNumber:', line.lineNumber);
+          console.log('MainLines - padded marker line:', dafAmudMarkers[0].line.padStart(5, '0'));
+        }
+        
         return (
           <div key={line.lineNumber} className={classes.lines}>
             {userGroup === UserGroup.Editor ? (
@@ -62,7 +81,7 @@ const MainLines = (props: Props) => {
                 <Edit></Edit>
               </IconButton>
             ) : null}
-            <MainLine key={line.lineNumber} lineIndex={index} line={line} />
+            <MainLine key={line.lineNumber} lineIndex={index} line={line} dafAmudMarker={marker} />
           </div>
         );
       })}

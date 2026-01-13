@@ -16,6 +16,12 @@ interface Props {
   showPunctuation?: boolean;
   showEditType: ShowEditType;
   selectedExcerpt?: iExcerpt;
+  dafAmudMarker?: {
+    line: string;
+    word_pos: number;
+    daf: string;
+    amud: string;
+  };
 }
 
 const findWithRegex = (regex, contentBlock, callback) => {
@@ -66,8 +72,50 @@ const mark = (editorState: EditorState, markFrom, markTo) => {
   return newEditorState;
 };
 
+const insertDafAmudMarker = (editorState: EditorState, wordPos: number, daf: string, amud: string, showEditType: ShowEditType) => {
+  const contentState = editorState.getCurrentContent();
+  const text = contentState.getPlainText();
+  
+  console.log('insertDafAmudMarker - Full text:', text);
+  console.log('insertDafAmudMarker - wordPos:', wordPos);
+  
+  // Split text into words (Hebrew text is RTL but we count words left-to-right in the string)
+  const words = text.split(/\s+/).filter(w => w.length > 0);
+  
+  console.log('insertDafAmudMarker - words:', words);
+  console.log('insertDafAmudMarker - total words:', words.length);
+  
+  // Find the character position after the specified word
+  let charPos = 0;
+  for (let i = 0; i < Math.min(wordPos, words.length); i++) {
+    charPos += words[i].length;
+    if (i < wordPos) {
+      charPos += 1; // Add space after the word
+    }
+  }
+  
+  console.log('insertDafAmudMarker - charPos:', charPos);
+  
+  // Create the marker text
+  const markerText = `[${daf}:${amud}] `;
+  
+  // Create a selection at the insert position
+  const blockKey = contentState.getFirstBlock().getKey();
+  const selection = SelectionState.createEmpty(blockKey).merge({
+    anchorOffset: charPos,
+    focusOffset: charPos,
+  });
+  
+  // Insert the marker
+  const newContentState = Modifier.insertText(contentState, selection, markerText);
+  
+  console.log('insertDafAmudMarker - text after insert:', newContentState.getPlainText());
+  
+  return EditorState.createWithContent(newContentState, getDecorator(showEditType));
+};
+
 const NosachView = (props: Props) => {
-  const { subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType } = props;
+  const { subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, dafAmudMarker } = props;
 
   const [editor, setEditor] = useState(EditorState.createEmpty());
 
@@ -115,13 +163,32 @@ const NosachView = (props: Props) => {
       if (selectedExcerpt && lineSelected(selectedExcerpt, subline)) {
         newEditorState = mark(newEditorState, 0, length);
       }
+      
+      // Insert Daf/Amud marker if present
+      if (dafAmudMarker && dafAmudMarker.word_pos) {
+        console.log('NosachView - Inserting marker:', dafAmudMarker);
+        console.log('NosachView - Text before insert:', newEditorState.getCurrentContent().getPlainText());
+        newEditorState = insertDafAmudMarker(
+          newEditorState,
+          dafAmudMarker.word_pos,
+          dafAmudMarker.daf,
+          dafAmudMarker.amud,
+          showEditType
+        );
+        console.log('NosachView - Text after insert:', newEditorState.getCurrentContent().getPlainText());
+      }
     } else {
       newEditorState = EditorState.createWithContent(ContentState.createFromText(''));
     }
     setEditor(newEditorState);
-  }, [subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, memoizedRemovePunctuation]);
+  }, [subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, memoizedRemovePunctuation, dafAmudMarker]);
 
-  return <TextEditor selectionFrom={1} selectionTo={4} readOnly={true} initialState={editor} />;
+  // Use a key that includes marker info to force re-render when marker is added
+  const editorKey = dafAmudMarker 
+    ? `${subline.index}-${dafAmudMarker.daf}-${dafAmudMarker.amud}` 
+    : `${subline.index}`;
+    
+  return <TextEditor key={editorKey} selectionFrom={1} selectionTo={4} readOnly={true} initialState={editor} />;
 };
 
 export default NosachView;

@@ -5,7 +5,7 @@ import MishnaText from '../components/MishnaView/MishnaText';
 import { connect } from 'react-redux';
 import ExcerptsSection from '../components/MishnaView/ExcerptsSection';
 import MishnaViewOptions from '../components/MishnaView/MishnaViewOptions';
-import { useParams } from 'react-router';
+import { useParams, useLocation } from 'react-router';
 import { getHTMLFromRawContent } from '../inc/editorUtils';
 import { iMishna } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
@@ -44,8 +44,16 @@ interface Props {
 const MishnaPage = (props: Props) => {
   const { currentMishna, getMishna, setMishnaViewOptions } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
+  const location = useLocation();
   const t = useTheme();
   const dispatch = useAppDispatch();
+  
+  // Get dafAmudMarkers from navigation state
+  const dafAmudMarkers = (location.state as any)?.dafAmudMarkers || [];
+  
+  // Debug logging
+  console.log('MishnaPage - location.state:', location.state);
+  console.log('MishnaPage - dafAmudMarkers:', dafAmudMarkers);
   
   // Fetch synopsis list for SynopsisTable component
   const synopsisLoaded = useAppSelector((state) => state.synopsis.loaded);
@@ -86,7 +94,7 @@ const MishnaPage = (props: Props) => {
             <MishnaText mishna={mishna} html={getHTMLFromRawContent(currentMishna?.richTextMishna)} />
           </Grid>
         </Grid>
-        <MainText lines={currentMishna?.lines} mishna={currentMishna?.mishna} />
+        <MainText lines={currentMishna?.lines} mishna={currentMishna?.mishna} dafAmudMarkers={dafAmudMarkers} />
       </Grid>
       <Grid item md={4} className="excerpts-section">
         <ExcerptsSection />
