@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   wrap: {
     marginTop: '0.6rem',
-    marginBottom: '0.3rem',
+    marginBottom: '0.001rem',
     borderBottom: '1px solid #595959',
   },
   space: {

@@ -10,6 +10,7 @@ import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { getNext, getPrevious } from '../../../inc/utils';
 import useKeypress from '../../../hooks/useKeypress';
 import { editorInEventPath } from '../../../inc/editorUtils';
+import { useTranslation } from 'react-i18next';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
@@ -36,6 +37,8 @@ const ChooseMishnaForm = ({
   onButtonNavigation = (_) => {},
   allTractates,
 }: Props) => {
+  const { i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
   const [tractateName, setTractateName] = useState<string>(initValues?.tractate || '');
   const [chapterName, setChapterName] = useState<string>(initValues?.chapter || '');
   const [mishnaName, setMishnaName] = useState<string>(initValues?.mishna || '');
@@ -100,14 +103,14 @@ const ChooseMishnaForm = ({
 
   return (
     <>
-      <Box mb={2} sx={{ display: 'flex', flexGrow: 10 }}>
+      <Box mb={2} sx={{ display: 'flex', flexGrow: 10, flexDirection: isHebrew ? 'row' : 'row-reverse' }}>
         {navButtons ? (
           <IconButton
             onClick={() => {
               navigateHandler(Direction.BACK);
             }}
             size="small">
-            <ArrowForward></ArrowForward>
+            {isHebrew ? <ArrowForward /> : <ArrowBack />}
           </IconButton>
         ) : null}
         <ChooseTractate
@@ -170,7 +173,7 @@ const ChooseMishnaForm = ({
               navigateHandler(Direction.FORWARD);
             }}
             size="small">
-            <ArrowBack></ArrowBack>
+            {isHebrew ? <ArrowBack /> : <ArrowForward />}
           </IconButton>
         ) : null}
       </Box>

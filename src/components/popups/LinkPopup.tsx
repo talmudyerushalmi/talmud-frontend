@@ -8,6 +8,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ChooseMishnaForm from '../shared/ChooseMishna/ChooseMishnaForm';
 import { iLink, iParallelLink, iTractate, iSubline } from '../../types/types';
 import PageService from '../../services/pageService';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   open: boolean;
@@ -18,6 +19,8 @@ interface Props {
 
 export default function LinkPopup(props: Props) {
   const { open, onClose, currentLineSublines = [], editingParallel = null } = props;
+  const { i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
   const [makbila, setMakbila] = React.useState<iLink | null>(null);
   const [allTractates, setAllTractates] = React.useState<iTractate[]>([]);
   const [defaultValues, setDefaultValues] = React.useState<iLink>({
@@ -191,6 +194,7 @@ export default function LinkPopup(props: Props) {
         allChapterAllowed={false}
         allTractates={allTractates}
         onNavigationUpdated={handleNavigationUpdate}
+        isHebrew={isHebrew}
       />
 
       {/* Side-by-side subline selection */}

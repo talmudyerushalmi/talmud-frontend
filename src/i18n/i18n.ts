@@ -84,6 +84,7 @@ i18n
           'Enter search terms...': 'הקלד מילות חיפוש...',
           Search: 'חפש',
           'Support for the Edition': 'תמיכה במהדורה',
+          'The whole chapter': 'כל הפרק',
         },
       },
     },
@@ -93,3 +94,11 @@ i18n
       escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
     },
   });
+
+// Update HTML lang attribute when language changes
+i18n.on('languageChanged', (lng) => {
+  document.documentElement.lang = lng;
+});
+
+// Set initial lang attribute
+document.documentElement.lang = i18n.language;

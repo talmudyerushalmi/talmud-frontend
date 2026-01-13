@@ -20,9 +20,20 @@ export default function ExcerptsView(props) {
 
   return (
     <ExcerptsAccordion>
-      <AccordionSummary>
+      <AccordionSummary sx={{
+        '& .MuiTypography-root': {
+          'html:lang(he) &': {
+            marginLeft: 0,
+            marginRight: 'auto',
+          },
+          'html:lang(en-US) &': {
+            marginLeft: 'auto',
+            marginRight: 0,
+          },
+        },
+      }}>
         <Typography>
-          {t(title)} - {filteredList.length}
+          {t(title)} - {filteredList.length || 0}
         </Typography>
       </AccordionSummary>
       <AccordionDetails sx={{ padding: 0 }}>

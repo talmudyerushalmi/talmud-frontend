@@ -16,7 +16,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import LinkPopup from '../../popups/LinkPopup';
-import { ListItemSecondaryAction } from '@mui/material';
+import { Box } from '@mui/material';
 import { hebrewMap } from '../../../inc/utils';
 import { getTractate, getChapter } from '../../../inc/mishnaUtils';
 import LineService from '../../../services/line.service';
@@ -226,11 +226,12 @@ const MakbilaList = (props: MakbilaListProps) => {
     const displayText = makbila.linkText;
 
     return (
-      <ListItem key={index} sx={{ width: '10rem' }}>
+      <ListItem key={index} sx={{ width: '100%', minWidth: '20rem', display: 'flex', alignItems: 'center' }}>
         <ListItemButton
           onClick={() => {
             window.open(`/admin/edit/${makbila.tractate}/${makbila.chapter}/${makbila.mishna}/${makbila.lineNumber}`);
           }}
+          sx={{ flex: '1 1 auto', minWidth: 0 }}
         >
           <ListItemText 
             id={labelId} 
@@ -239,9 +240,9 @@ const MakbilaList = (props: MakbilaListProps) => {
           />
         </ListItemButton>
 
-        <ListItemSecondaryAction>
+        <Box sx={{ display: 'flex' }}>
           <IconButton
-            edge="end"
+            size="small"
             aria-label="open"
             onClick={() => {
               window.open(`/admin/edit/${makbila.tractate}/${makbila.chapter}/${makbila.mishna}/${makbila.lineNumber}`);
@@ -249,7 +250,7 @@ const MakbilaList = (props: MakbilaListProps) => {
             <OpenInNewIcon />
           </IconButton>
           <IconButton
-            edge="end"
+            size="small"
             aria-label="edit"
             onClick={() => {
               onEdit(index);
@@ -257,19 +258,19 @@ const MakbilaList = (props: MakbilaListProps) => {
             <EditIcon />
           </IconButton>
           <IconButton
+            size="small"
             onClick={() => {
               onDelete(index);
             }}
-            edge="end"
             aria-label="delete">
             <DeleteIcon />
           </IconButton>
-        </ListItemSecondaryAction>
+        </Box>
       </ListItem>
     );
   });
   return (
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+    <List sx={{ width: '100%', minWidth: '20rem', bgcolor: 'background.paper' }}>
       {items}
       <ListItem>
         <ListItemButton dense onClick={handleAdd}>

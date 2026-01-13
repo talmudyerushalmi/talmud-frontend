@@ -97,34 +97,38 @@ const ExcerptsSection = (props: IProps) => {
         overflowY: 'auto',
       }}
       ref={wrapperRef}>
-      <ExcerptDetailsView
-        selectedExcerpt={selectedExcerpt}
-        open={detailsExcerptPopup}
-        onClose={() => {
-          selectExcerpt(null);
-        }}
-      />
-
-      <ExcerptsView expanded={expanded} type={EXCERPT_TYPE.MAKBILA} excerpts={filteredExcerpts} />
-      <ExcerptsView type={EXCERPT_TYPE.MUVAA} expanded={expanded} excerpts={filteredExcerpts} />
-      <ExcerptsView type={EXCERPT_TYPE.NOSACH} expanded={expanded} excerpts={filteredExcerpts} />
-      <ExcerptsView type={EXCERPT_TYPE.BIBLIO} expanded={expanded} excerpts={filteredExcerpts} />
-      <ExcerptsView type={EXCERPT_TYPE.EXPLANATORY} expanded={expanded} excerpts={filteredExcerpts} />
-      <ExcerptsView type={EXCERPT_TYPE.DICTIONARY} expanded={expanded} excerpts={filteredExcerpts} />
-      {isAuthenticated && (
+      {detailsExcerptPopup ? (
+        <ExcerptDetailsView
+          selectedExcerpt={selectedExcerpt}
+          open={detailsExcerptPopup}
+          onClose={() => {
+            selectExcerpt(null);
+          }}
+        />
+      ) : (
         <>
-          <ExcerptsView type={EXCERPT_TYPE.COMMENT} expanded={expanded} excerpts={filteredExcerpts} />
-          <CommentsExcerptsView expanded={expanded} comments={privateComments} />
-          <CommentsExcerptDetailsView
-            onClose={() => setSelectedComment(null)}
-            selectedComment={selectedComment}
-            open={commentModal?.open === CommentModal.EDIT}
-          />
-          <CreateCommentModal
-            open={commentModal?.open === CommentModal.CREATE}
-            onClose={() => setSelectedComment(null)}
-            commentModal={commentModal}
-          />
+          <ExcerptsView expanded={expanded} type={EXCERPT_TYPE.MAKBILA} excerpts={filteredExcerpts} />
+          <ExcerptsView type={EXCERPT_TYPE.MUVAA} expanded={expanded} excerpts={filteredExcerpts} />
+          <ExcerptsView type={EXCERPT_TYPE.NOSACH} expanded={expanded} excerpts={filteredExcerpts} />
+          <ExcerptsView type={EXCERPT_TYPE.BIBLIO} expanded={expanded} excerpts={filteredExcerpts} />
+          <ExcerptsView type={EXCERPT_TYPE.EXPLANATORY} expanded={expanded} excerpts={filteredExcerpts} />
+          <ExcerptsView type={EXCERPT_TYPE.DICTIONARY} expanded={expanded} excerpts={filteredExcerpts} />
+          {isAuthenticated && (
+            <>
+              <ExcerptsView type={EXCERPT_TYPE.COMMENT} expanded={expanded} excerpts={filteredExcerpts} />
+              <CommentsExcerptsView expanded={expanded} comments={privateComments} />
+              <CommentsExcerptDetailsView
+                onClose={() => setSelectedComment(null)}
+                selectedComment={selectedComment}
+                open={commentModal?.open === CommentModal.EDIT}
+              />
+              <CreateCommentModal
+                open={commentModal?.open === CommentModal.CREATE}
+                onClose={() => setSelectedComment(null)}
+                commentModal={commentModal}
+              />
+            </>
+          )}
         </>
       )}
     </div>

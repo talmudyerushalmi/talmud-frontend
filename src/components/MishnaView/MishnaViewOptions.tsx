@@ -1,8 +1,7 @@
 import React from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import { connect } from 'react-redux';
-import { toggleShowPunctuation } from '../../store/actions';
-import { toggleDivideToLines, toggleEditType, toggleShowSources } from '../../store/actions/mishnaViewActions';
+import { toggleEditType } from '../../store/actions/mishnaViewActions';
 import { useTranslation } from 'react-i18next';
 import { Link, MenuItem, Select, IconButton, Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
@@ -11,22 +10,10 @@ import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 import PrintIcon from '@mui/icons-material/Print';
 
 const mapStateToProps = (state) => ({
-  divideToLines: state.mishnaView.divideToLines,
-  showPunctuation: state.mishnaView.showPunctuation,
-  showSources: state.mishnaView.showSources,
   showEditType: state.mishnaView.showEditType,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  toggleShowPunctuation: () => {
-    dispatch(toggleShowPunctuation());
-  },
-  toggleDivideToLines: () => {
-    dispatch(toggleDivideToLines());
-  },
-  toggleShowSources: () => {
-    dispatch(toggleShowSources());
-  },
   toggleEditType: (e) => {
     dispatch(toggleEditType(e.target.value));
   },
@@ -34,56 +21,31 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 const MishnaViewOptions = (props) => {
   const {
-    divideToLines,
-    showPunctuation,
-    toggleShowPunctuation,
-    toggleDivideToLines,
-    showSources,
-    toggleShowSources,
     showEditType,
     toggleEditType,
   } = props;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
   const route = useParams<routeObject>();
 
   return (
-    <FormGroup row sx={{ alignItems: 'center' }}>
-      {/*    <FormControlLabel
-        control={
-          <Checkbox
-            checked={divideToLines}
-            onChange={toggleDivideToLines}
-            name="checkedB"
-            color="primary"
-          />
-        }
-        label={t("Division to Lines") as string}
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={showPunctuation}
-            onChange={toggleShowPunctuation}
-            name="checkedA"
-            color="primary"
-          />
-        }
-        label={t("Punctuation") as string}
-      /> */}
-      {/* <FormControlLabel
-        control={
-          <Checkbox
-            checked={showSources}
-            onChange={toggleShowSources}
-            name="hideSources"
-            color="primary"
-          />
-        }
-        label={t("References") as string}
-      /> */}
+    <FormGroup row sx={{ alignItems: 'center', flexDirection: isHebrew ? 'row' : 'row-reverse' }}>
       <Select
         sx={{
           '.MuiOutlinedInput-notchedOutline': { border: 'none' },
+          direction: isHebrew ? 'rtl' : 'ltr',
+          // Isolate from global RTL context
+          ...(!isHebrew && {
+            '& *': { direction: 'ltr' },
+          }),
+          minWidth: isHebrew ? 'auto' : '120px',
+          '& .MuiSelect-select': {
+            paddingRight: isHebrew ? '14px' : '24px',
+            paddingLeft: isHebrew ? '32px' : '14px',
+          },
+          '& .MuiSvgIcon-root': {
+            right: isHebrew ? '7px' : '105px',
+          },
         }}
         value={showEditType}
         label=""
@@ -106,13 +68,15 @@ const MishnaViewOptions = (props) => {
           alignItems: 'center',
           cursor: 'pointer',
           verticalAlign: 'middle',
+          marginLeft: isHebrew ? '16px' : 0,
+          marginRight: isHebrew ? 0 : '15px',
         }}
         target="_blank"
         href={`${process.env.REACT_APP_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}
         download>
         [TEI]
       </Link>
-      <Box marginLeft="auto" marginRight={2}>
+      <Box marginLeft={isHebrew ? 'auto' : 2} marginRight={isHebrew ? 2 : 'auto'}>
         <IconButton onClick={() => window.print()} size="small" aria-label={t('Print')}>
           <PrintIcon />
         </IconButton>

@@ -3,6 +3,7 @@ import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { iTractate } from '../../../types/types';
+import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './chooseMishnaStyles';
 
 interface Props {
   tractate: string;
@@ -14,7 +15,15 @@ const ChooseTractate = (props: Props) => {
   const { tractate, onSelectTractate, allTractates } = props;
   const [selectedTractate, setSelectedTractate] = useState<iTractate | null>(null);
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
+
+  const formatTractateName = (id: string): string => {
+    return id
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  };
 
   const _onChange = (event: SyntheticEvent<Element, Event>, tractate: iTractate | null) => {
     if (tractate) {
@@ -32,23 +41,24 @@ const ChooseTractate = (props: Props) => {
 
   return (
     <Autocomplete
-      sx={{
-        minWidth: 100,
-        flex: 'auto',
-        '&.MuiAutocomplete-root  .MuiOutlinedInput-root .MuiAutocomplete-input': {
-          padding: 0,
-        },
-      }}
+      sx={getChooseMishnaAutocompleteStyles(isHebrew)}
       onChange={_onChange}
       value={selectedTractate}
       options={allTractates || []}
       autoHighlight={true}
-      getOptionLabel={(option) => option.title_heb}
+      getOptionLabel={(option) => isHebrew ? option.title_heb : formatTractateName(option.id)}
       isOptionEqualToValue={(option, value) => option?.id === value?.id}
-      renderInput={(params) => <TextField {...params} label={t('Tractate')} variant="outlined" />}
+      renderInput={(params) => (
+        <TextField 
+          {...params} 
+          label={t('Tractate')} 
+          variant="outlined" 
+          sx={getChooseMishnaTextFieldStyles(isHebrew)} 
+        />
+      )}
       ListboxProps={{
         style: {
-          direction: 'rtl',
+          direction: isHebrew ? 'rtl' : 'ltr',
         },
       }}
     />

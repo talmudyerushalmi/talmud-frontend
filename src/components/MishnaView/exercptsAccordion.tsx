@@ -25,7 +25,10 @@ const useStyles = makeStyles((theme) => ({
       margin: '0',
       display: 'flex',
       alignItems: 'center',
+      // fontSize: '12rem',
       fontSize: '1.05rem',
+      marginTop: '12px',
+      marginBottom: '1px',
       '& .MuiTypography-root': {
         fontSize: '1.05rem',
       },

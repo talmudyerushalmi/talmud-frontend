@@ -24,14 +24,10 @@ const useStyles = makeStyles({
     right: 0,
     left: 0,
     textAlign: 'initial',
-    opacity: 100,
     zIndex: 9,
     height: '100%',
     padding: '1rem',
-  },
-  closedCard: {
-    opacity: 0,
-    display: 'none',
+    backgroundColor: 'white',
   },
 });
 
@@ -48,10 +44,15 @@ const ExcerptDetailsView = (props: Props) => {
 
   const markupLongQuote = draftToHtml(selectedExcerpt?.editorStateFullQuote);
 
-  const classRoot = open ? classes.openCard : classes.closedCard;
+  if (!open) {
+    return null;
+  }
 
   return (
-    <Card className={classRoot} dir="rtl" aria-labelledby="simple-dialog-title">
+    <Card 
+      className={classes.openCard} 
+      dir="rtl" 
+      aria-labelledby="simple-dialog-title">
       <IconButton
         onClick={(e) => {
           e.stopPropagation();

@@ -1,4 +1,4 @@
-import { IconButton, InputAdornment, Paper, TextField } from '@mui/material';
+import { Box, IconButton, InputAdornment, Paper, TextField } from '@mui/material';
 import { FC, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,8 @@ import { getTractate } from '../../../inc/mishnaUtils';
 interface IProps {}
 
 const SearchBar: FC<IProps> = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
   const currentMishna = useAppSelector((state) => state.navigation?.currentMishna);
   const tractate = currentMishna ? getTractate(currentMishna) : null;
   const navigate = useNavigate();
@@ -40,27 +41,66 @@ const SearchBar: FC<IProps> = () => {
           display: 'none',
         },
       }}>
-      <TextField
-        sx={{
+      <Box 
+        dir={isHebrew ? 'rtl' : 'ltr'} 
+        sx={{ 
+          flex: 1, 
           ml: { md: '30px' },
-          flex: 1,
-          '& .MuiInputBase-root': {
-            p: 0,
-          },
-        }}
-        label={t('Free search in the tractate')}
-        size="small"
-        onChange={(e) => setSearchValue(e.target.value)}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="start">
-              <IconButton type="submit" aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
+          // Isolate from global RTL context for English
+          ...(!isHebrew && {
+            '& *': { direction: 'ltr' },
+          }),
+        }}>
+        <TextField
+          fullWidth
+          value={searchValue}
+          sx={{
+            '& .MuiInputBase-root': { p: 0 },
+            '& .MuiInputBase-input': {
+              textAlign: isHebrew ? 'left' : 'right',
+            },
+            ...(!isHebrew && {
+              '& .MuiInputLabel-root': { 
+                left: 'unset', 
+                right: '30px', 
+                transformOrigin: 'top right',
+              },
+              '& .MuiInputLabel-root:not(.MuiInputLabel-shrink)': { 
+                left: '160px', 
+                right: 'unset',
+              },
+              '& .MuiOutlinedInput-notchedOutline legend': { 
+                marginLeft: 'auto',
+              },
+            }),
+          }}
+          label={t('Free search in the tractate')}
+          size="small"
+          onChange={(e) => setSearchValue(e.target.value)}
+          InputLabelProps={{
+            shrink: searchValue ? true : false,
+          }}
+          InputProps={{
+            ...(isHebrew ? {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton type="submit" aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            } : {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton type="submit" aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }),
+          }}
+        />
+      </Box>
     </Paper>
   );
 };

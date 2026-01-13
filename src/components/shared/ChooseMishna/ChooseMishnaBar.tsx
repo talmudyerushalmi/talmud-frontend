@@ -10,6 +10,7 @@ import SearchBar from './SearchBar';
 import PageService from '../../../services/pageService';
 import { useAppDispatch } from '../../../app/hooks';
 import { setRoute } from '../../../store/actions/navigationActions';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   allChapterAllowed?: boolean;
@@ -62,7 +63,33 @@ const ChooseMishnaBar = ({
           </Box>
         </Grid>
       </Box>
-      <SearchBar />
+      <Box sx={{ 
+        display: 'flex', 
+        width: '100%',
+        'html:lang(he) &': {
+          flexDirection: 'row',
+        },
+        'html:lang(en-US) &': {
+          flexDirection: 'row-reverse',
+        },
+      }}>
+        <Box sx={{ 
+          'html:lang(he) &': {
+            marginRight: 0,
+          },
+          'html:lang(en-US) &': {
+            marginRight: '30px',
+          },
+        }}>
+          <SearchBar />
+        </Box>
+        <Box sx={{ 
+          flexGrow: 1,
+          'html:lang(en-US) &': {
+            display: 'none',
+          },
+        }} />
+      </Box>
       {/* Print version */}
       <PrintHeader allTractates={allTractates} />
     </>
