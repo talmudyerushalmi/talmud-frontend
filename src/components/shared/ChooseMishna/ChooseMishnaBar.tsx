@@ -26,8 +26,6 @@ const ChooseMishnaBar = ({
   onButtonNavigation = () => {},
 }: Props) => {
   const dispatch = useAppDispatch();
-  const { i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
   // Derive navigation directly from URL params instead of using state
   const navigation: iLink = {
@@ -65,11 +63,32 @@ const ChooseMishnaBar = ({
           </Box>
         </Grid>
       </Box>
-      <Box sx={{ display: 'flex', width: '100%', flexDirection: isHebrew ? 'row' : 'row-reverse' }}>
-        <Box sx={{ marginRight: isHebrew ? 0 : '30px' }}>
+      <Box sx={{ 
+        display: 'flex', 
+        width: '100%',
+        'html:lang(he) &': {
+          flexDirection: 'row',
+        },
+        'html:lang(en-US) &': {
+          flexDirection: 'row-reverse',
+        },
+      }}>
+        <Box sx={{ 
+          'html:lang(he) &': {
+            marginRight: 0,
+          },
+          'html:lang(en-US) &': {
+            marginRight: '30px',
+          },
+        }}>
           <SearchBar />
         </Box>
-        {isHebrew && <Box sx={{ flexGrow: 1 }} />}
+        <Box sx={{ 
+          flexGrow: 1,
+          'html:lang(en-US) &': {
+            display: 'none',
+          },
+        }} />
       </Box>
       {/* Print version */}
       <PrintHeader allTractates={allTractates} />
