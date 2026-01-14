@@ -280,22 +280,18 @@ const ChooseMishnaForm = ({
                 // Clear line number to navigate to mishna level only
                 setLineNumber('');
                 
-                // Prepare marker data
-                const markerData = {
-                  line: mapping.line,
-                  word_pos: mapping.word_pos,
-                  daf: dafName,
-                  amud: amud,
-                };
-                console.log('ChooseMishnaForm - Creating marker:', markerData);
-                
                 // Trigger navigation to mishna level with Daf/Amud marker info
                 onNavigationUpdated({
                   tractate: tractateName,
                   chapter: mapping.chapter,
                   mishna: mapping.halacha,
                   lineNumber: '',
-                  dafAmudMarkers: [markerData],
+                  dafAmudMarkers: [{
+                    line: mapping.line,
+                    word_pos: mapping.word_pos,
+                    daf: dafName,
+                    amud: amud,
+                  }],
                 });
               }}
             />

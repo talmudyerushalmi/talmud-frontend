@@ -57,18 +57,10 @@ const MainLines = (props: Props) => {
   return (
     <div className={classes.root}>
       {lines.map((line, index) => {
-        // Find marker for this line - pad the marker line number to match the format
-        const marker = dafAmudMarkers?.find(m => {
-          const paddedLine = m.line.padStart(5, '0');
-          return paddedLine === line.lineNumber;
-        });
-        
-        // Debug logging
-        if (dafAmudMarkers && dafAmudMarkers.length > 0 && index === 0) {
-          console.log('MainLines - dafAmudMarkers:', dafAmudMarkers);
-          console.log('MainLines - first line.lineNumber:', line.lineNumber);
-          console.log('MainLines - padded marker line:', dafAmudMarkers[0].line.padStart(5, '0'));
-        }
+        // Show marker on the first line of the mishna (since line numbers in CSV are relative to mikta, not absolute)
+        const marker = (dafAmudMarkers && dafAmudMarkers.length > 0 && index === 0) 
+          ? dafAmudMarkers[0] 
+          : undefined;
         
         return (
           <div key={line.lineNumber} className={classes.lines}>
