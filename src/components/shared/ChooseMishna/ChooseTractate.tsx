@@ -3,7 +3,7 @@ import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { iTractate } from '../../../types/types';
-import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './chooseMishnaStyles';
+import { getChooseTractateAutocompleteStyles, getChooseMishnaTextFieldStyles } from './chooseMishnaStyles';
 
 interface Props {
   tractate: string;
@@ -41,7 +41,7 @@ const ChooseTractate = (props: Props) => {
 
   return (
     <Autocomplete
-      sx={getChooseMishnaAutocompleteStyles(isHebrew)}
+      sx={getChooseTractateAutocompleteStyles(isHebrew)}
       onChange={_onChange}
       value={selectedTractate}
       options={allTractates || []}

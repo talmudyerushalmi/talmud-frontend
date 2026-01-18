@@ -12,8 +12,35 @@ export const formatNumericId = (id: string): string => {
  */
 
 export const getChooseMishnaAutocompleteStyles = (isHebrew: boolean) => ({
-  minWidth: 100,
+  minWidth: 80,
+  maxWidth: 120,
   flex: 1,
+  direction: isHebrew ? 'rtl' : 'ltr',
+  // Isolate from global RTL context
+  ...(!isHebrew && {
+    '& *': { direction: 'ltr' },
+  }),
+  '&.MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input': {
+    padding: 0,
+  },
+  '& .MuiAutocomplete-endAdornment': {
+    left: isHebrew ? 'unset' : '7px',
+    right: isHebrew ? '7px' : 'unset',
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    ...(!isHebrew && {
+      transform: 'translateX(calc(100% - 60px)) translateY(-12px)',
+    }),
+  },
+});
+
+/**
+ * Wider styles for Tractate dropdown (uses more space since it's shared between both nav methods)
+ */
+export const getChooseTractateAutocompleteStyles = (isHebrew: boolean) => ({
+  minWidth: 120,
+  maxWidth: 160,
+  flex: 1.3,
   direction: isHebrew ? 'rtl' : 'ltr',
   // Isolate from global RTL context
   ...(!isHebrew && {
