@@ -51,10 +51,50 @@ const ChooseMishnaForm = ({
   const [mishnaData, setMishnaData] = useState<iMishnaForNavigation | null>(null);
   const [lineData, setLineData] = useState<leanLine | null>(null);
   
-  // State for Daf/Amud
-  const [dafName, setDafName] = useState<string>('');
-  const [amudName, setAmudName] = useState<string>('');
+  // State for Daf/Amud - try to restore from sessionStorage or initValues
+  const [dafName, setDafName] = useState<string>(() => {
+    const fromInit = initValues?.dafAmudMarkers?.[0]?.daf;
+    if (fromInit) return fromInit;
+    const fromStorage = sessionStorage.getItem('selectedDaf');
+    return fromStorage || '';
+  });
+  
+  const [amudName, setAmudName] = useState<string>(() => {
+    const fromInit = initValues?.dafAmudMarkers?.[0]?.amud;
+    if (fromInit) return fromInit;
+    const fromStorage = sessionStorage.getItem('selectedAmud');
+    return fromStorage || '';
+  });
+  
   const [dafData, setDafData] = useState<leanDaf | null>(null);
+
+  // Save daf/amud to sessionStorage whenever they change
+  useEffect(() => {
+    if (dafName) {
+      sessionStorage.setItem('selectedDaf', dafName);
+    }
+  }, [dafName]);
+
+  useEffect(() => {
+    if (amudName) {
+      sessionStorage.setItem('selectedAmud', amudName);
+    }
+  }, [amudName]);
+
+  // Restore dafData when tractateData loads and we have dafName
+  useEffect(() => {
+    if (dafName && tractateData?.title_heb && !dafData) {
+      const tractateMapping = amudDafMapping[tractateData.title_heb as keyof typeof amudDafMapping];
+      if (tractateMapping && tractateMapping[dafName as keyof typeof tractateMapping]) {
+        const dafDataFromMapping = tractateMapping[dafName as keyof typeof tractateMapping];
+        const newDafData = {
+          id: dafName,
+          amudim: Object.keys(dafDataFromMapping),
+        };
+        setDafData(newDafData);
+      }
+    }
+  }, [tractateData, dafName, dafData]);
 
   const dialogPopupOpen = () => {
     return document.querySelector('.MuiDialog-root') !== null;
@@ -107,6 +147,97 @@ const ChooseMishnaForm = ({
       mishna: navigateTo.mishna,
       lineNumber: navigateTo.lineNumber,
     });
+  };
+
+  const navigateDafAmudHandler = (direction: Direction) => {
+    if (!tractateData?.title_heb || !dafName || !amudName) {
+      return;
+    }
+
+    const tractateMapping = amudDafMapping[tractateData.title_heb as keyof typeof amudDafMapping];
+    if (!tractateMapping) {
+      return;
+    }
+
+    // Get all dafim (pages) in order
+    const allDafim = Object.keys(tractateMapping);
+    const currentDafIndex = allDafim.indexOf(dafName);
+    
+    if (currentDafIndex === -1) {
+      return;
+    }
+
+    const currentDafData = tractateMapping[dafName as keyof typeof tractateMapping];
+    const amudim = Object.keys(currentDafData);
+    const currentAmudIndex = amudim.indexOf(amudName);
+
+    let nextDaf = dafName;
+    let nextAmud = amudName;
+
+    if (direction === Direction.FORWARD) {
+      // Try next amud in current daf
+      if (currentAmudIndex < amudim.length - 1) {
+        nextAmud = amudim[currentAmudIndex + 1];
+      } else {
+        // Go to first amud of next daf
+        if (currentDafIndex < allDafim.length - 1) {
+          nextDaf = allDafim[currentDafIndex + 1];
+          const nextDafData = tractateMapping[nextDaf as keyof typeof tractateMapping];
+          const nextAmudim = Object.keys(nextDafData);
+          nextAmud = nextAmudim[0];
+        } else {
+          return; // Already at last amud of last daf
+        }
+      }
+    } else {
+      // Try previous amud in current daf
+      if (currentAmudIndex > 0) {
+        nextAmud = amudim[currentAmudIndex - 1];
+      } else {
+        // Go to last amud of previous daf
+        if (currentDafIndex > 0) {
+          nextDaf = allDafim[currentDafIndex - 1];
+          const prevDafData = tractateMapping[nextDaf as keyof typeof tractateMapping];
+          const prevAmudim = Object.keys(prevDafData);
+          nextAmud = prevAmudim[prevAmudim.length - 1];
+        } else {
+          return; // Already at first amud of first daf
+        }
+      }
+    }
+
+    // Get mapping for the new daf/amud
+    const newDafData = tractateMapping[nextDaf as keyof typeof tractateMapping];
+    const amudData = newDafData[nextAmud as keyof typeof newDafData] as any;
+
+    if (amudData && typeof amudData === 'object') {
+      // Update state
+      setDafName(nextDaf);
+      setAmudName(nextAmud);
+      setDafData({
+        id: nextDaf,
+        amudim: Object.keys(newDafData),
+      });
+
+      // Navigate to the mapped chapter/halacha
+      setChapterName(amudData.chapter);
+      setMishnaName(amudData.halacha);
+      setLineNumber('');
+
+      // Trigger navigation
+      onNavigationUpdated({
+        tractate: tractateName,
+        chapter: amudData.chapter,
+        mishna: amudData.halacha,
+        lineNumber: '',
+        dafAmudMarkers: [{
+          line: amudData.line,
+          word_pos: amudData.word_pos,
+          daf: nextDaf,
+          amud: nextAmud,
+        }],
+      });
+    }
   };
 
   return (
@@ -220,7 +351,7 @@ const ChooseMishnaForm = ({
         {navButtons ? (
           <IconButton
             onClick={() => {
-              // TODO: Implement Daf/Amud navigation
+              navigateDafAmudHandler(Direction.BACK);
             }}
             size="small">
             {isHebrew ? <ArrowForward /> : <ArrowBack />}
@@ -274,7 +405,7 @@ const ChooseMishnaForm = ({
         {navButtons ? (
           <IconButton
             onClick={() => {
-              // TODO: Implement Daf/Amud navigation
+              navigateDafAmudHandler(Direction.FORWARD);
             }}
             size="small">
             {isHebrew ? <ArrowBack /> : <ArrowForward />}
