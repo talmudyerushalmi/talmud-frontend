@@ -77,16 +77,16 @@ const ChooseMishnaForm = ({
     []
   );
 
-  useEffect(() => {
+  // Helper function to emit navigation - only call this when user makes a selection
+  const emitNavigation = useCallback(() => {
     const link: iLink = {
       tractate: tractateName,
       chapter: chapterName,
       mishna: mishnaName,
       lineNumber: lineNumber,
     };
-
     emit(link);
-  }, [chapterData, mishnaData, lineData]);
+  }, [tractateName, chapterName, mishnaName, lineNumber, emit]);
 
   const navigateHandler = (direction: Direction) => {
     const navigateTo =
@@ -123,6 +123,7 @@ const ChooseMishnaForm = ({
             
             if (tractateChanged) {
               // Reset to first chapter and first mishna when tractate changes
+              // DON'T emit navigation - just update the dropdowns
               if (t.chapters?.length > 0) {
                 const firstChapter = t.chapters[0];
                 setChapterName(firstChapter.id);
@@ -180,6 +181,10 @@ const ChooseMishnaForm = ({
               setMishnaData(null);
             }
           }}
+          onUserSelectChapter={(c) => {
+            // Chapter selection updates Halakha dropdown but doesn't navigate
+            // Navigation only happens when user selects a Halakha
+          }}
         />
 
         {/* Halakha (Mishna) selector */}
@@ -190,6 +195,10 @@ const ChooseMishnaForm = ({
           onSelectMishna={(m) => {
             setMishnaData(m);
             setMishnaName(m.mishna);
+          }}
+          onUserSelectMishna={(m) => {
+            // Only emit navigation when user actually clicks
+            setTimeout(() => emitNavigation(), 10);
           }}
         />
 
@@ -280,6 +289,8 @@ const ChooseMishnaForm = ({
             onSelectLine={(l) => {
               setLineNumber(l.lineNumber);
               setLineData(l);
+              // Emit navigation when user selects line
+              setTimeout(() => emitNavigation(), 10);
             }}
           />
         ) : null}

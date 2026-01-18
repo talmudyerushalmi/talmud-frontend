@@ -27,10 +27,11 @@ interface Props {
   allChapterAllowed?: boolean;
   inChapter: leanChapter | null;
   onSelectMishna: (mishna: iMishnaForNavigation) => void;
+  onUserSelectMishna?: (mishna: iMishnaForNavigation) => void; // Called only on user clicks
 }
 
 const ChooseMishna = (props: Props) => {
-  const { mishnaName, onSelectMishna, inChapter, allChapterAllowed } = props;
+  const { mishnaName, onSelectMishna, inChapter, allChapterAllowed, onUserSelectMishna } = props;
   const [selectedMishna, setSelectedMishna] = useState<refMishna | null>(null);
   const [mishnaiot, setMishnaiot] = useState<refMishna[] | []>([]);
   const { t, i18n } = useTranslation();
@@ -41,7 +42,11 @@ const ChooseMishna = (props: Props) => {
       return;
     }
     if (mishna.id === ALL_CHAPTER.id) {
-      onSelectMishna(ALL_CHAPTER)
+      onSelectMishna(ALL_CHAPTER);
+      // Call user-specific callback if provided
+      if (onUserSelectMishna) {
+        onUserSelectMishna(ALL_CHAPTER);
+      }
       return;
     }
     const tractateName = getTractate(mishna);
@@ -49,6 +54,10 @@ const ChooseMishna = (props: Props) => {
     const mishnaName = mishna.mishna || getMishna(mishna);
     fetchLines(tractateName, chapterName, mishnaName).then((m) => {
       onSelectMishna(m);
+      // Call user-specific callback if provided
+      if (onUserSelectMishna) {
+        onUserSelectMishna(m);
+      }
     });
   };
 
