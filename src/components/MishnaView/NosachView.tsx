@@ -121,11 +121,21 @@ const NosachView = (props: Props) => {
         const blockKey = initContent.getFirstBlock().getKey();
         const selection = SelectionState.createEmpty(blockKey).merge({
           anchorOffset: 0,
-          focusOffset: 0,
+          focusOffset: markerText.length,
         });
         
-        // Modify the ContentState directly
-        initContent = Modifier.insertText(initContent, selection, markerText);
+        // Insert the marker text
+        initContent = Modifier.insertText(
+          initContent, 
+          SelectionState.createEmpty(blockKey).merge({
+            anchorOffset: 0,
+            focusOffset: 0,
+          }), 
+          markerText
+        );
+        
+        // Apply yellow background style to just the marker
+        initContent = Modifier.applyInlineStyle(initContent, selection, 'MARK');
       }
       
       newEditorState = EditorState.createWithContent(initContent, getDecorator(showEditType));
