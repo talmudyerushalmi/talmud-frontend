@@ -192,6 +192,16 @@ const SublineDisplay = (props: Props) => {
     }
   }, [selectedExcerpt, subline.index]);
 
+  // Auto-scroll to the line with Daf/Amud marker
+  useEffect(() => {
+    if (dafAmudMarker && accordionRef.current) {
+      accordionRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, [dafAmudMarker]);
+
   let textToDisplay = subline.text;
   if (!showSources) {
     textToDisplay = hideSourceFromText(textToDisplay);
