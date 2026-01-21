@@ -96,6 +96,30 @@ const ChooseMishnaForm = ({
     }
   }, [tractateData, dafName, dafData]);
 
+  // Sync Daf/Amud when mishnaData changes (reverse sync from Chapter/Mishna to Daf/Amud)
+  useEffect(() => {
+    if (mishnaData && mishnaData.daf && mishnaData.amud && tractateData?.title_heb) {
+      const newDaf = mishnaData.daf;
+      const newAmud = mishnaData.amud;
+      
+      // Only update if different from current values
+      if (newDaf !== dafName || newAmud !== amudName) {
+        setDafName(newDaf);
+        setAmudName(newAmud);
+        
+        // Update dafData for the amud dropdown
+        const tractateMapping = amudDafMapping[tractateData.title_heb as keyof typeof amudDafMapping];
+        if (tractateMapping && tractateMapping[newDaf as keyof typeof tractateMapping]) {
+          const dafDataFromMapping = tractateMapping[newDaf as keyof typeof tractateMapping];
+          setDafData({
+            id: newDaf,
+            amudim: Object.keys(dafDataFromMapping),
+          });
+        }
+      }
+    }
+  }, [mishnaData, tractateData]);
+
   const dialogPopupOpen = () => {
     return document.querySelector('.MuiDialog-root') !== null;
   };

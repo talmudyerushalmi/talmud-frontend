@@ -14,6 +14,8 @@ export interface iMishnaForNavigation extends refMishna {
   lines: leanLine[];
   previous?: iMarker;
   next?: iMarker;
+  daf?: string;
+  amud?: string;
 }
 
 export const ALL_CHAPTER: iMishnaForNavigation = {
