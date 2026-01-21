@@ -57,10 +57,8 @@ const MainLines = (props: Props) => {
   return (
     <div className={classes.root}>
       {lines.map((line, index) => {
-        // Show marker on the first line of the mishna (since line numbers in CSV are relative to mikta, not absolute)
-        const marker = (dafAmudMarkers && dafAmudMarkers.length > 0 && index === 0) 
-          ? dafAmudMarkers[0] 
-          : undefined;
+        // Find marker that matches this line's lineNumber (using system_line)
+        const marker = dafAmudMarkers?.find(m => m.line === line.lineNumber);
         
         return (
           <div key={line.lineNumber} className={classes.lines}>
