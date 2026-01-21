@@ -9,7 +9,7 @@ import { leanDaf } from './ChooseDaf';
 interface AmudMapping {
   chapter: string;
   halacha: string;
-  line: string;
+  system_line: string;
   word_pos: number;
 }
 
@@ -54,7 +54,7 @@ const ChooseAmud = (props: Props) => {
         const mapping: AmudMapping = {
           chapter: amudData.chapter,
           halacha: amudData.halacha,
-          line: amudData.line,
+          system_line: amudData.system_line,
           word_pos: amudData.word_pos,
         };
         onSelectAmud(amud, mapping);

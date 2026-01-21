@@ -115,8 +115,9 @@ const NosachView = (props: Props) => {
       let initContent = convertFromRaw(subline.nosach);
       
       // Insert Daf/Amud marker if present - BEFORE creating EditorState
+      // Debug format: [daf:amud:system_line]
       if (dafAmudMarker && dafAmudMarker.word_pos) {
-        const markerText = `[${dafAmudMarker.daf}:${dafAmudMarker.amud}] `;
+        const markerText = `[${dafAmudMarker.daf}:${dafAmudMarker.amud}:${dafAmudMarker.line}] `;
         const blockKey = initContent.getFirstBlock().getKey();
         const selection = SelectionState.createEmpty(blockKey).merge({
           anchorOffset: 0,

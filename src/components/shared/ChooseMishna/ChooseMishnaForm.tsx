@@ -255,7 +255,7 @@ const ChooseMishnaForm = ({
         mishna: amudData.halacha,
         lineNumber: '',
         dafAmudMarkers: [{
-          line: amudData.line,
+          line: amudData.system_line,
           word_pos: amudData.word_pos,
           daf: nextDaf,
           amud: nextAmud,
@@ -416,7 +416,7 @@ const ChooseMishnaForm = ({
               mishna: mapping.halacha,
               lineNumber: '',
               dafAmudMarkers: [{
-                line: mapping.line,
+                line: mapping.system_line,
                 word_pos: mapping.word_pos,
                 daf: dafName,
                 amud: amud,
