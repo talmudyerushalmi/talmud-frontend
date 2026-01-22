@@ -28,10 +28,11 @@ const ChooseMishnaBar = ({
   const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
   // Derive navigation directly from URL params instead of using state
+  // If mishna is undefined but we have chapter (and allChapterAllowed), use 'all' for כל הפרק
   const navigation: iLink = {
     tractate: tractate || '',
     chapter: chapter || '',
-    mishna: mishna || '',
+    mishna: mishna || (chapter && allChapterAllowed ? 'all' : ''),
     lineNumber: line || '',
   };
   const [allTractates, setAllTractates] = useState<iTractate[]>([]);

@@ -51,6 +51,9 @@ const ChooseMishnaForm = ({
   const [mishnaData, setMishnaData] = useState<iMishnaForNavigation | null>(null);
   const [lineData, setLineData] = useState<leanLine | null>(null);
   
+  // Track if we're in the middle of navigation to avoid clearing mishna
+  const [isNavigating, setIsNavigating] = useState<boolean>(false);
+  
   // State for Daf/Amud - try to restore from sessionStorage or initValues
   const [dafName, setDafName] = useState<string>(() => {
     const fromInit = initValues?.dafAmudMarkers?.[0]?.daf;
@@ -95,6 +98,49 @@ const ChooseMishnaForm = ({
       }
     }
   }, [tractateData, dafName, dafData]);
+
+  // Sync state when initValues changes (e.g., after navigation or initial load)
+  useEffect(() => {
+    console.log('🔷 initValues changed:', initValues);
+    console.log('🔷 Current state:', { tractateName, chapterName, mishnaName, lineNumber });
+    if (initValues) {
+      let hasChanges = false;
+      setIsNavigating(true);
+      
+      if (initValues.tractate && initValues.tractate !== tractateName) {
+        console.log('🔷 Updating tractate:', initValues.tractate);
+        setTractateName(initValues.tractate);
+        hasChanges = true;
+      }
+      if (initValues.chapter && initValues.chapter !== chapterName) {
+        console.log('🔷 Updating chapter:', initValues.chapter);
+        setChapterName(initValues.chapter);
+        hasChanges = true;
+      }
+      if (initValues.mishna && initValues.mishna !== mishnaName) {
+        console.log('🔷 Updating mishna:', initValues.mishna);
+        setMishnaName(initValues.mishna);
+        hasChanges = true;
+      }
+      if (initValues.lineNumber !== undefined && initValues.lineNumber !== lineNumber) {
+        console.log('🔷 Updating lineNumber:', initValues.lineNumber);
+        setLineNumber(initValues.lineNumber);
+        hasChanges = true;
+      }
+      
+      console.log('🔷 hasChanges:', hasChanges, 'isNavigating will be set to true');
+      // Reset navigation flag after a short delay
+      if (hasChanges) {
+        setTimeout(() => {
+          console.log('🔷 Setting isNavigating to false (after changes)');
+          setIsNavigating(false);
+        }, 100);
+      } else {
+        setIsNavigating(false);
+        console.log('🔷 No changes, isNavigating set to false immediately');
+      }
+    }
+  }, [initValues?.tractate, initValues?.chapter, initValues?.mishna, initValues?.lineNumber]);
 
   // Sync Daf/Amud when mishnaData changes (reverse sync from Chapter/Mishna to Daf/Amud)
   useEffect(() => {
@@ -277,16 +323,17 @@ const ChooseMishnaForm = ({
             setTractateData(t);
             
             if (tractateChanged) {
-              // Reset to first chapter and first mishna when tractate changes
+              // Reset to first chapter and clear mishna when tractate changes
               // DON'T emit navigation - just update the dropdowns
               if (t.chapters?.length > 0) {
                 const firstChapter = t.chapters[0];
                 setChapterName(firstChapter.id);
                 setChapterData(firstChapter);
-                if (firstChapter.mishnaiot?.length > 0) {
-                  setMishnaName(firstChapter.mishnaiot[0].mishna);
+                // Clear mishna to show placeholder (only if not navigating)
+                if (!isNavigating) {
+                  setMishnaName('');
+                  setMishnaData(null);
                 }
-                setMishnaData(null);
               }
               
               // Also reset Daf/Amud to first available
@@ -328,11 +375,13 @@ const ChooseMishnaForm = ({
           inTractate={tractateData}
           onSelectChapter={(c) => {
             const chapterChanged = c.id !== chapterName;
+            console.log('🔷 onSelectChapter called:', c.id, 'changed:', chapterChanged, 'isNavigating:', isNavigating);
             setChapterName(c.id);
             setChapterData(c);
-            // Reset to first mishna when chapter changes
-            if (chapterChanged && c.mishnaiot?.length > 0) {
-              setMishnaName(c.mishnaiot[0].mishna);
+            // Clear mishna selection only if this is NOT a navigation update
+            if (chapterChanged && !isNavigating) {
+              console.log('🔷 Clearing mishna (user changed chapter)');
+              setMishnaName('');
               setMishnaData(null);
             }
           }}
@@ -348,12 +397,22 @@ const ChooseMishnaForm = ({
           inChapter={chapterData}
           allChapterAllowed={allChapterAllowed}
           onSelectMishna={(m) => {
+            console.log('🔷 onSelectMishna called:', m.mishna);
             setMishnaData(m);
             setMishnaName(m.mishna);
           }}
           onUserSelectMishna={(m) => {
+            console.log('🔷 onUserSelectMishna called:', m.mishna);
             // Only emit navigation when user actually clicks
-            setTimeout(() => emitNavigation(), 10);
+            // Pass the mishna directly instead of relying on state
+            const link: iLink = {
+              tractate: tractateName,
+              chapter: chapterName,
+              mishna: m.mishna,  // Use the mishna from the callback parameter
+              lineNumber: lineNumber,
+            };
+            console.log('🔷 Emitting navigation with link:', link);
+            emit(link);
           }}
         />
 

@@ -40,10 +40,12 @@ const ChooseMishna = (props: Props) => {
   const isHebrew = i18n.language === 'he';
 
   const _onChange = (event: SyntheticEvent<Element, Event>, mishna: refMishna | null) => {
+    console.log('🟢 _onChange called with mishna:', mishna?.mishna);
     if (!mishna) {
       return;
     }
     if (mishna.id === ALL_CHAPTER.id) {
+      console.log('🟢 ALL_CHAPTER selected');
       onSelectMishna(ALL_CHAPTER);
       // Call user-specific callback if provided
       if (onUserSelectMishna) {
@@ -54,10 +56,13 @@ const ChooseMishna = (props: Props) => {
     const tractateName = getTractate(mishna);
     const chapterName = getChapter(mishna);
     const mishnaName = mishna.mishna || getMishna(mishna);
+    console.log('🟢 Fetching lines for:', tractateName, chapterName, mishnaName);
     fetchLines(tractateName, chapterName, mishnaName).then((m) => {
+      console.log('🟢 _onChange fetchLines completed, calling callbacks');
       onSelectMishna(m);
       // Call user-specific callback if provided
       if (onUserSelectMishna) {
+        console.log('🟢 Calling onUserSelectMishna');
         onUserSelectMishna(m);
       }
     });
@@ -73,6 +78,7 @@ const ChooseMishna = (props: Props) => {
   };
 
   useEffect(() => {
+    console.log('🟢 ChooseMishna useEffect - mishnaName:', mishnaName, 'inChapter:', inChapter?.id);
     let mishnaiotOptions = inChapter?.mishnaiot ? [...inChapter?.mishnaiot] : [];
     if (allChapterAllowed) {
       mishnaiotOptions.push(ALL_CHAPTER);
@@ -80,22 +86,30 @@ const ChooseMishna = (props: Props) => {
     //1. update options from chapter data
     setMishnaiot(mishnaiotOptions);
 
-    let found = mishnaiotOptions.find((m) => m.mishna === mishnaName);
-    if (mishnaName === '' && allChapterAllowed) {
-      found = ALL_CHAPTER;
+    // If mishnaName is empty, clear selection to show placeholder
+    if (mishnaName === '') {
+      console.log('🟢 mishnaName is empty, clearing selection');
+      setSelectedMishna(null);
+      return;
     }
-    //2. update selected mishna if found
+
+    //2. update selected mishna if found (including ALL_CHAPTER if mishnaName is 'all')
+    const found = mishnaiotOptions.find((m) => m.mishna === mishnaName);
     if (found) {
+      console.log('🟢 Found mishna, setting selection and calling onSelectMishna');
       setSelectedMishna(found);
 
       const tractateName = getTractate(found);
       const chapterName = getChapter(found);
       const mishnaName = found.mishna || getMishna(found);
       fetchLines(tractateName, chapterName, mishnaName).then((m) => {
+        console.log('🟢 fetchLines completed, calling onSelectMishna');
         onSelectMishna(m);
       });
+    } else {
+      console.log('🟢 Mishna not found in options');
     }
-  }, [inChapter, mishnaName]);
+  }, [inChapter, mishnaName, allChapterAllowed]);
 
   return (
     <>
