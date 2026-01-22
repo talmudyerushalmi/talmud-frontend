@@ -446,11 +446,12 @@ const ChooseMishnaForm = ({
           daf={dafName}
           inTractate={tractateData?.title_heb || ''}
           onSelectDaf={(d) => {
+            const dafChanged = d.id !== dafName;
             setDafName(d.id);
             setDafData(d);
-            // Reset amud when daf changes
-            if (d.amudim && d.amudim.length > 0) {
-              setAmudName(d.amudim[0]);
+            // Clear amud when daf changes (only if not navigating)
+            if (dafChanged && !isNavigating) {
+              setAmudName('');
             }
           }}
         />

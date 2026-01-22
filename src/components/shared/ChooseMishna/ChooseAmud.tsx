@@ -48,9 +48,9 @@ const ChooseAmud = (props: Props) => {
     const tractateData = amudDafMapping[inTractate as keyof typeof amudDafMapping];
     if (tractateData && tractateData[inDaf.id as keyof typeof tractateData]) {
       const dafData = tractateData[inDaf.id as keyof typeof tractateData];
-      const amudData = dafData[amud as keyof typeof dafData];
+      const amudData = dafData[amud as keyof typeof dafData] as any;
       
-      if (amudData) {
+      if (amudData && typeof amudData === 'object') {
         const mapping: AmudMapping = {
           chapter: amudData.chapter,
           halacha: amudData.halacha,
@@ -63,6 +63,12 @@ const ChooseAmud = (props: Props) => {
   };
 
   useEffect(() => {
+    // If amud is empty, clear selection to show placeholder
+    if (amud === '') {
+      setSelectedAmud(null);
+      return;
+    }
+    
     const found = amudOptions.find((a) => a === amud);
     if (found && selectedAmud !== found) {
       setSelectedAmud(found);
