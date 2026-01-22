@@ -17,6 +17,7 @@ interface Props {
   keypressNavigation?: boolean;
   onNavigationUpdated: (nav: iLink) => void;
   onButtonNavigation?: (nav: iLink) => void;
+  showDafAmudNavigation?: boolean;
 }
 
 const ChooseMishnaBar = ({
@@ -24,6 +25,7 @@ const ChooseMishnaBar = ({
   keypressNavigation = false,
   onNavigationUpdated,
   onButtonNavigation = () => {},
+  showDafAmudNavigation = false,
 }: Props) => {
   const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
@@ -60,6 +62,7 @@ const ChooseMishnaBar = ({
               onButtonNavigation={onButtonNavigation}
               initValues={navigation}
               allTractates={allTractates}
+              showDafAmudNavigation={showDafAmudNavigation}
             />
           </Box>
         </Grid>

@@ -27,10 +27,11 @@ interface Props {
   children: any;
   afterNavigateHandler?: Function;
   allChapterAllowed?: boolean;
+  showDafAmudNavigation?: boolean;
   loading: boolean;
 }
 const PageWithNavigationWithoutState = (props: Props) => {
-  const { linkPrefix, allChapterAllowed, afterNavigateHandler, loading } = props;
+  const { linkPrefix, allChapterAllowed, showDafAmudNavigation = false, afterNavigateHandler, loading } = props;
 
   const navigate = useNavigate();
   let url: string;
@@ -57,6 +58,7 @@ const PageWithNavigationWithoutState = (props: Props) => {
           keypressNavigation={true}
           onButtonNavigation={navigationSelectedHandler}
           onNavigationUpdated={navigationSelectedHandler}
+          showDafAmudNavigation={showDafAmudNavigation}
         />
       </Box>
       <Box

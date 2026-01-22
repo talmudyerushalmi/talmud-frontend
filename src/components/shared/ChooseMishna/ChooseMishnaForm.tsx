@@ -29,6 +29,7 @@ interface Props {
   navButtons?: boolean;
   onButtonNavigation?: (navigation: iLink) => void;
   allTractates?: iTractate[];
+  showDafAmudNavigation?: boolean; // Control whether to show Daf/Amud navigation
 }
 
 const ChooseMishnaForm = ({
@@ -39,6 +40,7 @@ const ChooseMishnaForm = ({
   onNavigationUpdated,
   onButtonNavigation = (_) => {},
   allTractates,
+  showDafAmudNavigation = false, // Default to false
 }: Props) => {
   const { i18n, t } = useTranslation();
   const isHebrew = i18n.language === 'he';
@@ -101,43 +103,34 @@ const ChooseMishnaForm = ({
 
   // Sync state when initValues changes (e.g., after navigation or initial load)
   useEffect(() => {
-    console.log('🔷 initValues changed:', initValues);
-    console.log('🔷 Current state:', { tractateName, chapterName, mishnaName, lineNumber });
     if (initValues) {
       let hasChanges = false;
       setIsNavigating(true);
       
       if (initValues.tractate && initValues.tractate !== tractateName) {
-        console.log('🔷 Updating tractate:', initValues.tractate);
         setTractateName(initValues.tractate);
         hasChanges = true;
       }
       if (initValues.chapter && initValues.chapter !== chapterName) {
-        console.log('🔷 Updating chapter:', initValues.chapter);
         setChapterName(initValues.chapter);
         hasChanges = true;
       }
       if (initValues.mishna && initValues.mishna !== mishnaName) {
-        console.log('🔷 Updating mishna:', initValues.mishna);
         setMishnaName(initValues.mishna);
         hasChanges = true;
       }
       if (initValues.lineNumber !== undefined && initValues.lineNumber !== lineNumber) {
-        console.log('🔷 Updating lineNumber:', initValues.lineNumber);
         setLineNumber(initValues.lineNumber);
         hasChanges = true;
       }
       
-      console.log('🔷 hasChanges:', hasChanges, 'isNavigating will be set to true');
       // Reset navigation flag after a short delay
       if (hasChanges) {
         setTimeout(() => {
-          console.log('🔷 Setting isNavigating to false (after changes)');
           setIsNavigating(false);
         }, 100);
       } else {
         setIsNavigating(false);
-        console.log('🔷 No changes, isNavigating set to false immediately');
       }
     }
   }, [initValues?.tractate, initValues?.chapter, initValues?.mishna, initValues?.lineNumber]);
@@ -358,8 +351,8 @@ const ChooseMishnaForm = ({
           }}
         />
 
-        {/* Navigation arrows for Chapter/Halakha */}
-        {navButtons ? (
+        {/* Navigation arrows for Chapter/Halakha - left arrow */}
+        {navButtons && (showDafAmudNavigation || !lineNumber) ? (
           <IconButton
             onClick={() => {
               navigateHandler(Direction.BACK);
@@ -375,12 +368,10 @@ const ChooseMishnaForm = ({
           inTractate={tractateData}
           onSelectChapter={(c) => {
             const chapterChanged = c.id !== chapterName;
-            console.log('🔷 onSelectChapter called:', c.id, 'changed:', chapterChanged, 'isNavigating:', isNavigating);
             setChapterName(c.id);
             setChapterData(c);
             // Clear mishna selection only if this is NOT a navigation update
             if (chapterChanged && !isNavigating) {
-              console.log('🔷 Clearing mishna (user changed chapter)');
               setMishnaName('');
               setMishnaData(null);
             }
@@ -397,12 +388,10 @@ const ChooseMishnaForm = ({
           inChapter={chapterData}
           allChapterAllowed={allChapterAllowed}
           onSelectMishna={(m) => {
-            console.log('🔷 onSelectMishna called:', m.mishna);
             setMishnaData(m);
             setMishnaName(m.mishna);
           }}
           onUserSelectMishna={(m) => {
-            console.log('🔷 onUserSelectMishna called:', m.mishna);
             // Only emit navigation when user actually clicks
             // Pass the mishna directly instead of relying on state
             const link: iLink = {
@@ -411,13 +400,14 @@ const ChooseMishnaForm = ({
               mishna: m.mishna,  // Use the mishna from the callback parameter
               lineNumber: lineNumber,
             };
-            console.log('🔷 Emitting navigation with link:', link);
             emit(link);
           }}
         />
 
-        {/* Navigation arrows for Chapter/Halakha */}
-        {navButtons ? (
+        {/* Navigation arrows for Chapter/Halakha - only show if:
+            - No line selector at all, OR
+            - Daf/Amud navigation is enabled (regardless of line selector) */}
+        {navButtons && (showDafAmudNavigation || !lineNumber) ? (
           <IconButton
             onClick={() => {
               navigateHandler(Direction.FORWARD);
@@ -427,77 +417,118 @@ const ChooseMishnaForm = ({
           </IconButton>
         ) : null}
 
-        {/* Separator or space */}
-        <Box sx={{ width: '8px' }} />
+        {/* Daf/Amud Navigation - only show if enabled */}
+        {showDafAmudNavigation && (
+          <>
+            {/* Separator or space */}
+            <Box sx={{ width: '8px' }} />
 
-        {/* Navigation arrows for Daf/Amud */}
-        {navButtons ? (
-          <IconButton
-            onClick={() => {
-              navigateDafAmudHandler(Direction.BACK);
-            }}
-            size="small">
-            {isHebrew ? <ArrowForward /> : <ArrowBack />}
-          </IconButton>
-        ) : null}
+            {/* Navigation arrows for Daf/Amud */}
+            {navButtons ? (
+              <IconButton
+                onClick={() => {
+                  navigateDafAmudHandler(Direction.BACK);
+                }}
+                size="small">
+                {isHebrew ? <ArrowForward /> : <ArrowBack />}
+              </IconButton>
+            ) : null}
 
-        {/* Daf selector */}
-        <ChooseDaf
-          daf={dafName}
-          inTractate={tractateData?.title_heb || ''}
-          onSelectDaf={(d) => {
-            const dafChanged = d.id !== dafName;
-            setDafName(d.id);
-            setDafData(d);
-            // Clear amud when daf changes (only if not navigating)
-            if (dafChanged && !isNavigating) {
-              setAmudName('');
-            }
-          }}
-        />
+            {/* Daf selector */}
+            <ChooseDaf
+              daf={dafName}
+              inTractate={tractateData?.title_heb || ''}
+              onSelectDaf={(d) => {
+                const dafChanged = d.id !== dafName;
+                setDafName(d.id);
+                setDafData(d);
+                // Clear amud when daf changes (only if not navigating)
+                if (dafChanged && !isNavigating) {
+                  setAmudName('');
+                }
+              }}
+            />
 
-        {/* Amud selector */}
-        <ChooseAmud
-          amud={amudName}
-          inDaf={dafData}
-          inTractate={tractateData?.title_heb || ''}
-          onSelectAmud={(amud, mapping) => {
-            setAmudName(amud);
-            // Navigate to the mapped chapter/halacha (mishna level only)
-            setChapterName(mapping.chapter);
-            setMishnaName(mapping.halacha);
-            // Clear line number to navigate to mishna level only
-            setLineNumber('');
+            {/* Amud selector */}
+            <ChooseAmud
+              amud={amudName}
+              inDaf={dafData}
+              inTractate={tractateData?.title_heb || ''}
+              onSelectAmud={(amud, mapping) => {
+                setAmudName(amud);
+                // Navigate to the mapped chapter/halacha (mishna level only)
+                setChapterName(mapping.chapter);
+                setMishnaName(mapping.halacha);
+                // Clear line number to navigate to mishna level only
+                setLineNumber('');
+                
+                // Trigger navigation to mishna level with Daf/Amud marker info
+                onNavigationUpdated({
+                  tractate: tractateName,
+                  chapter: mapping.chapter,
+                  mishna: mapping.halacha,
+                  lineNumber: '',
+                  dafAmudMarkers: [{
+                    line: mapping.system_line,
+                    word_pos: mapping.word_pos,
+                    daf: dafName,
+                    amud: amud,
+                  }],
+                });
+              }}
+            />
+
+            {/* Navigation arrows for Daf/Amud */}
+            {navButtons ? (
+              <IconButton
+                onClick={() => {
+                  navigateDafAmudHandler(Direction.FORWARD);
+                }}
+                size="small">
+                {isHebrew ? <ArrowBack /> : <ArrowForward />}
+              </IconButton>
+            ) : null}
+          </>
+        )}
+
+        {/* Line selector with navigation arrows (if needed and Daf/Amud is hidden) */}
+        {lineNumber && !showDafAmudNavigation ? (
+          <>
+            {/* Navigation arrow before line selector */}
+            {navButtons ? (
+              <IconButton
+                onClick={() => {
+                  navigateHandler(Direction.BACK);
+                }}
+                size="small">
+                {isHebrew ? <ArrowForward /> : <ArrowBack />}
+              </IconButton>
+            ) : null}
             
-            // Trigger navigation to mishna level with Daf/Amud marker info
-            onNavigationUpdated({
-              tractate: tractateName,
-              chapter: mapping.chapter,
-              mishna: mapping.halacha,
-              lineNumber: '',
-              dafAmudMarkers: [{
-                line: mapping.system_line,
-                word_pos: mapping.word_pos,
-                daf: dafName,
-                amud: amud,
-              }],
-            });
-          }}
-        />
-
-        {/* Navigation arrows for Daf/Amud */}
-        {navButtons ? (
-          <IconButton
-            onClick={() => {
-              navigateDafAmudHandler(Direction.FORWARD);
-            }}
-            size="small">
-            {isHebrew ? <ArrowBack /> : <ArrowForward />}
-          </IconButton>
-        ) : null}
-
-        {/* Line selector (if needed) */}
-        {lineNumber ? (
+            <ChooseLine
+              lineNumber={lineNumber}
+              mishnaData={mishnaData}
+              onSelectLine={(l) => {
+                setLineNumber(l.lineNumber);
+                setLineData(l);
+                // Emit navigation when user selects line
+                setTimeout(() => emitNavigation(), 10);
+              }}
+            />
+            
+            {/* Navigation arrow after line selector */}
+            {navButtons ? (
+              <IconButton
+                onClick={() => {
+                  navigateHandler(Direction.FORWARD);
+                }}
+                size="small">
+                {isHebrew ? <ArrowBack /> : <ArrowForward />}
+              </IconButton>
+            ) : null}
+          </>
+        ) : lineNumber ? (
+          // Line selector without arrows (when Daf/Amud is shown)
           <ChooseLine
             lineNumber={lineNumber}
             mishnaData={mishnaData}
