@@ -81,6 +81,21 @@ const ChooseAmud = (props: Props) => {
     }
   }, [amudOptions, amud, selectedAmud]);
 
+  // Helper function to convert Hebrew letters to English letters
+  const getAmudLabel = (amudId: string): string => {
+    if (isHebrew) {
+      return amudId; // Keep Hebrew letters
+    }
+    // Convert Hebrew letters to English letters for English
+    const hebrewToEnglish: { [key: string]: string } = {
+      'א': 'a',
+      'ב': 'b',
+      'ג': 'c',
+      'ד': 'd',
+    };
+    return hebrewToEnglish[amudId] || amudId;
+  };
+
   return (
     <>
       <Autocomplete
@@ -89,7 +104,7 @@ const ChooseAmud = (props: Props) => {
         value={selectedAmud}
         options={amudOptions}
         autoHighlight={true}
-        getOptionLabel={(option) => option}
+        getOptionLabel={(option) => getAmudLabel(option)}
         isOptionEqualToValue={(option, value) => option === value}
         renderInput={(params) => (
           <TextField 
