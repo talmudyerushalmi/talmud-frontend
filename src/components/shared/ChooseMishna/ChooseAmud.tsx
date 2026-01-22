@@ -20,6 +20,18 @@ interface Props {
   onSelectAmud: (amud: string, mapping: AmudMapping) => void;
 }
 
+// Type guard to check if the data has the expected structure
+function isAmudMapping(data: unknown): data is AmudMapping {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    'chapter' in data &&
+    'halacha' in data &&
+    'system_line' in data &&
+    'word_pos' in data
+  );
+}
+
 const ChooseAmud = (props: Props) => {
   const { amud, onSelectAmud, inDaf, inTractate } = props;
   const [selectedAmud, setSelectedAmud] = useState<string | null>(null);
@@ -48,16 +60,10 @@ const ChooseAmud = (props: Props) => {
     const tractateData = amudDafMapping[inTractate as keyof typeof amudDafMapping];
     if (tractateData && tractateData[inDaf.id as keyof typeof tractateData]) {
       const dafData = tractateData[inDaf.id as keyof typeof tractateData];
-      const amudData = dafData[amud as keyof typeof dafData] as any;
+      const amudData = dafData[amud as keyof typeof dafData];
       
-      if (amudData && typeof amudData === 'object') {
-        const mapping: AmudMapping = {
-          chapter: amudData.chapter,
-          halacha: amudData.halacha,
-          system_line: amudData.system_line,
-          word_pos: amudData.word_pos,
-        };
-        onSelectAmud(amud, mapping);
+      if (isAmudMapping(amudData)) {
+        onSelectAmud(amud, amudData);
       }
     }
   };
