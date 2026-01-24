@@ -37,6 +37,8 @@ const SearchBar: FC<IProps> = () => {
         width: { md: 400, xs: '100%' },
         boxShadow: 'none',
         mb: 4,
+        marginLeft: isHebrew ? 'auto' : 0,
+        marginRight: isHebrew ? 0 : 'auto',
         '@media print': {
           display: 'none',
         },
@@ -44,8 +46,7 @@ const SearchBar: FC<IProps> = () => {
       <Box 
         dir={isHebrew ? 'rtl' : 'ltr'} 
         sx={{ 
-          flex: 1, 
-          ml: { md: '30px' },
+          flex: 1,
           // Isolate from global RTL context for English
           ...(!isHebrew && {
             '& *': { direction: 'ltr' },
