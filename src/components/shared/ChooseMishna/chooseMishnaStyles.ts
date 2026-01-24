@@ -73,6 +73,7 @@ export const getChooseMishnaTextFieldStyles = (isHebrew: boolean) => ({
     left: isHebrew ? 0 : 'unset',
     right: isHebrew ? 'unset' : 30,
     transformOrigin: isHebrew ? 'top left' : 'top right',
+    top: '-4px',
   },
   '& .MuiOutlinedInput-notchedOutline legend': {
     textAlign: isHebrew ? 'left' : 'right',
