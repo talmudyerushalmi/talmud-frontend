@@ -114,30 +114,6 @@ const NosachView = (props: Props) => {
     if (subline.nosach) {
       let initContent = convertFromRaw(subline.nosach);
       
-      // Insert Daf/Amud marker if present - BEFORE creating EditorState
-      // Debug format: [daf:amud:system_line]
-      if (dafAmudMarker && dafAmudMarker.word_pos) {
-        const markerText = `[${dafAmudMarker.daf}:${dafAmudMarker.amud}:${dafAmudMarker.line}] `;
-        const blockKey = initContent.getFirstBlock().getKey();
-        const selection = SelectionState.createEmpty(blockKey).merge({
-          anchorOffset: 0,
-          focusOffset: markerText.length,
-        });
-        
-        // Insert the marker text
-        initContent = Modifier.insertText(
-          initContent, 
-          SelectionState.createEmpty(blockKey).merge({
-            anchorOffset: 0,
-            focusOffset: 0,
-          }), 
-          markerText
-        );
-        
-        // Apply yellow background style to just the marker
-        initContent = Modifier.applyInlineStyle(initContent, selection, 'MARK');
-      }
-      
       newEditorState = EditorState.createWithContent(initContent, getDecorator(showEditType));
       if (!showPunctuation) {
         newEditorState = memoizedRemovePunctuation(newEditorState);

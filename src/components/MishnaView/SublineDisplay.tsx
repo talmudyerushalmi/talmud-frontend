@@ -4,6 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Chip,
   IconButton,
   Typography,
   useTheme,
@@ -237,7 +238,7 @@ const SublineDisplay = (props: Props) => {
         }}
         onMouseEnter={() => handleMouseEnter(subline.index)}
         onMouseLeave={() => handleMouseLeave()}>
-        <AccordionSummary sx={{ paddingRight: '0.25rem' }} aria-controls="subline-content">
+        <AccordionSummary sx={{ paddingRight: '0.25rem', position: 'relative' }} aria-controls="subline-content">
           <Typography variant="lineNumber" component="span">
             {subline.index}
           </Typography>
@@ -250,6 +251,26 @@ const SublineDisplay = (props: Props) => {
             subline={subline}
             dafAmudMarker={dafAmudMarker}
           />
+          {/* Daf/Amud badge positioned on the right */}
+          {dafAmudMarker && (
+            <Chip
+              label={`${dafAmudMarker.daf}:${dafAmudMarker.amud}`}
+              size="small"
+              sx={{
+                position: 'absolute',
+                left: '-18px',  // In RTL: increasing 'left' moves it visually to the right
+                top: '50%',
+                transform: 'translateY(-50%)',
+                height: '20px',
+                fontSize: '0.75rem',
+                backgroundColor: '#fff3cd',
+                border: '1px solid #ffc107',
+                '@media print': {
+                  display: 'none',
+                },
+              }}
+            />
+          )}
           <AccordionActions sx={{ 
             padding: 0,
             '@media print': {
