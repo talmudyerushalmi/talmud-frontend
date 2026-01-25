@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './chooseMishnaStyles';
 import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { leanDaf } from './ChooseDaf';
+import { hebrewAmudToEnglish } from '../../../inc/utils';
 
 interface AmudMapping {
   chapter: string;
@@ -87,13 +88,7 @@ const ChooseAmud = (props: Props) => {
       return amudId; // Keep Hebrew letters
     }
     // Convert Hebrew letters to English letters for English
-    const hebrewToEnglish: { [key: string]: string } = {
-      'א': 'a',
-      'ב': 'b',
-      'ג': 'c',
-      'ד': 'd',
-    };
-    return hebrewToEnglish[amudId] || amudId;
+    return hebrewAmudToEnglish(amudId);
   };
 
   return (

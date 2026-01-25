@@ -110,3 +110,23 @@ export const localeMap = new Map([
   ['he-IL', 'he-IL'],
   ['en-US', 'en-US'],
 ]);
+
+// Convert Hebrew letters to numbers for Daf display
+export function hebrewToNumber(hebrewLetter: string): number | string {
+  const mapping: { [key: string]: number } = {
+    'א': 1, 'ב': 2, 'ג': 3, 'ד': 4, 'ה': 5, 'ו': 6, 'ז': 7, 'ח': 8, 'ט': 9, 'י': 10,
+    'יא': 11, 'יב': 12, 'יג': 13, 'יד': 14, 'טו': 15, 'טז': 16, 'יז': 17, 'יח': 18, 'יט': 19, 'כ': 20,
+    'כא': 21, 'כב': 22, 'כג': 23, 'כד': 24, 'כה': 25, 'כו': 26, 'כז': 27, 'כח': 28, 'כט': 29, 'ל': 30,
+    'לא': 31, 'לב': 32, 'לג': 33, 'לד': 34, 'לה': 35, 'לו': 36, 'לז': 37, 'לח': 38, 'לט': 39, 'מ': 40,
+    'מא': 41, 'מב': 42, 'מג': 43, 'מד': 44, 'מה': 45, 'מו': 46, 'מז': 47, 'מח': 48, 'מט': 49, 'ן': 50,
+  };
+  return mapping[hebrewLetter] || hebrewLetter;
+}
+
+// Convert Hebrew Amud letters to English letters
+export function hebrewAmudToEnglish(hebrewAmud: string): string {
+  const mapping: { [key: string]: string } = {
+    'א': 'a', 'ב': 'b', 'ג': 'c', 'ד': 'd', 'ה': 'e', 'ו': 'f',
+  };
+  return mapping[hebrewAmud] || hebrewAmud;
+}

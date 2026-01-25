@@ -23,6 +23,8 @@ import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 import { CommentModal, iCommentModal, setCommentModal } from '../../store/actions/commentsActions';
 import { getFirstAndLastWordOfString } from '../../inc/textUtils';
 import { UserGroup } from '../../store/reducers/authReducer';
+import { useTranslation } from 'react-i18next';
+import { hebrewToNumber, hebrewAmudToEnglish } from '../../inc/utils';
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -124,6 +126,27 @@ const SublineDisplay = (props: Props) => {
   } = props;
   const classes = useStyles();
   const theme = useTheme();
+  const { i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
+
+  // Convert Daf/Amud to English format if needed
+  const formatDafAmud = (daf: string, amud: string) => {
+    console.log('DEBUG formatDafAmud - isHebrew:', isHebrew, 'language:', i18n.language);
+    if (isHebrew) {
+      // Hebrew RTL: Daf:Amud displays correctly as Daf on right, Amud on left
+      const result = `${daf}:${amud}`;
+      console.log('DEBUG Hebrew result:', result);
+      return result;
+    } else {
+      // English LTR: Daf:Amud displays as number:letter (e.g., 5:b)
+      const dafNumber = hebrewToNumber(daf).toString();
+      const amudLetter = hebrewAmudToEnglish(amud);
+      // Use Unicode LTR mark to force left-to-right display
+      const result = `\u200E${dafNumber}:${amudLetter}\u200E`;
+      console.log('DEBUG English:', { daf, amud, dafNumber, amudLetter, result });
+      return result;
+    }
+  };
 
   const [expanded, setExpanded] = React.useState('');
   const [commentButtonHover, setCommentButtonHover] = React.useState(false);
@@ -254,17 +277,21 @@ const SublineDisplay = (props: Props) => {
           {/* Daf/Amud badge positioned on the right */}
           {dafAmudMarker && (
             <Chip
-              label={`${dafAmudMarker.daf}:${dafAmudMarker.amud}`}
+              label={formatDafAmud(dafAmudMarker.daf, dafAmudMarker.amud)}
               size="small"
               sx={{
                 position: 'absolute',
-                left: '-18px',  // In RTL: increasing 'left' moves it visually to the right
+                left: '-18px',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                height: '20px',
-                fontSize: '0.75rem',
+                height: '18px',
+                fontSize: '0.7rem',
                 backgroundColor: '#fff3cd',
                 border: '1px solid #ffc107',
+                '& .MuiChip-label': {
+                  paddingLeft: '4px',
+                  paddingRight: '4px',
+                },
                 '@media print': {
                   display: 'none',
                 },
