@@ -34,7 +34,7 @@ const SearchBar: FC<IProps> = () => {
         p: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: { md: 400, xs: '100%' },
+        width: { md: 450, xs: '100%' },
         boxShadow: 'none',
         mb: 4,
         '@media print': {
