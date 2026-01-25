@@ -82,7 +82,8 @@ const ChooseMishnaBar = ({
             marginRight: 0,
           },
           'html:lang(en-US) &': {
-            marginRight: '30px',
+            marginLeft: 'auto',
+            marginRight: 0,
           },
         }}>
           <SearchBar />
