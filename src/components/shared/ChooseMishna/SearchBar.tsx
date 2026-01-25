@@ -62,13 +62,9 @@ const SearchBar: FC<IProps> = () => {
             },
             ...(!isHebrew && {
               '& .MuiInputLabel-root': { 
-                left: 'unset', 
+                left: 'unset',
                 right: '30px', 
                 transformOrigin: 'top right',
-              },
-              '& .MuiInputLabel-root:not(.MuiInputLabel-shrink)': { 
-                left: '160px', 
-                right: 'unset',
               },
               '& .MuiOutlinedInput-notchedOutline legend': { 
                 marginLeft: 'auto',
