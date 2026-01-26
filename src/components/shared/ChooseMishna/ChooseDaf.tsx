@@ -78,7 +78,7 @@ const ChooseDaf = (props: Props) => {
         renderInput={(params) => (
           <TextField 
             {...params} 
-            label={t('Daf')} 
+            label={t('Folio')} 
             variant="outlined" 
             sx={getChooseMishnaTextFieldStyles(isHebrew)} 
           />

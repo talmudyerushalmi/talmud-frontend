@@ -104,7 +104,7 @@ const ChooseAmud = (props: Props) => {
         renderInput={(params) => (
           <TextField 
             {...params} 
-            label={t('Amud')} 
+            label={t('Column')} 
             variant="outlined" 
             sx={getChooseMishnaTextFieldStyles(isHebrew)} 
           />
