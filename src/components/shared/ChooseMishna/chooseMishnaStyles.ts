@@ -24,12 +24,12 @@ export const getChooseMishnaAutocompleteStyles = (isHebrew: boolean) => ({
     padding: 0,
   },
   '& .MuiAutocomplete-endAdornment': {
-    left: isHebrew ? 'unset' : '7px',
-    right: isHebrew ? '7px' : 'unset',
+    left: isHebrew ? 'unset' : 'unset',
+    right: isHebrew ? '7px' : '7px',
     display: 'flex',
     flexDirection: 'row-reverse',
     ...(!isHebrew && {
-      transform: 'translateX(calc(100% - 60px)) translateY(-12px)',
+      transform: 'translateX(calc(-100% + 110px)) translateY(-12px)',
     }),
   },
 });
@@ -50,12 +50,12 @@ export const getChooseTractateAutocompleteStyles = (isHebrew: boolean) => ({
     padding: 0,
   },
   '& .MuiAutocomplete-endAdornment': {
-    left: isHebrew ? 'unset' : '7px',
-    right: isHebrew ? '7px' : 'unset',
+    left: isHebrew ? 'unset' : 'unset',
+    right: isHebrew ? '7px' : '7px',
     display: 'flex',
     flexDirection: 'row-reverse',
     ...(!isHebrew && {
-      transform: 'translateX(calc(100% - 60px)) translateY(-12px)',
+      transform: 'translateX(calc(-100% + 150px)) translateY(-12px)',
     }),
   },
 });
