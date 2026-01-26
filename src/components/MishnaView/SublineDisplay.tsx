@@ -131,7 +131,6 @@ const SublineDisplay = (props: Props) => {
 
   // Convert Daf/Amud to English format if needed
   const formatDafAmud = (daf: string, amud: string) => {
-    console.log('DEBUG formatDafAmud - isHebrew:', isHebrew, 'language:', i18n.language);
     if (isHebrew) {
       // Hebrew RTL: Daf:Amud displays correctly as Daf on right, Amud on left
       const result = `${daf}:${amud}`;
