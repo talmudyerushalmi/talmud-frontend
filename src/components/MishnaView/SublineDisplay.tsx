@@ -135,7 +135,6 @@ const SublineDisplay = (props: Props) => {
     if (isHebrew) {
       // Hebrew RTL: Daf:Amud displays correctly as Daf on right, Amud on left
       const result = `${daf}:${amud}`;
-      console.log('DEBUG Hebrew result:', result);
       return result;
     } else {
       // English LTR: Daf:Amud displays as number:letter (e.g., 5:b)
@@ -143,7 +142,6 @@ const SublineDisplay = (props: Props) => {
       const amudLetter = hebrewAmudToEnglish(amud);
       // Use Unicode LTR mark to force left-to-right display
       const result = `\u200E${dafNumber}:${amudLetter}\u200E`;
-      console.log('DEBUG English:', { daf, amud, dafNumber, amudLetter, result });
       return result;
     }
   };
