@@ -17,7 +17,7 @@ import { selectSublines } from '../../store/actions';
 import { excerptSelection } from '../../inc/excerptUtils';
 import SynopsisTable from './SynopsisTable';
 import { hideSourceFromText } from '../../inc/synopsisUtils';
-import { iExcerpt, iSubline } from '../../types/types';
+import { iExcerpt, iSubline, DafAmudMarker } from '../../types/types';
 import NosachView from './NosachView';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 import { CommentModal, iCommentModal, setCommentModal } from '../../store/actions/commentsActions';
@@ -100,12 +100,7 @@ interface Props {
     mainLine: string;
   };
   userGroup: UserGroup;
-  dafAmudMarker?: {
-    line: string;
-    word_pos: number;
-    daf: string;
-    amud: string;
-  };
+  dafAmudMarker?: DafAmudMarker;
 }
 const SublineDisplay = (props: Props) => {
   const {

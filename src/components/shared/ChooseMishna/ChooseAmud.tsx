@@ -11,7 +11,6 @@ interface AmudMapping {
   chapter: string;
   halacha: string;
   system_line: string;
-  word_pos: number;
 }
 
 interface Props {
@@ -28,8 +27,7 @@ function isAmudMapping(data: unknown): data is AmudMapping {
     data !== null &&
     'chapter' in data &&
     'halacha' in data &&
-    'system_line' in data &&
-    'word_pos' in data
+    'system_line' in data
   );
 }
 

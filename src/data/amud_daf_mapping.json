@@ -4,338 +4,286 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00004",
-        "word_pos": 27
+        "system_line": "00004"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00018",
-        "word_pos": 23
+        "system_line": "00018"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00042",
-        "word_pos": 46
+        "system_line": "00042"
       }
     },
     "ג": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00067",
-        "word_pos": 36
+        "system_line": "00067"
       },
       "ב": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00092",
-        "word_pos": 4
+        "system_line": "00092"
       },
       "ג": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00115",
-        "word_pos": 19
+        "system_line": "00115"
       },
       "ד": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00142",
-        "word_pos": 19
+        "system_line": "00142"
       }
     },
     "ד": {
       "א": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00168",
-        "word_pos": 16
+        "system_line": "00168"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00183",
-        "word_pos": 3
+        "system_line": "00183"
       },
       "ג": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00207",
-        "word_pos": 12
+        "system_line": "00207"
       },
       "ד": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00235",
-        "word_pos": 27
+        "system_line": "00235"
       }
     },
     "ה": {
       "א": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00262",
-        "word_pos": 41
+        "system_line": "00262"
       },
       "ב": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00290",
-        "word_pos": 1
+        "system_line": "00290"
       },
       "ג": {
         "chapter": "002",
         "halacha": "007",
-        "system_line": "00316",
-        "word_pos": 32
+        "system_line": "00316"
       },
       "ד": {
         "chapter": "002",
         "halacha": "008",
-        "system_line": "00338",
-        "word_pos": 29
+        "system_line": "00338"
       }
     },
     "ו": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00355",
-        "word_pos": 43
+        "system_line": "00355"
       },
       "ב": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00382",
-        "word_pos": 40
+        "system_line": "00382"
       },
       "ג": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00408",
-        "word_pos": 9
+        "system_line": "00408"
       },
       "ד": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00433",
-        "word_pos": 18
+        "system_line": "00433"
       }
     },
     "ז": {
       "א": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00458",
-        "word_pos": 7
+        "system_line": "00458"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00474",
-        "word_pos": 3
+        "system_line": "00474"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00497",
-        "word_pos": 64
+        "system_line": "00497"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00523",
-        "word_pos": 18
+        "system_line": "00523"
       }
     },
     "ח": {
       "א": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00546",
-        "word_pos": 15
+        "system_line": "00546"
       },
       "ב": {
         "chapter": "004",
         "halacha": "004",
-        "system_line": "00574",
-        "word_pos": 14
+        "system_line": "00574"
       },
       "ג": {
         "chapter": "004",
         "halacha": "005",
-        "system_line": "00599",
-        "word_pos": 32
+        "system_line": "00599"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00623",
-        "word_pos": 1
+        "system_line": "00623"
       }
     },
     "ט": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00642",
-        "word_pos": 18
+        "system_line": "00642"
       },
       "ב": {
         "chapter": "005",
         "halacha": "002",
-        "system_line": "00667",
-        "word_pos": 12
+        "system_line": "00667"
       },
       "ג": {
         "chapter": "005",
         "halacha": "002",
-        "system_line": "00692",
-        "word_pos": 18
+        "system_line": "00692"
       },
       "ד": {
         "chapter": "005",
         "halacha": "004",
-        "system_line": "00717",
-        "word_pos": 15
+        "system_line": "00717"
       }
     },
     "י": {
       "א": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00732",
-        "word_pos": 13
+        "system_line": "00732"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00757",
-        "word_pos": 8
+        "system_line": "00757"
       },
       "ג": {
         "chapter": "006",
         "halacha": "002",
-        "system_line": "00781",
-        "word_pos": 23
+        "system_line": "00781"
       },
       "ד": {
         "chapter": "006",
         "halacha": "006",
-        "system_line": "00805",
-        "word_pos": 23
+        "system_line": "00805"
       }
     },
     "יא": {
       "א": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00830",
-        "word_pos": 1
+        "system_line": "00830"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00847",
-        "word_pos": 7
+        "system_line": "00847"
       },
       "ג": {
         "chapter": "007",
         "halacha": "003",
-        "system_line": "00874",
-        "word_pos": 27
+        "system_line": "00874"
       },
       "ד": {
         "chapter": "007",
         "halacha": "005",
-        "system_line": "00901",
-        "word_pos": 4
+        "system_line": "00901"
       }
     },
     "יב": {
       "א": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00914",
-        "word_pos": 33
+        "system_line": "00914"
       },
       "ב": {
         "chapter": "008",
         "halacha": "003",
-        "system_line": "00938",
-        "word_pos": 18
+        "system_line": "00938"
       },
       "ג": {
         "chapter": "008",
         "halacha": "006",
-        "system_line": "00964",
-        "word_pos": 15
+        "system_line": "00964"
       },
       "ד": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00986",
-        "word_pos": 1
+        "system_line": "00986"
       }
     },
     "יג": {
       "א": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "01000",
-        "word_pos": 7
+        "system_line": "01000"
       },
       "ב": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "01020",
-        "word_pos": 39
+        "system_line": "01020"
       },
       "ג": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "01044",
-        "word_pos": 15
+        "system_line": "01044"
       },
       "ד": {
         "chapter": "009",
         "halacha": "002",
-        "system_line": "01068",
-        "word_pos": 17
+        "system_line": "01068"
       }
     },
     "יד": {
       "א": {
         "chapter": "009",
         "halacha": "002",
-        "system_line": "01095",
-        "word_pos": 59
+        "system_line": "01095"
       },
       "ב": {
         "chapter": "009",
         "halacha": "003",
-        "system_line": "01125",
-        "word_pos": 14
+        "system_line": "01125"
       },
       "ג": {
         "chapter": "009",
         "halacha": "005",
-        "system_line": "01149",
-        "word_pos": 1
+        "system_line": "01149"
       },
       "ד": {
         "chapter": "009",
         "halacha": "005",
-        "system_line": "01158",
-        "word_pos": 7
+        "system_line": "01158"
       }
     }
   },
@@ -344,170 +292,144 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00011",
-        "word_pos": 12
+        "system_line": "00011"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00035",
-        "word_pos": 6
+        "system_line": "00035"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00058",
-        "word_pos": 8
+        "system_line": "00058"
       }
     },
     "טז": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00078",
-        "word_pos": 30
+        "system_line": "00078"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00098",
-        "word_pos": 35
+        "system_line": "00098"
       },
       "ג": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00118",
-        "word_pos": 15
+        "system_line": "00118"
       },
       "ד": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00142",
-        "word_pos": 60
+        "system_line": "00142"
       }
     },
     "יז": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00155",
-        "word_pos": 11
+        "system_line": "00155"
       },
       "ב": {
         "chapter": "002",
         "halacha": "007",
-        "system_line": "00177",
-        "word_pos": 9
+        "system_line": "00177"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00188",
-        "word_pos": 26
+        "system_line": "00188"
       },
       "ד": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00213",
-        "word_pos": 54
+        "system_line": "00213"
       }
     },
     "יח": {
       "א": {
         "chapter": "003",
         "halacha": "007",
-        "system_line": "00239",
-        "word_pos": 16
+        "system_line": "00239"
       },
       "ב": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00252",
-        "word_pos": 8
+        "system_line": "00252"
       },
       "ג": {
         "chapter": "004",
         "halacha": "009",
-        "system_line": "00279",
-        "word_pos": 3
+        "system_line": "00279"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00295",
-        "word_pos": 1
+        "system_line": "00295"
       }
     },
     "יט": {
       "א": {
         "chapter": "005",
         "halacha": "002",
-        "system_line": "00317",
-        "word_pos": 22
+        "system_line": "00317"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00337",
-        "word_pos": 1
+        "system_line": "00337"
       },
       "ג": {
         "chapter": "006",
         "halacha": "002",
-        "system_line": "00354",
-        "word_pos": 13
+        "system_line": "00354"
       },
       "ד": {
         "chapter": "006",
         "halacha": "008",
-        "system_line": "00380",
-        "word_pos": 31
+        "system_line": "00380"
       }
     },
     "כ": {
       "א": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00393",
-        "word_pos": 1
+        "system_line": "00393"
       },
       "ב": {
         "chapter": "007",
         "halacha": "004",
-        "system_line": "00422",
-        "word_pos": 2
+        "system_line": "00422"
       },
       "ג": {
         "chapter": "007",
         "halacha": "006",
-        "system_line": "00445",
-        "word_pos": 46
+        "system_line": "00445"
       },
       "ד": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00464",
-        "word_pos": 1
+        "system_line": "00464"
       }
     },
     "כא": {
       "א": {
         "chapter": "008",
         "halacha": "005",
-        "system_line": "00484",
-        "word_pos": 28
+        "system_line": "00484"
       },
       "ב": {
         "chapter": "008",
         "halacha": "008",
-        "system_line": "00506",
-        "word_pos": 27
+        "system_line": "00506"
       }
     }
   },
@@ -516,138 +438,117 @@
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00016",
-        "word_pos": 7
+        "system_line": "00016"
       }
     },
     "כב": {
       "א": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00042",
-        "word_pos": 4
+        "system_line": "00042"
       },
       "ב": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00064",
-        "word_pos": 26
+        "system_line": "00064"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00078",
-        "word_pos": 16
+        "system_line": "00078"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00101",
-        "word_pos": 7
+        "system_line": "00101"
       }
     },
     "כג": {
       "א": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00123",
-        "word_pos": 14
+        "system_line": "00123"
       },
       "ב": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00141",
-        "word_pos": 1
+        "system_line": "00141"
       },
       "ג": {
         "chapter": "003",
         "halacha": "002",
-        "system_line": "00155",
-        "word_pos": 51
+        "system_line": "00155"
       },
       "ד": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00180",
-        "word_pos": 20
+        "system_line": "00180"
       }
     },
     "כד": {
       "א": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00189",
-        "word_pos": 41
+        "system_line": "00189"
       },
       "ב": {
         "chapter": "004",
         "halacha": "005",
-        "system_line": "00214",
-        "word_pos": 28
+        "system_line": "00214"
       },
       "ג": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00224",
-        "word_pos": 1
+        "system_line": "00224"
       },
       "ד": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00245",
-        "word_pos": 7
+        "system_line": "00245"
       }
     },
     "כה": {
       "א": {
         "chapter": "005",
         "halacha": "009",
-        "system_line": "00264",
-        "word_pos": 21
+        "system_line": "00264"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00272",
-        "word_pos": 18
+        "system_line": "00272"
       },
       "ג": {
         "chapter": "006",
         "halacha": "003",
-        "system_line": "00297",
-        "word_pos": 21
+        "system_line": "00297"
       },
       "ד": {
         "chapter": "006",
         "halacha": "006",
-        "system_line": "00319",
-        "word_pos": 20
+        "system_line": "00319"
       }
     },
     "כו": {
       "א": {
         "chapter": "006",
         "halacha": "012",
-        "system_line": "00344",
-        "word_pos": 2
+        "system_line": "00344"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00351",
-        "word_pos": 21
+        "system_line": "00351"
       },
       "ג": {
         "chapter": "007",
         "halacha": "006",
-        "system_line": "00375",
-        "word_pos": 13
+        "system_line": "00375"
       }
     }
   },
@@ -656,164 +557,139 @@
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       }
     },
     "כז": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00009",
-        "word_pos": 20
+        "system_line": "00009"
       },
       "ב": {
         "chapter": "001",
         "halacha": "007",
-        "system_line": "00035",
-        "word_pos": 19
+        "system_line": "00035"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00055",
-        "word_pos": 1
+        "system_line": "00055"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00062",
-        "word_pos": 35
+        "system_line": "00062"
       }
     },
     "כח": {
       "א": {
         "chapter": "002",
         "halacha": "006",
-        "system_line": "00088",
-        "word_pos": 13
+        "system_line": "00088"
       },
       "ב": {
         "chapter": "002",
         "halacha": "010",
-        "system_line": "00111",
-        "word_pos": 1
+        "system_line": "00111"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00122",
-        "word_pos": 1
+        "system_line": "00122"
       },
       "ד": {
         "chapter": "003",
         "halacha": "002",
-        "system_line": "00141",
-        "word_pos": 15
+        "system_line": "00141"
       }
     },
     "כט": {
       "א": {
         "chapter": "003",
         "halacha": "007",
-        "system_line": "00166",
-        "word_pos": 23
+        "system_line": "00166"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00173",
-        "word_pos": 15
+        "system_line": "00173"
       },
       "ג": {
         "chapter": "004",
         "halacha": "005",
-        "system_line": "00197",
-        "word_pos": 1
+        "system_line": "00197"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00214",
-        "word_pos": 1
+        "system_line": "00214"
       }
     },
     "ל": {
       "א": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00232",
-        "word_pos": 19
+        "system_line": "00232"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00255",
-        "word_pos": 1
+        "system_line": "00255"
       },
       "ג": {
         "chapter": "006",
         "halacha": "002",
-        "system_line": "00270",
-        "word_pos": 5
+        "system_line": "00270"
       },
       "ד": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00296",
-        "word_pos": 1
+        "system_line": "00296"
       }
     },
     "לא": {
       "א": {
         "chapter": "007",
         "halacha": "004",
-        "system_line": "00310",
-        "word_pos": 7
+        "system_line": "00310"
       },
       "ב": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00329",
-        "word_pos": 1
+        "system_line": "00329"
       },
       "ג": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00348",
-        "word_pos": 14
+        "system_line": "00348"
       },
       "ד": {
         "chapter": "008",
         "halacha": "006",
-        "system_line": "00375",
-        "word_pos": 6
+        "system_line": "00375"
       }
     },
     "לב": {
       "א": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00385",
-        "word_pos": 1
+        "system_line": "00385"
       },
       "ב": {
         "chapter": "009",
         "halacha": "004",
-        "system_line": "00417",
-        "word_pos": 11
+        "system_line": "00417"
       },
       "ג": {
         "chapter": "009",
         "halacha": "004",
-        "system_line": "00440",
-        "word_pos": 38
+        "system_line": "00440"
       },
       "ד": {
         "chapter": "009",
         "halacha": "004",
-        "system_line": "00456",
-        "word_pos": 51
+        "system_line": "00456"
       }
     }
   },
@@ -822,182 +698,154 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00011",
-        "word_pos": 32
+        "system_line": "00011"
       },
       "ג": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00038",
-        "word_pos": 5
+        "system_line": "00038"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00047",
-        "word_pos": 8
+        "system_line": "00047"
       }
     },
     "לד": {
       "א": {
         "chapter": "002",
         "halacha": "006",
-        "system_line": "00071",
-        "word_pos": 12
+        "system_line": "00071"
       },
       "ב": {
         "chapter": "002",
         "halacha": "010",
-        "system_line": "00098",
-        "word_pos": 16
+        "system_line": "00098"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00106",
-        "word_pos": 1
+        "system_line": "00106"
       },
       "ד": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00132",
-        "word_pos": 16
+        "system_line": "00132"
       }
     },
     "לה": {
       "א": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00151",
-        "word_pos": 1
+        "system_line": "00151"
       },
       "ב": {
         "chapter": "004",
         "halacha": "002",
-        "system_line": "00171",
-        "word_pos": 44
+        "system_line": "00171"
       },
       "ג": {
         "chapter": "004",
         "halacha": "007",
-        "system_line": "00202",
-        "word_pos": 16
+        "system_line": "00202"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00221",
-        "word_pos": 1
+        "system_line": "00221"
       }
     },
     "לו": {
       "א": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00238",
-        "word_pos": 12
+        "system_line": "00238"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00261",
-        "word_pos": 1
+        "system_line": "00261"
       },
       "ג": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00274",
-        "word_pos": 8
+        "system_line": "00274"
       },
       "ד": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00295",
-        "word_pos": 14
+        "system_line": "00295"
       }
     },
     "לז": {
       "א": {
         "chapter": "006",
         "halacha": "003",
-        "system_line": "00318",
-        "word_pos": 30
+        "system_line": "00318"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00330",
-        "word_pos": 1
+        "system_line": "00330"
       },
       "ג": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00353",
-        "word_pos": 11
+        "system_line": "00353"
       },
       "ד": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00375",
-        "word_pos": 1
+        "system_line": "00375"
       }
     },
     "לח": {
       "א": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00384",
-        "word_pos": 36
+        "system_line": "00384"
       },
       "ב": {
         "chapter": "008",
         "halacha": "005",
-        "system_line": "00410",
-        "word_pos": 44
+        "system_line": "00410"
       },
       "ג": {
         "chapter": "008",
         "halacha": "011",
-        "system_line": "00435",
-        "word_pos": 14
+        "system_line": "00435"
       },
       "ד": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00445",
-        "word_pos": 12
+        "system_line": "00445"
       }
     },
     "לט": {
       "א": {
         "chapter": "009",
         "halacha": "004",
-        "system_line": "00469",
-        "word_pos": 26
+        "system_line": "00469"
       },
       "ב": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00494",
-        "word_pos": 1
+        "system_line": "00494"
       },
       "ג": {
         "chapter": "010",
         "halacha": "002",
-        "system_line": "00505",
-        "word_pos": 46
+        "system_line": "00505"
       },
       "ד": {
         "chapter": "010",
         "halacha": "004",
-        "system_line": "00528",
-        "word_pos": 10
+        "system_line": "00528"
       }
     }
   },
@@ -1006,222 +854,188 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00009",
-        "word_pos": 23
+        "system_line": "00009"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00042",
-        "word_pos": 6
+        "system_line": "00042"
       },
       "ד": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00075",
-        "word_pos": 4
+        "system_line": "00075"
       }
     },
     "מא": {
       "א": {
         "chapter": "001",
         "halacha": "008",
-        "system_line": "00106",
-        "word_pos": 8
+        "system_line": "00106"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00120",
-        "word_pos": 1
+        "system_line": "00120"
       },
       "ג": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00149",
-        "word_pos": 1
+        "system_line": "00149"
       },
       "ד": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00183",
-        "word_pos": 21
+        "system_line": "00183"
       }
     },
     "מב": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00205",
-        "word_pos": 1
+        "system_line": "00205"
       },
       "ב": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00231",
-        "word_pos": 15
+        "system_line": "00231"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00262",
-        "word_pos": 1
+        "system_line": "00262"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00273",
-        "word_pos": 23
+        "system_line": "00273"
       }
     },
     "מג": {
       "א": {
         "chapter": "004",
         "halacha": "007",
-        "system_line": "00308",
-        "word_pos": 4
+        "system_line": "00308"
       },
       "ב": {
         "chapter": "004",
         "halacha": "012",
-        "system_line": "00336",
-        "word_pos": 12
+        "system_line": "00336"
       },
       "ג": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00345",
-        "word_pos": 16
+        "system_line": "00345"
       },
       "ד": {
         "chapter": "005",
         "halacha": "004",
-        "system_line": "00379",
-        "word_pos": 17
+        "system_line": "00379"
       }
     },
     "מד": {
       "א": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00403",
-        "word_pos": 1
+        "system_line": "00403"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00423",
-        "word_pos": 30
+        "system_line": "00423"
       },
       "ג": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00442",
-        "word_pos": 1
+        "system_line": "00442"
       },
       "ד": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00464",
-        "word_pos": 22
+        "system_line": "00464"
       }
     },
     "מה": {
       "א": {
         "chapter": "007",
         "halacha": "005",
-        "system_line": "00492",
-        "word_pos": 4
+        "system_line": "00492"
       },
       "ב": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00501",
-        "word_pos": 1
+        "system_line": "00501"
       },
       "ג": {
         "chapter": "008",
         "halacha": "002",
-        "system_line": "00532",
-        "word_pos": 11
+        "system_line": "00532"
       },
       "ד": {
         "chapter": "008",
         "halacha": "004",
-        "system_line": "00560",
-        "word_pos": 1
+        "system_line": "00560"
       }
     },
     "מו": {
       "א": {
         "chapter": "008",
         "halacha": "005",
-        "system_line": "00591",
-        "word_pos": 4
+        "system_line": "00591"
       },
       "ב": {
         "chapter": "008",
         "halacha": "008",
-        "system_line": "00623",
-        "word_pos": 2
+        "system_line": "00623"
       },
       "ג": {
         "chapter": "008",
         "halacha": "011",
-        "system_line": "00649",
-        "word_pos": 7
+        "system_line": "00649"
       },
       "ד": {
         "chapter": "009",
         "halacha": "003",
-        "system_line": "00666",
-        "word_pos": 16
+        "system_line": "00666"
       }
     },
     "מז": {
       "א": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00689",
-        "word_pos": 1
+        "system_line": "00689"
       },
       "ב": {
         "chapter": "010",
         "halacha": "004",
-        "system_line": "00706",
-        "word_pos": 11
+        "system_line": "00706"
       },
       "ג": {
         "chapter": "010",
         "halacha": "012",
-        "system_line": "00735",
-        "word_pos": 7
+        "system_line": "00735"
       },
       "ד": {
         "chapter": "011",
         "halacha": "001",
-        "system_line": "00743",
-        "word_pos": 43
+        "system_line": "00743"
       }
     },
     "מח": {
       "א": {
         "chapter": "011",
         "halacha": "005",
-        "system_line": "00775",
-        "word_pos": 3
+        "system_line": "00775"
       },
       "ב": {
         "chapter": "011",
         "halacha": "010",
-        "system_line": "00795",
-        "word_pos": 3
+        "system_line": "00795"
       }
     }
   },
@@ -1230,100 +1044,85 @@
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00007",
-        "word_pos": 24
+        "system_line": "00007"
       }
     },
     "מט": {
       "א": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00035",
-        "word_pos": 2
+        "system_line": "00035"
       },
       "ב": {
         "chapter": "001",
         "halacha": "007",
-        "system_line": "00060",
-        "word_pos": 28
+        "system_line": "00060"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00078",
-        "word_pos": 1
+        "system_line": "00078"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00093",
-        "word_pos": 18
+        "system_line": "00093"
       }
     },
     "נ": {
       "א": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00119",
-        "word_pos": 39
+        "system_line": "00119"
       },
       "ב": {
         "chapter": "002",
         "halacha": "008",
-        "system_line": "00148",
-        "word_pos": 20
+        "system_line": "00148"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00156",
-        "word_pos": 23
+        "system_line": "00156"
       },
       "ד": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00182",
-        "word_pos": 1
+        "system_line": "00182"
       }
     },
     "נא": {
       "א": {
         "chapter": "003",
         "halacha": "009",
-        "system_line": "00207",
-        "word_pos": 13
+        "system_line": "00207"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00221",
-        "word_pos": 27
+        "system_line": "00221"
       },
       "ג": {
         "chapter": "004",
         "halacha": "006",
-        "system_line": "00251",
-        "word_pos": 26
+        "system_line": "00251"
       },
       "ד": {
         "chapter": "005",
         "halacha": "002",
-        "system_line": "00262",
-        "word_pos": 6
+        "system_line": "00262"
       }
     },
     "נב": {
       "א": {
         "chapter": "005",
         "halacha": "006",
-        "system_line": "00285",
-        "word_pos": 23
+        "system_line": "00285"
       }
     }
   },
@@ -1332,124 +1131,105 @@
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00011",
-        "word_pos": 10
+        "system_line": "00011"
       },
       "ד": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00038",
-        "word_pos": 18
+        "system_line": "00038"
       }
     },
     "נג": {
       "א": {
         "chapter": "001",
         "halacha": "007",
-        "system_line": "00062",
-        "word_pos": 17
+        "system_line": "00062"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00071",
-        "word_pos": 1
+        "system_line": "00071"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00097",
-        "word_pos": 13
+        "system_line": "00097"
       },
       "ד": {
         "chapter": "002",
         "halacha": "009",
-        "system_line": "00124",
-        "word_pos": 3
+        "system_line": "00124"
       }
     },
     "נד": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00128",
-        "word_pos": 1
+        "system_line": "00128"
       },
       "ב": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00156",
-        "word_pos": 20
+        "system_line": "00156"
       },
       "ג": {
         "chapter": "003",
         "halacha": "010",
-        "system_line": "00182",
-        "word_pos": 1
+        "system_line": "00182"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00192",
-        "word_pos": 1
+        "system_line": "00192"
       }
     },
     "נה": {
       "א": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00218",
-        "word_pos": 14
+        "system_line": "00218"
       },
       "ב": {
         "chapter": "004",
         "halacha": "007",
-        "system_line": "00242",
-        "word_pos": 55
+        "system_line": "00242"
       },
       "ג": {
         "chapter": "004",
         "halacha": "012",
-        "system_line": "00271",
-        "word_pos": 11
+        "system_line": "00271"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00281",
-        "word_pos": 1
+        "system_line": "00281"
       }
     },
     "נו": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00297",
-        "word_pos": 42
+        "system_line": "00297"
       },
       "ב": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00324",
-        "word_pos": 30
+        "system_line": "00324"
       },
       "ג": {
         "chapter": "005",
         "halacha": "006",
-        "system_line": "00350",
-        "word_pos": 8
+        "system_line": "00350"
       },
       "ד": {
         "chapter": "005",
         "halacha": "013",
-        "system_line": "00373",
-        "word_pos": 28
+        "system_line": "00373"
       }
     }
   },
@@ -1458,92 +1238,78 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00007",
-        "word_pos": 45
+        "system_line": "00007"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00032",
-        "word_pos": 22
+        "system_line": "00032"
       },
       "ד": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00056",
-        "word_pos": 28
+        "system_line": "00056"
       }
     },
     "נח": {
       "א": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00079",
-        "word_pos": 19
+        "system_line": "00079"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00100",
-        "word_pos": 1
+        "system_line": "00100"
       },
       "ג": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00112",
-        "word_pos": 22
+        "system_line": "00112"
       },
       "ד": {
         "chapter": "002",
         "halacha": "006",
-        "system_line": "00138",
-        "word_pos": 25
+        "system_line": "00138"
       }
     },
     "נט": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00150",
-        "word_pos": 1
+        "system_line": "00150"
       },
       "ב": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00173",
-        "word_pos": 1
+        "system_line": "00173"
       },
       "ג": {
         "chapter": "003",
         "halacha": "008",
-        "system_line": "00196",
-        "word_pos": 31
+        "system_line": "00196"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00209",
-        "word_pos": 1
+        "system_line": "00209"
       }
     },
     "ס": {
       "א": {
         "chapter": "004",
         "halacha": "005",
-        "system_line": "00226",
-        "word_pos": 14
+        "system_line": "00226"
       },
       "ב": {
         "chapter": "004",
         "halacha": "008",
-        "system_line": "00249",
-        "word_pos": 46
+        "system_line": "00249"
       }
     }
   },
@@ -1552,80 +1318,68 @@
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00011",
-        "word_pos": 11
+        "system_line": "00011"
       }
     },
     "סא": {
       "א": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00034",
-        "word_pos": 16
+        "system_line": "00034"
       },
       "ב": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00058",
-        "word_pos": 10
+        "system_line": "00058"
       },
       "ג": {
         "chapter": "001",
         "halacha": "007",
-        "system_line": "00083",
-        "word_pos": 2
+        "system_line": "00083"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00090",
-        "word_pos": 1
+        "system_line": "00090"
       }
     },
     "סב": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00111",
-        "word_pos": 33
+        "system_line": "00111"
       },
       "ב": {
         "chapter": "002",
         "halacha": "008",
-        "system_line": "00138",
-        "word_pos": 34
+        "system_line": "00138"
       },
       "ג": {
         "chapter": "002",
         "halacha": "011",
-        "system_line": "00162",
-        "word_pos": 12
+        "system_line": "00162"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00179",
-        "word_pos": 1
+        "system_line": "00179"
       }
     },
     "סג": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00203",
-        "word_pos": 9
+        "system_line": "00203"
       },
       "ב": {
         "chapter": "003",
         "halacha": "007",
-        "system_line": "00225",
-        "word_pos": 39
+        "system_line": "00225"
       }
     }
   },
@@ -1634,66 +1388,56 @@
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00005",
-        "word_pos": 24
+        "system_line": "00005"
       }
     },
     "סד": {
       "א": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00027",
-        "word_pos": 1
+        "system_line": "00027"
       },
       "ב": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00049",
-        "word_pos": 19
+        "system_line": "00049"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00069",
-        "word_pos": 1
+        "system_line": "00069"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00075",
-        "word_pos": 23
+        "system_line": "00075"
       }
     },
     "סה": {
       "א": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00098",
-        "word_pos": 20
+        "system_line": "00098"
       },
       "ב": {
         "chapter": "002",
         "halacha": "006",
-        "system_line": "00123",
-        "word_pos": 17
+        "system_line": "00123"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00135",
-        "word_pos": 1
+        "system_line": "00135"
       },
       "ד": {
         "chapter": "003",
         "halacha": "003",
-        "system_line": "00161",
-        "word_pos": 14
+        "system_line": "00161"
       }
     }
   },
@@ -1702,410 +1446,347 @@
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00015",
-        "word_pos": 1
+        "system_line": "00015"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00036",
-        "word_pos": 10
+        "system_line": "00036"
       }
     },
     "ג": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00062",
-        "word_pos": 16
+        "system_line": "00062"
       },
       "ב": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00085",
-        "word_pos": 5
+        "system_line": "00085"
       },
       "ג": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00102",
-        "word_pos": 37
+        "system_line": "00102"
       },
       "ד": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00124",
-        "word_pos": 3
+        "system_line": "00124"
       }
     },
     "ד": {
       "א": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00144",
-        "word_pos": 48
+        "system_line": "00144"
       },
       "ב": {
         "chapter": "001",
         "halacha": "007",
-        "system_line": "00167",
-        "word_pos": 39
+        "system_line": "00167"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00184",
-        "word_pos": 1
+        "system_line": "00184"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00201",
-        "word_pos": 9
+        "system_line": "00201"
       }
     },
     "ה": {
       "א": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00224",
-        "word_pos": 25
+        "system_line": "00224"
       },
       "ב": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00243",
-        "word_pos": 30
+        "system_line": "00243"
       },
       "ג": {
         "chapter": "002",
         "halacha": "007",
-        "system_line": "00265",
-        "word_pos": 20
+        "system_line": "00265"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00277",
-        "word_pos": 36
+        "system_line": "00277"
       }
     },
     "ו": {
       "א": {
         "chapter": "003",
         "halacha": "003",
-        "system_line": "00297",
-        "word_pos": 2
+        "system_line": "00297"
       },
       "ב": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00317",
-        "word_pos": 1
+        "system_line": "00317"
       },
       "ג": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00340",
-        "word_pos": 6
+        "system_line": "00340"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00360",
-        "word_pos": 1
+        "system_line": "00360"
       }
     },
     "ז": {
       "א": {
         "chapter": "004",
         "halacha": "002",
-        "system_line": "00379",
-        "word_pos": 4
+        "system_line": "00379"
       },
       "ב": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00394",
-        "word_pos": 1
+        "system_line": "00394"
       },
       "ג": {
         "chapter": "005",
         "halacha": "004",
-        "system_line": "00414",
-        "word_pos": 5
+        "system_line": "00414"
       },
       "ד": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00426",
-        "word_pos": 1
+        "system_line": "00426"
       }
     },
     "ח": {
       "א": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00444",
-        "word_pos": 25
+        "system_line": "00444"
       },
       "ב": {
         "chapter": "006",
         "halacha": "002",
-        "system_line": "00464",
-        "word_pos": 27
+        "system_line": "00464"
       },
       "ג": {
         "chapter": "006",
         "halacha": "005",
-        "system_line": "00490",
-        "word_pos": 6
+        "system_line": "00490"
       },
       "ד": {
         "chapter": "006",
         "halacha": "010",
-        "system_line": "00516",
-        "word_pos": 39
+        "system_line": "00516"
       }
     },
     "ט": {
       "א": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00525",
-        "word_pos": 29
+        "system_line": "00525"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00547",
-        "word_pos": 4
+        "system_line": "00547"
       },
       "ג": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00567",
-        "word_pos": 6
+        "system_line": "00567"
       },
       "ד": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00588",
-        "word_pos": 32
+        "system_line": "00588"
       }
     },
     "י": {
       "א": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00610",
-        "word_pos": 19
+        "system_line": "00610"
       },
       "ב": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00634",
-        "word_pos": 34
+        "system_line": "00634"
       },
       "ג": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00661",
-        "word_pos": 27
+        "system_line": "00661"
       },
       "ד": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00689",
-        "word_pos": 4
+        "system_line": "00689"
       }
     },
     "יא": {
       "א": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00706",
-        "word_pos": 1
+        "system_line": "00706"
       },
       "ב": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00724",
-        "word_pos": 39
+        "system_line": "00724"
       },
       "ג": {
         "chapter": "008",
         "halacha": "006",
-        "system_line": "00757",
-        "word_pos": 26
+        "system_line": "00757"
       },
       "ד": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00770",
-        "word_pos": 1
+        "system_line": "00770"
       }
     },
     "יב": {
       "א": {
         "chapter": "009",
         "halacha": "002",
-        "system_line": "00793",
-        "word_pos": 22
+        "system_line": "00793"
       },
       "ב": {
         "chapter": "009",
         "halacha": "004",
-        "system_line": "00816",
-        "word_pos": 31
+        "system_line": "00816"
       },
       "ג": {
         "chapter": "010",
         "halacha": "002",
-        "system_line": "00831",
-        "word_pos": 2
+        "system_line": "00831"
       },
       "ד": {
         "chapter": "010",
         "halacha": "006",
-        "system_line": "00855",
-        "word_pos": 31
+        "system_line": "00855"
       }
     },
     "יג": {
       "א": {
         "chapter": "011",
         "halacha": "001",
-        "system_line": "00867",
-        "word_pos": 36
+        "system_line": "00867"
       },
       "ב": {
         "chapter": "011",
         "halacha": "005",
-        "system_line": "00890",
-        "word_pos": 16
+        "system_line": "00890"
       },
       "ג": {
         "chapter": "012",
         "halacha": "001",
-        "system_line": "00902",
-        "word_pos": 1
+        "system_line": "00902"
       },
       "ד": {
         "chapter": "012",
         "halacha": "003",
-        "system_line": "00927",
-        "word_pos": 1
+        "system_line": "00927"
       }
     },
     "יד": {
       "א": {
         "chapter": "013",
         "halacha": "001",
-        "system_line": "00947",
-        "word_pos": 1
+        "system_line": "00947"
       },
       "ב": {
         "chapter": "013",
         "halacha": "006",
-        "system_line": "00968",
-        "word_pos": 14
+        "system_line": "00968"
       },
       "ג": {
         "chapter": "014",
         "halacha": "001",
-        "system_line": "00982",
-        "word_pos": 18
+        "system_line": "00982"
       },
       "ד": {
         "chapter": "014",
         "halacha": "004",
-        "system_line": "01007",
-        "word_pos": 13
+        "system_line": "01007"
       }
     },
     "טו": {
       "א": {
         "chapter": "014",
         "halacha": "004",
-        "system_line": "01032",
-        "word_pos": 32
+        "system_line": "01032"
       },
       "ב": {
         "chapter": "015",
         "halacha": "003",
-        "system_line": "01050",
-        "word_pos": 13
+        "system_line": "01050"
       },
       "ג": {
         "chapter": "016",
         "halacha": "001",
-        "system_line": "01058",
-        "word_pos": 7
+        "system_line": "01058"
       },
       "ד": {
         "chapter": "016",
         "halacha": "002",
-        "system_line": "01085",
-        "word_pos": 2
+        "system_line": "01085"
       }
     },
     "טז": {
       "א": {
         "chapter": "017",
         "halacha": "001",
-        "system_line": "01110",
-        "word_pos": 1
+        "system_line": "01110"
       },
       "ב": {
         "chapter": "017",
         "halacha": "002",
-        "system_line": "01125",
-        "word_pos": 14
+        "system_line": "01125"
       },
       "ג": {
         "chapter": "018",
         "halacha": "001",
-        "system_line": "01143",
-        "word_pos": 1
+        "system_line": "01143"
       },
       "ד": {
         "chapter": "019",
         "halacha": "001",
-        "system_line": "01166",
-        "word_pos": 1
+        "system_line": "01166"
       }
     },
     "יז": {
       "א": {
         "chapter": "019",
         "halacha": "001",
-        "system_line": "01179",
-        "word_pos": 1
+        "system_line": "01179"
       },
       "ב": {
         "chapter": "019",
         "halacha": "003",
-        "system_line": "01206",
-        "word_pos": 3
+        "system_line": "01206"
       },
       "ג": {
         "chapter": "020",
         "halacha": "001",
-        "system_line": "01226",
-        "word_pos": 1
+        "system_line": "01226"
       },
       "ד": {
         "chapter": "020",
         "halacha": "004",
-        "system_line": "01245",
-        "word_pos": 48
+        "system_line": "01245"
       }
     }
   },
@@ -2114,228 +1795,193 @@
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00019",
-        "word_pos": 13
+        "system_line": "00019"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00042",
-        "word_pos": 10
+        "system_line": "00042"
       }
     },
     "יט": {
       "א": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00065",
-        "word_pos": 25
+        "system_line": "00065"
       },
       "ב": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00087",
-        "word_pos": 25
+        "system_line": "00087"
       },
       "ג": {
         "chapter": "001",
         "halacha": "008",
-        "system_line": "00111",
-        "word_pos": 21
+        "system_line": "00111"
       },
       "ד": {
         "chapter": "001",
         "halacha": "010",
-        "system_line": "00135",
-        "word_pos": 22
+        "system_line": "00135"
       }
     },
     "כ": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00145",
-        "word_pos": 6
+        "system_line": "00145"
       },
       "ב": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00173",
-        "word_pos": 18
+        "system_line": "00173"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00191",
-        "word_pos": 1
+        "system_line": "00191"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00196",
-        "word_pos": 57
+        "system_line": "00196"
       }
     },
     "כא": {
       "א": {
         "chapter": "003",
         "halacha": "003",
-        "system_line": "00223",
-        "word_pos": 8
+        "system_line": "00223"
       },
       "ב": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00247",
-        "word_pos": 5
+        "system_line": "00247"
       },
       "ג": {
         "chapter": "003",
         "halacha": "007",
-        "system_line": "00273",
-        "word_pos": 12
+        "system_line": "00273"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00285",
-        "word_pos": 1
+        "system_line": "00285"
       }
     },
     "כב": {
       "א": {
         "chapter": "004",
         "halacha": "004",
-        "system_line": "00308",
-        "word_pos": 1
+        "system_line": "00308"
       },
       "ב": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00322",
-        "word_pos": 1
+        "system_line": "00322"
       },
       "ג": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00336",
-        "word_pos": 25
+        "system_line": "00336"
       },
       "ד": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00360",
-        "word_pos": 50
+        "system_line": "00360"
       }
     },
     "כג": {
       "א": {
         "chapter": "005",
         "halacha": "008",
-        "system_line": "00386",
-        "word_pos": 34
+        "system_line": "00386"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00400",
-        "word_pos": 1
+        "system_line": "00400"
       },
       "ג": {
         "chapter": "006",
         "halacha": "003",
-        "system_line": "00413",
-        "word_pos": 5
+        "system_line": "00413"
       },
       "ד": {
         "chapter": "006",
         "halacha": "006",
-        "system_line": "00437",
-        "word_pos": 16
+        "system_line": "00437"
       }
     },
     "כד": {
       "א": {
         "chapter": "006",
         "halacha": "008",
-        "system_line": "00459",
-        "word_pos": 40
+        "system_line": "00459"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00475",
-        "word_pos": 1
+        "system_line": "00475"
       },
       "ג": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00493",
-        "word_pos": 15
+        "system_line": "00493"
       },
       "ד": {
         "chapter": "007",
         "halacha": "009",
-        "system_line": "00517",
-        "word_pos": 8
+        "system_line": "00517"
       }
     },
     "כה": {
       "א": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00525",
-        "word_pos": 1
+        "system_line": "00525"
       },
       "ב": {
         "chapter": "008",
         "halacha": "008",
-        "system_line": "00550",
-        "word_pos": 6
+        "system_line": "00550"
       },
       "ג": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00563",
-        "word_pos": 1
+        "system_line": "00563"
       },
       "ד": {
         "chapter": "009",
         "halacha": "003",
-        "system_line": "00584",
-        "word_pos": 33
+        "system_line": "00584"
       }
     },
     "כו": {
       "א": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00597",
-        "word_pos": 1
+        "system_line": "00597"
       },
       "ב": {
         "chapter": "010",
         "halacha": "003",
-        "system_line": "00611",
-        "word_pos": 27
+        "system_line": "00611"
       },
       "ג": {
         "chapter": "010",
         "halacha": "009",
-        "system_line": "00636",
-        "word_pos": 45
+        "system_line": "00636"
       },
       "ד": {
         "chapter": "010",
         "halacha": "014",
-        "system_line": "00654",
-        "word_pos": 1
+        "system_line": "00654"
       }
     }
   },
@@ -2344,280 +1990,237 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00007",
-        "word_pos": 30
+        "system_line": "00007"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00028",
-        "word_pos": 4
+        "system_line": "00028"
       },
       "ד": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00047",
-        "word_pos": 31
+        "system_line": "00047"
       }
     },
     "כח": {
       "א": {
         "chapter": "001",
         "halacha": "007",
-        "system_line": "00070",
-        "word_pos": 27
+        "system_line": "00070"
       },
       "ב": {
         "chapter": "001",
         "halacha": "007",
-        "system_line": "00090",
-        "word_pos": 12
+        "system_line": "00090"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00102",
-        "word_pos": 1
+        "system_line": "00102"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00125",
-        "word_pos": 36
+        "system_line": "00125"
       }
     },
     "כט": {
       "א": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00151",
-        "word_pos": 36
+        "system_line": "00151"
       },
       "ב": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00174",
-        "word_pos": 35
+        "system_line": "00174"
       },
       "ג": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00201",
-        "word_pos": 15
+        "system_line": "00201"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00221",
-        "word_pos": 1
+        "system_line": "00221"
       }
     },
     "ל": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00234",
-        "word_pos": 12
+        "system_line": "00234"
       },
       "ב": {
         "chapter": "003",
         "halacha": "003",
-        "system_line": "00259",
-        "word_pos": 18
+        "system_line": "00259"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00281",
-        "word_pos": 1
+        "system_line": "00281"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00290",
-        "word_pos": 11
+        "system_line": "00290"
       }
     },
     "לא": {
       "א": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00313",
-        "word_pos": 37
+        "system_line": "00313"
       },
       "ב": {
         "chapter": "004",
         "halacha": "006",
-        "system_line": "00337",
-        "word_pos": 28
+        "system_line": "00337"
       },
       "ג": {
         "chapter": "004",
         "halacha": "008",
-        "system_line": "00362",
-        "word_pos": 6
+        "system_line": "00362"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00367",
-        "word_pos": 17
+        "system_line": "00367"
       }
     },
     "לב": {
       "א": {
         "chapter": "005",
         "halacha": "002",
-        "system_line": "00391",
-        "word_pos": 6
+        "system_line": "00391"
       },
       "ב": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00413",
-        "word_pos": 10
+        "system_line": "00413"
       },
       "ג": {
         "chapter": "005",
         "halacha": "004",
-        "system_line": "00439",
-        "word_pos": 16
+        "system_line": "00439"
       },
       "ד": {
         "chapter": "005",
         "halacha": "008",
-        "system_line": "00461",
-        "word_pos": 13
+        "system_line": "00461"
       }
     },
     "לג": {
       "א": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00468",
-        "word_pos": 1
+        "system_line": "00468"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00494",
-        "word_pos": 10
+        "system_line": "00494"
       },
       "ג": {
         "chapter": "006",
         "halacha": "002",
-        "system_line": "00517",
-        "word_pos": 1
+        "system_line": "00517"
       },
       "ד": {
         "chapter": "006",
         "halacha": "005",
-        "system_line": "00540",
-        "word_pos": 12
+        "system_line": "00540"
       }
     },
     "לד": {
       "א": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00558",
-        "word_pos": 1
+        "system_line": "00558"
       },
       "ב": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00574",
-        "word_pos": 32
+        "system_line": "00574"
       },
       "ג": {
         "chapter": "007",
         "halacha": "005",
-        "system_line": "00602",
-        "word_pos": 13
+        "system_line": "00602"
       },
       "ד": {
         "chapter": "007",
         "halacha": "007",
-        "system_line": "00628",
-        "word_pos": 51
+        "system_line": "00628"
       }
     },
     "לה": {
       "א": {
         "chapter": "007",
         "halacha": "008",
-        "system_line": "00650",
-        "word_pos": 32
+        "system_line": "00650"
       },
       "ג": {
         "chapter": "007",
         "halacha": "013",
-        "system_line": "00697",
-        "word_pos": 6
+        "system_line": "00697"
       },
       "ד": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00707",
-        "word_pos": 7
+        "system_line": "00707"
       }
     },
     "לו": {
       "א": {
         "chapter": "008",
         "halacha": "003",
-        "system_line": "00732",
-        "word_pos": 1
+        "system_line": "00732"
       },
       "ב": {
         "chapter": "008",
         "halacha": "008",
-        "system_line": "00754",
-        "word_pos": 9
+        "system_line": "00754"
       },
       "ג": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00774",
-        "word_pos": 1
+        "system_line": "00774"
       },
       "ד": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00781",
-        "word_pos": 32
+        "system_line": "00781"
       }
     },
     "לז": {
       "א": {
         "chapter": "009",
         "halacha": "005",
-        "system_line": "00804",
-        "word_pos": 11
+        "system_line": "00804"
       },
       "ב": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00829",
-        "word_pos": 1
+        "system_line": "00829"
       },
       "ג": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00840",
-        "word_pos": 7
+        "system_line": "00840"
       },
       "ד": {
         "chapter": "010",
         "halacha": "003",
-        "system_line": "00865",
-        "word_pos": 17
+        "system_line": "00865"
       }
     }
   },
@@ -2626,202 +2229,171 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00012",
-        "word_pos": 7
+        "system_line": "00012"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00035",
-        "word_pos": 5
+        "system_line": "00035"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00060",
-        "word_pos": 1
+        "system_line": "00060"
       }
     },
     "לט": {
       "א": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00083",
-        "word_pos": 34
+        "system_line": "00083"
       },
       "ב": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00106",
-        "word_pos": 21
+        "system_line": "00106"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00119",
-        "word_pos": 21
+        "system_line": "00119"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00142",
-        "word_pos": 3
+        "system_line": "00142"
       }
     },
     "מ": {
       "א": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00169",
-        "word_pos": 7
+        "system_line": "00169"
       },
       "ב": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00189",
-        "word_pos": 1
+        "system_line": "00189"
       },
       "ג": {
         "chapter": "003",
         "halacha": "003",
-        "system_line": "00208",
-        "word_pos": 23
+        "system_line": "00208"
       },
       "ד": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00234",
-        "word_pos": 17
+        "system_line": "00234"
       }
     },
     "מא": {
       "א": {
         "chapter": "003",
         "halacha": "008",
-        "system_line": "00263",
-        "word_pos": 28
+        "system_line": "00263"
       },
       "ב": {
         "chapter": "003",
         "halacha": "011",
-        "system_line": "00290",
-        "word_pos": 15
+        "system_line": "00290"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00301",
-        "word_pos": 13
+        "system_line": "00301"
       },
       "ד": {
         "chapter": "004",
         "halacha": "004",
-        "system_line": "00331",
-        "word_pos": 1
+        "system_line": "00331"
       }
     },
     "מב": {
       "א": {
         "chapter": "004",
         "halacha": "006",
-        "system_line": "00359",
-        "word_pos": 17
+        "system_line": "00359"
       },
       "ב": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00366",
-        "word_pos": 1
+        "system_line": "00366"
       },
       "ג": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00388",
-        "word_pos": 14
+        "system_line": "00388"
       },
       "ד": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00412",
-        "word_pos": 48
+        "system_line": "00412"
       }
     },
     "מג": {
       "א": {
         "chapter": "005",
         "halacha": "006",
-        "system_line": "00441",
-        "word_pos": 2
+        "system_line": "00441"
       },
       "ב": {
         "chapter": "005",
         "halacha": "007",
-        "system_line": "00465",
-        "word_pos": 1
+        "system_line": "00465"
       },
       "ג": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00473",
-        "word_pos": 22
+        "system_line": "00473"
       },
       "ד": {
         "chapter": "006",
         "halacha": "003",
-        "system_line": "00502",
-        "word_pos": 11
+        "system_line": "00502"
       }
     },
     "מד": {
       "א": {
         "chapter": "006",
         "halacha": "007",
-        "system_line": "00528",
-        "word_pos": 32
+        "system_line": "00528"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00543",
-        "word_pos": 3
+        "system_line": "00543"
       },
       "ג": {
         "chapter": "007",
         "halacha": "005",
-        "system_line": "00569",
-        "word_pos": 32
+        "system_line": "00569"
       },
       "ד": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00579",
-        "word_pos": 1
+        "system_line": "00579"
       }
     },
     "מה": {
       "א": {
         "chapter": "008",
         "halacha": "002",
-        "system_line": "00612",
-        "word_pos": 23
+        "system_line": "00612"
       },
       "ב": {
         "chapter": "008",
         "halacha": "005",
-        "system_line": "00640",
-        "word_pos": 15
+        "system_line": "00640"
       },
       "ג": {
         "chapter": "008",
         "halacha": "009",
-        "system_line": "00672",
-        "word_pos": 12
+        "system_line": "00672"
       }
     }
   },
@@ -2830,152 +2402,129 @@
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       }
     },
     "מו": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00021",
-        "word_pos": 22
+        "system_line": "00021"
       },
       "ב": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00054",
-        "word_pos": 5
+        "system_line": "00054"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00079",
-        "word_pos": 1
+        "system_line": "00079"
       },
       "ד": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00102",
-        "word_pos": 6
+        "system_line": "00102"
       }
     },
     "מז": {
       "א": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00136",
-        "word_pos": 4
+        "system_line": "00136"
       },
       "ב": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00156",
-        "word_pos": 1
+        "system_line": "00156"
       },
       "ג": {
         "chapter": "003",
         "halacha": "002",
-        "system_line": "00185",
-        "word_pos": 1
+        "system_line": "00185"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00211",
-        "word_pos": 1
+        "system_line": "00211"
       }
     },
     "מח": {
       "א": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00220",
-        "word_pos": 6
+        "system_line": "00220"
       },
       "ב": {
         "chapter": "004",
         "halacha": "005",
-        "system_line": "00254",
-        "word_pos": 3
+        "system_line": "00254"
       },
       "ג": {
         "chapter": "004",
         "halacha": "008",
-        "system_line": "00283",
-        "word_pos": 35
+        "system_line": "00283"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00295",
-        "word_pos": 1
+        "system_line": "00295"
       }
     },
     "מט": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00322",
-        "word_pos": 16
+        "system_line": "00322"
       },
       "ב": {
         "chapter": "005",
         "halacha": "006",
-        "system_line": "00348",
-        "word_pos": 12
+        "system_line": "00348"
       },
       "ג": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00362",
-        "word_pos": 1
+        "system_line": "00362"
       },
       "ד": {
         "chapter": "006",
         "halacha": "002",
-        "system_line": "00386",
-        "word_pos": 1
+        "system_line": "00386"
       }
     },
     "נ": {
       "א": {
         "chapter": "006",
         "halacha": "003",
-        "system_line": "00411",
-        "word_pos": 21
+        "system_line": "00411"
       },
       "ב": {
         "chapter": "006",
         "halacha": "004",
-        "system_line": "00439",
-        "word_pos": 27
+        "system_line": "00439"
       },
       "ג": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00460",
-        "word_pos": 1
+        "system_line": "00460"
       },
       "ד": {
         "chapter": "007",
         "halacha": "003",
-        "system_line": "00484",
-        "word_pos": 35
+        "system_line": "00484"
       }
     },
     "נא": {
       "א": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00509",
-        "word_pos": 1
+        "system_line": "00509"
       },
       "ב": {
         "chapter": "008",
         "halacha": "002",
-        "system_line": "00521",
-        "word_pos": 3
+        "system_line": "00521"
       }
     }
   },
@@ -2984,118 +2533,100 @@
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00007",
-        "word_pos": 10
+        "system_line": "00007"
       }
     },
     "נב": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00034",
-        "word_pos": 11
+        "system_line": "00034"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00058",
-        "word_pos": 50
+        "system_line": "00058"
       },
       "ג": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00087",
-        "word_pos": 18
+        "system_line": "00087"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00109",
-        "word_pos": 1
+        "system_line": "00109"
       }
     },
     "נג": {
       "א": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00123",
-        "word_pos": 23
+        "system_line": "00123"
       },
       "ב": {
         "chapter": "002",
         "halacha": "007",
-        "system_line": "00154",
-        "word_pos": 10
+        "system_line": "00154"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00166",
-        "word_pos": 1
+        "system_line": "00166"
       },
       "ד": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00194",
-        "word_pos": 16
+        "system_line": "00194"
       }
     },
     "נד": {
       "א": {
         "chapter": "003",
         "halacha": "010",
-        "system_line": "00228",
-        "word_pos": 1
+        "system_line": "00228"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00251",
-        "word_pos": 1
+        "system_line": "00251"
       },
       "ג": {
         "chapter": "004",
         "halacha": "005",
-        "system_line": "00264",
-        "word_pos": 30
+        "system_line": "00264"
       },
       "ד": {
         "chapter": "004",
         "halacha": "009",
-        "system_line": "00298",
-        "word_pos": 20
+        "system_line": "00298"
       }
     },
     "נה": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00317",
-        "word_pos": 1
+        "system_line": "00317"
       },
       "ב": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00331",
-        "word_pos": 28
+        "system_line": "00331"
       },
       "ג": {
         "chapter": "005",
         "halacha": "004",
-        "system_line": "00356",
-        "word_pos": 32
+        "system_line": "00356"
       },
       "ד": {
         "chapter": "005",
         "halacha": "005",
-        "system_line": "00379",
-        "word_pos": 22
+        "system_line": "00379"
       }
     }
   },
@@ -3104,104 +2635,88 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00008",
-        "word_pos": 44
+        "system_line": "00008"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00039",
-        "word_pos": 1
+        "system_line": "00039"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00071",
-        "word_pos": 25
+        "system_line": "00071"
       }
     },
     "נז": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00102",
-        "word_pos": 5
+        "system_line": "00102"
       },
       "ב": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00132",
-        "word_pos": 1
+        "system_line": "00132"
       },
       "ג": {
         "chapter": "001",
         "halacha": "008",
-        "system_line": "00167",
-        "word_pos": 7
+        "system_line": "00167"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00190",
-        "word_pos": 1
+        "system_line": "00190"
       }
     },
     "נח": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00205",
-        "word_pos": 9
+        "system_line": "00205"
       },
       "ב": {
         "chapter": "002",
         "halacha": "007",
-        "system_line": "00241",
-        "word_pos": 11
+        "system_line": "00241"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00272",
-        "word_pos": 1
+        "system_line": "00272"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00287",
-        "word_pos": 17
+        "system_line": "00287"
       }
     },
     "נט": {
       "א": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00320",
-        "word_pos": 7
+        "system_line": "00320"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00339",
-        "word_pos": 1
+        "system_line": "00339"
       },
       "ג": {
         "chapter": "004",
         "halacha": "004",
-        "system_line": "00358",
-        "word_pos": 16
+        "system_line": "00358"
       },
       "ד": {
         "chapter": "004",
         "halacha": "009",
-        "system_line": "00395",
-        "word_pos": 12
+        "system_line": "00395"
       }
     }
   },
@@ -3210,92 +2725,78 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00024",
-        "word_pos": 25
+        "system_line": "00024"
       },
       "ג": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00045",
-        "word_pos": 43
+        "system_line": "00045"
       },
       "ד": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00068",
-        "word_pos": 15
+        "system_line": "00068"
       }
     },
     "סא": {
       "א": {
         "chapter": "001",
         "halacha": "009",
-        "system_line": "00096",
-        "word_pos": 24
+        "system_line": "00096"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00109",
-        "word_pos": 15
+        "system_line": "00109"
       },
       "ג": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00134",
-        "word_pos": 11
+        "system_line": "00134"
       },
       "ד": {
         "chapter": "002",
         "halacha": "008",
-        "system_line": "00163",
-        "word_pos": 1
+        "system_line": "00163"
       }
     },
     "סב": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00180",
-        "word_pos": 9
+        "system_line": "00180"
       },
       "ב": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00209",
-        "word_pos": 17
+        "system_line": "00209"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00224",
-        "word_pos": 13
+        "system_line": "00224"
       },
       "ד": {
         "chapter": "004",
         "halacha": "005",
-        "system_line": "00256",
-        "word_pos": 10
+        "system_line": "00256"
       }
     },
     "סג": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00273",
-        "word_pos": 6
+        "system_line": "00273"
       },
       "ב": {
         "chapter": "005",
         "halacha": "002",
-        "system_line": "00298",
-        "word_pos": 20
+        "system_line": "00298"
       }
     }
   },
@@ -3304,164 +2805,139 @@
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00010",
-        "word_pos": 43
+        "system_line": "00010"
       }
     },
     "סד": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00034",
-        "word_pos": 34
+        "system_line": "00034"
       },
       "ב": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00060",
-        "word_pos": 12
+        "system_line": "00060"
       },
       "ג": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00083",
-        "word_pos": 20
+        "system_line": "00083"
       },
       "ד": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00109",
-        "word_pos": 25
+        "system_line": "00109"
       }
     },
     "סה": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00123",
-        "word_pos": 1
+        "system_line": "00123"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00140",
-        "word_pos": 11
+        "system_line": "00140"
       },
       "ג": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00165",
-        "word_pos": 19
+        "system_line": "00165"
       },
       "ד": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00189",
-        "word_pos": 4
+        "system_line": "00189"
       }
     },
     "סו": {
       "א": {
         "chapter": "002",
         "halacha": "007",
-        "system_line": "00215",
-        "word_pos": 31
+        "system_line": "00215"
       },
       "ב": {
         "chapter": "002",
         "halacha": "010",
-        "system_line": "00240",
-        "word_pos": 36
+        "system_line": "00240"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00245",
-        "word_pos": 20
+        "system_line": "00245"
       },
       "ד": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00272",
-        "word_pos": 3
+        "system_line": "00272"
       }
     },
     "סז": {
       "א": {
         "chapter": "003",
         "halacha": "008",
-        "system_line": "00301",
-        "word_pos": 20
+        "system_line": "00301"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00326",
-        "word_pos": 1
+        "system_line": "00326"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00334",
-        "word_pos": 12
+        "system_line": "00334"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00359",
-        "word_pos": 18
+        "system_line": "00359"
       }
     },
     "סח": {
       "א": {
         "chapter": "004",
         "halacha": "002",
-        "system_line": "00383",
-        "word_pos": 7
+        "system_line": "00383"
       },
       "ב": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00406",
-        "word_pos": 1
+        "system_line": "00406"
       },
       "ג": {
         "chapter": "004",
         "halacha": "006",
-        "system_line": "00433",
-        "word_pos": 51
+        "system_line": "00433"
       },
       "ד": {
         "chapter": "004",
         "halacha": "006",
-        "system_line": "00460",
-        "word_pos": 3
+        "system_line": "00460"
       }
     },
     "סט": {
       "א": {
         "chapter": "004",
         "halacha": "006",
-        "system_line": "00489",
-        "word_pos": 18
+        "system_line": "00489"
       },
       "ב": {
         "chapter": "004",
         "halacha": "006",
-        "system_line": "00514",
-        "word_pos": 29
+        "system_line": "00514"
       },
       "ג": {
         "chapter": "004",
         "halacha": "007",
-        "system_line": "00539",
-        "word_pos": 25
+        "system_line": "00539"
       }
     }
   },
@@ -3470,164 +2946,139 @@
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       }
     },
     "ע": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00005",
-        "word_pos": 14
+        "system_line": "00005"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00030",
-        "word_pos": 16
+        "system_line": "00030"
       },
       "ג": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00059",
-        "word_pos": 25
+        "system_line": "00059"
       },
       "ד": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00085",
-        "word_pos": 24
+        "system_line": "00085"
       }
     },
     "עא": {
       "א": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00108",
-        "word_pos": 38
+        "system_line": "00108"
       },
       "ב": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00135",
-        "word_pos": 27
+        "system_line": "00135"
       },
       "ג": {
         "chapter": "001",
         "halacha": "008",
-        "system_line": "00165",
-        "word_pos": 10
+        "system_line": "00165"
       },
       "ד": {
         "chapter": "001",
         "halacha": "008",
-        "system_line": "00195",
-        "word_pos": 28
+        "system_line": "00195"
       }
     },
     "עב": {
       "א": {
         "chapter": "001",
         "halacha": "008",
-        "system_line": "00222",
-        "word_pos": 25
+        "system_line": "00222"
       },
       "ב": {
         "chapter": "001",
         "halacha": "009",
-        "system_line": "00252",
-        "word_pos": 18
+        "system_line": "00252"
       },
       "ג": {
         "chapter": "001",
         "halacha": "010",
-        "system_line": "00281",
-        "word_pos": 13
+        "system_line": "00281"
       },
       "ד": {
         "chapter": "001",
         "halacha": "011",
-        "system_line": "00306",
-        "word_pos": 18
+        "system_line": "00306"
       }
     },
     "עג": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00330",
-        "word_pos": 1
+        "system_line": "00330"
       },
       "ב": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00353",
-        "word_pos": 27
+        "system_line": "00353"
       },
       "ג": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00391",
-        "word_pos": 18
+        "system_line": "00391"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00413",
-        "word_pos": 1
+        "system_line": "00413"
       }
     },
     "עד": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00437",
-        "word_pos": 10
+        "system_line": "00437"
       },
       "ב": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00467",
-        "word_pos": 20
+        "system_line": "00467"
       },
       "ג": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00494",
-        "word_pos": 30
+        "system_line": "00494"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00504",
-        "word_pos": 27
+        "system_line": "00504"
       }
     },
     "עה": {
       "א": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00533",
-        "word_pos": 7
+        "system_line": "00533"
       },
       "ב": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00565",
-        "word_pos": 20
+        "system_line": "00565"
       },
       "ג": {
         "chapter": "004",
         "halacha": "007",
-        "system_line": "00596",
-        "word_pos": 12
+        "system_line": "00596"
       },
       "ד": {
         "chapter": "004",
         "halacha": "010",
-        "system_line": "00631",
-        "word_pos": 12
+        "system_line": "00631"
       }
     }
   },
@@ -3636,112 +3087,95 @@
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       }
     },
     "עו": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00009",
-        "word_pos": 34
+        "system_line": "00009"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00039",
-        "word_pos": 17
+        "system_line": "00039"
       },
       "ג": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00068",
-        "word_pos": 31
+        "system_line": "00068"
       },
       "ד": {
         "chapter": "001",
         "halacha": "008",
-        "system_line": "00100",
-        "word_pos": 46
+        "system_line": "00100"
       }
     },
     "עז": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00120",
-        "word_pos": 1
+        "system_line": "00120"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00141",
-        "word_pos": 27
+        "system_line": "00141"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00167",
-        "word_pos": 16
+        "system_line": "00167"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00192",
-        "word_pos": 24
+        "system_line": "00192"
       }
     },
     "עח": {
       "א": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00217",
-        "word_pos": 32
+        "system_line": "00217"
       },
       "ב": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00245",
-        "word_pos": 7
+        "system_line": "00245"
       },
       "ג": {
         "chapter": "002",
         "halacha": "006",
-        "system_line": "00272",
-        "word_pos": 3
+        "system_line": "00272"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00284",
-        "word_pos": 1
+        "system_line": "00284"
       }
     },
     "עט": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00311",
-        "word_pos": 35
+        "system_line": "00311"
       },
       "ב": {
         "chapter": "003",
         "halacha": "002",
-        "system_line": "00336",
-        "word_pos": 16
+        "system_line": "00336"
       },
       "ג": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00358",
-        "word_pos": 10
+        "system_line": "00358"
       },
       "ד": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00379",
-        "word_pos": 10
+        "system_line": "00379"
       }
     }
   },
@@ -3750,104 +3184,88 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00009",
-        "word_pos": 6
+        "system_line": "00009"
       },
       "ג": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00032",
-        "word_pos": 43
+        "system_line": "00032"
       },
       "ד": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00058",
-        "word_pos": 38
+        "system_line": "00058"
       }
     },
     "פא": {
       "א": {
         "chapter": "001",
         "halacha": "009",
-        "system_line": "00088",
-        "word_pos": 11
+        "system_line": "00088"
       },
       "ב": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00102",
-        "word_pos": 20
+        "system_line": "00102"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00126",
-        "word_pos": 1
+        "system_line": "00126"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00137",
-        "word_pos": 31
+        "system_line": "00137"
       }
     },
     "פב": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00160",
-        "word_pos": 28
+        "system_line": "00160"
       },
       "ב": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00188",
-        "word_pos": 3
+        "system_line": "00188"
       },
       "ג": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00210",
-        "word_pos": 3
+        "system_line": "00210"
       },
       "ד": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00233",
-        "word_pos": 1
+        "system_line": "00233"
       }
     },
     "פג": {
       "א": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00260",
-        "word_pos": 10
+        "system_line": "00260"
       },
       "ב": {
         "chapter": "003",
         "halacha": "007",
-        "system_line": "00282",
-        "word_pos": 20
+        "system_line": "00282"
       },
       "ג": {
         "chapter": "003",
         "halacha": "007",
-        "system_line": "00307",
-        "word_pos": 6
+        "system_line": "00307"
       },
       "ד": {
         "chapter": "003",
         "halacha": "007",
-        "system_line": "00325",
-        "word_pos": 31
+        "system_line": "00325"
       }
     }
   },
@@ -3856,378 +3274,320 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00006",
-        "word_pos": 1
+        "system_line": "00006"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00020",
-        "word_pos": 2
+        "system_line": "00020"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00042",
-        "word_pos": 21
+        "system_line": "00042"
       }
     },
     "ג": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00066",
-        "word_pos": 36
+        "system_line": "00066"
       },
       "ב": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00090",
-        "word_pos": 21
+        "system_line": "00090"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00103",
-        "word_pos": 1
+        "system_line": "00103"
       },
       "ד": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00122",
-        "word_pos": 17
+        "system_line": "00122"
       }
     },
     "ד": {
       "א": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00146",
-        "word_pos": 44
+        "system_line": "00146"
       },
       "ב": {
         "chapter": "002",
         "halacha": "009",
-        "system_line": "00171",
-        "word_pos": 12
+        "system_line": "00171"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00177",
-        "word_pos": 1
+        "system_line": "00177"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00198",
-        "word_pos": 20
+        "system_line": "00198"
       }
     },
     "ה": {
       "א": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00224",
-        "word_pos": 7
+        "system_line": "00224"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00247",
-        "word_pos": 1
+        "system_line": "00247"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00250",
-        "word_pos": 24
+        "system_line": "00250"
       },
       "ד": {
         "chapter": "004",
         "halacha": "002",
-        "system_line": "00272",
-        "word_pos": 29
+        "system_line": "00272"
       }
     },
     "ו": {
       "א": {
         "chapter": "004",
         "halacha": "007",
-        "system_line": "00294",
-        "word_pos": 43
+        "system_line": "00294"
       },
       "ב": {
         "chapter": "004",
         "halacha": "010",
-        "system_line": "00317",
-        "word_pos": 15
+        "system_line": "00317"
       },
       "ג": {
         "chapter": "004",
         "halacha": "013",
-        "system_line": "00341",
-        "word_pos": 5
+        "system_line": "00341"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00354",
-        "word_pos": 9
+        "system_line": "00354"
       }
     },
     "ז": {
       "א": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00381",
-        "word_pos": 1
+        "system_line": "00381"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00397",
-        "word_pos": 1
+        "system_line": "00397"
       },
       "ג": {
         "chapter": "006",
         "halacha": "003",
-        "system_line": "00416",
-        "word_pos": 32
+        "system_line": "00416"
       },
       "ד": {
         "chapter": "006",
         "halacha": "006",
-        "system_line": "00448",
-        "word_pos": 9
+        "system_line": "00448"
       }
     },
     "ח": {
       "א": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00456",
-        "word_pos": 26
+        "system_line": "00456"
       },
       "ב": {
         "chapter": "007",
         "halacha": "003",
-        "system_line": "00479",
-        "word_pos": 11
+        "system_line": "00479"
       },
       "ג": {
         "chapter": "007",
         "halacha": "005",
-        "system_line": "00501",
-        "word_pos": 30
+        "system_line": "00501"
       },
       "ד": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00511",
-        "word_pos": 31
+        "system_line": "00511"
       }
     },
     "ט": {
       "א": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00537",
-        "word_pos": 6
+        "system_line": "00537"
       },
       "ב": {
         "chapter": "008",
         "halacha": "002",
-        "system_line": "00561",
-        "word_pos": 26
+        "system_line": "00561"
       },
       "ג": {
         "chapter": "008",
         "halacha": "002",
-        "system_line": "00588",
-        "word_pos": 7
+        "system_line": "00588"
       },
       "ד": {
         "chapter": "008",
         "halacha": "003",
-        "system_line": "00612",
-        "word_pos": 37
+        "system_line": "00612"
       }
     },
     "י": {
       "א": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00639",
-        "word_pos": 1
+        "system_line": "00639"
       },
       "ב": {
         "chapter": "009",
         "halacha": "003",
-        "system_line": "00651",
-        "word_pos": 19
+        "system_line": "00651"
       },
       "ג": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00676",
-        "word_pos": 1
+        "system_line": "00676"
       },
       "ד": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00686",
-        "word_pos": 31
+        "system_line": "00686"
       }
     },
     "יא": {
       "א": {
         "chapter": "010",
         "halacha": "003",
-        "system_line": "00713",
-        "word_pos": 10
+        "system_line": "00713"
       },
       "ב": {
         "chapter": "010",
         "halacha": "004",
-        "system_line": "00735",
-        "word_pos": 41
+        "system_line": "00735"
       },
       "ג": {
         "chapter": "010",
         "halacha": "009",
-        "system_line": "00760",
-        "word_pos": 19
+        "system_line": "00760"
       },
       "ד": {
         "chapter": "011",
         "halacha": "001",
-        "system_line": "00770",
-        "word_pos": 30
+        "system_line": "00770"
       }
     },
     "יב": {
       "א": {
         "chapter": "011",
         "halacha": "002",
-        "system_line": "00799",
-        "word_pos": 25
+        "system_line": "00799"
       },
       "ב": {
         "chapter": "011",
         "halacha": "006",
-        "system_line": "00826",
-        "word_pos": 30
+        "system_line": "00826"
       },
       "ג": {
         "chapter": "012",
         "halacha": "001",
-        "system_line": "00840",
-        "word_pos": 9
+        "system_line": "00840"
       },
       "ד": {
         "chapter": "012",
         "halacha": "002",
-        "system_line": "00867",
-        "word_pos": 20
+        "system_line": "00867"
       }
     },
     "יג": {
       "א": {
         "chapter": "012",
         "halacha": "006",
-        "system_line": "00897",
-        "word_pos": 15
+        "system_line": "00897"
       },
       "ב": {
         "chapter": "013",
         "halacha": "001",
-        "system_line": "00917",
-        "word_pos": 1
+        "system_line": "00917"
       },
       "ג": {
         "chapter": "013",
         "halacha": "001",
-        "system_line": "00926",
-        "word_pos": 15
+        "system_line": "00926"
       },
       "ד": {
         "chapter": "013",
         "halacha": "002",
-        "system_line": "00953",
-        "word_pos": 31
+        "system_line": "00953"
       }
     },
     "יד": {
       "א": {
         "chapter": "013",
         "halacha": "007",
-        "system_line": "00984",
-        "word_pos": 17
+        "system_line": "00984"
       },
       "ב": {
         "chapter": "014",
         "halacha": "001",
-        "system_line": "01009",
-        "word_pos": 1
+        "system_line": "01009"
       },
       "ג": {
         "chapter": "014",
         "halacha": "004",
-        "system_line": "01022",
-        "word_pos": 20
+        "system_line": "01022"
       },
       "ד": {
         "chapter": "015",
         "halacha": "001",
-        "system_line": "01027",
-        "word_pos": 9
+        "system_line": "01027"
       }
     },
     "טו": {
       "א": {
         "chapter": "015",
         "halacha": "003",
-        "system_line": "01056",
-        "word_pos": 9
+        "system_line": "01056"
       },
       "ב": {
         "chapter": "015",
         "halacha": "005",
-        "system_line": "01085",
-        "word_pos": 12
+        "system_line": "01085"
       },
       "ג": {
         "chapter": "016",
         "halacha": "001",
-        "system_line": "01103",
-        "word_pos": 1
+        "system_line": "01103"
       },
       "ד": {
         "chapter": "016",
         "halacha": "003",
-        "system_line": "01123",
-        "word_pos": 14
+        "system_line": "01123"
       }
     },
     "טז": {
       "א": {
         "chapter": "016",
         "halacha": "006",
-        "system_line": "01153",
-        "word_pos": 16
+        "system_line": "01153"
       },
       "ב": {
         "chapter": "016",
         "halacha": "007",
-        "system_line": "01156",
-        "word_pos": 45
+        "system_line": "01156"
       }
     }
   },
@@ -4236,222 +3596,188 @@
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00016",
-        "word_pos": 33
+        "system_line": "00016"
       },
       "ד": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00042",
-        "word_pos": 11
+        "system_line": "00042"
       }
     },
     "יז": {
       "א": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00063",
-        "word_pos": 13
+        "system_line": "00063"
       },
       "ב": {
         "chapter": "001",
         "halacha": "008",
-        "system_line": "00090",
-        "word_pos": 26
+        "system_line": "00090"
       },
       "ג": {
         "chapter": "001",
         "halacha": "009",
-        "system_line": "00114",
-        "word_pos": 30
+        "system_line": "00114"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00126",
-        "word_pos": 1
+        "system_line": "00126"
       }
     },
     "יח": {
       "א": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00144",
-        "word_pos": 25
+        "system_line": "00144"
       },
       "ב": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00169",
-        "word_pos": 4
+        "system_line": "00169"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00188",
-        "word_pos": 1
+        "system_line": "00188"
       },
       "ד": {
         "chapter": "003",
         "halacha": "002",
-        "system_line": "00198",
-        "word_pos": 10
+        "system_line": "00198"
       }
     },
     "יט": {
       "א": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00221",
-        "word_pos": 34
+        "system_line": "00221"
       },
       "ב": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00245",
-        "word_pos": 8
+        "system_line": "00245"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00267",
-        "word_pos": 1
+        "system_line": "00267"
       },
       "ד": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00281",
-        "word_pos": 39
+        "system_line": "00281"
       }
     },
     "כ": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00296",
-        "word_pos": 1
+        "system_line": "00296"
       },
       "ב": {
         "chapter": "005",
         "halacha": "002",
-        "system_line": "00319",
-        "word_pos": 30
+        "system_line": "00319"
       },
       "ג": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00343",
-        "word_pos": 28
+        "system_line": "00343"
       },
       "ד": {
         "chapter": "005",
         "halacha": "005",
-        "system_line": "00366",
-        "word_pos": 32
+        "system_line": "00366"
       }
     },
     "כא": {
       "א": {
         "chapter": "006",
         "halacha": "002",
-        "system_line": "00381",
-        "word_pos": 38
+        "system_line": "00381"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00399",
-        "word_pos": 1
+        "system_line": "00399"
       },
       "ג": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00408",
-        "word_pos": 23
+        "system_line": "00408"
       },
       "ד": {
         "chapter": "007",
         "halacha": "005",
-        "system_line": "00430",
-        "word_pos": 54
+        "system_line": "00430"
       }
     },
     "כב": {
       "א": {
         "chapter": "007",
         "halacha": "005",
-        "system_line": "00455",
-        "word_pos": 1
+        "system_line": "00455"
       },
       "ב": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00467",
-        "word_pos": 1
+        "system_line": "00467"
       },
       "ג": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00480",
-        "word_pos": 9
+        "system_line": "00480"
       },
       "ד": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00510",
-        "word_pos": 16
+        "system_line": "00510"
       }
     },
     "כג": {
       "א": {
         "chapter": "008",
         "halacha": "002",
-        "system_line": "00536",
-        "word_pos": 6
+        "system_line": "00536"
       },
       "ב": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00555",
-        "word_pos": 1
+        "system_line": "00555"
       },
       "ג": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00559",
-        "word_pos": 15
+        "system_line": "00559"
       },
       "ד": {
         "chapter": "009",
         "halacha": "003",
-        "system_line": "00582",
-        "word_pos": 3
+        "system_line": "00582"
       }
     },
     "כד": {
       "א": {
         "chapter": "009",
         "halacha": "006",
-        "system_line": "00607",
-        "word_pos": 27
+        "system_line": "00607"
       },
       "ב": {
         "chapter": "009",
         "halacha": "010",
-        "system_line": "00632",
-        "word_pos": 6
+        "system_line": "00632"
       },
       "ג": {
         "chapter": "009",
         "halacha": "014",
-        "system_line": "00660",
-        "word_pos": 10
+        "system_line": "00660"
       }
     }
   },
@@ -4460,308 +3786,261 @@
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       }
     },
     "כה": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00017",
-        "word_pos": 12
+        "system_line": "00017"
       },
       "ב": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00039",
-        "word_pos": 11
+        "system_line": "00039"
       },
       "ג": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00062",
-        "word_pos": 12
+        "system_line": "00062"
       },
       "ד": {
         "chapter": "001",
         "halacha": "008",
-        "system_line": "00086",
-        "word_pos": 1
+        "system_line": "00086"
       }
     },
     "כו": {
       "א": {
         "chapter": "001",
         "halacha": "010",
-        "system_line": "00107",
-        "word_pos": 17
+        "system_line": "00107"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00115",
-        "word_pos": 29
+        "system_line": "00115"
       },
       "ג": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00141",
-        "word_pos": 29
+        "system_line": "00141"
       },
       "ד": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00164",
-        "word_pos": 28
+        "system_line": "00164"
       }
     },
     "כז": {
       "א": {
         "chapter": "002",
         "halacha": "010",
-        "system_line": "00189",
-        "word_pos": 6
+        "system_line": "00189"
       },
       "ב": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00198",
-        "word_pos": 17
+        "system_line": "00198"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00223",
-        "word_pos": 26
+        "system_line": "00223"
       },
       "ד": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00243",
-        "word_pos": 44
+        "system_line": "00243"
       }
     },
     "כח": {
       "א": {
         "chapter": "003",
         "halacha": "008",
-        "system_line": "00266",
-        "word_pos": 1
+        "system_line": "00266"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00272",
-        "word_pos": 1
+        "system_line": "00272"
       },
       "ג": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00294",
-        "word_pos": 14
+        "system_line": "00294"
       },
       "ד": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00314",
-        "word_pos": 13
+        "system_line": "00314"
       }
     },
     "כט": {
       "א": {
         "chapter": "004",
         "halacha": "006",
-        "system_line": "00337",
-        "word_pos": 19
+        "system_line": "00337"
       },
       "ב": {
         "chapter": "004",
         "halacha": "010",
-        "system_line": "00367",
-        "word_pos": 30
+        "system_line": "00367"
       },
       "ג": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00383",
-        "word_pos": 1
+        "system_line": "00383"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00395",
-        "word_pos": 6
+        "system_line": "00395"
       }
     },
     "ל": {
       "א": {
         "chapter": "005",
         "halacha": "004",
-        "system_line": "00417",
-        "word_pos": 3
+        "system_line": "00417"
       },
       "ב": {
         "chapter": "005",
         "halacha": "006",
-        "system_line": "00438",
-        "word_pos": 27
+        "system_line": "00438"
       },
       "ג": {
         "chapter": "005",
         "halacha": "009",
-        "system_line": "00460",
-        "word_pos": 4
+        "system_line": "00460"
       },
       "ד": {
         "chapter": "006",
         "halacha": "003",
-        "system_line": "00472",
-        "word_pos": 26
+        "system_line": "00472"
       }
     },
     "לא": {
       "א": {
         "chapter": "006",
         "halacha": "007",
-        "system_line": "00496",
-        "word_pos": 29
+        "system_line": "00496"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00504",
-        "word_pos": 1
+        "system_line": "00504"
       },
       "ג": {
         "chapter": "007",
         "halacha": "006",
-        "system_line": "00524",
-        "word_pos": 29
+        "system_line": "00524"
       },
       "ד": {
         "chapter": "007",
         "halacha": "007",
-        "system_line": "00544",
-        "word_pos": 46
+        "system_line": "00544"
       }
     },
     "לב": {
       "א": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00556",
-        "word_pos": 1
+        "system_line": "00556"
       },
       "ב": {
         "chapter": "008",
         "halacha": "004",
-        "system_line": "00572",
-        "word_pos": 19
+        "system_line": "00572"
       },
       "ג": {
         "chapter": "008",
         "halacha": "008",
-        "system_line": "00596",
-        "word_pos": 47
+        "system_line": "00596"
       },
       "ד": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00602",
-        "word_pos": 1
+        "system_line": "00602"
       }
     },
     "לג": {
       "א": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00628",
-        "word_pos": 7
+        "system_line": "00628"
       },
       "ב": {
         "chapter": "009",
         "halacha": "005",
-        "system_line": "00652",
-        "word_pos": 24
+        "system_line": "00652"
       },
       "ג": {
         "chapter": "009",
         "halacha": "009",
-        "system_line": "00674",
-        "word_pos": 52
+        "system_line": "00674"
       },
       "ד": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00685",
-        "word_pos": 1
+        "system_line": "00685"
       }
     },
     "לד": {
       "א": {
         "chapter": "010",
         "halacha": "004",
-        "system_line": "00705",
-        "word_pos": 36
+        "system_line": "00705"
       },
       "ב": {
         "chapter": "011",
         "halacha": "001",
-        "system_line": "00718",
-        "word_pos": 1
+        "system_line": "00718"
       },
       "ג": {
         "chapter": "011",
         "halacha": "004",
-        "system_line": "00743",
-        "word_pos": 27
+        "system_line": "00743"
       },
       "ד": {
         "chapter": "011",
         "halacha": "006",
-        "system_line": "00772",
-        "word_pos": 55
+        "system_line": "00772"
       }
     },
     "לה": {
       "א": {
         "chapter": "012",
         "halacha": "003",
-        "system_line": "00787",
-        "word_pos": 6
+        "system_line": "00787"
       },
       "ב": {
         "chapter": "012",
         "halacha": "003",
-        "system_line": "00812",
-        "word_pos": 37
+        "system_line": "00812"
       },
       "ג": {
         "chapter": "012",
         "halacha": "004",
-        "system_line": "00839",
-        "word_pos": 20
+        "system_line": "00839"
       },
       "ד": {
         "chapter": "013",
         "halacha": "001",
-        "system_line": "00845",
-        "word_pos": 22
+        "system_line": "00845"
       }
     },
     "לו": {
       "א": {
         "chapter": "013",
         "halacha": "003",
-        "system_line": "00868",
-        "word_pos": 39
+        "system_line": "00868"
       },
       "ב": {
         "chapter": "013",
         "halacha": "006",
-        "system_line": "00885",
-        "word_pos": 5
+        "system_line": "00885"
       }
     }
   },
@@ -4770,170 +4049,144 @@
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00014",
-        "word_pos": 37
+        "system_line": "00014"
       }
     },
     "לז": {
       "א": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00040",
-        "word_pos": 37
+        "system_line": "00040"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00061",
-        "word_pos": 1
+        "system_line": "00061"
       },
       "ג": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00081",
-        "word_pos": 17
+        "system_line": "00081"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00087",
-        "word_pos": 1
+        "system_line": "00087"
       }
     },
     "לח": {
       "א": {
         "chapter": "003",
         "halacha": "002",
-        "system_line": "00111",
-        "word_pos": 32
+        "system_line": "00111"
       },
       "ב": {
         "chapter": "003",
         "halacha": "011",
-        "system_line": "00139",
-        "word_pos": 10
+        "system_line": "00139"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00150",
-        "word_pos": 1
+        "system_line": "00150"
       },
       "ד": {
         "chapter": "004",
         "halacha": "004",
-        "system_line": "00170",
-        "word_pos": 5
+        "system_line": "00170"
       }
     },
     "לט": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00195",
-        "word_pos": 1
+        "system_line": "00195"
       },
       "ב": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00208",
-        "word_pos": 18
+        "system_line": "00208"
       },
       "ג": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00225",
-        "word_pos": 1
+        "system_line": "00225"
       },
       "ד": {
         "chapter": "006",
         "halacha": "003",
-        "system_line": "00240",
-        "word_pos": 25
+        "system_line": "00240"
       }
     },
     "מ": {
       "א": {
         "chapter": "006",
         "halacha": "009",
-        "system_line": "00263",
-        "word_pos": 52
+        "system_line": "00263"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00288",
-        "word_pos": 1
+        "system_line": "00288"
       },
       "ג": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00299",
-        "word_pos": 5
+        "system_line": "00299"
       },
       "ד": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00318",
-        "word_pos": 1
+        "system_line": "00318"
       }
     },
     "מא": {
       "א": {
         "chapter": "008",
         "halacha": "002",
-        "system_line": "00336",
-        "word_pos": 21
+        "system_line": "00336"
       },
       "ב": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00358",
-        "word_pos": 1
+        "system_line": "00358"
       },
       "ג": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00371",
-        "word_pos": 31
+        "system_line": "00371"
       },
       "ד": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00394",
-        "word_pos": 1
+        "system_line": "00394"
       }
     },
     "מב": {
       "א": {
         "chapter": "010",
         "halacha": "002",
-        "system_line": "00406",
-        "word_pos": 23
+        "system_line": "00406"
       },
       "ב": {
         "chapter": "010",
         "halacha": "008",
-        "system_line": "00431",
-        "word_pos": 17
+        "system_line": "00431"
       },
       "ג": {
         "chapter": "011",
         "halacha": "001",
-        "system_line": "00440",
-        "word_pos": 1
+        "system_line": "00440"
       },
       "ד": {
         "chapter": "011",
         "halacha": "003",
-        "system_line": "00464",
-        "word_pos": 23
+        "system_line": "00464"
       }
     }
   },
@@ -4942,208 +4195,176 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00011",
-        "word_pos": 38
+        "system_line": "00011"
       },
       "ג": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00037",
-        "word_pos": 18
+        "system_line": "00037"
       },
       "ד": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00060",
-        "word_pos": 14
+        "system_line": "00060"
       }
     },
     "מד": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00087",
-        "word_pos": 1
+        "system_line": "00087"
       },
       "ב": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00097",
-        "word_pos": 37
+        "system_line": "00097"
       },
       "ג": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00122",
-        "word_pos": 27
+        "system_line": "00122"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00132",
-        "word_pos": 1
+        "system_line": "00132"
       }
     },
     "מה": {
       "א": {
         "chapter": "003",
         "halacha": "003",
-        "system_line": "00155",
-        "word_pos": 38
+        "system_line": "00155"
       },
       "ב": {
         "chapter": "003",
         "halacha": "008",
-        "system_line": "00181",
-        "word_pos": 21
+        "system_line": "00181"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00190",
-        "word_pos": 1
+        "system_line": "00190"
       },
       "ד": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00213",
-        "word_pos": 10
+        "system_line": "00213"
       }
     },
     "מו": {
       "א": {
         "chapter": "004",
         "halacha": "004",
-        "system_line": "00237",
-        "word_pos": 13
+        "system_line": "00237"
       },
       "ב": {
         "chapter": "004",
         "halacha": "009",
-        "system_line": "00266",
-        "word_pos": 21
+        "system_line": "00266"
       },
       "ג": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00275",
-        "word_pos": 1
+        "system_line": "00275"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00297",
-        "word_pos": 1
+        "system_line": "00297"
       }
     },
     "מז": {
       "א": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00322",
-        "word_pos": 34
+        "system_line": "00322"
       },
       "ב": {
         "chapter": "005",
         "halacha": "005",
-        "system_line": "00347",
-        "word_pos": 4
+        "system_line": "00347"
       },
       "ג": {
         "chapter": "005",
         "halacha": "008",
-        "system_line": "00371",
-        "word_pos": 18
+        "system_line": "00371"
       },
       "ד": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00386",
-        "word_pos": 1
+        "system_line": "00386"
       }
     },
     "מח": {
       "א": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00403",
-        "word_pos": 13
+        "system_line": "00403"
       },
       "ב": {
         "chapter": "006",
         "halacha": "005",
-        "system_line": "00429",
-        "word_pos": 30
+        "system_line": "00429"
       },
       "ג": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00441",
-        "word_pos": 1
+        "system_line": "00441"
       },
       "ד": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00461",
-        "word_pos": 6
+        "system_line": "00461"
       }
     },
     "מט": {
       "א": {
         "chapter": "007",
         "halacha": "004",
-        "system_line": "00489",
-        "word_pos": 28
+        "system_line": "00489"
       },
       "ב": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00509",
-        "word_pos": 1
+        "system_line": "00509"
       },
       "ג": {
         "chapter": "008",
         "halacha": "003",
-        "system_line": "00524",
-        "word_pos": 3
+        "system_line": "00524"
       },
       "ד": {
         "chapter": "008",
         "halacha": "009",
-        "system_line": "00549",
-        "word_pos": 12
+        "system_line": "00549"
       }
     },
     "נ": {
       "א": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00570",
-        "word_pos": 1
+        "system_line": "00570"
       },
       "ב": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00581",
-        "word_pos": 5
+        "system_line": "00581"
       },
       "ג": {
         "chapter": "009",
         "halacha": "005",
-        "system_line": "00604",
-        "word_pos": 28
+        "system_line": "00604"
       },
       "ד": {
         "chapter": "009",
         "halacha": "008",
-        "system_line": "00624",
-        "word_pos": 2
+        "system_line": "00624"
       }
     }
   },
@@ -5152,190 +4373,161 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00009",
-        "word_pos": 20
+        "system_line": "00009"
       },
       "ג": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00035",
-        "word_pos": 23
+        "system_line": "00035"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00053",
-        "word_pos": 1
+        "system_line": "00053"
       }
     },
     "נב": {
       "א": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00070",
-        "word_pos": 47
+        "system_line": "00070"
       },
       "ב": {
         "chapter": "002",
         "halacha": "009",
-        "system_line": "00096",
-        "word_pos": 29
+        "system_line": "00096"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00111",
-        "word_pos": 1
+        "system_line": "00111"
       },
       "ד": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00131",
-        "word_pos": 24
+        "system_line": "00131"
       }
     },
     "נג": {
       "א": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00152",
-        "word_pos": 1
+        "system_line": "00152"
       },
       "ב": {
         "chapter": "004",
         "halacha": "003",
-        "system_line": "00165",
-        "word_pos": 12
+        "system_line": "00165"
       },
       "ג": {
         "chapter": "004",
         "halacha": "004",
-        "system_line": "00190",
-        "word_pos": 10
+        "system_line": "00190"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00206",
-        "word_pos": 1
+        "system_line": "00206"
       }
     },
     "נד": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00221",
-        "word_pos": 13
+        "system_line": "00221"
       },
       "ב": {
         "chapter": "005",
         "halacha": "004",
-        "system_line": "00243",
-        "word_pos": 35
+        "system_line": "00243"
       },
       "ג": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00258",
-        "word_pos": 1
+        "system_line": "00258"
       },
       "ד": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00271",
-        "word_pos": 18
+        "system_line": "00271"
       }
     },
     "נה": {
       "א": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00293",
-        "word_pos": 16
+        "system_line": "00293"
       },
       "ב": {
         "chapter": "006",
         "halacha": "003",
-        "system_line": "00320",
-        "word_pos": 16
+        "system_line": "00320"
       },
       "ג": {
         "chapter": "006",
         "halacha": "007",
-        "system_line": "00347",
-        "word_pos": 8
+        "system_line": "00347"
       },
       "ד": {
         "chapter": "006",
         "halacha": "011",
-        "system_line": "00373",
-        "word_pos": 12
+        "system_line": "00373"
       }
     },
     "נו": {
       "א": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00384",
-        "word_pos": 13
+        "system_line": "00384"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00409",
-        "word_pos": 6
+        "system_line": "00409"
       },
       "ג": {
         "chapter": "007",
         "halacha": "002",
-        "system_line": "00435",
-        "word_pos": 33
+        "system_line": "00435"
       },
       "ד": {
         "chapter": "007",
         "halacha": "004",
-        "system_line": "00459",
-        "word_pos": 3
+        "system_line": "00459"
       }
     },
     "נז": {
       "א": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00470",
-        "word_pos": 1
+        "system_line": "00470"
       },
       "ב": {
         "chapter": "008",
         "halacha": "002",
-        "system_line": "00496",
-        "word_pos": 37
+        "system_line": "00496"
       },
       "ג": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00513",
-        "word_pos": 1
+        "system_line": "00513"
       },
       "ד": {
         "chapter": "009",
         "halacha": "002",
-        "system_line": "00534",
-        "word_pos": 31
+        "system_line": "00534"
       }
     },
     "נח": {
       "א": {
         "chapter": "009",
         "halacha": "003",
-        "system_line": "00555",
-        "word_pos": 14
+        "system_line": "00555"
       }
     }
   },
@@ -5344,216 +4536,183 @@
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00014",
-        "word_pos": 21
+        "system_line": "00014"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00038",
-        "word_pos": 41
+        "system_line": "00038"
       }
     },
     "נט": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00063",
-        "word_pos": 22
+        "system_line": "00063"
       },
       "ב": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00089",
-        "word_pos": 22
+        "system_line": "00089"
       },
       "ג": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00114",
-        "word_pos": 5
+        "system_line": "00114"
       },
       "ד": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00139",
-        "word_pos": 13
+        "system_line": "00139"
       }
     },
     "ס": {
       "א": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00164",
-        "word_pos": 42
+        "system_line": "00164"
       },
       "ב": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00188",
-        "word_pos": 20
+        "system_line": "00188"
       },
       "ג": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00212",
-        "word_pos": 36
+        "system_line": "00212"
       },
       "ד": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00236",
-        "word_pos": 25
+        "system_line": "00236"
       }
     },
     "סא": {
       "א": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00256",
-        "word_pos": 22
+        "system_line": "00256"
       },
       "ב": {
         "chapter": "001",
         "halacha": "007",
-        "system_line": "00283",
-        "word_pos": 3
+        "system_line": "00283"
       },
       "ג": {
         "chapter": "001",
         "halacha": "007",
-        "system_line": "00308",
-        "word_pos": 28
+        "system_line": "00308"
       },
       "ד": {
         "chapter": "001",
         "halacha": "009",
-        "system_line": "00333",
-        "word_pos": 9
+        "system_line": "00333"
       }
     },
     "סב": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00355",
-        "word_pos": 1
+        "system_line": "00355"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00364",
-        "word_pos": 22
+        "system_line": "00364"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00389",
-        "word_pos": 22
+        "system_line": "00389"
       },
       "ד": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00412",
-        "word_pos": 18
+        "system_line": "00412"
       }
     },
     "סג": {
       "א": {
         "chapter": "002",
         "halacha": "008",
-        "system_line": "00434",
-        "word_pos": 9
+        "system_line": "00434"
       },
       "ב": {
         "chapter": "002",
         "halacha": "010",
-        "system_line": "00456",
-        "word_pos": 22
+        "system_line": "00456"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00463",
-        "word_pos": 1
+        "system_line": "00463"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00481",
-        "word_pos": 25
+        "system_line": "00481"
       }
     },
     "סד": {
       "א": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00508",
-        "word_pos": 40
+        "system_line": "00508"
       },
       "ב": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00537",
-        "word_pos": 13
+        "system_line": "00537"
       },
       "ג": {
         "chapter": "003",
         "halacha": "009",
-        "system_line": "00561",
-        "word_pos": 4
+        "system_line": "00561"
       },
       "ד": {
         "chapter": "003",
         "halacha": "012",
-        "system_line": "00585",
-        "word_pos": 39
+        "system_line": "00585"
       }
     },
     "סה": {
       "א": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00608",
-        "word_pos": 1
+        "system_line": "00608"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00610",
-        "word_pos": 30
+        "system_line": "00610"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00640",
-        "word_pos": 18
+        "system_line": "00640"
       },
       "ד": {
         "chapter": "004",
         "halacha": "002",
-        "system_line": "00667",
-        "word_pos": 13
+        "system_line": "00667"
       }
     },
     "סו": {
       "א": {
         "chapter": "004",
         "halacha": "006",
-        "system_line": "00693",
-        "word_pos": 32
+        "system_line": "00693"
       },
       "ב": {
         "chapter": "004",
         "halacha": "010",
-        "system_line": "00710",
-        "word_pos": 25
+        "system_line": "00710"
       }
     }
   },
@@ -5562,150 +4721,127 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00008",
-        "word_pos": 13
+        "system_line": "00008"
       },
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00020",
-        "word_pos": 37
+        "system_line": "00020"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00044",
-        "word_pos": 1
+        "system_line": "00044"
       }
     },
     "ג": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00055",
-        "word_pos": 20
+        "system_line": "00055"
       },
       "ב": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00075",
-        "word_pos": 1
+        "system_line": "00075"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00079",
-        "word_pos": 2
+        "system_line": "00079"
       },
       "ד": {
         "chapter": "003",
         "halacha": "003",
-        "system_line": "00102",
-        "word_pos": 46
+        "system_line": "00102"
       }
     },
     "ד": {
       "א": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00126",
-        "word_pos": 1
+        "system_line": "00126"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00134",
-        "word_pos": 10
+        "system_line": "00134"
       },
       "ג": {
         "chapter": "004",
         "halacha": "005",
-        "system_line": "00158",
-        "word_pos": 22
+        "system_line": "00158"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00179",
-        "word_pos": 1
+        "system_line": "00179"
       }
     },
     "ה": {
       "א": {
         "chapter": "005",
         "halacha": "004",
-        "system_line": "00190",
-        "word_pos": 25
+        "system_line": "00190"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00215",
-        "word_pos": 1
+        "system_line": "00215"
       },
       "ג": {
         "chapter": "006",
         "halacha": "004",
-        "system_line": "00232",
-        "word_pos": 1
+        "system_line": "00232"
       },
       "ד": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00252",
-        "word_pos": 1
+        "system_line": "00252"
       }
     },
     "ו": {
       "א": {
         "chapter": "007",
         "halacha": "003",
-        "system_line": "00266",
-        "word_pos": 1
+        "system_line": "00266"
       },
       "ב": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00282",
-        "word_pos": 1
+        "system_line": "00282"
       },
       "ג": {
         "chapter": "008",
         "halacha": "003",
-        "system_line": "00298",
-        "word_pos": 13
+        "system_line": "00298"
       },
       "ד": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00311",
-        "word_pos": 1
+        "system_line": "00311"
       }
     },
     "ז": {
       "א": {
         "chapter": "009",
         "halacha": "004",
-        "system_line": "00329",
-        "word_pos": 33
+        "system_line": "00329"
       },
       "ב": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00350",
-        "word_pos": 1
+        "system_line": "00350"
       },
       "ג": {
         "chapter": "010",
         "halacha": "002",
-        "system_line": "00365",
-        "word_pos": 21
+        "system_line": "00365"
       }
     }
   },
@@ -5714,132 +4850,112 @@
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       }
     },
     "ח": {
       "א": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00015",
-        "word_pos": 26
+        "system_line": "00015"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00034",
-        "word_pos": 1
+        "system_line": "00034"
       },
       "ג": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00043",
-        "word_pos": 17
+        "system_line": "00043"
       },
       "ד": {
         "chapter": "002",
         "halacha": "007",
-        "system_line": "00070",
-        "word_pos": 4
+        "system_line": "00070"
       }
     },
     "ט": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00092",
-        "word_pos": 1
+        "system_line": "00092"
       },
       "ב": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00106",
-        "word_pos": 7
+        "system_line": "00106"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00128",
-        "word_pos": 1
+        "system_line": "00128"
       },
       "ד": {
         "chapter": "004",
         "halacha": "002",
-        "system_line": "00146",
-        "word_pos": 14
+        "system_line": "00146"
       }
     },
     "י": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00175",
-        "word_pos": 1
+        "system_line": "00175"
       },
       "ב": {
         "chapter": "005",
         "halacha": "002",
-        "system_line": "00181",
-        "word_pos": 12
+        "system_line": "00181"
       },
       "ג": {
         "chapter": "005",
         "halacha": "005",
-        "system_line": "00208",
-        "word_pos": 30
+        "system_line": "00208"
       },
       "ד": {
         "chapter": "005",
         "halacha": "009",
-        "system_line": "00242",
-        "word_pos": 5
+        "system_line": "00242"
       }
     },
     "יא": {
       "א": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00257",
-        "word_pos": 2
+        "system_line": "00257"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00276",
-        "word_pos": 1
+        "system_line": "00276"
       },
       "ג": {
         "chapter": "007",
         "halacha": "007",
-        "system_line": "00288",
-        "word_pos": 11
+        "system_line": "00288"
       },
       "ד": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00295",
-        "word_pos": 31
+        "system_line": "00295"
       }
     },
     "יב": {
       "א": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00309",
-        "word_pos": 1
+        "system_line": "00309"
       },
       "ב": {
         "chapter": "009",
         "halacha": "011",
-        "system_line": "00324",
-        "word_pos": 23
+        "system_line": "00324"
       },
       "ג": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00339",
-        "word_pos": 1
+        "system_line": "00339"
       }
     }
   },
@@ -5848,138 +4964,117 @@
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       }
     },
     "יג": {
       "א": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00010",
-        "word_pos": 12
+        "system_line": "00010"
       },
       "ב": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00020",
-        "word_pos": 1
+        "system_line": "00020"
       },
       "ג": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00041",
-        "word_pos": 1
+        "system_line": "00041"
       },
       "ד": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00058",
-        "word_pos": 1
+        "system_line": "00058"
       }
     },
     "יד": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00072",
-        "word_pos": 25
+        "system_line": "00072"
       },
       "ב": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00099",
-        "word_pos": 25
+        "system_line": "00099"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00112",
-        "word_pos": 1
+        "system_line": "00112"
       },
       "ד": {
         "chapter": "004",
         "halacha": "009",
-        "system_line": "00131",
-        "word_pos": 27
+        "system_line": "00131"
       }
     },
     "טו": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00139",
-        "word_pos": 1
+        "system_line": "00139"
       },
       "ב": {
         "chapter": "005",
         "halacha": "009",
-        "system_line": "00161",
-        "word_pos": 6
+        "system_line": "00161"
       },
       "ג": {
         "chapter": "006",
         "halacha": "003",
-        "system_line": "00169",
-        "word_pos": 13
+        "system_line": "00169"
       },
       "ד": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00183",
-        "word_pos": 32
+        "system_line": "00183"
       }
     },
     "טז": {
       "א": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00192",
-        "word_pos": 23
+        "system_line": "00192"
       },
       "ב": {
         "chapter": "008",
         "halacha": "004",
-        "system_line": "00217",
-        "word_pos": 12
+        "system_line": "00217"
       },
       "ג": {
         "chapter": "008",
         "halacha": "007",
-        "system_line": "00241",
-        "word_pos": 11
+        "system_line": "00241"
       },
       "ד": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00255",
-        "word_pos": 1
+        "system_line": "00255"
       }
     },
     "יז": {
       "א": {
         "chapter": "009",
         "halacha": "003",
-        "system_line": "00271",
-        "word_pos": 11
+        "system_line": "00271"
       },
       "ב": {
         "chapter": "009",
         "halacha": "007",
-        "system_line": "00295",
-        "word_pos": 56
+        "system_line": "00295"
       },
       "ג": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00300",
-        "word_pos": 1
+        "system_line": "00300"
       },
       "ד": {
         "chapter": "010",
         "halacha": "006",
-        "system_line": "00324",
-        "word_pos": 6
+        "system_line": "00324"
       }
     }
   },
@@ -5988,332 +5083,281 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00019",
-        "word_pos": 38
+        "system_line": "00019"
       },
       "ג": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00049",
-        "word_pos": 17
+        "system_line": "00049"
       },
       "ד": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00072",
-        "word_pos": 30
+        "system_line": "00072"
       }
     },
     "יט": {
       "א": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00097",
-        "word_pos": 14
+        "system_line": "00097"
       },
       "ב": {
         "chapter": "001",
         "halacha": "003",
-        "system_line": "00121",
-        "word_pos": 4
+        "system_line": "00121"
       },
       "ג": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00145",
-        "word_pos": 37
+        "system_line": "00145"
       },
       "ד": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00168",
-        "word_pos": 12
+        "system_line": "00168"
       }
     },
     "כ": {
       "א": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00180",
-        "word_pos": 26
+        "system_line": "00180"
       },
       "ב": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00205",
-        "word_pos": 5
+        "system_line": "00205"
       },
       "ג": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00231",
-        "word_pos": 12
+        "system_line": "00231"
       },
       "ד": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00258",
-        "word_pos": 25
+        "system_line": "00258"
       }
     },
     "כא": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00264",
-        "word_pos": 1
+        "system_line": "00264"
       },
       "ב": {
         "chapter": "003",
         "halacha": "003",
-        "system_line": "00290",
-        "word_pos": 9
+        "system_line": "00290"
       },
       "ג": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00321",
-        "word_pos": 1
+        "system_line": "00321"
       },
       "ד": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00348",
-        "word_pos": 17
+        "system_line": "00348"
       }
     },
     "כב": {
       "א": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00372",
-        "word_pos": 1
+        "system_line": "00372"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00380",
-        "word_pos": 24
+        "system_line": "00380"
       },
       "ג": {
         "chapter": "004",
         "halacha": "005",
-        "system_line": "00405",
-        "word_pos": 11
+        "system_line": "00405"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00417",
-        "word_pos": 3
+        "system_line": "00417"
       }
     },
     "כג": {
       "א": {
         "chapter": "005",
         "halacha": "005",
-        "system_line": "00446",
-        "word_pos": 12
+        "system_line": "00446"
       },
       "ב": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00454",
-        "word_pos": 1
+        "system_line": "00454"
       },
       "ג": {
         "chapter": "006",
         "halacha": "002",
-        "system_line": "00472",
-        "word_pos": 22
+        "system_line": "00472"
       },
       "ד": {
         "chapter": "006",
         "halacha": "004",
-        "system_line": "00503",
-        "word_pos": 34
+        "system_line": "00503"
       }
     },
     "כד": {
       "א": {
         "chapter": "006",
         "halacha": "006",
-        "system_line": "00530",
-        "word_pos": 24
+        "system_line": "00530"
       },
       "ב": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00532",
-        "word_pos": 1
+        "system_line": "00532"
       },
       "ג": {
         "chapter": "007",
         "halacha": "003",
-        "system_line": "00552",
-        "word_pos": 28
+        "system_line": "00552"
       },
       "ד": {
         "chapter": "007",
         "halacha": "004",
-        "system_line": "00576",
-        "word_pos": 21
+        "system_line": "00576"
       }
     },
     "כה": {
       "א": {
         "chapter": "007",
         "halacha": "004",
-        "system_line": "00600",
-        "word_pos": 6
+        "system_line": "00600"
       },
       "ב": {
         "chapter": "007",
         "halacha": "005",
-        "system_line": "00623",
-        "word_pos": 24
+        "system_line": "00623"
       },
       "ג": {
         "chapter": "007",
         "halacha": "007",
-        "system_line": "00648",
-        "word_pos": 31
+        "system_line": "00648"
       },
       "ד": {
         "chapter": "007",
         "halacha": "010",
-        "system_line": "00675",
-        "word_pos": 14
+        "system_line": "00675"
       }
     },
     "כו": {
       "א": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00696",
-        "word_pos": 1
+        "system_line": "00696"
       },
       "ב": {
         "chapter": "008",
         "halacha": "002",
-        "system_line": "00705",
-        "word_pos": 13
+        "system_line": "00705"
       },
       "ג": {
         "chapter": "008",
         "halacha": "005",
-        "system_line": "00732",
-        "word_pos": 32
+        "system_line": "00732"
       },
       "ד": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00747",
-        "word_pos": 1
+        "system_line": "00747"
       }
     },
     "כז": {
       "א": {
         "chapter": "009",
         "halacha": "001",
-        "system_line": "00767",
-        "word_pos": 3
+        "system_line": "00767"
       },
       "ב": {
         "chapter": "009",
         "halacha": "002",
-        "system_line": "00791",
-        "word_pos": 32
+        "system_line": "00791"
       },
       "ג": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00806",
-        "word_pos": 1
+        "system_line": "00806"
       },
       "ד": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00821",
-        "word_pos": 28
+        "system_line": "00821"
       }
     },
     "כח": {
       "א": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00846",
-        "word_pos": 14
+        "system_line": "00846"
       },
       "ב": {
         "chapter": "010",
         "halacha": "001",
-        "system_line": "00873",
-        "word_pos": 8
+        "system_line": "00873"
       },
       "ג": {
         "chapter": "010",
         "halacha": "002",
-        "system_line": "00896",
-        "word_pos": 14
+        "system_line": "00896"
       },
       "ד": {
         "chapter": "010",
         "halacha": "002",
-        "system_line": "00916",
-        "word_pos": 23
+        "system_line": "00916"
       }
     },
     "כט": {
       "א": {
         "chapter": "010",
         "halacha": "002",
-        "system_line": "00941",
-        "word_pos": 20
+        "system_line": "00941"
       },
       "ב": {
         "chapter": "010",
         "halacha": "002",
-        "system_line": "00964",
-        "word_pos": 25
+        "system_line": "00964"
       },
       "ג": {
         "chapter": "010",
         "halacha": "003",
-        "system_line": "00988",
-        "word_pos": 3
+        "system_line": "00988"
       },
       "ד": {
         "chapter": "010",
         "halacha": "004",
-        "system_line": "01010",
-        "word_pos": 29
+        "system_line": "01010"
       }
     },
     "ל": {
       "א": {
         "chapter": "011",
         "halacha": "001",
-        "system_line": "01023",
-        "word_pos": 1
+        "system_line": "01023"
       },
       "ב": {
         "chapter": "011",
         "halacha": "003",
-        "system_line": "01043",
-        "word_pos": 17
+        "system_line": "01043"
       },
       "ג": {
         "chapter": "011",
         "halacha": "005",
-        "system_line": "01068",
-        "word_pos": 12
+        "system_line": "01068"
       }
     }
   },
@@ -6322,34 +5366,29 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00018",
-        "word_pos": 23
+        "system_line": "00018"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00031",
-        "word_pos": 1
+        "system_line": "00031"
       },
       "ד": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00038",
-        "word_pos": 38
+        "system_line": "00038"
       }
     },
     "לב": {
       "א": {
         "chapter": "002",
         "halacha": "006",
-        "system_line": "00066",
-        "word_pos": 5
+        "system_line": "00066"
       }
     }
   },
@@ -6358,170 +5397,144 @@
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00007",
-        "word_pos": 25
+        "system_line": "00007"
       }
     },
     "לג": {
       "א": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00029",
-        "word_pos": 28
+        "system_line": "00029"
       },
       "ב": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00053",
-        "word_pos": 2
+        "system_line": "00053"
       },
       "ג": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00078",
-        "word_pos": 16
+        "system_line": "00078"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00091",
-        "word_pos": 53
+        "system_line": "00091"
       }
     },
     "לד": {
       "א": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00113",
-        "word_pos": 27
+        "system_line": "00113"
       },
       "ב": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00127",
-        "word_pos": 1
+        "system_line": "00127"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00143",
-        "word_pos": 9
+        "system_line": "00143"
       },
       "ד": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00169",
-        "word_pos": 35
+        "system_line": "00169"
       }
     },
     "לה": {
       "א": {
         "chapter": "003",
         "halacha": "009",
-        "system_line": "00199",
-        "word_pos": 13
+        "system_line": "00199"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00212",
-        "word_pos": 1
+        "system_line": "00212"
       },
       "ג": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00230",
-        "word_pos": 26
+        "system_line": "00230"
       },
       "ד": {
         "chapter": "004",
         "halacha": "005",
-        "system_line": "00255",
-        "word_pos": 12
+        "system_line": "00255"
       }
     },
     "לו": {
       "א": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00281",
-        "word_pos": 1
+        "system_line": "00281"
       },
       "ב": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00293",
-        "word_pos": 28
+        "system_line": "00293"
       },
       "ג": {
         "chapter": "005",
         "halacha": "003",
-        "system_line": "00318",
-        "word_pos": 42
+        "system_line": "00318"
       },
       "ד": {
         "chapter": "006",
         "halacha": "001",
-        "system_line": "00332",
-        "word_pos": 1
+        "system_line": "00332"
       }
     },
     "לז": {
       "א": {
         "chapter": "006",
         "halacha": "002",
-        "system_line": "00348",
-        "word_pos": 9
+        "system_line": "00348"
       },
       "ב": {
         "chapter": "006",
         "halacha": "004",
-        "system_line": "00371",
-        "word_pos": 12
+        "system_line": "00371"
       },
       "ג": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00391",
-        "word_pos": 1
+        "system_line": "00391"
       },
       "ד": {
         "chapter": "007",
         "halacha": "001",
-        "system_line": "00401",
-        "word_pos": 1
+        "system_line": "00401"
       }
     },
     "לח": {
       "א": {
         "chapter": "007",
         "halacha": "004",
-        "system_line": "00421",
-        "word_pos": 21
+        "system_line": "00421"
       },
       "ב": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00445",
-        "word_pos": 1
+        "system_line": "00445"
       },
       "ג": {
         "chapter": "008",
         "halacha": "001",
-        "system_line": "00457",
-        "word_pos": 20
+        "system_line": "00457"
       },
       "ד": {
         "chapter": "008",
         "halacha": "002",
-        "system_line": "00480",
-        "word_pos": 1
+        "system_line": "00480"
       }
     }
   },
@@ -6530,170 +5543,144 @@
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ב": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00005",
-        "word_pos": 14
+        "system_line": "00005"
       },
       "ג": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00023",
-        "word_pos": 60
+        "system_line": "00023"
       },
       "ד": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00047",
-        "word_pos": 46
+        "system_line": "00047"
       }
     },
     "מ": {
       "א": {
         "chapter": "001",
         "halacha": "006",
-        "system_line": "00069",
-        "word_pos": 41
+        "system_line": "00069"
       },
       "ב": {
         "chapter": "001",
         "halacha": "008",
-        "system_line": "00093",
-        "word_pos": 8
+        "system_line": "00093"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00100",
-        "word_pos": 1
+        "system_line": "00100"
       },
       "ד": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00124",
-        "word_pos": 3
+        "system_line": "00124"
       }
     },
     "מא": {
       "א": {
         "chapter": "002",
         "halacha": "002",
-        "system_line": "00146",
-        "word_pos": 6
+        "system_line": "00146"
       },
       "ב": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00176",
-        "word_pos": 3
+        "system_line": "00176"
       },
       "ג": {
         "chapter": "002",
         "halacha": "004",
-        "system_line": "00200",
-        "word_pos": 28
+        "system_line": "00200"
       },
       "ד": {
         "chapter": "002",
         "halacha": "005",
-        "system_line": "00228",
-        "word_pos": 30
+        "system_line": "00228"
       }
     },
     "מב": {
       "א": {
         "chapter": "002",
         "halacha": "006",
-        "system_line": "00255",
-        "word_pos": 4
+        "system_line": "00255"
       },
       "ב": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00276",
-        "word_pos": 1
+        "system_line": "00276"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00279",
-        "word_pos": 26
+        "system_line": "00279"
       },
       "ד": {
         "chapter": "003",
         "halacha": "002",
-        "system_line": "00304",
-        "word_pos": 22
+        "system_line": "00304"
       }
     },
     "מג": {
       "א": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00325",
-        "word_pos": 4
+        "system_line": "00325"
       },
       "ב": {
         "chapter": "003",
         "halacha": "006",
-        "system_line": "00348",
-        "word_pos": 2
+        "system_line": "00348"
       },
       "ג": {
         "chapter": "003",
         "halacha": "008",
-        "system_line": "00374",
-        "word_pos": 1
+        "system_line": "00374"
       },
       "ד": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00381",
-        "word_pos": 24
+        "system_line": "00381"
       }
     },
     "מד": {
       "א": {
         "chapter": "004",
         "halacha": "004",
-        "system_line": "00407",
-        "word_pos": 12
+        "system_line": "00407"
       },
       "ב": {
         "chapter": "004",
         "halacha": "008",
-        "system_line": "00430",
-        "word_pos": 25
+        "system_line": "00430"
       },
       "ג": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00453",
-        "word_pos": 1
+        "system_line": "00453"
       },
       "ד": {
         "chapter": "005",
         "halacha": "001",
-        "system_line": "00461",
-        "word_pos": 1
+        "system_line": "00461"
       }
     },
     "מה": {
       "א": {
         "chapter": "005",
         "halacha": "005",
-        "system_line": "00484",
-        "word_pos": 22
+        "system_line": "00484"
       },
       "ב": {
         "chapter": "005",
         "halacha": "008",
-        "system_line": "00507",
-        "word_pos": 15
+        "system_line": "00507"
       }
     }
   },
@@ -6702,86 +5689,73 @@
       "ג": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       },
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00005",
-        "word_pos": 21
+        "system_line": "00005"
       }
     },
     "מו": {
       "א": {
         "chapter": "001",
         "halacha": "002",
-        "system_line": "00033",
-        "word_pos": 26
+        "system_line": "00033"
       },
       "ב": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00058",
-        "word_pos": 44
+        "system_line": "00058"
       },
       "ג": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00077",
-        "word_pos": 1
+        "system_line": "00077"
       },
       "ד": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00098",
-        "word_pos": 15
+        "system_line": "00098"
       }
     },
     "מז": {
       "א": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00127",
-        "word_pos": 1
+        "system_line": "00127"
       },
       "ב": {
         "chapter": "003",
         "halacha": "003",
-        "system_line": "00142",
-        "word_pos": 24
+        "system_line": "00142"
       },
       "ג": {
         "chapter": "003",
         "halacha": "003",
-        "system_line": "00165",
-        "word_pos": 16
+        "system_line": "00165"
       },
       "ד": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00188",
-        "word_pos": 51
+        "system_line": "00188"
       }
     },
     "מח": {
       "א": {
         "chapter": "003",
         "halacha": "005",
-        "system_line": "00215",
-        "word_pos": 19
+        "system_line": "00215"
       },
       "ב": {
         "chapter": "003",
         "halacha": "007",
-        "system_line": "00238",
-        "word_pos": 48
+        "system_line": "00238"
       },
       "ג": {
         "chapter": "003",
         "halacha": "008",
-        "system_line": "00266",
-        "word_pos": 5
+        "system_line": "00266"
       }
     }
   },
@@ -6790,74 +5764,63 @@
       "ד": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00001",
-        "word_pos": 1
+        "system_line": "00001"
       }
     },
     "מט": {
       "א": {
         "chapter": "001",
         "halacha": "001",
-        "system_line": "00009",
-        "word_pos": 4
+        "system_line": "00009"
       },
       "ב": {
         "chapter": "001",
         "halacha": "004",
-        "system_line": "00028",
-        "word_pos": 13
+        "system_line": "00028"
       },
       "ג": {
         "chapter": "001",
         "halacha": "005",
-        "system_line": "00050",
-        "word_pos": 3
+        "system_line": "00050"
       },
       "ד": {
         "chapter": "002",
         "halacha": "001",
-        "system_line": "00072",
-        "word_pos": 1
+        "system_line": "00072"
       }
     },
     "נ": {
       "א": {
         "chapter": "002",
         "halacha": "003",
-        "system_line": "00087",
-        "word_pos": 15
+        "system_line": "00087"
       },
       "ב": {
         "chapter": "002",
         "halacha": "007",
-        "system_line": "00108",
-        "word_pos": 45
+        "system_line": "00108"
       },
       "ג": {
         "chapter": "003",
         "halacha": "001",
-        "system_line": "00123",
-        "word_pos": 1
+        "system_line": "00123"
       },
       "ד": {
         "chapter": "003",
         "halacha": "002",
-        "system_line": "00143",
-        "word_pos": 1
+        "system_line": "00143"
       }
     },
     "נא": {
       "א": {
         "chapter": "003",
         "halacha": "004",
-        "system_line": "00167",
-        "word_pos": 1
+        "system_line": "00167"
       },
       "ב": {
         "chapter": "004",
         "halacha": "001",
-        "system_line": "00183",
-        "word_pos": 1
+        "system_line": "00183"
       }
     }
   }

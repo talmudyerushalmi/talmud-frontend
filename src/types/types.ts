@@ -142,12 +142,13 @@ export interface iLink {
   mishna: string;
   lineNumber?: string;
   highlightWord?: number;
-  dafAmudMarkers?: Array<{
-    line: string;
-    word_pos: number;
-    daf: string;
-    amud: string;
-  }>;
+  dafAmudMarkers?: DafAmudMarker[];
+}
+
+export interface DafAmudMarker {
+  line: string;
+  daf: string;
+  amud: string;
 }
 export interface iParallelLink extends iLink {
   linkText: string;

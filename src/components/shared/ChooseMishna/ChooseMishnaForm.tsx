@@ -369,7 +369,6 @@ const ChooseMishnaForm = ({
               lineNumber: '',
               dafAmudMarkers: [{
                 line: amudData.system_line,
-                word_pos: amudData.word_pos,
                 daf: firstDaf,
                 amud: firstAmud,
               }],
@@ -416,7 +415,6 @@ const ChooseMishnaForm = ({
               lineNumber: '',
               dafAmudMarkers: [{
                 line: amudData.system_line,
-                word_pos: amudData.word_pos,
                 daf: lastDaf,
                 amud: lastAmud,
               }],
@@ -461,7 +459,6 @@ const ChooseMishnaForm = ({
         lineNumber: '',
         dafAmudMarkers: [{
           line: amudData.system_line,
-          word_pos: amudData.word_pos,
           daf: nextDaf,
           amud: nextAmud,
         }],
@@ -636,7 +633,6 @@ const ChooseMishnaForm = ({
                   lineNumber: '',
                   dafAmudMarkers: [{
                     line: mapping.system_line,
-                    word_pos: mapping.word_pos,
                     daf: dafName,
                     amud: amud,
                   }],

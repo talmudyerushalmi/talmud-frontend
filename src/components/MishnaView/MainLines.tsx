@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import MainLine from './MainLine';
-import { iLine } from '../../types/types';
+import { iLine, DafAmudMarker } from '../../types/types';
 import { counter } from './SugiaButton';
 import { useParams, Link } from 'react-router-dom';
 import { IconButton } from '@mui/material';
@@ -34,12 +34,7 @@ interface Props {
   lines: iLine[];
   userGroup: any;
   mishna: string;
-  dafAmudMarkers?: Array<{
-    line: string;
-    word_pos: number;
-    daf: string;
-    amud: string;
-  }>;
+  dafAmudMarkers?: DafAmudMarker[];
 }
 const MainLines = (props: Props) => {
   const classes = useStyles();

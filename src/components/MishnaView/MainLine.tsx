@@ -4,7 +4,7 @@ import SublineDisplay from './SublineDisplay';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { iLine } from '../../types/types';
+import { iLine, DafAmudMarker } from '../../types/types';
 import SugiaButton from './SugiaButton';
 import { UserGroup } from '../../store/reducers/authReducer';
 
@@ -20,12 +20,7 @@ interface Props {
   lineIndex: number;
   userAuth: any;
   isAuthenticated: boolean;
-  dafAmudMarker?: {
-    line: string;
-    word_pos: number;
-    daf: string;
-    amud: string;
-  };
+  dafAmudMarker?: DafAmudMarker;
 }
 
 const MainLine = (props: Props) => {

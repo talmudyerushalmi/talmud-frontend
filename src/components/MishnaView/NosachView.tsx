@@ -1,7 +1,7 @@
 import { ContentState, convertFromRaw, EditorState, Modifier, SelectionState } from 'draft-js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
-import { iExcerpt, iSubline } from '../../types/types';
+import { iExcerpt, iSubline, DafAmudMarker } from '../../types/types';
 import TextEditor from '../edit/MainLineEditor/TextEditor';
 import {
   compoundCombinedDecorators,
@@ -16,12 +16,7 @@ interface Props {
   showPunctuation?: boolean;
   showEditType: ShowEditType;
   selectedExcerpt?: iExcerpt;
-  dafAmudMarker?: {
-    line: string;
-    word_pos: number;
-    daf: string;
-    amud: string;
-  };
+  dafAmudMarker?: DafAmudMarker;
 }
 
 const findWithRegex = (regex, contentBlock, callback) => {
