@@ -3,7 +3,7 @@ import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { iTractate } from '../../../types/types';
-import { getChooseTractateAutocompleteStyles, getChooseMishnaTextFieldStyles } from './chooseMishnaStyles';
+import { getChooseTractateAutocompleteStyles, getChooseMishnaTextFieldStyles } from './NavigationDropdownStyles';
 
 interface Props {
   tractate: string;

@@ -7,7 +7,7 @@ import { hebrewMap } from '../../../inc/utils';
 import { leanChapter } from './ChooseChapter';
 import NavigationService from '../../../services/NavigationService';
 import { iMarker, refMishna } from '../../../types/types';
-import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './chooseMishnaStyles';
+import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './NavigationDropdownStyles';
 import { leanLine } from './ChooseLine';
 
 export interface iMishnaForNavigation extends refMishna {

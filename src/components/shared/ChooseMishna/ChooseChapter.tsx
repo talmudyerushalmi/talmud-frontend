@@ -4,7 +4,7 @@ import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { iTractate, refMishna } from '../../../types/types';
 import { hebrewMap } from '../../../inc/utils';
-import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './chooseMishnaStyles';
+import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './NavigationDropdownStyles';
 
 export interface leanChapter {
   id: string;
