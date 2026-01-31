@@ -1,17 +1,18 @@
 import { useCallback } from 'react';
 import { iLink, iTractate } from '../../../types/types';
 import { leanDaf } from './ChooseDaf';
+import { AmudMapping } from './ChooseAmud';
 import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { Direction } from './useChapterMishnaNavigation';
 
 interface DafAmudNavigationProps {
   tractateName: string;
-  tractateData: any;
+  tractateData: iTractate | null;
   dafName: string;
   amudName: string;
   allTractates?: iTractate[];
   setTractateName: (value: string) => void;
-  setTractateData: (value: any) => void;
+  setTractateData: (value: iTractate | null) => void;
   setDafName: (value: string) => void;
   setAmudName: (value: string) => void;
   setDafData: (value: leanDaf | null) => void;
@@ -114,7 +115,7 @@ export const useDafAmudNavigation = ({
           const firstDaf = Object.keys(nextTractateMapping)[0];
           const firstDafData = nextTractateMapping[firstDaf as keyof typeof nextTractateMapping];
           const firstAmud = Object.keys(firstDafData)[0];
-          const amudData = firstDafData[firstAmud as keyof typeof firstDafData] as any;
+          const amudData = firstDafData[firstAmud as keyof typeof firstDafData] as AmudMapping;
           
           if (amudData && typeof amudData === 'object') {
             // Update tractate
@@ -160,7 +161,7 @@ export const useDafAmudNavigation = ({
           const lastDafData = prevTractateMapping[lastDaf as keyof typeof prevTractateMapping];
           const allLastAmudim = Object.keys(lastDafData);
           const lastAmud = allLastAmudim[allLastAmudim.length - 1];
-          const amudData = lastDafData[lastAmud as keyof typeof lastDafData] as any;
+          const amudData = lastDafData[lastAmud as keyof typeof lastDafData] as AmudMapping;
           
           if (amudData && typeof amudData === 'object') {
             // Update tractate
@@ -208,7 +209,7 @@ export const useDafAmudNavigation = ({
 
     // Get mapping for the new daf/amud (within same tractate)
     const newDafData = tractateMapping[nextDaf as keyof typeof tractateMapping];
-    const amudData = newDafData[nextAmud as keyof typeof newDafData] as any;
+    const amudData = newDafData[nextAmud as keyof typeof newDafData] as AmudMapping;
 
     if (amudData && typeof amudData === 'object') {
       // Update state

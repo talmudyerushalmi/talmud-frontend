@@ -3,7 +3,7 @@ import { IconButton } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import ChooseChapter, { leanChapter } from './ChooseChapter';
 import ChooseMishna, { iMishnaForNavigation } from './ChooseMishna';
-import { iChapter } from '../../../types/types';
+import { iChapter, iTractate } from '../../../types/types';
 
 interface ChapterMishnaNavigationProps {
   isHebrew: boolean;
@@ -12,7 +12,7 @@ interface ChapterMishnaNavigationProps {
   lineNumber: string;
   chapterName: string;
   mishnaName: string;
-  tractateData: any;
+  tractateData: iTractate | null;
   chapterData: iChapter | null;
   allChapterAllowed?: boolean;
   isNavigating: boolean;

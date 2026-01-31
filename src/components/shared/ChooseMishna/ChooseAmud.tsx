@@ -7,7 +7,7 @@ import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { leanDaf } from './ChooseDaf';
 import { hebrewAmudToEnglish } from '../../../inc/utils';
 
-interface AmudMapping {
+export interface AmudMapping {
   chapter: string;
   halacha: string;
   system_line: string;

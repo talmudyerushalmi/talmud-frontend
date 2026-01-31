@@ -10,7 +10,7 @@ interface NavigationState {
   mishnaName: string;
   lineNumber: string;
   mishnaData: iMishnaForNavigation | null;
-  tractateData: any;
+  tractateData: iTractate | null;
   dafName: string;
   amudName: string;
 }
@@ -22,7 +22,7 @@ interface NavigationHandlersProps {
     setChapterName: (value: string) => void;
     setMishnaName: (value: string) => void;
     setLineNumber: (value: string) => void;
-    setTractateData: (value: any) => void;
+    setTractateData: (value: iTractate | null) => void;
     setDafName: (value: string) => void;
     setAmudName: (value: string) => void;
     setDafData: (value: leanDaf | null) => void;

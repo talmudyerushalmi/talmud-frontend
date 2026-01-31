@@ -3,7 +3,7 @@ import { Box, IconButton } from '@mui/material';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import ChooseDaf, { leanDaf } from './ChooseDaf';
 import ChooseAmud from './ChooseAmud';
-import amudDafMapping from '../../../data/amud_daf_mapping.json';
+import { iLink, iTractate } from '../../../types/types';
 
 interface DafAmudNavigationProps {
   isHebrew: boolean;
@@ -11,7 +11,7 @@ interface DafAmudNavigationProps {
   dafName: string;
   amudName: string;
   dafData: leanDaf | null;
-  tractateData: any;
+  tractateData: iTractate | null;
   tractateName: string;
   isNavigating: boolean;
   setDafName: (value: string) => void;
@@ -20,7 +20,7 @@ interface DafAmudNavigationProps {
   setChapterName: (value: string) => void;
   setMishnaName: (value: string) => void;
   setLineNumber: (value: string) => void;
-  onNavigationUpdated: (nav: any) => void;
+  onNavigationUpdated: (nav: iLink) => void;
   onNavigateBack: () => void;
   onNavigateForward: () => void;
 }

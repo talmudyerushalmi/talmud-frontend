@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { iLink } from '../../../types/types';
+import { iLink, iTractate } from '../../../types/types';
 import { iMishnaForNavigation } from './ChooseMishna';
 import { leanDaf } from './ChooseDaf';
 import amudDafMapping from '../../../data/amud_daf_mapping.json';
 
 interface UseDafAmudStateProps {
   initValues: iLink | null;
-  tractateData: any;
+  tractateData: iTractate | null;
   mishnaData: iMishnaForNavigation | null;
 }
 
