@@ -78,6 +78,7 @@ const ChooseAmud = (props: Props) => {
       onChange={_onChange}
       customSx={getChooseMishnaAutocompleteStyles(isHebrew)}
       customTextFieldSx={getChooseMishnaTextFieldStyles(isHebrew)}
+      inputLabelProps={{ shrink: true }}
     />
   );
 };
