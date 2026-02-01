@@ -7,7 +7,7 @@ import ExcerptsSection from '../components/MishnaView/ExcerptsSection';
 import MishnaViewOptions from '../components/MishnaView/MishnaViewOptions';
 import { useParams, useLocation } from 'react-router';
 import { getHTMLFromRawContent } from '../inc/editorUtils';
-import { iMishna } from '../types/types';
+import { iMishna, DafAmudMarker } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
 import { getMishna } from '../store/actions/navigationActions';
 import { setMishnaViewOptions } from '../store/actions/mishnaViewActions';
@@ -41,6 +41,11 @@ interface Props {
   getMishna: Function;
   setMishnaViewOptions: Function;
 }
+
+interface LocationState {
+  dafAmudMarkers?: DafAmudMarker[];
+}
+
 const MishnaPage = (props: Props) => {
   const { currentMishna, getMishna, setMishnaViewOptions } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
@@ -49,12 +54,12 @@ const MishnaPage = (props: Props) => {
   const dispatch = useAppDispatch();
   
   // Store dafAmudMarkers in state to persist across re-renders
-  const [dafAmudMarkers, setDafAmudMarkers] = React.useState<any[]>([]);
+  const [dafAmudMarkers, setDafAmudMarkers] = React.useState<DafAmudMarker[]>([]);
   const [currentMishnaKey, setCurrentMishnaKey] = React.useState<string>('');
   
   // Update markers when location state changes
   React.useEffect(() => {
-    const markers = (location.state as any)?.dafAmudMarkers;
+    const markers = (location.state as LocationState)?.dafAmudMarkers;
     if (markers && markers.length > 0) {
       setDafAmudMarkers(markers);
       setCurrentMishnaKey(`${tractate}-${chapter}-${mishna}`);
@@ -78,7 +83,7 @@ const MishnaPage = (props: Props) => {
     
     // Clear markers only when navigating to a DIFFERENT mishna
     const newMishnaKey = `${tractate}-${chapter}-${mishna}`;
-    if (newMishnaKey !== currentMishnaKey && !(location.state as any)?.dafAmudMarkers) {
+    if (newMishnaKey !== currentMishnaKey && !(location.state as LocationState)?.dafAmudMarkers) {
       setDafAmudMarkers([]);
       setCurrentMishnaKey(newMishnaKey);
     }
