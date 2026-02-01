@@ -82,7 +82,7 @@ export const useDafAmudState = ({
         }
       }
     }
-  }, [mishnaData, tractateData, dafName, amudName]);
+  }, [mishnaData, tractateData]); // Removed dafName and amudName from dependencies to prevent override
 
   return {
     dafName,
