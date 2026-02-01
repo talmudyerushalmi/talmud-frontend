@@ -46,8 +46,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '&.MuiAccordion-root': { margin: 0, marginBottom: '-8px' },
-    '&.MuiAccordion-root.Mui-expanded': { margin: 0, marginBottom: '-8px' },
+    '&.MuiAccordion-root': { margin: 0, marginBottom: '2px' },
+    '&.MuiAccordion-root.Mui-expanded': { margin: 0, marginBottom: '2px' },
     '&.MuiAccordion-root:before': { display: 'none' },
     '& p': { margin: 0 },
     '& .MuiAccordionSummary-root, & .MuiAccordionSummary-root.Mui-expanded': { minHeight: 0 },
