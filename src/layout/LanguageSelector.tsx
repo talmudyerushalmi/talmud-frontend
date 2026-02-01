@@ -34,7 +34,7 @@ const LanguageSelector = () => {
         },
         '& .MuiSelect-select': {
           padding: '4px 8px',
-          paddingRight: '32px !important',
+          paddingRight: '32px',
         },
         '& .MuiOutlinedInput-notchedOutline': {
           border: 'none',
