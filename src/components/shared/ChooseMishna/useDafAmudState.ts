@@ -45,18 +45,22 @@ export const useDafAmudState = ({
     }
   }, [amudName]);
 
+  // Helper function to update dafData from tractate mapping
+  const updateDafDataFromMapping = (dafId: string, tractateTitle: string) => {
+    const tractateMapping = amudDafMapping[tractateTitle as keyof typeof amudDafMapping];
+    if (tractateMapping && tractateMapping[dafId as keyof typeof tractateMapping]) {
+      const dafDataFromMapping = tractateMapping[dafId as keyof typeof tractateMapping];
+      setDafData({
+        id: dafId,
+        amudim: Object.keys(dafDataFromMapping),
+      });
+    }
+  };
+
   // Restore dafData when tractateData loads and we have dafName
   useEffect(() => {
     if (dafName && tractateData?.title_heb && !dafData) {
-      const tractateMapping = amudDafMapping[tractateData.title_heb as keyof typeof amudDafMapping];
-      if (tractateMapping && tractateMapping[dafName as keyof typeof tractateMapping]) {
-        const dafDataFromMapping = tractateMapping[dafName as keyof typeof tractateMapping];
-        const newDafData = {
-          id: dafName,
-          amudim: Object.keys(dafDataFromMapping),
-        };
-        setDafData(newDafData);
-      }
+      updateDafDataFromMapping(dafName, tractateData.title_heb);
     }
   }, [tractateData, dafName, dafData]);
 
@@ -70,16 +74,7 @@ export const useDafAmudState = ({
       if (newDaf !== dafName || newAmud !== amudName) {
         setDafName(newDaf);
         setAmudName(newAmud);
-        
-        // Update dafData for the amud dropdown
-        const tractateMapping = amudDafMapping[tractateData.title_heb as keyof typeof amudDafMapping];
-        if (tractateMapping && tractateMapping[newDaf as keyof typeof tractateMapping]) {
-          const dafDataFromMapping = tractateMapping[newDaf as keyof typeof tractateMapping];
-          setDafData({
-            id: newDaf,
-            amudim: Object.keys(dafDataFromMapping),
-          });
-        }
+        updateDafDataFromMapping(newDaf, tractateData.title_heb);
       }
     }
   }, [mishnaData, tractateData]); // Removed dafName and amudName from dependencies to prevent override

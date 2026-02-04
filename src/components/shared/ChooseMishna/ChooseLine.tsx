@@ -1,7 +1,6 @@
-import { Autocomplete, TextField } from '@mui/material';
 import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { iMishnaForNavigation } from './ChooseMishna';
+import NavigationAutocomplete from './NavigationAutocomplete';
 
 export interface leanLine {
   lineNumber: string;
@@ -16,7 +15,6 @@ interface Props {
 
 const ChooseLine = (props: Props) => {
   const { mishnaData, lineNumber, onSelectLine } = props;
-  const { t } = useTranslation();
   const [selectedLine, setSelectedLine] = useState<leanLine | null>(null);
 
   const _onChange = (event: SyntheticEvent<Element, Event>, line: leanLine | null) => {
@@ -39,25 +37,21 @@ const ChooseLine = (props: Props) => {
   }, [mishnaData, lineNumber]);
 
   return (
-    <Autocomplete
-      sx={{
+    <NavigationAutocomplete
+      label="Line"
+      value={selectedLine}
+      options={mishnaData ? mishnaData.lines : []}
+      getOptionLabel={(option) => option.lineNumber + ' ' + option.mainLine || ''}
+      isOptionEqualToValue={(option, value) => option.lineNumber === value.lineNumber}
+      onChange={_onChange}
+      customSx={{
         minWidth: 100,
         flex: 'auto',
         '&.MuiAutocomplete-root  .MuiOutlinedInput-root .MuiAutocomplete-input': {
           padding: 0,
         },
       }}
-      onChange={_onChange}
-      value={selectedLine}
-      options={mishnaData ? mishnaData.lines : []}
-      autoHighlight={true}
-      getOptionLabel={(option) => option.lineNumber + ' ' + option.mainLine || ''}
-      ListboxProps={{
-        style: {
-          textAlign: 'right',
-        },
-      }}
-      renderInput={(params) => <TextField {...params} label={t('Line')} variant="outlined" />}
+      customListboxProps={{ textAlign: 'right' }}
     />
   );
 };

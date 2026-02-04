@@ -3,9 +3,8 @@ import ChooseTractate from './ChooseTractate';
 import { iMishnaForNavigation } from './ChooseMishna';
 import { iChapter, iLink, iTractate } from '../../../types/types';
 import ChooseLine, { leanLine } from './ChooseLine';
-import { Box, IconButton } from '@mui/material';
+import { Box } from '@mui/material';
 import { debounce } from 'lodash';
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import useKeypress from '../../../hooks/useKeypress';
 import { editorInEventPath } from '../../../inc/editorUtils';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +13,7 @@ import { useNavigationHandlers } from './useNavigationHandlers';
 import { useDafAmudState } from './useDafAmudState';
 import ChapterMishnaNavigation from './ChapterMishnaNavigation';
 import DafAmudNavigation from './DafAmudNavigation';
+import NavigationArrow from './NavigationArrow';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
@@ -153,16 +153,21 @@ const ChooseMishnaForm = ({
     []
   );
 
-  // Helper function to emit navigation - only call this when user makes a selection
-  const emitNavigation = useCallback(() => {
-    const link: iLink = {
+  // Helper function to create navigation link object
+  const createNavigationLink = useCallback((overrides?: Partial<iLink>): iLink => {
+    return {
       tractate: tractateName,
       chapter: chapterName,
       mishna: mishnaName,
       lineNumber: lineNumber,
+      ...overrides,
     };
-    emit(link);
-  }, [tractateName, chapterName, mishnaName, lineNumber, emit]);
+  }, [tractateName, chapterName, mishnaName, lineNumber]);
+
+  // Helper function to emit navigation - only call this when user makes a selection
+  const emitNavigation = useCallback(() => {
+    emit(createNavigationLink());
+  }, [createNavigationLink, emit]);
 
   return (
     <>
@@ -231,13 +236,7 @@ const ChooseMishnaForm = ({
           onNavigateForward={() => navigateHandler(Direction.FORWARD)}
           onUserSelectMishna={(m) => {
             // Only emit navigation when user actually clicks
-            const link: iLink = {
-              tractate: tractateName,
-              chapter: chapterName,
-              mishna: m.mishna,
-              lineNumber: lineNumber,
-            };
-            emit(link);
+            emit(createNavigationLink({ mishna: m.mishna }));
           }}
         />
 
@@ -268,15 +267,13 @@ const ChooseMishnaForm = ({
         {lineNumber && !showDafAmudNavigation ? (
           <>
             {/* Navigation arrow before line selector */}
-            {navButtons ? (
-              <IconButton
-                onClick={() => {
-                  navigateHandler(Direction.BACK);
-                }}
-                size="small">
-                {isHebrew ? <ArrowForward /> : <ArrowBack />}
-              </IconButton>
-            ) : null}
+            {navButtons && (
+              <NavigationArrow 
+                direction="back" 
+                isHebrew={isHebrew} 
+                onClick={() => navigateHandler(Direction.BACK)} 
+              />
+            )}
             
             <ChooseLine
               lineNumber={lineNumber}
@@ -290,15 +287,13 @@ const ChooseMishnaForm = ({
             />
             
             {/* Navigation arrow after line selector */}
-            {navButtons ? (
-              <IconButton
-                onClick={() => {
-                  navigateHandler(Direction.FORWARD);
-                }}
-                size="small">
-                {isHebrew ? <ArrowBack /> : <ArrowForward />}
-              </IconButton>
-            ) : null}
+            {navButtons && (
+              <NavigationArrow 
+                direction="forward" 
+                isHebrew={isHebrew} 
+                onClick={() => navigateHandler(Direction.FORWARD)} 
+              />
+            )}
           </>
         ) : lineNumber ? (
           // Line selector without arrows (when Daf/Amud is shown)

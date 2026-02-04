@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, IconButton } from '@mui/material';
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { Box } from '@mui/material';
 import ChooseDaf, { leanDaf } from './ChooseDaf';
 import ChooseAmud from './ChooseAmud';
 import { iLink, iTractate } from '../../../types/types';
+import NavigationArrow from './NavigationArrow';
 
 interface DafAmudNavigationProps {
   isHebrew: boolean;
@@ -50,11 +50,9 @@ const DafAmudNavigation: React.FC<DafAmudNavigationProps> = ({
       <Box sx={{ width: '8px' }} />
 
       {/* Navigation arrows for Daf/Amud */}
-      {navButtons ? (
-        <IconButton onClick={onNavigateBack} size="small">
-          {isHebrew ? <ArrowForward /> : <ArrowBack />}
-        </IconButton>
-      ) : null}
+      {navButtons && (
+        <NavigationArrow direction="back" isHebrew={isHebrew} onClick={onNavigateBack} />
+      )}
 
       {/* Daf selector */}
       <ChooseDaf
@@ -100,11 +98,9 @@ const DafAmudNavigation: React.FC<DafAmudNavigationProps> = ({
       />
 
       {/* Navigation arrows for Daf/Amud */}
-      {navButtons ? (
-        <IconButton onClick={onNavigateForward} size="small">
-          {isHebrew ? <ArrowBack /> : <ArrowForward />}
-        </IconButton>
-      ) : null}
+      {navButtons && (
+        <NavigationArrow direction="forward" isHebrew={isHebrew} onClick={onNavigateForward} />
+      )}
     </>
   );
 };

@@ -1,9 +1,8 @@
 import React from 'react';
-import { IconButton } from '@mui/material';
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import ChooseChapter, { leanChapter } from './ChooseChapter';
 import ChooseMishna, { iMishnaForNavigation } from './ChooseMishna';
 import { iChapter, iTractate } from '../../../types/types';
+import NavigationArrow from './NavigationArrow';
 
 interface ChapterMishnaNavigationProps {
   isHebrew: boolean;
@@ -47,11 +46,9 @@ const ChapterMishnaNavigation: React.FC<ChapterMishnaNavigationProps> = ({
   return (
     <>
       {/* Navigation arrows for Chapter/Halakha - left arrow */}
-      {navButtons && (showDafAmudNavigation || !lineNumber) ? (
-        <IconButton onClick={onNavigateBack} size="small">
-          {isHebrew ? <ArrowForward /> : <ArrowBack />}
-        </IconButton>
-      ) : null}
+      {navButtons && (showDafAmudNavigation || !lineNumber) && (
+        <NavigationArrow direction="back" isHebrew={isHebrew} onClick={onNavigateBack} />
+      )}
 
       {/* Chapter selector */}
       <ChooseChapter
@@ -88,11 +85,9 @@ const ChapterMishnaNavigation: React.FC<ChapterMishnaNavigationProps> = ({
       {/* Navigation arrows for Chapter/Halakha - only show if:
           - No line selector at all, OR
           - Daf/Amud navigation is enabled (regardless of line selector) */}
-      {navButtons && (showDafAmudNavigation || !lineNumber) ? (
-        <IconButton onClick={onNavigateForward} size="small">
-          {isHebrew ? <ArrowBack /> : <ArrowForward />}
-        </IconButton>
-      ) : null}
+      {navButtons && (showDafAmudNavigation || !lineNumber) && (
+        <NavigationArrow direction="forward" isHebrew={isHebrew} onClick={onNavigateForward} />
+      )}
     </>
   );
 };

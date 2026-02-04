@@ -1,6 +1,4 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { Autocomplete } from '@mui/material';
-import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { getTractate, getChapter, getMishna } from '../../../inc/mishnaUtils';
 import { hebrewMap } from '../../../inc/utils';
@@ -9,6 +7,7 @@ import NavigationService from '../../../services/NavigationService';
 import { iMarker, refMishna } from '../../../types/types';
 import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './NavigationDropdownStyles';
 import { leanLine } from './ChooseLine';
+import NavigationAutocomplete from './NavigationAutocomplete';
 
 export interface iMishnaForNavigation extends refMishna {
   lines: leanLine[];
@@ -101,35 +100,21 @@ const ChooseMishna = (props: Props) => {
   }, [inChapter, mishnaName, allChapterAllowed]);
 
   return (
-    <>
-      <Autocomplete
-        sx={getChooseMishnaAutocompleteStyles(isHebrew)}
-        onChange={_onChange}
-        value={selectedMishna}
-        options={mishnaiot}
-        autoHighlight={true}
-        getOptionLabel={(option) => {
-          if (option.mishna === 'all') {
-            return t('The whole chapter');
-          }
-          return isHebrew ? (hebrewMap.get(option.mishna) as string) : formatNumericId(option.mishna);
-        }}
-        isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
-        renderInput={(params) => (
-          <TextField 
-            {...params} 
-            label={t('Halakha')} 
-            variant="outlined" 
-            sx={getChooseMishnaTextFieldStyles(isHebrew)} 
-          />
-        )}
-        ListboxProps={{
-          style: {
-            direction: isHebrew ? 'rtl' : 'ltr',
-          },
-        }}
-      />
-    </>
+    <NavigationAutocomplete
+      label="Halakha"
+      value={selectedMishna}
+      options={mishnaiot}
+      getOptionLabel={(option) => {
+        if (option.mishna === 'all') {
+          return t('The whole chapter');
+        }
+        return isHebrew ? (hebrewMap.get(option.mishna) as string) : formatNumericId(option.mishna);
+      }}
+      isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
+      onChange={_onChange}
+      customSx={getChooseMishnaAutocompleteStyles(isHebrew)}
+      customTextFieldSx={getChooseMishnaTextFieldStyles(isHebrew)}
+    />
   );
 };
 

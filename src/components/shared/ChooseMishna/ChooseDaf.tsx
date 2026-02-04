@@ -1,10 +1,9 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { Autocomplete } from '@mui/material';
-import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './NavigationDropdownStyles';
 import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { hebrewToNumber } from '../../../inc/utils';
+import NavigationAutocomplete from './NavigationAutocomplete';
 
 export interface leanDaf {
   id: string;  // Hebrew letter (ב, ג, ד...)
@@ -22,7 +21,7 @@ const ChooseDaf = (props: Props) => {
   const [selectedDaf, setSelectedDaf] = useState<leanDaf | null>(null);
   const [dafOptions, setDafOptions] = useState<leanDaf[]>([]);
 
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isHebrew = i18n.language === 'he';
 
   // Build daf options from JSON mapping based on selected tractate
@@ -66,30 +65,16 @@ const ChooseDaf = (props: Props) => {
   };
 
   return (
-    <>
-      <Autocomplete
-        sx={getChooseMishnaAutocompleteStyles(isHebrew)}
-        onChange={_onChange}
-        value={selectedDaf}
-        options={dafOptions}
-        autoHighlight={true}
-        getOptionLabel={(option) => getDafLabel(option.id)}
-        isOptionEqualToValue={(option, value) => option.id === value.id}
-        renderInput={(params) => (
-          <TextField 
-            {...params} 
-            label={t('Folio')} 
-            variant="outlined" 
-            sx={getChooseMishnaTextFieldStyles(isHebrew)} 
-          />
-        )}
-        ListboxProps={{
-          style: {
-            direction: isHebrew ? 'rtl' : 'ltr',
-          },
-        }}
-      />
-    </>
+    <NavigationAutocomplete
+      label="Folio"
+      value={selectedDaf}
+      options={dafOptions}
+      getOptionLabel={(option) => getDafLabel(option.id)}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
+      onChange={_onChange}
+      customSx={getChooseMishnaAutocompleteStyles(isHebrew)}
+      customTextFieldSx={getChooseMishnaTextFieldStyles(isHebrew)}
+    />
   );
 };
 

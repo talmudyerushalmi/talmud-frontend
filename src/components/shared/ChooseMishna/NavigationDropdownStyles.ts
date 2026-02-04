@@ -7,14 +7,9 @@ export const formatNumericId = (id: string): string => {
 };
 
 /**
- * Shared styles for Autocomplete components in ChooseMishna forms
- * Handles RTL/LTR positioning of endAdornment (dropdown arrow and clear button)
+ * Base Autocomplete styles - common settings for all dropdowns
  */
-
-export const getChooseMishnaAutocompleteStyles = (isHebrew: boolean) => ({
-  minWidth: 80,
-  maxWidth: 120,
-  flex: 1,
+const getBaseAutocompleteStyles = (isHebrew: boolean, englishTransformOffset: string) => ({
   direction: isHebrew ? 'rtl' : 'ltr',
   // Isolate from global RTL context
   ...(!isHebrew && {
@@ -24,14 +19,25 @@ export const getChooseMishnaAutocompleteStyles = (isHebrew: boolean) => ({
     padding: 0,
   },
   '& .MuiAutocomplete-endAdornment': {
-    left: isHebrew ? 'unset' : 'unset',
-    right: isHebrew ? '7px' : '7px',
+    left: 'unset',
+    right: '7px',
     display: 'flex',
     flexDirection: 'row-reverse',
     ...(!isHebrew && {
-      transform: 'translateX(calc(-100% + 110px)) translateY(-12px)',
+      transform: `translateX(calc(-100% + ${englishTransformOffset})) translateY(-12px)`,
     }),
   },
+});
+
+/**
+ * Shared styles for Autocomplete components in ChooseMishna forms
+ * Handles RTL/LTR positioning of endAdornment (dropdown arrow and clear button)
+ */
+export const getChooseMishnaAutocompleteStyles = (isHebrew: boolean) => ({
+  minWidth: 80,
+  maxWidth: 120,
+  flex: 1,
+  ...getBaseAutocompleteStyles(isHebrew, '110px'),
 });
 
 /**
@@ -41,23 +47,7 @@ export const getChooseTractateAutocompleteStyles = (isHebrew: boolean) => ({
   minWidth: 120,
   maxWidth: 160,
   flex: 1.3,
-  direction: isHebrew ? 'rtl' : 'ltr',
-  // Isolate from global RTL context
-  ...(!isHebrew && {
-    '& *': { direction: 'ltr' },
-  }),
-  '&.MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input': {
-    padding: 0,
-  },
-  '& .MuiAutocomplete-endAdornment': {
-    left: isHebrew ? 'unset' : 'unset',
-    right: isHebrew ? '7px' : '7px',
-    display: 'flex',
-    flexDirection: 'row-reverse',
-    ...(!isHebrew && {
-      transform: 'translateX(calc(-100% + 150px)) translateY(-12px)',
-    }),
-  },
+  ...getBaseAutocompleteStyles(isHebrew, '150px'),
 });
 
 /**
