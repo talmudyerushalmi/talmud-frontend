@@ -52,6 +52,7 @@ const getDafAmudFromMapping = (
  */
 const performDafAmudNavigation = (
   targetTractate: iTractate | null,
+  currentTractateName: string,
   targetDaf: string,
   targetAmud: string,
   targetDafData: any,
@@ -80,7 +81,7 @@ const performDafAmudNavigation = (
   
   // Trigger navigation
   onNavigationUpdated({
-    tractate: targetTractate?.id || '',
+    tractate: targetTractate?.id || currentTractateName,
     chapter: amudData.chapter,
     mishna: amudData.halacha,
     lineNumber: '',
@@ -202,7 +203,7 @@ export const useDafAmudNavigation = ({
               const amudData = result.dafData[result.amud as keyof typeof result.dafData] as AmudMapping;
               
               if (amudData && typeof amudData === 'object') {
-                performDafAmudNavigation(targetTractate, result.daf, result.amud, result.dafData, amudData, setters, onNavigationUpdated);
+                performDafAmudNavigation(targetTractate, tractateName, result.daf, result.amud, result.dafData, amudData, setters, onNavigationUpdated);
                 return true;
               }
             }
@@ -218,7 +219,7 @@ export const useDafAmudNavigation = ({
     const amudData = newDafData[nextAmud as keyof typeof newDafData] as AmudMapping;
 
     if (amudData && typeof amudData === 'object') {
-      performDafAmudNavigation(null, nextDaf, nextAmud, newDafData, amudData, setters, onNavigationUpdated);
+      performDafAmudNavigation(null, tractateName, nextDaf, nextAmud, newDafData, amudData, setters, onNavigationUpdated);
     }
   }, [
     tractateData,
