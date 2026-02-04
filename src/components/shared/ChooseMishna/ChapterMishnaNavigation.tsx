@@ -58,10 +58,6 @@ const ChapterMishnaNavigation: React.FC<ChapterMishnaNavigationProps> = ({
             setMishnaData(null);
           }
         }}
-        onUserSelectChapter={(c) => {
-          // Chapter selection updates Halakha dropdown but doesn't navigate
-          // Navigation only happens when user selects a Halakha
-        }}
       />
 
       {/* Halakha (Mishna) selector */}

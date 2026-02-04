@@ -8,12 +8,13 @@ import { debounce } from 'lodash';
 import useKeypress from '../../../hooks/useKeypress';
 import { editorInEventPath } from '../../../inc/editorUtils';
 import amudDafMapping from '../../../data/amud_daf_mapping.json';
-import { useNavigationHandlers } from './useNavigationHandlers';
 import { useDafAmudState } from './useDafAmudState';
+import { useChapterMishnaNavigation } from './useChapterMishnaNavigation';
+import { useDafAmudNavigation } from './useDafAmudNavigation';
 import ChapterMishnaNavigation from './ChapterMishnaNavigation';
 import DafAmudNavigation from './DafAmudNavigation';
 import NavigationArrow from './NavigationArrow';
-import { useIsHebrew } from './navigationTypes';
+import { useIsHebrew, Direction } from './navigationTypes';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
@@ -67,30 +68,36 @@ const ChooseMishnaForm = ({
     mishnaData,
   });
 
-  // Navigation handlers (extracted to custom hook)
-  const { navigateHandler, navigateDafAmudHandler, Direction } = useNavigationHandlers({
-    state: {
-      tractateName,
-      chapterName,
-      mishnaName,
-      lineNumber,
-      mishnaData,
-      tractateData,
-      dafName,
-      amudName,
-    },
-    setters: {
-      setTractateName,
-      setChapterName,
-      setMishnaName,
-      setLineNumber,
-      setTractateData,
-      setDafName,
-      setAmudName,
-      setDafData,
-    },
+  // Chapter/Mishna navigation
+  const { navigateHandler } = useChapterMishnaNavigation({
+    tractateName,
+    chapterName,
+    mishnaName,
+    lineNumber,
+    mishnaData,
     allTractates,
+    setTractateName,
+    setChapterName,
+    setMishnaName,
+    setLineNumber,
     onButtonNavigation,
+  });
+
+  // Daf/Amud navigation
+  const { navigateDafAmudHandler } = useDafAmudNavigation({
+    tractateName,
+    tractateData,
+    dafName,
+    amudName,
+    allTractates,
+    setTractateName,
+    setTractateData,
+    setDafName,
+    setAmudName,
+    setDafData,
+    setChapterName,
+    setMishnaName,
+    setLineNumber,
     onNavigationUpdated,
   });
 
