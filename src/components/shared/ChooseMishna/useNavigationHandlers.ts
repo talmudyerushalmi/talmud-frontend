@@ -1,8 +1,9 @@
 import { iLink, iTractate } from '../../../types/types';
 import { iMishnaForNavigation } from './ChooseMishna';
 import { leanDaf } from './ChooseDaf';
-import { useChapterMishnaNavigation, Direction } from './useChapterMishnaNavigation';
+import { useChapterMishnaNavigation } from './useChapterMishnaNavigation';
 import { useDafAmudNavigation } from './useDafAmudNavigation';
+import { Direction } from './navigationTypes';
 
 interface NavigationState {
   tractateName: string;

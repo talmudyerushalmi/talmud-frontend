@@ -3,7 +3,18 @@ import { iLink, iTractate } from '../../../types/types';
 import { leanDaf } from './ChooseDaf';
 import { AmudMapping } from './ChooseAmud';
 import amudDafMapping from '../../../data/amud_daf_mapping.json';
-import { Direction } from './useChapterMishnaNavigation';
+import { Direction, BaseNavigationSetters } from './navigationTypes';
+import { useCrossTractateNavigation } from './useCrossTractateNavigation';
+
+/**
+ * Extended setters for Daf/Amud navigation (includes base setters + daf-specific ones)
+ */
+interface DafAmudNavigationSetters extends BaseNavigationSetters {
+  setTractateData: (value: iTractate | null) => void;
+  setDafName: (value: string) => void;
+  setAmudName: (value: string) => void;
+  setDafData: (value: leanDaf | null) => void;
+}
 
 interface DafAmudNavigationProps {
   tractateName: string;
@@ -21,6 +32,73 @@ interface DafAmudNavigationProps {
   setLineNumber: (value: string) => void;
   onNavigationUpdated: (nav: iLink) => void;
 }
+
+/**
+ * Helper function to get the first or last daf/amud from a tractate mapping
+ */
+const getDafAmudFromMapping = (
+  tractateMapping: any,
+  position: 'first' | 'last'
+): { daf: string; dafData: any; amud: string } | null => {
+  if (position === 'first') {
+    const daf = Object.keys(tractateMapping)[0];
+    const dafData = tractateMapping[daf as keyof typeof tractateMapping];
+    const amud = Object.keys(dafData)[0];
+    return { daf, dafData, amud };
+  } else {
+    const allDafim = Object.keys(tractateMapping);
+    const daf = allDafim[allDafim.length - 1];
+    const dafData = tractateMapping[daf as keyof typeof tractateMapping];
+    const allAmudim = Object.keys(dafData);
+    const amud = allAmudim[allAmudim.length - 1];
+    return { daf, dafData, amud };
+  }
+};
+
+/**
+ * Helper function to perform the actual navigation to a daf/amud
+ */
+const performDafAmudNavigation = (
+  targetTractate: iTractate | null,
+  targetDaf: string,
+  targetAmud: string,
+  targetDafData: any,
+  amudData: AmudMapping,
+  setters: DafAmudNavigationSetters,
+  onNavigationUpdated: (nav: iLink) => void
+): void => {
+  // Update tractate (if changing tractate)
+  if (targetTractate) {
+    setters.setTractateName(targetTractate.id);
+    setters.setTractateData(targetTractate);
+  }
+  
+  // Update daf/amud
+  setters.setDafName(targetDaf);
+  setters.setAmudName(targetAmud);
+  setters.setDafData({
+    id: targetDaf,
+    amudim: Object.keys(targetDafData),
+  });
+  
+  // Navigate to the mapped chapter/halacha
+  setters.setChapterName(amudData.chapter);
+  setters.setMishnaName(amudData.halacha);
+  setters.setLineNumber('');
+  
+  // Trigger navigation
+  onNavigationUpdated({
+    tractate: targetTractate?.id || '',
+    chapter: amudData.chapter,
+    mishna: amudData.halacha,
+    lineNumber: '',
+    dafAmudMarkers: [{
+      line: amudData.system_line,
+      daf: targetDaf,
+      amud: targetAmud,
+    }],
+  });
+};
 
 /**
  * Custom hook for Daf/Amud navigation with cross-tractate support
@@ -42,6 +120,8 @@ export const useDafAmudNavigation = ({
   onNavigationUpdated,
 }: DafAmudNavigationProps) => {
   
+  const { attemptCrossTractateNavigation } = useCrossTractateNavigation();
+  
   const navigateDafAmudHandler = useCallback((direction: Direction) => {
     if (!tractateData?.title_heb || !dafName || !amudName) {
       return;
@@ -51,6 +131,18 @@ export const useDafAmudNavigation = ({
     if (!tractateMapping) {
       return;
     }
+
+    // Create setters object once
+    const setters = {
+      setTractateName,
+      setTractateData,
+      setDafName,
+      setAmudName,
+      setDafData,
+      setChapterName,
+      setMishnaName,
+      setLineNumber,
+    };
 
     // Get all dafim (pages) in order
     const allDafim = Object.keys(tractateMapping);
@@ -103,107 +195,29 @@ export const useDafAmudNavigation = ({
     }
 
     // Handle cross-tractate navigation
-    if (needsCrossTractateNavigation && allTractates && allTractates.length > 0) {
-      const currentTractateIndex = allTractates.findIndex((t) => t.id === tractateName);
-      
-      if (direction === Direction.FORWARD && currentTractateIndex !== -1 && currentTractateIndex < allTractates.length - 1) {
-        // Go to next tractate, first daf, first amud
-        const nextTractate = allTractates[currentTractateIndex + 1];
-        const nextTractateMapping = amudDafMapping[nextTractate.title_heb as keyof typeof amudDafMapping];
-        
-        if (nextTractateMapping) {
-          const firstDaf = Object.keys(nextTractateMapping)[0];
-          const firstDafData = nextTractateMapping[firstDaf as keyof typeof nextTractateMapping];
-          const firstAmud = Object.keys(firstDafData)[0];
-          const amudData = firstDafData[firstAmud as keyof typeof firstDafData] as AmudMapping;
-          
-          if (amudData && typeof amudData === 'object') {
-            // Update tractate
-            setTractateName(nextTractate.id);
-            setTractateData(nextTractate);
-            
-            // Update daf/amud
-            setDafName(firstDaf);
-            setAmudName(firstAmud);
-            setDafData({
-              id: firstDaf,
-              amudim: Object.keys(firstDafData),
-            });
-            
-            // Navigate to the mapped chapter/halacha
-            setChapterName(amudData.chapter);
-            setMishnaName(amudData.halacha);
-            setLineNumber('');
-            
-            // Trigger navigation
-            onNavigationUpdated({
-              tractate: nextTractate.id,
-              chapter: amudData.chapter,
-              mishna: amudData.halacha,
-              lineNumber: '',
-              dafAmudMarkers: [{
-                line: amudData.system_line,
-                daf: firstDaf,
-                amud: firstAmud,
-              }],
-            });
-            return;
-          }
-        }
-      } else if (direction === Direction.BACK && currentTractateIndex > 0) {
-        // Go to previous tractate, last daf, last amud
-        const previousTractate = allTractates[currentTractateIndex - 1];
-        const prevTractateMapping = amudDafMapping[previousTractate.title_heb as keyof typeof amudDafMapping];
-        
-        if (prevTractateMapping) {
-          const allPrevDafim = Object.keys(prevTractateMapping);
-          const lastDaf = allPrevDafim[allPrevDafim.length - 1];
-          const lastDafData = prevTractateMapping[lastDaf as keyof typeof prevTractateMapping];
-          const allLastAmudim = Object.keys(lastDafData);
-          const lastAmud = allLastAmudim[allLastAmudim.length - 1];
-          const amudData = lastDafData[lastAmud as keyof typeof lastDafData] as AmudMapping;
-          
-          if (amudData && typeof amudData === 'object') {
-            // Update tractate
-            setTractateName(previousTractate.id);
-            setTractateData(previousTractate);
-            
-            // Update daf/amud
-            setDafName(lastDaf);
-            setAmudName(lastAmud);
-            setDafData({
-              id: lastDaf,
-              amudim: Object.keys(lastDafData),
-            });
-            
-            // Navigate to the mapped chapter/halacha
-            setChapterName(amudData.chapter);
-            setMishnaName(amudData.halacha);
-            setLineNumber('');
-            
-            // Trigger navigation
-            onNavigationUpdated({
-              tractate: previousTractate.id,
-              chapter: amudData.chapter,
-              mishna: amudData.halacha,
-              lineNumber: '',
-              dafAmudMarkers: [{
-                line: amudData.system_line,
-                daf: lastDaf,
-                amud: lastAmud,
-              }],
-            });
-            return;
-          }
-        }
-      }
-      
-      // Can't navigate further
-      return;
-    }
-
     if (needsCrossTractateNavigation) {
-      // No allTractates available or can't navigate
+      attemptCrossTractateNavigation(
+        tractateName,
+        allTractates,
+        direction,
+        (targetTractate, position) => {
+          const targetTractateMapping = amudDafMapping[targetTractate.title_heb as keyof typeof amudDafMapping];
+          
+          if (targetTractateMapping) {
+            const result = getDafAmudFromMapping(targetTractateMapping, position);
+            
+            if (result) {
+              const amudData = result.dafData[result.amud as keyof typeof result.dafData] as AmudMapping;
+              
+              if (amudData && typeof amudData === 'object') {
+                performDafAmudNavigation(targetTractate, result.daf, result.amud, result.dafData, amudData, setters, onNavigationUpdated);
+                return true;
+              }
+            }
+          }
+          return false;
+        }
+      );
       return;
     }
 
@@ -212,31 +226,7 @@ export const useDafAmudNavigation = ({
     const amudData = newDafData[nextAmud as keyof typeof newDafData] as AmudMapping;
 
     if (amudData && typeof amudData === 'object') {
-      // Update state
-      setDafName(nextDaf);
-      setAmudName(nextAmud);
-      setDafData({
-        id: nextDaf,
-        amudim: Object.keys(newDafData),
-      });
-
-      // Navigate to the mapped chapter/halacha
-      setChapterName(amudData.chapter);
-      setMishnaName(amudData.halacha);
-      setLineNumber('');
-
-      // Trigger navigation
-      onNavigationUpdated({
-        tractate: tractateName,
-        chapter: amudData.chapter,
-        mishna: amudData.halacha,
-        lineNumber: '',
-        dafAmudMarkers: [{
-          line: amudData.system_line,
-          daf: nextDaf,
-          amud: nextAmud,
-        }],
-      });
+      performDafAmudNavigation(null, nextDaf, nextAmud, newDafData, amudData, setters, onNavigationUpdated);
     }
   }, [
     tractateData,
