@@ -4,25 +4,19 @@ import ChooseDaf, { leanDaf } from './ChooseDaf';
 import ChooseAmud from './ChooseAmud';
 import { iLink, iTractate } from '../../../types/types';
 import NavigationArrow from './NavigationArrow';
+import { BaseNavigationComponentProps, CoreChapterMishnaSetters } from './navigationTypes';
 
-interface DafAmudNavigationProps {
-  isHebrew: boolean;
-  navButtons: boolean;
+interface DafAmudNavigationProps extends BaseNavigationComponentProps, CoreChapterMishnaSetters {
   dafName: string;
   amudName: string;
   dafData: leanDaf | null;
   tractateData: iTractate | null;
   tractateName: string;
-  isNavigating: boolean;
   setDafName: (value: string) => void;
   setAmudName: (value: string) => void;
   setDafData: (value: leanDaf | null) => void;
-  setChapterName: (value: string) => void;
-  setMishnaName: (value: string) => void;
   setLineNumber: (value: string) => void;
   onNavigationUpdated: (nav: iLink) => void;
-  onNavigateBack: () => void;
-  onNavigateForward: () => void;
 }
 
 const DafAmudNavigation: React.FC<DafAmudNavigationProps> = ({

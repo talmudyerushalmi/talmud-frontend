@@ -1,9 +1,9 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { useTranslation } from 'react-i18next';
 import { iTractate, refMishna } from '../../../types/types';
 import { hebrewMap } from '../../../inc/utils';
 import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './NavigationDropdownStyles';
 import NavigationAutocomplete from './NavigationAutocomplete';
+import { useIsHebrew } from './navigationTypes';
 
 export interface leanChapter {
   id: string;
@@ -21,8 +21,7 @@ const ChooseChapter = (props: Props) => {
   const { chapter, onSelectChapter, inTractate, onUserSelectChapter } = props;
   const [selectedChapter, setSelectedChapter] = useState<leanChapter | null>(null);
 
-  const { i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const isHebrew = useIsHebrew();
 
   const _onChange = (event: SyntheticEvent<Element, Event>, chapter: leanChapter | null) => {
     if (chapter) {

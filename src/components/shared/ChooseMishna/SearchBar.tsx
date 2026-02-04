@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { objectToBase64 } from '../../../inc/objectToBase64';
 import { useAppSelector } from '../../../app/hooks';
 import { getTractate } from '../../../inc/mishnaUtils';
+import { useIsHebrew } from './navigationTypes';
 
 interface IProps {}
 
 const SearchBar: FC<IProps> = () => {
-  const { t, i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const { t } = useTranslation();
+  const isHebrew = useIsHebrew();
   const currentMishna = useAppSelector((state) => state.navigation?.currentMishna);
   const tractate = currentMishna ? getTractate(currentMishna) : null;
   const navigate = useNavigate();

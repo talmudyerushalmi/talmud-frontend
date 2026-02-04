@@ -1,6 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 import { Autocomplete, TextField, AutocompleteRenderInputParams } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useIsHebrew } from './navigationTypes';
 
 interface NavigationAutocompleteProps<T> {
   label: string;
@@ -29,8 +30,8 @@ function NavigationAutocomplete<T>({
   customTextFieldSx = {},
   customListboxProps = {},
 }: NavigationAutocompleteProps<T>) {
-  const { t, i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const { t } = useTranslation();
+  const isHebrew = useIsHebrew();
 
   return (
     <Autocomplete

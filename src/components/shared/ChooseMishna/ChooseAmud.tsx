@@ -1,10 +1,10 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { useTranslation } from 'react-i18next';
 import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './NavigationDropdownStyles';
 import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { leanDaf } from './ChooseDaf';
 import { hebrewAmudToEnglish } from '../../../inc/utils';
 import NavigationAutocomplete from './NavigationAutocomplete';
+import { useIsHebrew } from './navigationTypes';
 
 export interface AmudMapping {
   chapter: string;
@@ -35,8 +35,7 @@ const ChooseAmud = (props: Props) => {
   const [selectedAmud, setSelectedAmud] = useState<string | null>(null);
   const [amudOptions, setAmudOptions] = useState<string[]>([]);
 
-  const { i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const isHebrew = useIsHebrew();
 
   // Build amud options from the selected Daf
   useEffect(() => {

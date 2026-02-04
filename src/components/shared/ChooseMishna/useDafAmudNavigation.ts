@@ -9,27 +9,19 @@ import { useCrossTractateNavigation } from './useCrossTractateNavigation';
 /**
  * Extended setters for Daf/Amud navigation (includes base setters + daf-specific ones)
  */
-interface DafAmudNavigationSetters extends BaseNavigationSetters {
+export interface DafAmudNavigationSetters extends BaseNavigationSetters {
   setTractateData: (value: iTractate | null) => void;
   setDafName: (value: string) => void;
   setAmudName: (value: string) => void;
   setDafData: (value: leanDaf | null) => void;
 }
 
-interface DafAmudNavigationProps {
+interface DafAmudNavigationProps extends DafAmudNavigationSetters {
   tractateName: string;
   tractateData: iTractate | null;
   dafName: string;
   amudName: string;
   allTractates?: iTractate[];
-  setTractateName: (value: string) => void;
-  setTractateData: (value: iTractate | null) => void;
-  setDafName: (value: string) => void;
-  setAmudName: (value: string) => void;
-  setDafData: (value: leanDaf | null) => void;
-  setChapterName: (value: string) => void;
-  setMishnaName: (value: string) => void;
-  setLineNumber: (value: string) => void;
   onNavigationUpdated: (nav: iLink) => void;
 }
 

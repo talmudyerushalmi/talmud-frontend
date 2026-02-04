@@ -5,17 +5,13 @@ import { iMishnaForNavigation } from './ChooseMishna';
 import { useCrossTractateNavigation } from './useCrossTractateNavigation';
 import { Direction, BaseNavigationSetters } from './navigationTypes';
 
-interface ChapterMishnaNavigationProps {
+interface ChapterMishnaNavigationProps extends BaseNavigationSetters {
   tractateName: string;
   chapterName: string;
   mishnaName: string;
   lineNumber: string;
   mishnaData: iMishnaForNavigation | null;
   allTractates?: iTractate[];
-  setTractateName: (value: string) => void;
-  setChapterName: (value: string) => void;
-  setMishnaName: (value: string) => void;
-  setLineNumber: (value: string) => void;
   onButtonNavigation: (nav: iLink) => void;
 }
 

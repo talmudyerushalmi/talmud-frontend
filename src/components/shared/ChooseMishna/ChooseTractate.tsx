@@ -1,8 +1,8 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { useTranslation } from 'react-i18next';
 import { iTractate } from '../../../types/types';
 import { getChooseTractateAutocompleteStyles, getChooseMishnaTextFieldStyles } from './NavigationDropdownStyles';
 import NavigationAutocomplete from './NavigationAutocomplete';
+import { useIsHebrew } from './navigationTypes';
 
 interface Props {
   tractate: string;
@@ -14,8 +14,7 @@ const ChooseTractate = (props: Props) => {
   const { tractate, onSelectTractate, allTractates } = props;
   const [selectedTractate, setSelectedTractate] = useState<iTractate | null>(null);
 
-  const { i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const isHebrew = useIsHebrew();
 
   const formatTractateName = (id: string): string => {
     return id

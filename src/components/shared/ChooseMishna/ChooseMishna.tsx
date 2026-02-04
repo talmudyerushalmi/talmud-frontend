@@ -8,6 +8,7 @@ import { iMarker, refMishna } from '../../../types/types';
 import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './NavigationDropdownStyles';
 import { leanLine } from './ChooseLine';
 import NavigationAutocomplete from './NavigationAutocomplete';
+import { useIsHebrew } from './navigationTypes';
 
 export interface iMishnaForNavigation extends refMishna {
   lines: leanLine[];
@@ -35,8 +36,8 @@ const ChooseMishna = (props: Props) => {
   const { mishnaName, onSelectMishna, inChapter, allChapterAllowed, onUserSelectMishna } = props;
   const [selectedMishna, setSelectedMishna] = useState<refMishna | null>(null);
   const [mishnaiot, setMishnaiot] = useState<refMishna[] | []>([]);
-  const { t, i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const { t } = useTranslation();
+  const isHebrew = useIsHebrew();
 
   const _onChange = (event: SyntheticEvent<Element, Event>, mishna: refMishna | null) => {
     if (!mishna) {

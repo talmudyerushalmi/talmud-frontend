@@ -3,10 +3,9 @@ import ChooseChapter, { leanChapter } from './ChooseChapter';
 import ChooseMishna, { iMishnaForNavigation } from './ChooseMishna';
 import { iChapter, iTractate } from '../../../types/types';
 import NavigationArrow from './NavigationArrow';
+import { BaseNavigationComponentProps, CoreChapterMishnaSetters } from './navigationTypes';
 
-interface ChapterMishnaNavigationProps {
-  isHebrew: boolean;
-  navButtons: boolean;
+interface ChapterMishnaNavigationProps extends BaseNavigationComponentProps, CoreChapterMishnaSetters {
   showDafAmudNavigation: boolean;
   lineNumber: string;
   chapterName: string;
@@ -14,13 +13,8 @@ interface ChapterMishnaNavigationProps {
   tractateData: iTractate | null;
   chapterData: iChapter | null;
   allChapterAllowed?: boolean;
-  isNavigating: boolean;
-  setChapterName: (value: string) => void;
   setChapterData: (value: iChapter | null) => void;
-  setMishnaName: (value: string) => void;
   setMishnaData: (value: iMishnaForNavigation | null) => void;
-  onNavigateBack: () => void;
-  onNavigateForward: () => void;
   onUserSelectMishna: (mishna: iMishnaForNavigation) => void;
 }
 

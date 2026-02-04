@@ -1,8 +1,7 @@
 import { iLink, iTractate } from '../../../types/types';
 import { iMishnaForNavigation } from './ChooseMishna';
-import { leanDaf } from './ChooseDaf';
 import { useChapterMishnaNavigation } from './useChapterMishnaNavigation';
-import { useDafAmudNavigation } from './useDafAmudNavigation';
+import { useDafAmudNavigation, DafAmudNavigationSetters } from './useDafAmudNavigation';
 import { Direction } from './navigationTypes';
 
 interface NavigationState {
@@ -18,16 +17,7 @@ interface NavigationState {
 
 interface NavigationHandlersProps {
   state: NavigationState;
-  setters: {
-    setTractateName: (value: string) => void;
-    setChapterName: (value: string) => void;
-    setMishnaName: (value: string) => void;
-    setLineNumber: (value: string) => void;
-    setTractateData: (value: iTractate | null) => void;
-    setDafName: (value: string) => void;
-    setAmudName: (value: string) => void;
-    setDafData: (value: leanDaf | null) => void;
-  };
+  setters: DafAmudNavigationSetters;
   allTractates?: iTractate[];
   onButtonNavigation: (nav: iLink) => void;
   onNavigationUpdated: (nav: iLink) => void;

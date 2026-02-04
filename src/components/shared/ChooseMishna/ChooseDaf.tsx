@@ -1,9 +1,9 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { useTranslation } from 'react-i18next';
 import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './NavigationDropdownStyles';
 import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { hebrewToNumber } from '../../../inc/utils';
 import NavigationAutocomplete from './NavigationAutocomplete';
+import { useIsHebrew } from './navigationTypes';
 
 export interface leanDaf {
   id: string;  // Hebrew letter (ב, ג, ד...)
@@ -21,8 +21,7 @@ const ChooseDaf = (props: Props) => {
   const [selectedDaf, setSelectedDaf] = useState<leanDaf | null>(null);
   const [dafOptions, setDafOptions] = useState<leanDaf[]>([]);
 
-  const { i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const isHebrew = useIsHebrew();
 
   // Build daf options from JSON mapping based on selected tractate
   useEffect(() => {

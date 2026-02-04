@@ -7,13 +7,13 @@ import { Box } from '@mui/material';
 import { debounce } from 'lodash';
 import useKeypress from '../../../hooks/useKeypress';
 import { editorInEventPath } from '../../../inc/editorUtils';
-import { useTranslation } from 'react-i18next';
 import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { useNavigationHandlers } from './useNavigationHandlers';
 import { useDafAmudState } from './useDafAmudState';
 import ChapterMishnaNavigation from './ChapterMishnaNavigation';
 import DafAmudNavigation from './DafAmudNavigation';
 import NavigationArrow from './NavigationArrow';
+import { useIsHebrew } from './navigationTypes';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
@@ -38,8 +38,7 @@ const ChooseMishnaForm = ({
   allTractates,
   showDafAmudNavigation = false,
 }: Props) => {
-  const { i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const isHebrew = useIsHebrew();
   
   // Main navigation state
   const [tractateName, setTractateName] = useState<string>(initValues?.tractate || '');
