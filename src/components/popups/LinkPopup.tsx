@@ -194,7 +194,6 @@ export default function LinkPopup(props: Props) {
         allChapterAllowed={false}
         allTractates={allTractates}
         onNavigationUpdated={handleNavigationUpdate}
-        isHebrew={isHebrew}
       />
 
       {/* Side-by-side subline selection */}

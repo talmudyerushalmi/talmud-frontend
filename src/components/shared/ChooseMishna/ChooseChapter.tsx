@@ -14,11 +14,10 @@ interface Props {
   chapter: string;
   inTractate: iTractate | null;
   onSelectChapter: (tractate: leanChapter) => void;
-  onUserSelectChapter?: (tractate: leanChapter) => void; // Called only on user clicks
 }
 
 const ChooseChapter = (props: Props) => {
-  const { chapter, onSelectChapter, inTractate, onUserSelectChapter } = props;
+  const { chapter, onSelectChapter, inTractate } = props;
   const [selectedChapter, setSelectedChapter] = useState<leanChapter | null>(null);
 
   const isHebrew = useIsHebrew();
@@ -26,10 +25,6 @@ const ChooseChapter = (props: Props) => {
   const _onChange = (event: SyntheticEvent<Element, Event>, chapter: leanChapter | null) => {
     if (chapter) {
       onSelectChapter(chapter);
-      // Call the user-specific callback if provided
-      if (onUserSelectChapter) {
-        onUserSelectChapter(chapter);
-      }
     }
   };
 

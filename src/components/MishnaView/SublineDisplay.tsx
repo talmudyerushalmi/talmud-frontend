@@ -264,7 +264,6 @@ const SublineDisplay = (props: Props) => {
             markFrom={markedSelection?.from}
             markTo={markedSelection?.to}
             subline={subline}
-            dafAmudMarker={dafAmudMarker}
           />
           {/* Daf/Amud badge positioned on the right */}
           {dafAmudMarker && (

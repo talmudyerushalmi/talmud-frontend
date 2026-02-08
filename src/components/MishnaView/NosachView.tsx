@@ -1,7 +1,7 @@
 import { ContentState, convertFromRaw, EditorState, Modifier, SelectionState } from 'draft-js';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
-import { iExcerpt, iSubline, DafAmudMarker } from '../../types/types';
+import { iExcerpt, iSubline } from '../../types/types';
 import TextEditor from '../edit/MainLineEditor/TextEditor';
 import {
   compoundCombinedDecorators,
@@ -16,7 +16,6 @@ interface Props {
   showPunctuation?: boolean;
   showEditType: ShowEditType;
   selectedExcerpt?: iExcerpt;
-  dafAmudMarker?: DafAmudMarker;
 }
 
 const findWithRegex = (regex, contentBlock, callback) => {
@@ -68,7 +67,7 @@ const mark = (editorState: EditorState, markFrom, markTo) => {
 };
 
 const NosachView = (props: Props) => {
-  const { subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, dafAmudMarker } = props;
+  const { subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType } = props;
 
   const [editor, setEditor] = useState(EditorState.createEmpty());
 
@@ -121,7 +120,7 @@ const NosachView = (props: Props) => {
       newEditorState = EditorState.createWithContent(ContentState.createFromText(''));
     }
     setEditor(newEditorState);
-  }, [subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, memoizedRemovePunctuation, dafAmudMarker]);
+  }, [subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, memoizedRemovePunctuation]);
 
   return <TextEditor selectionFrom={1} selectionTo={4} readOnly={true} initialState={editor} />;
 };
