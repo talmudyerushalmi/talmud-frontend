@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 import { iLink, iTractate } from '../../../types/types';
 import { leanDaf } from './ChooseDaf';
 import { AmudMapping } from './ChooseAmud';
-import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { Direction, BaseNavigationSetters } from './navigationTypes';
 import { useCrossTractateNavigation } from './useCrossTractateNavigation';
+import { getAllDafsForTractate, getDafAmudMapping } from '../../../services/dafAmudService';
 
 /**
  * Extended setters for Daf/Amud navigation (includes base setters + daf-specific ones)
@@ -26,24 +26,23 @@ interface DafAmudNavigationProps extends DafAmudNavigationSetters {
 }
 
 /**
- * Helper function to get the first or last daf/amud from a tractate mapping
+ * Helper function to get the first or last daf/amud from a tractate
  */
-const getDafAmudFromMapping = (
-  tractateMapping: any,
+const getDafAmudFromTractate = async (
+  tractateTitle: string,
   position: 'first' | 'last'
-): { daf: string; dafData: any; amud: string } | null => {
+): Promise<{ daf: string; dafData: leanDaf; amud: string } | null> => {
+  const dafList = await getAllDafsForTractate(tractateTitle);
+  if (dafList.length === 0) return null;
+  
   if (position === 'first') {
-    const daf = Object.keys(tractateMapping)[0];
-    const dafData = tractateMapping[daf as keyof typeof tractateMapping];
-    const amud = Object.keys(dafData)[0];
-    return { daf, dafData, amud };
+    const dafData = dafList[0];
+    const amud = dafData.amudim[0] || '';
+    return { daf: dafData.id, dafData, amud };
   } else {
-    const allDafim = Object.keys(tractateMapping);
-    const daf = allDafim[allDafim.length - 1];
-    const dafData = tractateMapping[daf as keyof typeof tractateMapping];
-    const allAmudim = Object.keys(dafData);
-    const amud = allAmudim[allAmudim.length - 1];
-    return { daf, dafData, amud };
+    const dafData = dafList[dafList.length - 1];
+    const amud = dafData.amudim[dafData.amudim.length - 1] || '';
+    return { daf: dafData.id, dafData, amud };
   }
 };
 
@@ -55,7 +54,7 @@ const performDafAmudNavigation = (
   currentTractateName: string,
   targetDaf: string,
   targetAmud: string,
-  targetDafData: any,
+  targetDafData: leanDaf,
   amudData: AmudMapping,
   setters: DafAmudNavigationSetters,
   onNavigationUpdated: (nav: iLink) => void
@@ -69,17 +68,14 @@ const performDafAmudNavigation = (
   // Update daf/amud
   setters.setDafName(targetDaf);
   setters.setAmudName(targetAmud);
-  setters.setDafData({
-    id: targetDaf,
-    amudim: Object.keys(targetDafData),
-  });
+  setters.setDafData(targetDafData);
   
   // Navigate to the mapped chapter/halacha
   setters.setChapterName(amudData.chapter);
   setters.setMishnaName(amudData.halacha);
   setters.setLineNumber('');
   
-  // Trigger navigation
+  // Build navigation link with Daf/Amud markers
   onNavigationUpdated({
     tractate: targetTractate?.id || currentTractateName,
     chapter: amudData.chapter,
@@ -93,9 +89,6 @@ const performDafAmudNavigation = (
   });
 };
 
-/**
- * Custom hook for Daf/Amud navigation with cross-tractate support
- */
 export const useDafAmudNavigation = ({
   tractateName,
   tractateData,
@@ -113,15 +106,16 @@ export const useDafAmudNavigation = ({
   onNavigationUpdated,
 }: DafAmudNavigationProps) => {
   
-  const { attemptCrossTractateNavigation } = useCrossTractateNavigation();
+  const { getCrossTractateTarget } = useCrossTractateNavigation();
   
-  const navigateDafAmudHandler = useCallback((direction: Direction) => {
+  const navigateDafAmudHandler = useCallback(async (direction: Direction) => {
     if (!tractateData?.title_heb || !dafName || !amudName) {
       return;
     }
 
-    const tractateMapping = amudDafMapping[tractateData.title_heb as keyof typeof amudDafMapping];
-    if (!tractateMapping) {
+    // Get all dafim for current tractate
+    const dafList = await getAllDafsForTractate(tractateData.title_heb);
+    if (dafList.length === 0) {
       return;
     }
 
@@ -137,33 +131,30 @@ export const useDafAmudNavigation = ({
       setLineNumber,
     };
 
-    // Get all dafim (pages) in order
-    const allDafim = Object.keys(tractateMapping);
-    const currentDafIndex = allDafim.indexOf(dafName);
-    
+    // Find current daf and amud indices
+    const currentDafIndex = dafList.findIndex(d => d.id === dafName);
     if (currentDafIndex === -1) {
       return;
     }
 
-    const currentDafData = tractateMapping[dafName as keyof typeof tractateMapping];
-    const amudim = Object.keys(currentDafData);
-    const currentAmudIndex = amudim.indexOf(amudName);
+    const currentDafData = dafList[currentDafIndex];
+    const currentAmudIndex = currentDafData.amudim.indexOf(amudName);
 
     let nextDaf = dafName;
     let nextAmud = amudName;
+    let nextDafData = currentDafData;
     let needsCrossTractateNavigation = false;
 
     if (direction === Direction.FORWARD) {
       // Try next amud in current daf
-      if (currentAmudIndex < amudim.length - 1) {
-        nextAmud = amudim[currentAmudIndex + 1];
+      if (currentAmudIndex < currentDafData.amudim.length - 1) {
+        nextAmud = currentDafData.amudim[currentAmudIndex + 1];
       } else {
         // Go to first amud of next daf
-        if (currentDafIndex < allDafim.length - 1) {
-          nextDaf = allDafim[currentDafIndex + 1];
-          const nextDafData = tractateMapping[nextDaf as keyof typeof tractateMapping];
-          const nextAmudim = Object.keys(nextDafData);
-          nextAmud = nextAmudim[0];
+        if (currentDafIndex < dafList.length - 1) {
+          nextDafData = dafList[currentDafIndex + 1];
+          nextDaf = nextDafData.id;
+          nextAmud = nextDafData.amudim[0];
         } else {
           // At end of tractate - need to go to next tractate
           needsCrossTractateNavigation = true;
@@ -172,14 +163,13 @@ export const useDafAmudNavigation = ({
     } else {
       // Try previous amud in current daf
       if (currentAmudIndex > 0) {
-        nextAmud = amudim[currentAmudIndex - 1];
+        nextAmud = currentDafData.amudim[currentAmudIndex - 1];
       } else {
         // Go to last amud of previous daf
         if (currentDafIndex > 0) {
-          nextDaf = allDafim[currentDafIndex - 1];
-          const prevDafData = tractateMapping[nextDaf as keyof typeof tractateMapping];
-          const prevAmudim = Object.keys(prevDafData);
-          nextAmud = prevAmudim[prevAmudim.length - 1];
+          nextDafData = dafList[currentDafIndex - 1];
+          nextDaf = nextDafData.id;
+          nextAmud = nextDafData.amudim[nextDafData.amudim.length - 1];
         } else {
           // At start of tractate - need to go to previous tractate
           needsCrossTractateNavigation = true;
@@ -189,45 +179,56 @@ export const useDafAmudNavigation = ({
 
     // Handle cross-tractate navigation
     if (needsCrossTractateNavigation) {
-      attemptCrossTractateNavigation(
+      const { tractate: targetTractate, position } = getCrossTractateTarget(
         tractateName,
         allTractates,
-        direction,
-        (targetTractate, position) => {
-          const targetTractateMapping = amudDafMapping[targetTractate.title_heb as keyof typeof amudDafMapping];
-          
-          if (targetTractateMapping) {
-            const result = getDafAmudFromMapping(targetTractateMapping, position);
-            
-            if (result) {
-              const amudData = result.dafData[result.amud as keyof typeof result.dafData] as AmudMapping;
-              
-              if (amudData && typeof amudData === 'object') {
-                performDafAmudNavigation(targetTractate, tractateName, result.daf, result.amud, result.dafData, amudData, setters, onNavigationUpdated);
-                return true;
-              }
-            }
-          }
-          return false;
-        }
+        direction
       );
+      
+      if (targetTractate && position) {
+        const result = await getDafAmudFromTractate(targetTractate.title_heb, position);
+        
+        if (result) {
+          const amudData = await getDafAmudMapping(targetTractate.title_heb, result.daf, result.amud);
+          
+          if (amudData) {
+            performDafAmudNavigation(
+              targetTractate,
+              tractateName,
+              result.daf,
+              result.amud,
+              result.dafData,
+              amudData,
+              setters,
+              onNavigationUpdated
+            );
+          }
+        }
+      }
       return;
     }
 
-    // Get mapping for the new daf/amud (within same tractate)
-    const newDafData = tractateMapping[nextDaf as keyof typeof tractateMapping];
-    const amudData = newDafData[nextAmud as keyof typeof newDafData] as AmudMapping;
-
-    if (amudData && typeof amudData === 'object') {
-      performDafAmudNavigation(null, tractateName, nextDaf, nextAmud, newDafData, amudData, setters, onNavigationUpdated);
+    // Same-tractate navigation
+    const amudData = await getDafAmudMapping(tractateData.title_heb, nextDaf, nextAmud);
+    
+    if (amudData) {
+      performDafAmudNavigation(
+        null,
+        tractateName,
+        nextDaf,
+        nextAmud,
+        nextDafData,
+        amudData,
+        setters,
+        onNavigationUpdated
+      );
     }
   }, [
+    tractateName,
     tractateData,
     dafName,
     amudName,
-    tractateName,
     allTractates,
-    onNavigationUpdated,
     setTractateName,
     setTractateData,
     setDafName,
@@ -236,7 +237,11 @@ export const useDafAmudNavigation = ({
     setChapterName,
     setMishnaName,
     setLineNumber,
+    onNavigationUpdated,
+    getCrossTractateTarget,
   ]);
 
-  return { navigateDafAmudHandler };
+  return {
+    navigateDafAmudHandler,
+  };
 };

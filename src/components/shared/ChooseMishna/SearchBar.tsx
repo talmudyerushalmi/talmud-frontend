@@ -16,7 +16,7 @@ const SearchBar: FC<IProps> = () => {
   const currentMishna = useAppSelector((state) => state.navigation?.currentMishna);
   const tractate = currentMishna ? getTractate(currentMishna) : null;
   const navigate = useNavigate();
-  const [searchValue, setSearchValue] = useState<string | null>(null);
+  const [searchValue, setSearchValue] = useState<string>('');
   const handleSearch = () => {
     if (searchValue) {
       navigate(`/search?query=${objectToBase64({ text: searchValue, tractate: tractate })}`);

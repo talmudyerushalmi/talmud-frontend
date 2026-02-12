@@ -7,8 +7,8 @@ import { Box } from '@mui/material';
 import { debounce } from 'lodash';
 import useKeypress from '../../../hooks/useKeypress';
 import { editorInEventPath } from '../../../inc/editorUtils';
-import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { useDafAmudState } from './useDafAmudState';
+import { getAllDafsForTractate } from '../../../services/dafAmudService';
 import { useChapterMishnaNavigation } from './useChapterMishnaNavigation';
 import { useDafAmudNavigation } from './useDafAmudNavigation';
 import ChapterMishnaNavigation from './ChapterMishnaNavigation';
@@ -202,21 +202,16 @@ const ChooseMishnaForm = ({
               
               // Also reset Daf/Amud to first available
               if (t.title_heb) {
-                const tractateMapping = amudDafMapping[t.title_heb as keyof typeof amudDafMapping];
-                if (tractateMapping) {
-                  const firstDafKey = Object.keys(tractateMapping)[0];
-                  if (firstDafKey) {
-                    const firstDafData = tractateMapping[firstDafKey as keyof typeof tractateMapping];
-                    const firstAmudKey = Object.keys(firstDafData)[0];
-                    
-                    setDafName(firstDafKey);
-                    setDafData({
-                      id: firstDafKey,
-                      amudim: Object.keys(firstDafData),
-                    });
-                    setAmudName(firstAmudKey);
+                getAllDafsForTractate(t.title_heb).then((dafList) => {
+                  if (dafList.length > 0) {
+                    const firstDaf = dafList[0];
+                    setDafName(firstDaf.id);
+                    setDafData(firstDaf);
+                    if (firstDaf.amudim.length > 0) {
+                      setAmudName(firstDaf.amudim[0]);
+                    }
                   }
-                }
+                });
               }
             }
           }}

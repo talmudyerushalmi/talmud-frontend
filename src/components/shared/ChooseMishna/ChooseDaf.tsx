@@ -1,14 +1,11 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './NavigationDropdownStyles';
-import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { hebrewToNumber } from '../../../inc/utils';
 import NavigationAutocomplete from './NavigationAutocomplete';
 import { useIsHebrew } from './navigationTypes';
+import { getAllDafsForTractate, leanDaf } from '../../../services/dafAmudService';
 
-export interface leanDaf {
-  id: string;  // Hebrew letter (ב, ג, ד...)
-  amudim: string[];  // Array of amud values (א, ב)
-}
+export type { leanDaf };
 
 interface Props {
   daf: string;
@@ -23,18 +20,12 @@ const ChooseDaf = (props: Props) => {
 
   const isHebrew = useIsHebrew();
 
-  // Build daf options from JSON mapping based on selected tractate
+  // Build daf options from API based on selected tractate
   useEffect(() => {
-    if (inTractate && amudDafMapping[inTractate as keyof typeof amudDafMapping]) {
-      const tractateData = amudDafMapping[inTractate as keyof typeof amudDafMapping];
-      const dafList: leanDaf[] = Object.keys(tractateData).map((dafKey) => {
-        const amudim = Object.keys(tractateData[dafKey as keyof typeof tractateData]);
-        return {
-          id: dafKey,
-          amudim,
-        };
+    if (inTractate) {
+      getAllDafsForTractate(inTractate).then((dafList) => {
+        setDafOptions(dafList);
       });
-      setDafOptions(dafList);
     } else {
       setDafOptions([]);
     }

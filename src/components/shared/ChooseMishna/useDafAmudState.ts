@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { iLink, iTractate } from '../../../types/types';
 import { iMishnaForNavigation } from './ChooseMishna';
 import { leanDaf } from './ChooseDaf';
-import amudDafMapping from '../../../data/amud_daf_mapping.json';
+import { getAmudimsForDaf } from '../../../services/dafAmudService';
 
 interface UseDafAmudStateProps {
   initValues: iLink | null;
@@ -45,16 +45,13 @@ export const useDafAmudState = ({
     }
   }, [amudName]);
 
-  // Helper function to update dafData from tractate mapping
-  const updateDafDataFromMapping = (dafId: string, tractateTitle: string) => {
-    const tractateMapping = amudDafMapping[tractateTitle as keyof typeof amudDafMapping];
-    if (tractateMapping && tractateMapping[dafId as keyof typeof tractateMapping]) {
-      const dafDataFromMapping = tractateMapping[dafId as keyof typeof tractateMapping];
-      setDafData({
-        id: dafId,
-        amudim: Object.keys(dafDataFromMapping),
-      });
-    }
+  // Helper function to update dafData from API
+  const updateDafDataFromMapping = async (dafId: string, tractateTitle: string) => {
+    const amudim = await getAmudimsForDaf(tractateTitle, dafId);
+    setDafData({
+      id: dafId,
+      amudim,
+    });
   };
 
   // Restore dafData when tractateData loads and we have dafName

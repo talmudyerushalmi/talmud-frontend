@@ -1,33 +1,18 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './NavigationDropdownStyles';
-import amudDafMapping from '../../../data/amud_daf_mapping.json';
 import { leanDaf } from './ChooseDaf';
 import { hebrewAmudToEnglish } from '../../../inc/utils';
 import NavigationAutocomplete from './NavigationAutocomplete';
 import { useIsHebrew } from './navigationTypes';
+import { getDafAmudMapping, AmudMapping } from '../../../services/dafAmudService';
 
-export interface AmudMapping {
-  chapter: string;
-  halacha: string;
-  system_line: string;
-}
+export type { AmudMapping };
 
 interface Props {
   amud: string;
   inDaf: leanDaf | null;
   inTractate: string;
   onSelectAmud: (amud: string, mapping: AmudMapping) => void;
-}
-
-// Type guard to check if the data has the expected structure
-function isAmudMapping(data: unknown): data is AmudMapping {
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    'chapter' in data &&
-    'halacha' in data &&
-    'system_line' in data
-  );
 }
 
 const ChooseAmud = (props: Props) => {
@@ -46,22 +31,17 @@ const ChooseAmud = (props: Props) => {
     }
   }, [inDaf]);
 
-  const _onChange = (event: SyntheticEvent<Element, Event>, amud: string | null) => {
+  const _onChange = async (event: SyntheticEvent<Element, Event>, amud: string | null) => {
     if (!amud || !inDaf || !inTractate) {
       return;
     }
     
     setSelectedAmud(amud);
 
-    // Retrieve mapping data from JSON
-    const tractateData = amudDafMapping[inTractate as keyof typeof amudDafMapping];
-    if (tractateData && tractateData[inDaf.id as keyof typeof tractateData]) {
-      const dafData = tractateData[inDaf.id as keyof typeof tractateData];
-      const amudData = dafData[amud as keyof typeof dafData];
-      
-      if (isAmudMapping(amudData)) {
-        onSelectAmud(amud, amudData);
-      }
+    // Retrieve mapping data from API
+    const mapping = await getDafAmudMapping(inTractate, inDaf.id, amud);
+    if (mapping) {
+      onSelectAmud(amud, mapping);
     }
   };
 
