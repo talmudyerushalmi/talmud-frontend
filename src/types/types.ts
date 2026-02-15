@@ -2,10 +2,23 @@ import { RawDraftContentState } from 'draft-js';
 import { EditorSelectionObject } from '../inc/editorUtils';
 import { iExcerptType } from '../inc/excerptUtils';
 
+export interface AmudMapping {
+  amud: string;
+  chapter: string;
+  halacha: string;
+  system_line: string;
+}
+
+export interface Daf {
+  id: string;
+  amudim: AmudMapping[];
+}
+
 export interface iTractate {
   id: string;
   title_heb: string;
   chapters: iChapter[];
+  dafs?: Daf[];
 }
 export interface iChapter {
   id: string;

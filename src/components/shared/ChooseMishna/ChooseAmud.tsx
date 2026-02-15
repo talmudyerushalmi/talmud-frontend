@@ -4,19 +4,20 @@ import { leanDaf } from './ChooseDaf';
 import { hebrewAmudToEnglish } from '../../../inc/utils';
 import NavigationAutocomplete from './NavigationAutocomplete';
 import { useIsHebrew } from './navigationTypes';
-import { getDafAmudMapping, AmudMapping } from '../../../services/dafAmudService';
+import { getDafAmudMappingFromTractate } from '../../../services/dafAmudService';
+import { iTractate, AmudMapping } from '../../../types/types';
 
 export type { AmudMapping };
 
 interface Props {
   amud: string;
   inDaf: leanDaf | null;
-  inTractate: string;
-  onSelectAmud: (amud: string, mapping: AmudMapping) => void;
+  tractate: iTractate | null;
+  onSelectAmud: (amud: string, mapping: Omit<AmudMapping, 'amud'>) => void;
 }
 
 const ChooseAmud = (props: Props) => {
-  const { amud, onSelectAmud, inDaf, inTractate } = props;
+  const { amud, onSelectAmud, inDaf, tractate } = props;
   const [selectedAmud, setSelectedAmud] = useState<string | null>(null);
   const [amudOptions, setAmudOptions] = useState<string[]>([]);
 
@@ -31,15 +32,15 @@ const ChooseAmud = (props: Props) => {
     }
   }, [inDaf]);
 
-  const _onChange = async (event: SyntheticEvent<Element, Event>, amud: string | null) => {
-    if (!amud || !inDaf || !inTractate) {
+  const _onChange = (event: SyntheticEvent<Element, Event>, amud: string | null) => {
+    if (!amud || !inDaf || !tractate) {
       return;
     }
     
     setSelectedAmud(amud);
 
-    // Retrieve mapping data from API
-    const mapping = await getDafAmudMapping(inTractate, inDaf.id, amud);
+    // Retrieve mapping data from tractate (no API call)
+    const mapping = getDafAmudMappingFromTractate(tractate, inDaf.id, amud);
     if (mapping) {
       onSelectAmud(amud, mapping);
     }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { iLink, iTractate } from '../../../types/types';
 import { iMishnaForNavigation } from './ChooseMishna';
 import { leanDaf } from './ChooseDaf';
-import { getAmudimsForDaf } from '../../../services/dafAmudService';
+import { getAmudimsForDafFromTractate } from '../../../services/dafAmudService';
 
 interface UseDafAmudStateProps {
   initValues: iLink | null;
@@ -45,9 +45,9 @@ export const useDafAmudState = ({
     }
   }, [amudName]);
 
-  // Helper function to update dafData from API
-  const updateDafDataFromMapping = async (dafId: string, tractateTitle: string) => {
-    const amudim = await getAmudimsForDaf(tractateTitle, dafId);
+  // Helper function to update dafData from tractate data (no API call)
+  const updateDafDataFromTractate = (dafId: string, tractate: iTractate) => {
+    const amudim = getAmudimsForDafFromTractate(tractate, dafId);
     setDafData({
       id: dafId,
       amudim,
@@ -56,25 +56,31 @@ export const useDafAmudState = ({
 
   // Restore dafData when tractateData loads and we have dafName
   useEffect(() => {
-    if (dafName && tractateData?.title_heb && !dafData) {
-      updateDafDataFromMapping(dafName, tractateData.title_heb);
+    if (dafName && tractateData && !dafData) {
+      updateDafDataFromTractate(dafName, tractateData);
     }
   }, [tractateData, dafName, dafData]);
 
-  // Sync Daf/Amud when mishnaData changes (reverse sync from Chapter/Mishna to Daf/Amud)
+  // Sync Daf/Amud when Chapter/Mishna changes
+  // This updates the Daf/Amud dropdowns to match the currently displayed mishna
+  // BUT: Only when the mishna's chapter/halacha is different from what we're showing
   useEffect(() => {
-    if (mishnaData && mishnaData.daf && mishnaData.amud && tractateData?.title_heb) {
-      const newDaf = mishnaData.daf;
-      const newAmud = mishnaData.amud;
-      
-      // Only update if different from current values
-      if (newDaf !== dafName || newAmud !== amudName) {
-        setDafName(newDaf);
-        setAmudName(newAmud);
-        updateDafDataFromMapping(newDaf, tractateData.title_heb);
-      }
+    if (!mishnaData || !mishnaData.daf || !mishnaData.amud || !tractateData) {
+      return;
     }
-  }, [mishnaData, tractateData]); // Removed dafName and amudName from dependencies to prevent override
+    
+    const newDaf = mishnaData.daf;
+    const newAmud = mishnaData.amud;
+    
+    // Only update if BOTH daf and amud are different
+    // This prevents override when we navigate via Daf/Amud arrows
+    // (because the arrow navigation updates daf/amud BEFORE mishna loads)
+    if (newDaf !== dafName && newAmud !== amudName) {
+      setDafName(newDaf);
+      setAmudName(newAmud);
+      updateDafDataFromTractate(newDaf, tractateData);
+    }
+  }, [mishnaData?.mishna, tractateData]); // Only trigger when mishna changes, not daf/amud
 
   return {
     dafName,

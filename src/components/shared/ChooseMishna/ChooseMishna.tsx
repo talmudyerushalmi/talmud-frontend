@@ -91,10 +91,16 @@ const ChooseMishna = (props: Props) => {
     if (found) {
       setSelectedMishna(found);
 
+      // Skip fetchLines for "whole chapter" option
+      if (mishnaName === 'all') {
+        onSelectMishna(ALL_CHAPTER);
+        return;
+      }
+
       const tractateName = getTractate(found);
       const chapterName = getChapter(found);
-      const mishnaName = found.mishna || getMishna(found);
-      fetchLines(tractateName, chapterName, mishnaName).then((m) => {
+      const foundMishnaName = found.mishna || getMishna(found);
+      fetchLines(tractateName, chapterName, foundMishnaName).then((m) => {
         onSelectMishna(m);
       });
     }

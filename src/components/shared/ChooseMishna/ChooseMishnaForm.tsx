@@ -8,7 +8,7 @@ import { debounce } from 'lodash';
 import useKeypress from '../../../hooks/useKeypress';
 import { editorInEventPath } from '../../../inc/editorUtils';
 import { useDafAmudState } from './useDafAmudState';
-import { getAllDafsForTractate } from '../../../services/dafAmudService';
+import { getAllDafsFromTractate } from '../../../services/dafAmudService';
 import { useChapterMishnaNavigation } from './useChapterMishnaNavigation';
 import { useDafAmudNavigation } from './useDafAmudNavigation';
 import ChapterMishnaNavigation from './ChapterMishnaNavigation';
@@ -201,17 +201,16 @@ const ChooseMishnaForm = ({
               }
               
               // Also reset Daf/Amud to first available
-              if (t.title_heb) {
-                getAllDafsForTractate(t.title_heb).then((dafList) => {
-                  if (dafList.length > 0) {
-                    const firstDaf = dafList[0];
-                    setDafName(firstDaf.id);
-                    setDafData(firstDaf);
-                    if (firstDaf.amudim.length > 0) {
-                      setAmudName(firstDaf.amudim[0]);
-                    }
+              if (t) {
+                const dafList = getAllDafsFromTractate(t);
+                if (dafList.length > 0) {
+                  const firstDaf = dafList[0];
+                  setDafName(firstDaf.id);
+                  setDafData(firstDaf);
+                  if (firstDaf.amudim.length > 0) {
+                    setAmudName(firstDaf.amudim[0]);
                   }
-                });
+                }
               }
             }
           }}

@@ -3,33 +3,33 @@ import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } fro
 import { hebrewToNumber } from '../../../inc/utils';
 import NavigationAutocomplete from './NavigationAutocomplete';
 import { useIsHebrew } from './navigationTypes';
-import { getAllDafsForTractate, leanDaf } from '../../../services/dafAmudService';
+import { getAllDafsFromTractate, leanDaf } from '../../../services/dafAmudService';
+import { iTractate } from '../../../types/types';
 
 export type { leanDaf };
 
 interface Props {
   daf: string;
-  inTractate: string;  // tractate name
+  tractate: iTractate | null;
   onSelectDaf: (daf: leanDaf) => void;
 }
 
 const ChooseDaf = (props: Props) => {
-  const { daf, onSelectDaf, inTractate } = props;
+  const { daf, onSelectDaf, tractate } = props;
   const [selectedDaf, setSelectedDaf] = useState<leanDaf | null>(null);
   const [dafOptions, setDafOptions] = useState<leanDaf[]>([]);
 
   const isHebrew = useIsHebrew();
 
-  // Build daf options from API based on selected tractate
+  // Build daf options from tractate data (no API call)
   useEffect(() => {
-    if (inTractate) {
-      getAllDafsForTractate(inTractate).then((dafList) => {
-        setDafOptions(dafList);
-      });
+    if (tractate) {
+      const dafList = getAllDafsFromTractate(tractate);
+      setDafOptions(dafList);
     } else {
       setDafOptions([]);
     }
-  }, [inTractate]);
+  }, [tractate]);
 
   const _onChange = (event: SyntheticEvent<Element, Event>, daf: leanDaf | null) => {
     if (daf) {

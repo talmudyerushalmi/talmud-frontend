@@ -51,7 +51,7 @@ const DafAmudNavigation: React.FC<DafAmudNavigationProps> = ({
       {/* Daf selector */}
       <ChooseDaf
         daf={dafName}
-        inTractate={tractateData?.title_heb || ''}
+        tractate={tractateData}
         onSelectDaf={(d) => {
           const dafChanged = d.id !== dafName;
           setDafName(d.id);
@@ -67,7 +67,7 @@ const DafAmudNavigation: React.FC<DafAmudNavigationProps> = ({
       <ChooseAmud
         amud={amudName}
         inDaf={dafData}
-        inTractate={tractateData?.title_heb || ''}
+        tractate={tractateData}
         onSelectAmud={(amud, mapping) => {
           setAmudName(amud);
           // Navigate to the mapped chapter/halacha (mishna level only)

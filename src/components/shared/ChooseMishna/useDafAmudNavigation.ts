@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
-import { iLink, iTractate } from '../../../types/types';
+import { iLink, iTractate, AmudMapping } from '../../../types/types';
 import { leanDaf } from './ChooseDaf';
-import { AmudMapping } from './ChooseAmud';
 import { Direction, BaseNavigationSetters } from './navigationTypes';
 import { useCrossTractateNavigation } from './useCrossTractateNavigation';
-import { getAllDafsForTractate, getDafAmudMapping } from '../../../services/dafAmudService';
+import { getAllDafsFromTractate, getDafAmudMappingFromTractate } from '../../../services/dafAmudService';
 
 /**
  * Extended setters for Daf/Amud navigation (includes base setters + daf-specific ones)
@@ -28,11 +27,11 @@ interface DafAmudNavigationProps extends DafAmudNavigationSetters {
 /**
  * Helper function to get the first or last daf/amud from a tractate
  */
-const getDafAmudFromTractate = async (
-  tractateTitle: string,
+const getDafAmudFromTractate = (
+  tractate: iTractate,
   position: 'first' | 'last'
-): Promise<{ daf: string; dafData: leanDaf; amud: string } | null> => {
-  const dafList = await getAllDafsForTractate(tractateTitle);
+): { daf: string; dafData: leanDaf; amud: string } | null => {
+  const dafList = getAllDafsFromTractate(tractate);
   if (dafList.length === 0) return null;
   
   if (position === 'first') {
@@ -55,7 +54,7 @@ const performDafAmudNavigation = (
   targetDaf: string,
   targetAmud: string,
   targetDafData: leanDaf,
-  amudData: AmudMapping,
+  amudData: Omit<AmudMapping, 'amud'>,
   setters: DafAmudNavigationSetters,
   onNavigationUpdated: (nav: iLink) => void
 ): void => {
@@ -109,12 +108,12 @@ export const useDafAmudNavigation = ({
   const { getCrossTractateTarget } = useCrossTractateNavigation();
   
   const navigateDafAmudHandler = useCallback(async (direction: Direction) => {
-    if (!tractateData?.title_heb || !dafName || !amudName) {
+    if (!tractateData || !dafName || !amudName) {
       return;
     }
 
-    // Get all dafim for current tractate
-    const dafList = await getAllDafsForTractate(tractateData.title_heb);
+    // Get all dafim for current tractate (from tractate data, no API call)
+    const dafList = getAllDafsFromTractate(tractateData);
     if (dafList.length === 0) {
       return;
     }
@@ -186,10 +185,10 @@ export const useDafAmudNavigation = ({
       );
       
       if (targetTractate && position) {
-        const result = await getDafAmudFromTractate(targetTractate.title_heb, position);
+        const result = getDafAmudFromTractate(targetTractate, position);
         
         if (result) {
-          const amudData = await getDafAmudMapping(targetTractate.title_heb, result.daf, result.amud);
+          const amudData = getDafAmudMappingFromTractate(targetTractate, result.daf, result.amud);
           
           if (amudData) {
             performDafAmudNavigation(
@@ -209,7 +208,7 @@ export const useDafAmudNavigation = ({
     }
 
     // Same-tractate navigation
-    const amudData = await getDafAmudMapping(tractateData.title_heb, nextDaf, nextAmud);
+    const amudData = getDafAmudMappingFromTractate(tractateData, nextDaf, nextAmud);
     
     if (amudData) {
       performDafAmudNavigation(
