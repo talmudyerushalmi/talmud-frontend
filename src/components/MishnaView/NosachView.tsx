@@ -107,7 +107,6 @@ const NosachView = (props: Props) => {
     let newEditorState;
     if (subline.nosach) {
       let initContent = convertFromRaw(subline.nosach);
-      
       newEditorState = EditorState.createWithContent(initContent, getDecorator(showEditType));
       if (!showPunctuation) {
         newEditorState = memoizedRemovePunctuation(newEditorState);
