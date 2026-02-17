@@ -52,15 +52,13 @@ const PageWithNavigationWithoutState = (props: Props) => {
 
   return (
     <Container style={{ paddingBottom: '3rem' }}>
-      <Box mb={3}>
-        <ChooseMishnaBar
-          allChapterAllowed={allChapterAllowed}
-          keypressNavigation={true}
-          onButtonNavigation={navigationSelectedHandler}
-          onNavigationUpdated={navigationSelectedHandler}
-          showDafAmudNavigation={showDafAmudNavigation}
-        />
-      </Box>
+      <ChooseMishnaBar
+        allChapterAllowed={allChapterAllowed}
+        keypressNavigation={true}
+        onButtonNavigation={navigationSelectedHandler}
+        onNavigationUpdated={navigationSelectedHandler}
+        showDafAmudNavigation={showDafAmudNavigation}
+      />
       <Box
         sx={{
           opacity: loading ? 0.3 : 1,

@@ -51,7 +51,27 @@ const ChooseMishnaBar = ({
 
   return (
     <>
-      <Box className="choose-mishna-bar-form">
+      {/* Sticky Navigation Form */}
+      <Box 
+        className="choose-mishna-bar-form"
+        sx={{
+          position: 'sticky',
+          top: '72px', // AppBar height + spacing
+          zIndex: 1100,
+          backgroundColor: 'background.default',
+          paddingTop: 1,
+          paddingBottom: 1,
+          paddingLeft: 0.1,
+          marginBottom: 2,
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+          '@media print': {
+            position: 'static',
+            borderBottom: 'none',
+            paddingRight: 0,
+          },
+        }}
+      >
         <Grid container>
           <Box sx={{ display: 'flex', flexGrow: 1 }}>
             <ChooseMishnaForm
@@ -67,9 +87,12 @@ const ChooseMishnaBar = ({
           </Box>
         </Grid>
       </Box>
+      
+      {/* Search Bar - NOT sticky */}
       <Box sx={{ 
         display: 'flex', 
         width: '100%',
+        marginBottom: 2,
         'html:lang(he) &': {
           flexDirection: 'row',
         },
@@ -95,6 +118,7 @@ const ChooseMishnaBar = ({
           },
         }} />
       </Box>
+      
       {/* Print version */}
       <PrintHeader allTractates={allTractates} />
     </>
