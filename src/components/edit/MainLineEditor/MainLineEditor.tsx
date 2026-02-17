@@ -10,6 +10,7 @@ import { compoundNosachDecoratorsForEditing } from '../../editors/EditorDecorato
 import { InitialEntityDialogState, MainLineDialog, NosachEntity } from './MainLineDialog';
 import { getContentStateArray, getFinalText, getSelectedText } from '../../../inc/editorUtils';
 import SugiaField from '../SugiaField';
+import SubSugiaField from '../SubSugiaField';
 import { Control } from 'react-hook-form';
 
 export interface EditingData {
@@ -221,6 +222,7 @@ const MainLineEditor = (props: Props) => {
           ) : null}
           <CheckboxField name={fieldName + '.piska'} control={control} />
           <SugiaField name={fieldName + '.sugiaName'} control={control} />
+          <SubSugiaField name={fieldName + '.subSugiaName'} control={control} />
         </div>
         <MainLineDialog
           initialState={initialDialogState}
