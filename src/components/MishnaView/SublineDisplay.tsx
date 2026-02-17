@@ -4,6 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Chip,
   IconButton,
   Typography,
   useTheme,
@@ -16,12 +17,14 @@ import { selectSublines } from '../../store/actions';
 import { excerptSelection } from '../../inc/excerptUtils';
 import SynopsisTable from './SynopsisTable';
 import { hideSourceFromText } from '../../inc/synopsisUtils';
-import { iExcerpt, iSubline } from '../../types/types';
+import { iExcerpt, iSubline, DafAmudMarker } from '../../types/types';
 import NosachView from './NosachView';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 import { CommentModal, iCommentModal, setCommentModal } from '../../store/actions/commentsActions';
 import { getFirstAndLastWordOfString } from '../../inc/textUtils';
 import { UserGroup } from '../../store/reducers/authReducer';
+import { useTranslation } from 'react-i18next';
+import { hebrewToNumber, hebrewAmudToEnglish } from '../../inc/utils';
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -97,6 +100,7 @@ interface Props {
     mainLine: string;
   };
   userGroup: UserGroup;
+  dafAmudMarker?: DafAmudMarker;
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -113,9 +117,28 @@ const SublineDisplay = (props: Props) => {
     setCommentModal,
     lineDetails,
     userGroup,
+    dafAmudMarker,
   } = props;
   const classes = useStyles();
   const theme = useTheme();
+  const { i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
+
+  // Convert Daf/Amud to English format if needed
+  const formatDafAmud = (daf: string, amud: string) => {
+    if (isHebrew) {
+      // Hebrew RTL: Daf:Amud displays correctly as Daf on right, Amud on left
+      const result = `${daf}:${amud}`;
+      return result;
+    } else {
+      // English LTR: Daf:Amud displays as number:letter (e.g., 5:b)
+      const dafNumber = hebrewToNumber(daf).toString();
+      const amudLetter = hebrewAmudToEnglish(amud);
+      // Use Unicode LTR mark to force left-to-right display
+      const result = `\u200E${dafNumber}:${amudLetter}\u200E`;
+      return result;
+    }
+  };
 
   const [expanded, setExpanded] = React.useState('');
   const [commentButtonHover, setCommentButtonHover] = React.useState(false);
@@ -185,6 +208,16 @@ const SublineDisplay = (props: Props) => {
     }
   }, [selectedExcerpt, subline.index]);
 
+  // Auto-scroll to the line with Daf/Amud marker
+  useEffect(() => {
+    if (dafAmudMarker && accordionRef.current) {
+      accordionRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, [dafAmudMarker]);
+
   let textToDisplay = subline.text;
   if (!showSources) {
     textToDisplay = hideSourceFromText(textToDisplay);
@@ -220,7 +253,7 @@ const SublineDisplay = (props: Props) => {
         }}
         onMouseEnter={() => handleMouseEnter(subline.index)}
         onMouseLeave={() => handleMouseLeave()}>
-        <AccordionSummary sx={{ paddingRight: '0.25rem' }} aria-controls="subline-content">
+        <AccordionSummary sx={{ paddingRight: '0.25rem', position: 'relative' }} aria-controls="subline-content">
           <Typography variant="lineNumber" component="span">
             {subline.index}
           </Typography>
@@ -232,6 +265,30 @@ const SublineDisplay = (props: Props) => {
             markTo={markedSelection?.to}
             subline={subline}
           />
+          {/* Daf/Amud badge positioned on the right */}
+          {dafAmudMarker && (
+            <Chip
+              label={formatDafAmud(dafAmudMarker.daf, dafAmudMarker.amud)}
+              size="small"
+              sx={{
+                position: 'absolute',
+                left: '-18px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                height: '18px',
+                fontSize: '0.7rem',
+                backgroundColor: '#fff3cd',
+                border: '1px solid #ffc107',
+                '& .MuiChip-label': {
+                  paddingLeft: '4px',
+                  paddingRight: '4px',
+                },
+                '@media print': {
+                  display: 'none',
+                },
+              }}
+            />
+          )}
           <AccordionActions sx={{ 
             padding: 0,
             '@media print': {

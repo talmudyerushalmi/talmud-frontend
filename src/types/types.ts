@@ -2,10 +2,23 @@ import { RawDraftContentState } from 'draft-js';
 import { EditorSelectionObject } from '../inc/editorUtils';
 import { iExcerptType } from '../inc/excerptUtils';
 
+export interface AmudMapping {
+  amud: string;
+  chapter: string;
+  halacha: string;
+  system_line: string;
+}
+
+export interface Daf {
+  id: string;
+  amudim: AmudMapping[];
+}
+
 export interface iTractate {
   id: string;
   title_heb: string;
   chapters: iChapter[];
+  dafs?: Daf[];
 }
 export interface iChapter {
   id: string;
@@ -141,6 +154,14 @@ export interface iLink {
   chapter: string;
   mishna: string;
   lineNumber?: string;
+  highlightWord?: number;
+  dafAmudMarkers?: DafAmudMarker[];
+}
+
+export interface DafAmudMarker {
+  line: string;
+  daf: string;
+  amud: string;
 }
 export interface iParallelLink extends iLink {
   linkText: string;

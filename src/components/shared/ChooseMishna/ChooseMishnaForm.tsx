@@ -1,23 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ChooseTractate from './ChooseTractate';
-import ChooseChapter from './ChooseChapter';
-import ChooseMishna, { iMishnaForNavigation } from './ChooseMishna';
+import { iMishnaForNavigation } from './ChooseMishna';
 import { iChapter, iLink, iTractate } from '../../../types/types';
 import ChooseLine, { leanLine } from './ChooseLine';
-import { Box, IconButton } from '@mui/material';
+import { Box } from '@mui/material';
 import { debounce } from 'lodash';
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import { getNext, getPrevious } from '../../../inc/utils';
 import useKeypress from '../../../hooks/useKeypress';
 import { editorInEventPath } from '../../../inc/editorUtils';
-import { useTranslation } from 'react-i18next';
+import { useDafAmudState } from './useDafAmudState';
+import { getAllDafsFromTractate } from '../../../services/dafAmudService';
+import { useChapterMishnaNavigation } from './useChapterMishnaNavigation';
+import { useDafAmudNavigation } from './useDafAmudNavigation';
+import ChapterMishnaNavigation from './ChapterMishnaNavigation';
+import DafAmudNavigation from './DafAmudNavigation';
+import NavigationArrow from './NavigationArrow';
+import { useIsHebrew, Direction } from './navigationTypes';
 
 const DEBOUNCE_NAVIGATION_CHANGES = 50;
 
-enum Direction {
-  BACK = 'BACK',
-  FORWARD = 'FORWARD',
-}
 interface Props {
   initValues: iLink | null;
   allChapterAllowed?: boolean;
@@ -26,6 +26,7 @@ interface Props {
   navButtons?: boolean;
   onButtonNavigation?: (navigation: iLink) => void;
   allTractates?: iTractate[];
+  showDafAmudNavigation?: boolean;
 }
 
 const ChooseMishnaForm = ({
@@ -36,9 +37,11 @@ const ChooseMishnaForm = ({
   onNavigationUpdated,
   onButtonNavigation = (_) => {},
   allTractates,
+  showDafAmudNavigation = false,
 }: Props) => {
-  const { i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const isHebrew = useIsHebrew();
+  
+  // Main navigation state
   const [tractateName, setTractateName] = useState<string>(initValues?.tractate || '');
   const [chapterName, setChapterName] = useState<string>(initValues?.chapter || '');
   const [mishnaName, setMishnaName] = useState<string>(initValues?.mishna || '');
@@ -47,15 +50,102 @@ const ChooseMishnaForm = ({
   const [chapterData, setChapterData] = useState<iChapter | null>(null);
   const [mishnaData, setMishnaData] = useState<iMishnaForNavigation | null>(null);
   const [lineData, setLineData] = useState<leanLine | null>(null);
+  
+  // Track if we're in the middle of navigation to avoid clearing mishna
+  const [isNavigating, setIsNavigating] = useState<boolean>(false);
+  
+  // Daf/Amud state management (extracted to custom hook)
+  const {
+    dafName,
+    setDafName,
+    amudName,
+    setAmudName,
+    dafData,
+    setDafData,
+  } = useDafAmudState({
+    initValues,
+    tractateData,
+    mishnaData,
+  });
 
+  // Chapter/Mishna navigation
+  const { navigateHandler } = useChapterMishnaNavigation({
+    tractateName,
+    chapterName,
+    mishnaName,
+    lineNumber,
+    mishnaData,
+    allTractates,
+    setTractateName,
+    setChapterName,
+    setMishnaName,
+    setLineNumber,
+    onButtonNavigation,
+  });
+
+  // Daf/Amud navigation
+  const { navigateDafAmudHandler } = useDafAmudNavigation({
+    tractateName,
+    tractateData,
+    dafName,
+    amudName,
+    allTractates,
+    setTractateName,
+    setTractateData,
+    setDafName,
+    setAmudName,
+    setDafData,
+    setChapterName,
+    setMishnaName,
+    setLineNumber,
+    onNavigationUpdated,
+  });
+
+  // Sync state when initValues changes (e.g., after navigation or initial load)
+  useEffect(() => {
+    if (initValues) {
+      let hasChanges = false;
+      setIsNavigating(true);
+      
+      if (initValues.tractate && initValues.tractate !== tractateName) {
+        setTractateName(initValues.tractate);
+        hasChanges = true;
+      }
+      if (initValues.chapter && initValues.chapter !== chapterName) {
+        setChapterName(initValues.chapter);
+        hasChanges = true;
+      }
+      if (initValues.mishna && initValues.mishna !== mishnaName) {
+        setMishnaName(initValues.mishna);
+        hasChanges = true;
+      }
+      if (initValues.lineNumber !== undefined && initValues.lineNumber !== lineNumber) {
+        setLineNumber(initValues.lineNumber);
+        hasChanges = true;
+      }
+      
+      // Reset navigation flag after a short delay
+      if (hasChanges) {
+        setTimeout(() => {
+          setIsNavigating(false);
+        }, 100);
+      } else {
+        setIsNavigating(false);
+      }
+    }
+  }, [initValues?.tractate, initValues?.chapter, initValues?.mishna, initValues?.lineNumber]);
+
+  // Keyboard navigation
   const dialogPopupOpen = () => {
     return document.querySelector('.MuiDialog-root') !== null;
   };
+  
   useKeypress('ArrowLeft', (e: KeyboardEvent) => {
     if (keypressNavigation && !editorInEventPath(e) && !dialogPopupOpen()) {
       navigateHandler(Direction.FORWARD);
     }
   });
+  
   useKeypress('ArrowRight', (e: KeyboardEvent) => {
     if (keypressNavigation && !editorInEventPath(e) && !dialogPopupOpen()) {
       navigateHandler(Direction.BACK);
@@ -69,50 +159,26 @@ const ChooseMishnaForm = ({
     []
   );
 
-  useEffect(() => {
-    const link: iLink = {
+  // Helper function to create navigation link object
+  const createNavigationLink = useCallback((overrides?: Partial<iLink>): iLink => {
+    return {
       tractate: tractateName,
       chapter: chapterName,
       mishna: mishnaName,
       lineNumber: lineNumber,
+      ...overrides,
     };
+  }, [tractateName, chapterName, mishnaName, lineNumber]);
 
-    emit(link);
-  }, [chapterData, mishnaData, lineData]);
-
-  const navigateHandler = (direction: Direction) => {
-    const navigateTo =
-      direction === Direction.BACK
-        ? getPrevious(tractateName, chapterName, mishnaName, lineNumber, mishnaData)
-        : getNext(tractateName, chapterName, mishnaName, lineNumber, mishnaData);
-    if (!navigateTo) {
-      return;
-    }
-    setChapterName(navigateTo.chapter);
-    setMishnaName(navigateTo.mishna);
-    if (navigateTo.lineNumber) {
-      setLineNumber(navigateTo.lineNumber);
-    }
-    onButtonNavigation({
-      tractate: tractateName,
-      chapter: navigateTo.chapter,
-      mishna: navigateTo.mishna,
-      lineNumber: navigateTo.lineNumber,
-    });
-  };
+  // Helper function to emit navigation - only call this when user makes a selection
+  const emitNavigation = useCallback(() => {
+    emit(createNavigationLink());
+  }, [createNavigationLink, emit]);
 
   return (
     <>
-      <Box mb={2} sx={{ display: 'flex', flexGrow: 10, flexDirection: isHebrew ? 'row' : 'row-reverse' }}>
-        {navButtons ? (
-          <IconButton
-            onClick={() => {
-              navigateHandler(Direction.BACK);
-            }}
-            size="small">
-            {isHebrew ? <ArrowForward /> : <ArrowBack />}
-          </IconButton>
-        ) : null}
+      <Box mb={2} sx={{ display: 'flex', flexGrow: 10, flexDirection: isHebrew ? 'row' : 'row-reverse', alignItems: 'center', gap: 0.5 }}>
+        {/* Tractate selector - shared by both navigation methods */}
         <ChooseTractate
           tractate={tractateName}
           allTractates={allTractates}
@@ -120,61 +186,127 @@ const ChooseMishnaForm = ({
             const tractateChanged = t.id !== tractateName;
             setTractateName(t.id);
             setTractateData(t);
-            // Reset to first chapter and first mishna when tractate changes
-            if (tractateChanged && t.chapters?.length > 0) {
-              const firstChapter = t.chapters[0];
-              setChapterName(firstChapter.id);
-              setChapterData(firstChapter);
-              if (firstChapter.mishnaiot?.length > 0) {
-                setMishnaName(firstChapter.mishnaiot[0].mishna);
+            
+            if (tractateChanged) {
+              // Reset to first chapter and clear mishna when tractate changes
+              if (t.chapters?.length > 0) {
+                const firstChapter = t.chapters[0];
+                setChapterName(firstChapter.id);
+                setChapterData(firstChapter);
+                // Clear mishna to show placeholder (only if not navigating)
+                if (!isNavigating) {
+                  setMishnaName('');
+                  setMishnaData(null);
+                }
               }
-              setMishnaData(null);
+              
+              // Also reset Daf/Amud to first available
+              if (t) {
+                const dafList = getAllDafsFromTractate(t);
+                if (dafList.length > 0) {
+                  const firstDaf = dafList[0];
+                  setDafName(firstDaf.id);
+                  setDafData(firstDaf);
+                  if (firstDaf.amudim.length > 0) {
+                    setAmudName(firstDaf.amudim[0]);
+                  }
+                }
+              }
             }
-          }}
-        />
-        <ChooseChapter
-          chapter={chapterName}
-          inTractate={tractateData}
-          onSelectChapter={(c) => {
-            const chapterChanged = c.id !== chapterName;
-            setChapterName(c.id);
-            setChapterData(c);
-            // Reset to first mishna when chapter changes
-            if (chapterChanged && c.mishnaiot?.length > 0) {
-              setMishnaName(c.mishnaiot[0].mishna);
-              setMishnaData(null);
-            }
-          }}
-        />
-        <ChooseMishna
-          mishnaName={mishnaName}
-          inChapter={chapterData}
-          allChapterAllowed={allChapterAllowed}
-          onSelectMishna={(m) => {
-            setMishnaData(m);
-            setMishnaName(m.mishna);
           }}
         />
 
-        {lineNumber ? (
+        {/* Chapter/Mishna Navigation Section */}
+        <ChapterMishnaNavigation
+          isHebrew={isHebrew}
+          navButtons={navButtons}
+          showDafAmudNavigation={showDafAmudNavigation}
+          lineNumber={lineNumber}
+          chapterName={chapterName}
+          mishnaName={mishnaName}
+          tractateData={tractateData}
+          chapterData={chapterData}
+          allChapterAllowed={allChapterAllowed}
+          isNavigating={isNavigating}
+          setChapterName={setChapterName}
+          setChapterData={setChapterData}
+          setMishnaName={setMishnaName}
+          setMishnaData={setMishnaData}
+          onNavigateBack={() => navigateHandler(Direction.BACK)}
+          onNavigateForward={() => navigateHandler(Direction.FORWARD)}
+          onUserSelectMishna={(m) => {
+            // Only emit navigation when user actually clicks
+            emit(createNavigationLink({ mishna: m.mishna }));
+          }}
+        />
+
+        {/* Daf/Amud Navigation - only show if enabled */}
+        {showDafAmudNavigation && (
+          <DafAmudNavigation
+            isHebrew={isHebrew}
+            navButtons={navButtons}
+            dafName={dafName}
+            amudName={amudName}
+            dafData={dafData}
+            tractateData={tractateData}
+            tractateName={tractateName}
+            isNavigating={isNavigating}
+            setDafName={setDafName}
+            setAmudName={setAmudName}
+            setDafData={setDafData}
+            setChapterName={setChapterName}
+            setMishnaName={setMishnaName}
+            setLineNumber={setLineNumber}
+            onNavigationUpdated={onNavigationUpdated}
+            onNavigateBack={() => navigateDafAmudHandler(Direction.BACK)}
+            onNavigateForward={() => navigateDafAmudHandler(Direction.FORWARD)}
+          />
+        )}
+
+        {/* Line selector with navigation arrows (if needed and Daf/Amud is hidden) */}
+        {lineNumber && !showDafAmudNavigation ? (
+          <>
+            {/* Navigation arrow before line selector */}
+            {navButtons && (
+              <NavigationArrow 
+                direction="back" 
+                isHebrew={isHebrew} 
+                onClick={() => navigateHandler(Direction.BACK)} 
+              />
+            )}
+            
+            <ChooseLine
+              lineNumber={lineNumber}
+              mishnaData={mishnaData}
+              onSelectLine={(l) => {
+                setLineNumber(l.lineNumber);
+                setLineData(l);
+                // Emit navigation when user selects line
+                setTimeout(() => emitNavigation(), 10);
+              }}
+            />
+            
+            {/* Navigation arrow after line selector */}
+            {navButtons && (
+              <NavigationArrow 
+                direction="forward" 
+                isHebrew={isHebrew} 
+                onClick={() => navigateHandler(Direction.FORWARD)} 
+              />
+            )}
+          </>
+        ) : lineNumber ? (
+          // Line selector without arrows (when Daf/Amud is shown)
           <ChooseLine
             lineNumber={lineNumber}
             mishnaData={mishnaData}
             onSelectLine={(l) => {
               setLineNumber(l.lineNumber);
               setLineData(l);
+              // Emit navigation when user selects line
+              setTimeout(() => emitNavigation(), 10);
             }}
           />
-        ) : null}
-
-        {navButtons ? (
-          <IconButton
-            onClick={() => {
-              navigateHandler(Direction.FORWARD);
-            }}
-            size="small">
-            {isHebrew ? <ArrowBack /> : <ArrowForward />}
-          </IconButton>
         ) : null}
       </Box>
     </>

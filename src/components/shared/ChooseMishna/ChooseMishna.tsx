@@ -1,19 +1,21 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { Autocomplete } from '@mui/material';
-import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { getTractate, getChapter, getMishna } from '../../../inc/mishnaUtils';
 import { hebrewMap } from '../../../inc/utils';
 import { leanChapter } from './ChooseChapter';
 import NavigationService from '../../../services/NavigationService';
 import { iMarker, refMishna } from '../../../types/types';
-import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './chooseMishnaStyles';
+import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles, formatNumericId } from './NavigationDropdownStyles';
 import { leanLine } from './ChooseLine';
+import NavigationAutocomplete from './NavigationAutocomplete';
+import { useIsHebrew } from './navigationTypes';
 
 export interface iMishnaForNavigation extends refMishna {
   lines: leanLine[];
   previous?: iMarker;
   next?: iMarker;
+  daf?: string;
+  amud?: string;
 }
 
 export const ALL_CHAPTER: iMishnaForNavigation = {
@@ -27,21 +29,26 @@ interface Props {
   allChapterAllowed?: boolean;
   inChapter: leanChapter | null;
   onSelectMishna: (mishna: iMishnaForNavigation) => void;
+  onUserSelectMishna?: (mishna: iMishnaForNavigation) => void; // Called only on user clicks
 }
 
 const ChooseMishna = (props: Props) => {
-  const { mishnaName, onSelectMishna, inChapter, allChapterAllowed } = props;
+  const { mishnaName, onSelectMishna, inChapter, allChapterAllowed, onUserSelectMishna } = props;
   const [selectedMishna, setSelectedMishna] = useState<refMishna | null>(null);
   const [mishnaiot, setMishnaiot] = useState<refMishna[] | []>([]);
-  const { t, i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const { t } = useTranslation();
+  const isHebrew = useIsHebrew();
 
   const _onChange = (event: SyntheticEvent<Element, Event>, mishna: refMishna | null) => {
     if (!mishna) {
       return;
     }
     if (mishna.id === ALL_CHAPTER.id) {
-      onSelectMishna(ALL_CHAPTER)
+      onSelectMishna(ALL_CHAPTER);
+      // Call user-specific callback if provided
+      if (onUserSelectMishna) {
+        onUserSelectMishna(ALL_CHAPTER);
+      }
       return;
     }
     const tractateName = getTractate(mishna);
@@ -49,6 +56,10 @@ const ChooseMishna = (props: Props) => {
     const mishnaName = mishna.mishna || getMishna(mishna);
     fetchLines(tractateName, chapterName, mishnaName).then((m) => {
       onSelectMishna(m);
+      // Call user-specific callback if provided
+      if (onUserSelectMishna) {
+        onUserSelectMishna(m);
+      }
     });
   };
 
@@ -69,53 +80,48 @@ const ChooseMishna = (props: Props) => {
     //1. update options from chapter data
     setMishnaiot(mishnaiotOptions);
 
-    let found = mishnaiotOptions.find((m) => m.mishna === mishnaName);
-    if (mishnaName === '' && allChapterAllowed) {
-      found = ALL_CHAPTER;
+    // If mishnaName is empty, clear selection to show placeholder
+    if (mishnaName === '') {
+      setSelectedMishna(null);
+      return;
     }
-    //2. update selected mishna if found
+
+    //2. update selected mishna if found (including ALL_CHAPTER if mishnaName is 'all')
+    const found = mishnaiotOptions.find((m) => m.mishna === mishnaName);
     if (found) {
       setSelectedMishna(found);
 
+      // Skip fetchLines for "whole chapter" option
+      if (mishnaName === 'all') {
+        onSelectMishna(ALL_CHAPTER);
+        return;
+      }
+
       const tractateName = getTractate(found);
       const chapterName = getChapter(found);
-      const mishnaName = found.mishna || getMishna(found);
-      fetchLines(tractateName, chapterName, mishnaName).then((m) => {
+      const foundMishnaName = found.mishna || getMishna(found);
+      fetchLines(tractateName, chapterName, foundMishnaName).then((m) => {
         onSelectMishna(m);
       });
     }
-  }, [inChapter, mishnaName]);
+  }, [inChapter, mishnaName, allChapterAllowed]);
 
   return (
-    <>
-      <Autocomplete
-        sx={getChooseMishnaAutocompleteStyles(isHebrew)}
-        onChange={_onChange}
-        value={selectedMishna}
-        options={mishnaiot}
-        autoHighlight={true}
-        getOptionLabel={(option) => {
-          if (option.mishna === 'all') {
-            return t('The whole chapter');
-          }
-          return isHebrew ? (hebrewMap.get(option.mishna) as string) : formatNumericId(option.mishna);
-        }}
-        isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
-        renderInput={(params) => (
-          <TextField 
-            {...params} 
-            label={t('Halakha')} 
-            variant="outlined" 
-            sx={getChooseMishnaTextFieldStyles(isHebrew)} 
-          />
-        )}
-        ListboxProps={{
-          style: {
-            direction: isHebrew ? 'rtl' : 'ltr',
-          },
-        }}
-      />
-    </>
+    <NavigationAutocomplete
+      label="Halakha"
+      value={selectedMishna}
+      options={mishnaiot}
+      getOptionLabel={(option) => {
+        if (option.mishna === 'all') {
+          return t('The whole chapter');
+        }
+        return isHebrew ? (hebrewMap.get(option.mishna) as string) : formatNumericId(option.mishna);
+      }}
+      isOptionEqualToValue={(option, value) => option.mishna === value.mishna}
+      onChange={_onChange}
+      customSx={getChooseMishnaAutocompleteStyles(isHebrew)}
+      customTextFieldSx={getChooseMishnaTextFieldStyles(isHebrew)}
+    />
   );
 };
 

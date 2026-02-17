@@ -1,0 +1,102 @@
+import React from 'react';
+import { Box } from '@mui/material';
+import ChooseDaf, { leanDaf } from './ChooseDaf';
+import ChooseAmud from './ChooseAmud';
+import { iLink, iTractate } from '../../../types/types';
+import NavigationArrow from './NavigationArrow';
+import { BaseNavigationComponentProps, CoreChapterMishnaSetters } from './navigationTypes';
+
+interface DafAmudNavigationProps extends BaseNavigationComponentProps, CoreChapterMishnaSetters {
+  dafName: string;
+  amudName: string;
+  dafData: leanDaf | null;
+  tractateData: iTractate | null;
+  tractateName: string;
+  setDafName: (value: string) => void;
+  setAmudName: (value: string) => void;
+  setDafData: (value: leanDaf | null) => void;
+  setLineNumber: (value: string) => void;
+  onNavigationUpdated: (nav: iLink) => void;
+}
+
+const DafAmudNavigation: React.FC<DafAmudNavigationProps> = ({
+  isHebrew,
+  navButtons,
+  dafName,
+  amudName,
+  dafData,
+  tractateData,
+  tractateName,
+  isNavigating,
+  setDafName,
+  setAmudName,
+  setDafData,
+  setChapterName,
+  setMishnaName,
+  setLineNumber,
+  onNavigationUpdated,
+  onNavigateBack,
+  onNavigateForward,
+}) => {
+  return (
+    <>
+      {/* Separator or space */}
+      <Box sx={{ width: '8px' }} />
+
+      {/* Navigation arrows for Daf/Amud */}
+      {navButtons && (
+        <NavigationArrow direction="back" isHebrew={isHebrew} onClick={onNavigateBack} />
+      )}
+
+      {/* Daf selector */}
+      <ChooseDaf
+        daf={dafName}
+        tractate={tractateData}
+        onSelectDaf={(d) => {
+          const dafChanged = d.id !== dafName;
+          setDafName(d.id);
+          setDafData(d);
+          // Clear amud when daf changes (only if not navigating)
+          if (dafChanged && !isNavigating) {
+            setAmudName('');
+          }
+        }}
+      />
+
+      {/* Amud selector */}
+      <ChooseAmud
+        amud={amudName}
+        inDaf={dafData}
+        tractate={tractateData}
+        onSelectAmud={(amud, mapping) => {
+          setAmudName(amud);
+          // Navigate to the mapped chapter/halacha (mishna level only)
+          setChapterName(mapping.chapter);
+          setMishnaName(mapping.halacha);
+          // Clear line number to navigate to mishna level only
+          setLineNumber('');
+          
+          // Trigger navigation to mishna level with Daf/Amud marker info
+          onNavigationUpdated({
+            tractate: tractateName,
+            chapter: mapping.chapter,
+            mishna: mapping.halacha,
+            lineNumber: '',
+            dafAmudMarkers: [{
+              line: mapping.system_line,
+              daf: dafName,
+              amud: amud,
+            }],
+          });
+        }}
+      />
+
+      {/* Navigation arrows for Daf/Amud */}
+      {navButtons && (
+        <NavigationArrow direction="forward" isHebrew={isHebrew} onClick={onNavigateForward} />
+      )}
+    </>
+  );
+};
+
+export default DafAmudNavigation;

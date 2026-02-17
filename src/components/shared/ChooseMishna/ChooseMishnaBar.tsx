@@ -17,6 +17,7 @@ interface Props {
   keypressNavigation?: boolean;
   onNavigationUpdated: (nav: iLink) => void;
   onButtonNavigation?: (nav: iLink) => void;
+  showDafAmudNavigation?: boolean;
 }
 
 const ChooseMishnaBar = ({
@@ -24,14 +25,16 @@ const ChooseMishnaBar = ({
   keypressNavigation = false,
   onNavigationUpdated,
   onButtonNavigation = () => {},
+  showDafAmudNavigation = false,
 }: Props) => {
   const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
   // Derive navigation directly from URL params instead of using state
+  // If mishna is undefined but we have chapter (and allChapterAllowed), use 'all' for כל הפרק
   const navigation: iLink = {
     tractate: tractate || '',
     chapter: chapter || '',
-    mishna: mishna || '',
+    mishna: mishna || (chapter && allChapterAllowed ? 'all' : ''),
     lineNumber: line || '',
   };
   const [allTractates, setAllTractates] = useState<iTractate[]>([]);
@@ -59,6 +62,7 @@ const ChooseMishnaBar = ({
               onButtonNavigation={onButtonNavigation}
               initValues={navigation}
               allTractates={allTractates}
+              showDafAmudNavigation={showDafAmudNavigation}
             />
           </Box>
         </Grid>
@@ -78,7 +82,8 @@ const ChooseMishnaBar = ({
             marginRight: 0,
           },
           'html:lang(en-US) &': {
-            marginRight: '30px',
+            marginLeft: 'auto',
+            marginRight: 0,
           },
         }}>
           <SearchBar />

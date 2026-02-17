@@ -17,6 +17,7 @@ const ViewMishnaPage = () => {
     <PageWithNavigation
       allChapterAllowed={true}
       linkPrefix="/talmud"
+      showDafAmudNavigation={true}
       afterNavigateHandler={() => {
         window.scrollTo(0, 0);
       }}>

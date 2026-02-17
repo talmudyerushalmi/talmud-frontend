@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { iLine } from '../../types/types';
+import { iLine, DafAmudMarker } from '../../types/types';
 import MainLines from './MainLines';
 import UndividedText from './UndividedText';
 
@@ -16,16 +16,17 @@ interface Props {
   showPunctuation: boolean;
   showSources: boolean;
   mishna: string;
+  dafAmudMarkers?: DafAmudMarker[];
 }
 const MainText = (props: Props) => {
-  const { lines, divideToLines, showPunctuation, showSources, mishna } = props;
+  const { lines, divideToLines, showPunctuation, showSources, mishna, dafAmudMarkers } = props;
   if (!lines) {
     return null;
   }
   return (
     <>
       {divideToLines ? (
-        <MainLines lines={lines} mishna={mishna} />
+        <MainLines lines={lines} mishna={mishna} dafAmudMarkers={dafAmudMarkers} />
       ) : (
         <UndividedText lines={lines} showPunctuation={showPunctuation} showSources={showSources} />
       )}

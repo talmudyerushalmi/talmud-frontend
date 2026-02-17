@@ -7,13 +7,9 @@ export const formatNumericId = (id: string): string => {
 };
 
 /**
- * Shared styles for Autocomplete components in ChooseMishna forms
- * Handles RTL/LTR positioning of endAdornment (dropdown arrow and clear button)
+ * Base Autocomplete styles - common settings for all dropdowns
  */
-
-export const getChooseMishnaAutocompleteStyles = (isHebrew: boolean) => ({
-  minWidth: 100,
-  flex: 1,
+const getBaseAutocompleteStyles = (isHebrew: boolean, englishTransformOffset: string) => ({
   direction: isHebrew ? 'rtl' : 'ltr',
   // Isolate from global RTL context
   ...(!isHebrew && {
@@ -23,14 +19,35 @@ export const getChooseMishnaAutocompleteStyles = (isHebrew: boolean) => ({
     padding: 0,
   },
   '& .MuiAutocomplete-endAdornment': {
-    left: isHebrew ? 'unset' : '7px',
-    right: isHebrew ? '7px' : 'unset',
+    left: 'unset',
+    right: '7px',
     display: 'flex',
     flexDirection: 'row-reverse',
     ...(!isHebrew && {
-      transform: 'translateX(calc(100% - 60px)) translateY(-12px)',
+      transform: `translateX(calc(-100% + ${englishTransformOffset})) translateY(-12px)`,
     }),
   },
+});
+
+/**
+ * Shared styles for Autocomplete components in ChooseMishna forms
+ * Handles RTL/LTR positioning of endAdornment (dropdown arrow and clear button)
+ */
+export const getChooseMishnaAutocompleteStyles = (isHebrew: boolean) => ({
+  minWidth: 80,
+  maxWidth: 120,
+  flex: 1,
+  ...getBaseAutocompleteStyles(isHebrew, '110px'),
+});
+
+/**
+ * Wider styles for Tractate dropdown (uses more space since it's shared between both nav methods)
+ */
+export const getChooseTractateAutocompleteStyles = (isHebrew: boolean) => ({
+  minWidth: 120,
+  maxWidth: 160,
+  flex: 1.3,
+  ...getBaseAutocompleteStyles(isHebrew, '150px'),
 });
 
 /**
@@ -46,6 +63,7 @@ export const getChooseMishnaTextFieldStyles = (isHebrew: boolean) => ({
     left: isHebrew ? 0 : 'unset',
     right: isHebrew ? 'unset' : 30,
     transformOrigin: isHebrew ? 'top left' : 'top right',
+    top: '-4px',
   },
   '& .MuiOutlinedInput-notchedOutline legend': {
     textAlign: isHebrew ? 'left' : 'right',

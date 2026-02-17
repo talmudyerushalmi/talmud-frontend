@@ -6,16 +6,17 @@ import { useNavigate } from 'react-router-dom';
 import { objectToBase64 } from '../../../inc/objectToBase64';
 import { useAppSelector } from '../../../app/hooks';
 import { getTractate } from '../../../inc/mishnaUtils';
+import { useIsHebrew } from './navigationTypes';
 
 interface IProps {}
 
 const SearchBar: FC<IProps> = () => {
-  const { t, i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const { t } = useTranslation();
+  const isHebrew = useIsHebrew();
   const currentMishna = useAppSelector((state) => state.navigation?.currentMishna);
   const tractate = currentMishna ? getTractate(currentMishna) : null;
   const navigate = useNavigate();
-  const [searchValue, setSearchValue] = useState<string | null>(null);
+  const [searchValue, setSearchValue] = useState<string>('');
   const handleSearch = () => {
     if (searchValue) {
       navigate(`/search?query=${objectToBase64({ text: searchValue, tractate: tractate })}`);
@@ -34,7 +35,7 @@ const SearchBar: FC<IProps> = () => {
         p: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: { md: 400, xs: '100%' },
+        width: { md: 450, xs: '100%' },
         boxShadow: 'none',
         mb: 4,
         '@media print': {
@@ -44,8 +45,7 @@ const SearchBar: FC<IProps> = () => {
       <Box 
         dir={isHebrew ? 'rtl' : 'ltr'} 
         sx={{ 
-          flex: 1, 
-          ml: { md: '30px' },
+          flex: 1,
           // Isolate from global RTL context for English
           ...(!isHebrew && {
             '& *': { direction: 'ltr' },
@@ -61,13 +61,9 @@ const SearchBar: FC<IProps> = () => {
             },
             ...(!isHebrew && {
               '& .MuiInputLabel-root': { 
-                left: 'unset', 
+                left: 'unset',
                 right: '30px', 
                 transformOrigin: 'top right',
-              },
-              '& .MuiInputLabel-root:not(.MuiInputLabel-shrink)': { 
-                left: '160px', 
-                right: 'unset',
               },
               '& .MuiOutlinedInput-notchedOutline legend': { 
                 marginLeft: 'auto',

@@ -1,9 +1,8 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { Autocomplete } from '@mui/material';
-import { TextField } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { iTractate } from '../../../types/types';
-import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './chooseMishnaStyles';
+import { getChooseTractateAutocompleteStyles, getChooseMishnaTextFieldStyles } from './NavigationDropdownStyles';
+import NavigationAutocomplete from './NavigationAutocomplete';
+import { useIsHebrew } from './navigationTypes';
 
 interface Props {
   tractate: string;
@@ -15,8 +14,7 @@ const ChooseTractate = (props: Props) => {
   const { tractate, onSelectTractate, allTractates } = props;
   const [selectedTractate, setSelectedTractate] = useState<iTractate | null>(null);
 
-  const { t, i18n } = useTranslation();
-  const isHebrew = i18n.language === 'he';
+  const isHebrew = useIsHebrew();
 
   const formatTractateName = (id: string): string => {
     return id
@@ -40,27 +38,15 @@ const ChooseTractate = (props: Props) => {
   }, [tractate, allTractates]);
 
   return (
-    <Autocomplete
-      sx={getChooseMishnaAutocompleteStyles(isHebrew)}
-      onChange={_onChange}
+    <NavigationAutocomplete
+      label="Tractate"
       value={selectedTractate}
       options={allTractates || []}
-      autoHighlight={true}
       getOptionLabel={(option) => isHebrew ? option.title_heb : formatTractateName(option.id)}
       isOptionEqualToValue={(option, value) => option?.id === value?.id}
-      renderInput={(params) => (
-        <TextField 
-          {...params} 
-          label={t('Tractate')} 
-          variant="outlined" 
-          sx={getChooseMishnaTextFieldStyles(isHebrew)} 
-        />
-      )}
-      ListboxProps={{
-        style: {
-          direction: isHebrew ? 'rtl' : 'ltr',
-        },
-      }}
+      onChange={_onChange}
+      customSx={getChooseTractateAutocompleteStyles(isHebrew)}
+      customTextFieldSx={getChooseMishnaTextFieldStyles(isHebrew)}
     />
   );
 };
