@@ -28,10 +28,11 @@ interface Props {
   afterNavigateHandler?: Function;
   allChapterAllowed?: boolean;
   showDafAmudNavigation?: boolean;
+  stickyNavigation?: boolean;
   loading: boolean;
 }
 const PageWithNavigationWithoutState = (props: Props) => {
-  const { linkPrefix, allChapterAllowed, showDafAmudNavigation = false, afterNavigateHandler, loading } = props;
+  const { linkPrefix, allChapterAllowed, showDafAmudNavigation = false, stickyNavigation = true, afterNavigateHandler, loading } = props;
 
   const navigate = useNavigate();
   let url: string;
@@ -58,6 +59,7 @@ const PageWithNavigationWithoutState = (props: Props) => {
         onButtonNavigation={navigationSelectedHandler}
         onNavigationUpdated={navigationSelectedHandler}
         showDafAmudNavigation={showDafAmudNavigation}
+        stickyNavigation={stickyNavigation}
       />
       <Box
         sx={{

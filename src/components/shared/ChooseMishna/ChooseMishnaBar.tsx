@@ -18,6 +18,7 @@ interface Props {
   onNavigationUpdated: (nav: iLink) => void;
   onButtonNavigation?: (nav: iLink) => void;
   showDafAmudNavigation?: boolean;
+  stickyNavigation?: boolean;
 }
 
 const ChooseMishnaBar = ({
@@ -26,6 +27,7 @@ const ChooseMishnaBar = ({
   onNavigationUpdated,
   onButtonNavigation = () => {},
   showDafAmudNavigation = false,
+  stickyNavigation = false,
 }: Props) => {
   const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
@@ -51,20 +53,22 @@ const ChooseMishnaBar = ({
 
   return (
     <>
-      {/* Sticky Navigation Form */}
+      {/* Navigation Form - conditionally sticky */}
       <Box 
         className="choose-mishna-bar-form"
         sx={{
-          position: 'sticky',
-          top: '72px', // AppBar height + spacing
-          zIndex: 1100,
-          backgroundColor: 'background.default',
+          ...(stickyNavigation && {
+            position: 'sticky',
+            top: '72px', // AppBar height + spacing
+            zIndex: 1100,
+            backgroundColor: 'background.default',
+            paddingLeft: 0.1,
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+          }),
           paddingTop: 1,
           paddingBottom: 1,
-          paddingLeft: 0.1,
           marginBottom: 2,
-          borderBottom: '1px solid',
-          borderColor: 'divider',
           '@media print': {
             position: 'static',
             borderBottom: 'none',
