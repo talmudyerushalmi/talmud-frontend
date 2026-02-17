@@ -13,6 +13,7 @@ interface NavigationAutocompleteProps<T> {
   customSx?: object;
   customTextFieldSx?: object;
   customListboxProps?: object;
+  inputLabelProps?: object;
 }
 
 /**
@@ -29,6 +30,7 @@ function NavigationAutocomplete<T>({
   customSx = {},
   customTextFieldSx = {},
   customListboxProps = {},
+  inputLabelProps = {},
 }: NavigationAutocompleteProps<T>) {
   const { t } = useTranslation();
   const isHebrew = useIsHebrew();
@@ -48,6 +50,7 @@ function NavigationAutocomplete<T>({
           label={t(label)} 
           variant="outlined" 
           sx={customTextFieldSx}
+          InputLabelProps={inputLabelProps}
         />
       )}
       ListboxProps={{
