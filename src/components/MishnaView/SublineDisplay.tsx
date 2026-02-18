@@ -329,7 +329,7 @@ const SublineDisplay = (props: Props) => {
               size="small"
               sx={{
                 position: 'absolute',
-                left: dafAmudMarker ? '32px' : '-18px', // Position next to Daf/Amud if both exist
+                left: dafAmudMarker ? '-60px' : '-18px', // Move further left when marker exists
                 top: '50%',
                 transform: 'translateY(-50%)',
                 height: '18px',
