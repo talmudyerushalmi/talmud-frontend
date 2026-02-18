@@ -26,6 +26,37 @@ import { UserGroup } from '../../store/reducers/authReducer';
 import { useTranslation } from 'react-i18next';
 import { hebrewToNumber, hebrewAmudToEnglish } from '../../inc/utils';
 
+// Sub-Sugia counter - tracks sub-sugiot within each sugia
+export class subSugiaCounter {
+  private static currentSugia: number | null = null;
+  private static subSugiaMap = new Map<number, string>(); // Maps subline index to letter
+  private static lastLetter = 0;
+  private static hebrewLetters = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט'];
+
+  static reset() {
+    subSugiaCounter.currentSugia = null;
+    subSugiaCounter.subSugiaMap.clear();
+    subSugiaCounter.lastLetter = 0;
+  }
+
+  static setSugia(sugiaIndex: number) {
+    if (subSugiaCounter.currentSugia !== sugiaIndex) {
+      subSugiaCounter.currentSugia = sugiaIndex;
+      subSugiaCounter.lastLetter = 0; // Reset letter counter for new sugia
+    }
+  }
+
+  static get(sublineIndex: number, sugiaNumber: number): string {
+    let letter = subSugiaCounter.subSugiaMap.get(sublineIndex);
+    if (!letter) {
+      letter = subSugiaCounter.hebrewLetters[subSugiaCounter.lastLetter];
+      subSugiaCounter.lastLetter++;
+      subSugiaCounter.subSugiaMap.set(sublineIndex, letter);
+    }
+    return `${sugiaNumber}.${letter}`;
+  }
+}
+
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
   selectedExcerpt: state.mishnaView.selectedExcerpt,
@@ -101,6 +132,7 @@ interface Props {
   };
   userGroup: UserGroup;
   dafAmudMarker?: DafAmudMarker;
+  currentSugiaNumber?: number; // The sugia counter number for this subline's parent sugia
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -118,6 +150,7 @@ const SublineDisplay = (props: Props) => {
     lineDetails,
     userGroup,
     dafAmudMarker,
+    currentSugiaNumber,
   } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -290,9 +323,9 @@ const SublineDisplay = (props: Props) => {
             />
           )}
           {/* Sub-Sugia badge positioned next to Daf/Amud marker */}
-          {subline.subSugiaName && (
+          {subline.subSugiaName !== undefined && subline.subSugiaName !== null && currentSugiaNumber && (
             <Chip
-              label={subline.subSugiaName}
+              label={`${subSugiaCounter.get(subline.index, currentSugiaNumber)}${subline.subSugiaName ? ' ' + subline.subSugiaName : ''}`}
               size="small"
               sx={{
                 position: 'absolute',

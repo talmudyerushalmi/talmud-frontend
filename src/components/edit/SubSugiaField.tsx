@@ -22,15 +22,22 @@ const SubSugiaField = (props: Props) => {
 
   useEffect(() => {
     if (!isTouched) {
-      setHasValue(Boolean(value));
+      // hasValue is true if value is defined (even if empty string)
+      setHasValue(value !== undefined && value !== null);
     }
-    setVal(value ? value : '');
+    setVal(value !== undefined && value !== null ? value : '');
   }, [isTouched, value]);
 
   const checkboxHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checkNewVal = e.target.checked;
-    if (value) {
+    if (checkNewVal) {
+      // Checkbox checked - save empty string
       onChange('');
+      setVal('');
+    } else {
+      // Checkbox unchecked - save undefined
+      onChange(undefined);
+      setVal('');
     }
     setHasValue(checkNewVal);
   };
@@ -54,10 +61,10 @@ const SubSugiaField = (props: Props) => {
           onChange={(e) => mySetValue(e.target.value)}
           onBlur={setFormValue}
           disabled={!hasValue}
-          placeholder={hasValue ? "שם תת-הסוגיה (עד 3 תווים)" : "שם תת-הסוגיה"}
+          placeholder={hasValue ? "שם תת-הסוגיה (עד 2 תווים)" : "שם תת-הסוגיה"}
           size="small"
           margin="none"
-          inputProps={{ maxLength: 3 }}
+          inputProps={{ maxLength: 2 }}
           sx={{
             '& .MuiOutlinedInput-input': {
               padding: '5px 10px',
