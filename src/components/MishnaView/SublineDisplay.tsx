@@ -289,6 +289,31 @@ const SublineDisplay = (props: Props) => {
               }}
             />
           )}
+          {/* Sub-Sugia badge positioned next to Daf/Amud marker */}
+          {subline.subSugiaName && (
+            <Chip
+              label={subline.subSugiaName}
+              size="small"
+              sx={{
+                position: 'absolute',
+                left: dafAmudMarker ? '32px' : '-18px', // Position next to Daf/Amud if both exist
+                top: '50%',
+                transform: 'translateY(-50%)',
+                height: '18px',
+                fontSize: '0.7rem',
+                backgroundColor: '#e3f2fd',
+                border: '1px solid #2196f3',
+                color: '#1565c0',
+                '& .MuiChip-label': {
+                  paddingLeft: '4px',
+                  paddingRight: '4px',
+                },
+                '@media print': {
+                  display: 'none',
+                },
+              }}
+            />
+          )}
           <AccordionActions sx={{ 
             padding: 0,
             '@media print': {

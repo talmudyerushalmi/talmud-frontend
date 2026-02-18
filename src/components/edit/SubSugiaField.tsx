@@ -46,7 +46,7 @@ const SubSugiaField = (props: Props) => {
 
   return (
     <>
-      <Box style={{ display: 'flex' }}>
+      <Box style={{ display: 'flex', alignItems: 'center' }}>
         <FormControlLabel control={<Checkbox checked={hasValue} onChange={checkboxHandler} />} label="תת-סוגיה חדשה" />
         <TextField
           style={{ padding: '9px' }}
@@ -54,9 +54,10 @@ const SubSugiaField = (props: Props) => {
           onChange={(e) => mySetValue(e.target.value)}
           onBlur={setFormValue}
           disabled={!hasValue}
-          placeholder="שם תת-הסוגיה"
+          placeholder={hasValue ? "שם תת-הסוגיה (עד 3 תווים)" : "שם תת-הסוגיה"}
           size="small"
           margin="none"
+          inputProps={{ maxLength: 3 }}
           sx={{
             '& .MuiOutlinedInput-input': {
               padding: '5px 10px',
