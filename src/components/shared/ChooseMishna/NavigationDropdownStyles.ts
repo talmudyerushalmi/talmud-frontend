@@ -51,6 +51,37 @@ export const getChooseTractateAutocompleteStyles = (isHebrew: boolean) => ({
 });
 
 /**
+ * Narrower styles for Daf and Amud dropdowns (less important, should be compact)
+ */
+export const getChooseDafAmudAutocompleteStyles = (isHebrew: boolean) => ({
+  minWidth: 60,
+  maxWidth: 90,
+  flex: 0.7,
+  ...getBaseAutocompleteStyles(isHebrew, '85px'),
+});
+
+/**
+ * TextField styles specifically for Daf and Amud dropdowns
+ * Adjusts text positioning to fit within narrower boxes
+ */
+export const getChooseDafAmudTextFieldStyles = (isHebrew: boolean) => ({
+  '& .MuiInputBase-input': {
+    textAlign: isHebrew ? 'left' : 'right',
+    marginRight: isHebrew ? '-15px' : '-50px',
+    marginLeft: isHebrew ? '10px' : 0,
+  },
+  '& .MuiInputLabel-root': {
+    left: isHebrew ? 0 : 'unset',
+    right: isHebrew ? 'unset' : 30,
+    transformOrigin: isHebrew ? 'top left' : 'top right',
+    top: '-4px',
+  },
+  '& .MuiOutlinedInput-notchedOutline legend': {
+    textAlign: isHebrew ? 'left' : 'right',
+  },
+});
+
+/**
  * Shared styles for TextField components in ChooseMishna forms
  * Handles RTL/LTR text alignment and label positioning
  */
