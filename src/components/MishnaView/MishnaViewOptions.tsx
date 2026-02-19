@@ -73,15 +73,15 @@ const MishnaViewOptions = (props) => {
           alignItems: 'center',
           cursor: 'pointer',
           verticalAlign: 'middle',
-          marginLeft: isHebrew ? '16px' : 0,
-          marginRight: isHebrew ? 0 : '15px',
+          marginLeft: isHebrew ? '16px' : '15px',
+          marginRight: isHebrew ? '15px' : 0,
         }}
         target="_blank"
         href={`${process.env.REACT_APP_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}
         download>
         [TEI]
       </Link>
-      <Box marginLeft={isHebrew ? 15 : 15} marginRight={isHebrew ? 0 : 0}>
+      <Box marginLeft={isHebrew ? 10 : 0} marginRight={isHebrew ? 0 : 10}>
         <IconButton onClick={() => window.print()} size="small" aria-label={t('Print')}>
           <PrintIcon />
         </IconButton>

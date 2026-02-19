@@ -79,7 +79,14 @@ const ChooseMishnaBar = ({
           },
         }}
       >
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" sx={{
+          'html:lang(he) &': {
+            flexDirection: 'row',
+          },
+          'html:lang(en-US) &': {
+            flexDirection: 'row-reverse',
+          },
+        }}>
           <Box sx={{ display: 'flex', flexGrow: 1 }}>
             <ChooseMishnaForm
               key={`${navigation.tractate}-${navigation.chapter}-${navigation.mishna}-${navigation.lineNumber}`}
