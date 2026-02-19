@@ -29,7 +29,12 @@ const MishnaViewOptions = (props) => {
   const route = useParams<routeObject>();
 
   return (
-    <FormGroup row sx={{ alignItems: 'center', flexDirection: isHebrew ? 'row' : 'row-reverse' }}>
+    <FormGroup row sx={{ 
+      alignItems: 'center', 
+      flexDirection: isHebrew ? 'row' : 'row-reverse',
+      marginTop: '-18px',
+      marginBottom: '-4px',
+    }}>
       <Select
         sx={{
           '.MuiOutlinedInput-notchedOutline': { border: 'none' },
@@ -76,7 +81,7 @@ const MishnaViewOptions = (props) => {
         download>
         [TEI]
       </Link>
-      <Box marginLeft={isHebrew ? 'auto' : 2} marginRight={isHebrew ? 2 : 'auto'}>
+      <Box marginLeft={isHebrew ? 15 : 15} marginRight={isHebrew ? 0 : 0}>
         <IconButton onClick={() => window.print()} size="small" aria-label={t('Print')}>
           <PrintIcon />
         </IconButton>

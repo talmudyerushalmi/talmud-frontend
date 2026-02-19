@@ -5,6 +5,7 @@ import ChooseMishnaBar from '../components/shared/ChooseMishna/ChooseMishnaBar';
 import Spinner from '../components/shared/Spinner';
 import { iLink } from '../types/types';
 import { ALL_CHAPTER } from '../components/shared/ChooseMishna/ChooseMishna';
+import { StickyOptionsProvider, useStickyOptions } from '../contexts/StickyOptionsContext';
 
 const mapStateToProps = (state) => ({
   loading: state.general.loading,
@@ -31,8 +32,10 @@ interface Props {
   stickyNavigation?: boolean;
   loading: boolean;
 }
-const PageWithNavigationWithoutState = (props: Props) => {
+
+const PageWithNavigationContent = (props: Props) => {
   const { linkPrefix, allChapterAllowed, showDafAmudNavigation = false, stickyNavigation = true, afterNavigateHandler, loading } = props;
+  const { optionsComponent } = useStickyOptions();
 
   const navigate = useNavigate();
   let url: string;
@@ -60,6 +63,8 @@ const PageWithNavigationWithoutState = (props: Props) => {
         onNavigationUpdated={navigationSelectedHandler}
         showDafAmudNavigation={showDafAmudNavigation}
         stickyNavigation={stickyNavigation}
+        shouldShowOptions={true}
+        optionsComponent={optionsComponent}
       />
       <Box
         sx={{
@@ -69,6 +74,14 @@ const PageWithNavigationWithoutState = (props: Props) => {
         {props.children}
       </Box>
     </Container>
+  );
+};
+
+const PageWithNavigationWithoutState = (props: Props) => {
+  return (
+    <StickyOptionsProvider>
+      <PageWithNavigationContent {...props} />
+    </StickyOptionsProvider>
   );
 };
 

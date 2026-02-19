@@ -14,6 +14,7 @@ import { setMishnaViewOptions } from '../store/actions/mishnaViewActions';
 import ManuscriptPopup from '../components/MishnaView/ManuscriptPopup';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchSynopsisList } from '../store/actions/synopsisActions';
+import { useStickyOptions } from '../contexts/StickyOptionsContext';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: true,
@@ -52,10 +53,16 @@ const MishnaPage = (props: Props) => {
   const location = useLocation();
   const t = useTheme();
   const dispatch = useAppDispatch();
+  const { setOptionsComponent } = useStickyOptions();
   
   // Store dafAmudMarkers in state to persist across re-renders
   const [dafAmudMarkers, setDafAmudMarkers] = React.useState<DafAmudMarker[]>([]);
   const [currentMishnaKey, setCurrentMishnaKey] = React.useState<string>('');
+  
+  // Register the options component with the context
+  useEffect(() => {
+    setOptionsComponent(<MishnaViewOptions />);
+  }, [setOptionsComponent]);
   
   // Update markers when location state changes
   React.useEffect(() => {
@@ -90,23 +97,8 @@ const MishnaPage = (props: Props) => {
   }, [tractate, chapter, mishna, getMishna, currentMishnaKey, location.state]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid
-        item
-        sx={{
-          width: '100%',
-          ml: 2,
-          paddingTop: '0 !important',
-          position: 'sticky',
-          top: '4rem',
-          zIndex: 100,
-          background: t.palette.background.default,
-          boxShadow: '0rem 0rem 1rem 2px #0000005e',
-        }}
-        className="mishna-view-options">
-        <MishnaViewOptions />
-      </Grid>
-      <Grid item md={8} className="mishna-text-container">
+    <Grid container spacing={2} sx={{ marginTop: 0 }}>
+      <Grid item md={8} className="mishna-text-container" sx={{ paddingTop: '0 !important' }}>
         <Grid container justifyContent="center" item sm={12}>
           <Grid item md={12} mb={2}>
             <MishnaText mishna={mishna} html={getHTMLFromRawContent(currentMishna?.richTextMishna)} />
@@ -114,7 +106,7 @@ const MishnaPage = (props: Props) => {
         </Grid>
         <MainText lines={currentMishna?.lines} mishna={currentMishna?.mishna} dafAmudMarkers={dafAmudMarkers} />
       </Grid>
-      <Grid item md={4} className="excerpts-section">
+      <Grid item md={4} className="excerpts-section" sx={{ paddingTop: '0 !important' }}>
         <ExcerptsSection />
       </Grid>
       <ManuscriptPopup />

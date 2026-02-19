@@ -10,7 +10,6 @@ import SearchBar from './SearchBar';
 import PageService from '../../../services/pageService';
 import { useAppDispatch } from '../../../app/hooks';
 import { setRoute } from '../../../store/actions/navigationActions';
-import { useTranslation } from 'react-i18next';
 
 interface Props {
   allChapterAllowed?: boolean;
@@ -19,6 +18,8 @@ interface Props {
   onButtonNavigation?: (nav: iLink) => void;
   showDafAmudNavigation?: boolean;
   stickyNavigation?: boolean;
+  shouldShowOptions?: boolean;
+  optionsComponent?: React.ReactNode;
 }
 
 const ChooseMishnaBar = ({
@@ -28,6 +29,8 @@ const ChooseMishnaBar = ({
   onButtonNavigation = () => {},
   showDafAmudNavigation = false,
   stickyNavigation = false,
+  shouldShowOptions = false,
+  optionsComponent,
 }: Props) => {
   const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
@@ -76,7 +79,7 @@ const ChooseMishnaBar = ({
           },
         }}
       >
-        <Grid container>
+        <Grid container alignItems="center">
           <Box sx={{ display: 'flex', flexGrow: 1 }}>
             <ChooseMishnaForm
               key={`${navigation.tractate}-${navigation.chapter}-${navigation.mishna}-${navigation.lineNumber}`}
@@ -89,6 +92,17 @@ const ChooseMishnaBar = ({
               showDafAmudNavigation={showDafAmudNavigation}
             />
           </Box>
+          {/* Show options component when merged into sticky bar */}
+          {shouldShowOptions && optionsComponent && (
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center',
+              marginLeft: 2,
+              marginRight: 2,
+            }}>
+              {optionsComponent}
+            </Box>
+          )}
         </Grid>
       </Box>
       
