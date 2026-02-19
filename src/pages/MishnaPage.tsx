@@ -97,7 +97,7 @@ const MishnaPage = (props: Props) => {
   }, [tractate, chapter, mishna, getMishna, currentMishnaKey, location.state]);
 
   return (
-    <Grid container spacing={2} sx={{ marginTop: 0 }}>
+    <Grid container spacing={2} sx={{ marginTop: '-40px' }}>
       <Grid item md={8} className="mishna-text-container" sx={{ paddingTop: '0 !important' }}>
         <Grid container justifyContent="center" item sm={12}>
           <Grid item md={12} mb={2}>

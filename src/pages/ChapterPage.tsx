@@ -61,7 +61,7 @@ const ChapterPage = (props: Props) => {
   });
 
   return (
-    <Grid container spacing={2} sx={{ marginTop: 0 }}>
+    <Grid container spacing={2} sx={{ marginTop: '-40px' }}>
       <Grid item md={12} sx={{ paddingTop: '0 !important' }}>
         <Grid container justifyContent="center" item sm={12}>
           <Grid item md={12}>
