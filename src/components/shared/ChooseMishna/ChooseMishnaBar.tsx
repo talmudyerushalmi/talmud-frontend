@@ -10,7 +10,6 @@ import SearchBar from './SearchBar';
 import PageService from '../../../services/pageService';
 import { useAppDispatch } from '../../../app/hooks';
 import { setRoute } from '../../../store/actions/navigationActions';
-import { useTranslation } from 'react-i18next';
 
 interface Props {
   allChapterAllowed?: boolean;
@@ -18,6 +17,9 @@ interface Props {
   onNavigationUpdated: (nav: iLink) => void;
   onButtonNavigation?: (nav: iLink) => void;
   showDafAmudNavigation?: boolean;
+  stickyNavigation?: boolean;
+  shouldShowOptions?: boolean;
+  optionsComponent?: React.ReactNode;
 }
 
 const ChooseMishnaBar = ({
@@ -26,6 +28,9 @@ const ChooseMishnaBar = ({
   onNavigationUpdated,
   onButtonNavigation = () => {},
   showDafAmudNavigation = false,
+  stickyNavigation = false,
+  shouldShowOptions = false,
+  optionsComponent,
 }: Props) => {
   const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
@@ -51,8 +56,37 @@ const ChooseMishnaBar = ({
 
   return (
     <>
-      <Box className="choose-mishna-bar-form">
-        <Grid container>
+      {/* Navigation Form - conditionally sticky */}
+      <Box 
+        className="choose-mishna-bar-form"
+        sx={{
+          ...(stickyNavigation && {
+            position: 'sticky',
+            top: '72px', // AppBar height + spacing
+            zIndex: 1100,
+            backgroundColor: 'background.default',
+            paddingLeft: 0.1,
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+          }),
+          paddingTop: 1,
+          paddingBottom: 1,
+          marginBottom: 2,
+          '@media print': {
+            position: 'static',
+            borderBottom: 'none',
+            paddingRight: 0,
+          },
+        }}
+      >
+        <Grid container alignItems="center" sx={{
+          'html:lang(he) &': {
+            flexDirection: 'row',
+          },
+          'html:lang(en-US) &': {
+            flexDirection: 'row-reverse',
+          },
+        }}>
           <Box sx={{ display: 'flex', flexGrow: 1 }}>
             <ChooseMishnaForm
               key={`${navigation.tractate}-${navigation.chapter}-${navigation.mishna}-${navigation.lineNumber}`}
@@ -65,11 +99,25 @@ const ChooseMishnaBar = ({
               showDafAmudNavigation={showDafAmudNavigation}
             />
           </Box>
+          {/* Show options component when merged into sticky bar */}
+          {shouldShowOptions && optionsComponent && (
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center',
+              marginLeft: 2,
+              marginRight: 2,
+            }}>
+              {optionsComponent}
+            </Box>
+          )}
         </Grid>
       </Box>
+      
+      {/* Search Bar - NOT sticky */}
       <Box sx={{ 
         display: 'flex', 
         width: '100%',
+        marginBottom: 2,
         'html:lang(he) &': {
           flexDirection: 'row',
         },
@@ -95,6 +143,7 @@ const ChooseMishnaBar = ({
           },
         }} />
       </Box>
+      
       {/* Print version */}
       <PrintHeader allTractates={allTractates} />
     </>

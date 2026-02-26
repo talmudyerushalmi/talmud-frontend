@@ -3,6 +3,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import MainLine from './MainLine';
 import { iLine, DafAmudMarker } from '../../types/types';
 import { counter } from './SugiaButton';
+import { subSugiaCounter } from './SublineDisplay';
 import { useParams, Link } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import { Edit } from '@mui/icons-material';
@@ -42,6 +43,7 @@ const MainLines = (props: Props) => {
 
   useEffect(()=>{
     counter.reset();
+    subSugiaCounter.reset();
   },[lines])
 
   const route = useParams<routeObject>();
@@ -60,13 +62,13 @@ const MainLines = (props: Props) => {
             {userGroup === UserGroup.Editor ? (
               <IconButton
                 component={Link}
-                to={`/admin/edit/${route.tractate}/${route.chapter}/${mishna}/${line.lineNumber}/`}
+                to={`/admin/edit/${route.tractate}/${route.chapter}/${mishna}/${line.lineNumber}`}
                 sx={{ position: 'absolute', display: { xs: 'none', sm: 'block' }, left: '-3rem', top: '-0.2rem' }}
                 size="small">
                 <Edit></Edit>
               </IconButton>
             ) : null}
-            <MainLine key={line.lineNumber} lineIndex={index} line={line} dafAmudMarker={marker} />
+            <MainLine key={line.lineNumber} lineIndex={index} line={line} dafAmudMarker={marker} allLines={lines} />
           </div>
         );
       })}

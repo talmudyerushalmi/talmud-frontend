@@ -1,5 +1,5 @@
 import React, { useState, useEffect, SyntheticEvent } from 'react';
-import { getChooseMishnaAutocompleteStyles, getChooseMishnaTextFieldStyles } from './NavigationDropdownStyles';
+import { getChooseDafAmudAutocompleteStyles, getChooseDafAmudTextFieldStyles } from './NavigationDropdownStyles';
 import { leanDaf } from './ChooseDaf';
 import { hebrewAmudToEnglish } from '../../../inc/utils';
 import NavigationAutocomplete from './NavigationAutocomplete';
@@ -76,8 +76,8 @@ const ChooseAmud = (props: Props) => {
       getOptionLabel={(option) => getAmudLabel(option)}
       isOptionEqualToValue={(option, value) => option === value}
       onChange={_onChange}
-      customSx={getChooseMishnaAutocompleteStyles(isHebrew)}
-      customTextFieldSx={getChooseMishnaTextFieldStyles(isHebrew)}
+      customSx={getChooseDafAmudAutocompleteStyles(isHebrew)}
+      customTextFieldSx={getChooseDafAmudTextFieldStyles(isHebrew)}
     />
   );
 };

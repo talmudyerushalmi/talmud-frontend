@@ -24,7 +24,37 @@ import { CommentModal, iCommentModal, setCommentModal } from '../../store/action
 import { getFirstAndLastWordOfString } from '../../inc/textUtils';
 import { UserGroup } from '../../store/reducers/authReducer';
 import { useTranslation } from 'react-i18next';
-import { hebrewToNumber, hebrewAmudToEnglish } from '../../inc/utils';
+import { hebrewToNumber, hebrewAmudToEnglish, getHebrewLetterByIndex } from '../../inc/utils';
+
+// Sub-Sugia counter - tracks sub-sugiot within each sugia
+export class subSugiaCounter {
+  private static currentSugia: number | null = null;
+  private static subSugiaMap = new Map<number, string>(); // Maps subline index to letter
+  private static lastLetter = 0;
+
+  static reset() {
+    subSugiaCounter.currentSugia = null;
+    subSugiaCounter.subSugiaMap.clear();
+    subSugiaCounter.lastLetter = 0;
+  }
+
+  static setSugia(sugiaIndex: number) {
+    if (subSugiaCounter.currentSugia !== sugiaIndex) {
+      subSugiaCounter.currentSugia = sugiaIndex;
+      subSugiaCounter.lastLetter = 0; // Reset letter counter for new sugia
+    }
+  }
+
+  static get(sublineIndex: number, sugiaNumber: number): string {
+    let letter = subSugiaCounter.subSugiaMap.get(sublineIndex);
+    if (!letter) {
+      letter = getHebrewLetterByIndex(subSugiaCounter.lastLetter + 1); // +1 because function expects 1-based index
+      subSugiaCounter.lastLetter++;
+      subSugiaCounter.subSugiaMap.set(sublineIndex, letter);
+    }
+    return `${sugiaNumber}.${letter}`;
+  }
+}
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -46,8 +76,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '&.MuiAccordion-root': { margin: 0, marginBottom: '-8px' },
-    '&.MuiAccordion-root.Mui-expanded': { margin: 0, marginBottom: '-8px' },
+    '&.MuiAccordion-root': { margin: 0, marginBottom: '2px' },
+    '&.MuiAccordion-root.Mui-expanded': { margin: 0, marginBottom: '2px' },
     '&.MuiAccordion-root:before': { display: 'none' },
     '& p': { margin: 0 },
     '& .MuiAccordionSummary-root, & .MuiAccordionSummary-root.Mui-expanded': { minHeight: 0 },
@@ -101,6 +131,7 @@ interface Props {
   };
   userGroup: UserGroup;
   dafAmudMarker?: DafAmudMarker;
+  currentSugiaNumber?: number; // The sugia counter number for this subline's parent sugia
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -118,6 +149,7 @@ const SublineDisplay = (props: Props) => {
     lineDetails,
     userGroup,
     dafAmudMarker,
+    currentSugiaNumber,
   } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -279,6 +311,31 @@ const SublineDisplay = (props: Props) => {
                 fontSize: '0.7rem',
                 backgroundColor: '#fff3cd',
                 border: '1px solid #ffc107',
+                '& .MuiChip-label': {
+                  paddingLeft: '4px',
+                  paddingRight: '4px',
+                },
+                '@media print': {
+                  display: 'none',
+                },
+              }}
+            />
+          )}
+          {/* Sub-Sugia badge positioned next to Daf/Amud marker */}
+          {subline.subSugiaName !== undefined && subline.subSugiaName !== null && currentSugiaNumber && (
+            <Chip
+              label={`${subSugiaCounter.get(subline.index, currentSugiaNumber)}${subline.subSugiaName ? ' ' + subline.subSugiaName : ''}`}
+              size="small"
+              sx={{
+                position: 'absolute',
+                left: dafAmudMarker ? '-60px' : '-18px', // Move further left when marker exists
+                top: '50%',
+                transform: 'translateY(-50%)',
+                height: '18px',
+                fontSize: '0.7rem',
+                backgroundColor: '#e3f2fd',
+                border: '1px solid #2196f3',
+                color: '#1565c0',
                 '& .MuiChip-label': {
                   paddingLeft: '4px',
                   paddingRight: '4px',

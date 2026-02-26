@@ -5,6 +5,7 @@ import ChooseMishnaBar from '../components/shared/ChooseMishna/ChooseMishnaBar';
 import Spinner from '../components/shared/Spinner';
 import { iLink } from '../types/types';
 import { ALL_CHAPTER } from '../components/shared/ChooseMishna/ChooseMishna';
+import { StickyOptionsProvider, useStickyOptions } from '../contexts/StickyOptionsContext';
 
 const mapStateToProps = (state) => ({
   loading: state.general.loading,
@@ -28,10 +29,13 @@ interface Props {
   afterNavigateHandler?: Function;
   allChapterAllowed?: boolean;
   showDafAmudNavigation?: boolean;
+  stickyNavigation?: boolean;
   loading: boolean;
 }
-const PageWithNavigationWithoutState = (props: Props) => {
-  const { linkPrefix, allChapterAllowed, showDafAmudNavigation = false, afterNavigateHandler, loading } = props;
+
+const PageWithNavigationContent = (props: Props) => {
+  const { linkPrefix, allChapterAllowed, showDafAmudNavigation = false, stickyNavigation = true, afterNavigateHandler, loading } = props;
+  const { optionsComponent } = useStickyOptions();
 
   const navigate = useNavigate();
   let url: string;
@@ -52,15 +56,16 @@ const PageWithNavigationWithoutState = (props: Props) => {
 
   return (
     <Container style={{ paddingBottom: '3rem' }}>
-      <Box mb={3}>
-        <ChooseMishnaBar
-          allChapterAllowed={allChapterAllowed}
-          keypressNavigation={true}
-          onButtonNavigation={navigationSelectedHandler}
-          onNavigationUpdated={navigationSelectedHandler}
-          showDafAmudNavigation={showDafAmudNavigation}
-        />
-      </Box>
+      <ChooseMishnaBar
+        allChapterAllowed={allChapterAllowed}
+        keypressNavigation={true}
+        onButtonNavigation={navigationSelectedHandler}
+        onNavigationUpdated={navigationSelectedHandler}
+        showDafAmudNavigation={showDafAmudNavigation}
+        stickyNavigation={stickyNavigation}
+        shouldShowOptions={true}
+        optionsComponent={optionsComponent}
+      />
       <Box
         sx={{
           opacity: loading ? 0.3 : 1,
@@ -69,6 +74,14 @@ const PageWithNavigationWithoutState = (props: Props) => {
         {props.children}
       </Box>
     </Container>
+  );
+};
+
+const PageWithNavigationWithoutState = (props: Props) => {
+  return (
+    <StickyOptionsProvider>
+      <PageWithNavigationContent {...props} />
+    </StickyOptionsProvider>
   );
 };
 

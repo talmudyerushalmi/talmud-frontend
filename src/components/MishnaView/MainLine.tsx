@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import React, { lazy, ReactElement } from 'react';
-import SublineDisplay from './SublineDisplay';
+import SublineDisplay, { subSugiaCounter } from './SublineDisplay';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { iLine, DafAmudMarker } from '../../types/types';
-import SugiaButton from './SugiaButton';
+import SugiaButton, { counter } from './SugiaButton';
 import { UserGroup } from '../../store/reducers/authReducer';
 
 const importView = (component) => lazy(() => import(`./${component}`));
@@ -21,10 +21,11 @@ interface Props {
   userAuth: any;
   isAuthenticated: boolean;
   dafAmudMarker?: DafAmudMarker;
+  allLines: iLine[]; // All lines in the mishna for cross-line sugia lookup
 }
 
 const MainLine = (props: Props) => {
-  const { line, lineIndex, userAuth, isAuthenticated, dafAmudMarker } = props;
+  const { line, lineIndex, userAuth, isAuthenticated, dafAmudMarker, allLines } = props;
   const [dynamicComponents, setdynamicComponents] = useState<ReactElement[]>([]);
   const [hoverSubline, setHoverSubline] = React.useState<number>(-1);
   const handleMouseLeave = () => {
@@ -41,6 +42,22 @@ const MainLine = (props: Props) => {
     hoverSubline,
     handleMouseLeave,
     handleMouseEnter,
+  };
+
+  // Helper function to find the current sugia for a given subline index
+  // by searching backwards through all sublines across all lines
+  const findCurrentSugia = (targetSublineIndex: number): number | undefined => {
+    // Flatten all sublines from all lines
+    const allSublines = allLines.flatMap(l => l.sublines || []);
+    
+    // Search backwards from the target subline to find the most recent sugia
+    for (let i = targetSublineIndex - 1; i >= 0; i--) {
+      const subline = allSublines[i];
+      if (subline && subline.sugiaName) {
+        return counter.get(subline.index);
+      }
+    }
+    return undefined;
   };
 
   useEffect(() => {
@@ -70,6 +87,17 @@ const MainLine = (props: Props) => {
               // Only pass marker to the first subline
               const markerForSubline = index === 0 ? dafAmudMarker : undefined;
               
+              // Track current sugia number for sub-sugia numbering
+              let currentSugiaNumber: number | undefined;
+              if (subline.sugiaName) {
+                // This is a new sugia - set it and reset sub-sugia counter
+                currentSugiaNumber = counter.get(subline.index);
+                subSugiaCounter.setSugia(subline.index);
+              } else {
+                // Find the current sugia by searching across all lines
+                currentSugiaNumber = findCurrentSugia(subline.index);
+              }
+              
               return (
                 <div key={index}>
                   {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
@@ -82,6 +110,7 @@ const MainLine = (props: Props) => {
                     }}
                     subline={subline}
                     dafAmudMarker={markerForSubline}
+                    currentSugiaNumber={currentSugiaNumber}
                     {...(isAuthenticated && hoverProps)}
                   />
                 </div>

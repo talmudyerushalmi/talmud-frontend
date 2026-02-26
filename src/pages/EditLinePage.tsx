@@ -48,6 +48,7 @@ const EditLinePage = (props) => {
   return (
     <PageWithNavigation
       linkPrefix="/admin/edit"
+      stickyNavigation={false}
       afterNavigateHandler={() => {
         window.scrollTo(0, 0);
       }}

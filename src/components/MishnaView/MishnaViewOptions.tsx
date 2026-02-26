@@ -29,7 +29,12 @@ const MishnaViewOptions = (props) => {
   const route = useParams<routeObject>();
 
   return (
-    <FormGroup row sx={{ alignItems: 'center', flexDirection: isHebrew ? 'row' : 'row-reverse' }}>
+    <FormGroup row sx={{ 
+      alignItems: 'center', 
+      flexDirection: isHebrew ? 'row' : 'row-reverse',
+      marginTop: '-18px',
+      marginBottom: '-4px',
+    }}>
       <Select
         sx={{
           '.MuiOutlinedInput-notchedOutline': { border: 'none' },
@@ -46,6 +51,7 @@ const MishnaViewOptions = (props) => {
           '& .MuiSvgIcon-root': {
             right: isHebrew ? '7px' : '105px',
           },
+
         }}
         value={showEditType}
         label=""
@@ -68,15 +74,16 @@ const MishnaViewOptions = (props) => {
           alignItems: 'center',
           cursor: 'pointer',
           verticalAlign: 'middle',
-          marginLeft: isHebrew ? '16px' : 0,
-          marginRight: isHebrew ? 0 : '15px',
+          marginLeft: isHebrew ? '16px' : '8px',
+          marginRight: isHebrew ? '15px' : '18px',
+          order: isHebrew ? 2 : 2,
         }}
         target="_blank"
         href={`${process.env.REACT_APP_DB_HOST}/mishna/${route.tractate}/${route.chapter}/${route.mishna}/tei`}
         download>
         [TEI]
       </Link>
-      <Box marginLeft={isHebrew ? 'auto' : 2} marginRight={isHebrew ? 2 : 'auto'}>
+      <Box marginLeft={isHebrew ? 10 : 0} marginRight={isHebrew ? 0 : 10} sx={{ order: isHebrew ? 3 : 3 }}>
         <IconButton onClick={() => window.print()} size="small" aria-label={t('Print')}>
           <PrintIcon />
         </IconButton>

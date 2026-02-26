@@ -281,8 +281,8 @@ const ChooseMishnaForm = ({
               onSelectLine={(l) => {
                 setLineNumber(l.lineNumber);
                 setLineData(l);
-                // Emit navigation when user selects line
-                setTimeout(() => emitNavigation(), 10);
+                // Emit navigation immediately with the new line number
+                emit(createNavigationLink({ lineNumber: l.lineNumber }));
               }}
             />
             
@@ -303,8 +303,8 @@ const ChooseMishnaForm = ({
             onSelectLine={(l) => {
               setLineNumber(l.lineNumber);
               setLineData(l);
-              // Emit navigation when user selects line
-              setTimeout(() => emitNavigation(), 10);
+              // Emit navigation immediately with the new line number
+              emit(createNavigationLink({ lineNumber: l.lineNumber }));
             }}
           />
         ) : null}

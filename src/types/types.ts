@@ -115,6 +115,7 @@ export interface iSubline {
   synopsis: iSynopsis[];
   piska?: boolean;
   sugiaName?: string;
+  subSugiaName?: string;
   offset?: number;
   sourcetype?: sourceType;
 }

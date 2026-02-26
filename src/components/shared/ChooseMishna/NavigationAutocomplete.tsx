@@ -48,6 +48,7 @@ function NavigationAutocomplete<T>({
           label={t(label)} 
           variant="outlined" 
           sx={customTextFieldSx}
+          InputLabelProps={{ shrink: true }}
         />
       )}
       ListboxProps={{

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, useTheme } from '@mui/material';
 import MainText from '../components/MishnaView/MainText';
 import MishnaText from '../components/MishnaView/MishnaText';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import { iMishna } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
 import { RichTextsMishnas } from '../services/pageService';
 import { getRichMishnaiotForChapter, setMishnaViewOptions } from '../store/actions/mishnaViewActions';
+import { useStickyOptions } from '../contexts/StickyOptionsContext';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: false,
@@ -38,6 +39,13 @@ interface Props {
 const ChapterPage = (props: Props) => {
   const { mishnaiot, richTextMishnas, setViewOptions, getRichMishnaiotForChapter } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
+  const t = useTheme();
+  const { setOptionsComponent } = useStickyOptions();
+
+  // Register the options component with the context
+  useEffect(() => {
+    setOptionsComponent(<MishnaViewOptions />);
+  }, [setOptionsComponent]);
 
   useEffect(() => {
     setViewOptions();
@@ -53,23 +61,8 @@ const ChapterPage = (props: Props) => {
   });
 
   return (
-    <Grid container spacing={2}>
-      <Grid
-        item
-        md={12}
-        sx={{
-          ml: 2,
-          paddingTop: '0 !important',
-          position: 'sticky',
-          top: '4rem',
-          zIndex: 100,
-          background: 'white',
-          boxShadow: '0rem 0rem 1rem 2px #0000005e',
-        }}
-        className="mishna-view-options">
-        <MishnaViewOptions />
-      </Grid>
-      <Grid item md={12}>
+    <Grid container spacing={2} sx={{ marginTop: '-40px' }}>
+      <Grid item md={12} sx={{ paddingTop: '0 !important' }}>
         <Grid container justifyContent="center" item sm={12}>
           <Grid item md={12}>
             {richTextMishnas.map((mishna, index) => (

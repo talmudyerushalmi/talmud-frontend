@@ -125,6 +125,13 @@ export function hebrewToNumber(hebrewLetter: string): number | string {
   return reverseHebrewMap.get(hebrewLetter) ?? hebrewLetter;
 }
 
+// Get Hebrew letter by 1-based index (1='א', 2='ב', etc.)
+// Uses hebrewMap as single source of truth
+export function getHebrewLetterByIndex(index: number): string {
+  const key = String(index).padStart(3, '0'); // Convert 1 to '001', 2 to '002', etc.
+  return hebrewMap.get(key) || '';
+}
+
 // Convert Hebrew Amud letters to English letters
 export function hebrewAmudToEnglish(hebrewAmud: string): string {
   const mapping: { [key: string]: string } = {
