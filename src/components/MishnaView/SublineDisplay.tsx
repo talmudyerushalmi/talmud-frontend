@@ -24,14 +24,13 @@ import { CommentModal, iCommentModal, setCommentModal } from '../../store/action
 import { getFirstAndLastWordOfString } from '../../inc/textUtils';
 import { UserGroup } from '../../store/reducers/authReducer';
 import { useTranslation } from 'react-i18next';
-import { hebrewToNumber, hebrewAmudToEnglish } from '../../inc/utils';
+import { hebrewToNumber, hebrewAmudToEnglish, getHebrewLetterByIndex } from '../../inc/utils';
 
 // Sub-Sugia counter - tracks sub-sugiot within each sugia
 export class subSugiaCounter {
   private static currentSugia: number | null = null;
   private static subSugiaMap = new Map<number, string>(); // Maps subline index to letter
   private static lastLetter = 0;
-  private static hebrewLetters = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט'];
 
   static reset() {
     subSugiaCounter.currentSugia = null;
@@ -49,7 +48,7 @@ export class subSugiaCounter {
   static get(sublineIndex: number, sugiaNumber: number): string {
     let letter = subSugiaCounter.subSugiaMap.get(sublineIndex);
     if (!letter) {
-      letter = subSugiaCounter.hebrewLetters[subSugiaCounter.lastLetter];
+      letter = getHebrewLetterByIndex(subSugiaCounter.lastLetter + 1); // +1 because function expects 1-based index
       subSugiaCounter.lastLetter++;
       subSugiaCounter.subSugiaMap.set(sublineIndex, letter);
     }
