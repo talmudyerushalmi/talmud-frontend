@@ -50,7 +50,6 @@ const ChooseLine = (props: Props) => {
         },
       }}
       customListboxProps={{ textAlign: 'right' }}
-      inputLabelProps={{ shrink: true }}
     />
   );
 };

@@ -47,7 +47,6 @@ const ChooseTractate = (props: Props) => {
       onChange={_onChange}
       customSx={getChooseTractateAutocompleteStyles(isHebrew)}
       customTextFieldSx={getChooseMishnaTextFieldStyles(isHebrew)}
-      inputLabelProps={{ shrink: true }}
     />
   );
 };

@@ -78,7 +78,6 @@ const ChooseAmud = (props: Props) => {
       onChange={_onChange}
       customSx={getChooseDafAmudAutocompleteStyles(isHebrew)}
       customTextFieldSx={getChooseDafAmudTextFieldStyles(isHebrew)}
-      inputLabelProps={{ shrink: true }}
     />
   );
 };
