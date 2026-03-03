@@ -47,6 +47,11 @@ const SubSugiaField = (props: Props) => {
   };
 
   const setFormValue = () => {
+    // Validate: if checkbox is checked, must have at least 1 character
+    if (hasValue && val.trim().length === 0) {
+      // Show error or prevent saving - for now just don't save empty
+      return;
+    }
     onChange(val);
     onBlur();
   };
@@ -61,10 +66,10 @@ const SubSugiaField = (props: Props) => {
           onChange={(e) => mySetValue(e.target.value)}
           onBlur={setFormValue}
           disabled={!hasValue}
-          placeholder={hasValue ? "שם תת-הסוגיה (עד 2 תווים)" : "שם תת-הסוגיה"}
+          placeholder={hasValue ? "שם תת-הסוגיה (1-4 תווים)" : "שם תת-הסוגיה"}
           size="small"
           margin="none"
-          inputProps={{ maxLength: 2 }}
+          inputProps={{ maxLength: 4 }}
           sx={{
             '& .MuiOutlinedInput-input': {
               padding: '5px 10px',
