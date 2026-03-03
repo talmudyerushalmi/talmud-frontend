@@ -149,7 +149,7 @@ const EditLineForm = (props: Props) => {
   };
   const onSubmit = async (data: FormValues) => {
     try {
-      // Save main line data directly (parallels are already saved separately)
+      // Save main line data
       await LineService.saveLine(getTractate(currentMishna), getChapter(currentMishna), currentMishna.mishna, line!.lineNumber!, data);
       
       // Success notification
@@ -157,11 +157,12 @@ const EditLineForm = (props: Props) => {
       
       // Reset button to gray/disabled after successful save
       setHasChanges(false);
-      reset(values); // Reset form dirty state with current values
+      reset(values);
       
-    } catch (error) {
-      // Error notification
-      showError(`שגיאה בשמירת השורה: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } catch (error: any) {
+      // Error notification - extract message from axios error
+      const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
+      showError(`שגיאה בשמירת השורה: ${errorMessage}`);
       console.error('Save error:', error);
     }
   };
