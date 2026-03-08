@@ -20,6 +20,7 @@ interface Props {
   stickyNavigation?: boolean;
   shouldShowOptions?: boolean;
   optionsComponent?: React.ReactNode;
+  showSearchBar?: boolean;
 }
 
 const ChooseMishnaBar = ({
@@ -31,6 +32,7 @@ const ChooseMishnaBar = ({
   stickyNavigation = false,
   shouldShowOptions = false,
   optionsComponent,
+  showSearchBar = true,
 }: Props) => {
   const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
@@ -114,35 +116,37 @@ const ChooseMishnaBar = ({
       </Box>
       
       {/* Search Bar - NOT sticky */}
-      <Box sx={{ 
-        display: 'flex', 
-        width: '100%',
-        marginBottom: 2,
-        'html:lang(he) &': {
-          flexDirection: 'row',
-        },
-        'html:lang(en-US) &': {
-          flexDirection: 'row-reverse',
-        },
-      }}>
+      {showSearchBar && (
         <Box sx={{ 
+          display: 'flex', 
+          width: '100%',
+          marginBottom: 2,
           'html:lang(he) &': {
-            marginRight: 0,
+            flexDirection: 'row',
           },
           'html:lang(en-US) &': {
-            marginLeft: 'auto',
-            marginRight: 0,
+            flexDirection: 'row-reverse',
           },
         }}>
-          <SearchBar />
+          <Box sx={{ 
+            'html:lang(he) &': {
+              marginRight: 0,
+            },
+            'html:lang(en-US) &': {
+              marginLeft: 'auto',
+              marginRight: 0,
+            },
+          }}>
+            <SearchBar />
+          </Box>
+          <Box sx={{ 
+            flexGrow: 1,
+            'html:lang(en-US) &': {
+              display: 'none',
+            },
+          }} />
         </Box>
-        <Box sx={{ 
-          flexGrow: 1,
-          'html:lang(en-US) &': {
-            display: 'none',
-          },
-        }} />
-      </Box>
+      )}
       
       {/* Print version */}
       <PrintHeader allTractates={allTractates} />

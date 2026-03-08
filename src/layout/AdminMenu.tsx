@@ -38,6 +38,14 @@ const AdminMenu = (props: any) => {
     handleClose();
   }, [currentRoute,navigate]);
 
+  const handleTagging = useCallback(() => {
+    const tractate = currentRoute.tractate ? currentRoute.tractate : 'yevamot';
+    const chapter = currentRoute.chapter ? currentRoute.chapter : '001';
+    const mishna = currentRoute.mishna ? currentRoute.mishna : '001';
+    navigate(`/admin/tagging/${tractate}/${chapter}/${mishna}`);
+    handleClose();
+  }, [currentRoute, navigate]);
+
   return (
     <>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
@@ -46,6 +54,7 @@ const AdminMenu = (props: any) => {
       <Menu id="admin-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={handleViewMishna}>עמוד משנה</MenuItem>
         <MenuItem onClick={handleEditMishna}>עריכת משנה</MenuItem>
+        <MenuItem onClick={handleTagging}>עורך תגיות</MenuItem>
         <MenuItem
           onClick={() => {
             navigate(`/admin/comments/moderation`);
