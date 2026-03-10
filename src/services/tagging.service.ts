@@ -1,4 +1,5 @@
 import axiosInstance from './api';
+import rabbiesJson from '../assets/rabbies.json';
 
 export interface RabbiMention {
   rabbiId: string;
@@ -18,9 +19,14 @@ export interface TaggingSubline {
 }
 
 export interface Rabbi {
-  _id: string;
-  name: string;
-  description: string;
+  id: string;
+  title: string | null;
+  sortname: string;
+  type: string;
+  generation: string | null;
+  location: string | null;
+  city: string | null;
+  displayName: string;
 }
 
 export interface UpdateSublineTagsDto {
@@ -51,6 +57,28 @@ export const TAGGING_CATEGORIES = [
   { id: 'role_28', label: 'שונות' },
 ];
 
+const rabbiesData = rabbiesJson as unknown as Record<string, {
+  title: string | null;
+  sortname: string;
+  type: string;
+  generation: string | null;
+  location: string | null;
+  city: string | null;
+}>;
+
+export const ALL_RABBIES: Rabbi[] = Object.entries(rabbiesData).map(([id, r]) => ({
+  id,
+  title: r.title,
+  sortname: r.sortname,
+  type: r.type,
+  generation: r.generation,
+  location: r.location,
+  city: r.city,
+  displayName: r.title ? `${r.title} ${r.sortname}` : r.sortname,
+}));
+
+export const FIRST_SIX_RABBIES: Rabbi[] = ALL_RABBIES.slice(0, 6);
+
 export const taggingService = {
   getSublines: async (tractate: string, chapter: string, mishna: string): Promise<TaggingSubline[]> => {
     const response = await axiosInstance.get(`/tagging/${tractate}/${chapter}/${mishna}/sublines`);
@@ -65,10 +93,5 @@ export const taggingService = {
     dto: UpdateSublineTagsDto,
   ): Promise<void> => {
     await axiosInstance.put(`/tagging/${tractate}/${chapter}/${mishna}/sublines/${sublineIndex}`, dto);
-  },
-
-  getRabbies: async (): Promise<Rabbi[]> => {
-    const response = await axiosInstance.get('/rabbies');
-    return response.data;
   },
 };

@@ -19,6 +19,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import {
+  FIRST_SIX_RABBIES,
   TAGGING_CATEGORIES,
   Rabbi,
   RabbiMention,
@@ -38,7 +39,7 @@ interface TextSelection {
   text: string;
 }
 
-const SIDEBAR_WIDTH = 320;
+const SIDEBAR_WIDTH = 340;
 
 const TaggingPage: React.FC = () => {
   const { tractate, chapter, mishna } = useParams<{
@@ -48,7 +49,6 @@ const TaggingPage: React.FC = () => {
   }>();
 
   const [sublines, setSublines] = useState<TaggingSubline[]>([]);
-  const [rabbies, setRabbies] = useState<Rabbi[]>([]);
   const [tractateHebName, setTractateHebName] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -60,7 +60,6 @@ const TaggingPage: React.FC = () => {
 
   const [pendingCategories, setPendingCategories] = useState<string[]>([]);
   const [pendingConnections, setPendingConnections] = useState<string[]>([]);
-
   const [pendingRabbiMentions, setPendingRabbiMentions] = useState<RabbiMention[]>([]);
   const [textSelection, setTextSelection] = useState<TextSelection | null>(null);
 
@@ -71,13 +70,11 @@ const TaggingPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const [sublinesData, rabbiesData, allTractates] = await Promise.all([
+      const [sublinesData, allTractates] = await Promise.all([
         taggingService.getSublines(tractate, chapter, mishna),
-        taggingService.getRabbies(),
         PageService.getAllTractates(),
       ]);
       setSublines(sublinesData);
-      setRabbies(rabbiesData);
       const found = allTractates.find((t: any) => t.id === tractate);
       setTractateHebName(found?.title_heb || tractate);
     } catch (e: any) {
@@ -189,8 +186,8 @@ const TaggingPage: React.FC = () => {
   const assignRabbiToSelection = (rabbi: Rabbi) => {
     if (!textSelection) return;
     const mention: RabbiMention = {
-      rabbiId: rabbi._id,
-      rabbiName: rabbi.name,
+      rabbiId: rabbi.id,
+      rabbiName: rabbi.displayName,
       startIndex: textSelection.startIndex,
       endIndex: textSelection.endIndex,
       text: textSelection.text,
@@ -211,9 +208,10 @@ const TaggingPage: React.FC = () => {
   };
 
   const renderSublineText = (subline: TaggingSubline) => {
-    const mentions = editMode === 'rabbies' && activeSublineIndex === subline.index
-      ? pendingRabbiMentions
-      : subline.rabbiMentions;
+    const mentions =
+      editMode === 'rabbies' && activeSublineIndex === subline.index
+        ? pendingRabbiMentions
+        : subline.rabbiMentions;
 
     if (!mentions || mentions.length === 0) {
       return <span>{subline.text}</span>;
@@ -245,7 +243,7 @@ const TaggingPage: React.FC = () => {
       cursor = mention.endIndex;
     }
     if (cursor < subline.text.length) {
-      parts.push(<span key={`text-end`}>{subline.text.slice(cursor)}</span>);
+      parts.push(<span key="text-end">{subline.text.slice(cursor)}</span>);
     }
     return <>{parts}</>;
   };
@@ -264,6 +262,39 @@ const TaggingPage: React.FC = () => {
     );
   }
 
+  const RabbiCard = ({ rabbi, clickable }: { rabbi: Rabbi; clickable: boolean }) => (
+    <Box
+      key={rabbi.id}
+      onClick={() => clickable && assignRabbiToSelection(rabbi)}
+      sx={{
+        mb: 1.5,
+        p: 1.5,
+        borderRadius: 1,
+        border: '1px solid',
+        borderColor: clickable ? 'primary.main' : 'divider',
+        cursor: clickable ? 'pointer' : 'default',
+        '&:hover': clickable ? { backgroundColor: 'action.hover' } : {},
+      }}>
+      <Typography variant="body2" fontWeight="bold" mb={0.5}>
+        {rabbi.displayName}
+      </Typography>
+      <Box display="flex" flexWrap="wrap" gap={0.5}>
+        {rabbi.type && (
+          <Chip label={rabbi.type} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
+        )}
+        {rabbi.generation && (
+          <Chip label={`דור ${rabbi.generation}`} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
+        )}
+        {rabbi.location && (
+          <Chip label={rabbi.location} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
+        )}
+        {rabbi.city && (
+          <Chip label={rabbi.city} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
+        )}
+      </Box>
+    </Box>
+  );
+
   return (
     <PageWithNavigation linkPrefix="/admin/tagging" showSearchBar={false}>
       <PageContent>
@@ -280,208 +311,208 @@ const TaggingPage: React.FC = () => {
               </Box>
             )}
 
-            {!loading && sublines.map(subline => {
-              const active = isActiveSubline(subline.index);
-              const connectionTarget = isConnectionTarget(subline.index);
-              const isConnected =
-                editMode === 'connections' &&
-                activeSublineIndex !== null &&
-                pendingConnections.includes(String(subline.index));
+            {!loading &&
+              sublines.map(subline => {
+                const active = isActiveSubline(subline.index);
+                const connectionTarget = isConnectionTarget(subline.index);
+                const isConnected =
+                  editMode === 'connections' &&
+                  activeSublineIndex !== null &&
+                  pendingConnections.includes(String(subline.index));
 
-              return (
-                <Paper
-                  key={subline.index}
-                  ref={el => { sublineRefs.current[subline.index] = el; }}
-                  elevation={active ? 4 : 1}
-                  onMouseUp={() => handleTextSelectionOnSubline(subline.index)}
-                  onClick={() => {
-                    if (connectionTarget) toggleConnection(subline.index);
-                  }}
-                  sx={{
-                    mb: 1.5,
-                    p: 1.5,
-                    borderRadius: 2,
-                    border: active
-                      ? '2px solid #1976d2'
-                      : isConnected
-                      ? '2px solid #9c27b0'
-                      : connectionTarget
-                      ? '2px dashed #9c27b0'
-                      : '1px solid transparent',
-                    cursor: connectionTarget ? 'pointer' : 'default',
-                    transition: 'border 0.15s',
-                    '&:hover': connectionTarget
-                      ? { borderColor: '#7b1fa2' }
-                      : {},
-                  }}>
-                  <Box display="flex" alignItems="flex-start" gap={1}>
-                    {/* Index */}
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        minWidth: 28,
-                        color: 'text.secondary',
-                        mt: 0.3,
-                        fontWeight: 'bold',
-                      }}>
-                      {subline.index}
-                    </Typography>
-
-                    {/* Text */}
-                    <Typography
-                      variant="body2"
-                      flex={1}
-                      sx={{
-                        lineHeight: 1.8,
-                        userSelect: editMode === 'rabbies' && active ? 'text' : 'none',
-                        direction: 'rtl',
-                      }}>
-                      {renderSublineText(subline)}
-                    </Typography>
-
-                    {/* Action icons (only when not in active edit) */}
-                    {!active && (
-                      <Box display="flex" gap={0.5} ml={1}>
-                        <Tooltip title="קטגוריות">
-                          <IconButton
-                            size="small"
-                            color={subline.categories.length > 0 ? 'primary' : 'default'}
-                            onClick={() => openEdit(subline.index, 'categories')}>
-                            <LabelIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="קישורים">
-                          <IconButton
-                            size="small"
-                            color={subline.connections.length > 0 ? 'secondary' : 'default'}
-                            onClick={() => openEdit(subline.index, 'connections')}>
-                            <LinkIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="חכמים">
-                          <IconButton
-                            size="small"
-                            color={subline.rabbiMentions.length > 0 ? 'warning' : 'default'}
-                            onClick={() => openEdit(subline.index, 'rabbies')}>
-                            <PersonIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                      </Box>
-                    )}
-
-                    {/* Save/Cancel for active edit */}
-                    {active && (
-                      <Box display="flex" gap={0.5} ml={1}>
-                        <Tooltip title="שמור">
-                          <IconButton
-                            size="small"
-                            color="success"
-                            onClick={saveEdit}
-                            disabled={saving}>
-                            {saving ? <CircularProgress size={16} /> : <CheckIcon fontSize="small" />}
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="בטל">
-                          <IconButton size="small" onClick={cancelEdit}>
-                            <CloseIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                      </Box>
-                    )}
-                  </Box>
-
-                  {/* Existing tags display (not in active edit) */}
-                  {!active && (
-                    <Box mt={0.5} display="flex" flexWrap="wrap" gap={0.5} pr={4}>
-                      {subline.categories.map(catId => {
-                        const cat = TAGGING_CATEGORIES.find(c => c.id === catId);
-                        return cat ? (
-                          <Chip
-                            key={catId}
-                            label={cat.label}
-                            size="small"
-                            color="primary"
-                            variant="outlined"
-                            sx={{ fontSize: '0.7rem', height: 20 }}
-                          />
-                        ) : null;
-                      })}
-                      {subline.connections.map(connIdx => (
-                        <Chip
-                          key={connIdx}
-                          label={`→ ${connIdx}`}
-                          size="small"
-                          color="secondary"
-                          variant="outlined"
-                          sx={{ fontSize: '0.7rem', height: 20 }}
-                        />
-                      ))}
-                      {subline.rabbiMentions.map((m, i) => (
-                        <Chip
-                          key={i}
-                          label={m.rabbiName}
-                          size="small"
-                          color="warning"
-                          variant="outlined"
-                          sx={{ fontSize: '0.7rem', height: 20 }}
-                        />
-                      ))}
-                    </Box>
-                  )}
-
-                  {/* Active edit: categories */}
-                  {active && editMode === 'categories' && (
-                    <Box mt={1.5} pr={4}>
-                      <Typography variant="caption" color="text.secondary" mb={1} display="block">
-                        בחר קטגוריות:
+                return (
+                  <Paper
+                    key={subline.index}
+                    ref={el => {
+                      sublineRefs.current[subline.index] = el;
+                    }}
+                    elevation={active ? 4 : 1}
+                    onMouseUp={() => handleTextSelectionOnSubline(subline.index)}
+                    onClick={() => {
+                      if (connectionTarget) toggleConnection(subline.index);
+                    }}
+                    sx={{
+                      mb: 1.5,
+                      p: 1.5,
+                      borderRadius: 2,
+                      border: active
+                        ? '2px solid #1976d2'
+                        : isConnected
+                        ? '2px solid #9c27b0'
+                        : connectionTarget
+                        ? '2px dashed #9c27b0'
+                        : '1px solid transparent',
+                      cursor: connectionTarget ? 'pointer' : 'default',
+                      transition: 'border 0.15s',
+                      '&:hover': connectionTarget ? { borderColor: '#7b1fa2' } : {},
+                    }}>
+                    <Box display="flex" alignItems="flex-start" gap={1}>
+                      {/* Index */}
+                      <Typography
+                        variant="caption"
+                        sx={{ minWidth: 28, color: 'text.secondary', mt: 0.3, fontWeight: 'bold' }}>
+                        {subline.index}
                       </Typography>
-                      <Box display="flex" flexWrap="wrap" gap={0.75}>
-                        {TAGGING_CATEGORIES.map(cat => (
-                          <Chip
-                            key={cat.id}
-                            label={cat.label}
-                            size="small"
-                            color={pendingCategories.includes(cat.id) ? 'primary' : 'default'}
-                            variant={pendingCategories.includes(cat.id) ? 'filled' : 'outlined'}
-                            onClick={() => toggleCategory(cat.id)}
-                            sx={{ cursor: 'pointer', fontSize: '0.75rem' }}
-                          />
-                        ))}
-                      </Box>
-                    </Box>
-                  )}
 
-                  {/* Active edit: rabbi mentions */}
-                  {active && editMode === 'rabbies' && (
-                    <Box mt={1.5} pr={4}>
-                      {textSelection ? (
-                        <Alert severity="info" sx={{ mb: 1, py: 0.5 }}>
-                          סימנת: "<strong>{textSelection.text}</strong>" — בחר חכם מהרשימה
-                        </Alert>
-                      ) : (
-                        <Typography variant="caption" color="text.secondary" mb={1} display="block">
-                          סמן טקסט בשורה למעלה ואז בחר חכם
-                        </Typography>
-                      )}
-                      {pendingRabbiMentions.length > 0 && (
-                        <Box display="flex" flexWrap="wrap" gap={0.5} mb={1}>
-                          {pendingRabbiMentions.map((m, i) => (
-                            <Chip
-                              key={i}
-                              label={`${m.rabbiName}: "${m.text}"`}
+                      {/* Text */}
+                      <Typography
+                        variant="body2"
+                        flex={1}
+                        sx={{
+                          lineHeight: 1.8,
+                          userSelect: editMode === 'rabbies' && active ? 'text' : 'none',
+                          direction: 'rtl',
+                        }}>
+                        {renderSublineText(subline)}
+                      </Typography>
+
+                      {/* Action icons */}
+                      {!active && (
+                        <Box display="flex" gap={0.5} ml={1}>
+                          <Tooltip title="קטגוריות">
+                            <IconButton
                               size="small"
-                              color="warning"
-                              onDelete={() => removeRabbiMention(m)}
-                              sx={{ fontSize: '0.7rem' }}
-                            />
-                          ))}
+                              color={subline.categories.length > 0 ? 'primary' : 'default'}
+                              onClick={() => openEdit(subline.index, 'categories')}>
+                              <LabelIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="קישורים">
+                            <IconButton
+                              size="small"
+                              color={subline.connections.length > 0 ? 'secondary' : 'default'}
+                              onClick={() => openEdit(subline.index, 'connections')}>
+                              <LinkIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="חכמים">
+                            <IconButton
+                              size="small"
+                              color={subline.rabbiMentions.length > 0 ? 'warning' : 'default'}
+                              onClick={() => openEdit(subline.index, 'rabbies')}>
+                              <PersonIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      )}
+
+                      {/* Save/Cancel */}
+                      {active && (
+                        <Box display="flex" gap={0.5} ml={1}>
+                          <Tooltip title="שמור">
+                            <IconButton
+                              size="small"
+                              color="success"
+                              onClick={saveEdit}
+                              disabled={saving}>
+                              {saving ? (
+                                <CircularProgress size={16} />
+                              ) : (
+                                <CheckIcon fontSize="small" />
+                              )}
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="בטל">
+                            <IconButton size="small" onClick={cancelEdit}>
+                              <CloseIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
                         </Box>
                       )}
                     </Box>
-                  )}
-                </Paper>
-              );
-            })}
+
+                    {/* Existing tags display */}
+                    {!active && (
+                      <Box mt={0.5} display="flex" flexWrap="wrap" gap={0.5} pr={4}>
+                        {subline.categories.map(catId => {
+                          const cat = TAGGING_CATEGORIES.find(c => c.id === catId);
+                          return cat ? (
+                            <Chip
+                              key={catId}
+                              label={cat.label}
+                              size="small"
+                              color="primary"
+                              variant="outlined"
+                              sx={{ fontSize: '0.7rem', height: 20 }}
+                            />
+                          ) : null;
+                        })}
+                        {subline.connections.map(connIdx => (
+                          <Chip
+                            key={connIdx}
+                            label={`→ ${connIdx}`}
+                            size="small"
+                            color="secondary"
+                            variant="outlined"
+                            sx={{ fontSize: '0.7rem', height: 20 }}
+                          />
+                        ))}
+                        {subline.rabbiMentions.map((m, i) => (
+                          <Chip
+                            key={i}
+                            label={m.rabbiName}
+                            size="small"
+                            color="warning"
+                            variant="outlined"
+                            sx={{ fontSize: '0.7rem', height: 20 }}
+                          />
+                        ))}
+                      </Box>
+                    )}
+
+                    {/* Active edit: categories */}
+                    {active && editMode === 'categories' && (
+                      <Box mt={1.5} pr={4}>
+                        <Typography variant="caption" color="text.secondary" mb={1} display="block">
+                          בחר קטגוריות:
+                        </Typography>
+                        <Box display="flex" flexWrap="wrap" gap={0.75}>
+                          {TAGGING_CATEGORIES.map(cat => (
+                            <Chip
+                              key={cat.id}
+                              label={cat.label}
+                              size="small"
+                              color={pendingCategories.includes(cat.id) ? 'primary' : 'default'}
+                              variant={pendingCategories.includes(cat.id) ? 'filled' : 'outlined'}
+                              onClick={() => toggleCategory(cat.id)}
+                              sx={{ cursor: 'pointer', fontSize: '0.75rem' }}
+                            />
+                          ))}
+                        </Box>
+                      </Box>
+                    )}
+
+                    {/* Active edit: rabbi mentions */}
+                    {active && editMode === 'rabbies' && (
+                      <Box mt={1.5} pr={4}>
+                        {textSelection ? (
+                          <Alert severity="info" sx={{ mb: 1, py: 0.5 }}>
+                            סימנת: "<strong>{textSelection.text}</strong>" — בחר חכם מהרשימה
+                          </Alert>
+                        ) : (
+                          <Typography variant="caption" color="text.secondary" mb={1} display="block">
+                            סמן טקסט בשורה למעלה ואז בחר חכם
+                          </Typography>
+                        )}
+                        {pendingRabbiMentions.length > 0 && (
+                          <Box display="flex" flexWrap="wrap" gap={0.5} mb={1}>
+                            {pendingRabbiMentions.map((m, i) => (
+                              <Chip
+                                key={i}
+                                label={`${m.rabbiName}: "${m.text}"`}
+                                size="small"
+                                color="warning"
+                                onDelete={() => removeRabbiMention(m)}
+                                sx={{ fontSize: '0.7rem' }}
+                              />
+                            ))}
+                          </Box>
+                        )}
+                      </Box>
+                    )}
+                  </Paper>
+                );
+              })}
           </Box>
 
           {/* Sidebar */}
@@ -505,60 +536,23 @@ const TaggingPage: React.FC = () => {
               },
             }}>
             <Box dir="rtl">
+              {/* Default state: show rabbies list */}
               {editMode === 'none' && (
                 <>
-                  <Typography variant="subtitle1" fontWeight="bold" mb={1}>
-                    קטגוריות
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    לחץ על אייקון הקטגוריה על גבי שורה כדי לתייג
-                  </Typography>
-                  <Divider sx={{ my: 2 }} />
-                  <Box display="flex" flexWrap="wrap" gap={0.5}>
-                    {TAGGING_CATEGORIES.map(cat => {
-                      const count = sublines.filter(s => s.categories.includes(cat.id)).length;
-                      return (
-                        <Chip
-                          key={cat.id}
-                          label={`${cat.label} (${count})`}
-                          size="small"
-                          variant="outlined"
-                          color={count > 0 ? 'primary' : 'default'}
-                          sx={{ fontSize: '0.7rem' }}
-                        />
-                      );
-                    })}
-                  </Box>
-
-                  <Divider sx={{ my: 2 }} />
-                  <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+                  <Typography variant="subtitle1" fontWeight="bold" mb={0.5}>
                     חכמים
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
                     לחץ על אייקון החכם על גבי שורה כדי לסמן
                   </Typography>
-                  <Divider sx={{ my: 1 }} />
-                  {rabbies.map(r => (
-                    <Box
-                      key={r._id}
-                      sx={{
-                        mb: 1,
-                        p: 1,
-                        borderRadius: 1,
-                        border: '1px solid',
-                        borderColor: 'divider',
-                      }}>
-                      <Typography variant="body2" fontWeight="bold">
-                        {r.name}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        {r.description}
-                      </Typography>
-                    </Box>
+                  <Divider sx={{ my: 1.5 }} />
+                  {FIRST_SIX_RABBIES.map(r => (
+                    <RabbiCard key={r.id} rabbi={r} clickable={false} />
                   ))}
                 </>
               )}
 
+              {/* Categories edit mode */}
               {editMode === 'categories' && activeSublineIndex !== null && (
                 <>
                   <Typography variant="subtitle1" fontWeight="bold" mb={1}>
@@ -584,6 +578,7 @@ const TaggingPage: React.FC = () => {
                 </>
               )}
 
+              {/* Connections edit mode */}
               {editMode === 'connections' && activeSublineIndex !== null && (
                 <>
                   <Typography variant="subtitle1" fontWeight="bold" mb={1}>
@@ -617,6 +612,7 @@ const TaggingPage: React.FC = () => {
                 </>
               )}
 
+              {/* Rabbies edit mode */}
               {editMode === 'rabbies' && activeSublineIndex !== null && (
                 <>
                   <Typography variant="subtitle1" fontWeight="bold" mb={1}>
@@ -637,26 +633,8 @@ const TaggingPage: React.FC = () => {
                     </Typography>
                   )}
                   <Divider sx={{ my: 1 }} />
-                  {rabbies.map(r => (
-                    <Box
-                      key={r._id}
-                      onClick={() => textSelection && assignRabbiToSelection(r)}
-                      sx={{
-                        mb: 1,
-                        p: 1,
-                        borderRadius: 1,
-                        border: '1px solid',
-                        borderColor: textSelection ? 'primary.main' : 'divider',
-                        cursor: textSelection ? 'pointer' : 'default',
-                        '&:hover': textSelection ? { backgroundColor: 'action.hover' } : {},
-                      }}>
-                      <Typography variant="body2" fontWeight="bold">
-                        {r.name}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        {r.description}
-                      </Typography>
-                    </Box>
+                  {FIRST_SIX_RABBIES.map(r => (
+                    <RabbiCard key={r.id} rabbi={r} clickable={!!textSelection} />
                   ))}
                 </>
               )}
