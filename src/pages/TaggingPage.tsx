@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Alert,
   Box,
+  Button,
   Chip,
   CircularProgress,
   Divider,
@@ -10,6 +11,7 @@ import {
   IconButton,
   Paper,
   Snackbar,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -18,13 +20,15 @@ import LinkIcon from '@mui/icons-material/Link';
 import PersonIcon from '@mui/icons-material/Person';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import SearchIcon from '@mui/icons-material/Search';
 import {
-  FIRST_SIX_RABBIES,
   TAGGING_CATEGORIES,
   Rabbi,
   RabbiMention,
   TaggingSubline,
   taggingService,
+  findMatchingRabbies,
+  searchRabbies,
 } from '../services/tagging.service';
 import { PageWithNavigation, PageContent } from '../layout/PageWithNavigation';
 import { hebrewMap } from '../inc/utils';
@@ -40,6 +44,52 @@ interface TextSelection {
 }
 
 const SIDEBAR_WIDTH = 340;
+
+const RabbiCard = React.memo(({ rabbi, clickable, onClick }: { rabbi: Rabbi; clickable: boolean; onClick?: () => void }) => (
+  <Box
+    onClick={() => clickable && onClick?.()}
+    sx={{
+      mb: 1,
+      p: 1.5,
+      borderRadius: 1,
+      border: '1px solid',
+      borderColor: clickable ? 'primary.main' : 'divider',
+      cursor: clickable ? 'pointer' : 'default',
+      '&:hover': clickable ? { backgroundColor: 'action.hover' } : {},
+    }}>
+    <Typography variant="body2" fontWeight="bold" mb={0.5}>
+      {rabbi.displayName}
+    </Typography>
+    <Box display="flex" flexWrap="wrap" gap={0.5}>
+      {rabbi.type && (
+        <Chip label={rabbi.type} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
+      )}
+      {rabbi.generation && (
+        <Chip label={`דור ${rabbi.generation}`} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
+      )}
+      {rabbi.location && (
+        <Chip label={rabbi.location} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
+      )}
+      {rabbi.city && (
+        <Chip label={rabbi.city} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
+      )}
+    </Box>
+  </Box>
+));
+
+const RabbiSearchBox = React.memo(({ value, onChange }: { value: string; onChange: (v: string) => void }) => (
+  <TextField
+    fullWidth
+    size="small"
+    placeholder="חיפוש חכם..."
+    value={value}
+    onChange={e => onChange(e.target.value)}
+    InputProps={{
+      startAdornment: <SearchIcon sx={{ color: 'text.secondary', mr: 0.5 }} fontSize="small" />,
+    }}
+    sx={{ mb: 1.5 }}
+  />
+));
 
 const TaggingPage: React.FC = () => {
   const { tractate, chapter, mishna } = useParams<{
@@ -62,6 +112,9 @@ const TaggingPage: React.FC = () => {
   const [pendingConnections, setPendingConnections] = useState<string[]>([]);
   const [pendingRabbiMentions, setPendingRabbiMentions] = useState<RabbiMention[]>([]);
   const [textSelection, setTextSelection] = useState<TextSelection | null>(null);
+
+  const [rabbiSearchQuery, setRabbiSearchQuery] = useState('');
+  const [showPredictions, setShowPredictions] = useState(false);
 
   const sublineRefs = useRef<Record<number, HTMLElement | null>>({});
 
@@ -88,6 +141,15 @@ const TaggingPage: React.FC = () => {
     loadData();
   }, [loadData]);
 
+  const predictedRabbies = useMemo(() => {
+    if (!showPredictions || !textSelection) return [];
+    return findMatchingRabbies(textSelection.text);
+  }, [showPredictions, textSelection]);
+
+  const searchedRabbies = useMemo(() => {
+    return searchRabbies(rabbiSearchQuery);
+  }, [rabbiSearchQuery]);
+
   const openEdit = (sublineIndex: number, mode: EditMode) => {
     const subline = sublines.find(s => s.index === sublineIndex);
     if (!subline) return;
@@ -100,6 +162,8 @@ const TaggingPage: React.FC = () => {
     } else if (mode === 'rabbies') {
       setPendingRabbiMentions([...subline.rabbiMentions]);
       setTextSelection(null);
+      setShowPredictions(false);
+      setRabbiSearchQuery('');
     }
   };
 
@@ -110,6 +174,8 @@ const TaggingPage: React.FC = () => {
     setPendingConnections([]);
     setPendingRabbiMentions([]);
     setTextSelection(null);
+    setShowPredictions(false);
+    setRabbiSearchQuery('');
   };
 
   const saveEdit = async () => {
@@ -180,7 +246,12 @@ const TaggingPage: React.FC = () => {
       endIndex: startIndex + selectedText.length,
       text: selectedText,
     });
+    setShowPredictions(false);
     selection.removeAllRanges();
+  };
+
+  const handleFindRabbi = () => {
+    setShowPredictions(true);
   };
 
   const assignRabbiToSelection = (rabbi: Rabbi) => {
@@ -199,6 +270,8 @@ const TaggingPage: React.FC = () => {
       mention,
     ]);
     setTextSelection(null);
+    setShowPredictions(false);
+    setRabbiSearchQuery('');
   };
 
   const removeRabbiMention = (mention: RabbiMention) => {
@@ -262,39 +335,6 @@ const TaggingPage: React.FC = () => {
     );
   }
 
-  const RabbiCard = ({ rabbi, clickable }: { rabbi: Rabbi; clickable: boolean }) => (
-    <Box
-      key={rabbi.id}
-      onClick={() => clickable && assignRabbiToSelection(rabbi)}
-      sx={{
-        mb: 1.5,
-        p: 1.5,
-        borderRadius: 1,
-        border: '1px solid',
-        borderColor: clickable ? 'primary.main' : 'divider',
-        cursor: clickable ? 'pointer' : 'default',
-        '&:hover': clickable ? { backgroundColor: 'action.hover' } : {},
-      }}>
-      <Typography variant="body2" fontWeight="bold" mb={0.5}>
-        {rabbi.displayName}
-      </Typography>
-      <Box display="flex" flexWrap="wrap" gap={0.5}>
-        {rabbi.type && (
-          <Chip label={rabbi.type} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-        )}
-        {rabbi.generation && (
-          <Chip label={`דור ${rabbi.generation}`} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-        )}
-        {rabbi.location && (
-          <Chip label={rabbi.location} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-        )}
-        {rabbi.city && (
-          <Chip label={rabbi.city} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-        )}
-      </Box>
-    </Box>
-  );
-
   return (
     <PageWithNavigation linkPrefix="/admin/tagging" showSearchBar={false}>
       <PageContent>
@@ -347,14 +387,12 @@ const TaggingPage: React.FC = () => {
                       '&:hover': connectionTarget ? { borderColor: '#7b1fa2' } : {},
                     }}>
                     <Box display="flex" alignItems="flex-start" gap={1}>
-                      {/* Index */}
                       <Typography
                         variant="caption"
                         sx={{ minWidth: 28, color: 'text.secondary', mt: 0.3, fontWeight: 'bold' }}>
                         {subline.index}
                       </Typography>
 
-                      {/* Text */}
                       <Typography
                         variant="body2"
                         flex={1}
@@ -366,7 +404,6 @@ const TaggingPage: React.FC = () => {
                         {renderSublineText(subline)}
                       </Typography>
 
-                      {/* Action icons */}
                       {!active && (
                         <Box display="flex" gap={0.5} ml={1}>
                           <Tooltip title="קטגוריות">
@@ -396,7 +433,6 @@ const TaggingPage: React.FC = () => {
                         </Box>
                       )}
 
-                      {/* Save/Cancel */}
                       {active && (
                         <Box display="flex" gap={0.5} ml={1}>
                           <Tooltip title="שמור">
@@ -421,7 +457,6 @@ const TaggingPage: React.FC = () => {
                       )}
                     </Box>
 
-                    {/* Existing tags display */}
                     {!active && (
                       <Box mt={0.5} display="flex" flexWrap="wrap" gap={0.5} pr={4}>
                         {subline.categories.map(catId => {
@@ -460,7 +495,6 @@ const TaggingPage: React.FC = () => {
                       </Box>
                     )}
 
-                    {/* Active edit: categories */}
                     {active && editMode === 'categories' && (
                       <Box mt={1.5} pr={4}>
                         <Typography variant="caption" color="text.secondary" mb={1} display="block">
@@ -482,16 +516,27 @@ const TaggingPage: React.FC = () => {
                       </Box>
                     )}
 
-                    {/* Active edit: rabbi mentions */}
                     {active && editMode === 'rabbies' && (
                       <Box mt={1.5} pr={4}>
                         {textSelection ? (
-                          <Alert severity="info" sx={{ mb: 1, py: 0.5 }}>
-                            סימנת: "<strong>{textSelection.text}</strong>" — בחר חכם מהרשימה
-                          </Alert>
+                          <Box display="flex" alignItems="center" gap={1} mb={1}>
+                            <Alert severity="info" sx={{ py: 0.25, flex: 1 }}>
+                              סימנת: "<strong>{textSelection.text}</strong>"
+                            </Alert>
+                            {!showPredictions && (
+                              <Button
+                                variant="contained"
+                                size="small"
+                                startIcon={<SearchIcon />}
+                                onClick={handleFindRabbi}
+                                sx={{ whiteSpace: 'nowrap' }}>
+                                חפש חכם
+                              </Button>
+                            )}
+                          </Box>
                         ) : (
                           <Typography variant="caption" color="text.secondary" mb={1} display="block">
-                            סמן טקסט בשורה למעלה ואז בחר חכם
+                            סמן טקסט בשורה למעלה ולחץ "חפש חכם"
                           </Typography>
                         )}
                         {pendingRabbiMentions.length > 0 && (
@@ -536,17 +581,22 @@ const TaggingPage: React.FC = () => {
               },
             }}>
             <Box dir="rtl">
-              {/* Default state: show rabbies list */}
+              {/* Default idle state: search box for browsing */}
               {editMode === 'none' && (
                 <>
                   <Typography variant="subtitle1" fontWeight="bold" mb={0.5}>
                     חכמים
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    לחץ על אייקון החכם על גבי שורה כדי לסמן
+                  <Typography variant="caption" color="text.secondary" display="block" mb={1.5}>
+                    לחץ על אייקון החכם על גבי שורה כדי לסמן, או חפש כאן:
                   </Typography>
-                  <Divider sx={{ my: 1.5 }} />
-                  {FIRST_SIX_RABBIES.map(r => (
+                  <RabbiSearchBox value={rabbiSearchQuery} onChange={setRabbiSearchQuery} />
+                  {rabbiSearchQuery && searchedRabbies.length === 0 && (
+                    <Typography variant="caption" color="text.secondary">
+                      לא נמצאו תוצאות
+                    </Typography>
+                  )}
+                  {searchedRabbies.map(r => (
                     <RabbiCard key={r.id} rabbi={r} clickable={false} />
                   ))}
                 </>
@@ -618,23 +668,68 @@ const TaggingPage: React.FC = () => {
                   <Typography variant="subtitle1" fontWeight="bold" mb={1}>
                     סימון חכמים — שורה {activeSublineIndex}
                   </Typography>
-                  {textSelection ? (
-                    <>
-                      <Alert severity="info" sx={{ mb: 1, py: 0.5, fontSize: '0.75rem' }}>
-                        בחור: "<strong>{textSelection.text}</strong>"
-                      </Alert>
-                      <Typography variant="caption" color="text.secondary" display="block" mb={1}>
-                        לחץ על חכם לשיוך:
-                      </Typography>
-                    </>
-                  ) : (
+
+                  {!textSelection && !showPredictions && (
                     <Typography variant="caption" color="text.secondary" display="block" mb={1}>
-                      סמן טקסט בשורה ואז בחר חכם:
+                      סמן טקסט בשורה ולחץ "חפש חכם"
                     </Typography>
                   )}
-                  <Divider sx={{ my: 1 }} />
-                  {FIRST_SIX_RABBIES.map(r => (
-                    <RabbiCard key={r.id} rabbi={r} clickable={!!textSelection} />
+
+                  {textSelection && !showPredictions && (
+                    <Alert severity="info" sx={{ mb: 1, py: 0.5, fontSize: '0.75rem' }}>
+                      סימנת: "<strong>{textSelection.text}</strong>"
+                      <br />
+                      לחץ "חפש חכם" לקבלת התאמות
+                    </Alert>
+                  )}
+
+                  {showPredictions && textSelection && (
+                    <>
+                      <Alert severity="success" sx={{ mb: 1.5, py: 0.5, fontSize: '0.75rem' }}>
+                        התאמות עבור: "<strong>{textSelection.text}</strong>"
+                      </Alert>
+
+                      {predictedRabbies.length > 0 ? (
+                        <>
+                          <Typography variant="caption" color="text.secondary" display="block" mb={1}>
+                            לחץ על חכם לשיוך ({predictedRabbies.length} תוצאות):
+                          </Typography>
+                          {predictedRabbies.map(r => (
+                            <RabbiCard
+                              key={r.id}
+                              rabbi={r}
+                              clickable
+                              onClick={() => assignRabbiToSelection(r)}
+                            />
+                          ))}
+                        </>
+                      ) : (
+                        <Typography variant="caption" color="text.secondary" display="block" mb={1}>
+                          לא נמצאו התאמות אוטומטיות
+                        </Typography>
+                      )}
+
+                      <Divider sx={{ my: 1.5 }} />
+                    </>
+                  )}
+
+                  {/* Free search box — always shown in rabbies edit mode */}
+                  <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                    {showPredictions ? 'לא מצאת? חפש ידנית:' : 'או חפש ידנית:'}
+                  </Typography>
+                  <RabbiSearchBox value={rabbiSearchQuery} onChange={setRabbiSearchQuery} />
+                  {rabbiSearchQuery && searchedRabbies.length === 0 && (
+                    <Typography variant="caption" color="text.secondary">
+                      לא נמצאו תוצאות
+                    </Typography>
+                  )}
+                  {searchedRabbies.map(r => (
+                    <RabbiCard
+                      key={r.id}
+                      rabbi={r}
+                      clickable={!!textSelection}
+                      onClick={() => assignRabbiToSelection(r)}
+                    />
                   ))}
                 </>
               )}
