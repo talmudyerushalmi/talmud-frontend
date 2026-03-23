@@ -1,5 +1,18 @@
 import axiosInstance from './api';
-import rabbiesJson from '../assets/rabbies.json';
+import rabbiesJson from '../assets/rabbies2.json';
+
+// ─── Data model interfaces ───
+
+export interface CategoryConnection {
+  type: 'subline' | 'external';
+  sublineIndex?: number;
+  text?: string;
+}
+
+export interface SublineCategory {
+  categoryId: string;
+  connections: CategoryConnection[];
+}
 
 export interface RabbiMention {
   rabbiId: string;
@@ -7,32 +20,41 @@ export interface RabbiMention {
   startIndex: number;
   endIndex: number;
   text: string;
+  doubt?: boolean;
+}
+
+export interface SublineComment {
+  text: string;
+  author: string;
+  timestamp: string;
 }
 
 export interface TaggingSubline {
   index: number;
   text: string;
   lineNumber: string;
-  categories: string[];
-  connections: string[];
+  categories: SublineCategory[];
   rabbiMentions: RabbiMention[];
+  comments: SublineComment[];
 }
 
 export interface Rabbi {
   id: string;
   title: string | null;
   sortname: string;
+  fullname: string | null;
   type: string;
   generation: string | null;
   location: string | null;
   city: string | null;
   displayName: string;
+  fullnameVariants: string[];
 }
 
 export interface UpdateSublineTagsDto {
-  categories?: string[];
-  connections?: string[];
+  categories?: SublineCategory[];
   rabbiMentions?: RabbiMention[];
+  comments?: SublineComment[];
 }
 
 export const TAGGING_CATEGORIES = [
@@ -57,27 +79,38 @@ export const TAGGING_CATEGORIES = [
   { id: 'role_28', label: 'שונות' },
 ];
 
+// ─── Rabbies data ───
+
 const rabbiesData = rabbiesJson as unknown as Record<string, {
   title: string | null;
   sortname: string;
+  fullname: string | null;
   type: string;
   generation: string | null;
   location: string | null;
   city: string | null;
 }>;
 
+function parseFullnameVariants(fullname: string | null): string[] {
+  if (!fullname) return [];
+  return fullname.split('/').map(s => s.trim()).filter(s => s.length > 0);
+}
+
 export const ALL_RABBIES: Rabbi[] = Object.entries(rabbiesData).map(([id, r]) => ({
   id,
   title: r.title,
   sortname: r.sortname,
+  fullname: r.fullname,
   type: r.type,
   generation: r.generation,
   location: r.location,
   city: r.city,
   displayName: r.title ? `${r.title} ${r.sortname}` : r.sortname,
+  fullnameVariants: parseFullnameVariants(r.fullname),
 }));
 
-// Hebrew title abbreviation expansions
+// ─── Hebrew-aware matching ───
+
 const TITLE_ABBREVIATIONS: [RegExp, string][] = [
   [/^ר׳\s*/g, 'רבי '],
   [/^ר'\s*/g, 'רבי '],
@@ -92,14 +125,11 @@ function normalizeHebrew(text: string): string {
   for (const [pattern, replacement] of TITLE_ABBREVIATIONS) {
     normalized = normalized.replace(pattern, replacement);
   }
-  // Remove disambiguation brackets like [א] [ב] for comparison
   normalized = normalized.replace(/\s*\[.*?\]\s*/g, ' ');
-  // Collapse multiple spaces
   normalized = normalized.replace(/\s+/g, ' ').trim();
   return normalized;
 }
 
-// Levenshtein distance for fuzzy matching
 function levenshtein(a: string, b: string): number {
   const m = a.length;
   const n = b.length;
@@ -121,77 +151,90 @@ function levenshtein(a: string, b: string): number {
 
 function scoreRabbi(query: string, rabbi: Rabbi): number {
   const normalizedQuery = normalizeHebrew(query);
-  const normalizedDisplay = normalizeHebrew(rabbi.displayName);
-  const normalizedSort = normalizeHebrew(rabbi.sortname);
-
   if (!normalizedQuery) return 0;
 
-  // Exact match on full displayName (after normalization)
-  if (normalizedDisplay === normalizedQuery) return 1000;
-  if (normalizedSort === normalizedQuery) return 950;
+  const normalizedDisplay = normalizeHebrew(rabbi.displayName);
+  const normalizedSort = normalizeHebrew(rabbi.sortname);
+  const normalizedVariants = rabbi.fullnameVariants.map(normalizeHebrew);
 
-  // displayName starts with query
-  if (normalizedDisplay.startsWith(normalizedQuery)) return 900;
-  if (normalizedSort.startsWith(normalizedQuery)) return 850;
+  let bestScore = 0;
 
-  // query contains full sortname
-  if (normalizedQuery.includes(normalizedSort)) return 800;
+  const candidates = [normalizedDisplay, normalizedSort, ...normalizedVariants];
 
-  // displayName or sortname contains query as substring
-  if (normalizedDisplay.includes(normalizedQuery)) return 700;
-  if (normalizedSort.includes(normalizedQuery)) return 650;
+  for (const candidate of candidates) {
+    let score = 0;
 
-  // query is contained in displayName
-  if (normalizedDisplay.includes(normalizedQuery) || normalizedQuery.includes(normalizedDisplay)) return 600;
+    if (candidate === normalizedQuery) {
+      score = 1000;
+    } else if (candidate.startsWith(normalizedQuery)) {
+      score = 900;
+    } else if (normalizedQuery.includes(candidate) && candidate.length > 1) {
+      score = 800;
+    } else if (candidate.includes(normalizedQuery)) {
+      score = 700;
+    } else {
+      const queryWords = normalizedQuery.split(' ').filter(w => w.length > 0);
+      const candidateWords = candidate.split(' ').filter(w => w.length > 0);
+      let wordMatches = 0;
+      for (const qw of queryWords) {
+        if (candidateWords.some(cw => cw.includes(qw) || qw.includes(cw))) {
+          wordMatches++;
+        }
+      }
+      if (wordMatches > 0) {
+        score = 300 + (wordMatches / queryWords.length) * 200;
+      }
+    }
 
-  // Word-level matching: how many query words appear in the rabbi name
-  const queryWords = normalizedQuery.split(' ').filter(w => w.length > 0);
-  const displayWords = normalizedDisplay.split(' ').filter(w => w.length > 0);
-  let wordMatches = 0;
-  for (const qw of queryWords) {
-    if (displayWords.some(dw => dw.includes(qw) || qw.includes(dw))) {
-      wordMatches++;
+    bestScore = Math.max(bestScore, score);
+  }
+
+  if (bestScore === 0) {
+    const dist = levenshtein(normalizedQuery, normalizedSort);
+    const maxLen = Math.max(normalizedQuery.length, normalizedSort.length);
+    if (maxLen > 0) {
+      const similarity = 1 - dist / maxLen;
+      if (similarity >= 0.5) {
+        bestScore = similarity * 200;
+      }
+    }
+
+    for (const variant of normalizedVariants) {
+      const vDist = levenshtein(normalizedQuery, variant);
+      const vMax = Math.max(normalizedQuery.length, variant.length);
+      if (vMax > 0) {
+        const vSim = 1 - vDist / vMax;
+        if (vSim >= 0.5) {
+          bestScore = Math.max(bestScore, vSim * 200);
+        }
+      }
     }
   }
-  if (wordMatches > 0) {
-    const wordScore = 300 + (wordMatches / queryWords.length) * 200;
-    return wordScore;
-  }
 
-  // Levenshtein similarity as fallback: compare to sortname (shorter = better for distance)
-  const dist = levenshtein(normalizedQuery, normalizedSort);
-  const maxLen = Math.max(normalizedQuery.length, normalizedSort.length);
-  if (maxLen === 0) return 0;
-  const similarity = 1 - dist / maxLen;
-  if (similarity >= 0.5) {
-    return similarity * 200;
-  }
-
-  return 0;
+  return bestScore;
 }
 
-const MAX_RESULTS = 10;
-
-export function findMatchingRabbies(query: string): Rabbi[] {
+export function findMatchingRabbies(query: string, limit: number = 10): Rabbi[] {
   if (!query.trim()) return [];
   const scored = ALL_RABBIES
     .map(r => ({ rabbi: r, score: scoreRabbi(query, r) }))
     .filter(item => item.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, MAX_RESULTS);
-  return scored.map(item => item.rabbi);
+    .sort((a, b) => b.score - a.score);
+  if (limit <= 0) return scored.map(item => item.rabbi);
+  return scored.slice(0, limit).map(item => item.rabbi);
 }
 
-export function searchRabbies(query: string): Rabbi[] {
+export function searchRabbies(query: string, limit: number = 10): Rabbi[] {
   if (!query.trim()) return [];
-  const normalizedQuery = normalizeHebrew(query);
-  return ALL_RABBIES
-    .filter(r => {
-      const nd = normalizeHebrew(r.displayName);
-      return nd.includes(normalizedQuery) || normalizedQuery.includes(nd);
-    })
-    .slice(0, MAX_RESULTS);
+  const scored = ALL_RABBIES
+    .map(r => ({ rabbi: r, score: scoreRabbi(query, r) }))
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score);
+  if (limit <= 0) return scored.map(item => item.rabbi);
+  return scored.slice(0, limit).map(item => item.rabbi);
 }
+
+// ─── API service ───
 
 export const taggingService = {
   getSublines: async (tractate: string, chapter: string, mishna: string): Promise<TaggingSubline[]> => {
