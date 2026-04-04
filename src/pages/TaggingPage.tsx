@@ -67,9 +67,14 @@ const RabbiCard = React.memo(({ rabbi, clickable, onClick }: { rabbi: Rabbi; cli
       cursor: clickable ? 'pointer' : 'default',
       '&:hover': clickable ? { backgroundColor: 'action.hover' } : {},
     }}>
-    <Typography variant="body2" fontWeight="bold" mb={0.5}>
+    <Typography variant="body2" fontWeight="bold" mb={0.25}>
       {rabbi.displayName}
     </Typography>
+    {rabbi.fullnameVariants.length > 0 && (
+      <Typography variant="caption" color="text.secondary" display="block" mb={0.5} sx={{ lineHeight: 1.4 }}>
+        ({rabbi.fullnameVariants.join(' / ')})
+      </Typography>
+    )}
     <Box display="flex" flexWrap="wrap" gap={0.5}>
       {rabbi.type && (
         <Chip label={rabbi.type} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
@@ -490,30 +495,44 @@ const TaggingPage: React.FC = () => {
 
                   {/* Tags summary */}
                   {!active && (
-                    <Box mt={0.5} display="flex" flexWrap="wrap" gap={0.5} pr={4}>
+                    <Box mt={0.5} pr={4}>
                       {subline.categories.map(cat => {
                         const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
-                        const connCount = cat.connections.length;
-                        return catDef ? (
-                          <Chip key={cat.categoryId}
-                            label={`${catDef.label}${connCount > 0 ? ` (${connCount})` : ''}`}
-                            size="small" color="primary" variant="outlined"
+                        if (!catDef) return null;
+                        const sublineConns = cat.connections.filter(c => c.type === 'subline');
+                        const externalConns = cat.connections.filter(c => c.type === 'external');
+                        return (
+                          <Box key={cat.categoryId} display="flex" alignItems="baseline" gap={0.5} mb={0.3}>
+                            <Chip label={catDef.label} size="small" color="primary" variant="outlined"
+                              sx={{ fontSize: '0.7rem', height: 20 }} />
+                            {sublineConns.length > 0 && (
+                              <Typography variant="caption" color="text.secondary">
+                                ← {sublineConns.map(c => `שורה ${c.sublineIndex}`).join(', ')}
+                              </Typography>
+                            )}
+                            {externalConns.length > 0 && (
+                              <Typography variant="caption" color="text.secondary" sx={{ fontStyle: 'italic' }}>
+                                {sublineConns.length > 0 ? ' | ' : '← '}
+                                {externalConns.map(c => c.text).join(', ')}
+                              </Typography>
+                            )}
+                          </Box>
+                        );
+                      })}
+                      <Box display="flex" flexWrap="wrap" gap={0.5} mt={subline.categories.length > 0 ? 0.5 : 0}>
+                        {subline.rabbiMentions.map((m, i) => (
+                          <Chip key={i}
+                            label={`${m.rabbiName}${m.doubt ? ' ?' : ''}`}
+                            size="small" color="warning" variant="outlined"
                             sx={{ fontSize: '0.7rem', height: 20 }}
                           />
-                        ) : null;
-                      })}
-                      {subline.rabbiMentions.map((m, i) => (
-                        <Chip key={i}
-                          label={`${m.rabbiName}${m.doubt ? ' ?' : ''}`}
-                          size="small" color="warning" variant="outlined"
-                          sx={{ fontSize: '0.7rem', height: 20 }}
-                        />
-                      ))}
-                      {subline.comments.length > 0 && (
-                        <Chip label={`${subline.comments.length} הערות`} size="small" color="info" variant="outlined"
-                          sx={{ fontSize: '0.7rem', height: 20 }}
-                        />
-                      )}
+                        ))}
+                        {subline.comments.length > 0 && (
+                          <Chip label={`${subline.comments.length} הערות`} size="small" color="info" variant="outlined"
+                            sx={{ fontSize: '0.7rem', height: 20 }}
+                          />
+                        )}
+                      </Box>
                     </Box>
                   )}
 
