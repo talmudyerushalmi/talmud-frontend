@@ -2,6 +2,7 @@ import { action } from 'typesafe-actions';
 import PageService from '../../services/pageService';
 import { ShowEditType } from '../reducers/mishnaViewReducer';
 import { startLoading, stopLoading } from './generalActions';
+import { taggingService } from '../../services/tagging.service';
 
 export const SELECT_SUBLINES = 'SELECT_SUBLINES';
 export const FILTER_EXCERPTS_BY_LINES = 'FILTER_EXCERPTS_BY_LINES';
@@ -15,6 +16,11 @@ export const TOGGLE_EDIT_TYPE = 'TOGGLE_EDIT_TYPE';
 export const SET_MISHNA_VIEW_OPTIONS = 'SET_MISHNA_VIEW_OPTIONS';
 export const CLEAR_MISHNAIOT = 'CLEAR_MISHNAIOT';
 export const ADD_MISHNA_TO_MISHNAIOT = 'ADD_MISHNA_TO_MISHNAIOT';
+export const SET_TAGGING_DATA = 'SET_TAGGING_DATA';
+export const TOGGLE_TAGGED_RABBI = 'TOGGLE_TAGGED_RABBI';
+export const TOGGLE_TAGGED_CATEGORY = 'TOGGLE_TAGGED_CATEGORY';
+export const SET_TAGGED_SUBLINE = 'SET_TAGGED_SUBLINE';
+export const CLEAR_TAGGED_STATE = 'CLEAR_TAGGED_STATE';
 
 export const selectSublines = (selectedSublines) => (dispatch, getState) => {
   dispatch({
@@ -107,3 +113,33 @@ export function getRichMishnaiotForChapter(tractate: string, chapter: string, ne
     }
   };
 }
+
+export const fetchTaggingData = (tractate: string, chapter: string, mishna: string) => {
+  return async (dispatch) => {
+    try {
+      const data = await taggingService.getSublines(tractate, chapter, mishna);
+      dispatch({ type: SET_TAGGING_DATA, taggingData: data });
+    } catch (e) {
+      dispatch({ type: SET_TAGGING_DATA, taggingData: [] });
+    }
+  };
+};
+
+export const toggleTaggedRabbi = (rabbiId: string) => ({
+  type: TOGGLE_TAGGED_RABBI,
+  rabbiId,
+});
+
+export const toggleTaggedCategory = (categoryId: string) => ({
+  type: TOGGLE_TAGGED_CATEGORY,
+  categoryId,
+});
+
+export const setTaggedSubline = (sublineIndex: number | null) => ({
+  type: SET_TAGGED_SUBLINE,
+  sublineIndex,
+});
+
+export const clearTaggedState = () => ({
+  type: CLEAR_TAGGED_STATE,
+});

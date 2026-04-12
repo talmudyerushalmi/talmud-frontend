@@ -63,6 +63,7 @@ i18n
           Original: 'מקורי',
           Edited: 'מתוקן',
           Combined: 'משולב',
+          Tagged: 'מתוייג',
           'Light mode': 'מצב תצוגה',
           'Public Comments': 'הערות ציבוריות',
           'Comment Writer Name': 'שם כותב ההערה',

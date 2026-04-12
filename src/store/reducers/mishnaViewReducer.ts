@@ -14,13 +14,20 @@ import {
   SET_MISHNA_VIEW_OPTIONS,
   ADD_MISHNA_TO_MISHNAIOT,
   CLEAR_MISHNAIOT,
+  SET_TAGGING_DATA,
+  TOGGLE_TAGGED_RABBI,
+  TOGGLE_TAGGED_CATEGORY,
+  SET_TAGGED_SUBLINE,
+  CLEAR_TAGGED_STATE,
 } from '../actions/mishnaViewActions';
+import { TaggingSubline } from '../../services/tagging.service';
 import { RECEIVE_MISHNA, SET_CURRENT_MISHNA } from '../actions/navigationActions';
 
 export enum ShowEditType {
   ORIGINAL = 'ORIGINAL',
   EDITED = 'EDITED',
-  COMBINED = 'COMBINED'
+  COMBINED = 'COMBINED',
+  TAGGED = 'TAGGED',
 }
 interface ViewState {
   loading: boolean;
@@ -38,6 +45,10 @@ interface ViewState {
   showPunctuation: boolean;
   showSources: boolean;
   showEditType: ShowEditType;
+  taggingData: TaggingSubline[];
+  selectedRabbis: string[];
+  selectedCategories: string[];
+  selectedTaggedSubline: number | null;
 }
 
 const initialState: ViewState = {
@@ -56,6 +67,10 @@ const initialState: ViewState = {
   showPunctuation: true,
   showSources: true,
   showEditType: ShowEditType.ORIGINAL,
+  taggingData: [],
+  selectedRabbis: [],
+  selectedCategories: [],
+  selectedTaggedSubline: null,
 };
 
 const mishnaViewReducer = (state = initialState, action) => {
@@ -130,6 +145,38 @@ const mishnaViewReducer = (state = initialState, action) => {
         mishnaiot: [...state.mishnaiot, action.mishna],
         // Set richTextMishnas only once (it's the same for all mishnaiot in the chapter)
         richTextMishnas: state.richTextMishnas.length === 0 ? action.richTextsMishnas : state.richTextMishnas,
+      };
+    case SET_TAGGING_DATA:
+      return { ...state, taggingData: action.taggingData };
+    case TOGGLE_TAGGED_RABBI: {
+      const id = action.rabbiId;
+      const exists = state.selectedRabbis.includes(id);
+      return {
+        ...state,
+        selectedRabbis: exists
+          ? state.selectedRabbis.filter(r => r !== id)
+          : [...state.selectedRabbis, id],
+      };
+    }
+    case TOGGLE_TAGGED_CATEGORY: {
+      const catId = action.categoryId;
+      const exists = state.selectedCategories.includes(catId);
+      return {
+        ...state,
+        selectedCategories: exists
+          ? state.selectedCategories.filter(c => c !== catId)
+          : [...state.selectedCategories, catId],
+      };
+    }
+    case SET_TAGGED_SUBLINE:
+      return { ...state, selectedTaggedSubline: action.sublineIndex };
+    case CLEAR_TAGGED_STATE:
+      return {
+        ...state,
+        taggingData: [],
+        selectedRabbis: [],
+        selectedCategories: [],
+        selectedTaggedSubline: null,
       };
     default:
       return state;

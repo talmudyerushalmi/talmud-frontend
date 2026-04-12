@@ -25,6 +25,21 @@ const TextEditor = (props: Props) => {
     MARK: {
       ...t.editor.excerpt
     },
+    RABBI_HIGHLIGHT: {
+      textDecoration: 'underline dotted #888',
+      textUnderlineOffset: '3px',
+    },
+    RABBI_SELECTED: {
+      fontWeight: 'bold',
+      backgroundColor: '#c8e6c9',
+      borderRadius: '3px',
+      padding: '1px 2px',
+    },
+    RABBI_ANNOTATION: {
+      fontSize: '0.65em',
+      color: '#757575',
+      verticalAlign: 'sub',
+    },
   };
 
   // needed to update the state when the prop changes
