@@ -149,23 +149,13 @@ const TaggedSidebar: React.FC<Props> = ({
                     <ListItemText
                       primary={
                         <Box display="flex" alignItems="center" gap={0.5}>
-                          <Typography variant="body2" fontWeight={isSelected ? 'bold' : 'normal'}>
-                            {rabbi.name}
-                          </Typography>
-                          {rabbiData?.generation && (
-                            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6rem' }}>
-                              {rabbiData.generation}
-                            </Typography>
-                          )}
-                          {rabbiData?.location === 'בבל' && (
-                            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6rem' }}>
-                              ב
-                            </Typography>
-                          )}
-                          <Typography variant="caption" color="text.disabled" sx={{ fontSize: '0.6rem' }}>
-                            ({rabbi.count})
-                          </Typography>
-                        </Box>
+                                   <Typography variant="body2" fontWeight={isSelected ? 'bold' : 'normal'}>
+                                     {rabbi.name}
+                                   </Typography>
+                                   <Typography variant="caption" color="text.disabled" sx={{ fontSize: '0.6rem' }}>
+                                     ({rabbi.count})
+                                   </Typography>
+                                 </Box>
                       }
                     />
                   </ListItemButton>
