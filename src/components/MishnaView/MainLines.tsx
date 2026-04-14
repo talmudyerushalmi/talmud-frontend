@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import MainLine from './MainLine';
-import { iLine, DafAmudMarker } from '../../types/types';
+import { iLine, iSubline, DafAmudMarker } from '../../types/types';
 import { counter } from './SugiaButton';
 import { useParams, Link } from 'react-router-dom';
 import { IconButton } from '@mui/material';
@@ -35,6 +35,7 @@ const mapStateToProps = (state: any) => ({
   taggedDetailedView: state.mishnaView.taggedDetailedView,
   taggingData: state.mishnaView.taggingData as TaggingSubline[],
   selectedTaggedSubline: state.mishnaView.selectedTaggedSubline as number | null,
+  selectedSublines: state.mishnaView.selectedSublines as iSubline[],
 });
 
 interface Props {
@@ -46,10 +47,11 @@ interface Props {
   taggedDetailedView: boolean;
   taggingData: TaggingSubline[];
   selectedTaggedSubline: number | null;
+  selectedSublines: iSubline[];
 }
 const MainLines = (props: Props) => {
   const classes = useStyles();
-  const { lines, userGroup, mishna, dafAmudMarkers, showEditType, taggedDetailedView, taggingData, selectedTaggedSubline } = props;
+  const { lines, userGroup, mishna, dafAmudMarkers, showEditType, taggedDetailedView, taggingData, selectedTaggedSubline, selectedSublines } = props;
   const containerRef = useRef<HTMLDivElement>(null);
   const sublineRefsRef = useRef(new Map<number, HTMLElement>());
 
@@ -64,9 +66,13 @@ const MainLines = (props: Props) => {
   const isTaggedDetailed = showEditType === ShowEditType.TAGGED && taggedDetailedView;
 
   const activeConnectionData = React.useMemo(() => {
-    if (!isTaggedDetailed || selectedTaggedSubline === null) return [];
-    return taggingData.filter(t => t.index === selectedTaggedSubline);
-  }, [isTaggedDetailed, selectedTaggedSubline, taggingData]);
+    if (!isTaggedDetailed) return [];
+    const activeIndices = new Set<number>();
+    if (selectedTaggedSubline !== null) activeIndices.add(selectedTaggedSubline);
+    for (const s of selectedSublines) activeIndices.add(s.index);
+    if (activeIndices.size === 0) return [];
+    return taggingData.filter(t => activeIndices.has(t.index));
+  }, [isTaggedDetailed, selectedTaggedSubline, selectedSublines, taggingData]);
 
   useEffect(()=>{
     counter.reset();
