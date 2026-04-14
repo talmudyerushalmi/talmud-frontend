@@ -16,6 +16,7 @@ export interface RabbiMentionDisplay {
   generation: string | null;
   isBavel: boolean;
   isEretzIsrael: boolean;
+  doubt?: boolean;
 }
 
 interface Props {
@@ -93,7 +94,7 @@ const applyRabbiMentions = (
   for (const mention of sorted) {
     if (mention.startIndex >= textLength) continue;
 
-    const annotation = buildAnnotation(mention.generation, mention.isBavel, mention.isEretzIsrael);
+    const annotation = buildAnnotation(mention.generation, mention.isBavel, mention.isEretzIsrael, mention.doubt);
     if (annotation) {
       const insertAt = SelectionState.createEmpty(blockKey).merge({
         anchorOffset: mention.endIndex,
@@ -129,11 +130,12 @@ const applyRabbiMentions = (
   return EditorState.createWithContent(content, decorator);
 };
 
-function buildAnnotation(generation: string | null, isBavel: boolean, isEretzIsrael: boolean): string {
+function buildAnnotation(generation: string | null, isBavel: boolean, isEretzIsrael: boolean, doubt?: boolean): string {
   const parts: string[] = [];
+  if (doubt) parts.push('?');
   if (generation) parts.push(generation);
-  if (isBavel) parts.push('ב');
-  else if (isEretzIsrael) parts.push('א');
+  if (isBavel) parts.push('בבל');
+  else if (isEretzIsrael) parts.push('א״י');
   return parts.length > 0 ? parts.join('') : '';
 }
 

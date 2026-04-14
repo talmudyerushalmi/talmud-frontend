@@ -21,10 +21,11 @@ interface Props {
   userAuth: any;
   isAuthenticated: boolean;
   dafAmudMarker?: DafAmudMarker;
+  registerSublineRef?: (index: number, el: HTMLElement | null) => void;
 }
 
 const MainLine = (props: Props) => {
-  const { line, lineIndex, userAuth, isAuthenticated, dafAmudMarker } = props;
+  const { line, lineIndex, userAuth, isAuthenticated, dafAmudMarker, registerSublineRef } = props;
   const [dynamicComponents, setdynamicComponents] = useState<ReactElement[]>([]);
   const [hoverSubline, setHoverSubline] = React.useState<number>(-1);
   const handleMouseLeave = () => {
@@ -67,11 +68,13 @@ const MainLine = (props: Props) => {
         </React.Suspense>
         {line?.sublines
           ? line.sublines.map((subline, index) => {
-              // Only pass marker to the first subline
               const markerForSubline = index === 0 ? dafAmudMarker : undefined;
               
               return (
-                <div key={index}>
+                <div
+                  key={index}
+                  ref={registerSublineRef ? (el) => registerSublineRef(subline.index, el) : undefined}
+                >
                   {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
                   <SublineDisplay
                     key={index}

@@ -21,6 +21,7 @@ export const TOGGLE_TAGGED_RABBI = 'TOGGLE_TAGGED_RABBI';
 export const TOGGLE_TAGGED_CATEGORY = 'TOGGLE_TAGGED_CATEGORY';
 export const SET_TAGGED_SUBLINE = 'SET_TAGGED_SUBLINE';
 export const CLEAR_TAGGED_STATE = 'CLEAR_TAGGED_STATE';
+export const TOGGLE_TAGGED_DETAILED = 'TOGGLE_TAGGED_DETAILED';
 
 export const selectSublines = (selectedSublines) => (dispatch, getState) => {
   dispatch({
@@ -142,4 +143,8 @@ export const setTaggedSubline = (sublineIndex: number | null) => ({
 
 export const clearTaggedState = () => ({
   type: CLEAR_TAGGED_STATE,
+});
+
+export const toggleTaggedDetailed = () => ({
+  type: TOGGLE_TAGGED_DETAILED,
 });

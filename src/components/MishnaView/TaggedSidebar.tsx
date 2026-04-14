@@ -1,10 +1,11 @@
 import React, { useMemo, useRef } from 'react';
-import { Box, Chip, Divider, List, ListItemButton, ListItemText, Typography } from '@mui/material';
+import { Box, Chip, Divider, FormControlLabel, List, ListItemButton, ListItemText, Switch, Typography } from '@mui/material';
 import { connect } from 'react-redux';
 import {
   toggleTaggedRabbi,
   toggleTaggedCategory,
   setTaggedSubline,
+  toggleTaggedDetailed,
 } from '../../store/actions/mishnaViewActions';
 import {
   TaggingSubline,
@@ -26,12 +27,14 @@ const mapStateToProps = (state: any) => ({
   selectedTaggedSubline: state.mishnaView.selectedTaggedSubline,
   selectedSublines: state.mishnaView.selectedSublines,
   currentMishna: state.navigation.currentMishna,
+  taggedDetailedView: state.mishnaView.taggedDetailedView,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
   toggleRabbi: (rabbiId: string) => dispatch(toggleTaggedRabbi(rabbiId)),
   toggleCategory: (categoryId: string) => dispatch(toggleTaggedCategory(categoryId)),
   setSelectedSubline: (sublineIndex: number | null) => dispatch(setTaggedSubline(sublineIndex)),
+  dispatchToggleDetailed: () => dispatch(toggleTaggedDetailed()),
 });
 
 interface Props {
@@ -41,9 +44,11 @@ interface Props {
   selectedTaggedSubline: number | null;
   selectedSublines: iSubline[];
   currentMishna: iMishna;
+  taggedDetailedView: boolean;
   toggleRabbi: (rabbiId: string) => void;
   toggleCategory: (categoryId: string) => void;
   setSelectedSubline: (sublineIndex: number | null) => void;
+  dispatchToggleDetailed: () => void;
 }
 
 const TaggedSidebar: React.FC<Props> = ({
@@ -53,9 +58,11 @@ const TaggedSidebar: React.FC<Props> = ({
   selectedTaggedSubline,
   selectedSublines,
   currentMishna,
+  taggedDetailedView,
   toggleRabbi,
   toggleCategory,
   setSelectedSubline,
+  dispatchToggleDetailed,
 }) => {
   const wrapperRef = useRef(null);
   const isSticky = useIsSticky(wrapperRef, 136);
@@ -119,6 +126,13 @@ const TaggedSidebar: React.FC<Props> = ({
         overflowY: 'auto',
         direction: 'rtl',
       }}>
+      <Box display="flex" justifyContent="center" mb={0.5}>
+        <FormControlLabel
+          control={<Switch size="small" checked={taggedDetailedView} onChange={dispatchToggleDetailed} />}
+          label={<Typography variant="caption">תצוגה מפורטת</Typography>}
+          sx={{ margin: 0 }}
+        />
+      </Box>
       <Box display="flex" gap={1} sx={{ minHeight: 0 }}>
         {/* חכמים column */}
         <Box flex={1} sx={{ borderLeft: '1px solid', borderColor: 'divider', pr: 0.5, pl: 0.5 }}>

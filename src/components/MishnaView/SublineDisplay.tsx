@@ -27,7 +27,7 @@ import { getFirstAndLastWordOfString } from '../../inc/textUtils';
 import { UserGroup } from '../../store/reducers/authReducer';
 import { useTranslation } from 'react-i18next';
 import { hebrewToNumber, hebrewAmudToEnglish } from '../../inc/utils';
-import { TaggingSubline, ALL_RABBIES } from '../../services/tagging.service';
+import { TaggingSubline, ALL_RABBIES, TAGGING_CATEGORIES } from '../../services/tagging.service';
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -40,6 +40,7 @@ const mapStateToProps = (state) => ({
   selectedRabbis: state.mishnaView.selectedRabbis,
   selectedCategories: state.mishnaView.selectedCategories,
   selectedTaggedSubline: state.mishnaView.selectedTaggedSubline,
+  taggedDetailedView: state.mishnaView.taggedDetailedView,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -115,6 +116,7 @@ interface Props {
   selectedRabbis: string[];
   selectedCategories: string[];
   selectedTaggedSubline: number | null;
+  taggedDetailedView: boolean;
   dispatchSetTaggedSubline: (sublineIndex: number | null) => void;
 }
 const SublineDisplay = (props: Props) => {
@@ -137,6 +139,7 @@ const SublineDisplay = (props: Props) => {
     selectedRabbis,
     selectedCategories,
     selectedTaggedSubline,
+    taggedDetailedView,
     dispatchSetTaggedSubline,
   } = props;
   const classes = useStyles();
@@ -311,10 +314,33 @@ const SublineDisplay = (props: Props) => {
             subline={subline}
             rabbiMentions={isTagged && sublineTagData ? sublineTagData.rabbiMentions.map(m => {
               const rd = ALL_RABBIES.find(r => r.id === m.rabbiId);
-              return { startIndex: m.startIndex, endIndex: m.endIndex, rabbiId: m.rabbiId, generation: rd?.generation || null, isBavel: rd?.location === 'בבל', isEretzIsrael: rd?.location === 'ארץ ישראל' };
+              return { startIndex: m.startIndex, endIndex: m.endIndex, rabbiId: m.rabbiId, generation: rd?.generation || null, isBavel: rd?.location === 'בבל', isEretzIsrael: rd?.location === 'ארץ ישראל', doubt: m.doubt };
             }) : undefined}
             selectedRabbiIds={isTagged ? selectedRabbis : undefined}
           />
+          {isTagged && taggedDetailedView && sublineTagData && sublineTagData.categories.length > 0 &&
+            sublineTagData.categories.map((cat) => {
+              const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
+              if (!catDef) return null;
+              return (
+                <Chip
+                  key={cat.categoryId}
+                  size="small"
+                  label={catDef.label}
+                  sx={{
+                    fontSize: '0.6rem',
+                    height: 18,
+                    ml: 0.5,
+                    backgroundColor: catDef.color + '22',
+                    color: catDef.color,
+                    border: `1px solid ${catDef.color}`,
+                    fontWeight: 'bold',
+                    flexShrink: 0,
+                  }}
+                />
+              );
+            })
+          }
           {/* Daf/Amud badge positioned on the right */}
           {dafAmudMarker && (
             <Chip
@@ -396,7 +422,7 @@ const SublineDisplay = (props: Props) => {
               const rabbiData = ALL_RABBIES.find(r => r.id === mention.rabbiId);
               const isHighlighted = selectedRabbis.includes(mention.rabbiId);
               const genStr = rabbiData?.generation || '';
-              const locationChar = rabbiData?.location === 'בבל' ? 'ב' : rabbiData?.location === 'ארץ ישראל' ? 'א' : '';
+              const locationChar = rabbiData?.location === 'בבל' ? 'בבל' : rabbiData?.location === 'ארץ ישראל' ? 'א״י' : '';
               return (
                 <Chip
                   key={i}

@@ -19,6 +19,7 @@ import {
   TOGGLE_TAGGED_CATEGORY,
   SET_TAGGED_SUBLINE,
   CLEAR_TAGGED_STATE,
+  TOGGLE_TAGGED_DETAILED,
 } from '../actions/mishnaViewActions';
 import { TaggingSubline } from '../../services/tagging.service';
 import { RECEIVE_MISHNA, SET_CURRENT_MISHNA } from '../actions/navigationActions';
@@ -49,6 +50,7 @@ interface ViewState {
   selectedRabbis: string[];
   selectedCategories: string[];
   selectedTaggedSubline: number | null;
+  taggedDetailedView: boolean;
 }
 
 const initialState: ViewState = {
@@ -71,6 +73,7 @@ const initialState: ViewState = {
   selectedRabbis: [],
   selectedCategories: [],
   selectedTaggedSubline: null,
+  taggedDetailedView: true,
 };
 
 const mishnaViewReducer = (state = initialState, action) => {
@@ -170,6 +173,8 @@ const mishnaViewReducer = (state = initialState, action) => {
     }
     case SET_TAGGED_SUBLINE:
       return { ...state, selectedTaggedSubline: action.sublineIndex };
+    case TOGGLE_TAGGED_DETAILED:
+      return { ...state, taggedDetailedView: !state.taggedDetailedView };
     case CLEAR_TAGGED_STATE:
       return {
         ...state,
@@ -177,6 +182,7 @@ const mishnaViewReducer = (state = initialState, action) => {
         selectedRabbis: [],
         selectedCategories: [],
         selectedTaggedSubline: null,
+        taggedDetailedView: true,
       };
     default:
       return state;
