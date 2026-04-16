@@ -1,6 +1,7 @@
 import React, { useMemo, useRef } from 'react';
 import { Box, Chip, Divider, FormControlLabel, List, ListItemButton, ListItemText, Switch, Typography } from '@mui/material';
 import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   toggleTaggedRabbi,
   toggleTaggedCategory,
@@ -64,6 +65,8 @@ const TaggedSidebar: React.FC<Props> = ({
   setSelectedSubline,
   dispatchToggleDetailed,
 }) => {
+  const { i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
   const wrapperRef = useRef(null);
   const isSticky = useIsSticky(wrapperRef, 136);
   const divHeight = isSticky ? 'calc(100vh - 170px)' : 'calc(100vh - 270px)';
@@ -103,7 +106,7 @@ const TaggedSidebar: React.FC<Props> = ({
         if (existing) {
           existing.count++;
         } else {
-          catMap.set(cat.categoryId, { id: cat.categoryId, label: catDef.label, count: 1 });
+          catMap.set(cat.categoryId, { id: cat.categoryId, label: catDef.label, labelEn: catDef.labelEn, count: 1 });
         }
       }
     }
@@ -129,7 +132,7 @@ const TaggedSidebar: React.FC<Props> = ({
       <Box display="flex" justifyContent="center" mb={0.5}>
         <FormControlLabel
           control={<Switch size="small" checked={taggedDetailedView} onChange={dispatchToggleDetailed} />}
-          label={<Typography variant="caption">תצוגה מפורטת</Typography>}
+          label={<Typography variant="caption">{isHebrew ? 'תצוגה מפורטת' : 'Detailed view'}</Typography>}
           sx={{ margin: 0 }}
         />
       </Box>
@@ -137,11 +140,13 @@ const TaggedSidebar: React.FC<Props> = ({
         {/* חכמים column */}
         <Box flex={1} sx={{ borderLeft: '1px solid', borderColor: 'divider', pr: 0.5, pl: 0.5 }}>
           <Typography variant="subtitle2" fontWeight="bold" mb={0.5} textAlign="center">
-            חכמים
+            {isHebrew ? 'חכמים' : 'Sages'}
           </Typography>
           {uniqueRabbis.length === 0 ? (
             <Typography variant="caption" color="text.secondary" display="block" textAlign="center">
-              {selectedSublineIndices.size > 0 ? 'אין חכמים בסוגיה זו' : 'אין חכמים מתוייגים'}
+              {selectedSublineIndices.size > 0
+                ? (isHebrew ? 'אין חכמים בסוגיה זו' : 'No sages in this sugia')
+                : (isHebrew ? 'אין חכמים מתוייגים' : 'No tagged sages')}
             </Typography>
           ) : (
             <List dense disablePadding>
@@ -180,13 +185,15 @@ const TaggedSidebar: React.FC<Props> = ({
         </Box>
 
         {/* קטגוריות column */}
-        <Box flex={1} sx={{ pr: 0.5, pl: 0.5 }}>
+        <Box flex={1} sx={{ pr: 0.5, pl: 0.5, direction: 'ltr', textAlign: 'left' }}>
           <Typography variant="subtitle2" fontWeight="bold" mb={0.5} textAlign="center">
-            קטגוריות
+            {isHebrew ? 'קטגוריות' : 'Categories'}
           </Typography>
           {uniqueCategories.length === 0 ? (
             <Typography variant="caption" color="text.secondary" display="block" textAlign="center">
-              {selectedSublineIndices.size > 0 ? 'אין קטגוריות בסוגיה זו' : 'אין קטגוריות מתוייגות'}
+              {selectedSublineIndices.size > 0
+                ? (isHebrew ? 'אין קטגוריות בסוגיה זו' : 'No categories in this sugia')
+                : (isHebrew ? 'אין קטגוריות מתוייגות' : 'No tagged categories')}
             </Typography>
           ) : (
             <List dense disablePadding>
@@ -206,9 +213,9 @@ const TaggedSidebar: React.FC<Props> = ({
                     }}>
                     <ListItemText
                       primary={
-                        <Box display="flex" alignItems="center" gap={0.5}>
+                        <Box display="flex" alignItems="center" gap={0.5} justifyContent={isHebrew ? 'flex-start' : 'flex-end'}>
                           <Typography variant="body2" fontWeight={isSelected ? 'bold' : 'normal'}>
-                            {cat.label}
+                            {isHebrew ? cat.label : cat.labelEn}
                           </Typography>
                           <Typography variant="caption" color="text.disabled" sx={{ fontSize: '0.6rem' }}>
                             ({cat.count})
@@ -282,7 +289,7 @@ const TaggedSidebar: React.FC<Props> = ({
             {selectedSublineData.categories.length > 0 && (
               <Box mb={1.5}>
                 <Typography variant="caption" fontWeight="bold" color="text.secondary" display="block" mb={0.5}>
-                  קטגוריות:
+                  {isHebrew ? 'קטגוריות:' : 'Categories:'}
                 </Typography>
                 {selectedSublineData.categories.map((cat: SublineCategory) => {
                   const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
@@ -291,7 +298,7 @@ const TaggedSidebar: React.FC<Props> = ({
                   const externalConns = cat.connections.filter((c: CategoryConnection) => c.type === 'external');
                   return (
                     <Box key={cat.categoryId} mb={0.5}>
-                      <Chip label={catDef.label} size="small" color="primary" variant="outlined"
+                      <Chip label={isHebrew ? catDef.label : catDef.labelEn} size="small" color="primary" variant="outlined"
                         sx={{ fontSize: '0.7rem', height: 20, mb: 0.25 }} />
                       {sublineConns.length > 0 && (
                         <Typography variant="caption" color="text.secondary" display="block" sx={{ mr: 2 }}>
@@ -312,7 +319,7 @@ const TaggedSidebar: React.FC<Props> = ({
             {selectedSublineData.rabbiMentions.length > 0 && (
               <Box mb={1.5}>
                 <Typography variant="caption" fontWeight="bold" color="text.secondary" display="block" mb={0.5}>
-                  חכמים:
+                  {isHebrew ? 'חכמים:' : 'Sages:'}
                 </Typography>
                 {selectedSublineData.rabbiMentions.map((mention: RabbiMention, i: number) => {
                   const rabbiData = ALL_RABBIES.find(r => r.id === mention.rabbiId);

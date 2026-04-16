@@ -326,7 +326,7 @@ const SublineDisplay = (props: Props) => {
                 <Chip
                   key={cat.categoryId}
                   size="small"
-                  label={catDef.label}
+                  label={isHebrew ? catDef.label : catDef.labelEn}
                   sx={{
                     fontSize: '0.6rem',
                     height: 18,
