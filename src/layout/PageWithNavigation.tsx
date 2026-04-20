@@ -30,11 +30,12 @@ interface Props {
   allChapterAllowed?: boolean;
   showDafAmudNavigation?: boolean;
   stickyNavigation?: boolean;
+  showSearchBar?: boolean;
   loading: boolean;
 }
 
 const PageWithNavigationContent = (props: Props) => {
-  const { linkPrefix, allChapterAllowed, showDafAmudNavigation = false, stickyNavigation = true, afterNavigateHandler, loading } = props;
+  const { linkPrefix, allChapterAllowed, showDafAmudNavigation = false, stickyNavigation = true, showSearchBar = true, afterNavigateHandler, loading } = props;
   const { optionsComponent } = useStickyOptions();
 
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ const PageWithNavigationContent = (props: Props) => {
         stickyNavigation={stickyNavigation}
         shouldShowOptions={true}
         optionsComponent={optionsComponent}
+        showSearchBar={showSearchBar}
       />
       <Box
         sx={{

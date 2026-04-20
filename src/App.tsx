@@ -29,6 +29,7 @@ import Workshop2023Page from './pages/Workshop2023';
 import ContentPage from './pages/Content';
 import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
+import TaggingPage from './pages/TaggingPage';
 declare global {
   interface Window {
     Buffer: typeof Buffer;
@@ -77,6 +78,14 @@ function App() {
             element={
               <RequireAuth allowedGroups={[UserGroup.Editor]}>
                 <EditMishnaPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="tagging/:tractate/:chapter/:mishna"
+            element={
+              <RequireAuth allowedGroups={[UserGroup.Editor]}>
+                <TaggingPage />
               </RequireAuth>
             }
           />
