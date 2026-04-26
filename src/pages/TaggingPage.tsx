@@ -31,6 +31,7 @@ import {
   TAGGING_CATEGORIES,
   Rabbi,
   RabbiMention,
+  RabbiAlternative,
   SublineCategory,
   SublineComment,
   CategoryConnection,
@@ -38,6 +39,7 @@ import {
   taggingService,
   findMatchingRabbies,
   searchRabbies,
+  ALL_RABBIES,
 } from '../services/tagging.service';
 import { PageWithNavigation, PageContent } from '../layout/PageWithNavigation';
 import { hebrewMap } from '../inc/utils';
@@ -137,6 +139,10 @@ const TaggingPage: React.FC = () => {
   const [showPredictions, setShowPredictions] = useState(false);
   const [resultLimit, setResultLimit] = useState<ResultLimit>(10);
   const [pendingDoubt, setPendingDoubt] = useState(false);
+  const [pendingAlternatives, setPendingAlternatives] = useState<RabbiAlternative[]>([]);
+  const [alternativeSearchQuery, setAlternativeSearchQuery] = useState('');
+  const [editingMentionKey, setEditingMentionKey] = useState<string | null>(null);
+  const [showAltPredictions, setShowAltPredictions] = useState(false);
 
   // Comments state
   const [pendingComments, setPendingComments] = useState<SublineComment[]>([]);
@@ -191,6 +197,10 @@ const TaggingPage: React.FC = () => {
       setRabbiSearchQuery('');
       setResultLimit(10);
       setPendingDoubt(false);
+      setPendingAlternatives([]);
+      setAlternativeSearchQuery('');
+      setEditingMentionKey(null);
+      setShowAltPredictions(false);
     } else if (mode === 'comments') {
       setPendingComments(JSON.parse(JSON.stringify(subline.comments)));
       setNewCommentText('');
@@ -207,6 +217,10 @@ const TaggingPage: React.FC = () => {
     setShowPredictions(false);
     setRabbiSearchQuery('');
     setPendingDoubt(false);
+    setPendingAlternatives([]);
+    setAlternativeSearchQuery('');
+    setEditingMentionKey(null);
+    setShowAltPredictions(false);
     setPendingComments([]);
     setNewCommentText('');
   };
@@ -308,18 +322,23 @@ const TaggingPage: React.FC = () => {
     setTextSelection({ sublineIndex, startIndex, endIndex: startIndex + selectedText.length, text: selectedText });
     setShowPredictions(false);
     setPendingDoubt(false);
+    setPendingAlternatives([]);
+    setAlternativeSearchQuery('');
+    setEditingMentionKey(null);
+    setShowAltPredictions(false);
     selection.removeAllRanges();
   };
 
   const assignRabbiToSelection = (rabbi: Rabbi) => {
     if (!textSelection) return;
+    const key = `${textSelection.startIndex}-${textSelection.endIndex}`;
     const mention: RabbiMention = {
       rabbiId: rabbi.id,
       rabbiName: rabbi.displayName,
       startIndex: textSelection.startIndex,
       endIndex: textSelection.endIndex,
       text: textSelection.text,
-      doubt: pendingDoubt,
+      doubt: false,
     };
     setPendingRabbiMentions(prev => [
       ...prev.filter(m => !(m.startIndex === mention.startIndex && m.endIndex === mention.endIndex)),
@@ -329,6 +348,10 @@ const TaggingPage: React.FC = () => {
     setShowPredictions(false);
     setRabbiSearchQuery('');
     setPendingDoubt(false);
+    setPendingAlternatives([]);
+    setAlternativeSearchQuery('');
+    setEditingMentionKey(key);
+    setShowAltPredictions(false);
   };
 
   const removeRabbiMention = (mention: RabbiMention) => {
@@ -371,7 +394,7 @@ const TaggingPage: React.FC = () => {
         parts.push(<span key={`t-${cursor}`}>{subline.text.slice(cursor, mention.startIndex)}</span>);
       }
       parts.push(
-        <Tooltip key={`m-${mention.startIndex}`} title={`${mention.rabbiName}${mention.doubt ? ' (?)' : ''}`} arrow>
+        <Tooltip key={`m-${mention.startIndex}`} title={`${mention.rabbiName}${mention.doubt ? ' (?)' : ''}${mention.alternatives?.length ? ` — ${mention.alternatives.map(a => a.rabbiName).join(' / ')}` : ''}`} arrow>
           <span style={{
             backgroundColor: mention.doubt ? '#fff9c4' : '#bbdefb',
             borderRadius: '3px',
@@ -519,13 +542,24 @@ const TaggingPage: React.FC = () => {
                           </Box>
                         );
                       })}
-                      <Box display="flex" flexWrap="wrap" gap={0.5} mt={subline.categories.length > 0 ? 0.5 : 0}>
+                      <Box mt={subline.categories.length > 0 ? 0.5 : 0}>
                         {subline.rabbiMentions.map((m, i) => (
-                          <Chip key={i}
-                            label={`${m.rabbiName}${m.doubt ? ' ?' : ''}`}
-                            size="small" color="warning" variant="outlined"
-                            sx={{ fontSize: '0.7rem', height: 20 }}
-                          />
+                          <Box key={i} mb={0.25}>
+                            <Chip
+                              label={`${m.rabbiName}${m.doubt ? ' ?' : ''}`}
+                              size="small" color="warning" variant="outlined"
+                              sx={{ fontSize: '0.7rem', height: 20 }}
+                            />
+                            {m.alternatives && m.alternatives.length > 0 && (
+                              <Box mr={2}>
+                                {m.alternatives.map((alt, j) => (
+                                  <Typography key={j} variant="caption" color="text.secondary" display="block" sx={{ fontSize: '0.6rem' }}>
+                                    ↳ {alt.rabbiName}
+                                  </Typography>
+                                ))}
+                              </Box>
+                            )}
+                          </Box>
                         ))}
                         {subline.comments.length > 0 && (
                           <Chip label={`${subline.comments.length} הערות`} size="small" color="info" variant="outlined"
@@ -576,14 +610,25 @@ const TaggingPage: React.FC = () => {
                         </Typography>
                       )}
                       {pendingRabbiMentions.length > 0 && (
-                        <Box display="flex" flexWrap="wrap" gap={0.5} mb={1}>
+                        <Box mb={1}>
                           {pendingRabbiMentions.map((m, i) => (
-                            <Chip key={i}
-                              label={`${m.rabbiName}${m.doubt ? ' ?' : ''}: "${m.text}"`}
-                              size="small" color="warning"
-                              onDelete={() => removeRabbiMention(m)}
-                              sx={{ fontSize: '0.7rem' }}
-                            />
+                            <Box key={i} mb={0.5}>
+                              <Chip
+                                label={`${m.rabbiName}${m.doubt ? ' ?' : ''}: "${m.text}"`}
+                                size="small" color="warning"
+                                onDelete={() => removeRabbiMention(m)}
+                                sx={{ fontSize: '0.7rem' }}
+                              />
+                              {m.alternatives && m.alternatives.length > 0 && (
+                                <Box mr={2} mt={0.25}>
+                                  {m.alternatives.map((alt, j) => (
+                                    <Typography key={j} variant="caption" color="text.secondary" display="block" sx={{ fontSize: '0.65rem' }}>
+                                      ↳ {alt.rabbiName}
+                                    </Typography>
+                                  ))}
+                                </Box>
+                              )}
+                            </Box>
                           ))}
                         </Box>
                       )}
@@ -700,14 +745,121 @@ const TaggingPage: React.FC = () => {
                     תיוג חכמים — שורה {activeSublineIndex}
                   </Typography>
 
-                  {/* Doubt checkbox */}
-                  {textSelection && (
-                    <FormControlLabel
-                      control={<Checkbox size="small" checked={pendingDoubt} onChange={e => setPendingDoubt(e.target.checked)} />}
-                      label={<Typography variant="caption">לא בטוח</Typography>}
-                      sx={{ mb: 1, ml: 0 }}
-                    />
-                  )}
+                  {/* Doubt UI — shown only after a rabbi has been assigned */}
+                  {(() => {
+                    const editingMention = editingMentionKey
+                      ? pendingRabbiMentions.find(m => `${m.startIndex}-${m.endIndex}` === editingMentionKey)
+                      : null;
+                    if (!editingMention) return null;
+
+                    const isDoubt = !!editingMention.doubt;
+                    const alternatives = editingMention.alternatives || [];
+
+                    const handleDoubtChange = (checked: boolean) => {
+                      setPendingRabbiMentions(prev => prev.map(m =>
+                        `${m.startIndex}-${m.endIndex}` === editingMentionKey
+                          ? { ...m, doubt: checked, alternatives: checked ? m.alternatives : undefined }
+                          : m
+                      ));
+                      setAlternativeSearchQuery('');
+                      setShowAltPredictions(false);
+                    };
+
+                    const handleAddAlternative = (rabbi: Rabbi) => {
+                      setPendingRabbiMentions(prev => prev.map(m =>
+                        `${m.startIndex}-${m.endIndex}` === editingMentionKey
+                          ? { ...m, alternatives: [...(m.alternatives || []), { rabbiId: rabbi.id, rabbiName: rabbi.displayName }] }
+                          : m
+                      ));
+                      setAlternativeSearchQuery('');
+                    };
+
+                    const handleRemoveAlternative = (idx: number) => {
+                      setPendingRabbiMentions(prev => prev.map(m =>
+                        `${m.startIndex}-${m.endIndex}` === editingMentionKey
+                          ? { ...m, alternatives: (m.alternatives || []).filter((_, i) => i !== idx) }
+                          : m
+                      ));
+                    };
+
+                    const altPredicted = showAltPredictions
+                      ? findMatchingRabbies(editingMention.text, 10).filter(r => r.id !== editingMention.rabbiId && !alternatives.some(a => a.rabbiId === r.id))
+                      : [];
+
+                    return (
+                      <>
+                        <Typography variant="caption" color="primary" display="block" mb={0.5}>
+                          עריכת: {editingMention.rabbiName} — "{editingMention.text}"
+                        </Typography>
+                        <FormControlLabel
+                          control={<Checkbox size="small" checked={isDoubt} onChange={e => handleDoubtChange(e.target.checked)} />}
+                          label={<Typography variant="caption">לא בטוח</Typography>}
+                          sx={{ mb: 0.5, ml: 0 }}
+                        />
+                        {isDoubt && (
+                          <Box sx={{ mb: 1.5, p: 1, border: '1px dashed #f57f17', borderRadius: 1, backgroundColor: '#fffde7' }}>
+                            <Typography variant="caption" fontWeight="bold" display="block" mb={0.5}>
+                              חכמים חלופיים:
+                            </Typography>
+                            {alternatives.length > 0 && (
+                              <Box display="flex" flexWrap="wrap" gap={0.5} mb={1}>
+                                {alternatives.map((alt, i) => (
+                                  <Chip
+                                    key={i}
+                                    label={alt.rabbiName}
+                                    size="small"
+                                    color="warning"
+                                    onDelete={() => handleRemoveAlternative(i)}
+                                    sx={{ fontSize: '0.7rem' }}
+                                  />
+                                ))}
+                              </Box>
+                            )}
+
+                            {!showAltPredictions && (
+                              <Button variant="contained" size="small" startIcon={<SearchIcon />}
+                                onClick={() => setShowAltPredictions(true)} sx={{ mb: 1, whiteSpace: 'nowrap' }}>
+                                חפש חכם
+                              </Button>
+                            )}
+
+                            {showAltPredictions && (
+                              <>
+                                <Alert severity="success" sx={{ mb: 1, py: 0.5, fontSize: '0.75rem' }}>
+                                  התאמות עבור: "<strong>{editingMention.text}</strong>"
+                                </Alert>
+                                {altPredicted.length > 0 ? (
+                                  <>
+                                    <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                                      לחץ על חכם להוספה ({altPredicted.length} תוצאות):
+                                    </Typography>
+                                    {altPredicted.map(r => (
+                                      <RabbiCard key={r.id} rabbi={r} clickable onClick={() => handleAddAlternative(r)} />
+                                    ))}
+                                  </>
+                                ) : (
+                                  <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                                    לא נמצאו התאמות אוטומטיות
+                                  </Typography>
+                                )}
+                                <Divider sx={{ my: 1 }} />
+                              </>
+                            )}
+
+                            <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                              {showAltPredictions ? 'לא מצאת? חפש ידנית:' : 'או חפש ידנית:'}
+                            </Typography>
+                            <RabbiSearchBox value={alternativeSearchQuery} onChange={setAlternativeSearchQuery} />
+                            {searchRabbies(alternativeSearchQuery, 10)
+                              .filter(r => r.id !== editingMention.rabbiId && !alternatives.some(a => a.rabbiId === r.id))
+                              .map(rabbi => (
+                                <RabbiCard key={rabbi.id} rabbi={rabbi} clickable onClick={() => handleAddAlternative(rabbi)} />
+                              ))}
+                          </Box>
+                        )}
+                      </>
+                    );
+                  })()}
 
                   {/* Result limit toggle */}
                   <Box display="flex" alignItems="center" gap={1} mb={1.5}>

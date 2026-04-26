@@ -106,6 +106,14 @@ const applyRabbiMentions = (
         focusOffset: mention.endIndex + annotation.length,
       });
       content = Modifier.applyInlineStyle(content, annoSelection, 'RABBI_ANNOTATION');
+
+      if (mention.doubt) {
+        const doubtSelection = SelectionState.createEmpty(blockKey).merge({
+          anchorOffset: mention.endIndex,
+          focusOffset: mention.endIndex + 1,
+        });
+        content = Modifier.applyInlineStyle(content, doubtSelection, 'RABBI_DOUBT');
+      }
     }
 
     const annoLen = annotation ? annotation.length : 0;

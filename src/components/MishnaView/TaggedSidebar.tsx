@@ -239,10 +239,18 @@ const TaggedSidebar: React.FC<Props> = ({
             {selectedRabbis.map(rabbiId => {
               const rabbiData = ALL_RABBIES.find(r => r.id === rabbiId);
               if (!rabbiData) return null;
+              const mentionsWithAlternatives = taggingData
+                .flatMap(t => t.rabbiMentions)
+                .filter(m => m.rabbiId === rabbiId && m.doubt && m.alternatives && m.alternatives.length > 0);
+              const allAlternatives = mentionsWithAlternatives.flatMap(m => m.alternatives!);
+              const uniqueAlternatives = allAlternatives.filter((a, i, arr) => arr.findIndex(x => x.rabbiId === a.rabbiId) === i);
               return (
-                <Box key={rabbiId} sx={{ mb: 1.5, p: 1, borderRadius: 1, border: '1px solid', borderColor: 'divider' }}>
+                <Box key={rabbiId} sx={{ mb: 1.5, p: 1, borderRadius: 1, border: '1px solid', borderColor: uniqueAlternatives.length > 0 ? '#f44336' : 'divider' }}>
                   <Typography variant="body2" fontWeight="bold" mb={0.5}>
                     {rabbiData.displayName}
+                    {mentionsWithAlternatives.length > 0 && (
+                      <Typography component="span" sx={{ color: '#d32f2f', fontWeight: 'bold' }}> (?)</Typography>
+                    )}
                   </Typography>
                   {rabbiData.fullnameVariants.length > 0 && (
                     <Typography variant="caption" color="text.secondary" display="block" mb={0.5} sx={{ lineHeight: 1.4 }}>
@@ -263,6 +271,33 @@ const TaggedSidebar: React.FC<Props> = ({
                       <Chip label={rabbiData.city} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
                     )}
                   </Box>
+                  {uniqueAlternatives.length > 0 && (
+                    <Box mt={0.75} pt={0.5} sx={{ borderTop: '1px dashed #f44336' }}>
+                      <Typography variant="caption" fontWeight="bold" color="#d32f2f" display="block" mb={0.25}>
+                        {isHebrew ? 'חלופות:' : 'Alternatives:'}
+                      </Typography>
+                      {uniqueAlternatives.map((alt, j) => {
+                        const altData = ALL_RABBIES.find(r => r.id === alt.rabbiId);
+                        return (
+                          <Box key={j} mb={0.25}>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                              {alt.rabbiName}
+                            </Typography>
+                            {altData && (
+                              <Box display="flex" flexWrap="wrap" gap={0.3}>
+                                {altData.generation && (
+                                  <Chip label={`דור ${altData.generation}`} size="small" variant="outlined" sx={{ fontSize: '0.6rem', height: 16 }} />
+                                )}
+                                {altData.location && (
+                                  <Chip label={altData.location} size="small" variant="outlined" sx={{ fontSize: '0.6rem', height: 16 }} />
+                                )}
+                              </Box>
+                            )}
+                          </Box>
+                        );
+                      })}
+                    </Box>
+                  )}
                 </Box>
               );
             })}
@@ -324,11 +359,11 @@ const TaggedSidebar: React.FC<Props> = ({
                 {selectedSublineData.rabbiMentions.map((mention: RabbiMention, i: number) => {
                   const rabbiData = ALL_RABBIES.find(r => r.id === mention.rabbiId);
                   return (
-                    <Box key={i} sx={{ mb: 1, p: 0.75, borderRadius: 1, border: '1px solid', borderColor: 'divider' }}>
+                    <Box key={i} sx={{ mb: 1, p: 0.75, borderRadius: 1, border: '1px solid', borderColor: mention.doubt ? '#f44336' : 'divider' }}>
                       <Box display="flex" alignItems="center" gap={0.5} mb={0.25}>
                         <Typography variant="body2" fontWeight="bold">
                           {mention.rabbiName}
-                          {mention.doubt && ' (?)'}
+                          {mention.doubt && <Typography component="span" sx={{ color: '#d32f2f', fontWeight: 'bold' }}> (?)</Typography>}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
                           "{mention.text}"
@@ -356,6 +391,33 @@ const TaggedSidebar: React.FC<Props> = ({
                             )}
                           </Box>
                         </>
+                      )}
+                      {mention.doubt && mention.alternatives && mention.alternatives.length > 0 && (
+                        <Box mt={0.75} pt={0.5} sx={{ borderTop: '1px dashed #f44336' }}>
+                          <Typography variant="caption" fontWeight="bold" color="#d32f2f" display="block" mb={0.25}>
+                            {isHebrew ? 'חלופות:' : 'Alternatives:'}
+                          </Typography>
+                          {mention.alternatives.map((alt, j) => {
+                            const altData = ALL_RABBIES.find(r => r.id === alt.rabbiId);
+                            return (
+                              <Box key={j} mb={0.25}>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {alt.rabbiName}
+                                </Typography>
+                                {altData && (
+                                  <Box display="flex" flexWrap="wrap" gap={0.3}>
+                                    {altData.generation && (
+                                      <Chip label={`דור ${altData.generation}`} size="small" variant="outlined" sx={{ fontSize: '0.6rem', height: 16 }} />
+                                    )}
+                                    {altData.location && (
+                                      <Chip label={altData.location} size="small" variant="outlined" sx={{ fontSize: '0.6rem', height: 16 }} />
+                                    )}
+                                  </Box>
+                                )}
+                              </Box>
+                            );
+                          })}
+                        </Box>
                       )}
                     </Box>
                   );

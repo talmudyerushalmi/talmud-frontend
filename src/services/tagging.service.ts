@@ -14,6 +14,11 @@ export interface SublineCategory {
   connections: CategoryConnection[];
 }
 
+export interface RabbiAlternative {
+  rabbiId: string;
+  rabbiName: string;
+}
+
 export interface RabbiMention {
   rabbiId: string;
   rabbiName: string;
@@ -21,6 +26,7 @@ export interface RabbiMention {
   endIndex: number;
   text: string;
   doubt?: boolean;
+  alternatives?: RabbiAlternative[];
 }
 
 export interface SublineComment {

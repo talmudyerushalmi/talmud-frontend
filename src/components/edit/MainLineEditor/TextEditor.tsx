@@ -40,6 +40,10 @@ const TextEditor = (props: Props) => {
       color: '#757575',
       verticalAlign: 'sub',
     },
+    RABBI_DOUBT: {
+      color: '#d32f2f',
+      fontWeight: 'bold',
+    },
   };
 
   // needed to update the state when the prop changes
