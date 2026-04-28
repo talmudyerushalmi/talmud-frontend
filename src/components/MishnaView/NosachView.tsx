@@ -93,6 +93,8 @@ const applyRabbiMentions = (
 
   for (const mention of sorted) {
     if (mention.startIndex >= textLength) continue;
+    if (mention.endIndex > textLength) continue;
+    if (mention.endIndex <= mention.startIndex) continue;
 
     const annotation = buildAnnotation(mention.generation, mention.isBavel, mention.isEretzIsrael, mention.doubt);
     if (annotation) {
