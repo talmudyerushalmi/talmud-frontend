@@ -85,6 +85,68 @@ export const TAGGING_CATEGORIES = [
   { id: 'role_28', label: 'שונות', labelEn: 'Miscellaneous', color: '#78909c' },
 ];
 
+export const CONTINUATION_CATEGORY_ID = 'role_18';
+
+export interface ContinuationBundleInfo {
+  sourceIndex: number;
+  sourceCategoryId: string;
+  sourceColor: string;
+}
+
+/**
+ * Computes "continuation bundles" for sublines tagged with המשך without explicit connections.
+ * Each such subline bundles back to the closest previous subline that has a non-המשך category.
+ * The chain breaks if any in-between subline has no categories at all.
+ *
+ * Returns a Map keyed by subline index (both source and continuation members)
+ * mapping to bundle info.
+ */
+export function computeContinuationBundles(taggingData: TaggingSubline[]): Map<number, ContinuationBundleInfo> {
+  const sorted = [...taggingData].sort((a, b) => a.index - b.index);
+  const byIndex = new Map<number, TaggingSubline>();
+  sorted.forEach(t => byIndex.set(t.index, t));
+
+  const result = new Map<number, ContinuationBundleInfo>();
+
+  for (const t of sorted) {
+    const continuation = t.categories.find(c => c.categoryId === CONTINUATION_CATEGORY_ID);
+    if (!continuation) continue;
+    if (continuation.connections && continuation.connections.length > 0) continue;
+
+    let sourceIndex: number | null = null;
+    let sourceCategoryId: string | null = null;
+    let cursor = t.index - 1;
+    while (cursor >= 0) {
+      const prev = byIndex.get(cursor);
+      if (!prev || prev.categories.length === 0) break;
+      const otherCat = prev.categories.find(c => c.categoryId !== CONTINUATION_CATEGORY_ID);
+      if (otherCat) {
+        sourceIndex = prev.index;
+        sourceCategoryId = otherCat.categoryId;
+        break;
+      }
+      const prevContinuation = prev.categories.find(c => c.categoryId === CONTINUATION_CATEGORY_ID);
+      if (prevContinuation && (!prevContinuation.connections || prevContinuation.connections.length === 0)) {
+        cursor--;
+        continue;
+      }
+      break;
+    }
+
+    if (sourceIndex === null || sourceCategoryId === null) continue;
+    const catDef = TAGGING_CATEGORIES.find(c => c.id === sourceCategoryId);
+    if (!catDef) continue;
+
+    const info: ContinuationBundleInfo = { sourceIndex, sourceCategoryId, sourceColor: catDef.color };
+    result.set(t.index, info);
+    if (!result.has(sourceIndex)) {
+      result.set(sourceIndex, info);
+    }
+  }
+
+  return result;
+}
+
 // ─── Rabbies data ───
 
 const rabbiesData = rabbiesJson as unknown as Record<string, {

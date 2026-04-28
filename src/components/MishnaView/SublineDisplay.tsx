@@ -27,7 +27,7 @@ import { getFirstAndLastWordOfString } from '../../inc/textUtils';
 import { UserGroup } from '../../store/reducers/authReducer';
 import { useTranslation } from 'react-i18next';
 import { hebrewToNumber, hebrewAmudToEnglish } from '../../inc/utils';
-import { TaggingSubline, ALL_RABBIES, TAGGING_CATEGORIES } from '../../services/tagging.service';
+import { TaggingSubline, ALL_RABBIES, TAGGING_CATEGORIES, computeContinuationBundles } from '../../services/tagging.service';
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -253,14 +253,24 @@ const SublineDisplay = (props: Props) => {
     return sublineTagData.categories.some(cat => selectedCategories.includes(cat.categoryId));
   }, [isTagged, selectedCategories, sublineTagData]);
 
-  const isTaggedSublineActive = isTagged && selectedTaggedSubline === subline.index;
+  const continuationBundles = useMemo(() => {
+    if (!isTagged) return null;
+    return computeContinuationBundles(taggingData);
+  }, [isTagged, taggingData]);
+  const myBundle = continuationBundles?.get(subline.index) || null;
+
+  const isTaggedSublineActive = isTagged && (
+    selectedTaggedSubline === subline.index ||
+    (myBundle != null && selectedTaggedSubline === myBundle.sourceIndex)
+  );
 
   const handleTaggedClick = (e) => {
     e.stopPropagation();
-    if (isTaggedSublineActive) {
+    const targetIndex = myBundle ? myBundle.sourceIndex : subline.index;
+    if (selectedTaggedSubline === targetIndex) {
       dispatchSetTaggedSubline(null);
     } else {
-      dispatchSetTaggedSubline(subline.index);
+      dispatchSetTaggedSubline(targetIndex);
     }
   };
 
@@ -296,6 +306,7 @@ const SublineDisplay = (props: Props) => {
         sx={{
           ...(isSublineSelected && !isTagged ? theme.custom.selectionColor : null),
           ...(hasCategoryHighlight ? { backgroundColor: '#f3e5f5' } : null),
+          ...(myBundle && !isTaggedSublineActive ? { backgroundColor: `${myBundle.sourceColor}1a` } : null),
           ...(isTaggedSublineActive ? { backgroundColor: '#e3f2fd', border: '1px solid #90caf9' } : null),
           cursor: isTagged ? 'pointer' : undefined,
         }}
