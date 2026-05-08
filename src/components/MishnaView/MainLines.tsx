@@ -12,6 +12,7 @@ import { UserGroup } from '../../store/reducers/authReducer';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 import { TaggingSubline } from '../../services/tagging.service';
 import CategoryConnectionLines from './CategoryConnectionLines';
+import ContinuationBundlePills from './ContinuationBundlePills';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -116,6 +117,13 @@ const MainLines = (props: Props) => {
           </div>
         );
       })}
+      {isTaggedDetailed && (
+        <ContinuationBundlePills
+          taggingData={taggingData}
+          sublineRefs={sublineRefsRef.current}
+          containerRef={containerRef}
+        />
+      )}
     </div>
   );
 };

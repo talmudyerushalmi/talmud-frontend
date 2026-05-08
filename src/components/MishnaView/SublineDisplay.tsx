@@ -27,7 +27,7 @@ import { getFirstAndLastWordOfString } from '../../inc/textUtils';
 import { UserGroup } from '../../store/reducers/authReducer';
 import { useTranslation } from 'react-i18next';
 import { hebrewToNumber, hebrewAmudToEnglish } from '../../inc/utils';
-import { TaggingSubline, ALL_RABBIES, TAGGING_CATEGORIES, computeContinuationBundles } from '../../services/tagging.service';
+import { TaggingSubline, ALL_RABBIES, TAGGING_CATEGORIES, computeContinuationBundles, CONTINUATION_CATEGORY_ID } from '../../services/tagging.service';
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -333,11 +333,17 @@ const SublineDisplay = (props: Props) => {
             sublineTagData.categories.map((cat) => {
               const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
               if (!catDef) return null;
+              const isBundleSourceChip = !!myBundle && subline.index === myBundle.sourceIndex && cat.categoryId === myBundle.sourceCategoryId;
+              if (myBundle) {
+                const isSource = subline.index === myBundle.sourceIndex;
+                if (!isSource && cat.categoryId === CONTINUATION_CATEGORY_ID && (!cat.connections || cat.connections.length === 0)) return null;
+              }
               return (
                 <Chip
                   key={cat.categoryId}
                   size="small"
                   label={isHebrew ? catDef.label : catDef.labelEn}
+                  data-bundle-source={isBundleSourceChip ? 'true' : undefined}
                   sx={{
                     fontSize: '0.6rem',
                     height: 18,
@@ -347,6 +353,11 @@ const SublineDisplay = (props: Props) => {
                     border: `1px solid ${catDef.color}`,
                     fontWeight: 'bold',
                     flexShrink: 0,
+                    ...(isBundleSourceChip ? {
+                      borderBottomLeftRadius: 0,
+                      borderBottomRightRadius: 0,
+                      borderBottom: 'none',
+                    } : null),
                   }}
                 />
               );

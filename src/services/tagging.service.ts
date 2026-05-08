@@ -93,6 +93,15 @@ export interface ContinuationBundleInfo {
   sourceColor: string;
 }
 
+export interface ContinuationBundle {
+  sourceIndex: number;
+  members: number[];
+  sourceCategoryId: string;
+  sourceColor: string;
+  label: string;
+  labelEn: string;
+}
+
 /**
  * Computes "continuation bundles" for sublines tagged with המשך without explicit connections.
  * Each such subline bundles back to the closest previous subline that has a non-המשך category.
@@ -112,6 +121,7 @@ export function computeContinuationBundles(taggingData: TaggingSubline[]): Map<n
     const continuation = t.categories.find(c => c.categoryId === CONTINUATION_CATEGORY_ID);
     if (!continuation) continue;
     if (continuation.connections && continuation.connections.length > 0) continue;
+    if (t.categories.some(c => c.categoryId !== CONTINUATION_CATEGORY_ID)) continue;
 
     let sourceIndex: number | null = null;
     let sourceCategoryId: string | null = null;
@@ -145,6 +155,35 @@ export function computeContinuationBundles(taggingData: TaggingSubline[]): Map<n
   }
 
   return result;
+}
+
+/**
+ * Builds the list of continuation bundles (one entry per source subline).
+ * Each bundle includes the source and all continuation members in ascending order.
+ */
+export function getContinuationBundlesList(taggingData: TaggingSubline[]): ContinuationBundle[] {
+  const map = computeContinuationBundles(taggingData);
+  const bySource = new Map<number, ContinuationBundle>();
+  for (const [sublineIdx, info] of map.entries()) {
+    let bundle = bySource.get(info.sourceIndex);
+    if (!bundle) {
+      const catDef = TAGGING_CATEGORIES.find(c => c.id === info.sourceCategoryId);
+      bundle = {
+        sourceIndex: info.sourceIndex,
+        members: [],
+        sourceCategoryId: info.sourceCategoryId,
+        sourceColor: info.sourceColor,
+        label: catDef?.label || '',
+        labelEn: catDef?.labelEn || '',
+      };
+      bySource.set(info.sourceIndex, bundle);
+    }
+    if (!bundle.members.includes(sublineIdx)) bundle.members.push(sublineIdx);
+  }
+  for (const bundle of bySource.values()) {
+    bundle.members.sort((a, b) => a - b);
+  }
+  return Array.from(bySource.values());
 }
 
 // ─── Rabbies data ───
