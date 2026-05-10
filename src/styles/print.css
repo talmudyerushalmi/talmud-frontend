@@ -38,6 +38,8 @@
 
   .mishna-text-container {
     padding-top: 0 !important;
+    padding-right: 80px !important;
+    box-sizing: border-box !important;
   }
 
   /* Hide edit icon buttons (dots on the right) */

@@ -23,6 +23,7 @@ interface Props {
 
 const LANE_WIDTH = 10;
 const MARGIN_RIGHT = 4;
+const MAX_LANES = 6;
 
 const CategoryConnectionLines: React.FC<Props> = ({ taggingData, sublineRefs, containerRef }) => {
   const [arrows, setArrows] = useState<ArrowGroup[]>([]);
@@ -70,7 +71,7 @@ const CategoryConnectionLines: React.FC<Props> = ({ taggingData, sublineRefs, co
       return spanA - spanB;
     });
 
-    const positioned: ArrowGroup[] = sorted.map((group, i) => {
+    const measured = sorted.map((group) => {
       const sourceEl = sublineRefs.get(group.sourceIndex);
       if (!sourceEl) return null;
       const sourceRect = sourceEl.getBoundingClientRect();
@@ -85,8 +86,33 @@ const CategoryConnectionLines: React.FC<Props> = ({ taggingData, sublineRefs, co
       }
       if (targetYs.length === 0) return null;
 
-      return { sourceY, targetYs, color: group.color, lane: i };
-    }).filter(Boolean) as ArrowGroup[];
+      const allYs = [sourceY, ...targetYs];
+      return { sourceY, targetYs, color: group.color, minY: Math.min(...allYs), maxY: Math.max(...allYs) };
+    }).filter(Boolean) as Array<Omit<ArrowGroup, 'lane'> & { minY: number; maxY: number }>;
+
+    const laneIntervals: Array<Array<[number, number]>> = [];
+    const positioned: ArrowGroup[] = measured.map((m) => {
+      let assignedLane = -1;
+      for (let lane = 0; lane < MAX_LANES; lane++) {
+        const intervals = laneIntervals[lane];
+        if (!intervals || !intervals.some(([eMin, eMax]) => !(m.maxY < eMin || m.minY > eMax))) {
+          assignedLane = lane;
+          break;
+        }
+      }
+      if (assignedLane === -1) {
+        let bestLane = 0;
+        let bestCount = laneIntervals[0]?.length ?? 0;
+        for (let lane = 1; lane < MAX_LANES; lane++) {
+          const count = laneIntervals[lane]?.length ?? 0;
+          if (count < bestCount) { bestCount = count; bestLane = lane; }
+        }
+        assignedLane = bestLane;
+      }
+      if (!laneIntervals[assignedLane]) laneIntervals[assignedLane] = [];
+      laneIntervals[assignedLane].push([m.minY, m.maxY]);
+      return { sourceY: m.sourceY, targetYs: m.targetYs, color: m.color, lane: assignedLane };
+    });
 
     setSvgHeight(containerRect.height);
     setArrows(positioned);
@@ -104,7 +130,8 @@ const CategoryConnectionLines: React.FC<Props> = ({ taggingData, sublineRefs, co
 
   if (arrows.length === 0) return null;
 
-  const totalWidth = (arrows.length * LANE_WIDTH) + MARGIN_RIGHT + 4;
+  const lanesUsed = Math.min(MAX_LANES, Math.max(...arrows.map(a => a.lane)) + 1);
+  const totalWidth = (lanesUsed * LANE_WIDTH) + MARGIN_RIGHT + 4;
 
   return (
     <svg
