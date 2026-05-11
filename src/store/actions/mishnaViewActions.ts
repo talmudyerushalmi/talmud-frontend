@@ -117,34 +117,21 @@ export function getRichMishnaiotForChapter(tractate: string, chapter: string, ne
 
 export const fetchTaggingData = (tractate: string, chapter: string, mishna: string) => {
   return async (dispatch) => {
+    dispatch(startLoading());
     try {
       const data = await taggingService.getSublines(tractate, chapter, mishna);
       dispatch({ type: SET_TAGGING_DATA, taggingData: data });
     } catch (e) {
+      console.error('Failed to fetch tagging data:', e);
       dispatch({ type: SET_TAGGING_DATA, taggingData: [] });
+    } finally {
+      dispatch(stopLoading());
     }
   };
 };
 
-export const toggleTaggedRabbi = (rabbiId: string) => ({
-  type: TOGGLE_TAGGED_RABBI,
-  rabbiId,
-});
-
-export const toggleTaggedCategory = (categoryId: string) => ({
-  type: TOGGLE_TAGGED_CATEGORY,
-  categoryId,
-});
-
-export const setTaggedSubline = (sublineIndex: number | null) => ({
-  type: SET_TAGGED_SUBLINE,
-  sublineIndex,
-});
-
-export const clearTaggedState = () => ({
-  type: CLEAR_TAGGED_STATE,
-});
-
-export const toggleTaggedDetailed = () => ({
-  type: TOGGLE_TAGGED_DETAILED,
-});
+export const toggleTaggedRabbi = (rabbiId: string) => action(TOGGLE_TAGGED_RABBI, { rabbiId });
+export const toggleTaggedCategory = (categoryId: string) => action(TOGGLE_TAGGED_CATEGORY, { categoryId });
+export const setTaggedSubline = (sublineIndex: number | null) => action(SET_TAGGED_SUBLINE, { sublineIndex });
+export const clearTaggedState = () => action(CLEAR_TAGGED_STATE, {});
+export const toggleTaggedDetailed = () => action(TOGGLE_TAGGED_DETAILED, {});

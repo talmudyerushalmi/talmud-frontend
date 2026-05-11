@@ -157,15 +157,15 @@ const mishnaViewReducer = (state = initialState, action) => {
     case TOGGLE_TAGGED_RABBI:
       return {
         ...state,
-        selectedRabbis: toggleInArray(state.selectedRabbis, action.rabbiId),
+        selectedRabbis: toggleInArray(state.selectedRabbis, action.payload.rabbiId),
       };
     case TOGGLE_TAGGED_CATEGORY:
       return {
         ...state,
-        selectedCategories: toggleInArray(state.selectedCategories, action.categoryId),
+        selectedCategories: toggleInArray(state.selectedCategories, action.payload.categoryId),
       };
     case SET_TAGGED_SUBLINE:
-      return { ...state, selectedTaggedSubline: action.sublineIndex };
+      return { ...state, selectedTaggedSubline: action.payload.sublineIndex };
     case TOGGLE_TAGGED_DETAILED:
       return { ...state, taggedDetailedView: !state.taggedDetailedView };
     case CLEAR_TAGGED_STATE:
