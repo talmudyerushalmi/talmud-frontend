@@ -76,6 +76,9 @@ const initialState: ViewState = {
   taggedDetailedView: true,
 };
 
+const toggleInArray = (arr: string[], id: string): string[] =>
+  arr.includes(id) ? arr.filter((x) => x !== id) : [...arr, id];
+
 const mishnaViewReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CURRENT_MISHNA:
@@ -151,26 +154,16 @@ const mishnaViewReducer = (state = initialState, action) => {
       };
     case SET_TAGGING_DATA:
       return { ...state, taggingData: action.taggingData };
-    case TOGGLE_TAGGED_RABBI: {
-      const id = action.rabbiId;
-      const exists = state.selectedRabbis.includes(id);
+    case TOGGLE_TAGGED_RABBI:
       return {
         ...state,
-        selectedRabbis: exists
-          ? state.selectedRabbis.filter(r => r !== id)
-          : [...state.selectedRabbis, id],
+        selectedRabbis: toggleInArray(state.selectedRabbis, action.rabbiId),
       };
-    }
-    case TOGGLE_TAGGED_CATEGORY: {
-      const catId = action.categoryId;
-      const exists = state.selectedCategories.includes(catId);
+    case TOGGLE_TAGGED_CATEGORY:
       return {
         ...state,
-        selectedCategories: exists
-          ? state.selectedCategories.filter(c => c !== catId)
-          : [...state.selectedCategories, catId],
+        selectedCategories: toggleInArray(state.selectedCategories, action.categoryId),
       };
-    }
     case SET_TAGGED_SUBLINE:
       return { ...state, selectedTaggedSubline: action.sublineIndex };
     case TOGGLE_TAGGED_DETAILED:
