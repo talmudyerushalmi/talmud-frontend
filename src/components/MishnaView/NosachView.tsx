@@ -8,16 +8,9 @@ import {
   compoundEditedNosachDecorators,
   compoundOriginalDecorators,
 } from '../editors/EditorDecoratorNosach';
+import { applyRabbiMentions, RabbiMentionDisplay } from '../../inc/rabbiAnnotationUtils';
 
-export interface RabbiMentionDisplay {
-  startIndex: number;
-  endIndex: number;
-  rabbiId: string;
-  generation: string | null;
-  isBavel: boolean;
-  isEretzIsrael: boolean;
-  doubt?: boolean;
-}
+export type { RabbiMentionDisplay };
 
 interface Props {
   subline: iSubline;
@@ -49,6 +42,7 @@ const getDecorator = (showEditType: ShowEditType) => {
       return compoundOriginalDecorators;
     case ShowEditType.COMBINED:
     case ShowEditType.TAGGED:
+      // Tagged mode reuses the combined decorator and overlays rabbi annotations.
       return compoundCombinedDecorators;
   }
 };
@@ -78,76 +72,6 @@ const mark = (editorState: EditorState, markFrom, markTo) => {
 
   return newEditorState;
 };
-
-const applyRabbiMentions = (
-  editorState: EditorState,
-  mentions: RabbiMentionDisplay[],
-  selectedIds: string[],
-  decorator: any,
-): EditorState => {
-  let content = editorState.getCurrentContent();
-  const blockKey = content.getFirstBlock().getKey();
-  const textLength = content.getPlainText().length;
-
-  const sorted = [...mentions].sort((a, b) => b.startIndex - a.startIndex);
-
-  for (const mention of sorted) {
-    if (mention.startIndex >= textLength) continue;
-    if (mention.endIndex > textLength) continue;
-    if (mention.endIndex <= mention.startIndex) continue;
-
-    const annotation = buildAnnotation(mention.generation, mention.isBavel, mention.isEretzIsrael, mention.doubt);
-    if (annotation) {
-      const insertAt = SelectionState.createEmpty(blockKey).merge({
-        anchorOffset: mention.endIndex,
-        focusOffset: mention.endIndex,
-      });
-      content = Modifier.insertText(content, insertAt, annotation);
-      const annoSelection = SelectionState.createEmpty(blockKey).merge({
-        anchorOffset: mention.endIndex,
-        focusOffset: mention.endIndex + annotation.length,
-      });
-      content = Modifier.applyInlineStyle(content, annoSelection, 'RABBI_ANNOTATION');
-
-      if (mention.doubt) {
-        const doubtSelection = SelectionState.createEmpty(blockKey).merge({
-          anchorOffset: mention.endIndex,
-          focusOffset: mention.endIndex + 1,
-        });
-        content = Modifier.applyInlineStyle(content, doubtSelection, 'RABBI_DOUBT');
-      }
-    }
-
-    const annoLen = annotation ? annotation.length : 0;
-    const nameSelection = SelectionState.createEmpty(blockKey).merge({
-      anchorOffset: mention.startIndex,
-      focusOffset: mention.endIndex,
-    });
-    content = Modifier.applyInlineStyle(content, nameSelection, 'RABBI_HIGHLIGHT');
-
-    if (selectedIds.includes(mention.rabbiId)) {
-      content = Modifier.applyInlineStyle(content, nameSelection, 'RABBI_SELECTED');
-      if (annoLen > 0) {
-        const annoSel = SelectionState.createEmpty(blockKey).merge({
-          anchorOffset: mention.endIndex,
-          focusOffset: mention.endIndex + annoLen,
-        });
-        content = Modifier.applyInlineStyle(content, annoSel, 'RABBI_SELECTED');
-      }
-    }
-  }
-
-  return EditorState.createWithContent(content, decorator);
-};
-
-function buildAnnotation(generation: string | null, isBavel: boolean, isEretzIsrael: boolean, doubt?: boolean): string {
-  const parts: string[] = [];
-  if (doubt) parts.push('?');
-  if (generation) parts.push(generation);
-  if (isBavel) parts.push('בבל');
-  else if (isEretzIsrael) parts.push('א״י');
-  return parts.length > 0 ? parts.join('') : '';
-}
 
 const NosachView = (props: Props) => {
   const { subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, rabbiMentions, selectedRabbiIds } = props;
@@ -189,8 +113,9 @@ const NosachView = (props: Props) => {
   useEffect(() => {
     let newEditorState;
     if (subline.nosach) {
+      const decorator = getDecorator(showEditType);
       let initContent = convertFromRaw(subline.nosach);
-      newEditorState = EditorState.createWithContent(initContent, getDecorator(showEditType));
+      newEditorState = EditorState.createWithContent(initContent, decorator);
       if (!showPunctuation) {
         newEditorState = memoizedRemovePunctuation(newEditorState);
       }
@@ -199,7 +124,7 @@ const NosachView = (props: Props) => {
         newEditorState = mark(newEditorState, 0, length);
       }
       if (rabbiMentions && rabbiMentions.length > 0) {
-        newEditorState = applyRabbiMentions(newEditorState, rabbiMentions, selectedRabbiIds || [], getDecorator(showEditType));
+        newEditorState = applyRabbiMentions(newEditorState, rabbiMentions, selectedRabbiIds || [], decorator);
       }
     } else {
       newEditorState = EditorState.createWithContent(ContentState.createFromText(''));
