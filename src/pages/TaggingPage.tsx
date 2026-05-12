@@ -31,15 +31,16 @@ import {
   TAGGING_CATEGORIES,
   Rabbi,
   RabbiMention,
-  RabbiAlternative,
   SublineCategory,
   SublineComment,
   CategoryConnection,
   TaggingSubline,
   taggingService,
   searchRabbies,
-  ALL_RABBIES,
 } from '../services/tagging.service';
+import { RabbiCard } from '../components/tagging/RabbiCard';
+import { RabbiSearchBox } from '../components/tagging/RabbiSearchBox';
+import { MentionAlternativesEditor } from '../components/tagging/MentionAlternativesEditor';
 import { PageWithNavigation, PageContent } from '../layout/PageWithNavigation';
 import { hebrewMap } from '../inc/utils';
 import PageService from '../services/pageService';
@@ -55,57 +56,6 @@ interface TextSelection {
 }
 
 const SIDEBAR_WIDTH = 360;
-
-const RabbiCard = React.memo(({ rabbi, clickable, onClick }: { rabbi: Rabbi; clickable: boolean; onClick?: () => void }) => (
-  <Box
-    onClick={() => clickable && onClick?.()}
-    sx={{
-      mb: 1,
-      p: 1.5,
-      borderRadius: 1,
-      border: '1px solid',
-      borderColor: clickable ? 'primary.main' : 'divider',
-      cursor: clickable ? 'pointer' : 'default',
-      '&:hover': clickable ? { backgroundColor: 'action.hover' } : {},
-    }}>
-    <Typography variant="body2" fontWeight="bold" mb={0.25}>
-      {rabbi.displayName}
-    </Typography>
-    {rabbi.fullnameVariants.length > 0 && (
-      <Typography variant="caption" color="text.secondary" display="block" mb={0.5} sx={{ lineHeight: 1.4 }}>
-        ({rabbi.fullnameVariants.join(' / ')})
-      </Typography>
-    )}
-    <Box display="flex" flexWrap="wrap" gap={0.5}>
-      {rabbi.type && (
-        <Chip label={rabbi.type} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-      )}
-      {rabbi.generation && (
-        <Chip label={`דור ${rabbi.generation}`} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-      )}
-      {rabbi.location && (
-        <Chip label={rabbi.location} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-      )}
-      {rabbi.city && (
-        <Chip label={rabbi.city} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-      )}
-    </Box>
-  </Box>
-));
-
-const RabbiSearchBox = React.memo(({ value, onChange }: { value: string; onChange: (v: string) => void }) => (
-  <TextField
-    fullWidth
-    size="small"
-    placeholder="חיפוש חכם..."
-    value={value}
-    onChange={e => onChange(e.target.value)}
-    InputProps={{
-      startAdornment: <SearchIcon sx={{ color: 'text.secondary', mr: 0.5 }} fontSize="small" />,
-    }}
-    sx={{ mb: 1.5 }}
-  />
-));
 
 type ResultLimit = 10 | 50 | 0;
 
@@ -137,11 +87,7 @@ const TaggingPage: React.FC = () => {
   const [rabbiSearchQuery, setRabbiSearchQuery] = useState('');
   const [showPredictions, setShowPredictions] = useState(false);
   const [resultLimit, setResultLimit] = useState<ResultLimit>(10);
-  const [pendingDoubt, setPendingDoubt] = useState(false);
-  const [pendingAlternatives, setPendingAlternatives] = useState<RabbiAlternative[]>([]);
-  const [alternativeSearchQuery, setAlternativeSearchQuery] = useState('');
   const [editingMentionKey, setEditingMentionKey] = useState<string | null>(null);
-  const [showAltPredictions, setShowAltPredictions] = useState(false);
 
   // Comments state
   const [pendingComments, setPendingComments] = useState<SublineComment[]>([]);
@@ -195,11 +141,7 @@ const TaggingPage: React.FC = () => {
       setShowPredictions(false);
       setRabbiSearchQuery('');
       setResultLimit(10);
-      setPendingDoubt(false);
-      setPendingAlternatives([]);
-      setAlternativeSearchQuery('');
       setEditingMentionKey(null);
-      setShowAltPredictions(false);
     } else if (mode === 'comments') {
       setPendingComments(JSON.parse(JSON.stringify(subline.comments)));
       setNewCommentText('');
@@ -215,11 +157,7 @@ const TaggingPage: React.FC = () => {
     setTextSelection(null);
     setShowPredictions(false);
     setRabbiSearchQuery('');
-    setPendingDoubt(false);
-    setPendingAlternatives([]);
-    setAlternativeSearchQuery('');
     setEditingMentionKey(null);
-    setShowAltPredictions(false);
     setPendingComments([]);
     setNewCommentText('');
   };
@@ -320,11 +258,7 @@ const TaggingPage: React.FC = () => {
 
     setTextSelection({ sublineIndex, startIndex, endIndex: startIndex + selectedText.length, text: selectedText });
     setShowPredictions(false);
-    setPendingDoubt(false);
-    setPendingAlternatives([]);
-    setAlternativeSearchQuery('');
     setEditingMentionKey(null);
-    setShowAltPredictions(false);
     selection.removeAllRanges();
   };
 
@@ -346,11 +280,7 @@ const TaggingPage: React.FC = () => {
     setTextSelection(null);
     setShowPredictions(false);
     setRabbiSearchQuery('');
-    setPendingDoubt(false);
-    setPendingAlternatives([]);
-    setAlternativeSearchQuery('');
     setEditingMentionKey(key);
-    setShowAltPredictions(false);
   };
 
   const removeRabbiMention = (mention: RabbiMention) => {
@@ -358,6 +288,18 @@ const TaggingPage: React.FC = () => {
       prev.filter(m => !(m.startIndex === mention.startIndex && m.endIndex === mention.endIndex))
     );
   };
+
+  const editingMention = useMemo(() => {
+    if (!editingMentionKey) return null;
+    return pendingRabbiMentions.find(m => `${m.startIndex}-${m.endIndex}` === editingMentionKey) ?? null;
+  }, [editingMentionKey, pendingRabbiMentions]);
+
+  const updateEditingMention = useCallback((updates: Partial<RabbiMention>) => {
+    if (!editingMentionKey) return;
+    setPendingRabbiMentions(prev => prev.map(m =>
+      `${m.startIndex}-${m.endIndex}` === editingMentionKey ? { ...m, ...updates } : m
+    ));
+  }, [editingMentionKey]);
 
   // ─── Comment helpers ───
 
@@ -744,121 +686,14 @@ const TaggingPage: React.FC = () => {
                     תיוג חכמים — שורה {activeSublineIndex}
                   </Typography>
 
-                  {/* Doubt UI — shown only after a rabbi has been assigned */}
-                  {(() => {
-                    const editingMention = editingMentionKey
-                      ? pendingRabbiMentions.find(m => `${m.startIndex}-${m.endIndex}` === editingMentionKey)
-                      : null;
-                    if (!editingMention) return null;
-
-                    const isDoubt = !!editingMention.doubt;
-                    const alternatives = editingMention.alternatives || [];
-
-                    const handleDoubtChange = (checked: boolean) => {
-                      setPendingRabbiMentions(prev => prev.map(m =>
-                        `${m.startIndex}-${m.endIndex}` === editingMentionKey
-                          ? { ...m, doubt: checked, alternatives: checked ? m.alternatives : undefined }
-                          : m
-                      ));
-                      setAlternativeSearchQuery('');
-                      setShowAltPredictions(false);
-                    };
-
-                    const handleAddAlternative = (rabbi: Rabbi) => {
-                      setPendingRabbiMentions(prev => prev.map(m =>
-                        `${m.startIndex}-${m.endIndex}` === editingMentionKey
-                          ? { ...m, alternatives: [...(m.alternatives || []), { rabbiId: rabbi.id, rabbiName: rabbi.displayName }] }
-                          : m
-                      ));
-                      setAlternativeSearchQuery('');
-                    };
-
-                    const handleRemoveAlternative = (idx: number) => {
-                      setPendingRabbiMentions(prev => prev.map(m =>
-                        `${m.startIndex}-${m.endIndex}` === editingMentionKey
-                          ? { ...m, alternatives: (m.alternatives || []).filter((_, i) => i !== idx) }
-                          : m
-                      ));
-                    };
-
-                    const altPredicted = showAltPredictions
-                      ? searchRabbies(editingMention.text, 10).filter(r => r.id !== editingMention.rabbiId && !alternatives.some(a => a.rabbiId === r.id))
-                      : [];
-
-                    return (
-                      <>
-                        <Typography variant="caption" color="primary" display="block" mb={0.5}>
-                          עריכת: {editingMention.rabbiName} — "{editingMention.text}"
-                        </Typography>
-                        <FormControlLabel
-                          control={<Checkbox size="small" checked={isDoubt} onChange={e => handleDoubtChange(e.target.checked)} />}
-                          label={<Typography variant="caption">לא בטוח</Typography>}
-                          sx={{ mb: 0.5, ml: 0 }}
-                        />
-                        {isDoubt && (
-                          <Box sx={{ mb: 1.5, p: 1, border: '1px dashed #f57f17', borderRadius: 1, backgroundColor: '#fffde7' }}>
-                            <Typography variant="caption" fontWeight="bold" display="block" mb={0.5}>
-                              חכמים חלופיים:
-                            </Typography>
-                            {alternatives.length > 0 && (
-                              <Box display="flex" flexWrap="wrap" gap={0.5} mb={1}>
-                                {alternatives.map((alt, i) => (
-                                  <Chip
-                                    key={i}
-                                    label={alt.rabbiName}
-                                    size="small"
-                                    color="warning"
-                                    onDelete={() => handleRemoveAlternative(i)}
-                                    sx={{ fontSize: '0.7rem' }}
-                                  />
-                                ))}
-                              </Box>
-                            )}
-
-                            {!showAltPredictions && (
-                              <Button variant="contained" size="small" startIcon={<SearchIcon />}
-                                onClick={() => setShowAltPredictions(true)} sx={{ mb: 1, whiteSpace: 'nowrap' }}>
-                                חפש חכם
-                              </Button>
-                            )}
-
-                            {showAltPredictions && (
-                              <>
-                                <Alert severity="success" sx={{ mb: 1, py: 0.5, fontSize: '0.75rem' }}>
-                                  התאמות עבור: "<strong>{editingMention.text}</strong>"
-                                </Alert>
-                                {altPredicted.length > 0 ? (
-                                  <>
-                                    <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
-                                      לחץ על חכם להוספה ({altPredicted.length} תוצאות):
-                                    </Typography>
-                                    {altPredicted.map(r => (
-                                      <RabbiCard key={r.id} rabbi={r} clickable onClick={() => handleAddAlternative(r)} />
-                                    ))}
-                                  </>
-                                ) : (
-                                  <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
-                                    לא נמצאו התאמות אוטומטיות
-                                  </Typography>
-                                )}
-                                <Divider sx={{ my: 1 }} />
-                              </>
-                            )}
-
-                            <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
-                              {showAltPredictions ? 'לא מצאת? חפש ידנית:' : 'או חפש ידנית:'}
-                            </Typography>
-                            <RabbiSearchBox value={alternativeSearchQuery} onChange={setAlternativeSearchQuery} />
-                            {searchRabbies(alternativeSearchQuery, 10)
-                              .filter(r => r.id !== editingMention.rabbiId && !alternatives.some(a => a.rabbiId === r.id))
-                              .map(rabbi => (
-                                <RabbiCard key={rabbi.id} rabbi={rabbi} clickable onClick={() => handleAddAlternative(rabbi)} />
-                              ))}
-                          </Box>
-                        )}
-                      </>
-                    );
-                  })()}
+                  {/* Doubt + alternatives editor — shown only after a rabbi has been assigned */}
+                  {editingMention && (
+                    <MentionAlternativesEditor
+                      key={editingMentionKey!}
+                      mention={editingMention}
+                      onUpdate={updateEditingMention}
+                    />
+                  )}
 
                   {/* Result limit toggle */}
                   <Box display="flex" alignItems="center" gap={1} mb={1.5}>
