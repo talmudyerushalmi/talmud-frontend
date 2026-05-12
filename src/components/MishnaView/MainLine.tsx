@@ -68,6 +68,7 @@ const MainLine = (props: Props) => {
         </React.Suspense>
         {line?.sublines
           ? line.sublines.map((subline, index) => {
+              // Only pass marker to the first subline
               const markerForSubline = index === 0 ? dafAmudMarker : undefined;
               
               return (
