@@ -321,16 +321,6 @@ function scoreRabbi(query: string, rabbi: Rabbi): number {
   return bestScore;
 }
 
-export function findMatchingRabbies(query: string, limit: number = 10): Rabbi[] {
-  if (!query.trim()) return [];
-  const scored = ALL_RABBIES
-    .map(r => ({ rabbi: r, score: scoreRabbi(query, r) }))
-    .filter(item => item.score > 0)
-    .sort((a, b) => b.score - a.score);
-  if (limit <= 0) return scored.map(item => item.rabbi);
-  return scored.slice(0, limit).map(item => item.rabbi);
-}
-
 export function searchRabbies(query: string, limit: number = 10): Rabbi[] {
   if (!query.trim()) return [];
   const scored = ALL_RABBIES

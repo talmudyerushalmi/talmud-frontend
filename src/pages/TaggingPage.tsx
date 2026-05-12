@@ -37,7 +37,6 @@ import {
   CategoryConnection,
   TaggingSubline,
   taggingService,
-  findMatchingRabbies,
   searchRabbies,
   ALL_RABBIES,
 } from '../services/tagging.service';
@@ -175,7 +174,7 @@ const TaggingPage: React.FC = () => {
 
   const predictedRabbies = useMemo(() => {
     if (!showPredictions || !textSelection) return [];
-    return findMatchingRabbies(textSelection.text, resultLimit);
+    return searchRabbies(textSelection.text, resultLimit);
   }, [showPredictions, textSelection, resultLimit]);
 
   const searchedRabbies = useMemo(() => {
@@ -783,7 +782,7 @@ const TaggingPage: React.FC = () => {
                     };
 
                     const altPredicted = showAltPredictions
-                      ? findMatchingRabbies(editingMention.text, 10).filter(r => r.id !== editingMention.rabbiId && !alternatives.some(a => a.rabbiId === r.id))
+                      ? searchRabbies(editingMention.text, 10).filter(r => r.id !== editingMention.rabbiId && !alternatives.some(a => a.rabbiId === r.id))
                       : [];
 
                     return (
