@@ -11,12 +11,13 @@ import { getHTMLFromRawContent } from '../inc/editorUtils';
 import { iMishna, DafAmudMarker } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
 import { getMishna } from '../store/actions/navigationActions';
-import { setMishnaViewOptions, fetchTaggingData, clearTaggedState } from '../store/actions/mishnaViewActions';
+import { setMishnaViewOptions } from '../store/actions/mishnaViewActions';
 import { ShowEditType } from '../store/reducers/mishnaViewReducer';
 import ManuscriptPopup from '../components/MishnaView/ManuscriptPopup';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchSynopsisList } from '../store/actions/synopsisActions';
 import { useStickyOptions } from '../contexts/StickyOptionsContext';
+import { useTaggedViewSync } from '../hooks/useTaggedViewSync';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: true,
@@ -88,14 +89,7 @@ const MishnaPage = (props: Props) => {
     setMishnaViewOptions();
   }, [setMishnaViewOptions]);
 
-  useEffect(() => {
-    if (showEditType === ShowEditType.TAGGED && tractate && chapter && mishna) {
-      dispatch(fetchTaggingData(tractate, chapter, mishna) as any);
-    }
-    if (showEditType !== ShowEditType.TAGGED) {
-      dispatch(clearTaggedState());
-    }
-  }, [showEditType, tractate, chapter, mishna, dispatch]);
+  useTaggedViewSync(showEditType, tractate, chapter, mishna);
 
   useEffect(() => {
     getMishna(tractate, chapter, mishna);

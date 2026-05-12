@@ -3,6 +3,7 @@ import PageService from '../../services/pageService';
 import { ShowEditType } from '../reducers/mishnaViewReducer';
 import { startLoading, stopLoading } from './generalActions';
 import { taggingService } from '../../services/tagging.service';
+import type { AppThunk } from '..';
 
 export const SELECT_SUBLINES = 'SELECT_SUBLINES';
 export const FILTER_EXCERPTS_BY_LINES = 'FILTER_EXCERPTS_BY_LINES';
@@ -115,8 +116,8 @@ export function getRichMishnaiotForChapter(tractate: string, chapter: string, ne
   };
 }
 
-export const fetchTaggingData = (tractate: string, chapter: string, mishna: string) => {
-  return async (dispatch) => {
+export const fetchTaggingData = (tractate: string, chapter: string, mishna: string): AppThunk<Promise<void>> =>
+  async (dispatch) => {
     dispatch(startLoading());
     try {
       const data = await taggingService.getSublines(tractate, chapter, mishna);
@@ -128,7 +129,6 @@ export const fetchTaggingData = (tractate: string, chapter: string, mishna: stri
       dispatch(stopLoading());
     }
   };
-};
 
 export const toggleTaggedRabbi = (rabbiId: string) => action(TOGGLE_TAGGED_RABBI, { rabbiId });
 export const toggleTaggedCategory = (categoryId: string) => action(TOGGLE_TAGGED_CATEGORY, { categoryId });
