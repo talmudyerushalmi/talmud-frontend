@@ -26,7 +26,7 @@ const TextEditor = (props: Props) => {
       ...t.editor.excerpt
     },
     RABBI_HIGHLIGHT: {
-      textDecoration: 'underline dotted #888',
+      textDecoration: `underline dotted ${t.palette.text.disabled}`,
       textUnderlineOffset: '3px',
     },
     RABBI_SELECTED: {
@@ -37,11 +37,11 @@ const TextEditor = (props: Props) => {
     },
     RABBI_ANNOTATION: {
       fontSize: '0.65em',
-      color: '#757575',
+      color: t.palette.text.secondary,
       verticalAlign: 'sub',
     },
     RABBI_DOUBT: {
-      color: '#d32f2f',
+      color: t.palette.error.dark,
       fontWeight: 'bold',
     },
   };
