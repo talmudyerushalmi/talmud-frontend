@@ -28,6 +28,8 @@ import { UserGroup } from '../../store/reducers/authReducer';
 import { useTranslation } from 'react-i18next';
 import { hebrewToNumber, hebrewAmudToEnglish } from '../../inc/utils';
 import { TaggingSubline, ALL_RABBIES, TAGGING_CATEGORIES, computeContinuationBundles, CONTINUATION_CATEGORY_ID } from '../../services/tagging.service';
+import { alpha } from '@mui/material/styles';
+import { BUNDLE_SOURCE_ATTR } from './ContinuationBundlePills';
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -248,6 +250,31 @@ const SublineDisplay = (props: Props) => {
     return taggingData.find(t => t.index === subline.index) || null;
   }, [isTagged, taggingData, subline.index]);
 
+  // Enrich each mention with its Rabbi lookup once. Consumed by both the
+  // NosachView prop below and the rabbi-chips row at the bottom of the
+  // accordion. Memoizing here keeps the array reference stable for NosachView's
+  // useEffect deps and avoids two ALL_RABBIES.find() passes per render.
+  const enrichedRabbiMentions = useMemo(() => {
+    if (!sublineTagData) return null;
+    return sublineTagData.rabbiMentions.map(m => ({
+      mention: m,
+      rabbi: ALL_RABBIES.find(r => r.id === m.rabbiId),
+    }));
+  }, [sublineTagData]);
+
+  const nosachRabbiMentions = useMemo(() => {
+    if (!enrichedRabbiMentions) return undefined;
+    return enrichedRabbiMentions.map(({ mention: m, rabbi: rd }) => ({
+      startIndex: m.startIndex,
+      endIndex: m.endIndex,
+      rabbiId: m.rabbiId,
+      generation: rd?.generation || null,
+      isBavel: rd?.location === 'בבל',
+      isEretzIsrael: rd?.location === 'ארץ ישראל',
+      doubt: m.doubt,
+    }));
+  }, [enrichedRabbiMentions]);
+
   const hasCategoryHighlight = useMemo(() => {
     if (!isTagged || selectedCategories.length === 0 || !sublineTagData) return false;
     return sublineTagData.categories.some(cat => selectedCategories.includes(cat.categoryId));
@@ -306,7 +333,7 @@ const SublineDisplay = (props: Props) => {
         sx={{
           ...(isSublineSelected && !isTagged ? theme.custom.selectionColor : null),
           ...(hasCategoryHighlight ? { backgroundColor: '#f3e5f5' } : null),
-          ...(myBundle && !isTaggedSublineActive ? { backgroundColor: `${myBundle.sourceColor}1a` } : null),
+          ...(myBundle && !isTaggedSublineActive ? { backgroundColor: alpha(myBundle.sourceColor, 0.1) } : null),
           ...(isTaggedSublineActive ? { backgroundColor: '#e3f2fd', border: '1px solid #90caf9' } : null),
           cursor: isTagged ? 'pointer' : undefined,
         }}
@@ -323,10 +350,7 @@ const SublineDisplay = (props: Props) => {
             markFrom={isTagged ? undefined : markedSelection?.from}
             markTo={isTagged ? undefined : markedSelection?.to}
             subline={subline}
-            rabbiMentions={isTagged && sublineTagData ? sublineTagData.rabbiMentions.map(m => {
-              const rd = ALL_RABBIES.find(r => r.id === m.rabbiId);
-              return { startIndex: m.startIndex, endIndex: m.endIndex, rabbiId: m.rabbiId, generation: rd?.generation || null, isBavel: rd?.location === 'בבל', isEretzIsrael: rd?.location === 'ארץ ישראל', doubt: m.doubt };
-            }) : undefined}
+            rabbiMentions={isTagged ? nosachRabbiMentions : undefined}
             selectedRabbiIds={isTagged ? selectedRabbis : undefined}
           />
           {isTagged && taggedDetailedView && sublineTagData && sublineTagData.categories.length > 0 &&
@@ -338,17 +362,20 @@ const SublineDisplay = (props: Props) => {
                 const isSource = subline.index === myBundle.sourceIndex;
                 if (!isSource && cat.categoryId === CONTINUATION_CATEGORY_ID && (!cat.connections || cat.connections.length === 0)) return null;
               }
+              const bundleSourceProp = isBundleSourceChip
+                ? { [BUNDLE_SOURCE_ATTR]: 'true' }
+                : {};
               return (
                 <Chip
                   key={cat.categoryId}
                   size="small"
                   label={isHebrew ? catDef.label : catDef.labelEn}
-                  data-bundle-source={isBundleSourceChip ? 'true' : undefined}
+                  {...bundleSourceProp}
                   sx={{
                     fontSize: '0.6rem',
                     height: 18,
                     ml: 0.5,
-                    backgroundColor: catDef.color + '22',
+                    backgroundColor: alpha(catDef.color, 0.13),
                     color: catDef.color,
                     border: `1px solid ${catDef.color}`,
                     fontWeight: 'bold',
@@ -438,10 +465,9 @@ const SublineDisplay = (props: Props) => {
             </AccordionActions>
           )}
         </AccordionSummary>
-        {isTagged && sublineTagData && sublineTagData.rabbiMentions.length > 0 && (
+        {isTagged && enrichedRabbiMentions && enrichedRabbiMentions.length > 0 && (
           <Box sx={{ px: 3, pb: 0.5, display: 'flex', flexWrap: 'wrap', gap: 0.5, direction: 'rtl' }}>
-            {sublineTagData.rabbiMentions.map((mention, i) => {
-              const rabbiData = ALL_RABBIES.find(r => r.id === mention.rabbiId);
+            {enrichedRabbiMentions.map(({ mention, rabbi: rabbiData }, i) => {
               const isHighlighted = selectedRabbis.includes(mention.rabbiId);
               const genStr = rabbiData?.generation || '';
               const locationChar = rabbiData?.location === 'בבל' ? 'בבל' : rabbiData?.location === 'ארץ ישראל' ? 'א״י' : '';
