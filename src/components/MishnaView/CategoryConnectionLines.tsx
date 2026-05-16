@@ -18,7 +18,7 @@ interface ArrowGroup {
 interface Props {
   taggingData: TaggingSubline[];
   sublineRefs: Map<number, HTMLElement>;
-  containerRef: React.RefObject<HTMLElement>;
+  containerRef: React.RefObject<HTMLElement | null>;
 }
 
 const LANE_WIDTH = 10;
