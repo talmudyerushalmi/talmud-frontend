@@ -1,10 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { alpha } from '@mui/material/styles';
 import { ContinuationBundle, getContinuationBundlesList, TaggingSubline } from '../../services/tagging.service';
+
+/**
+ * DOM contract: SublineDisplay must render an element with this attribute on
+ * the chip that represents the SOURCE of a continuation bundle. This component
+ * uses it to locate the chip and draw the bracket extending down to the
+ * bundle's last member subline. If the attribute is removed in SublineDisplay,
+ * the bracket silently disappears with no runtime error.
+ */
+export const BUNDLE_SOURCE_ATTR = 'data-bundle-source';
+const BUNDLE_SOURCE_SELECTOR = `[${BUNDLE_SOURCE_ATTR}="true"]`;
 
 interface Props {
   taggingData: TaggingSubline[];
   sublineRefs: Map<number, HTMLElement>;
-  containerRef: React.RefObject<HTMLElement>;
+  containerRef: React.RefObject<HTMLElement | null>;
 }
 
 interface PositionedExtension {
@@ -33,7 +44,7 @@ const ContinuationBundlePills: React.FC<Props> = ({ taggingData, sublineRefs, co
       const lastEl = sublineRefs.get(bundle.members[bundle.members.length - 1]);
       if (!sourceEl || !lastEl) continue;
 
-      const chipEl = sourceEl.querySelector<HTMLElement>('[data-bundle-source="true"]');
+      const chipEl = sourceEl.querySelector<HTMLElement>(BUNDLE_SOURCE_SELECTOR);
       if (!chipEl) continue;
 
       const chipRect = chipEl.getBoundingClientRect();
@@ -72,7 +83,7 @@ const ContinuationBundlePills: React.FC<Props> = ({ taggingData, sublineRefs, co
             left,
             width,
             height,
-            backgroundColor: bundle.sourceColor + '22',
+            backgroundColor: alpha(bundle.sourceColor, 0.13),
             borderLeft: `1px solid ${bundle.sourceColor}`,
             borderRight: `1px solid ${bundle.sourceColor}`,
             borderBottom: `1px solid ${bundle.sourceColor}`,

@@ -34,9 +34,9 @@ const mapStateToProps = (state: any) => ({
   userGroup: state.authentication.userGroup,
   showEditType: state.mishnaView.showEditType,
   taggedDetailedView: state.mishnaView.taggedDetailedView,
-  taggingData: state.mishnaView.taggingData as TaggingSubline[],
-  selectedTaggedSubline: state.mishnaView.selectedTaggedSubline as number | null,
-  selectedSublines: state.mishnaView.selectedSublines as iSubline[],
+  taggingData: state.mishnaView.taggingData,
+  selectedTaggedSubline: state.mishnaView.selectedTaggedSubline,
+  selectedSublines: state.mishnaView.selectedSublines,
 });
 
 interface Props {
@@ -54,6 +54,10 @@ const MainLines = (props: Props) => {
   const classes = useStyles();
   const { lines, userGroup, mishna, dafAmudMarkers, showEditType, taggedDetailedView, taggingData, selectedTaggedSubline, selectedSublines } = props;
   const containerRef = useRef<HTMLDivElement>(null);
+  // Mutable Map of subline.index -> DOM element. The Map identity is stable across
+  // renders; overlay components (CategoryConnectionLines, ContinuationBundlePills)
+  // read from it inside their own effects and rely on parent re-renders to flow
+  // through — they do NOT re-render automatically when entries are added/removed.
   const sublineRefsRef = useRef(new Map<number, HTMLElement>());
 
   const registerSublineRef = useCallback((index: number, el: HTMLElement | null) => {
