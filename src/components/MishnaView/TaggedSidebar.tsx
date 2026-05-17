@@ -12,7 +12,6 @@ import {
   TaggingSubline,
   TAGGING_CATEGORIES,
   ALL_RABBIES,
-  Rabbi,
   RabbiMention,
   RabbiAlternative,
   SublineCategory,
@@ -22,6 +21,7 @@ import {
 import { iMishna, iSubline } from '../../types/types';
 import { themeConstants } from '../../ui/Theme';
 import { useIsSticky } from '../../hooks/useIsSticky';
+import { RabbiInfoChips } from '../tagging/RabbiInfoChips';
 
 const mapStateToProps = (state: any) => ({
   taggingData: state.mishnaView.taggingData,
@@ -53,23 +53,6 @@ interface Props {
   setSelectedSubline: (sublineIndex: number | null) => void;
   dispatchToggleDetailed: () => void;
 }
-
-const RabbiInfoChips: React.FC<{ rabbi: Rabbi }> = ({ rabbi }) => (
-  <Box display="flex" flexWrap="wrap" gap={0.5}>
-    {rabbi.type && (
-      <Chip label={rabbi.type} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-    )}
-    {rabbi.generation && (
-      <Chip label={`דור ${rabbi.generation}`} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-    )}
-    {rabbi.location && (
-      <Chip label={rabbi.location} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-    )}
-    {rabbi.city && (
-      <Chip label={rabbi.city} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-    )}
-  </Box>
-);
 
 const RabbiAlternativesList: React.FC<{ alternatives: RabbiAlternative[]; isHebrew: boolean }> = ({
   alternatives,
