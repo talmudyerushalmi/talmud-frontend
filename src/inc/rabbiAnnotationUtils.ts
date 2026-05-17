@@ -64,19 +64,24 @@ export const applyRabbiMentions = (
     if (mention.endIndex <= mention.startIndex) continue;
 
     const annotation = buildAnnotation(mention.generation, mention.isBavel, mention.isEretzIsrael, mention.doubt);
-    if (annotation) {
+    let annoSelection: SelectionState | null = null;
+
+    if (annotation.length > 0) {
       const insertAt = SelectionState.createEmpty(blockKey).merge({
         anchorOffset: mention.endIndex,
         focusOffset: mention.endIndex,
       });
       content = Modifier.insertText(content, insertAt, annotation);
-      const annoSelection = SelectionState.createEmpty(blockKey).merge({
+      annoSelection = SelectionState.createEmpty(blockKey).merge({
         anchorOffset: mention.endIndex,
         focusOffset: mention.endIndex + annotation.length,
       });
       content = Modifier.applyInlineStyle(content, annoSelection, 'RABBI_ANNOTATION');
 
       if (mention.doubt) {
+        // Styles only the leading "?" character. This relies on `buildAnnotation`
+        // emitting "?" as the first character whenever `doubt` is true; if that
+        // ordering changes, update this offset accordingly.
         const doubtSelection = SelectionState.createEmpty(blockKey).merge({
           anchorOffset: mention.endIndex,
           focusOffset: mention.endIndex + 1,
@@ -85,7 +90,6 @@ export const applyRabbiMentions = (
       }
     }
 
-    const annoLen = annotation.length;
     const nameSelection = SelectionState.createEmpty(blockKey).merge({
       anchorOffset: mention.startIndex,
       focusOffset: mention.endIndex,
@@ -94,12 +98,8 @@ export const applyRabbiMentions = (
 
     if (selectedIdSet.has(mention.rabbiId)) {
       content = Modifier.applyInlineStyle(content, nameSelection, 'RABBI_SELECTED');
-      if (annoLen > 0) {
-        const annoSel = SelectionState.createEmpty(blockKey).merge({
-          anchorOffset: mention.endIndex,
-          focusOffset: mention.endIndex + annoLen,
-        });
-        content = Modifier.applyInlineStyle(content, annoSel, 'RABBI_SELECTED');
+      if (annoSelection) {
+        content = Modifier.applyInlineStyle(content, annoSelection, 'RABBI_SELECTED');
       }
     }
   }
