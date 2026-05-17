@@ -2,7 +2,7 @@ import { action } from 'typesafe-actions';
 import PageService from '../../services/pageService';
 import { ShowEditType } from '../reducers/mishnaViewReducer';
 import { startLoading, stopLoading } from './generalActions';
-import { taggingService } from '../../services/tagging.service';
+import { taggingService, TaggingSubline } from '../../services/tagging.service';
 import type { AppThunk } from '..';
 
 export const SELECT_SUBLINES = 'SELECT_SUBLINES';
@@ -116,15 +116,17 @@ export function getRichMishnaiotForChapter(tractate: string, chapter: string, ne
   };
 }
 
+export const setTaggingData = (taggingData: TaggingSubline[]) => action(SET_TAGGING_DATA, { taggingData });
+
 export const fetchTaggingData = (tractate: string, chapter: string, mishna: string): AppThunk<Promise<void>> =>
   async (dispatch) => {
     dispatch(startLoading());
     try {
       const data = await taggingService.getSublines(tractate, chapter, mishna);
-      dispatch({ type: SET_TAGGING_DATA, taggingData: data });
+      dispatch(setTaggingData(data));
     } catch (e) {
       console.error('Failed to fetch tagging data:', e);
-      dispatch({ type: SET_TAGGING_DATA, taggingData: [] });
+      dispatch(setTaggingData([]));
     } finally {
       dispatch(stopLoading());
     }

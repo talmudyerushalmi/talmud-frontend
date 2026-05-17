@@ -153,7 +153,7 @@ const mishnaViewReducer = (state = initialState, action) => {
         richTextMishnas: state.richTextMishnas.length === 0 ? action.richTextsMishnas : state.richTextMishnas,
       };
     case SET_TAGGING_DATA:
-      return { ...state, taggingData: action.taggingData };
+      return { ...state, taggingData: action.payload.taggingData };
     case TOGGLE_TAGGED_RABBI:
       return {
         ...state,
