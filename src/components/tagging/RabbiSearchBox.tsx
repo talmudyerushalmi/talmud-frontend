@@ -14,8 +14,10 @@ export const RabbiSearchBox = React.memo(({ value, onChange }: RabbiSearchBoxPro
     placeholder="חיפוש חכם..."
     value={value}
     onChange={e => onChange(e.target.value)}
-    InputProps={{
-      startAdornment: <SearchIcon sx={{ color: 'text.secondary', mr: 0.5 }} fontSize="small" />,
+    slotProps={{
+      input: {
+        startAdornment: <SearchIcon sx={{ color: 'text.secondary', mr: 0.5 }} fontSize="small" />,
+      },
     }}
     sx={{ mb: 1.5 }}
   />
