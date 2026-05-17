@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Box, Typography, Chip, FormControlLabel, Checkbox, Button, Alert, Divider } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Rabbi, RabbiMention, searchRabbies } from '../../services/tagging.service';
@@ -23,20 +23,20 @@ export const MentionAlternativesEditor: React.FC<MentionAlternativesEditorProps>
   const isDoubt = !!mention.doubt;
   const alternatives = useMemo(() => mention.alternatives || [], [mention.alternatives]);
 
-  const isCandidate = (r: Rabbi) =>
-    r.id !== mention.rabbiId && !alternatives.some(a => a.rabbiId === r.id);
+  const isCandidate = useCallback(
+    (r: Rabbi) => r.id !== mention.rabbiId && !alternatives.some(a => a.rabbiId === r.id),
+    [mention.rabbiId, alternatives],
+  );
 
   const altPredicted = useMemo(() => {
     if (!showAltPredictions) return [];
     return searchRabbies(mention.text, 10).filter(isCandidate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showAltPredictions, mention.text, mention.rabbiId, alternatives]);
+  }, [showAltPredictions, mention.text, isCandidate]);
 
   const manualSearchResults = useMemo(() => {
     if (!alternativeSearchQuery) return [];
     return searchRabbies(alternativeSearchQuery, 10).filter(isCandidate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [alternativeSearchQuery, mention.rabbiId, alternatives]);
+  }, [alternativeSearchQuery, isCandidate]);
 
   const handleDoubtChange = (checked: boolean) => {
     onUpdate({ doubt: checked, alternatives: checked ? mention.alternatives : undefined });
@@ -72,7 +72,7 @@ export const MentionAlternativesEditor: React.FC<MentionAlternativesEditorProps>
             <Box display="flex" flexWrap="wrap" gap={0.5} mb={1}>
               {alternatives.map((alt, i) => (
                 <Chip
-                  key={i}
+                  key={alt.rabbiId}
                   label={alt.rabbiName}
                   size="small"
                   color="warning"
