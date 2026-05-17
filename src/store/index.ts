@@ -15,8 +15,6 @@ import contentfulReducer from './reducers/contentfulReducer';
 import { searchReducer } from './reducers/searchReducer';
 import synopsisReducer from './reducers/synopsisReducer';
 
-
-
 const rootReducer = combineReducers({
   general: generalReducer,
   navigation: navigationReducer,
@@ -52,7 +50,6 @@ const store = configureStore({
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 export type AppThunk<R = void> = ThunkAction<R, RootState, unknown, Action<string>>;
 
