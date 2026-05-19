@@ -500,12 +500,19 @@ const TaggingPage: React.FC = () => {
                             )}
                           </Box>
                         ))}
-                        {subline.comments.length > 0 && (
-                          <Chip label={`${subline.comments.length} הערות`} size="small" color="info" variant="outlined"
-                            sx={{ fontSize: '0.7rem', height: 20 }}
-                          />
-                        )}
                       </Box>
+                      {subline.comments.map((comment, i) => (
+                        <Box key={i} display="flex" alignItems="baseline" gap={0.5} mb={0.3}>
+                          <Chip label="הערה" size="small" color="info" variant="outlined"
+                            sx={{ fontSize: '0.7rem', height: 20 }} />
+                          <Typography variant="caption" color="text.secondary">
+                            {comment.text}
+                          </Typography>
+                          <Typography variant="caption" color="text.disabled" sx={{ fontSize: '0.65rem' }}>
+                            ({comment.author} • {new Date(comment.timestamp).toLocaleDateString('he-IL')})
+                          </Typography>
+                        </Box>
+                      ))}
                     </Box>
                   )}
 
