@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import MainLine from './MainLine';
-import { iLine, DafAmudMarker } from '../../types/types';
+import { iLine, iSubline, DafAmudMarker } from '../../types/types';
 import { counter } from './SugiaButton';
 import { useParams, Link } from 'react-router-dom';
 import { IconButton } from '@mui/material';
@@ -9,6 +9,10 @@ import { Edit } from '@mui/icons-material';
 import { routeObject } from '../../store/reducers/navigationReducer';
 import { connect } from 'react-redux';
 import { UserGroup } from '../../store/reducers/authReducer';
+import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
+import { TaggingSubline } from '../../services/tagging.service';
+import CategoryConnectionLines from './CategoryConnectionLines';
+import ContinuationBundlePills from './ContinuationBundlePills';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -28,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
 
 const mapStateToProps = (state: any) => ({
   userGroup: state.authentication.userGroup,
+  showEditType: state.mishnaView.showEditType,
+  taggedDetailedView: state.mishnaView.taggedDetailedView,
+  taggingData: state.mishnaView.taggingData,
+  selectedTaggedSubline: state.mishnaView.selectedTaggedSubline,
+  selectedSublines: state.mishnaView.selectedSublines,
 });
 
 interface Props {
@@ -35,10 +44,40 @@ interface Props {
   userGroup: any;
   mishna: string;
   dafAmudMarkers?: DafAmudMarker[];
+  showEditType: ShowEditType;
+  taggedDetailedView: boolean;
+  taggingData: TaggingSubline[];
+  selectedTaggedSubline: number | null;
+  selectedSublines: iSubline[];
 }
 const MainLines = (props: Props) => {
   const classes = useStyles();
-  const { lines, userGroup, mishna, dafAmudMarkers } = props;
+  const { lines, userGroup, mishna, dafAmudMarkers, showEditType, taggedDetailedView, taggingData, selectedTaggedSubline, selectedSublines } = props;
+  const containerRef = useRef<HTMLDivElement>(null);
+  // Mutable Map of subline.index -> DOM element. The Map identity is stable across
+  // renders; overlay components (CategoryConnectionLines, ContinuationBundlePills)
+  // read from it inside their own effects and rely on parent re-renders to flow
+  // through — they do NOT re-render automatically when entries are added/removed.
+  const sublineRefsRef = useRef(new Map<number, HTMLElement>());
+
+  const registerSublineRef = useCallback((index: number, el: HTMLElement | null) => {
+    if (el) {
+      sublineRefsRef.current.set(index, el);
+    } else {
+      sublineRefsRef.current.delete(index);
+    }
+  }, []);
+
+  const isTaggedDetailed = showEditType === ShowEditType.TAGGED && taggedDetailedView;
+
+  const activeConnectionData = React.useMemo(() => {
+    if (!isTaggedDetailed) return [];
+    const activeIndices = new Set<number>();
+    if (selectedTaggedSubline !== null) activeIndices.add(selectedTaggedSubline);
+    for (const s of selectedSublines) activeIndices.add(s.index);
+    if (activeIndices.size === 0) return [];
+    return taggingData.filter(t => activeIndices.has(t.index));
+  }, [isTaggedDetailed, selectedTaggedSubline, selectedSublines, taggingData]);
 
   useEffect(()=>{
     counter.reset();
@@ -50,9 +89,15 @@ const MainLines = (props: Props) => {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} ref={containerRef} style={{ position: 'relative' }}>
+      {isTaggedDetailed && activeConnectionData.length > 0 && (
+        <CategoryConnectionLines
+          taggingData={activeConnectionData}
+          sublineRefs={sublineRefsRef.current}
+          containerRef={containerRef}
+        />
+      )}
       {lines.map((line, index) => {
-        // Find marker that matches this line's lineNumber (using system_line)
         const marker = dafAmudMarkers?.find(m => m.line === line.lineNumber);
         
         return (
@@ -66,10 +111,23 @@ const MainLines = (props: Props) => {
                 <Edit></Edit>
               </IconButton>
             ) : null}
-            <MainLine key={line.lineNumber} lineIndex={index} line={line} dafAmudMarker={marker} />
+            <MainLine
+              key={line.lineNumber}
+              lineIndex={index}
+              line={line}
+              dafAmudMarker={marker}
+              registerSublineRef={registerSublineRef}
+            />
           </div>
         );
       })}
+      {isTaggedDetailed && (
+        <ContinuationBundlePills
+          taggingData={taggingData}
+          sublineRefs={sublineRefsRef.current}
+          containerRef={containerRef}
+        />
+      )}
     </div>
   );
 };

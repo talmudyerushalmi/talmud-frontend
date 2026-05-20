@@ -65,6 +65,9 @@ const MishnaViewOptions = (props) => {
         <MenuItem sx={{ direction: 'ltr' }} value={ShowEditType.COMBINED}>
           {t('Combined') as string}
         </MenuItem>
+        <MenuItem sx={{ direction: 'ltr' }} value={ShowEditType.TAGGED}>
+          {t('Tagged') as string}
+        </MenuItem>
       </Select>
 
       <Link

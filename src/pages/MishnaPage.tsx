@@ -4,6 +4,7 @@ import MainText from '../components/MishnaView/MainText';
 import MishnaText from '../components/MishnaView/MishnaText';
 import { connect } from 'react-redux';
 import ExcerptsSection from '../components/MishnaView/ExcerptsSection';
+import TaggedSidebar from '../components/MishnaView/TaggedSidebar';
 import MishnaViewOptions from '../components/MishnaView/MishnaViewOptions';
 import { useParams, useLocation } from 'react-router';
 import { getHTMLFromRawContent } from '../inc/editorUtils';
@@ -11,10 +12,12 @@ import { iMishna, DafAmudMarker } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
 import { getMishna } from '../store/actions/navigationActions';
 import { setMishnaViewOptions } from '../store/actions/mishnaViewActions';
+import { ShowEditType } from '../store/reducers/mishnaViewReducer';
 import ManuscriptPopup from '../components/MishnaView/ManuscriptPopup';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchSynopsisList } from '../store/actions/synopsisActions';
 import { useStickyOptions } from '../contexts/StickyOptionsContext';
+import { useTaggedViewSync } from '../hooks/useTaggedViewSync';
 
 const DEFAULT_OPTIONS = {
   showSugiaName: true,
@@ -26,7 +29,7 @@ const mapStateToProps = (state) => ({
   detailsExcerptPopup: state.mishnaView.detailsExcerptPopup,
   expanded: state.mishnaView.expanded,
   loading: state.navigation.loading,
-  // comments: state.comments.privateComments,
+  showEditType: state.mishnaView.showEditType,
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setMishnaViewOptions: () => {
@@ -41,6 +44,7 @@ interface Props {
   currentMishna: iMishna;
   getMishna: Function;
   setMishnaViewOptions: Function;
+  showEditType: ShowEditType;
 }
 
 interface LocationState {
@@ -48,7 +52,7 @@ interface LocationState {
 }
 
 const MishnaPage = (props: Props) => {
-  const { currentMishna, getMishna, setMishnaViewOptions } = props;
+  const { currentMishna, getMishna, setMishnaViewOptions, showEditType } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
   const location = useLocation();
   const t = useTheme();
@@ -85,6 +89,8 @@ const MishnaPage = (props: Props) => {
     setMishnaViewOptions();
   }, [setMishnaViewOptions]);
 
+  useTaggedViewSync(showEditType, tractate, chapter, mishna);
+
   useEffect(() => {
     getMishna(tractate, chapter, mishna);
     
@@ -107,7 +113,7 @@ const MishnaPage = (props: Props) => {
         <MainText lines={currentMishna?.lines} mishna={currentMishna?.mishna} dafAmudMarkers={dafAmudMarkers} />
       </Grid>
       <Grid item md={4} className="excerpts-section" sx={{ paddingTop: '0 !important' }}>
-        <ExcerptsSection />
+        {showEditType === ShowEditType.TAGGED ? <TaggedSidebar /> : <ExcerptsSection />}
       </Grid>
       <ManuscriptPopup />
     </Grid>

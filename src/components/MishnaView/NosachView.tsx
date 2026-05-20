@@ -8,6 +8,9 @@ import {
   compoundEditedNosachDecorators,
   compoundOriginalDecorators,
 } from '../editors/EditorDecoratorNosach';
+import { applyRabbiMentions, RabbiMentionDisplay } from '../../inc/rabbiAnnotationUtils';
+
+export type { RabbiMentionDisplay };
 
 interface Props {
   subline: iSubline;
@@ -16,6 +19,8 @@ interface Props {
   showPunctuation?: boolean;
   showEditType: ShowEditType;
   selectedExcerpt?: iExcerpt;
+  rabbiMentions?: RabbiMentionDisplay[];
+  selectedRabbiIds?: string[];
 }
 
 const findWithRegex = (regex, contentBlock, callback) => {
@@ -36,6 +41,8 @@ const getDecorator = (showEditType: ShowEditType) => {
     case ShowEditType.ORIGINAL:
       return compoundOriginalDecorators;
     case ShowEditType.COMBINED:
+    case ShowEditType.TAGGED:
+      // Tagged mode reuses the combined decorator and overlays rabbi annotations.
       return compoundCombinedDecorators;
   }
 };
@@ -67,7 +74,7 @@ const mark = (editorState: EditorState, markFrom, markTo) => {
 };
 
 const NosachView = (props: Props) => {
-  const { subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType } = props;
+  const { subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, rabbiMentions, selectedRabbiIds } = props;
 
   const [editor, setEditor] = useState(EditorState.createEmpty());
 
@@ -106,8 +113,9 @@ const NosachView = (props: Props) => {
   useEffect(() => {
     let newEditorState;
     if (subline.nosach) {
+      const decorator = getDecorator(showEditType);
       let initContent = convertFromRaw(subline.nosach);
-      newEditorState = EditorState.createWithContent(initContent, getDecorator(showEditType));
+      newEditorState = EditorState.createWithContent(initContent, decorator);
       if (!showPunctuation) {
         newEditorState = memoizedRemovePunctuation(newEditorState);
       }
@@ -115,11 +123,14 @@ const NosachView = (props: Props) => {
       if (selectedExcerpt && lineSelected(selectedExcerpt, subline)) {
         newEditorState = mark(newEditorState, 0, length);
       }
+      if (rabbiMentions && rabbiMentions.length > 0) {
+        newEditorState = applyRabbiMentions(newEditorState, rabbiMentions, selectedRabbiIds || [], decorator);
+      }
     } else {
       newEditorState = EditorState.createWithContent(ContentState.createFromText(''));
     }
     setEditor(newEditorState);
-  }, [subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, memoizedRemovePunctuation]);
+  }, [subline, markFrom, markTo, showPunctuation, selectedExcerpt, showEditType, memoizedRemovePunctuation, rabbiMentions, selectedRabbiIds]);
 
   return <TextEditor selectionFrom={1} selectionTo={4} readOnly={true} initialState={editor} />;
 };

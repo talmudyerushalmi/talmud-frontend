@@ -5,12 +5,10 @@ import {
   Box,
   Button,
   ButtonGroup,
-  Checkbox,
   Chip,
   CircularProgress,
   Divider,
   Drawer,
-  FormControlLabel,
   IconButton,
   Paper,
   Snackbar,
@@ -36,9 +34,11 @@ import {
   CategoryConnection,
   TaggingSubline,
   taggingService,
-  findMatchingRabbies,
   searchRabbies,
 } from '../services/tagging.service';
+import { RabbiCard } from '../components/tagging/RabbiCard';
+import { RabbiSearchBox } from '../components/tagging/RabbiSearchBox';
+import { MentionAlternativesEditor } from '../components/tagging/MentionAlternativesEditor';
 import { PageWithNavigation, PageContent } from '../layout/PageWithNavigation';
 import { hebrewMap } from '../inc/utils';
 import PageService from '../services/pageService';
@@ -54,57 +54,6 @@ interface TextSelection {
 }
 
 const SIDEBAR_WIDTH = 360;
-
-const RabbiCard = React.memo(({ rabbi, clickable, onClick }: { rabbi: Rabbi; clickable: boolean; onClick?: () => void }) => (
-  <Box
-    onClick={() => clickable && onClick?.()}
-    sx={{
-      mb: 1,
-      p: 1.5,
-      borderRadius: 1,
-      border: '1px solid',
-      borderColor: clickable ? 'primary.main' : 'divider',
-      cursor: clickable ? 'pointer' : 'default',
-      '&:hover': clickable ? { backgroundColor: 'action.hover' } : {},
-    }}>
-    <Typography variant="body2" fontWeight="bold" mb={0.25}>
-      {rabbi.displayName}
-    </Typography>
-    {rabbi.fullnameVariants.length > 0 && (
-      <Typography variant="caption" color="text.secondary" display="block" mb={0.5} sx={{ lineHeight: 1.4 }}>
-        ({rabbi.fullnameVariants.join(' / ')})
-      </Typography>
-    )}
-    <Box display="flex" flexWrap="wrap" gap={0.5}>
-      {rabbi.type && (
-        <Chip label={rabbi.type} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-      )}
-      {rabbi.generation && (
-        <Chip label={`דור ${rabbi.generation}`} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-      )}
-      {rabbi.location && (
-        <Chip label={rabbi.location} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-      )}
-      {rabbi.city && (
-        <Chip label={rabbi.city} size="small" variant="outlined" sx={{ fontSize: '0.65rem', height: 18 }} />
-      )}
-    </Box>
-  </Box>
-));
-
-const RabbiSearchBox = React.memo(({ value, onChange }: { value: string; onChange: (v: string) => void }) => (
-  <TextField
-    fullWidth
-    size="small"
-    placeholder="חיפוש חכם..."
-    value={value}
-    onChange={e => onChange(e.target.value)}
-    InputProps={{
-      startAdornment: <SearchIcon sx={{ color: 'text.secondary', mr: 0.5 }} fontSize="small" />,
-    }}
-    sx={{ mb: 1.5 }}
-  />
-));
 
 type ResultLimit = 10 | 50 | 0;
 
@@ -136,7 +85,7 @@ const TaggingPage: React.FC = () => {
   const [rabbiSearchQuery, setRabbiSearchQuery] = useState('');
   const [showPredictions, setShowPredictions] = useState(false);
   const [resultLimit, setResultLimit] = useState<ResultLimit>(10);
-  const [pendingDoubt, setPendingDoubt] = useState(false);
+  const [editingMentionKey, setEditingMentionKey] = useState<string | null>(null);
 
   // Comments state
   const [pendingComments, setPendingComments] = useState<SublineComment[]>([]);
@@ -169,7 +118,7 @@ const TaggingPage: React.FC = () => {
 
   const predictedRabbies = useMemo(() => {
     if (!showPredictions || !textSelection) return [];
-    return findMatchingRabbies(textSelection.text, resultLimit);
+    return searchRabbies(textSelection.text, resultLimit);
   }, [showPredictions, textSelection, resultLimit]);
 
   const searchedRabbies = useMemo(() => {
@@ -190,7 +139,7 @@ const TaggingPage: React.FC = () => {
       setShowPredictions(false);
       setRabbiSearchQuery('');
       setResultLimit(10);
-      setPendingDoubt(false);
+      setEditingMentionKey(null);
     } else if (mode === 'comments') {
       setPendingComments(JSON.parse(JSON.stringify(subline.comments)));
       setNewCommentText('');
@@ -206,7 +155,7 @@ const TaggingPage: React.FC = () => {
     setTextSelection(null);
     setShowPredictions(false);
     setRabbiSearchQuery('');
-    setPendingDoubt(false);
+    setEditingMentionKey(null);
     setPendingComments([]);
     setNewCommentText('');
   };
@@ -307,19 +256,20 @@ const TaggingPage: React.FC = () => {
 
     setTextSelection({ sublineIndex, startIndex, endIndex: startIndex + selectedText.length, text: selectedText });
     setShowPredictions(false);
-    setPendingDoubt(false);
+    setEditingMentionKey(null);
     selection.removeAllRanges();
   };
 
   const assignRabbiToSelection = (rabbi: Rabbi) => {
     if (!textSelection) return;
+    const key = `${textSelection.startIndex}-${textSelection.endIndex}`;
     const mention: RabbiMention = {
       rabbiId: rabbi.id,
       rabbiName: rabbi.displayName,
       startIndex: textSelection.startIndex,
       endIndex: textSelection.endIndex,
       text: textSelection.text,
-      doubt: pendingDoubt,
+      doubt: false,
     };
     setPendingRabbiMentions(prev => [
       ...prev.filter(m => !(m.startIndex === mention.startIndex && m.endIndex === mention.endIndex)),
@@ -328,7 +278,7 @@ const TaggingPage: React.FC = () => {
     setTextSelection(null);
     setShowPredictions(false);
     setRabbiSearchQuery('');
-    setPendingDoubt(false);
+    setEditingMentionKey(key);
   };
 
   const removeRabbiMention = (mention: RabbiMention) => {
@@ -336,6 +286,18 @@ const TaggingPage: React.FC = () => {
       prev.filter(m => !(m.startIndex === mention.startIndex && m.endIndex === mention.endIndex))
     );
   };
+
+  const editingMention = useMemo(() => {
+    if (!editingMentionKey) return null;
+    return pendingRabbiMentions.find(m => `${m.startIndex}-${m.endIndex}` === editingMentionKey) ?? null;
+  }, [editingMentionKey, pendingRabbiMentions]);
+
+  const updateEditingMention = useCallback((updates: Partial<RabbiMention>) => {
+    if (!editingMentionKey) return;
+    setPendingRabbiMentions(prev => prev.map(m =>
+      `${m.startIndex}-${m.endIndex}` === editingMentionKey ? { ...m, ...updates } : m
+    ));
+  }, [editingMentionKey]);
 
   // ─── Comment helpers ───
 
@@ -371,7 +333,7 @@ const TaggingPage: React.FC = () => {
         parts.push(<span key={`t-${cursor}`}>{subline.text.slice(cursor, mention.startIndex)}</span>);
       }
       parts.push(
-        <Tooltip key={`m-${mention.startIndex}`} title={`${mention.rabbiName}${mention.doubt ? ' (?)' : ''}`} arrow>
+        <Tooltip key={`m-${mention.startIndex}`} title={`${mention.rabbiName}${mention.doubt ? ' (?)' : ''}${mention.alternatives?.length ? ` — ${mention.alternatives.map(a => a.rabbiName).join(' / ')}` : ''}`} arrow>
           <span style={{
             backgroundColor: mention.doubt ? '#fff9c4' : '#bbdefb',
             borderRadius: '3px',
@@ -519,20 +481,38 @@ const TaggingPage: React.FC = () => {
                           </Box>
                         );
                       })}
-                      <Box display="flex" flexWrap="wrap" gap={0.5} mt={subline.categories.length > 0 ? 0.5 : 0}>
+                      <Box mt={subline.categories.length > 0 ? 0.5 : 0}>
                         {subline.rabbiMentions.map((m, i) => (
-                          <Chip key={i}
-                            label={`${m.rabbiName}${m.doubt ? ' ?' : ''}`}
-                            size="small" color="warning" variant="outlined"
-                            sx={{ fontSize: '0.7rem', height: 20 }}
-                          />
+                          <Box key={i} mb={0.25}>
+                            <Chip
+                              label={`${m.rabbiName}${m.doubt ? ' ?' : ''}`}
+                              size="small" color="warning" variant="outlined"
+                              sx={{ fontSize: '0.7rem', height: 20 }}
+                            />
+                            {m.alternatives && m.alternatives.length > 0 && (
+                              <Box mr={2}>
+                                {m.alternatives.map((alt, j) => (
+                                  <Typography key={j} variant="caption" color="text.secondary" display="block" sx={{ fontSize: '0.6rem' }}>
+                                    ↳ {alt.rabbiName}
+                                  </Typography>
+                                ))}
+                              </Box>
+                            )}
+                          </Box>
                         ))}
-                        {subline.comments.length > 0 && (
-                          <Chip label={`${subline.comments.length} הערות`} size="small" color="info" variant="outlined"
-                            sx={{ fontSize: '0.7rem', height: 20 }}
-                          />
-                        )}
                       </Box>
+                      {subline.comments.map((comment, i) => (
+                        <Box key={i} display="flex" alignItems="baseline" gap={0.5} mb={0.3}>
+                          <Chip label="הערה" size="small" color="info" variant="outlined"
+                            sx={{ fontSize: '0.7rem', height: 20 }} />
+                          <Typography variant="caption" color="text.secondary">
+                            {comment.text}
+                          </Typography>
+                          <Typography variant="caption" color="text.disabled" sx={{ fontSize: '0.65rem' }}>
+                            ({comment.author} • {new Date(comment.timestamp).toLocaleDateString('he-IL')})
+                          </Typography>
+                        </Box>
+                      ))}
                     </Box>
                   )}
 
@@ -576,14 +556,25 @@ const TaggingPage: React.FC = () => {
                         </Typography>
                       )}
                       {pendingRabbiMentions.length > 0 && (
-                        <Box display="flex" flexWrap="wrap" gap={0.5} mb={1}>
+                        <Box mb={1}>
                           {pendingRabbiMentions.map((m, i) => (
-                            <Chip key={i}
-                              label={`${m.rabbiName}${m.doubt ? ' ?' : ''}: "${m.text}"`}
-                              size="small" color="warning"
-                              onDelete={() => removeRabbiMention(m)}
-                              sx={{ fontSize: '0.7rem' }}
-                            />
+                            <Box key={i} mb={0.5}>
+                              <Chip
+                                label={`${m.rabbiName}${m.doubt ? ' ?' : ''}: "${m.text}"`}
+                                size="small" color="warning"
+                                onDelete={() => removeRabbiMention(m)}
+                                sx={{ fontSize: '0.7rem' }}
+                              />
+                              {m.alternatives && m.alternatives.length > 0 && (
+                                <Box mr={2} mt={0.25}>
+                                  {m.alternatives.map((alt, j) => (
+                                    <Typography key={j} variant="caption" color="text.secondary" display="block" sx={{ fontSize: '0.65rem' }}>
+                                      ↳ {alt.rabbiName}
+                                    </Typography>
+                                  ))}
+                                </Box>
+                              )}
+                            </Box>
                           ))}
                         </Box>
                       )}
@@ -700,12 +691,12 @@ const TaggingPage: React.FC = () => {
                     תיוג חכמים — שורה {activeSublineIndex}
                   </Typography>
 
-                  {/* Doubt checkbox */}
-                  {textSelection && (
-                    <FormControlLabel
-                      control={<Checkbox size="small" checked={pendingDoubt} onChange={e => setPendingDoubt(e.target.checked)} />}
-                      label={<Typography variant="caption">לא בטוח</Typography>}
-                      sx={{ mb: 1, ml: 0 }}
+                  {/* Doubt + alternatives editor — shown only after a rabbi has been assigned */}
+                  {editingMention && (
+                    <MentionAlternativesEditor
+                      key={editingMentionKey!}
+                      mention={editingMention}
+                      onUpdate={updateEditingMention}
                     />
                   )}
 

@@ -14,6 +14,11 @@ export interface SublineCategory {
   connections: CategoryConnection[];
 }
 
+export interface RabbiAlternative {
+  rabbiId: string;
+  rabbiName: string;
+}
+
 export interface RabbiMention {
   rabbiId: string;
   rabbiName: string;
@@ -21,6 +26,7 @@ export interface RabbiMention {
   endIndex: number;
   text: string;
   doubt?: boolean;
+  alternatives?: RabbiAlternative[];
 }
 
 export interface SublineComment {
@@ -58,26 +64,127 @@ export interface UpdateSublineTagsDto {
 }
 
 export const TAGGING_CATEGORIES = [
-  { id: 'role_1', label: 'משנה' },
-  { id: 'role_2', label: 'היגד' },
-  { id: 'role_3', label: 'ראיה' },
-  { id: 'role_4', label: 'פירוש' },
-  { id: 'role_5', label: 'סיוע' },
-  { id: 'role_6', label: 'שאלה' },
-  { id: 'role_7', label: 'תשובה' },
-  { id: 'role_8', label: 'קושיה' },
-  { id: 'role_9', label: 'תירוץ' },
-  { id: 'role_10', label: 'פסיקה' },
-  { id: 'role_11', label: 'דחייה' },
-  { id: 'role_12', label: 'הערה' },
-  { id: 'role_13', label: 'הדגמה' },
-  { id: 'role_14', label: 'מעשה' },
-  { id: 'role_15', label: 'סיכום' },
-  { id: 'role_16', label: 'התאמה' },
-  { id: 'role_17', label: 'הגהה' },
-  { id: 'role_18', label: 'המשך' },
-  { id: 'role_28', label: 'שונות' },
+  { id: 'role_1', label: 'משנה', labelEn: 'Mishna', color: '#e53935' },
+  { id: 'role_2', label: 'היגד', labelEn: 'Statement', color: '#8e24aa' },
+  { id: 'role_3', label: 'ראיה', labelEn: 'Proof', color: '#1e88e5' },
+  { id: 'role_4', label: 'פירוש', labelEn: 'Commentary', color: '#43a047' },
+  { id: 'role_5', label: 'סיוע', labelEn: 'Support', color: '#00897b' },
+  { id: 'role_6', label: 'שאלה', labelEn: 'Question', color: '#fb8c00' },
+  { id: 'role_7', label: 'תשובה', labelEn: 'Answer', color: '#3949ab' },
+  { id: 'role_8', label: 'קושיה', labelEn: 'Objection', color: '#d81b60' },
+  { id: 'role_9', label: 'תירוץ', labelEn: 'Resolution', color: '#039be5' },
+  { id: 'role_10', label: 'פסיקה', labelEn: 'Ruling', color: '#7cb342' },
+  { id: 'role_11', label: 'דחייה', labelEn: 'Rejection', color: '#c62828' },
+  { id: 'role_12', label: 'הערה', labelEn: 'Note', color: '#6d4c41' },
+  { id: 'role_13', label: 'הדגמה', labelEn: 'Illustration', color: '#00acc1' },
+  { id: 'role_14', label: 'מעשה', labelEn: 'Narrative', color: '#f4511e' },
+  { id: 'role_15', label: 'סיכום', labelEn: 'Summary', color: '#546e7a' },
+  { id: 'role_16', label: 'התאמה', labelEn: 'Adaptation', color: '#ab47bc' },
+  { id: 'role_17', label: 'הגהה', labelEn: 'Emendation', color: '#5c6bc0' },
+  { id: 'role_18', label: 'המשך', labelEn: 'Continuation', color: '#26a69a' },
+  { id: 'role_28', label: 'שונות', labelEn: 'Miscellaneous', color: '#78909c' },
 ];
+
+export const CONTINUATION_CATEGORY_ID = 'role_18';
+
+export interface ContinuationBundleInfo {
+  sourceIndex: number;
+  sourceCategoryId: string;
+  sourceColor: string;
+}
+
+export interface ContinuationBundle {
+  sourceIndex: number;
+  members: number[];
+  sourceCategoryId: string;
+  sourceColor: string;
+  label: string;
+  labelEn: string;
+}
+
+/**
+ * Computes "continuation bundles" for sublines tagged with המשך without explicit connections.
+ * Each such subline bundles back to the closest previous subline that has a non-המשך category.
+ * The chain breaks if any in-between subline has no categories at all.
+ *
+ * Returns a Map keyed by subline index (both source and continuation members)
+ * mapping to bundle info.
+ */
+export function computeContinuationBundles(taggingData: TaggingSubline[]): Map<number, ContinuationBundleInfo> {
+  const sorted = [...taggingData].sort((a, b) => a.index - b.index);
+  const byIndex = new Map<number, TaggingSubline>();
+  sorted.forEach(t => byIndex.set(t.index, t));
+
+  const result = new Map<number, ContinuationBundleInfo>();
+
+  for (const t of sorted) {
+    const continuation = t.categories.find(c => c.categoryId === CONTINUATION_CATEGORY_ID);
+    if (!continuation) continue;
+    if (continuation.connections && continuation.connections.length > 0) continue;
+    if (t.categories.some(c => c.categoryId !== CONTINUATION_CATEGORY_ID)) continue;
+
+    let sourceIndex: number | null = null;
+    let sourceCategoryId: string | null = null;
+    let cursor = t.index - 1;
+    while (cursor >= 0) {
+      const prev = byIndex.get(cursor);
+      if (!prev || prev.categories.length === 0) break;
+      const otherCat = prev.categories.find(c => c.categoryId !== CONTINUATION_CATEGORY_ID);
+      if (otherCat) {
+        sourceIndex = prev.index;
+        sourceCategoryId = otherCat.categoryId;
+        break;
+      }
+      const prevContinuation = prev.categories.find(c => c.categoryId === CONTINUATION_CATEGORY_ID);
+      if (prevContinuation && (!prevContinuation.connections || prevContinuation.connections.length === 0)) {
+        cursor--;
+        continue;
+      }
+      break;
+    }
+
+    if (sourceIndex === null || sourceCategoryId === null) continue;
+    const catDef = TAGGING_CATEGORIES.find(c => c.id === sourceCategoryId);
+    if (!catDef) continue;
+
+    const info: ContinuationBundleInfo = { sourceIndex, sourceCategoryId, sourceColor: catDef.color };
+    result.set(t.index, info);
+    if (!result.has(sourceIndex)) {
+      result.set(sourceIndex, info);
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Builds the list of continuation bundles (one entry per source subline).
+ * Each bundle includes the source and all continuation members in ascending order.
+ */
+export function getContinuationBundlesList(taggingData: TaggingSubline[]): ContinuationBundle[] {
+  const map = computeContinuationBundles(taggingData);
+  const bySource = new Map<number, ContinuationBundle>();
+  for (const [sublineIdx, info] of map.entries()) {
+    let bundle = bySource.get(info.sourceIndex);
+    if (!bundle) {
+      const catDef = TAGGING_CATEGORIES.find(c => c.id === info.sourceCategoryId);
+      bundle = {
+        sourceIndex: info.sourceIndex,
+        members: [],
+        sourceCategoryId: info.sourceCategoryId,
+        sourceColor: info.sourceColor,
+        label: catDef?.label || '',
+        labelEn: catDef?.labelEn || '',
+      };
+      bySource.set(info.sourceIndex, bundle);
+    }
+    if (!bundle.members.includes(sublineIdx)) bundle.members.push(sublineIdx);
+  }
+  for (const bundle of bySource.values()) {
+    bundle.members.sort((a, b) => a - b);
+  }
+  return Array.from(bySource.values());
+}
 
 // ─── Rabbies data ───
 
@@ -212,16 +319,6 @@ function scoreRabbi(query: string, rabbi: Rabbi): number {
   }
 
   return bestScore;
-}
-
-export function findMatchingRabbies(query: string, limit: number = 10): Rabbi[] {
-  if (!query.trim()) return [];
-  const scored = ALL_RABBIES
-    .map(r => ({ rabbi: r, score: scoreRabbi(query, r) }))
-    .filter(item => item.score > 0)
-    .sort((a, b) => b.score - a.score);
-  if (limit <= 0) return scored.map(item => item.rabbi);
-  return scored.slice(0, limit).map(item => item.rabbi);
 }
 
 export function searchRabbies(query: string, limit: number = 10): Rabbi[] {

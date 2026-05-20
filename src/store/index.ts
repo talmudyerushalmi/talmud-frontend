@@ -1,5 +1,6 @@
-import { combineReducers } from 'redux';
+import { Action, combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
+import type { ThunkAction } from 'redux-thunk';
 import authReducer from './reducers/authReducer';
 import mishnaViewReducer from './reducers/mishnaViewReducer';
 import navigationReducer from './reducers/navigationReducer';
@@ -13,8 +14,6 @@ import relatedReducer from './reducers/relatedReducer';
 import contentfulReducer from './reducers/contentfulReducer';
 import { searchReducer } from './reducers/searchReducer';
 import synopsisReducer from './reducers/synopsisReducer';
-
-
 
 const rootReducer = combineReducers({
   general: generalReducer,
@@ -51,8 +50,8 @@ const store = configureStore({
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+export type AppThunk<R = void> = ThunkAction<R, RootState, unknown, Action<string>>;
 
 setupListeners(store.dispatch);
 export default store;

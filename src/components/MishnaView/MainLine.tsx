@@ -1,31 +1,25 @@
 import { Box } from '@mui/material';
-import React, { lazy, ReactElement } from 'react';
+import React from 'react';
 import SublineDisplay from './SublineDisplay';
 import { connect } from 'react-redux';
-import { useEffect } from 'react';
-import { useState } from 'react';
 import { iLine, DafAmudMarker } from '../../types/types';
 import SugiaButton from './SugiaButton';
 import { UserGroup } from '../../store/reducers/authReducer';
 
-const importView = (component) => lazy(() => import(`./${component}`));
-
 const mapStateToProps = (state) => ({
-  userAuth: state.authentication.userAuth,
   isAuthenticated: state.authentication.userGroup !== UserGroup.Unauthenticated,
 });
-const mapDispatchToProps = (dispatch, ownProps) => ({});
+
 interface Props {
   line: iLine;
   lineIndex: number;
-  userAuth: any;
   isAuthenticated: boolean;
   dafAmudMarker?: DafAmudMarker;
+  registerSublineRef?: (index: number, el: HTMLElement | null) => void;
 }
 
 const MainLine = (props: Props) => {
-  const { line, lineIndex, userAuth, isAuthenticated, dafAmudMarker } = props;
-  const [dynamicComponents, setdynamicComponents] = useState<ReactElement[]>([]);
+  const { line, lineIndex, isAuthenticated, dafAmudMarker, registerSublineRef } = props;
   const [hoverSubline, setHoverSubline] = React.useState<number>(-1);
   const handleMouseLeave = () => {
     setTimeout(() => {
@@ -43,54 +37,35 @@ const MainLine = (props: Props) => {
     handleMouseEnter,
   };
 
-  useEffect(() => {
-    let dynamicComponentsToLoad = userAuth ? [] : [];
-    async function loadViews() {
-      const componentPromises = dynamicComponentsToLoad.map(async (component, index) => {
-        const View = await importView(component);
-        return <View key={index} line={line} />;
-      });
-
-      Promise.all(componentPromises).then((loaded) => {
-        setdynamicComponents(loaded);
-      });
-    }
-
-    loadViews();
-  }, [userAuth, line]);
-
   return (
-    <>
-      <Box style={{ position: 'relative' }}>
-        <React.Suspense fallback="">
-          <div className="container">{dynamicComponents}</div>
-        </React.Suspense>
-        {line?.sublines
-          ? line.sublines.map((subline, index) => {
-              // Only pass marker to the first subline
-              const markerForSubline = index === 0 ? dafAmudMarker : undefined;
-              
-              return (
-                <div key={index}>
-                  {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
-                  <SublineDisplay
-                    key={index}
-                    lineDetails={{
-                      lineIndex,
-                      lineNumber: line.lineNumber,
-                      mainLine: line.mainLine,
-                    }}
-                    subline={subline}
-                    dafAmudMarker={markerForSubline}
-                    {...(isAuthenticated && hoverProps)}
-                  />
-                </div>
-              );
-            })
-          : null}
-      </Box>
-    </>
+    <Box style={{ position: 'relative' }}>
+      {line?.sublines
+        ? line.sublines.map((subline, index) => {
+            // Only pass marker to the first subline
+            const markerForSubline = index === 0 ? dafAmudMarker : undefined;
+
+            return (
+              <div
+                key={index}
+                ref={registerSublineRef ? (el) => registerSublineRef(subline.index, el) : undefined}
+              >
+                {subline.sugiaName ? <SugiaButton line={line} subline={subline} /> : null}
+                <SublineDisplay
+                  lineDetails={{
+                    lineIndex,
+                    lineNumber: line.lineNumber,
+                    mainLine: line.mainLine,
+                  }}
+                  subline={subline}
+                  dafAmudMarker={markerForSubline}
+                  {...(isAuthenticated && hoverProps)}
+                />
+              </div>
+            );
+          })
+        : null}
+    </Box>
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainLine);
+export default connect(mapStateToProps)(MainLine);

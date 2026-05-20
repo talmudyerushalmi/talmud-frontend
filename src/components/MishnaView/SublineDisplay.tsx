@@ -3,6 +3,7 @@ import {
   AccordionActions,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Button,
   Chip,
   IconButton,
@@ -10,10 +11,11 @@ import {
   useTheme,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { connect } from 'react-redux';
 import { selectSublines } from '../../store/actions';
+import { setTaggedSubline } from '../../store/actions/mishnaViewActions';
 import { excerptSelection } from '../../inc/excerptUtils';
 import SynopsisTable from './SynopsisTable';
 import { hideSourceFromText } from '../../inc/synopsisUtils';
@@ -25,6 +27,9 @@ import { getFirstAndLastWordOfString } from '../../inc/textUtils';
 import { UserGroup } from '../../store/reducers/authReducer';
 import { useTranslation } from 'react-i18next';
 import { hebrewToNumber, hebrewAmudToEnglish } from '../../inc/utils';
+import { TaggingSubline, ALL_RABBIES, TAGGING_CATEGORIES, computeContinuationBundles, CONTINUATION_CATEGORY_ID } from '../../services/tagging.service';
+import { alpha } from '@mui/material/styles';
+import { BUNDLE_SOURCE_ATTR } from './ContinuationBundlePills';
 
 const mapStateToProps = (state) => ({
   selectedSublines: state.mishnaView.selectedSublines,
@@ -33,6 +38,11 @@ const mapStateToProps = (state) => ({
   showSources: state.mishnaView.showSources,
   showEditType: state.mishnaView.showEditType,
   userGroup: state.authentication.userGroup,
+  taggingData: state.mishnaView.taggingData,
+  selectedRabbis: state.mishnaView.selectedRabbis,
+  selectedCategories: state.mishnaView.selectedCategories,
+  selectedTaggedSubline: state.mishnaView.selectedTaggedSubline,
+  taggedDetailedView: state.mishnaView.taggedDetailedView,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -41,6 +51,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   setCommentModal: (commentModal) => {
     dispatch(setCommentModal(commentModal));
+  },
+  dispatchSetTaggedSubline: (sublineIndex: number | null) => {
+    dispatch(setTaggedSubline(sublineIndex));
   },
 });
 
@@ -101,6 +114,12 @@ interface Props {
   };
   userGroup: UserGroup;
   dafAmudMarker?: DafAmudMarker;
+  taggingData: TaggingSubline[];
+  selectedRabbis: string[];
+  selectedCategories: string[];
+  selectedTaggedSubline: number | null;
+  taggedDetailedView: boolean;
+  dispatchSetTaggedSubline: (sublineIndex: number | null) => void;
 }
 const SublineDisplay = (props: Props) => {
   const {
@@ -118,6 +137,12 @@ const SublineDisplay = (props: Props) => {
     lineDetails,
     userGroup,
     dafAmudMarker,
+    taggingData,
+    selectedRabbis,
+    selectedCategories,
+    selectedTaggedSubline,
+    taggedDetailedView,
+    dispatchSetTaggedSubline,
   } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -218,6 +243,64 @@ const SublineDisplay = (props: Props) => {
     }
   }, [dafAmudMarker]);
 
+  const isTagged = showEditType === ShowEditType.TAGGED;
+
+  const sublineTagData = useMemo(() => {
+    if (!isTagged) return null;
+    return taggingData.find(t => t.index === subline.index) || null;
+  }, [isTagged, taggingData, subline.index]);
+
+  // Enrich each mention with its Rabbi lookup once. Consumed by both the
+  // NosachView prop below and the rabbi-chips row at the bottom of the
+  // accordion. Memoizing here keeps the array reference stable for NosachView's
+  // useEffect deps and avoids two ALL_RABBIES.find() passes per render.
+  const enrichedRabbiMentions = useMemo(() => {
+    if (!sublineTagData) return null;
+    return sublineTagData.rabbiMentions.map(m => ({
+      mention: m,
+      rabbi: ALL_RABBIES.find(r => r.id === m.rabbiId),
+    }));
+  }, [sublineTagData]);
+
+  const nosachRabbiMentions = useMemo(() => {
+    if (!enrichedRabbiMentions) return undefined;
+    return enrichedRabbiMentions.map(({ mention: m, rabbi: rd }) => ({
+      startIndex: m.startIndex,
+      endIndex: m.endIndex,
+      rabbiId: m.rabbiId,
+      generation: rd?.generation || null,
+      isBavel: rd?.location === 'בבל',
+      isEretzIsrael: rd?.location === 'ארץ ישראל',
+      doubt: m.doubt,
+    }));
+  }, [enrichedRabbiMentions]);
+
+  const hasCategoryHighlight = useMemo(() => {
+    if (!isTagged || selectedCategories.length === 0 || !sublineTagData) return false;
+    return sublineTagData.categories.some(cat => selectedCategories.includes(cat.categoryId));
+  }, [isTagged, selectedCategories, sublineTagData]);
+
+  const continuationBundles = useMemo(() => {
+    if (!isTagged) return null;
+    return computeContinuationBundles(taggingData);
+  }, [isTagged, taggingData]);
+  const myBundle = continuationBundles?.get(subline.index) || null;
+
+  const isTaggedSublineActive = isTagged && (
+    selectedTaggedSubline === subline.index ||
+    (myBundle != null && selectedTaggedSubline === myBundle.sourceIndex)
+  );
+
+  const handleTaggedClick = (e) => {
+    e.stopPropagation();
+    const targetIndex = myBundle ? myBundle.sourceIndex : subline.index;
+    if (selectedTaggedSubline === targetIndex) {
+      dispatchSetTaggedSubline(null);
+    } else {
+      dispatchSetTaggedSubline(targetIndex);
+    }
+  };
+
   let textToDisplay = subline.text;
   if (!showSources) {
     textToDisplay = hideSourceFromText(textToDisplay);
@@ -225,7 +308,7 @@ const SublineDisplay = (props: Props) => {
   const markedSelection = excerptSelection(textToDisplay, subline, selectedExcerpt);
   return (
     <>
-      {(hoverSubline === subline.index || commentButtonHover) && (
+      {!isTagged && (hoverSubline === subline.index || commentButtonHover) && (
         <Button
           size="small"
           sx={{
@@ -238,18 +321,21 @@ const SublineDisplay = (props: Props) => {
           onMouseLeave={() => setCommentButtonHover(false)}
           onClick={handleCreateCommentClick}>
           הוסף הערה
-          {/* or <AddCommentIcon /> */}
         </Button>
       )}
       <Accordion
         ref={accordionRef}
         square={true}
         elevation={0}
-        expanded={expanded === `panelb${subline.index}`}
-        onClick={() => handleSelect(subline)}
+        expanded={!isTagged && expanded === `panelb${subline.index}`}
+        onClick={isTagged ? handleTaggedClick : () => handleSelect(subline)}
         className={`${classes.root} ${selectedClass} ${piskaClass}`}
         sx={{
-          ...(isSublineSelected ? theme.custom.selectionColor : null),
+          ...(isSublineSelected && !isTagged ? theme.custom.selectionColor : null),
+          ...(hasCategoryHighlight ? { backgroundColor: '#f3e5f5' } : null),
+          ...(myBundle && !isTaggedSublineActive ? { backgroundColor: alpha(myBundle.sourceColor, 0.1) } : null),
+          ...(isTaggedSublineActive ? { backgroundColor: '#e3f2fd', border: '1px solid #90caf9' } : null),
+          cursor: isTagged ? 'pointer' : undefined,
         }}
         onMouseEnter={() => handleMouseEnter(subline.index)}
         onMouseLeave={() => handleMouseLeave()}>
@@ -259,12 +345,51 @@ const SublineDisplay = (props: Props) => {
           </Typography>
           <NosachView
             showPunctuation={showPunctuation}
-            showEditType={showEditType}
-            selectedExcerpt={selectedExcerpt}
-            markFrom={markedSelection?.from}
-            markTo={markedSelection?.to}
+            showEditType={isTagged ? ShowEditType.COMBINED : showEditType}
+            selectedExcerpt={isTagged ? undefined : selectedExcerpt}
+            markFrom={isTagged ? undefined : markedSelection?.from}
+            markTo={isTagged ? undefined : markedSelection?.to}
             subline={subline}
+            rabbiMentions={isTagged ? nosachRabbiMentions : undefined}
+            selectedRabbiIds={isTagged ? selectedRabbis : undefined}
           />
+          {isTagged && taggedDetailedView && sublineTagData && sublineTagData.categories.length > 0 &&
+            sublineTagData.categories.map((cat) => {
+              const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
+              if (!catDef) return null;
+              const isBundleSourceChip = !!myBundle && subline.index === myBundle.sourceIndex && cat.categoryId === myBundle.sourceCategoryId;
+              if (myBundle) {
+                const isSource = subline.index === myBundle.sourceIndex;
+                if (!isSource && cat.categoryId === CONTINUATION_CATEGORY_ID && (!cat.connections || cat.connections.length === 0)) return null;
+              }
+              const bundleSourceProp = isBundleSourceChip
+                ? { [BUNDLE_SOURCE_ATTR]: 'true' }
+                : {};
+              return (
+                <Chip
+                  key={cat.categoryId}
+                  size="small"
+                  label={isHebrew ? catDef.label : catDef.labelEn}
+                  {...bundleSourceProp}
+                  sx={{
+                    fontSize: '0.6rem',
+                    height: 18,
+                    ml: 0.5,
+                    backgroundColor: alpha(catDef.color, 0.13),
+                    color: catDef.color,
+                    border: `1px solid ${catDef.color}`,
+                    fontWeight: 'bold',
+                    flexShrink: 0,
+                    ...(isBundleSourceChip ? {
+                      borderBottomLeftRadius: 0,
+                      borderBottomRightRadius: 0,
+                      borderBottom: 'none',
+                    } : null),
+                  }}
+                />
+              );
+            })
+          }
           {/* Daf/Amud badge positioned on the right */}
           {dafAmudMarker && (
             <Chip
@@ -314,33 +439,67 @@ const SublineDisplay = (props: Props) => {
               }}
             />
           )}
-          <AccordionActions sx={{ 
-            padding: 0,
-            '@media print': {
-              display: 'none',
-            },
-          }}>
-            <IconButton 
-              component="div"
-              role="button"
-              tabIndex={0}
-              aria-label="Expand subline details"
-              style={{ padding: 0 }} 
-              size="small" 
-              onClick={handleExpandClick}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleExpandClick(e);
-                }
-              }}>
-              <ExpandMoreIcon />
-            </IconButton>
-          </AccordionActions>
+          {!isTagged && (
+            <AccordionActions sx={{ 
+              padding: 0,
+              '@media print': {
+                display: 'none',
+              },
+            }}>
+              <IconButton 
+                component="div"
+                role="button"
+                tabIndex={0}
+                aria-label="Expand subline details"
+                style={{ padding: 0 }} 
+                size="small" 
+                onClick={handleExpandClick}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleExpandClick(e);
+                  }
+                }}>
+                <ExpandMoreIcon />
+              </IconButton>
+            </AccordionActions>
+          )}
         </AccordionSummary>
-        <AccordionDetails sx={{ padding: '0.1rem 1rem' }}>
-          <SynopsisTable subline={subline} lineNumber={lineDetails.lineNumber} />
-        </AccordionDetails>
+        {isTagged && enrichedRabbiMentions && enrichedRabbiMentions.length > 0 && (
+          <Box sx={{ px: 3, pb: 0.5, display: 'flex', flexWrap: 'wrap', gap: 0.5, direction: 'rtl' }}>
+            {enrichedRabbiMentions.map(({ mention, rabbi: rabbiData }, i) => {
+              const isHighlighted = selectedRabbis.includes(mention.rabbiId);
+              const genStr = rabbiData?.generation || '';
+              const locationChar = rabbiData?.location === 'בבל' ? 'בבל' : rabbiData?.location === 'ארץ ישראל' ? 'א״י' : '';
+              return (
+                <Chip
+                  key={i}
+                  size="small"
+                  label={
+                    <span>
+                      {mention.rabbiName}
+                      {(genStr || locationChar) && <sub style={{ fontSize: '0.7em', marginRight: '2px' }}>{genStr}{locationChar}</sub>}
+                      {mention.doubt && ' ?'}
+                    </span>
+                  }
+                  sx={{
+                    fontSize: '0.7rem',
+                    height: 20,
+                    backgroundColor: isHighlighted ? '#c8e6c9' : '#e8f5e9',
+                    fontWeight: isHighlighted ? 'bold' : 'normal',
+                    color: '#2e7d32',
+                    transition: 'background-color 0.2s',
+                  }}
+                />
+              );
+            })}
+          </Box>
+        )}
+        {!isTagged && (
+          <AccordionDetails sx={{ padding: '0.1rem 1rem' }}>
+            <SynopsisTable subline={subline} lineNumber={lineDetails.lineNumber} />
+          </AccordionDetails>
+        )}
       </Accordion>
     </>
   );
