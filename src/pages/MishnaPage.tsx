@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import ExcerptsSection from '../components/MishnaView/ExcerptsSection';
 import TaggedSidebar from '../components/MishnaView/TaggedSidebar';
 import MishnaViewOptions from '../components/MishnaView/MishnaViewOptions';
-import { useParams, useLocation } from 'react-router';
+import SplitPartTabs from '../components/MishnaView/SplitPartTabs';
+import { useParams, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { getHTMLFromRawContent } from '../inc/editorUtils';
 import { iMishna, DafAmudMarker } from '../types/types';
 import { routeObject } from '../store/reducers/navigationReducer';
@@ -35,8 +36,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   setMishnaViewOptions: () => {
     dispatch(setMishnaViewOptions(DEFAULT_OPTIONS));
   },
-  getMishna: (tractate: string, chapter: string, mishna: string) => {
-    dispatch(getMishna(tractate, chapter, mishna));
+  getMishna: (tractate: string, chapter: string, mishna: string, part?: number) => {
+    dispatch(getMishna(tractate, chapter, mishna, part));
   },
 });
 
@@ -55,6 +56,11 @@ const MishnaPage = (props: Props) => {
   const { currentMishna, getMishna, setMishnaViewOptions, showEditType } = props;
   const { tractate, chapter, mishna } = useParams<routeObject>();
   const location = useLocation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  // `?part=N` is consumed only by split halachas; the BE clamps/ignores otherwise.
+  const partParam = searchParams.get('part');
+  const part = partParam ? Number(partParam) : undefined;
   const t = useTheme();
   const dispatch = useAppDispatch();
   const { setOptionsComponent } = useStickyOptions();
@@ -92,7 +98,7 @@ const MishnaPage = (props: Props) => {
   useTaggedViewSync(showEditType, tractate, chapter, mishna);
 
   useEffect(() => {
-    getMishna(tractate, chapter, mishna);
+    getMishna(tractate, chapter, mishna, part);
     
     // Clear markers only when navigating to a DIFFERENT mishna
     const newMishnaKey = `${tractate}-${chapter}-${mishna}`;
@@ -100,11 +106,29 @@ const MishnaPage = (props: Props) => {
       setDafAmudMarkers([]);
       setCurrentMishnaKey(newMishnaKey);
     }
-  }, [tractate, chapter, mishna, getMishna, currentMishnaKey, location.state]);
+  }, [tractate, chapter, mishna, part, getMishna, currentMishnaKey, location.state]);
+
+  // Honor a BE-supplied redirect: e.g. the user navigated to the SECOND source of a unify
+  // (`/.../007`) — the BE returns `_redirectTo: { mishna: '006' }` and we move them to the
+  // canonical URL. We only redirect when the target differs from current params to avoid
+  // any chance of a loop.
+  useEffect(() => {
+    const r = currentMishna?._redirectTo;
+    if (!r) return;
+    if (r.tractate === tractate && r.chapter === chapter && r.mishna === mishna) return;
+    navigate(`/talmud/${r.tractate}/${r.chapter}/${r.mishna}`, { replace: true });
+  }, [currentMishna, tractate, chapter, mishna, navigate]);
 
   return (
     <Grid container spacing={2} sx={{ marginTop: '-40px' }}>
       <Grid item md={8} className="mishna-text-container" sx={{ paddingTop: '0 !important' }}>
+        {currentMishna?._split && (
+          <SplitPartTabs
+            source={currentMishna._split.source}
+            parts={currentMishna._split.parts}
+            currentPart={currentMishna._split.currentPart}
+          />
+        )}
         <Grid container justifyContent="center" item sm={12}>
           <Grid item md={12} mb={2}>
             <MishnaText mishna={mishna} html={getHTMLFromRawContent(currentMishna?.richTextMishna)} />

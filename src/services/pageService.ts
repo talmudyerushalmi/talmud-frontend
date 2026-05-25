@@ -67,8 +67,17 @@ export default class PageService {
     return response.data;
   }
 
-  static async getMishna(tractate: string, chapter: string, mishna: string): Promise<iMishna> {
-    const url = `/mishna/${tractate}/${chapter}/${mishna}`;
+  static async getMishna(
+    tractate: string,
+    chapter: string,
+    mishna: string,
+    opts: { part?: number } = {},
+  ): Promise<iMishna> {
+    // `?part=N` is only meaningful for halachas that have been split via the override admin.
+    // The BE clamps invalid values and ignores it for non-split halachas, so it's safe to
+    // always pass through when present.
+    const qs = opts.part !== undefined ? `?part=${opts.part}` : '';
+    const url = `/mishna/${tractate}/${chapter}/${mishna}${qs}`;
     const response = await axiosInstance.get(url);
     return this.convertMishnaParallels(response.data);
   }

@@ -30,6 +30,7 @@ import ContentPage from './pages/Content';
 import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
 import TaggingPage from './pages/TaggingPage';
+import HalachaOverridesPage from './pages/HalachaOverridesPage';
 declare global {
   interface Window {
     Buffer: typeof Buffer;
@@ -86,6 +87,22 @@ function App() {
             element={
               <RequireAuth allowedGroups={[UserGroup.Editor]}>
                 <TaggingPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="halacha-overrides"
+            element={
+              <RequireAuth allowedGroups={[UserGroup.Editor]}>
+                <HalachaOverridesPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="halacha-overrides/:tractate/:chapter"
+            element={
+              <RequireAuth allowedGroups={[UserGroup.Editor]}>
+                <HalachaOverridesPage />
               </RequireAuth>
             }
           />

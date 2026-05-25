@@ -96,9 +96,12 @@ export function getCurrentTractate() {
   };
 }
 
-export function getMishna(tractate: string, chapter: string, mishna: string) {
+export function getMishna(tractate: string, chapter: string, mishna: string, part?: number) {
   return async function (dispatch, getState) {
-    let mishnaData = await tryAsyncWithLoadingState(dispatch, PageService.getMishna(tractate, chapter, mishna));
+    let mishnaData = await tryAsyncWithLoadingState(
+      dispatch,
+      PageService.getMishna(tractate, chapter, mishna, { part }),
+    );
     if (mishnaData) {
       dispatch(setCurrentMishna(mishnaData));
       const isAuthenticated = getState().authentication.userGroup !== UserGroup.Unauthenticated;
