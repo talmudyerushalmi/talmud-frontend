@@ -7,7 +7,7 @@ interface Props {
   /** Original (pre-split) halacha id, e.g. '003'. Used to label tabs like \u05d31, \u05d32, \u05d33. */
   source: string;
   /** Total number of parts the original halacha is split into (2 or 3). */
-  parts: number;
+  totalParts: number;
   /** 1-based index of the part currently displayed. */
   currentPart: number;
 }
@@ -19,11 +19,11 @@ interface Props {
  *
  * Only renders when there are 2+ parts.
  */
-const SplitPartTabs: React.FC<Props> = ({ source, parts, currentPart }) => {
+const SplitPartTabs: React.FC<Props> = ({ source, totalParts, currentPart }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  if (!parts || parts < 2) return null;
+  if (!totalParts || totalParts < 2) return null;
 
   const handleChange = (_e: React.SyntheticEvent, newPart: number) => {
     if (newPart === currentPart) return;
@@ -42,7 +42,7 @@ const SplitPartTabs: React.FC<Props> = ({ source, parts, currentPart }) => {
         onChange={handleChange}
         aria-label="חלקי ההלכה"
         variant="standard">
-        {Array.from({ length: parts }, (_, i) => i + 1).map((p) => (
+        {Array.from({ length: totalParts }, (_, i) => i + 1).map((p) => (
           <Tab key={p} value={p} label={formatSplitPartName(source, p)} />
         ))}
       </Tabs>

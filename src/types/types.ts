@@ -42,8 +42,8 @@ export interface iMishna {
   _redirectTo?: { tractate: string; chapter: string; mishna: string };
   /** Set by the BE when this Mishna was unified from two sources. */
   _unified?: { sources: [string, string] };
-  /** Set by the BE when this Mishna is one part of a split. `parts` is total count, `currentPart` is 1-based. */
-  _split?: { source: string; currentPart: number; parts: number };
+  /** Set by the BE when this Mishna is one part of a split. `totalParts` is the count, `currentPart` is 1-based. */
+  _split?: { source: string; currentPart: number; totalParts: number };
 }
 
 export interface iMarker {

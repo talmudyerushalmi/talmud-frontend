@@ -125,7 +125,7 @@ const MishnaPage = (props: Props) => {
         {currentMishna?._split && (
           <SplitPartTabs
             source={currentMishna._split.source}
-            parts={currentMishna._split.parts}
+            totalParts={currentMishna._split.totalParts}
             currentPart={currentMishna._split.currentPart}
           />
         )}
