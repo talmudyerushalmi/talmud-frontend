@@ -94,7 +94,10 @@ const SearchResults: FC<SearchResultsProps> = ({ isLoading, searchResults, query
               overflow: 'visible',
             }}
             onClick={() => {
-              navigate(`/talmud/${tractate}/${chapter}/${mishna}`);
+              // Part 1 is the default — drop the query param for a clean URL. Higher
+              // parts are appended so split-halacha matches land on the correct mini.
+              const qs = result.part && result.part > 1 ? `?part=${result.part}` : '';
+              navigate(`/talmud/${tractate}/${chapter}/${mishna}${qs}`);
             }}>
             <Box
               sx={{
