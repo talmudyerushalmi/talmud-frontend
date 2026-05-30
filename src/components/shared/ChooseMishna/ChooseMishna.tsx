@@ -116,12 +116,13 @@ const ChooseMishna = (props: Props) => {
         if (option.mishna === 'all') {
           return t('The whole chapter');
         }
-        // Unified halacha entries (BE-supplied `unifiedWith`) render as e.g. "\u05d5-\u05d6" in Hebrew
-        // and "6-7" in non-Hebrew locales. Passthrough entries keep their existing labels.
-        if (option.unifiedWith) {
+        // Unified entries (BE-supplied `unifiedWithAll`, length 2 or 3) render as e.g.
+        // "\u05d5-\u05d6" / "\u05d5-\u05d6-\u05d7" in Hebrew and "6-7" / "6-7-8" in non-Hebrew locales.
+        // Passthrough entries keep their existing labels.
+        if (option.unifiedWithAll && option.unifiedWithAll.length >= 2) {
           return isHebrew
-            ? formatUnifiedName(option.mishna, option.unifiedWith)
-            : `${formatNumericId(option.mishna)}-${formatNumericId(option.unifiedWith)}`;
+            ? formatUnifiedName(option.unifiedWithAll)
+            : option.unifiedWithAll.map(formatNumericId).join('-');
         }
         return isHebrew ? (hebrewMap.get(option.mishna) as string) : formatNumericId(option.mishna);
       }}

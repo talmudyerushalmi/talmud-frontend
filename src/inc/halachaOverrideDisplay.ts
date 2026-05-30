@@ -1,17 +1,15 @@
 import { hebrewMap } from './utils';
 
 /**
- * Render a Hebrew label for a unified pair of source halacha ids.
+ * Render a Hebrew label for a unified group of source halacha ids (2 or 3).
  *
- *   formatUnifiedName('006', '007') -> '\u05d5-\u05d6'
+ *   formatUnifiedName(['006','007'])         -> '\u05d5-\u05d6'
+ *   formatUnifiedName(['006','007','008'])   -> '\u05d5-\u05d6-\u05d7'
  *
- * Falls back to the raw ids (joined with '-') when either side isn't in `hebrewMap`,
- * so the UI is never blank.
+ * Falls back to the raw id when a member isn't in `hebrewMap`, so the UI is never blank.
  */
-export function formatUnifiedName(firstId: string, secondId: string): string {
-  const a = hebrewMap.get(firstId) ?? firstId;
-  const b = hebrewMap.get(secondId) ?? secondId;
-  return `${a}-${b}`;
+export function formatUnifiedName(sourceIds: string[]): string {
+  return sourceIds.map((id) => hebrewMap.get(id) ?? id).join('-');
 }
 
 /**

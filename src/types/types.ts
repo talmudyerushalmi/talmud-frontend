@@ -26,8 +26,9 @@ export interface iChapter {
 }
 
 export type refMishna = Pick<iMishna, 'id' | 'mishna'> & {
-  /** If present, this nav entry represents this and the following original Mishna unified into one. */
-  unifiedWith?: string;
+  /** If present, this nav entry represents a unified group; lists ALL source ids in
+   *  chapter order (length 2 or 3). The first element equals this entry's `mishna`. */
+  unifiedWithAll?: string[];
 };
 export interface iMishna {
   id: string;
@@ -38,10 +39,10 @@ export interface iMishna {
   previous?: iMarker;
   next?: iMarker;
   guid: string;
-  /** Set by the BE when the canonical URL differs from what the FE requested (unify second source). */
+  /** Set by the BE when the canonical URL differs from what the FE requested (any non-first unify source). */
   _redirectTo?: { tractate: string; chapter: string; mishna: string };
-  /** Set by the BE when this Mishna was unified from two sources. */
-  _unified?: { sources: [string, string] };
+  /** Set by the BE when this Mishna was unified from 2 or 3 sources (in chapter order). */
+  _unified?: { sources: string[] };
   /** Set by the BE when this Mishna is one part of a split. `totalParts` is the count, `currentPart` is 1-based. */
   _split?: { source: string; currentPart: number; totalParts: number };
 }

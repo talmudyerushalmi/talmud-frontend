@@ -7,10 +7,10 @@ export interface MishnaCut {
   offset: number;
 }
 
-/** Two adjacent source halachas presented as one (e.g. \u05d5+\u05d6). */
+/** 2 or 3 adjacent source halachas presented as one (e.g. \u05d5-\u05d6 or \u05d5-\u05d6-\u05d7). */
 export interface UnifyOperation {
   kind: 'unify';
-  sources: [string, string];
+  sources: string[];
 }
 
 /** One source halacha presented as 2 or 3 mini-halachas. */

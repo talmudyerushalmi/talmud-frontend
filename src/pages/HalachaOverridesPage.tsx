@@ -112,8 +112,7 @@ const HalachaOverridesPage: React.FC = () => {
     const claimed = new Set<string>();
     for (const op of operations) {
       if (op.kind === 'unify') {
-        claimed.add(op.sources[0]);
-        claimed.add(op.sources[1]);
+        op.sources.forEach((s) => claimed.add(s));
       } else {
         claimed.add(op.source);
       }
@@ -124,8 +123,8 @@ const HalachaOverridesPage: React.FC = () => {
   // -------- Actions --------
 
   const handleApplyUnify = useCallback(
-    (a: string, b: string) => {
-      const next: UnifyOperation = { kind: 'unify', sources: [a, b] };
+    (sources: string[]) => {
+      const next: UnifyOperation = { kind: 'unify', sources };
       setOperations((prev) => [...prev, next]);
       setInfo(null);
       setError(null);
@@ -321,7 +320,7 @@ export default HalachaOverridesPage;
 interface UnifyControlsProps {
   eligibleSources: HalachaStructure[];
   structure: HalachaStructure[];
-  onApply: (a: string, b: string) => void;
+  onApply: (sources: string[]) => void;
 }
 
 const UnifyControls: React.FC<UnifyControlsProps> = ({
@@ -330,17 +329,29 @@ const UnifyControls: React.FC<UnifyControlsProps> = ({
   onApply,
 }) => {
   const [first, setFirst] = useState<string>('');
+  const [count, setCount] = useState<2 | 3>(2);
 
-  // For unify we need the SECOND source to be the immediate next halacha in the original
-  // chapter order, AND it must also be a passthrough. We surface only valid candidates.
-  const partner = useMemo(() => {
+  // For unify the additional sources must be the immediately following halachas in the
+  // original chapter order AND each must still be a passthrough (eligible). We resolve
+  // the full source list up front so the apply button only enables on a fully valid group.
+  const partners = useMemo<string[] | null>(() => {
     if (!first) return null;
     const i = structure.findIndex((h) => h.source === first);
-    if (i === -1 || i + 1 >= structure.length) return null;
-    const next = structure[i + 1];
-    const isNextEligible = eligibleSources.some((h) => h.source === next.source);
-    return isNextEligible ? next.source : null;
-  }, [first, structure, eligibleSources]);
+    if (i === -1) return null;
+    const result: string[] = [];
+    for (let offset = 1; offset < count; offset++) {
+      const candidate = structure[i + offset];
+      if (!candidate) return null; // past the end of the chapter
+      const isEligible = eligibleSources.some((h) => h.source === candidate.source);
+      if (!isEligible) return null;
+      result.push(candidate.source);
+    }
+    return result;
+  }, [first, count, structure, eligibleSources]);
+
+  const partnerLabel = partners
+    ? partners.map((p) => hebrewMap.get(p) ?? p).join(', ')
+    : '—';
 
   return (
     <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
@@ -358,17 +369,33 @@ const UnifyControls: React.FC<UnifyControlsProps> = ({
         </Select>
       </FormControl>
 
+      <FormControl sx={{ minWidth: 140 }} size="small">
+        <InputLabel>מספר הלכות</InputLabel>
+        <Select
+          label="מספר הלכות"
+          value={count}
+          onChange={(e) => setCount(Number(e.target.value) as 2 | 3)}>
+          <MenuItem value={2}>2 הלכות</MenuItem>
+          <MenuItem value={3}>3 הלכות</MenuItem>
+        </Select>
+      </FormControl>
+
       <Typography variant="body2" color="text.secondary">
-        תאוחד עם הלכה {partner ? hebrewMap.get(partner) ?? partner : '—'}
+        {partners
+          ? `תאוחד עם הלכה ${partnerLabel}`
+          : first
+            ? 'אין מספיק הלכות זמינות לאיחוד'
+            : 'בחר הלכה לאיחוד'}
       </Typography>
 
       <Button
         variant="contained"
-        disabled={!first || !partner}
+        disabled={!first || !partners}
         onClick={() => {
-          if (!first || !partner) return;
-          onApply(first, partner);
+          if (!first || !partners) return;
+          onApply([first, ...partners]);
           setFirst('');
+          setCount(2);
         }}>
         אחד
       </Button>
@@ -693,8 +720,7 @@ function buildLayoutChips(
   for (let i = 0; i < operations.length; i++) {
     const op = operations[i];
     if (op.kind === 'unify') {
-      opIdxBySource.set(op.sources[0], i);
-      opIdxBySource.set(op.sources[1], i);
+      op.sources.forEach((s) => opIdxBySource.set(s, i));
     } else {
       opIdxBySource.set(op.source, i);
     }
@@ -713,13 +739,13 @@ function buildLayoutChips(
       });
       continue;
     }
-    if (seenOps.has(opIdx)) continue; // unify second source already rendered
+    if (seenOps.has(opIdx)) continue; // subsequent unify sources already rendered as one chip
     seenOps.add(opIdx);
     const op = operations[opIdx];
     if (op.kind === 'unify') {
       chips.push({
         key: `unify-${opIdx}`,
-        label: formatUnifiedName(op.sources[0], op.sources[1]),
+        label: formatUnifiedName(op.sources),
         color: 'primary',
         variant: 'filled',
         operationIdx: opIdx,
