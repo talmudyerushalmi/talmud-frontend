@@ -5,6 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { ISearchResult } from '../../store/reducers/searchReducer';
 import { hebrewMap } from '../../inc/utils';
 import { getTractate, getChapter, getMishna } from '../../inc/mishnaUtils';
+import {
+  formatSplitPartName,
+  formatUnifiedName,
+} from '../../inc/halachaOverrideDisplay';
 import NosachView from '../MishnaView/NosachView';
 import { ShowEditType } from '../../store/reducers/mishnaViewReducer';
 import { iTractate } from '../../types/types';
@@ -75,6 +79,22 @@ const SearchResults: FC<SearchResultsProps> = ({ isLoading, searchResults, query
         const tractateInfo = allTractates.find((item) => item.id === tractate);
         const tractateTitle = tractateInfo?.title_heb || tractate;
 
+        // Resolve the halacha's "real" label using the same override info the chapter
+        // chooser uses. For splits we rely on `result.part` (stamped by the BE in
+        // `decorateSearchResults`); for unifies we look up `unifiedWithAll` on the nav
+        // entry — `getAllTractates` already runs through `overlayTractateNavList`.
+        let halachaLabel: string;
+        if (result.part) {
+          halachaLabel = formatSplitPartName(mishna, result.part);
+        } else {
+          const chapterInfo = tractateInfo?.chapters.find((c) => c.id === chapter);
+          const mishnaInfo = chapterInfo?.mishnaiot.find((m) => m.mishna === mishna);
+          halachaLabel =
+            mishnaInfo?.unifiedWithAll && mishnaInfo.unifiedWithAll.length >= 2
+              ? formatUnifiedName(mishnaInfo.unifiedWithAll)
+              : (hebrewMap.get(mishna) ?? mishna);
+        }
+
         return (
           <Card
             key={index}
@@ -125,7 +145,7 @@ const SearchResults: FC<SearchResultsProps> = ({ isLoading, searchResults, query
                   fontSize: 16,
                   fontWeight: 'bold',
                 }}>
-                {tractateTitle}, {hebrewMap.get(chapter)}, {hebrewMap.get(mishna)}
+                {tractateTitle}, {hebrewMap.get(chapter)}, {halachaLabel}
               </Typography>
               <Divider sx={{ my: 1 }} />
             </Box>
