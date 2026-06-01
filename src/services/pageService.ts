@@ -99,8 +99,13 @@ export default class PageService {
     return response.data;
   }
 
-  static async getAllTractates(): Promise<iTractate[]> {
-    const url = `/tractates`;
+  /**
+   * `opts.raw=true` requests the un-overlaid tractate list — used by the admin nav bar
+   * so editors can pick each underlying source halacha (ב, ג) when unifies are in play.
+   * View-side callers omit it and keep today's override-aware merged navigation.
+   */
+  static async getAllTractates(opts: { raw?: boolean } = {}): Promise<iTractate[]> {
+    const url = opts.raw ? `/tractates?raw=true` : `/tractates`;
     const response = await axiosInstance.get(url);
     return response.data.tractates;
   }

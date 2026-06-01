@@ -32,10 +32,16 @@ interface Props {
   stickyNavigation?: boolean;
   showSearchBar?: boolean;
   loading: boolean;
+  /**
+   * When true, the bundled `ChooseMishnaBar` lists each underlying source halacha
+   * individually (no override merging). Admin pages set this so editors can pick ב or ג
+   * directly even when ב-ג is unified.
+   */
+  raw?: boolean;
 }
 
 const PageWithNavigationContent = (props: Props) => {
-  const { linkPrefix, allChapterAllowed, showDafAmudNavigation = false, stickyNavigation = true, showSearchBar = true, afterNavigateHandler, loading } = props;
+  const { linkPrefix, allChapterAllowed, showDafAmudNavigation = false, stickyNavigation = true, showSearchBar = true, raw = false, afterNavigateHandler, loading } = props;
   const { optionsComponent } = useStickyOptions();
 
   const navigate = useNavigate();
@@ -67,6 +73,7 @@ const PageWithNavigationContent = (props: Props) => {
         shouldShowOptions={true}
         optionsComponent={optionsComponent}
         showSearchBar={showSearchBar}
+        raw={raw}
       />
       <Box
         sx={{
