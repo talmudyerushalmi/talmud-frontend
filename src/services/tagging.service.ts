@@ -334,8 +334,26 @@ export function searchRabbies(query: string, limit: number = 10): Rabbi[] {
 // ─── API service ───
 
 export const taggingService = {
-  getSublines: async (tractate: string, chapter: string, mishna: string): Promise<TaggingSubline[]> => {
-    const response = await axiosInstance.get(`/tagging/${tractate}/${chapter}/${mishna}/sublines`);
+  /**
+   * `opts.compose` opts into halacha-override processing so the returned tagging data
+   * lines up with the override-aware mishna view (see `MishnaPage`'s tagged mode). The
+   * admin TaggingPage omits it and gets the raw source mishna's sublines with their
+   * original indices — that's the layer it edits against.
+   *
+   * `opts.part` is honoured only with `compose=true` and only for split halachas.
+   */
+  getSublines: async (
+    tractate: string,
+    chapter: string,
+    mishna: string,
+    opts: { compose?: boolean; part?: number } = {},
+  ): Promise<TaggingSubline[]> => {
+    const params = new URLSearchParams();
+    if (opts.compose) params.set('compose', 'true');
+    if (opts.part != null) params.set('part', String(opts.part));
+    const qs = params.toString();
+    const url = `/tagging/${tractate}/${chapter}/${mishna}/sublines${qs ? `?${qs}` : ''}`;
+    const response = await axiosInstance.get(url);
     return response.data;
   },
 

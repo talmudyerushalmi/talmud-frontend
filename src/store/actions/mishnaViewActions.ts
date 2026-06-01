@@ -118,11 +118,24 @@ export function getRichMishnaiotForChapter(tractate: string, chapter: string, ne
 
 export const setTaggingData = (taggingData: TaggingSubline[]) => action(SET_TAGGING_DATA, { taggingData });
 
-export const fetchTaggingData = (tractate: string, chapter: string, mishna: string): AppThunk<Promise<void>> =>
+/**
+ * View-side fetch — passes `compose: true` so the BE returns tagging data aligned with
+ * the override-aware mishna payload (renumbered indices for splits, merged for unifies).
+ * `part` is forwarded for split halachas.
+ */
+export const fetchTaggingData = (
+  tractate: string,
+  chapter: string,
+  mishna: string,
+  part?: number,
+): AppThunk<Promise<void>> =>
   async (dispatch) => {
     dispatch(startLoading());
     try {
-      const data = await taggingService.getSublines(tractate, chapter, mishna);
+      const data = await taggingService.getSublines(tractate, chapter, mishna, {
+        compose: true,
+        part,
+      });
       dispatch(setTaggingData(data));
     } catch (e) {
       console.error('Failed to fetch tagging data:', e);

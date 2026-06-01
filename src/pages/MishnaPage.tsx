@@ -95,7 +95,7 @@ const MishnaPage = (props: Props) => {
     setMishnaViewOptions();
   }, [setMishnaViewOptions]);
 
-  useTaggedViewSync(showEditType, tractate, chapter, mishna);
+  useTaggedViewSync(showEditType, tractate, chapter, mishna, part);
 
   useEffect(() => {
     getMishna(tractate, chapter, mishna, part);
