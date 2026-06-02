@@ -138,6 +138,15 @@ export interface iLine {
   mainLine: string;
   sublines?: iSubline[];
   parallels?: iParallelLink[];
+  /**
+   * Stamped by the BE compose pipeline (`composeUnify` / `composeSplit`) on every line
+   * that came from an override-aware payload. Holds the line's true source mishna id —
+   * the one whose document actually owns it. Used by the view to route the per-line
+   * "edit" pencil at the correct underlying source (otherwise a line from `003` shown
+   * in the unified `ב-ג` view would link to `/admin/edit/.../002/<line>`, and the raw
+   * edit fetch wouldn't find it).
+   */
+  _sourceMishna?: string;
 }
 
 export interface iManuscript {

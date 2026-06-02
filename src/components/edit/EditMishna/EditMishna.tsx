@@ -18,7 +18,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(getEditSettings(tractate, chapter, mishna));
   },
   getMishna: (tractate, chapter, mishna) => {
-    dispatch(getMishna(tractate, chapter, mishna));
+    // Admin edit — always fetch RAW source mishna (see EditLinePage for rationale).
+    dispatch(getMishna(tractate, chapter, mishna, { raw: true }));
   },
 });
 

@@ -20,7 +20,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(getEditSettings(tractate, chapter, mishna));
   },
   getMishna: (tractate, chapter, mishna) => {
-    dispatch(getMishna(tractate, chapter, mishna));
+    // Admin edit page — always fetch the RAW source mishna so the line list shows the
+    // underlying document (no compose for unify/split). The override-aware view lives
+    // on `MishnaPage` instead.
+    dispatch(getMishna(tractate, chapter, mishna, { raw: true }));
   },
 });
 

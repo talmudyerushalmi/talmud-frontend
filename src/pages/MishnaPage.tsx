@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(setMishnaViewOptions(DEFAULT_OPTIONS));
   },
   getMishna: (tractate: string, chapter: string, mishna: string, part?: number) => {
-    dispatch(getMishna(tractate, chapter, mishna, part));
+    dispatch(getMishna(tractate, chapter, mishna, { part }));
   },
 });
 

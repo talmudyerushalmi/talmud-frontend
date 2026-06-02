@@ -96,11 +96,23 @@ export function getCurrentTractate() {
   };
 }
 
-export function getMishna(tractate: string, chapter: string, mishna: string, part?: number) {
+/**
+ * Fetches the current mishna and writes it into `state.navigation.currentMishna`.
+ *
+ * `opts.part` (1-based) selects a mini-halacha for splits.
+ * `opts.raw=true` bypasses halacha-override processing — used by the admin edit pages
+ *   so editors always operate on the underlying source document.
+ */
+export function getMishna(
+  tractate: string,
+  chapter: string,
+  mishna: string,
+  opts: { part?: number; raw?: boolean } = {},
+) {
   return async function (dispatch, getState) {
     let mishnaData = await tryAsyncWithLoadingState(
       dispatch,
-      PageService.getMishna(tractate, chapter, mishna, { part }),
+      PageService.getMishna(tractate, chapter, mishna, opts),
     );
     if (mishnaData) {
       dispatch(setCurrentMishna(mishnaData));

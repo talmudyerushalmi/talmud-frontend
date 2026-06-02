@@ -71,13 +71,18 @@ export default class PageService {
     tractate: string,
     chapter: string,
     mishna: string,
-    opts: { part?: number } = {},
+    opts: { part?: number; raw?: boolean } = {},
   ): Promise<iMishna> {
     // `?part=N` is only meaningful for halachas that have been split via the override admin.
     // The BE clamps invalid values and ignores it for non-split halachas, so it's safe to
     // always pass through when present.
-    const qs = opts.part !== undefined ? `?part=${opts.part}` : '';
-    const url = `/mishna/${tractate}/${chapter}/${mishna}${qs}`;
+    // `?raw=true` bypasses override processing — used by the admin edit data path so
+    // editors operate on the underlying source document.
+    const params = new URLSearchParams();
+    if (opts.part !== undefined) params.set('part', String(opts.part));
+    if (opts.raw) params.set('raw', 'true');
+    const qs = params.toString();
+    const url = `/mishna/${tractate}/${chapter}/${mishna}${qs ? `?${qs}` : ''}`;
     const response = await axiosInstance.get(url);
     return this.convertMishnaParallels(response.data);
   }
