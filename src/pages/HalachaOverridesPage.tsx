@@ -671,23 +671,39 @@ const MishnaCutPicker: React.FC<MishnaCutPickerProps> = ({
  * and including that word lands on the left half, and the next whitespace + remaining
  * text lands on the right.
  *
- * The preview shows up to `PREVIEW_WINDOW` chars on either side of the cut to help
- * the editor locate the spot in long Mishnas.
+ * Both mid-line and end-of-line word boundaries are valid cut points (the BE slicer
+ * treats `offset >= text.length` as "entire block goes left, next block starts the
+ * right side"). The only boundary we skip is the very end of the LAST block — that
+ * would leave the right side empty.
+ *
+ * The preview shows up to `PREVIEW_WINDOW` chars on either side of the cut. For
+ * end-of-line cuts we pull the right-side preview from the start of the next block,
+ * so the chip reads `…<line N tail> ✂ <line N+1 head>…` — much easier to locate
+ * than `…<tail> ✂ …` with an empty right context.
  */
 function buildWordOptions(rich: any | null): WordOption[] {
-  if (!rich?.blocks) return [];
+  if (!rich?.blocks?.length) return [];
   const out: WordOption[] = [];
-  for (const blk of rich.blocks) {
+  const blocks = rich.blocks;
+  for (let blockIdx = 0; blockIdx < blocks.length; blockIdx++) {
+    const blk = blocks[blockIdx];
     const text: string = blk.text ?? '';
     if (!text) continue;
+    const isLastBlock = blockIdx === blocks.length - 1;
     // Match word boundaries: position immediately after each non-whitespace run.
     const re = /\S+/g;
     let m: RegExpExecArray | null;
     while ((m = re.exec(text)) !== null) {
       const wordEnd = m.index + m[0].length;
-      if (wordEnd <= 0 || wordEnd >= text.length) continue; // skip cuts at extreme edges
+      const atBlockEnd = wordEnd >= text.length;
+      // Drop the no-op cut at the end of the entire Mishna (nothing for the right half).
+      if (atBlockEnd && isLastBlock) continue;
       const left = text.slice(Math.max(0, wordEnd - PREVIEW_WINDOW), wordEnd);
-      const right = text.slice(wordEnd, wordEnd + PREVIEW_WINDOW);
+      // For end-of-line cuts, peek into the next block so the editor still sees context
+      // on the right. Falls back to in-block text for mid-line cuts.
+      const right = atBlockEnd
+        ? (blocks[blockIdx + 1]?.text ?? '').slice(0, PREVIEW_WINDOW)
+        : text.slice(wordEnd, wordEnd + PREVIEW_WINDOW);
       out.push({
         blockKey: blk.key,
         offset: wordEnd,
