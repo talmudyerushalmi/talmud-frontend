@@ -16,7 +16,6 @@ import {
   RabbiAlternative,
   SublineCategory,
   CategoryConnection,
-  SublineComment,
 } from '../../services/tagging.service';
 import { iMishna, iSubline } from '../../types/types';
 import { themeConstants } from '../../ui/Theme';
@@ -179,7 +178,7 @@ const TaggedSidebar: React.FC<Props> = ({
         {/* חכמים column */}
         <Box flex={1} sx={{ borderLeft: '1px solid', borderColor: 'divider', pr: 0.5, pl: 0.5 }}>
           <Typography variant="subtitle2" fontWeight="bold" mb={0.5} textAlign="center">
-            {isHebrew ? 'חכמים' : 'Sages'}
+            {isHebrew ? 'מבט כרונולוגי (חכמים)' : 'Chronological View (Sages)'}
           </Typography>
           {uniqueRabbis.length === 0 ? (
             <Typography variant="caption" color="text.secondary" display="block" textAlign="center">
@@ -225,7 +224,7 @@ const TaggedSidebar: React.FC<Props> = ({
         {/* קטגוריות column */}
         <Box flex={1} sx={{ pr: 0.5, pl: 0.5, direction: 'ltr', textAlign: 'left' }}>
           <Typography variant="subtitle2" fontWeight="bold" mb={0.5} textAlign="center">
-            {isHebrew ? 'קטגוריות' : 'Categories'}
+            {isHebrew ? 'קטגוריות שיח' : 'Discourse Categories'}
           </Typography>
           {uniqueCategories.length === 0 ? (
             <Typography variant="caption" color="text.secondary" display="block" textAlign="center">
@@ -405,21 +404,11 @@ const TaggedSidebar: React.FC<Props> = ({
               </Box>
             )}
 
-            {selectedSublineData.comments.length > 0 && (
-              <Box mb={1.5}>
-                <Typography variant="caption" fontWeight="bold" color="text.secondary" display="block" mb={0.5}>
-                  הערות:
-                </Typography>
-                {selectedSublineData.comments.map((comment: SublineComment, i: number) => (
-                  <Box key={i} sx={{ mb: 0.5, p: 0.75, borderRadius: 1, border: '1px solid', borderColor: 'divider' }}>
-                    <Typography variant="body2">{comment.text}</Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {comment.author} • {new Date(comment.timestamp).toLocaleDateString('he-IL')}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            )}
+            {/* Tagging comments are now surfaced directly on the subline via the
+                CommentOutlined chip + popover in SublineDisplay, so the per-subline
+                sidebar block no longer lists them. The empty-state below still
+                counts comments as tagging data — a comments-only subline keeps the
+                panel quiet rather than falsely claiming there's no tagging. */}
 
             {selectedSublineData.categories.length === 0 &&
              selectedSublineData.rabbiMentions.length === 0 &&
