@@ -7,10 +7,12 @@ import {
   Button,
   Chip,
   IconButton,
+  Popover,
   Typography,
   useTheme,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import React, { useEffect, useMemo, useRef } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { connect } from 'react-redux';
@@ -167,6 +169,9 @@ const SublineDisplay = (props: Props) => {
 
   const [expanded, setExpanded] = React.useState('');
   const [commentButtonHover, setCommentButtonHover] = React.useState(false);
+  // Anchor for the tagging-comments popover, opened from the comment icon rendered
+  // next to (or in place of) the category chips when a subline has SublineComment(s).
+  const [commentsAnchor, setCommentsAnchor] = React.useState<HTMLElement | null>(null);
 
   const isSelected = (subline: iSubline) => {
     return selectedSublines.some((s) => s.index === subline.index);
@@ -275,16 +280,25 @@ const SublineDisplay = (props: Props) => {
     }));
   }, [enrichedRabbiMentions]);
 
-  const hasCategoryHighlight = useMemo(() => {
-    if (!isTagged || selectedCategories.length === 0 || !sublineTagData) return false;
-    return sublineTagData.categories.some(cat => selectedCategories.includes(cat.categoryId));
-  }, [isTagged, selectedCategories, sublineTagData]);
-
   const continuationBundles = useMemo(() => {
     if (!isTagged) return null;
     return computeContinuationBundles(taggingData);
   }, [isTagged, taggingData]);
   const myBundle = continuationBundles?.get(subline.index) || null;
+
+  // המשך-without-connections sublines are bracketed under their source subline
+  // (e.g. a שאלה) — they visually belong to that bundle. So when the user toggles
+  // a category in the Discourse Categories sidebar, we highlight both the sublines
+  // tagged with that category AND any bundle members whose source carries it.
+  // We key off the bundle's `sourceCategoryId` (the same one that colors the
+  // bracket); if the source has multiple non-המשך categories, the bracket already
+  // commits to one of them, and we follow the same choice here.
+  const hasCategoryHighlight = useMemo(() => {
+    if (!isTagged || selectedCategories.length === 0 || !sublineTagData) return false;
+    if (sublineTagData.categories.some(cat => selectedCategories.includes(cat.categoryId))) return true;
+    if (myBundle && selectedCategories.includes(myBundle.sourceCategoryId)) return true;
+    return false;
+  }, [isTagged, selectedCategories, sublineTagData, myBundle]);
 
   const isTaggedSublineActive = isTagged && (
     selectedTaggedSubline === subline.index ||
@@ -333,7 +347,8 @@ const SublineDisplay = (props: Props) => {
         sx={{
           ...(isSublineSelected && !isTagged ? theme.custom.selectionColor : null),
           ...(hasCategoryHighlight ? { backgroundColor: '#f3e5f5' } : null),
-          ...(myBundle && !isTaggedSublineActive ? { backgroundColor: alpha(myBundle.sourceColor, 0.1) } : null),
+          // המשך bundle group is conveyed only by the bracket from ContinuationBundlePills;
+          // a per-subline paint here added a second layer of color that was visually noisy.
           ...(isTaggedSublineActive ? { backgroundColor: '#e3f2fd', border: '1px solid #90caf9' } : null),
           cursor: isTagged ? 'pointer' : undefined,
         }}
@@ -353,42 +368,70 @@ const SublineDisplay = (props: Props) => {
             rabbiMentions={isTagged ? nosachRabbiMentions : undefined}
             selectedRabbiIds={isTagged ? selectedRabbis : undefined}
           />
-          {isTagged && taggedDetailedView && sublineTagData && sublineTagData.categories.length > 0 &&
-            sublineTagData.categories.map((cat) => {
-              const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
-              if (!catDef) return null;
-              const isBundleSourceChip = !!myBundle && subline.index === myBundle.sourceIndex && cat.categoryId === myBundle.sourceCategoryId;
-              if (myBundle) {
-                const isSource = subline.index === myBundle.sourceIndex;
-                if (!isSource && cat.categoryId === CONTINUATION_CATEGORY_ID && (!cat.connections || cat.connections.length === 0)) return null;
-              }
-              const bundleSourceProp = isBundleSourceChip
-                ? { [BUNDLE_SOURCE_ATTR]: 'true' }
-                : {};
-              return (
-                <Chip
-                  key={cat.categoryId}
-                  size="small"
-                  label={isHebrew ? catDef.label : catDef.labelEn}
-                  {...bundleSourceProp}
-                  sx={{
-                    fontSize: '0.6rem',
-                    height: 18,
-                    ml: 0.5,
-                    backgroundColor: alpha(catDef.color, 0.13),
-                    color: catDef.color,
-                    border: `1px solid ${catDef.color}`,
-                    fontWeight: 'bold',
-                    flexShrink: 0,
-                    ...(isBundleSourceChip ? {
-                      borderBottomLeftRadius: 0,
-                      borderBottomRightRadius: 0,
-                      borderBottom: 'none',
-                    } : null),
-                  }}
-                />
-              );
-            })
+          {isTagged && taggedDetailedView && sublineTagData &&
+            (sublineTagData.categories.length > 0 || sublineTagData.comments.length > 0) && (
+              <>
+                {/* Comment indicator: bare icon (no chip wrapper). Rendered BEFORE
+                    the category chips so that when both exist, the category chip
+                    ends up at the end of the subline row (which is also where the
+                    ContinuationBundlePills bracket anchors to). Stops propagation
+                    so the subline's own tagged-click handler doesn't fire. */}
+                {sublineTagData.comments.length > 0 && (
+                  <IconButton
+                    size="small"
+                    aria-label={isHebrew ? 'הצג הערות לשורה' : 'show subline comments'}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCommentsAnchor(e.currentTarget);
+                    }}
+                    sx={{
+                      ml: 0.5,
+                      p: 0.25,
+                      color: '#0288d1',
+                      flexShrink: 0,
+                      transform: 'translateY(-2px)',
+                    }}
+                  >
+                    <CommentOutlinedIcon sx={{ fontSize: '1.40rem' }} />
+                  </IconButton>
+                )}
+                {sublineTagData.categories.map((cat) => {
+                  const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
+                  if (!catDef) return null;
+                  const isBundleSourceChip = !!myBundle && subline.index === myBundle.sourceIndex && cat.categoryId === myBundle.sourceCategoryId;
+                  if (myBundle) {
+                    const isSource = subline.index === myBundle.sourceIndex;
+                    if (!isSource && cat.categoryId === CONTINUATION_CATEGORY_ID && (!cat.connections || cat.connections.length === 0)) return null;
+                  }
+                  const bundleSourceProp = isBundleSourceChip
+                    ? { [BUNDLE_SOURCE_ATTR]: 'true' }
+                    : {};
+                  return (
+                    <Chip
+                      key={cat.categoryId}
+                      size="small"
+                      label={isHebrew ? catDef.label : catDef.labelEn}
+                      {...bundleSourceProp}
+                      sx={{
+                        fontSize: '0.6rem',
+                        height: 18,
+                        ml: 0.5,
+                        backgroundColor: alpha(catDef.color, 0.13),
+                        color: catDef.color,
+                        border: `1px solid ${catDef.color}`,
+                        fontWeight: 'bold',
+                        flexShrink: 0,
+                        ...(isBundleSourceChip ? {
+                          borderBottomLeftRadius: 0,
+                          borderBottomRightRadius: 0,
+                          borderBottom: 'none',
+                        } : null),
+                      }}
+                    />
+                  );
+                })}
+              </>
+            )
           }
           {/* Daf/Amud badge positioned on the right */}
           {dafAmudMarker && (
@@ -501,6 +544,39 @@ const SublineDisplay = (props: Props) => {
           </AccordionDetails>
         )}
       </Accordion>
+      {/* Read-only popover for tagging comments (SublineComment[]). Authoring happens
+          in the admin TaggingPage; this view replaces the old bottom-left sidebar
+          listing so commented sublines are discoverable without clicking each one. */}
+      {sublineTagData && sublineTagData.comments.length > 0 && (
+        <Popover
+          open={Boolean(commentsAnchor)}
+          anchorEl={commentsAnchor}
+          onClose={() => setCommentsAnchor(null)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+          slotProps={{ paper: { sx: { maxWidth: 320 } } }}
+        >
+          <Box sx={{ p: 1, direction: isHebrew ? 'rtl' : 'ltr' }}>
+            {sublineTagData.comments.map((comment, i) => (
+              <Box
+                key={i}
+                sx={{
+                  mb: i === sublineTagData.comments.length - 1 ? 0 : 0.5,
+                  p: 0.75,
+                  borderRadius: 1,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                }}
+              >
+                <Typography variant="body2">{comment.text}</Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {comment.author} • {new Date(comment.timestamp).toLocaleDateString('he-IL')}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Popover>
+      )}
     </>
   );
 };
