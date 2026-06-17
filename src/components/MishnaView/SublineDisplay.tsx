@@ -169,7 +169,7 @@ const SublineDisplay = (props: Props) => {
 
   const [expanded, setExpanded] = React.useState('');
   const [commentButtonHover, setCommentButtonHover] = React.useState(false);
-  // Anchor for the tagging-comments popover, opened from the comment chip rendered
+  // Anchor for the tagging-comments popover, opened from the comment icon rendered
   // next to (or in place of) the category chips when a subline has SublineComment(s).
   const [commentsAnchor, setCommentsAnchor] = React.useState<HTMLElement | null>(null);
 
@@ -379,7 +379,7 @@ const SublineDisplay = (props: Props) => {
                 {sublineTagData.comments.length > 0 && (
                   <IconButton
                     size="small"
-                    aria-label="show subline comments"
+                    aria-label={isHebrew ? 'הצג הערות לשורה' : 'show subline comments'}
                     onClick={(e) => {
                       e.stopPropagation();
                       setCommentsAnchor(e.currentTarget);
@@ -570,7 +570,7 @@ const SublineDisplay = (props: Props) => {
               >
                 <Typography variant="body2">{comment.text}</Typography>
                 <Typography variant="caption" color="text.secondary">
-                  {comment.author} • {new Date(comment.timestamp).toLocaleString('he-IL')}
+                  {comment.author} • {new Date(comment.timestamp).toLocaleDateString('he-IL')}
                 </Typography>
               </Box>
             ))}
