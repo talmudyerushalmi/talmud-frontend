@@ -280,16 +280,25 @@ const SublineDisplay = (props: Props) => {
     }));
   }, [enrichedRabbiMentions]);
 
-  const hasCategoryHighlight = useMemo(() => {
-    if (!isTagged || selectedCategories.length === 0 || !sublineTagData) return false;
-    return sublineTagData.categories.some(cat => selectedCategories.includes(cat.categoryId));
-  }, [isTagged, selectedCategories, sublineTagData]);
-
   const continuationBundles = useMemo(() => {
     if (!isTagged) return null;
     return computeContinuationBundles(taggingData);
   }, [isTagged, taggingData]);
   const myBundle = continuationBundles?.get(subline.index) || null;
+
+  // המשך-without-connections sublines are bracketed under their source subline
+  // (e.g. a שאלה) — they visually belong to that bundle. So when the user toggles
+  // a category in the Discourse Categories sidebar, we highlight both the sublines
+  // tagged with that category AND any bundle members whose source carries it.
+  // We key off the bundle's `sourceCategoryId` (the same one that colors the
+  // bracket); if the source has multiple non-המשך categories, the bracket already
+  // commits to one of them, and we follow the same choice here.
+  const hasCategoryHighlight = useMemo(() => {
+    if (!isTagged || selectedCategories.length === 0 || !sublineTagData) return false;
+    if (sublineTagData.categories.some(cat => selectedCategories.includes(cat.categoryId))) return true;
+    if (myBundle && selectedCategories.includes(myBundle.sourceCategoryId)) return true;
+    return false;
+  }, [isTagged, selectedCategories, sublineTagData, myBundle]);
 
   const isTaggedSublineActive = isTagged && (
     selectedTaggedSubline === subline.index ||
@@ -362,6 +371,30 @@ const SublineDisplay = (props: Props) => {
           {isTagged && taggedDetailedView && sublineTagData &&
             (sublineTagData.categories.length > 0 || sublineTagData.comments.length > 0) && (
               <>
+                {/* Comment indicator: bare icon (no chip wrapper). Rendered BEFORE
+                    the category chips so that when both exist, the category chip
+                    ends up at the end of the subline row (which is also where the
+                    ContinuationBundlePills bracket anchors to). Stops propagation
+                    so the subline's own tagged-click handler doesn't fire. */}
+                {sublineTagData.comments.length > 0 && (
+                  <IconButton
+                    size="small"
+                    aria-label="show subline comments"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCommentsAnchor(e.currentTarget);
+                    }}
+                    sx={{
+                      ml: 0.5,
+                      p: 0.25,
+                      color: '#0288d1',
+                      flexShrink: 0,
+                      transform: 'translateY(-2px)',
+                    }}
+                  >
+                    <CommentOutlinedIcon sx={{ fontSize: '1.40rem' }} />
+                  </IconButton>
+                )}
                 {sublineTagData.categories.map((cat) => {
                   const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
                   if (!catDef) return null;
@@ -397,28 +430,6 @@ const SublineDisplay = (props: Props) => {
                     />
                   );
                 })}
-                {/* Comment indicator: bare icon (no chip wrapper) next to the
-                    category chips, or alone when there are no categories. Opens
-                    a popover with the SublineComment list. Stops propagation so
-                    the subline's own tagged-click handler doesn't fire. */}
-                {sublineTagData.comments.length > 0 && (
-                  <IconButton
-                    size="small"
-                    aria-label="show subline comments"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCommentsAnchor(e.currentTarget);
-                    }}
-                    sx={{
-                      ml: 0.5,
-                      p: 0.25,
-                      color: '#0288d1',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <CommentOutlinedIcon sx={{ fontSize: '0.95rem' }} />
-                  </IconButton>
-                )}
               </>
             )
           }
