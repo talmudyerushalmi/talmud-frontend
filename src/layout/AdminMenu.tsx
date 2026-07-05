@@ -32,8 +32,8 @@ const AdminMenu = (props: any) => {
 
   const goToEditingPage = useCallback(
     (intent: 'edit' | 'tagging', sourceMishnaId: string) => {
-      const tractate = currentRoute.tractate ? currentRoute.tractate : 'yevamot';
-      const chapter = currentRoute.chapter ? currentRoute.chapter : '001';
+      const tractate = currentRoute?.tractate ? currentRoute.tractate : 'yevamot';
+      const chapter = currentRoute?.chapter ? currentRoute.chapter : '001';
       const path = intent === 'edit' ? 'edit' : 'tagging';
       navigate(`/admin/${path}/${tractate}/${chapter}/${sourceMishnaId}`);
     },
@@ -48,7 +48,7 @@ const AdminMenu = (props: any) => {
         setPickerIntent(intent);
         return;
       }
-      const mishna = currentRoute.mishna ? currentRoute.mishna : '001';
+      const mishna = currentRoute?.mishna ? currentRoute.mishna : '001';
       goToEditingPage(intent, mishna);
     },
     [currentMishna, currentRoute, goToEditingPage],
@@ -58,9 +58,9 @@ const AdminMenu = (props: any) => {
   const handleTagging = useCallback(() => startEditFlow('tagging'), [startEditFlow]);
 
   const handleViewMishna = useCallback(() => {
-    const tractate = currentRoute.tractate ? currentRoute.tractate : 'yevamot';
-    const chapter = currentRoute.chapter ? currentRoute.chapter : '001';
-    const mishna = currentRoute.mishna ? currentRoute.mishna : '001';
+    const tractate = currentRoute?.tractate ? currentRoute.tractate : 'yevamot';
+    const chapter = currentRoute?.chapter ? currentRoute.chapter : '001';
+    const mishna = currentRoute?.mishna ? currentRoute.mishna : '001';
     navigate(`/talmud/${tractate}/${chapter}/${mishna}`);
     handleClose();
   }, [currentRoute, navigate]);
@@ -76,8 +76,8 @@ const AdminMenu = (props: any) => {
         <MenuItem onClick={handleTagging}>עורך תגיות</MenuItem>
         <MenuItem
           onClick={() => {
-            const tractate = currentRoute.tractate || 'yevamot';
-            const chapter = currentRoute.chapter || '001';
+            const tractate = currentRoute?.tractate || 'yevamot';
+            const chapter = currentRoute?.chapter || '001';
             navigate(`/admin/halacha-overrides/${tractate}/${chapter}`);
             handleClose();
           }}>
