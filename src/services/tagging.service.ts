@@ -350,7 +350,7 @@ export const taggingService = {
   ): Promise<TaggingSubline[]> => {
     const params = new URLSearchParams();
     if (opts.compose) params.set('compose', 'true');
-    if (opts.part != null) params.set('part', String(opts.part));
+    if (opts.part !== undefined) params.set('part', String(opts.part));
     const qs = params.toString();
     const url = `/tagging/${tractate}/${chapter}/${mishna}/sublines${qs ? `?${qs}` : ''}`;
     const response = await axiosInstance.get(url);
