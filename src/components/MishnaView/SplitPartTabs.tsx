@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { formatSplitPartName } from '../../inc/halachaOverrideDisplay';
 
 interface Props {
-  /** Original (pre-split) halacha id, e.g. '003'. Used to label tabs like \u05d31, \u05d32, \u05d33. */
+  /** Original (pre-split) halacha id, e.g. '003'. Used to label tabs like ג1, ג2, ג3. */
   source: string;
   /** Total number of parts the original halacha is split into (2 or 3). */
   totalParts: number;
