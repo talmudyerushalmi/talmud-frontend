@@ -117,7 +117,7 @@ const ChooseMishna = (props: Props) => {
           return t('The whole chapter');
         }
         // Unified entries (BE-supplied `unifiedWithAll`, length 2 or 3) render as e.g.
-        // "\u05d5-\u05d6" / "\u05d5-\u05d6-\u05d7" in Hebrew and "6-7" / "6-7-8" in non-Hebrew locales.
+        // "ו-ז" / "ו-ז-ח" in Hebrew and "6-7" / "6-7-8" in non-Hebrew locales.
         // Passthrough entries keep their existing labels.
         if (option.unifiedWithAll && option.unifiedWithAll.length >= 2) {
           return isHebrew
