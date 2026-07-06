@@ -65,6 +65,13 @@ const AdminMenu = (props: any) => {
     handleClose();
   }, [currentRoute, navigate]);
 
+  const handleHalachaOverrides = useCallback(() => {
+    const tractate = currentRoute?.tractate || 'yevamot';
+    const chapter = currentRoute?.chapter || '001';
+    navigate(`/admin/halacha-overrides/${tractate}/${chapter}`);
+    handleClose();
+  }, [currentRoute, navigate]);
+
   return (
     <>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
@@ -74,15 +81,7 @@ const AdminMenu = (props: any) => {
         <MenuItem onClick={handleViewMishna}>עמוד משנה</MenuItem>
         <MenuItem onClick={handleEditMishna}>עריכת משנה</MenuItem>
         <MenuItem onClick={handleTagging}>עורך תגיות</MenuItem>
-        <MenuItem
-          onClick={() => {
-            const tractate = currentRoute?.tractate || 'yevamot';
-            const chapter = currentRoute?.chapter || '001';
-            navigate(`/admin/halacha-overrides/${tractate}/${chapter}`);
-            handleClose();
-          }}>
-          עריכת מבנה הפרק
-        </MenuItem>
+        <MenuItem onClick={handleHalachaOverrides}>עריכת מבנה הפרק</MenuItem>
         <MenuItem
           onClick={() => {
             navigate(`/admin/comments/moderation`);
