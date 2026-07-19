@@ -12,6 +12,10 @@ export interface CategoryConnection {
 export interface SublineCategory {
   categoryId: string;
   connections: CategoryConnection[];
+  /** Present only for AI-suggested tags awaiting review. Absent = approved/regular. */
+  status?: 'pending';
+  /** AI-provided rationale, shown while pending and kept after approval. */
+  reason?: string;
 }
 
 export interface RabbiAlternative {
@@ -39,10 +43,38 @@ export interface TaggingSubline {
   index: number;
   text: string;
   lineNumber: string;
+  /** Name of the sugya this subline belongs to ('' for the anonymous intro block). */
+  sugiaName?: string;
   categories: SublineCategory[];
   rabbiMentions: RabbiMention[];
   comments: SublineComment[];
 }
+
+// ─── AI tagging (results-file upload) ───
+
+/** Shape of the local AI results JSON file the editor uploads per sugya. */
+export interface AiTaggingFile {
+  sugya_id?: string;
+  sub_lines: AiTaggingFileSubline[];
+}
+
+export interface AiTaggingFileSubline {
+  sub_line_index: number;
+  text?: string;
+  categories: { id: string; reason?: string }[];
+}
+
+/** Normalized AI suggestions for one subline, sent to the apply endpoint. */
+export interface AiSublineSuggestion {
+  sublineIndex: number;
+  categories: { categoryId: string; reason?: string }[];
+}
+
+export type ResolveAiAction =
+  | 'approveCategory'
+  | 'dismissCategory'
+  | 'approveAll'
+  | 'dismissAll';
 
 export interface Rabbi {
   id: string;
@@ -365,5 +397,41 @@ export const taggingService = {
     dto: UpdateSublineTagsDto,
   ): Promise<void> => {
     await axiosInstance.put(`/tagging/${tractate}/${chapter}/${mishna}/sublines/${sublineIndex}`, dto);
+  },
+
+  /**
+   * Applies a batch of AI suggestions (one sugya) as pending categories.
+   * Returns the refreshed subline list for the whole halacha.
+   */
+  applyAiTags: async (
+    tractate: string,
+    chapter: string,
+    mishna: string,
+    sublines: AiSublineSuggestion[],
+  ): Promise<{ applied: number; sublines: TaggingSubline[] }> => {
+    const response = await axiosInstance.put(
+      `/tagging/${tractate}/${chapter}/${mishna}/ai/apply`,
+      { sublines },
+    );
+    return response.data;
+  },
+
+  /**
+   * Approves/dismisses pending AI categories on a single subline. Returns the
+   * subline's resulting categories so the caller can update local state.
+   */
+  resolveAiTags: async (
+    tractate: string,
+    chapter: string,
+    mishna: string,
+    sublineIndex: number,
+    action: ResolveAiAction,
+    categoryId?: string,
+  ): Promise<{ index: number; categories: SublineCategory[] }> => {
+    const response = await axiosInstance.put(
+      `/tagging/${tractate}/${chapter}/${mishna}/sublines/${sublineIndex}/ai/resolve`,
+      { action, categoryId },
+    );
+    return response.data.subline;
   },
 };

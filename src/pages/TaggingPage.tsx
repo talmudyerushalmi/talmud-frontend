@@ -7,6 +7,12 @@ import {
   ButtonGroup,
   Chip,
   CircularProgress,
+  Collapse,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Drawer,
   IconButton,
@@ -25,6 +31,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import {
   TAGGING_CATEGORIES,
   Rabbi,
@@ -35,6 +45,9 @@ import {
   TaggingSubline,
   taggingService,
   searchRabbies,
+  AiTaggingFile,
+  AiSublineSuggestion,
+  ResolveAiAction,
 } from '../services/tagging.service';
 import { RabbiCard } from '../components/tagging/RabbiCard';
 import { RabbiSearchBox } from '../components/tagging/RabbiSearchBox';
@@ -52,6 +65,17 @@ interface TextSelection {
   endIndex: number;
   text: string;
 }
+
+interface SugyaGroup {
+  /** Stable key for collapse/expand + React keys. */
+  key: string;
+  /** Sugya display name; '' for the anonymous intro block. */
+  name: string;
+  sublines: TaggingSubline[];
+}
+
+const sublineHasPending = (s: TaggingSubline): boolean =>
+  s.categories.some(c => c.status === 'pending');
 
 const SIDEBAR_WIDTH = 360;
 
@@ -91,6 +115,14 @@ const TaggingPage: React.FC = () => {
   const [pendingComments, setPendingComments] = useState<SublineComment[]>([]);
   const [newCommentText, setNewCommentText] = useState('');
 
+  // AI tagging state
+  const [collapsedSugyot, setCollapsedSugyot] = useState<Set<string>>(new Set());
+  const [aiDialogSugya, setAiDialogSugya] = useState<SugyaGroup | null>(null);
+  const [aiParsedFile, setAiParsedFile] = useState<AiTaggingFile | null>(null);
+  const [aiFileName, setAiFileName] = useState<string>('');
+  const [aiFileError, setAiFileError] = useState<string | null>(null);
+  const [aiApplying, setAiApplying] = useState(false);
+
   const sublineRefs = useRef<Record<number, HTMLElement | null>>({});
 
   const loadData = useCallback(async () => {
@@ -124,6 +156,141 @@ const TaggingPage: React.FC = () => {
   const searchedRabbies = useMemo(() => {
     return searchRabbies(rabbiSearchQuery, resultLimit);
   }, [rabbiSearchQuery, resultLimit]);
+
+  // Group the flat subline list into contiguous sugya sections. The backend
+  // stamps each subline with its owning `sugiaName` (runs of equal name = one
+  // sugya); the leading unnamed run is the anonymous "intro" block.
+  const sugyaGroups = useMemo<SugyaGroup[]>(() => {
+    const groups: SugyaGroup[] = [];
+    let current: SugyaGroup | null = null;
+    for (const s of sublines) {
+      const name = s.sugiaName ?? '';
+      if (!current || name !== current.name) {
+        current = { key: `${name}#${s.index}`, name, sublines: [] };
+        groups.push(current);
+      }
+      current.sublines.push(s);
+    }
+    return groups;
+  }, [sublines]);
+
+  const toggleSugyaCollapsed = useCallback((key: string) => {
+    setCollapsedSugyot(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }, []);
+
+  // ─── AI tagging helpers ───
+
+  const openAiDialog = (group: SugyaGroup) => {
+    setAiDialogSugya(group);
+    setAiParsedFile(null);
+    setAiFileName('');
+    setAiFileError(null);
+  };
+
+  const closeAiDialog = () => {
+    setAiDialogSugya(null);
+    setAiParsedFile(null);
+    setAiFileName('');
+    setAiFileError(null);
+  };
+
+  const handleAiFileSelected = (file: File | undefined) => {
+    if (!file) return;
+    setAiFileName(file.name);
+    setAiFileError(null);
+    setAiParsedFile(null);
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result)) as AiTaggingFile;
+        if (!parsed || !Array.isArray(parsed.sub_lines)) {
+          throw new Error('missing sub_lines');
+        }
+        setAiParsedFile(parsed);
+      } catch (e) {
+        setAiFileError('קובץ לא תקין — צריך להיות JSON עם שדה sub_lines');
+      }
+    };
+    reader.onerror = () => setAiFileError('קריאת הקובץ נכשלה');
+    reader.readAsText(file);
+  };
+
+  const applyAiFile = async () => {
+    if (!aiDialogSugya || !aiParsedFile || !tractate || !chapter || !mishna) return;
+    setAiApplying(true);
+    setError(null);
+    try {
+      // Scope to the clicked sugya: only file entries whose sub_line_index maps
+      // to a subline in THIS sugya are applied; the rest are skipped.
+      const sugyaIndices = new Set(aiDialogSugya.sublines.map(s => s.index));
+      const suggestions: AiSublineSuggestion[] = [];
+      let skipped = 0;
+      for (const entry of aiParsedFile.sub_lines) {
+        if (!sugyaIndices.has(entry.sub_line_index)) {
+          skipped += 1;
+          continue;
+        }
+        suggestions.push({
+          sublineIndex: entry.sub_line_index,
+          categories: (entry.categories ?? []).map(c => ({
+            categoryId: c.id,
+            reason: c.reason,
+          })),
+        });
+      }
+
+      if (suggestions.length === 0) {
+        setAiFileError('אף שורה בקובץ לא תואמת את השורות של סוגיה זו');
+        setAiApplying(false);
+        return;
+      }
+
+      const { applied, sublines: updated } = await taggingService.applyAiTags(
+        tractate, chapter, mishna, suggestions,
+      );
+      setSublines(updated);
+      // Make sure the affected sugya is expanded so the editor sees the result.
+      setCollapsedSugyot(prev => {
+        const next = new Set(prev);
+        next.delete(aiDialogSugya.key);
+        return next;
+      });
+      setSuccessMsg(
+        `הוחלו תגיות AI על ${applied} שורות${skipped > 0 ? ` (${skipped} שורות בקובץ דולגו — אינן בסוגיה זו)` : ''}`,
+      );
+      closeAiDialog();
+    } catch (e: any) {
+      const msg = e.response?.data?.message || e.message || 'החלת תגיות ה-AI נכשלה';
+      setError(Array.isArray(msg) ? msg.join('; ') : msg);
+    } finally {
+      setAiApplying(false);
+    }
+  };
+
+  const handleResolveAi = async (
+    sublineIndex: number,
+    action: ResolveAiAction,
+    categoryId?: string,
+  ) => {
+    if (!tractate || !chapter || !mishna) return;
+    setError(null);
+    try {
+      const result = await taggingService.resolveAiTags(
+        tractate, chapter, mishna, sublineIndex, action, categoryId,
+      );
+      setSublines(prev =>
+        prev.map(s => (s.index === sublineIndex ? { ...s, categories: result.categories } : s)),
+      );
+    } catch (e: any) {
+      const msg = e.response?.data?.message || e.message || 'הפעולה נכשלה';
+      setError(Array.isArray(msg) ? msg.join('; ') : msg);
+    }
+  };
 
   const openEdit = (sublineIndex: number, mode: EditMode) => {
     const subline = sublines.find(s => s.index === sublineIndex);
@@ -318,6 +485,56 @@ const TaggingPage: React.FC = () => {
 
   // ─── Rendering ───
 
+  const renderSugyaHeader = (
+    group: SugyaGroup,
+    collapsed: boolean,
+    pendingCount: number,
+  ) => (
+    <Box
+      sx={{
+        position: 'sticky', top: 0, zIndex: 2,
+        display: 'flex', alignItems: 'flex-start', gap: 1,
+        px: 1.5, py: 1, mb: 1, borderRadius: 2,
+        backgroundColor: 'grey.100',
+        border: '1px solid', borderColor: 'divider',
+      }}>
+      {/* Left cluster: allowed to shrink/wrap so the AI button stays pinned. */}
+      <Box
+        sx={{
+          flex: 1, minWidth: 0,
+          display: 'flex', flexWrap: 'wrap', alignItems: 'center',
+          columnGap: 1, rowGap: 0.5,
+        }}>
+        <IconButton size="small" sx={{ flexShrink: 0 }} onClick={() => toggleSugyaCollapsed(group.key)}>
+          {collapsed ? <ExpandMoreIcon fontSize="small" /> : <ExpandLessIcon fontSize="small" />}
+        </IconButton>
+        <Typography variant="subtitle1" fontWeight="bold" sx={{ wordBreak: 'break-word' }}>
+          {group.name || 'פתיחה (ללא שם סוגיה)'}
+        </Typography>
+        <Typography variant="caption" color="text.secondary" sx={{ flexShrink: 0 }}>
+          {group.sublines.length} שורות
+        </Typography>
+        {pendingCount > 0 && (
+          <Chip
+            size="small" color="secondary" variant="outlined"
+            icon={<AutoAwesomeIcon sx={{ fontSize: 14 }} />}
+            label={`${pendingCount} ממתינות לאישור`}
+            sx={{ height: 22, fontSize: '0.7rem', flexShrink: 0 }}
+          />
+        )}
+      </Box>
+      <Button
+        size="small"
+        variant="contained"
+        color="secondary"
+        startIcon={<AutoAwesomeIcon />}
+        onClick={() => openAiDialog(group)}
+        sx={{ flexShrink: 0, whiteSpace: 'nowrap' }}>
+        תיוג בעזרת AI
+      </Button>
+    </Box>
+  );
+
   const renderSublineText = (subline: TaggingSubline) => {
     const mentions = editMode === 'rabbies' && activeSublineIndex === subline.index
       ? pendingRabbiMentions
@@ -377,8 +594,17 @@ const TaggingPage: React.FC = () => {
               <Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>
             )}
 
-            {!loading && sublines.map(subline => {
+            {!loading && sugyaGroups.map(group => {
+              const collapsed = collapsedSugyot.has(group.key);
+              const groupPending = group.sublines.reduce(
+                (n, s) => n + s.categories.filter(c => c.status === 'pending').length, 0);
+              return (
+                <Box key={group.key} sx={{ mb: 2.5 }}>
+                  {renderSugyaHeader(group, collapsed, groupPending)}
+                  <Collapse in={!collapsed} timeout="auto" unmountOnExit>
+                    {group.sublines.map(subline => {
               const active = isActiveSubline(subline.index);
+              const hasPending = sublineHasPending(subline);
               const isConnectionTarget = isConnectingSubline && !active && activeSublineIndex !== subline.index;
               const isConnectedTarget = isConnectingSubline && connectingCategoryId &&
                 pendingCategories.find(c => c.categoryId === connectingCategoryId)?.connections
@@ -400,7 +626,9 @@ const TaggingPage: React.FC = () => {
                     border: active ? '2px solid #1976d2'
                       : isConnectedTarget ? '2px solid #9c27b0'
                       : isConnectionTarget ? '2px dashed #9c27b0'
+                      : hasPending ? '2px dashed #ab47bc'
                       : '1px solid transparent',
+                    backgroundColor: hasPending && !active ? 'rgba(171,71,188,0.06)' : undefined,
                     cursor: isConnectionTarget ? 'pointer' : 'default',
                     transition: 'border 0.15s',
                     '&:hover': isConnectionTarget ? { borderColor: '#7b1fa2' } : {},
@@ -420,11 +648,14 @@ const TaggingPage: React.FC = () => {
 
                     {!active && (
                       <Box display="flex" gap={0.5} ml={1}>
-                        <Tooltip title="קטגוריות וקישורים">
-                          <IconButton size="small" color={subline.categories.length > 0 ? 'primary' : 'default'}
-                            onClick={() => openEdit(subline.index, 'categories')}>
-                            <LabelIcon fontSize="small" />
-                          </IconButton>
+                        <Tooltip title={hasPending ? 'יש לאשר או לדחות את תגיות ה-AI לפני עריכה ידנית' : 'קטגוריות וקישורים'}>
+                          <span>
+                            <IconButton size="small" disabled={hasPending}
+                              color={subline.categories.length > 0 ? 'primary' : 'default'}
+                              onClick={() => openEdit(subline.index, 'categories')}>
+                              <LabelIcon fontSize="small" />
+                            </IconButton>
+                          </span>
                         </Tooltip>
                         <Tooltip title="חכמים">
                           <IconButton size="small" color={subline.rabbiMentions.length > 0 ? 'warning' : 'default'}
@@ -458,24 +689,67 @@ const TaggingPage: React.FC = () => {
                   {/* Tags summary */}
                   {!active && (
                     <Box mt={0.5} pr={4}>
+                      {hasPending && (
+                        <Box display="flex" alignItems="center" gap={1} mb={0.75}
+                          sx={{ p: 0.75, borderRadius: 1, backgroundColor: 'rgba(171,71,188,0.1)' }}>
+                          <AutoAwesomeIcon sx={{ fontSize: 16, color: '#8e24aa' }} />
+                          <Typography variant="caption" sx={{ color: '#6a1b9a', fontWeight: 'bold' }}>
+                            הצעות תיוג מ-AI ממתינות לאישור
+                          </Typography>
+                        </Box>
+                      )}
                       {subline.categories.map(cat => {
                         const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
                         if (!catDef) return null;
+                        const isPending = cat.status === 'pending';
                         const sublineConns = cat.connections.filter(c => c.type === 'subline');
                         const externalConns = cat.connections.filter(c => c.type === 'external');
                         return (
-                          <Box key={cat.categoryId} display="flex" alignItems="baseline" gap={0.5} mb={0.3}>
-                            <Chip label={catDef.label} size="small" color="primary" variant="outlined"
-                              sx={{ fontSize: '0.7rem', height: 20 }} />
-                            {sublineConns.length > 0 && (
-                              <Typography variant="caption" color="text.secondary">
-                                ← {sublineConns.map(c => `שורה ${c.sublineIndex}`).join(', ')}
-                              </Typography>
-                            )}
-                            {externalConns.length > 0 && (
-                              <Typography variant="caption" color="text.secondary" sx={{ fontStyle: 'italic' }}>
-                                {sublineConns.length > 0 ? ' | ' : '← '}
-                                {externalConns.map(c => c.text).join(', ')}
+                          <Box key={cat.categoryId} mb={isPending ? 0.6 : 0.3}>
+                            <Box display="flex" alignItems="center" gap={0.5}>
+                              <Chip
+                                label={catDef.label}
+                                size="small"
+                                color={isPending ? 'secondary' : 'primary'}
+                                variant="outlined"
+                                icon={isPending ? <AutoAwesomeIcon sx={{ fontSize: 13 }} /> : undefined}
+                                sx={{
+                                  fontSize: '0.7rem', height: 20,
+                                  borderStyle: isPending ? 'dashed' : 'solid',
+                                }}
+                              />
+                              {!isPending && sublineConns.length > 0 && (
+                                <Typography variant="caption" color="text.secondary">
+                                  ← {sublineConns.map(c => `שורה ${c.sublineIndex}`).join(', ')}
+                                </Typography>
+                              )}
+                              {!isPending && externalConns.length > 0 && (
+                                <Typography variant="caption" color="text.secondary" sx={{ fontStyle: 'italic' }}>
+                                  {sublineConns.length > 0 ? ' | ' : '← '}
+                                  {externalConns.map(c => c.text).join(', ')}
+                                </Typography>
+                              )}
+                              {isPending && (
+                                <>
+                                  <Tooltip title="אשר תגית זו">
+                                    <IconButton size="small" color="success" sx={{ p: 0.25 }}
+                                      onClick={() => handleResolveAi(subline.index, 'approveCategory', cat.categoryId)}>
+                                      <CheckIcon sx={{ fontSize: 16 }} />
+                                    </IconButton>
+                                  </Tooltip>
+                                  <Tooltip title="דחה תגית זו">
+                                    <IconButton size="small" color="error" sx={{ p: 0.25 }}
+                                      onClick={() => handleResolveAi(subline.index, 'dismissCategory', cat.categoryId)}>
+                                      <CloseIcon sx={{ fontSize: 16 }} />
+                                    </IconButton>
+                                  </Tooltip>
+                                </>
+                              )}
+                            </Box>
+                            {isPending && cat.reason && (
+                              <Typography variant="caption" color="text.secondary"
+                                sx={{ display: 'block', pr: 1, mt: 0.25, fontStyle: 'italic', lineHeight: 1.4 }}>
+                                {cat.reason}
                               </Typography>
                             )}
                           </Box>
@@ -590,6 +864,10 @@ const TaggingPage: React.FC = () => {
                     </Box>
                   )}
                 </Paper>
+              );
+                    })}
+                  </Collapse>
+                </Box>
               );
             })}
           </Box>
@@ -814,6 +1092,55 @@ const TaggingPage: React.FC = () => {
             </Box>
           </Drawer>
         </Box>
+
+        {/* ═══ AI tagging upload dialog ═══ */}
+        <Dialog open={!!aiDialogSugya} onClose={closeAiDialog} maxWidth="sm" fullWidth dir="rtl">
+          <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <AutoAwesomeIcon color="secondary" />
+            תיוג בעזרת AI — {aiDialogSugya?.name || 'פתיחה'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText sx={{ mb: 2 }}>
+              העלה את קובץ ה-JSON של תוצאות ה-AI עבור סוגיה זו. התגיות יתווספו
+              כ"ממתינות לאישור" — תוכל לאשר או לדחות כל אחת מהן. אישור יחליף את
+              התגיות הקיימות; דחייה תשחזר אותן.
+            </DialogContentText>
+            <Button variant="outlined" component="label" startIcon={<UploadFileIcon />}>
+              בחר קובץ
+              <input
+                type="file"
+                accept="application/json,.json"
+                hidden
+                onChange={(e) => handleAiFileSelected(e.target.files?.[0])}
+              />
+            </Button>
+            {aiFileName && (
+              <Typography variant="body2" sx={{ mt: 1 }}>
+                נבחר: <b>{aiFileName}</b>
+              </Typography>
+            )}
+            {aiParsedFile && (
+              <Alert severity="success" sx={{ mt: 1.5 }}>
+                נטענו {aiParsedFile.sub_lines.length} שורות מהקובץ
+                {aiParsedFile.sugya_id ? ` (מזהה סוגיה: ${aiParsedFile.sugya_id})` : ''}
+              </Alert>
+            )}
+            {aiFileError && (
+              <Alert severity="error" sx={{ mt: 1.5 }}>{aiFileError}</Alert>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeAiDialog}>ביטול</Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              disabled={!aiParsedFile || aiApplying}
+              onClick={applyAiFile}
+              startIcon={aiApplying ? <CircularProgress size={16} /> : <AutoAwesomeIcon />}>
+              {aiApplying ? 'מחיל…' : 'אישור'}
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError(null)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
