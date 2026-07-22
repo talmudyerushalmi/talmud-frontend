@@ -32,6 +32,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import ArticleIcon from '@mui/icons-material/Article';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -50,6 +51,7 @@ import {
   ResolveAiAction,
 } from '../services/tagging.service';
 import { RabbiCard } from '../components/tagging/RabbiCard';
+import { AiInstructionsDialog } from '../components/tagging/AiInstructionsDialog';
 import { RabbiSearchBox } from '../components/tagging/RabbiSearchBox';
 import { MentionAlternativesEditor } from '../components/tagging/MentionAlternativesEditor';
 import { PageWithNavigation, PageContent } from '../layout/PageWithNavigation';
@@ -122,6 +124,7 @@ const TaggingPage: React.FC = () => {
   const [aiFileName, setAiFileName] = useState<string>('');
   const [aiFileError, setAiFileError] = useState<string | null>(null);
   const [aiApplying, setAiApplying] = useState(false);
+  const [instructionsOpen, setInstructionsOpen] = useState(false);
 
   const sublineRefs = useRef<Record<number, HTMLElement | null>>({});
 
@@ -586,9 +589,19 @@ const TaggingPage: React.FC = () => {
         <Box display="flex" dir="rtl" sx={{ minHeight: '80vh' }}>
           {/* Main sublines area */}
           <Box flex={1} ml={`${SIDEBAR_WIDTH + 16}px`} p={2}>
-            <Typography variant="h6" mb={2} sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-              עורך תגיות — מסכת {tractateHebName} פרק {hebrewMap.get(chapter)} הלכה {hebrewMap.get(mishna)}
-            </Typography>
+            <Box display="flex" alignItems="center" gap={2} mb={2} flexWrap="wrap">
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                עורך תגיות — מסכת {tractateHebName} פרק {hebrewMap.get(chapter)} הלכה {hebrewMap.get(mishna)}
+              </Typography>
+              <Box flex={1} />
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={<ArticleIcon />}
+                onClick={() => setInstructionsOpen(true)}>
+                קובץ הנחיות ל-AI
+              </Button>
+            </Box>
 
             {loading && (
               <Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>
@@ -1092,6 +1105,12 @@ const TaggingPage: React.FC = () => {
             </Box>
           </Drawer>
         </Box>
+
+        {/* ═══ AI instruction file dialog ═══ */}
+        <AiInstructionsDialog
+          open={instructionsOpen}
+          onClose={() => setInstructionsOpen(false)}
+        />
 
         {/* ═══ AI tagging upload dialog ═══ */}
         <Dialog open={!!aiDialogSugya} onClose={closeAiDialog} maxWidth="sm" fullWidth dir="rtl">

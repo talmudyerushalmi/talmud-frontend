@@ -434,4 +434,18 @@ export const taggingService = {
     );
     return response.data.subline;
   },
+
+  /** Loads the single global AI instruction document. */
+  getAiInstructions: async (): Promise<{ content: string; updatedAt?: string }> => {
+    const response = await axiosInstance.get('/tagging/ai/instructions');
+    return response.data;
+  },
+
+  /** Persists the global AI instruction document (Editor-only). */
+  saveAiInstructions: async (
+    content: string,
+  ): Promise<{ content: string; updatedAt: string }> => {
+    const response = await axiosInstance.put('/tagging/ai/instructions', { content });
+    return response.data;
+  },
 };
