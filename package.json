@@ -21,7 +21,6 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "aws-amplify": "^6.0.0",
-    "aws-amplify-react": "^5.1.43",
     "axios": "^1.7.9",
     "caniuse-lite": "^1.0.30001700",
     "draft-js": "^0.11.7",
