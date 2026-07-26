@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@aws-amplify/ui-react": "^5.0.0",
+    "@aws-amplify/ui-react": "^6.15.4",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@hookform/resolvers": "^5.1.1",
@@ -20,7 +20,7 @@
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "aws-amplify": "^5.2.5",
+    "aws-amplify": "^6.0.0",
     "aws-amplify-react": "^5.1.43",
     "axios": "^1.7.9",
     "caniuse-lite": "^1.0.30001700",
@@ -91,6 +91,8 @@
     ]
   },
   "devDependencies": {
+    "@aws-amplify/backend": "^1.23.0",
+    "@aws-amplify/backend-cli": "^1.8.3",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
     "@storybook/addon-interactions": "^6.5.12",
@@ -103,7 +105,9 @@
     "@storybook/testing-library": "^0.0.13",
     "@types/react-router-dom": "^5.1.7",
     "@types/stylis": "^4.0.2",
+    "aws-cdk-lib": "^2.262.1",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "constructs": "^10.7.1",
     "prettier": "^2.7.1",
     "prop-types": "^15.8.1",
     "redux-devtools-extension": "^2.13.9",

@@ -1,11 +1,16 @@
-import { Auth } from 'aws-amplify';
+import { signOut as amplifySignOut, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+
 export const GET_USER_AUTH = 'GET_USER_AUTH';
 export const SET_USER_AUTH = 'SET_USER_AUTH';
 export const SET_SIGN_OUT = 'SET_SIGN_OUT';
 
 export function signOut() {
   return async function (dispatch: any) {
-    await Auth.signOut();
+    try {
+      await amplifySignOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
     dispatch(setSignout());
   };
 }
@@ -13,9 +18,17 @@ export function signOut() {
 export function getUserAuth() {
   return async function (dispatch: any) {
     try {
-      const userAuth = await Auth.currentAuthenticatedUser();
-      dispatch(setUserAuth({ ...userAuth }));
-    } catch (e) {}
+      const user = await getCurrentUser();
+      let attributes = {};
+      try {
+        attributes = await fetchUserAttributes();
+      } catch (attrErr) {
+        // במידה ולא נדרש או נכשל
+      }
+      dispatch(setUserAuth({ username: user.username, userId: user.userId, attributes }));
+    } catch (e) {
+      // משתמש לא מחובר
+    }
   };
 }
 

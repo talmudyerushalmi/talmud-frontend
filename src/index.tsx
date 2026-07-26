@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
 import { Provider } from 'react-redux';
-import { updatedAwsConfig } from './amplify/awsconfig';
+import outputs from './amplify_outputs.json';
 import './i18n/i18n';
 import { BrowserRouter } from 'react-router-dom';
 import { Amplify } from 'aws-amplify';
@@ -22,7 +22,7 @@ if (typeof gtmId === 'string' && gtmId !== 'NONE') {
   ReactGA.initialize(gtmId);
 }
 
-Amplify.configure(updatedAwsConfig);
+Amplify.configure(outputs);
 let persistor = persistStore(store);
 
 root.render(

@@ -9,7 +9,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
-import { Hub } from 'aws-amplify';
+import { Hub } from 'aws-amplify/utils';
 import { connect } from 'react-redux';
 import { getUserAuth, setUserAuth, signOut } from '../../store/actions/authActions';
 import { useNavigate } from 'react-router-dom';
@@ -37,21 +37,26 @@ interface Props {
   setUserAuth: Function;
   getUserAuth: Function;
 }
+
 const AccountMenu = (props: Props) => {
   const { username, signOut, setUserAuth, getUserAuth } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  Hub.listen('auth', (data) => {
-    const { payload } = data;
-    if (payload.event === 'signIn') {
-      setUserAuth(payload.data.signInUserSession);
-    }
-  });
+  React.useEffect(() => {
+    const hubListenerCancel = Hub.listen('auth', (data) => {
+      const { payload } = data;
+      if (payload.event === 'signedIn') {
+        setUserAuth(payload.data);
+      }
+    });
 
-    React.useEffect(() => {
+    return () => hubListenerCancel();
+  }, [setUserAuth]);
+
+  React.useEffect(() => {
     getUserAuth();
-  });
+  }, [getUserAuth]);
 
   async function handleLogout() {
     try {
