@@ -47,12 +47,12 @@ const AccountMenu = (props: Props) => {
     const hubListenerCancel = Hub.listen('auth', (data) => {
       const { payload } = data;
       if (payload.event === 'signedIn') {
-        setUserAuth(payload.data);
+        getUserAuth(); // טעינת המידע המלא והרשאות
       }
     });
 
     return () => hubListenerCancel();
-  }, [setUserAuth]);
+  }, [getUserAuth]);
 
   React.useEffect(() => {
     getUserAuth();

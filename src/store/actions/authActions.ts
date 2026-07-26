@@ -1,4 +1,4 @@
-import { signOut as amplifySignOut, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+import { signOut as amplifySignOut, getCurrentUser, fetchUserAttributes, fetchAuthSession } from 'aws-amplify/auth';
 
 export const GET_USER_AUTH = 'GET_USER_AUTH';
 export const SET_USER_AUTH = 'SET_USER_AUTH';
@@ -19,13 +19,25 @@ export function getUserAuth() {
   return async function (dispatch: any) {
     try {
       const user = await getCurrentUser();
-      let attributes = {};
-      try {
-        attributes = await fetchUserAttributes();
-      } catch (attrErr) {
-        // במידה ולא נדרש או נכשל
-      }
-      dispatch(setUserAuth({ username: user.username, userId: user.userId, attributes }));
+      const attributes = await fetchUserAttributes();
+      const session = await fetchAuthSession();
+      
+      const groups = (session.tokens?.accessToken?.payload['cognito:groups'] as string[]) || [];
+
+      dispatch(setUserAuth({
+        username: user.username,
+        userId: user.userId,
+        attributes,
+        groups,
+        // תמיכה לאחור במבנה ה-Session
+        signInUserSession: {
+          accessToken: {
+            payload: {
+              'cognito:groups': groups
+            }
+          }
+        }
+      }));
     } catch (e) {
       // משתמש לא מחובר
     }
