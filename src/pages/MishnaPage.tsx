@@ -78,7 +78,7 @@ const MishnaPage = (props: Props) => {
   }, [location.state, tractate, chapter, mishna]);
   
   // Fetch synopsis list for SynopsisTable component
-  const synopsisLoaded = useAppSelector((state) => state.synopsis.loaded);
+  const synopsisLoaded = useAppSelector((state) => state.synopsis?.loaded ?? false);
   useEffect(() => {
     if (!synopsisLoaded) {
       dispatch(fetchSynopsisList());

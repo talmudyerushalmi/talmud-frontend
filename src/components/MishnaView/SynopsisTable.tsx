@@ -60,9 +60,9 @@ const SynopsisTable = (props: Props) => {
   const theme = useTheme();
   
   // Get synopsis list from Redux and build the map
-  const synopsisList = useAppSelector((state) => state.synopsis.synopsisList);
-  const synopsisMap = useMemo(() => buildSynopsisMap(synopsisList), [synopsisList]);
-
+  const synopsisList = useAppSelector((state) => state.synopsis?.synopsisList);
+  const synopsisMap = useMemo(() => buildSynopsisMap(synopsisList ?? []), [synopsisList]);
+  
   const memoizedColor = useCallback((synopsis: iSynopsis)=>{
     if (synopsis.type === SourceType.TRANSLATION) {
       return theme.status.blue

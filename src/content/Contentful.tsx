@@ -43,7 +43,7 @@ const Contentful = (props: Props) => {
     <Box style={{ direction: direction }}>
       {content?.fields['title'] ? (
         <Typography style={{ textAlign: 'center' }} variant="h2">
-          {content?.fields['title']}
+          {content?.fields['title'] as unknown as React.ReactNode}
         </Typography>
       ) : null}
       {content?.fields

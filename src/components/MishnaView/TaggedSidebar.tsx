@@ -105,8 +105,8 @@ const TaggedSidebar: React.FC<Props> = ({
 }) => {
   const { i18n } = useTranslation();
   const isHebrew = i18n.language === 'he';
-  const wrapperRef = useRef(null);
-  const isSticky = useIsSticky(wrapperRef, 136);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const isSticky = useIsSticky(wrapperRef as React.RefObject<HTMLElement>, 136);  
   const divHeight = isSticky ? 'calc(100vh - 170px)' : 'calc(100vh - 270px)';
 
   const selectedSublineIndices = useMemo(

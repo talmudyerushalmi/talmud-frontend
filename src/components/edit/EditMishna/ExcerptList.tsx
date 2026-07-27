@@ -2,6 +2,7 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
@@ -93,19 +94,21 @@ const ExcerptList = (props: Props) => {
 
             return (
               <ListItem
-                title={selectionInfo}
                 key={excerpt.key}
-                style={excerpt.flagNeedUpdate ? { background: 'red' } : {}}
-                dense
-                button
-                onClick={() => {
-                  onClick(excerpt);
-                }}>
-                <ListItemText
-                  id={labelId}
-                  primary={getExcerptTitle(excerpt)}
-                  classes={{ root: classes.textItemRoot }}
-                />
+                disablePadding
+                style={excerpt.flagNeedUpdate ? { background: 'red' } : {}}>
+                <ListItemButton
+                  title={selectionInfo}
+                  dense
+                  onClick={() => {
+                    onClick(excerpt);
+                  }}>
+                  <ListItemText
+                    id={labelId}
+                    primary={getExcerptTitle(excerpt)}
+                    classes={{ root: classes.textItemRoot }}
+                  />
+                </ListItemButton>
                 {admin ? (
                   <ListItemSecondaryAction>
                     <IconButton
