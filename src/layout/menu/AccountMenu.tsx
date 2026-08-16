@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import { Hub } from 'aws-amplify/utils';
 import { connect } from 'react-redux';
-import { getUserAuth, setUserAuth, signOut } from '../../store/actions/authActions';
+import { getUserAuth, signOut } from '../../store/actions/authActions';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -23,9 +23,6 @@ const mapDispatchToProps = (dispatch: any) => ({
   signOut: () => {
     dispatch(signOut());
   },
-  setUserAuth: (userAuth: any) => {
-    dispatch(setUserAuth(userAuth));
-  },
   getUserAuth: () => {
     dispatch(getUserAuth());
   },
@@ -34,12 +31,11 @@ const mapDispatchToProps = (dispatch: any) => ({
 interface Props {
   username: string;
   signOut: Function;
-  setUserAuth: Function;
   getUserAuth: Function;
 }
 
 const AccountMenu = (props: Props) => {
-  const { username, signOut, setUserAuth, getUserAuth } = props;
+  const { username, signOut, getUserAuth } = props;
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -47,7 +43,8 @@ const AccountMenu = (props: Props) => {
     const hubListenerCancel = Hub.listen('auth', (data) => {
       const { payload } = data;
       if (payload.event === 'signedIn') {
-        getUserAuth(); // טעינת המידע המלא והרשאות
+        // Refetch the full user + attributes + Cognito groups.
+        getUserAuth();
       }
     });
 
@@ -89,7 +86,8 @@ const AccountMenu = (props: Props) => {
             sx={{ ml: 2 }}
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}>
+            aria-expanded={open ? 'true' : undefined}
+          >
             <Avatar sx={{ width: 32, height: 32 }}>{username ? username[0] : '?'}</Avatar>
           </IconButton>
         </Tooltip>
@@ -127,7 +125,8 @@ const AccountMenu = (props: Props) => {
           },
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
         {username ? (
           <MenuItem>{username}</MenuItem>
         ) : (
@@ -135,7 +134,7 @@ const AccountMenu = (props: Props) => {
             <ListItemIcon>
               <Login fontSize="small" />
             </ListItemIcon>
-            {t("Login")}
+            {t('Login')}
           </MenuItem>
         )}
         <Divider />
@@ -144,7 +143,7 @@ const AccountMenu = (props: Props) => {
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>
-            {t("Logout")}
+            {t('Logout')}
           </MenuItem>
         ) : null}
       </Menu>

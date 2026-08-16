@@ -8,8 +8,9 @@ export function signOut() {
   return async function (dispatch: any) {
     try {
       await amplifySignOut();
-    } catch (error) {
-      console.error('Error signing out:', error);
+    } catch {
+      // Ignore Amplify errors and still clear local auth state below,
+      // so the UI never gets stuck on a "signing out" state.
     }
     dispatch(setSignout());
   };
@@ -21,25 +22,21 @@ export function getUserAuth() {
       const user = await getCurrentUser();
       const attributes = await fetchUserAttributes();
       const session = await fetchAuthSession();
-      
+
       const groups = (session.tokens?.accessToken?.payload['cognito:groups'] as string[]) || [];
 
-      dispatch(setUserAuth({
-        username: user.username,
-        userId: user.userId,
-        attributes,
-        groups,
-        // תמיכה לאחור במבנה ה-Session
-        signInUserSession: {
-          accessToken: {
-            payload: {
-              'cognito:groups': groups
-            }
-          }
-        }
-      }));
-    } catch (e) {
-      // משתמש לא מחובר
+      dispatch(
+        setUserAuth({
+          username: user.username,
+          userId: user.userId,
+          attributes,
+          groups,
+        })
+      );
+    } catch {
+      // Not signed in — nothing to dispatch. Left silent on purpose:
+      // `getUserAuth` is called eagerly on mount and it's expected to
+      // reject for anonymous users.
     }
   };
 }
