@@ -35,7 +35,7 @@ const AUTHENTICATOR_DIR = path.resolve(
   'dist',
   'esm',
   'components',
-  'Authenticator',
+  'Authenticator'
 );
 
 const WRONG_NAME = 'SetupTOTP';
@@ -55,15 +55,11 @@ function main() {
 
   fs.renameSync(wrongPath, tmpPath);
   fs.renameSync(tmpPath, rightPath);
-  console.log(
-    `[fix-amplify-ui-case] Renamed ${WRONG_NAME} → ${RIGHT_NAME} in @aws-amplify/ui-react`,
-  );
+  console.log(`[fix-amplify-ui-case] Renamed ${WRONG_NAME} → ${RIGHT_NAME} in @aws-amplify/ui-react`);
 }
 
 try {
   main();
 } catch (err) {
-  console.warn(
-    `[fix-amplify-ui-case] Skipped @aws-amplify/ui-react rename: ${err.message}`,
-  );
+  console.warn(`[fix-amplify-ui-case] Skipped @aws-amplify/ui-react rename: ${err.message}`);
 }

@@ -80,7 +80,8 @@ const ExcerptList = (props: Props) => {
         variant="h3"
         sx={{
           color: theme.palette.text.primary,
-        }}>
+        }}
+      >
         {listname}
       </Typography>
       <Paper style={{ maxHeight: 400, overflow: 'auto' }}>
@@ -93,16 +94,14 @@ const ExcerptList = (props: Props) => {
                 : '';
 
             return (
-              <ListItem
-                key={excerpt.key}
-                disablePadding
-                style={excerpt.flagNeedUpdate ? { background: 'red' } : {}}>
+              <ListItem key={excerpt.key} disablePadding style={excerpt.flagNeedUpdate ? { background: 'red' } : {}}>
                 <ListItemButton
                   title={selectionInfo}
                   dense
                   onClick={() => {
                     onClick(excerpt);
-                  }}>
+                  }}
+                >
                   <ListItemText
                     id={labelId}
                     primary={getExcerptTitle(excerpt)}
@@ -118,7 +117,8 @@ const ExcerptList = (props: Props) => {
                       onClick={() => {
                         onUpdateSelectionForExcerpt(excerpt);
                       }}
-                      size="small">
+                      size="small"
+                    >
                       <ShortTextIcon />
                     </IconButton>
                     <IconButton
@@ -128,7 +128,8 @@ const ExcerptList = (props: Props) => {
                       onClick={() => {
                         onDelete(excerpt.key);
                       }}
-                      size="small">
+                      size="small"
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>

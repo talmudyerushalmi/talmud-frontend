@@ -224,7 +224,7 @@ export function setCurrentLocation(type = 'location', tractate: string, chapter:
     const foundMishna = chapterData?.mishnaiot?.find((m) => m.mishna === mishna);
     let mishnaData: iMishna | null = null;
     let lineData;
-    
+
     if (foundMishna && state.navigation?.currentMishna?.id === foundMishna.id) {
       mishnaData = state.navigation.currentMishna as iMishna;
       lineData = mishnaData.lines?.find((l) => l.lineNumber === line);
