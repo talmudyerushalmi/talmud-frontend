@@ -58,7 +58,8 @@
     "deploy-staging": "./scripts/deploy_staging.sh",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "postinstall": "node scripts/fix-amplify-ui-case.js"
   },
   "proxy": "http://localhost:3000",
   "eslintConfig": {
