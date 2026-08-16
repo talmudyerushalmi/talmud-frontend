@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ContentService from '../services/content.service';
 import { Content } from '../content/types';
 import ContentField from '../content/ContentField';
 import { Box, Typography } from '@mui/material';
@@ -37,13 +36,16 @@ const Contentful = (props: Props) => {
     }
   }, [id, currentLang, items]);
 
-  const direction = currentLang == 'he' ? 'rtl' : 'ltr';
+  const direction = currentLang === 'he' ? 'rtl' : 'ltr';
+
+  const rawTitle = content?.fields['title'];
+  const title = typeof rawTitle === 'string' ? rawTitle : '';
 
   return (
     <Box style={{ direction: direction }}>
-      {content?.fields['title'] ? (
+      {title ? (
         <Typography style={{ textAlign: 'center' }} variant="h2">
-          {content?.fields['title'] as unknown as React.ReactNode}
+          {title}
         </Typography>
       ) : null}
       {content?.fields
