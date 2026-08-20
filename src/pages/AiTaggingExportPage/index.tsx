@@ -95,6 +95,22 @@ const AiTaggingExportPage: React.FC = () => {
     return t?.chapters.map((c) => c.id) ?? [];
   }, [tractates, tractate]);
 
+  // Numbers each sugya 1-based within its halacha. The backend list is already
+  // grouped by halacha (all sugyas for halacha 001 come before 002, etc.), so a
+  // single pass with a reset-on-halacha-change counter is sufficient.
+  const numberedSugyot = useMemo(() => {
+    let counter = 0;
+    let lastHalacha = '';
+    return sugyot.map((s) => {
+      if (s.halacha !== lastHalacha) {
+        counter = 0;
+        lastHalacha = s.halacha;
+      }
+      counter += 1;
+      return { ...s, numberInHalacha: counter };
+    });
+  }, [sugyot]);
+
   const allSelected = sugyot.length > 0 && selected.size === sugyot.length;
   const someSelected = selected.size > 0 && !allSelected;
 
@@ -226,7 +242,7 @@ const AiTaggingExportPage: React.FC = () => {
               </Stack>
 
               <FormGroup sx={{ pl: 2 }}>
-                {sugyot.map((s) => {
+                {numberedSugyot.map((s) => {
                   const k = keyOf(s);
                   return (
                     <FormControlLabel
@@ -239,7 +255,7 @@ const AiTaggingExportPage: React.FC = () => {
                       }
                       label={
                         <Typography variant="body2">
-                          <b>{s.sugyaName}</b>
+                          <b>[{s.numberInHalacha}] {s.sugyaName}</b>
                           <Typography
                             component="span"
                             variant="body2"
