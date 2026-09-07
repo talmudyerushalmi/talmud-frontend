@@ -29,5 +29,5 @@ export const auth = defineAuth({
     givenName: { required: true, mutable: true },
     fullname: { required: true, mutable: true },
   },
-  groups: ['Editor'],
+  groups: ['editor'],
 });
