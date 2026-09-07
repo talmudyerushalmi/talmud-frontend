@@ -1,40 +1,43 @@
 import { GET_USER_AUTH, SET_SIGN_OUT, SET_USER_AUTH } from '../actions/authActions';
 
-export enum UserGroup  {
-  Unauthenticated = "unauthenticated",
-  Authenticated = "authenticated",
-  Editor = "editor"
+export enum UserGroup {
+  Unauthenticated = 'unauthenticated',
+  Authenticated = 'authenticated',
+  Editor = 'editor',
 }
 
 const defaultAuthState = {
   userAuth: null,
   username: null,
-  userGroup: UserGroup.Unauthenticated
+  userGroup: UserGroup.Unauthenticated,
 };
 
 function getGroup(userAuth: any) {
-  const groups: string[] = userAuth.signInUserSession?.accessToken?.payload['cognito:groups'] || [];
+  if (!userAuth) return UserGroup.Unauthenticated;
+
+  const groups: string[] = userAuth.groups || [];
+
   if (groups.includes(UserGroup.Editor)) {
-    return UserGroup.Editor
+    return UserGroup.Editor;
   }
-  if (userAuth?.signInUserSession) {
-    return UserGroup.Authenticated
-  }
-  return UserGroup.Unauthenticated
+  return UserGroup.Authenticated;
 }
 
 const authReducer = (state = defaultAuthState, action: any) => {
   switch (action.type) {
     case GET_USER_AUTH:
       return state;
-    case SET_USER_AUTH:
-      const username = action.userAuth.attributes.name;      
-      const userGroup = getGroup(action.userAuth)
-      return { ...state,  username, userGroup };
+    case SET_USER_AUTH: {
+      const userAuth = action.userAuth;
+      const username = userAuth?.attributes?.name || userAuth?.attributes?.email || userAuth?.username || null;
+      const userGroup = getGroup(userAuth);
+      return { ...state, userAuth, username, userGroup };
+    }
     case SET_SIGN_OUT:
-      return { ...state, userAuth: null, username: null };
+      return { ...state, userAuth: null, username: null, userGroup: UserGroup.Unauthenticated };
     default:
       return state;
   }
 };
+
 export default authReducer;

@@ -1,5 +1,15 @@
 import React, { useMemo, useRef } from 'react';
-import { Box, Chip, Divider, FormControlLabel, List, ListItemButton, ListItemText, Switch, Typography } from '@mui/material';
+import {
+  Box,
+  Chip,
+  Divider,
+  FormControlLabel,
+  List,
+  ListItemButton,
+  ListItemText,
+  Switch,
+  Typography,
+} from '@mui/material';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
@@ -59,15 +69,12 @@ const RabbiAlternativesList: React.FC<{ alternatives: RabbiAlternative[]; isHebr
 }) => {
   if (alternatives.length === 0) return null;
   return (
-    <Box
-      mt={0.75}
-      pt={0.5}
-      sx={{ borderTopWidth: 1, borderTopStyle: 'dashed', borderTopColor: 'error.main' }}>
+    <Box mt={0.75} pt={0.5} sx={{ borderTopWidth: 1, borderTopStyle: 'dashed', borderTopColor: 'error.main' }}>
       <Typography variant="caption" fontWeight="bold" color="error.dark" display="block" mb={0.25}>
         {isHebrew ? 'חלופות:' : 'Alternatives:'}
       </Typography>
-      {alternatives.map(alt => {
-        const altData = ALL_RABBIES.find(r => r.id === alt.rabbiId);
+      {alternatives.map((alt) => {
+        const altData = ALL_RABBIES.find((r) => r.id === alt.rabbiId);
         return (
           <Box key={alt.rabbiId} mb={0.25}>
             <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
@@ -76,10 +83,20 @@ const RabbiAlternativesList: React.FC<{ alternatives: RabbiAlternative[]; isHebr
             {altData && (
               <Box display="flex" flexWrap="wrap" gap={0.3}>
                 {altData.generation && (
-                  <Chip label={`דור ${altData.generation}`} size="small" variant="outlined" sx={{ fontSize: '0.6rem', height: 16 }} />
+                  <Chip
+                    label={`דור ${altData.generation}`}
+                    size="small"
+                    variant="outlined"
+                    sx={{ fontSize: '0.6rem', height: 16 }}
+                  />
                 )}
                 {altData.location && (
-                  <Chip label={altData.location} size="small" variant="outlined" sx={{ fontSize: '0.6rem', height: 16 }} />
+                  <Chip
+                    label={altData.location}
+                    size="small"
+                    variant="outlined"
+                    sx={{ fontSize: '0.6rem', height: 16 }}
+                  />
                 )}
               </Box>
             )}
@@ -105,18 +122,15 @@ const TaggedSidebar: React.FC<Props> = ({
 }) => {
   const { i18n } = useTranslation();
   const isHebrew = i18n.language === 'he';
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const isSticky = useIsSticky(wrapperRef, 136);
   const divHeight = isSticky ? 'calc(100vh - 170px)' : 'calc(100vh - 270px)';
 
-  const selectedSublineIndices = useMemo(
-    () => new Set(selectedSublines.map(s => s.index)),
-    [selectedSublines]
-  );
+  const selectedSublineIndices = useMemo(() => new Set(selectedSublines.map((s) => s.index)), [selectedSublines]);
 
   const filteredTaggingData = useMemo(() => {
     if (selectedSublineIndices.size === 0) return taggingData;
-    return taggingData.filter(t => selectedSublineIndices.has(t.index));
+    return taggingData.filter((t) => selectedSublineIndices.has(t.index));
   }, [taggingData, selectedSublineIndices]);
 
   const uniqueRabbis = useMemo(() => {
@@ -138,7 +152,7 @@ const TaggedSidebar: React.FC<Props> = ({
     const catMap = new Map<string, { id: string; label: string; labelEn: string; count: number }>();
     for (const sub of filteredTaggingData) {
       for (const cat of sub.categories) {
-        const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
+        const catDef = TAGGING_CATEGORIES.find((c) => c.id === cat.categoryId);
         if (!catDef) continue;
         const existing = catMap.get(cat.categoryId);
         if (existing) {
@@ -153,7 +167,7 @@ const TaggedSidebar: React.FC<Props> = ({
 
   const selectedSublineData = useMemo(() => {
     if (selectedTaggedSubline === null) return null;
-    return taggingData.find(t => t.index === selectedTaggedSubline) || null;
+    return taggingData.find((t) => t.index === selectedTaggedSubline) || null;
   }, [taggingData, selectedTaggedSubline]);
 
   return (
@@ -166,7 +180,8 @@ const TaggedSidebar: React.FC<Props> = ({
         transition: 'height 0.5s',
         overflowY: 'auto',
         direction: 'rtl',
-      }}>
+      }}
+    >
       <Box display="flex" justifyContent="center" mb={0.5}>
         <FormControlLabel
           control={<Switch size="small" checked={taggedDetailedView} onChange={dispatchToggleDetailed} />}
@@ -183,12 +198,16 @@ const TaggedSidebar: React.FC<Props> = ({
           {uniqueRabbis.length === 0 ? (
             <Typography variant="caption" color="text.secondary" display="block" textAlign="center">
               {selectedSublineIndices.size > 0
-                ? (isHebrew ? 'אין חכמים בסוגיה זו' : 'No sages in this sugia')
-                : (isHebrew ? 'אין חכמים מתוייגים' : 'No tagged sages')}
+                ? isHebrew
+                  ? 'אין חכמים בסוגיה זו'
+                  : 'No sages in this sugia'
+                : isHebrew
+                ? 'אין חכמים מתוייגים'
+                : 'No tagged sages'}
             </Typography>
           ) : (
             <List dense disablePadding>
-              {uniqueRabbis.map(rabbi => {
+              {uniqueRabbis.map((rabbi) => {
                 const isSelected = selectedRabbis.includes(rabbi.id);
                 return (
                   <ListItemButton
@@ -201,7 +220,8 @@ const TaggedSidebar: React.FC<Props> = ({
                       py: 0.25,
                       px: 0.5,
                       minHeight: 0,
-                    }}>
+                    }}
+                  >
                     <ListItemText
                       primary={
                         <Box display="flex" alignItems="center" gap={0.5}>
@@ -229,12 +249,16 @@ const TaggedSidebar: React.FC<Props> = ({
           {uniqueCategories.length === 0 ? (
             <Typography variant="caption" color="text.secondary" display="block" textAlign="center">
               {selectedSublineIndices.size > 0
-                ? (isHebrew ? 'אין קטגוריות בסוגיה זו' : 'No categories in this sugia')
-                : (isHebrew ? 'אין קטגוריות מתוייגות' : 'No tagged categories')}
+                ? isHebrew
+                  ? 'אין קטגוריות בסוגיה זו'
+                  : 'No categories in this sugia'
+                : isHebrew
+                ? 'אין קטגוריות מתוייגות'
+                : 'No tagged categories'}
             </Typography>
           ) : (
             <List dense disablePadding>
-              {uniqueCategories.map(cat => {
+              {uniqueCategories.map((cat) => {
                 const isSelected = selectedCategories.includes(cat.id);
                 return (
                   <ListItemButton
@@ -247,10 +271,16 @@ const TaggedSidebar: React.FC<Props> = ({
                       py: 0.25,
                       px: 0.5,
                       minHeight: 0,
-                    }}>
+                    }}
+                  >
                     <ListItemText
                       primary={
-                        <Box display="flex" alignItems="center" gap={0.5} justifyContent={isHebrew ? 'flex-start' : 'flex-end'}>
+                        <Box
+                          display="flex"
+                          alignItems="center"
+                          gap={0.5}
+                          justifyContent={isHebrew ? 'flex-start' : 'flex-end'}
+                        >
                           <Typography variant="body2" fontWeight={isSelected ? 'bold' : 'normal'}>
                             {isHebrew ? cat.label : cat.labelEn}
                           </Typography>
@@ -273,14 +303,16 @@ const TaggedSidebar: React.FC<Props> = ({
         <>
           <Divider sx={{ my: 1.5 }} />
           <Box px={0.5}>
-            {selectedRabbis.map(rabbiId => {
-              const rabbiData = ALL_RABBIES.find(r => r.id === rabbiId);
+            {selectedRabbis.map((rabbiId) => {
+              const rabbiData = ALL_RABBIES.find((r) => r.id === rabbiId);
               if (!rabbiData) return null;
               const mentionsWithAlternatives = taggingData
-                .flatMap(t => t.rabbiMentions)
-                .filter(m => m.rabbiId === rabbiId && m.doubt && m.alternatives && m.alternatives.length > 0);
-              const allAlternatives = mentionsWithAlternatives.flatMap(m => m.alternatives!);
-              const uniqueAlternatives = allAlternatives.filter((a, i, arr) => arr.findIndex(x => x.rabbiId === a.rabbiId) === i);
+                .flatMap((t) => t.rabbiMentions)
+                .filter((m) => m.rabbiId === rabbiId && m.doubt && m.alternatives && m.alternatives.length > 0);
+              const allAlternatives = mentionsWithAlternatives.flatMap((m) => m.alternatives!);
+              const uniqueAlternatives = allAlternatives.filter(
+                (a, i, arr) => arr.findIndex((x) => x.rabbiId === a.rabbiId) === i
+              );
               return (
                 <Box
                   key={rabbiId}
@@ -290,15 +322,25 @@ const TaggedSidebar: React.FC<Props> = ({
                     borderRadius: 1,
                     border: '1px solid',
                     borderColor: uniqueAlternatives.length > 0 ? 'error.main' : 'divider',
-                  }}>
+                  }}
+                >
                   <Typography variant="body2" fontWeight="bold" mb={0.5}>
                     {rabbiData.displayName}
                     {mentionsWithAlternatives.length > 0 && (
-                      <Typography component="span" sx={{ color: 'error.dark', fontWeight: 'bold' }}> (?)</Typography>
+                      <Typography component="span" sx={{ color: 'error.dark', fontWeight: 'bold' }}>
+                        {' '}
+                        (?)
+                      </Typography>
                     )}
                   </Typography>
                   {rabbiData.fullnameVariants.length > 0 && (
-                    <Typography variant="caption" color="text.secondary" display="block" mb={0.5} sx={{ lineHeight: 1.4 }}>
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      display="block"
+                      mb={0.5}
+                      sx={{ lineHeight: 1.4 }}
+                    >
                       ({rabbiData.fullnameVariants.join(' / ')})
                     </Typography>
                   )}
@@ -333,21 +375,31 @@ const TaggedSidebar: React.FC<Props> = ({
                   {isHebrew ? 'קטגוריות:' : 'Categories:'}
                 </Typography>
                 {selectedSublineData.categories.map((cat: SublineCategory) => {
-                  const catDef = TAGGING_CATEGORIES.find(c => c.id === cat.categoryId);
+                  const catDef = TAGGING_CATEGORIES.find((c) => c.id === cat.categoryId);
                   if (!catDef) return null;
                   const sublineConns = cat.connections.filter((c: CategoryConnection) => c.type === 'subline');
                   const externalConns = cat.connections.filter((c: CategoryConnection) => c.type === 'external');
                   return (
                     <Box key={cat.categoryId} mb={0.5}>
-                      <Chip label={isHebrew ? catDef.label : catDef.labelEn} size="small" color="primary" variant="outlined"
-                        sx={{ fontSize: '0.7rem', height: 20, mb: 0.25 }} />
+                      <Chip
+                        label={isHebrew ? catDef.label : catDef.labelEn}
+                        size="small"
+                        color="primary"
+                        variant="outlined"
+                        sx={{ fontSize: '0.7rem', height: 20, mb: 0.25 }}
+                      />
                       {sublineConns.length > 0 && (
                         <Typography variant="caption" color="text.secondary" display="block" sx={{ mr: 2 }}>
                           ← {sublineConns.map((c: CategoryConnection) => `שורה ${c.sublineIndex}`).join(', ')}
                         </Typography>
                       )}
                       {externalConns.length > 0 && (
-                        <Typography variant="caption" color="text.secondary" display="block" sx={{ mr: 2, fontStyle: 'italic' }}>
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          display="block"
+                          sx={{ mr: 2, fontStyle: 'italic' }}
+                        >
                           {externalConns.map((c: CategoryConnection) => c.text).join(', ')}
                         </Typography>
                       )}
@@ -363,7 +415,7 @@ const TaggedSidebar: React.FC<Props> = ({
                   {isHebrew ? 'חכמים:' : 'Sages:'}
                 </Typography>
                 {selectedSublineData.rabbiMentions.map((mention: RabbiMention, i: number) => {
-                  const rabbiData = ALL_RABBIES.find(r => r.id === mention.rabbiId);
+                  const rabbiData = ALL_RABBIES.find((r) => r.id === mention.rabbiId);
                   return (
                     <Box
                       key={i}
@@ -373,12 +425,16 @@ const TaggedSidebar: React.FC<Props> = ({
                         borderRadius: 1,
                         border: '1px solid',
                         borderColor: mention.doubt ? 'error.main' : 'divider',
-                      }}>
+                      }}
+                    >
                       <Box display="flex" alignItems="center" gap={0.5} mb={0.25}>
                         <Typography variant="body2" fontWeight="bold">
                           {mention.rabbiName}
                           {mention.doubt && (
-                            <Typography component="span" sx={{ color: 'error.dark', fontWeight: 'bold' }}> (?)</Typography>
+                            <Typography component="span" sx={{ color: 'error.dark', fontWeight: 'bold' }}>
+                              {' '}
+                              (?)
+                            </Typography>
                           )}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
@@ -388,7 +444,13 @@ const TaggedSidebar: React.FC<Props> = ({
                       {rabbiData && (
                         <>
                           {rabbiData.fullnameVariants.length > 0 && (
-                            <Typography variant="caption" color="text.secondary" display="block" mb={0.5} sx={{ lineHeight: 1.4 }}>
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              display="block"
+                              mb={0.5}
+                              sx={{ lineHeight: 1.4 }}
+                            >
                               ({rabbiData.fullnameVariants.join(' / ')})
                             </Typography>
                           )}
@@ -411,12 +473,12 @@ const TaggedSidebar: React.FC<Props> = ({
                 panel quiet rather than falsely claiming there's no tagging. */}
 
             {selectedSublineData.categories.length === 0 &&
-             selectedSublineData.rabbiMentions.length === 0 &&
-             selectedSublineData.comments.length === 0 && (
-              <Typography variant="caption" color="text.secondary">
-                אין נתוני תיוג לשורה זו
-              </Typography>
-            )}
+              selectedSublineData.rabbiMentions.length === 0 &&
+              selectedSublineData.comments.length === 0 && (
+                <Typography variant="caption" color="text.secondary">
+                  אין נתוני תיוג לשורה זו
+                </Typography>
+              )}
           </Box>
         </>
       )}

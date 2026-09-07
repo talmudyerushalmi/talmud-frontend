@@ -2,6 +2,7 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
@@ -79,7 +80,8 @@ const ExcerptList = (props: Props) => {
         variant="h3"
         sx={{
           color: theme.palette.text.primary,
-        }}>
+        }}
+      >
         {listname}
       </Typography>
       <Paper style={{ maxHeight: 400, overflow: 'auto' }}>
@@ -92,20 +94,20 @@ const ExcerptList = (props: Props) => {
                 : '';
 
             return (
-              <ListItem
-                title={selectionInfo}
-                key={excerpt.key}
-                style={excerpt.flagNeedUpdate ? { background: 'red' } : {}}
-                dense
-                button
-                onClick={() => {
-                  onClick(excerpt);
-                }}>
-                <ListItemText
-                  id={labelId}
-                  primary={getExcerptTitle(excerpt)}
-                  classes={{ root: classes.textItemRoot }}
-                />
+              <ListItem key={excerpt.key} disablePadding style={excerpt.flagNeedUpdate ? { background: 'red' } : {}}>
+                <ListItemButton
+                  title={selectionInfo}
+                  dense
+                  onClick={() => {
+                    onClick(excerpt);
+                  }}
+                >
+                  <ListItemText
+                    id={labelId}
+                    primary={getExcerptTitle(excerpt)}
+                    classes={{ root: classes.textItemRoot }}
+                  />
+                </ListItemButton>
                 {admin ? (
                   <ListItemSecondaryAction>
                     <IconButton
@@ -115,7 +117,8 @@ const ExcerptList = (props: Props) => {
                       onClick={() => {
                         onUpdateSelectionForExcerpt(excerpt);
                       }}
-                      size="small">
+                      size="small"
+                    >
                       <ShortTextIcon />
                     </IconButton>
                     <IconButton
@@ -125,7 +128,8 @@ const ExcerptList = (props: Props) => {
                       onClick={() => {
                         onDelete(excerpt.key);
                       }}
-                      size="small">
+                      size="small"
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>

@@ -1,0 +1,23 @@
+version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - yarn install --frozen-lockfile
+        - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID --outputs-out-dir src
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - yarn install --frozen-lockfile
+    build:
+      commands:
+        - yarn build
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .yarn/cache/**/*
