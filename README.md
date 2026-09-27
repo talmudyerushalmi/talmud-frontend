@@ -15,7 +15,7 @@ Either of the following works:
 1. **Generate from AWS** (recommended if you have AWS credentials configured):
    ```bash
    npx ampx generate outputs \
-     --app-id <NEW_GEN2_APP_ID> \
+     --app-id dbqgq8bviptn7 \
      --branch staging \
      --outputs-out-dir src
    ```
