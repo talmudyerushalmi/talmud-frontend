@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@aws-amplify/ui-react": "^5.0.0",
+    "@aws-amplify/ui-react": "^6.15.4",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@hookform/resolvers": "^5.1.1",
@@ -20,8 +20,7 @@
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "aws-amplify": "^5.2.5",
-    "aws-amplify-react": "^5.1.43",
+    "aws-amplify": "^6.0.0",
     "axios": "^1.7.9",
     "caniuse-lite": "^1.0.30001700",
     "draft-js": "^0.11.7",
@@ -91,6 +90,8 @@
     ]
   },
   "devDependencies": {
+    "@aws-amplify/backend": "^1.24.0",
+    "@aws-amplify/backend-cli": "^1.9.0",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
     "@storybook/addon-interactions": "^6.5.12",
@@ -103,12 +104,19 @@
     "@storybook/testing-library": "^0.0.13",
     "@types/react-router-dom": "^5.1.7",
     "@types/stylis": "^4.0.2",
+    "aws-cdk-lib": "^2.266.0",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "constructs": "^10.8.1",
     "prettier": "^2.7.1",
     "prop-types": "^15.8.1",
     "redux-devtools-extension": "^2.13.9",
     "typesafe-actions": "^5.1.0",
     "webpack": "^5.86.0"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "resolutions": {
+    "fork-ts-checker-webpack-plugin": "6.5.3",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4"
+  }
 }

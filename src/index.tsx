@@ -6,23 +6,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
 import { Provider } from 'react-redux';
-import { updatedAwsConfig } from './amplify/awsconfig';
+import outputs from './amplify_outputs.json';
 import './i18n/i18n';
 import { BrowserRouter } from 'react-router-dom';
 import { Amplify } from 'aws-amplify';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
-
 const container = document.getElementById('root');
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
+const root = createRoot(container!);
 
 const gtmId = process.env.REACT_APP_GTM_ID;
 if (typeof gtmId === 'string' && gtmId !== 'NONE') {
   ReactGA.initialize(gtmId);
 }
 
-Amplify.configure(updatedAwsConfig);
+Amplify.configure(outputs);
 let persistor = persistStore(store);
 
 root.render(

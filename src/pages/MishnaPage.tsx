@@ -58,16 +58,16 @@ const MishnaPage = (props: Props) => {
   const t = useTheme();
   const dispatch = useAppDispatch();
   const { setOptionsComponent } = useStickyOptions();
-  
+
   // Store dafAmudMarkers in state to persist across re-renders
   const [dafAmudMarkers, setDafAmudMarkers] = React.useState<DafAmudMarker[]>([]);
   const [currentMishnaKey, setCurrentMishnaKey] = React.useState<string>('');
-  
+
   // Register the options component with the context
   useEffect(() => {
     setOptionsComponent(<MishnaViewOptions />);
   }, [setOptionsComponent]);
-  
+
   // Update markers when location state changes
   React.useEffect(() => {
     const markers = (location.state as LocationState)?.dafAmudMarkers;
@@ -76,9 +76,9 @@ const MishnaPage = (props: Props) => {
       setCurrentMishnaKey(`${tractate}-${chapter}-${mishna}`);
     }
   }, [location.state, tractate, chapter, mishna]);
-  
+
   // Fetch synopsis list for SynopsisTable component
-  const synopsisLoaded = useAppSelector((state) => state.synopsis.loaded);
+  const synopsisLoaded = useAppSelector((state) => state.synopsis?.loaded ?? false);
   useEffect(() => {
     if (!synopsisLoaded) {
       dispatch(fetchSynopsisList());
@@ -93,7 +93,7 @@ const MishnaPage = (props: Props) => {
 
   useEffect(() => {
     getMishna(tractate, chapter, mishna);
-    
+
     // Clear markers only when navigating to a DIFFERENT mishna
     const newMishnaKey = `${tractate}-${chapter}-${mishna}`;
     if (newMishnaKey !== currentMishnaKey && !(location.state as LocationState)?.dafAmudMarkers) {

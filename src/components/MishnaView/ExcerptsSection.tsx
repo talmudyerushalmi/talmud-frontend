@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { selectExcerpt } from '../../store/actions';
-import { iComment, iMishna } from '../../types/types';
+import { iComment, iExcerpt, iMishna } from '../../types/types';
+import { AppDispatch, RootState } from '../../store';
 import { themeConstants } from '../../ui/Theme';
 import { EXCERPT_TYPE } from '../edit/EditMishna/ExcerptDialog';
 import CommentsExcerptDetailsView from './CommentsExcerptDetailsView';
@@ -13,7 +14,7 @@ import CreateCommentModal from './CreateCommentModal';
 import { UserGroup } from '../../store/reducers/authReducer';
 import { useIsSticky } from '../../hooks/useIsSticky';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: RootState) => ({
   currentMishna: state.navigation.currentMishna,
   filteredExcerpts: state.mishnaView.filteredExcerpts,
   selectedExcerpt: state.mishnaView.selectedExcerpt,
@@ -24,21 +25,24 @@ const mapStateToProps = (state) => ({
   selectedComment: state.comments.selectedComment,
   isAuthenticated: state.authentication.userGroup !== UserGroup.Unauthenticated,
 });
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  selectExcerpt: (excerpt) => {
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  selectExcerpt: (excerpt: iExcerpt | null) => {
     dispatch(selectExcerpt(excerpt));
   },
-  setSelectedComment: (comment) => {
+  setSelectedComment: (comment: iComment | null) => {
     dispatch(setSelectedComment(comment));
   },
 });
 
 interface IProps {
   expanded: boolean;
-  filteredExcerpts: any[];
+  filteredExcerpts: iExcerpt[];
   detailsExcerptPopup: boolean;
-  selectedExcerpt: any;
-  selectExcerpt: (excerpt: any) => void;
+  // `selectedExcerpt` is only consumed while `detailsExcerptPopup === true`
+  // (i.e. after a selection). Downstream `ExcerptDetailsView` also assumes
+  // non-null, so we keep the same shape here.
+  selectedExcerpt: iExcerpt;
+  selectExcerpt: (excerpt: iExcerpt | null) => void;
   privateComments: iComment[];
   currentMishna: iMishna;
   commentModal: iCommentModal | null;
@@ -61,13 +65,13 @@ const ExcerptsSection = (props: IProps) => {
     isAuthenticated,
   } = props;
 
-  function useOutsideAlerter(ref) {
+  function useOutsideAlerter(ref: React.RefObject<HTMLElement | null>) {
     useEffect(() => {
       /**
        * Alert if clicked on outside of element
        */
-      function handleClickOutside(event) {
-        if (ref.current && !ref.current.contains(event.target)) {
+      function handleClickOutside(event: MouseEvent) {
+        if (ref.current && !ref.current.contains(event.target as Node)) {
           // selectExcerpt(null)
         }
       }
@@ -81,7 +85,7 @@ const ExcerptsSection = (props: IProps) => {
     }, [ref]);
   }
 
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   useOutsideAlerter(wrapperRef);
 
   const isSticky = useIsSticky(wrapperRef, 136);
@@ -96,7 +100,8 @@ const ExcerptsSection = (props: IProps) => {
         transition: 'height 0.5s',
         overflowY: 'auto',
       }}
-      ref={wrapperRef}>
+      ref={wrapperRef}
+    >
       {detailsExcerptPopup ? (
         <ExcerptDetailsView
           selectedExcerpt={selectedExcerpt}

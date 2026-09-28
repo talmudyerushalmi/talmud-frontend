@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Auth } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_DB_HOST,
@@ -8,11 +8,9 @@ const axiosInstance = axios.create({
 
 const getToken = async (): Promise<string | undefined> => {
   try {
-    const userTokens = await Auth.currentSession();
-    if (userTokens) {
-      const token = userTokens.getIdToken().getJwtToken();
-      return token;
-    }
+    const session = await fetchAuthSession();
+    const token = session.tokens?.idToken?.toString();
+    return token;
   } catch (e) {
     return undefined;
   }
