@@ -10,6 +10,9 @@ export interface ISearchResult {
   lineNumber: string;
   sublineIndex: number;
   nosach: RawDraftContentState;
+  /** When the matched line lives in a split halacha, this is the 1-based part index.
+   *  Absent for non-split (passthrough or unified) halachas. */
+  part?: number;
 }
 
 export interface SearchState {

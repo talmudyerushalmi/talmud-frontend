@@ -21,6 +21,12 @@ interface Props {
   shouldShowOptions?: boolean;
   optionsComponent?: React.ReactNode;
   showSearchBar?: boolean;
+  /**
+   * When true, the nav lists each underlying source halacha individually instead of the
+   * override-aware merged display (e.g. `ב`, `ג` rather than `ב-ג`). Used by admin pages
+   * so editors can navigate to each underlying mishna independently.
+   */
+  raw?: boolean;
 }
 
 const ChooseMishnaBar = ({
@@ -33,6 +39,7 @@ const ChooseMishnaBar = ({
   shouldShowOptions = false,
   optionsComponent,
   showSearchBar = true,
+  raw = false,
 }: Props) => {
   const dispatch = useAppDispatch();
   const { tractate, chapter, mishna, line } = useParams<routeObject>();
@@ -47,8 +54,8 @@ const ChooseMishnaBar = ({
   const [allTractates, setAllTractates] = useState<iTractate[]>([]);
 
   useEffect(() => {
-    PageService.getAllTractates().then((tractates) => setAllTractates(tractates));
-  }, []);
+    PageService.getAllTractates({ raw }).then((tractates) => setAllTractates(tractates));
+  }, [raw]);
 
   useEffect(() => {
     if (tractate && chapter && mishna) {

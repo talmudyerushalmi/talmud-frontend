@@ -105,7 +105,7 @@ const MainLines = (props: Props) => {
             {userGroup === UserGroup.Editor ? (
               <IconButton
                 component={Link}
-                to={`/admin/edit/${route.tractate}/${route.chapter}/${mishna}/${line.lineNumber}`}
+                to={`/admin/edit/${route.tractate}/${route.chapter}/${line._sourceMishna ?? mishna}/${line.lineNumber}`}
                 sx={{ position: 'absolute', display: { xs: 'none', sm: 'block' }, left: '-3rem', top: '-0.2rem' }}
                 size="small">
                 <Edit></Edit>

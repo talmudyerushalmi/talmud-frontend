@@ -15,7 +15,7 @@ const EditMishnaPage = () => {
     setValue(newValue);
   };
   return (
-    <PageWithNavigation linkPrefix="/admin/edit">
+    <PageWithNavigation linkPrefix="/admin/edit" raw>
       <PageHeader>
         <AppBar position="static">
           <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
