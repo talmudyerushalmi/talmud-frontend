@@ -364,7 +364,7 @@ const TaggingPage: React.FC = () => {
   }
 
   return (
-    <PageWithNavigation linkPrefix="/admin/tagging" showSearchBar={false}>
+    <PageWithNavigation linkPrefix="/admin/tagging" showSearchBar={false} raw>
       <PageContent>
         <Box display="flex" dir="rtl" sx={{ minHeight: '80vh' }}>
           {/* Main sublines area */}

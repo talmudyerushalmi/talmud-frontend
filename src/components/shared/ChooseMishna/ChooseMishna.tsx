@@ -2,6 +2,7 @@ import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getTractate, getChapter, getMishna } from '../../../inc/mishnaUtils';
 import { hebrewMap } from '../../../inc/utils';
+import { formatUnifiedName } from '../../../inc/halachaOverrideDisplay';
 import { leanChapter } from './ChooseChapter';
 import NavigationService from '../../../services/NavigationService';
 import { iMarker, refMishna } from '../../../types/types';
@@ -114,6 +115,14 @@ const ChooseMishna = (props: Props) => {
       getOptionLabel={(option) => {
         if (option.mishna === 'all') {
           return t('The whole chapter');
+        }
+        // Unified entries (BE-supplied `unifiedWithAll`, length 2 or 3) render as e.g.
+        // "ו-ז" / "ו-ז-ח" in Hebrew and "6-7" / "6-7-8" in non-Hebrew locales.
+        // Passthrough entries keep their existing labels.
+        if (option.unifiedWithAll && option.unifiedWithAll.length >= 2) {
+          return isHebrew
+            ? formatUnifiedName(option.unifiedWithAll)
+            : option.unifiedWithAll.map(formatNumericId).join('-');
         }
         return isHebrew ? (hebrewMap.get(option.mishna) as string) : formatNumericId(option.mishna);
       }}
