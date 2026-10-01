@@ -52,22 +52,52 @@ export interface TaggingSubline {
 
 // ─── AI tagging (results-file upload) ───
 
-/** Shape of the local AI results JSON file the editor uploads per sugya. */
+/**
+ * Shape of the local AI results JSON file the editor uploads per sugya.
+ *
+ * Produced by the external AI tagging pipeline (currently "v6"). Each file
+ * covers ONE sugya and lists per-subline category suggestions with optional
+ * cross-references ("connections") to other sublines or external sources.
+ */
 export interface AiTaggingFile {
-  sugya_id?: string;
-  sub_lines: AiTaggingFileSubline[];
+  /** Human-readable sugya name — displayed in the editor; not used for lookup. */
+  sugyaName?: string;
+  annotations: AiTaggingFileAnnotation[];
 }
 
-export interface AiTaggingFileSubline {
-  sub_line_index: number;
+export interface AiTaggingFileAnnotation {
+  /** Global `SubLine.index` the suggestion applies to. */
+  sublineIndex: number;
+  /** Raw subline text — informational only, we don't persist it. */
   text?: string;
-  categories: { id: string; reason?: string }[];
+  categories: AiTaggingFileCategory[];
+}
+
+export interface AiTaggingFileCategory {
+  /** Category id (e.g. `role_2`). Source of truth — `label` is ignored. */
+  id: string;
+  /** Hebrew label from the AI output. Not used — we resolve from `TAGGING_CATEGORIES`. */
+  label?: string;
+  /** AI rationale, surfaced to the editor during review. */
+  reason?: string;
+  /** Cross-references the AI drew between this subline and others. */
+  connections?: AiTaggingFileConnection[];
+}
+
+export interface AiTaggingFileConnection {
+  type: 'subline' | 'external';
+  sublineIndex?: number;
+  text?: string;
 }
 
 /** Normalized AI suggestions for one subline, sent to the apply endpoint. */
 export interface AiSublineSuggestion {
   sublineIndex: number;
-  categories: { categoryId: string; reason?: string }[];
+  categories: {
+    categoryId: string;
+    reason?: string;
+    connections?: CategoryConnection[];
+  }[];
 }
 
 export type ResolveAiAction =

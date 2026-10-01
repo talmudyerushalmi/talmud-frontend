@@ -211,12 +211,12 @@ const TaggingPage: React.FC = () => {
     reader.onload = () => {
       try {
         const parsed = JSON.parse(String(reader.result)) as AiTaggingFile;
-        if (!parsed || !Array.isArray(parsed.sub_lines)) {
-          throw new Error('missing sub_lines');
+        if (!parsed || !Array.isArray(parsed.annotations)) {
+          throw new Error('missing annotations');
         }
         setAiParsedFile(parsed);
       } catch (e) {
-        setAiFileError('קובץ לא תקין — צריך להיות JSON עם שדה sub_lines');
+        setAiFileError('קובץ לא תקין — צריך להיות JSON עם שדה annotations');
       }
     };
     reader.onerror = () => setAiFileError('קריאת הקובץ נכשלה');
@@ -228,21 +228,30 @@ const TaggingPage: React.FC = () => {
     setAiApplying(true);
     setError(null);
     try {
-      // Scope to the clicked sugya: only file entries whose sub_line_index maps
+      // Scope to the clicked sugya: only file entries whose sublineIndex maps
       // to a subline in THIS sugya are applied; the rest are skipped.
       const sugyaIndices = new Set(aiDialogSugya.sublines.map(s => s.index));
       const suggestions: AiSublineSuggestion[] = [];
       let skipped = 0;
-      for (const entry of aiParsedFile.sub_lines) {
-        if (!sugyaIndices.has(entry.sub_line_index)) {
+      for (const entry of aiParsedFile.annotations) {
+        if (!sugyaIndices.has(entry.sublineIndex)) {
           skipped += 1;
           continue;
         }
         suggestions.push({
-          sublineIndex: entry.sub_line_index,
+          sublineIndex: entry.sublineIndex,
           categories: (entry.categories ?? []).map(c => ({
             categoryId: c.id,
             reason: c.reason,
+            // Forward AI-provided connections. Normalize to the FE shape and drop
+            // any garbage entries (missing `type` or wrong casing).
+            connections: (c.connections ?? [])
+              .filter(con => con?.type === 'subline' || con?.type === 'external')
+              .map(con => ({
+                type: con.type,
+                sublineIndex: con.sublineIndex,
+                text: con.text,
+              })),
           })),
         });
       }
@@ -1140,8 +1149,8 @@ const TaggingPage: React.FC = () => {
             )}
             {aiParsedFile && (
               <Alert severity="success" sx={{ mt: 1.5 }}>
-                נטענו {aiParsedFile.sub_lines.length} שורות מהקובץ
-                {aiParsedFile.sugya_id ? ` (מזהה סוגיה: ${aiParsedFile.sugya_id})` : ''}
+                נטענו {aiParsedFile.annotations.length} שורות מהקובץ
+                {aiParsedFile.sugyaName ? ` (סוגיה: ${aiParsedFile.sugyaName})` : ''}
               </Alert>
             )}
             {aiFileError && (
