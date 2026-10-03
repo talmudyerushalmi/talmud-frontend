@@ -72,6 +72,13 @@ const AdminMenu = (props: any) => {
     handleClose();
   }, [currentRoute, navigate]);
 
+  const handleAiTaggingExport = useCallback(() => {
+    const tractate = currentRoute?.tractate || 'yevamot';
+    const chapter = currentRoute?.chapter || '001';
+    navigate(`/admin/ai-tagging/export/${tractate}/${chapter}`);
+    handleClose();
+  }, [currentRoute, navigate]);
+
   return (
     <>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
@@ -82,6 +89,7 @@ const AdminMenu = (props: any) => {
         <MenuItem onClick={handleEditMishna}>עריכת משנה</MenuItem>
         <MenuItem onClick={handleTagging}>עורך תגיות</MenuItem>
         <MenuItem onClick={handleHalachaOverrides}>עריכת מבנה הפרק</MenuItem>
+        <MenuItem onClick={handleAiTaggingExport}>יצוא לאימון AI</MenuItem>
         <MenuItem
           onClick={() => {
             navigate(`/admin/comments/moderation`);

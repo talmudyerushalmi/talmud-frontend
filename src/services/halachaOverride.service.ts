@@ -40,6 +40,7 @@ export interface SugiaInfo {
   firstLineNumber: string;
   firstLineIndex: number;
   lineCount: number;
+  sublineCount: number;
 }
 export interface HalachaStructure {
   source: string;

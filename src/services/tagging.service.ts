@@ -12,6 +12,10 @@ export interface CategoryConnection {
 export interface SublineCategory {
   categoryId: string;
   connections: CategoryConnection[];
+  /** Present only for AI-suggested tags awaiting review. Absent = approved/regular. */
+  status?: 'pending';
+  /** AI-provided rationale, shown while pending and kept after approval. */
+  reason?: string;
 }
 
 export interface RabbiAlternative {
@@ -39,10 +43,68 @@ export interface TaggingSubline {
   index: number;
   text: string;
   lineNumber: string;
+  /** Name of the sugya this subline belongs to ('' for the anonymous intro block). */
+  sugiaName?: string;
   categories: SublineCategory[];
   rabbiMentions: RabbiMention[];
   comments: SublineComment[];
 }
+
+// ─── AI tagging (results-file upload) ───
+
+/**
+ * Shape of the local AI results JSON file the editor uploads per sugya.
+ *
+ * Produced by the external AI tagging pipeline (currently "v6"). Each file
+ * covers ONE sugya and lists per-subline category suggestions with optional
+ * cross-references ("connections") to other sublines or external sources.
+ */
+export interface AiTaggingFile {
+  /** Human-readable sugya name — displayed in the editor; not used for lookup. */
+  sugyaName?: string;
+  annotations: AiTaggingFileAnnotation[];
+}
+
+export interface AiTaggingFileAnnotation {
+  /** Global `SubLine.index` the suggestion applies to. */
+  sublineIndex: number;
+  /** Raw subline text — informational only, we don't persist it. */
+  text?: string;
+  categories: AiTaggingFileCategory[];
+}
+
+export interface AiTaggingFileCategory {
+  /** Category id (e.g. `role_2`). Source of truth — `label` is ignored. */
+  id: string;
+  /** Hebrew label from the AI output. Not used — we resolve from `TAGGING_CATEGORIES`. */
+  label?: string;
+  /** AI rationale, surfaced to the editor during review. */
+  reason?: string;
+  /** Cross-references the AI drew between this subline and others. */
+  connections?: AiTaggingFileConnection[];
+}
+
+export interface AiTaggingFileConnection {
+  type: 'subline' | 'external';
+  sublineIndex?: number;
+  text?: string;
+}
+
+/** Normalized AI suggestions for one subline, sent to the apply endpoint. */
+export interface AiSublineSuggestion {
+  sublineIndex: number;
+  categories: {
+    categoryId: string;
+    reason?: string;
+    connections?: CategoryConnection[];
+  }[];
+}
+
+export type ResolveAiAction =
+  | 'approveCategory'
+  | 'dismissCategory'
+  | 'approveAll'
+  | 'dismissAll';
 
 export interface Rabbi {
   id: string;
@@ -365,5 +427,55 @@ export const taggingService = {
     dto: UpdateSublineTagsDto,
   ): Promise<void> => {
     await axiosInstance.put(`/tagging/${tractate}/${chapter}/${mishna}/sublines/${sublineIndex}`, dto);
+  },
+
+  /**
+   * Applies a batch of AI suggestions (one sugya) as pending categories.
+   * Returns the refreshed subline list for the whole halacha.
+   */
+  applyAiTags: async (
+    tractate: string,
+    chapter: string,
+    mishna: string,
+    sublines: AiSublineSuggestion[],
+  ): Promise<{ applied: number; sublines: TaggingSubline[] }> => {
+    const response = await axiosInstance.put(
+      `/tagging/${tractate}/${chapter}/${mishna}/ai/apply`,
+      { sublines },
+    );
+    return response.data;
+  },
+
+  /**
+   * Approves/dismisses pending AI categories on a single subline. Returns the
+   * subline's resulting categories so the caller can update local state.
+   */
+  resolveAiTags: async (
+    tractate: string,
+    chapter: string,
+    mishna: string,
+    sublineIndex: number,
+    action: ResolveAiAction,
+    categoryId?: string,
+  ): Promise<{ index: number; categories: SublineCategory[] }> => {
+    const response = await axiosInstance.put(
+      `/tagging/${tractate}/${chapter}/${mishna}/sublines/${sublineIndex}/ai/resolve`,
+      { action, categoryId },
+    );
+    return response.data.subline;
+  },
+
+  /** Loads the single global AI instruction document. */
+  getAiInstructions: async (): Promise<{ content: string; updatedAt?: string }> => {
+    const response = await axiosInstance.get('/tagging/ai/instructions');
+    return response.data;
+  },
+
+  /** Persists the global AI instruction document (Editor-only). */
+  saveAiInstructions: async (
+    content: string,
+  ): Promise<{ content: string; updatedAt: string }> => {
+    const response = await axiosInstance.put('/tagging/ai/instructions', { content });
+    return response.data;
   },
 };

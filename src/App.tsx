@@ -31,6 +31,7 @@ import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
 import TaggingPage from './pages/TaggingPage';
 import HalachaOverridesPage from './pages/HalachaOverridesPage';
+import AiTaggingExportPage from './pages/AiTaggingExportPage';
 declare global {
   interface Window {
     Buffer: typeof Buffer;
@@ -103,6 +104,22 @@ function App() {
             element={
               <RequireAuth allowedGroups={[UserGroup.Editor]}>
                 <HalachaOverridesPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="ai-tagging/export"
+            element={
+              <RequireAuth allowedGroups={[UserGroup.Editor]}>
+                <AiTaggingExportPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="ai-tagging/export/:tractate/:chapter"
+            element={
+              <RequireAuth allowedGroups={[UserGroup.Editor]}>
+                <AiTaggingExportPage />
               </RequireAuth>
             }
           />
