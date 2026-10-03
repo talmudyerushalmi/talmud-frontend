@@ -116,7 +116,12 @@ export function getMishna(
     );
     if (mishnaData) {
       dispatch(setCurrentMishna(mishnaData));
-      const isAuthenticated = getState().authentication?.userGroup !== UserGroup.Unauthenticated;
+      // Positive check: only fire private endpoints once auth is RESOLVED to a
+      // real identity. Previously used `!== Unauthenticated`, which also matched
+      // the new `Unknown` (pre-probe) state and sent requests without a token.
+      const group = getState().authentication?.userGroup;
+      const isAuthenticated =
+        group === UserGroup.Authenticated || group === UserGroup.Editor;
       isAuthenticated && dispatch(getPrivateComments());
     }
   };

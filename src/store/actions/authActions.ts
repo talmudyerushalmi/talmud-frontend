@@ -3,6 +3,12 @@ import { signOut as amplifySignOut, getCurrentUser, fetchUserAttributes, fetchAu
 export const GET_USER_AUTH = 'GET_USER_AUTH';
 export const SET_USER_AUTH = 'SET_USER_AUTH';
 export const SET_SIGN_OUT = 'SET_SIGN_OUT';
+/**
+ * Fired when `getUserAuth`'s probe to Cognito completes but finds no signed-in
+ * user. Transitions auth state from `Unknown` → `Unauthenticated` so routing
+ * guards (RequireAuth) can finally make a decision.
+ */
+export const SET_ANONYMOUS = 'SET_ANONYMOUS';
 
 export function signOut() {
   return async function (dispatch: any) {
@@ -34,9 +40,11 @@ export function getUserAuth() {
         })
       );
     } catch {
-      // Not signed in — nothing to dispatch. Left silent on purpose:
-      // `getUserAuth` is called eagerly on mount and it's expected to
-      // reject for anonymous users.
+      // Not signed in. Dispatch SET_ANONYMOUS so the reducer can move auth
+      // state out of `Unknown` — otherwise RequireAuth would sit on a blank
+      // page forever for genuinely anonymous visitors to protected routes
+      // (they should be sent to /login, which requires a resolved state).
+      dispatch({ type: SET_ANONYMOUS });
     }
   };
 }

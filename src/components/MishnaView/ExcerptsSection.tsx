@@ -23,7 +23,11 @@ const mapStateToProps = (state: RootState) => ({
   privateComments: state.comments.privateComments,
   commentModal: state.comments.commentModal,
   selectedComment: state.comments.selectedComment,
-  isAuthenticated: state.authentication.userGroup !== UserGroup.Unauthenticated,
+  // Positive check — exclude the pre-probe `Unknown` state so we don't try to
+  // fetch private comments before auth has resolved (would 401).
+  isAuthenticated:
+    state.authentication.userGroup === UserGroup.Authenticated ||
+    state.authentication.userGroup === UserGroup.Editor,
 });
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   selectExcerpt: (excerpt: iExcerpt | null) => {
