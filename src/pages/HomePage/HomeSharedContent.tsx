@@ -2,19 +2,13 @@ import React from 'react';
 import { Box, Container, Paper, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Contentful from '../../content/Contentful';
-import { HomeThemeId } from '../../context/home-theme-context';
-import { getHomeThemeVisual } from './homeThemeConfig';
-
-interface Props {
-  themeId: HomeThemeId;
-}
+import { getBiblicalHomeVisual } from './homeThemeConfig';
 
 /**
- * Single source of truth for homepage copy and links.
- * Visual treatment comes from `homeThemeConfig` per concept.
+ * Single source of truth for homepage copy and links (biblical/traditional).
  */
-const HomeSharedContent: React.FC<Props> = ({ themeId }) => {
-  const v = getHomeThemeVisual(themeId);
+const HomeSharedContent: React.FC = () => {
+  const v = getBiblicalHomeVisual();
 
   return (
     <Container sx={v.containerSx}>
