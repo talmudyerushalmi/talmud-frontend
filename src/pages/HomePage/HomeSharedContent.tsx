@@ -105,31 +105,53 @@ const HomeSharedContent: React.FC = () => {
           <Contentful id="3ok9sYTx6RApf5klH223c4" />
         </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            direction: 'ltr',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: 2,
+            mt: 1,
+          }}>
           <Box component={Link} to="/talmud/yevamot/001/001" sx={v.tractatePrimarySx}>
             מסכת יבמות
           </Box>
-        </Box>
-
-        <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Box component={Link} to="/talmud/gittin/001/001" sx={v.tractateSecondarySx}>
+          <Box component={Link} to="/talmud/gittin/001/001" sx={v.tractatePrimarySx}>
             מסכת גיטין
           </Box>
-          <Box component={Link} to="/talmud/sota/001/001" sx={v.tractateSecondarySx}>
-            מסכת סוטה
-          </Box>
-          <Box component={Link} to="/talmud/ketubbot/001/001" sx={v.tractateSecondarySx}>
-            מסכת כתובות
-          </Box>
-          <Box
-            component="a"
-            href="https://schechter.ac.il/book/talmud-yerushalmi-kidushin"
-            sx={v.tractateSecondarySx}>
-            מסכת קידושין (מודפסת)
-          </Box>
         </Box>
 
-        <Box component={Link} to="/introduction" sx={v.introLinkSx}>
+        <Box
+          sx={{
+            mt: 4,
+            mb: 2,
+            mx: 'auto',
+            maxWidth: 640,
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2.5,
+          }}>
+          <Typography
+            sx={[
+              v.bodyTextSx,
+              v.whiteLinkSx,
+              { direction: 'rtl', textDecoration: 'none', lineHeight: 1.6 },
+            ]}>
+            שאר המסכתות – ממסכת ברכות עד מסכת נידה בשלבי פיתוח
+          </Typography>
+          <Typography
+            sx={[
+              v.bodyTextSx,
+              v.whiteLinkSx,
+              { direction: 'ltr', textDecoration: 'none', lineHeight: 1.6 },
+            ]}>
+            From Tractate Berakhot to Tractate Niddah — In Development
+          </Typography>
+        </Box>
+
+        <Box component={Link} to="/introduction" sx={[v.introLinkSx, { mt: 2 }]}>
           מבוא
         </Box>
 
