@@ -2,10 +2,9 @@ import React, { useEffect, useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import {
-  getHomePageBackgroundStyle,
-  HomeThemeProvider,
-  useHomeTheme,
-} from './context/home-theme-context';
+  FuturisticDesignProvider,
+  getFuturisticHomePageBackgroundStyle,
+} from './context/futuristic-design-context';
 import './styles/print.css';
 import { Header } from './layout/Header';
 import { ThemeProvider } from '@mui/material/styles';
@@ -161,7 +160,7 @@ const AppContainer = ({ children }) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <HomeThemeProvider>
+      <FuturisticDesignProvider>
         <Authenticator.Provider>
           <RTL>
             <SettingsContext.Provider
@@ -177,7 +176,7 @@ const AppContainer = ({ children }) => {
             </SettingsContext.Provider>
           </RTL>
         </Authenticator.Provider>
-      </HomeThemeProvider>
+      </FuturisticDesignProvider>
     </StyledEngineProvider>
   );
 };
@@ -185,8 +184,6 @@ const AppContainer = ({ children }) => {
 const Background = ({ children }) => {
   const t = useTheme();
   const location = useLocation();
-  const { themeId } = useHomeTheme();
-
   const homepage = location.pathname === '/';
 
   return (
@@ -194,7 +191,7 @@ const Background = ({ children }) => {
       style={{
         direction: 'rtl',
         ...(homepage
-          ? getHomePageBackgroundStyle(themeId)
+          ? getFuturisticHomePageBackgroundStyle()
           : {
               background: t.palette.background.default,
               color: t.palette.text.secondary,

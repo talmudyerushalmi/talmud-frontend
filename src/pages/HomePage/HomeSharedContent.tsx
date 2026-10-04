@@ -2,19 +2,11 @@ import React from 'react';
 import { Box, Container, Paper, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Contentful from '../../content/Contentful';
-import { HomeThemeId } from '../../context/home-theme-context';
-import { getHomeThemeVisual } from './homeThemeConfig';
+import { getFuturisticHomeVisual } from './homeThemeConfig';
 
-interface Props {
-  themeId: HomeThemeId;
-}
-
-/**
- * Single source of truth for homepage copy and links.
- * Visual treatment comes from `homeThemeConfig` per concept.
- */
-const HomeSharedContent: React.FC<Props> = ({ themeId }) => {
-  const v = getHomeThemeVisual(themeId);
+/** Homepage copy and links — futuristic / tech styling only. */
+const HomeSharedContent: React.FC = () => {
+  const v = getFuturisticHomeVisual();
 
   return (
     <Container sx={v.containerSx}>
