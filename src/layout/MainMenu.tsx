@@ -16,9 +16,10 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import i18next from 'i18next';
 import { getAllContentItems } from '../store/actions/contentfulActions';
-import FuturisticNavChromeSelector from './FuturisticNavChromeSelector';
-import { useFuturisticDesign } from '../context/futuristic-design-context';
-import { getFuturisticNavChrome } from '../context/futuristicNavChrome';
+import {
+  FUTURISTIC_NAV_VARIANT,
+  getFuturisticNavChrome,
+} from '../context/futuristicNavChrome';
 
 const mapStateToProps = (state: any) => ({
   userGroup: state.authentication.userGroup,
@@ -56,8 +57,7 @@ const MainMenu = (props: any) => {
   // Check if we're in staging environment
   const staging = process.env.USER_BRANCH === 'staging' || 
                   window.location.hostname.includes('staging');
-  const { navVariant } = useFuturisticDesign();
-  const chrome = getFuturisticNavChrome(navVariant);
+  const chrome = getFuturisticNavChrome(FUTURISTIC_NAV_VARIANT);
   const navLink = { textDecoration: 'none', color: chrome.linkColor } as const;
   const navSep = { margin: '0 1rem', color: 'rgba(34, 211, 238, 0.35)' } as const;
 
@@ -140,7 +140,6 @@ const MainMenu = (props: any) => {
             </div>
           </Hidden>
           <Typography variant="h6" className={classes.title}></Typography>
-          <FuturisticNavChromeSelector />
           <LanguageSelector />
           <Tooltip title={<div>{t('Light mode')}</div>}>
             <Box onClick={settingsContext.toggleMode}>

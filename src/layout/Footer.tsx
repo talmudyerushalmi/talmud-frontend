@@ -1,12 +1,13 @@
 import React from 'react';
 import { Box, Container, Grid } from '@mui/material';
 import cc from '../assets/cc.png';
-import { useFuturisticDesign } from '../context/futuristic-design-context';
-import { getFuturisticNavChrome } from '../context/futuristicNavChrome';
+import {
+  FUTURISTIC_NAV_VARIANT,
+  getFuturisticNavChrome,
+} from '../context/futuristicNavChrome';
 
 export const Footer = () => {
-  const { navVariant } = useFuturisticDesign();
-  const chrome = getFuturisticNavChrome(navVariant);
+  const chrome = getFuturisticNavChrome(FUTURISTIC_NAV_VARIANT);
   const year = `2021-${new Date().getFullYear()}`;
   const hebYear = 'תשפ״א - תשפ״ו';
   const fullYear = `${hebYear} ${year}`;
@@ -30,22 +31,26 @@ export const Footer = () => {
       }}>
       <Container>
         <Grid container>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={4} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
             <Box
               sx={{
-                display: 'flex',
+                display: 'inline-flex',
                 direction: 'ltr',
-                flexDirection: { xs: 'column', sm: 'row' },
-                justifyContent: 'space-between',
-                gap: 1,
-                width: '100%',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: { xs: 'center', sm: 'flex-start' },
+                gap: 0.75,
+                rowGap: 0,
+                whiteSpace: 'nowrap',
+                fontSize: { xs: '0.78rem', sm: '0.9rem' },
               }}>
-              <Box sx={{ direction: 'rtl', textAlign: 'left', flex: 1 }}>
+              <Box component="span" sx={{ direction: 'rtl' }}>
                 מהדורה דיגיטלית גמישה
               </Box>
-              <Box sx={{ direction: 'ltr', textAlign: 'right', flex: 1 }}>
-                Digital Critical and Flexible Edition
+              <Box component="span" sx={{ opacity: 0.45, userSelect: 'none' }}>
+                ·
               </Box>
+              <Box component="span">Dynamic Critical Flexible Edition</Box>
             </Box>
           </Grid>
           <Grid item xs={12} sm={4} sx={{ textAlign: 'center' }}>

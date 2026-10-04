@@ -2,16 +2,8 @@
 
 export type FuturisticNavVariant = 'cyan' | 'violet' | 'slate' | 'abyss';
 
-export const FUTURISTIC_NAV_OPTIONS: {
-  id: FuturisticNavVariant;
-  labelHe: string;
-  labelEn: string;
-}[] = [
-  { id: 'cyan', labelHe: 'ציאן לילה', labelEn: 'Cyan midnight' },
-  { id: 'violet', labelHe: 'סגול ערפילית', labelEn: 'Nebula violet' },
-  { id: 'slate', labelHe: 'צפחה הולוגרמת', labelEn: 'Slate hologram' },
-  { id: 'abyss', labelHe: 'תהום שחורה', labelEn: 'Abyss black' },
-];
+/** Production header/footer chrome (cyan / ציאן לילה). */
+export const FUTURISTIC_NAV_VARIANT: FuturisticNavVariant = 'cyan';
 
 export interface FuturisticNavChromeStyle {
   barBackground: string;

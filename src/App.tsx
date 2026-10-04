@@ -1,10 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
-import {
-  FuturisticDesignProvider,
-  getFuturisticHomePageBackgroundStyle,
-} from './context/futuristic-design-context';
+import { getFuturisticHomePageBackgroundStyle } from './context/futuristic-design-context';
 import './styles/print.css';
 import { Header } from './layout/Header';
 import { ThemeProvider } from '@mui/material/styles';
@@ -160,23 +157,21 @@ const AppContainer = ({ children }) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <FuturisticDesignProvider>
-        <Authenticator.Provider>
-          <RTL>
-            <SettingsContext.Provider
-              value={{
-                mode,
-                toggleMode: () => {
-                  setMode(mode === 'dark' ? 'light' : 'dark');
-                },
-              }}>
-              <ThemeProvider theme={getTheme}>
-                <Background>{children}</Background>
-              </ThemeProvider>
-            </SettingsContext.Provider>
-          </RTL>
-        </Authenticator.Provider>
-      </FuturisticDesignProvider>
+      <Authenticator.Provider>
+        <RTL>
+          <SettingsContext.Provider
+            value={{
+              mode,
+              toggleMode: () => {
+                setMode(mode === 'dark' ? 'light' : 'dark');
+              },
+            }}>
+            <ThemeProvider theme={getTheme}>
+              <Background>{children}</Background>
+            </ThemeProvider>
+          </SettingsContext.Provider>
+        </RTL>
+      </Authenticator.Provider>
     </StyledEngineProvider>
   );
 };

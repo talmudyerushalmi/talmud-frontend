@@ -30,7 +30,7 @@ const HomeSharedContent: React.FC = () => {
       </Paper>
 
       <Paper elevation={0} sx={v.mainPaperSx}>
-        <Typography sx={[v.bodyTextSx, { textAlign: 'left' }]}>
+        <Typography sx={[v.bodyTextSx, { textAlign: 'center', width: '100%' }]}>
           ISF Grant 1717/19, ISF Grant 1295/22
         </Typography>
 
@@ -75,7 +75,7 @@ const HomeSharedContent: React.FC = () => {
           </Box>
           <Box sx={{ direction: 'ltr', textAlign: 'right', flex: 1, minWidth: 0 }}>
             <Typography variant="h2Roboto" sx={{ textAlign: 'right' }}>
-              Digital Critical and Flexible Edition
+              Dynamic Critical Flexible Edition
             </Typography>
             <Typography
               sx={[
