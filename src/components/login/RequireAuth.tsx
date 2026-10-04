@@ -15,6 +15,13 @@ interface Props {
 
 function RequireAuth({ children, userGroup, allowedGroups }: Props) {
   const location = useLocation();
+  // Auth is still being probed (initial mount / page refresh). Returning `null`
+  // here is intentional: redirecting to /login during this window would kick
+  // signed-in editors off admin pages every time they refresh. The blank frame
+  // lasts only until `getUserAuth` resolves (~hundreds of ms).
+  if (userGroup === UserGroup.Unknown) {
+    return null;
+  }
   if (!allowedGroups.includes(userGroup)) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }

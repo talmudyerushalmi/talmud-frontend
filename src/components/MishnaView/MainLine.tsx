@@ -7,7 +7,11 @@ import SugiaButton from './SugiaButton';
 import { UserGroup } from '../../store/reducers/authReducer';
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.authentication.userGroup !== UserGroup.Unauthenticated,
+  // Positive check — exclude the pre-probe `Unknown` state so we don't act as
+  // if the user is signed in before `getUserAuth` has resolved.
+  isAuthenticated:
+    state.authentication.userGroup === UserGroup.Authenticated ||
+    state.authentication.userGroup === UserGroup.Editor,
 });
 
 interface Props {
