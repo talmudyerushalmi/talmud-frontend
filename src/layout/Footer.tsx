@@ -24,20 +24,34 @@ export const Footer = () => {
         borderTop: chrome.accentBorder,
         color: chrome.foreground,
         py: 0.5,
-        textAlign: 'center',
         zIndex: (theme) => theme.zIndex.drawer,
         fontFamily: '"IBM Plex Sans", "Helvetica Neue", sans-serif',
         fontSize: '0.9rem',
       }}>
       <Container>
         <Grid container>
-          <Grid item sm={4}>
-            מהדורה דיגיטלית Digital Critical Edition
+          <Grid item xs={12} sm={4}>
+            <Box
+              sx={{
+                display: 'flex',
+                direction: 'ltr',
+                flexDirection: { xs: 'column', sm: 'row' },
+                justifyContent: 'space-between',
+                gap: 1,
+                width: '100%',
+              }}>
+              <Box sx={{ direction: 'rtl', textAlign: 'left', flex: 1 }}>
+                מהדורה דיגיטלית גמישה
+              </Box>
+              <Box sx={{ direction: 'ltr', textAlign: 'right', flex: 1 }}>
+                Digital Critical and Flexible Edition
+              </Box>
+            </Box>
           </Grid>
-          <Grid item sm={4}>
+          <Grid item xs={12} sm={4} sx={{ textAlign: 'center' }}>
             אתר בהקמה
           </Grid>
-          <Grid item sm={4} sx={{ position: 'relative' }}>
+          <Grid item xs={12} sm={4} sx={{ position: 'relative', textAlign: 'center' }}>
             {fullYear}
             <Box
               component="img"

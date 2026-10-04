@@ -11,11 +11,19 @@ const HomeSharedContent: React.FC = () => {
   return (
     <Container sx={v.containerSx}>
       <Paper elevation={0} sx={v.heroPaperSx}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
-          <Typography variant="h1" sx={v.heroTitleSx}>
+        <Box
+          sx={{
+            display: 'flex',
+            direction: 'ltr',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 2,
+            width: '100%',
+          }}>
+          <Typography variant="h1" sx={[v.heroTitleSx, { direction: 'rtl', textAlign: 'left', flex: 1 }]}>
             תלמוד ירושלמי
           </Typography>
-          <Typography variant="h1" sx={v.heroTitleSx}>
+          <Typography variant="h1" sx={[v.heroTitleSx, { textAlign: 'right', flex: 1 }]}>
             Talmud Yerushalmi
           </Typography>
         </Box>
@@ -31,25 +39,65 @@ const HomeSharedContent: React.FC = () => {
             v.bodyTextSx,
             {
               display: 'flex',
+              direction: 'ltr',
+              flexDirection: { xs: 'column', md: 'row' },
               justifyContent: 'space-between',
-              flexWrap: 'wrap',
               gap: 2,
               mt: 2,
+              width: '100%',
             },
           ]}>
-          <Box sx={{ textAlign: 'right' }}>
-            <Typography variant="h2Roboto">מהדורה דיגיטלית</Typography>
-            <Typography variant="h2Roboto">עורך: פרופ׳ מנחם כ״ץ</Typography>
-            <Typography variant="h2Roboto">עורך משנה: ד״ר הלל גרשוני</Typography>
-            <br />
-            <Typography variant="h3Roboto">פיתוח אתר: ירון בר</Typography>
+          <Box sx={{ direction: 'rtl', textAlign: 'left', flex: 1, minWidth: 0 }}>
+            <Typography variant="h2Roboto" sx={{ textAlign: 'left' }}>
+              מהדורה דיגיטלית גמישה
+            </Typography>
+            <Typography
+              sx={[
+                v.bodyTextSx,
+                { fontSize: { xs: '1.05rem', md: '1.35rem' }, mt: 0.5, textAlign: 'left' },
+              ]}>
+              עורך: פרופ׳ מנחם כ״ץ
+            </Typography>
+            <Typography
+              sx={[
+                v.bodyTextSx,
+                { fontSize: { xs: '0.95rem', md: '1.15rem' }, mt: 0.25, textAlign: 'left' },
+              ]}>
+              עורך משנה: ד״ר הלל גרשוני
+            </Typography>
+            <Typography
+              sx={[
+                v.bodyTextSx,
+                { fontSize: { xs: '0.85rem', md: '0.95rem' }, mt: 0.25, textAlign: 'left' },
+              ]}>
+              פיתוח אתר: ירון בר ואסף כורם
+            </Typography>
           </Box>
-          <Box sx={{ textAlign: 'left' }}>
-            <Typography variant="h2Roboto">Digital Critical Edition</Typography>
-            <Typography variant="h2Roboto">Editor: Prof. Menachem Katz</Typography>
-            <Typography variant="h2Roboto">Co-editor: Dr. Hillel Gershuni</Typography>
-            <br />
-            <Typography variant="h3Roboto">Site development: Yaron Bar</Typography>
+          <Box sx={{ direction: 'ltr', textAlign: 'right', flex: 1, minWidth: 0 }}>
+            <Typography variant="h2Roboto" sx={{ textAlign: 'right' }}>
+              Digital Critical and Flexible Edition
+            </Typography>
+            <Typography
+              sx={[
+                v.bodyTextSx,
+                { fontSize: { xs: '1.05rem', md: '1.35rem' }, mt: 0.5, textAlign: 'right' },
+              ]}>
+              Editor: Prof. Menachem Katz
+            </Typography>
+            <Typography
+              sx={[
+                v.bodyTextSx,
+                { fontSize: { xs: '0.95rem', md: '1.15rem' }, mt: 0.25, textAlign: 'right' },
+              ]}>
+              Co-editor: Dr. Hillel Gershuni
+            </Typography>
+            <Typography
+              sx={[
+                v.bodyTextSx,
+                { fontSize: { xs: '0.85rem', md: '0.95rem' }, mt: 0.25, textAlign: 'right' },
+              ]}>
+              Site development: Yaron Bar and Asaf Corem
+            </Typography>
           </Box>
         </Box>
 
@@ -149,11 +197,20 @@ const HomeSharedContent: React.FC = () => {
           </Box>
         </Typography>
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', mt: 3, gap: 2 }}>
-          <Box component="h3" sx={v.footerHeadingSx}>
+        <Box
+          sx={{
+            display: 'flex',
+            direction: 'ltr',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            mt: 3,
+            gap: 2,
+            width: '100%',
+          }}>
+          <Box component="h3" sx={[v.footerHeadingSx, { direction: 'rtl', textAlign: 'left', flex: 1 }]}>
             תלמוד ירושלמי (ע״ר)
           </Box>
-          <Box component="h3" sx={v.footerHeadingSx}>
+          <Box component="h3" sx={[v.footerHeadingSx, { textAlign: 'right', flex: 1 }]}>
             Talmud Yerushalmi Hadigitali (R.A.)
           </Box>
         </Box>
