@@ -16,6 +16,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import i18next from 'i18next';
 import { getAllContentItems } from '../store/actions/contentfulActions';
+import HomeThemeSelector from './HomeThemeSelector';
 
 const mapStateToProps = (state: any) => ({
   userGroup: state.authentication.userGroup,
@@ -127,6 +128,7 @@ const MainMenu = (props: any) => {
             </div>
           </Hidden>
           <Typography variant="h6" className={classes.title}></Typography>
+          <HomeThemeSelector />
           <LanguageSelector />
           <Tooltip title={<div>{t('Light mode')}</div>}>
             <Box onClick={settingsContext.toggleMode}>

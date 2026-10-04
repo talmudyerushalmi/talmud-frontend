@@ -1,7 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import background from './assets/leiden2.jpg';
 import './App.css';
+import {
+  getHomePageBackgroundStyle,
+  HomeThemeProvider,
+  useHomeTheme,
+} from './context/home-theme-context';
 import './styles/print.css';
 import { Header } from './layout/Header';
 import { ThemeProvider } from '@mui/material/styles';
@@ -157,21 +161,23 @@ const AppContainer = ({ children }) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <Authenticator.Provider>
-        <RTL>
-          <SettingsContext.Provider
-            value={{
-              mode,
-              toggleMode: () => {
-                setMode(mode === 'dark' ? 'light' : 'dark');
-              },
-            }}>
-            <ThemeProvider theme={getTheme}>
-              <Background>{children}</Background>
-            </ThemeProvider>
-          </SettingsContext.Provider>
-        </RTL>
-      </Authenticator.Provider>
+      <HomeThemeProvider>
+        <Authenticator.Provider>
+          <RTL>
+            <SettingsContext.Provider
+              value={{
+                mode,
+                toggleMode: () => {
+                  setMode(mode === 'dark' ? 'light' : 'dark');
+                },
+              }}>
+              <ThemeProvider theme={getTheme}>
+                <Background>{children}</Background>
+              </ThemeProvider>
+            </SettingsContext.Provider>
+          </RTL>
+        </Authenticator.Provider>
+      </HomeThemeProvider>
     </StyledEngineProvider>
   );
 };
@@ -179,19 +185,16 @@ const AppContainer = ({ children }) => {
 const Background = ({ children }) => {
   const t = useTheme();
   const location = useLocation();
+  const { themeId } = useHomeTheme();
 
-  let homepage = location.pathname === '/';
+  const homepage = location.pathname === '/';
 
   return (
     <div
       style={{
         direction: 'rtl',
         ...(homepage
-          ? {
-              backgroundImage: `url(${background})`,
-              backgroundPosition: 'center -27rem',
-              minHeight: '100vh',
-            }
+          ? getHomePageBackgroundStyle(themeId)
           : {
               background: t.palette.background.default,
               color: t.palette.text.secondary,
