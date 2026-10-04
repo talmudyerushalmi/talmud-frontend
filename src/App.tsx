@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import background from './assets/leiden2.jpg';
 import './App.css';
+import { getFuturisticHomePageBackgroundStyle } from './context/futuristic-design-context';
 import './styles/print.css';
 import { Header } from './layout/Header';
 import { ThemeProvider } from '@mui/material/styles';
@@ -179,19 +179,14 @@ const AppContainer = ({ children }) => {
 const Background = ({ children }) => {
   const t = useTheme();
   const location = useLocation();
-
-  let homepage = location.pathname === '/';
+  const homepage = location.pathname === '/';
 
   return (
     <div
       style={{
         direction: 'rtl',
         ...(homepage
-          ? {
-              backgroundImage: `url(${background})`,
-              backgroundPosition: 'center -27rem',
-              minHeight: '100vh',
-            }
+          ? getFuturisticHomePageBackgroundStyle()
           : {
               background: t.palette.background.default,
               color: t.palette.text.secondary,

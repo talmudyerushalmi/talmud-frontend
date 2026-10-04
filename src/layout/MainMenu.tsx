@@ -16,6 +16,10 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import i18next from 'i18next';
 import { getAllContentItems } from '../store/actions/contentfulActions';
+import {
+  FUTURISTIC_NAV_VARIANT,
+  getFuturisticNavChrome,
+} from '../context/futuristicNavChrome';
 
 const mapStateToProps = (state: any) => ({
   userGroup: state.authentication.userGroup,
@@ -53,6 +57,9 @@ const MainMenu = (props: any) => {
   // Check if we're in staging environment
   const staging = process.env.USER_BRANCH === 'staging' || 
                   window.location.hostname.includes('staging');
+  const chrome = getFuturisticNavChrome(FUTURISTIC_NAV_VARIANT);
+  const navLink = { textDecoration: 'none', color: chrome.linkColor } as const;
+  const navSep = { margin: '0 1rem', color: 'rgba(34, 211, 238, 0.35)' } as const;
 
   useEffect(() => {
     getAllContentItems();
@@ -64,13 +71,20 @@ const MainMenu = (props: any) => {
         position="fixed"
         dir={direction}
         sx={{
-          backgroundColor: staging ? '#6a1b9a' : undefined, // Slightly purple for staging
-          '& .MuiButton-root': { color: 'white' },
+          ...(staging
+            ? { backgroundColor: '#6a1b9a' }
+            : {
+                background: chrome.barBackground,
+                borderBottom: chrome.accentBorder,
+                color: chrome.foreground,
+              }),
+          '& .MuiButton-root': { color: chrome.foreground },
+          '& .MuiIconButton-root': { color: chrome.foreground },
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}>
         <Toolbar>
           <div style={{ fontSize: '1rem', display: 'flex' }}>
-            <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
+            <Link to="/" style={navLink}>
               <span>{t('Jerusalem Talmud')} - </span>
               <strong>{t('Beta Version')}</strong>
             </Link>
@@ -78,8 +92,7 @@ const MainMenu = (props: any) => {
               to={url}
               target="_blank"
               style={{ 
-                textDecoration: 'none', 
-                color: 'white', 
+                ...navLink,
                 [isRTL ? 'marginRight' : 'marginLeft']: '2rem',
                 [isRTL ? 'marginLeft' : 'marginRight']: '2rem'
               }}>
@@ -95,32 +108,32 @@ const MainMenu = (props: any) => {
                 justifyContent: 'space-around',
                 flexGrow: 0.1,
               }}>
-              <Link to="/manuscripts" style={{ textDecoration: 'none', color: 'white' }}>
+              <Link to="/manuscripts" style={navLink}>
                 <span>{t('Manuscripts')}</span>
               </Link>
-              <span style={{ margin: '0 1rem' }}>|</span>
-              <Link to="/manuscripts_desc" style={{ textDecoration: 'none', color: 'white' }}>
+              <span style={navSep}>|</span>
+              <Link to="/manuscripts_desc" style={navLink}>
                 <span>{t('NewManuscriptsDescription')}</span>
               </Link>
-              <span style={{ margin: '0 1rem' }}>|</span>
-              <Link to="/resources" style={{ textDecoration: 'none', color: 'white' }}>
+              <span style={navSep}>|</span>
+              <Link to="/resources" style={navLink}>
                 <span>{t('Resources')}</span>
               </Link>
-              <span style={{ margin: '0 1rem' }}>|</span>
-              <Link to="/qiddushin" style={{ textDecoration: 'none', color: 'white' }}>
+              <span style={navSep}>|</span>
+              <Link to="/qiddushin" style={navLink}>
                 <span>{t('Qiddushin')}</span>
               </Link>
-              <span style={{ margin: '0 1rem' }}>|</span>
-              <Link to="/about" style={{ textDecoration: 'none', color: 'white' }}>
+              <span style={navSep}>|</span>
+              <Link to="/about" style={navLink}>
                 <span>{t('About')}</span>
               </Link>
-              <span style={{ margin: '0 1rem' }}>|</span>
-              <Link to="/support" style={{ textDecoration: 'none', color: 'white' }}>
+              <span style={navSep}>|</span>
+              <Link to="/support" style={navLink}>
                 <span>{t('Support for the Edition')}</span>
               </Link>
               {staging && (
                 <>
-                  <span style={{ margin: '0 1rem' }}>|</span>
+                  <span style={navSep}>|</span>
                   <span style={{ color: 'red' }}>סביבת סטיג׳ינג</span>
                 </>
               )}

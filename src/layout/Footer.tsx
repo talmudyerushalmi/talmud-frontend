@@ -1,52 +1,77 @@
 import React from 'react';
-import { Container, Grid } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Box, Container, Grid } from '@mui/material';
 import cc from '../assets/cc.png';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    root: {
-      position: 'fixed',
-      bottom: 0,
-      background: theme.palette.primary.main,
-      color: 'white',
-      width: '100%',
-      right: 0,
-      paddingTop: '0 0.3rem',
-      textAlign: 'center',
-    },
-  };
-});
+import {
+  FUTURISTIC_NAV_VARIANT,
+  getFuturisticNavChrome,
+} from '../context/futuristicNavChrome';
 
 export const Footer = () => {
-  const classes = useStyles();
+  const chrome = getFuturisticNavChrome(FUTURISTIC_NAV_VARIANT);
   const year = `2021-${new Date().getFullYear()}`;
   const hebYear = 'תשפ״א - תשפ״ו';
   const fullYear = `${hebYear} ${year}`;
+
   return (
-    <footer className={`${classes.root} footer`}>
+    <Box
+      component="footer"
+      className="footer"
+      sx={{
+        position: 'fixed',
+        bottom: 0,
+        right: 0,
+        width: '100%',
+        background: chrome.barBackground,
+        borderTop: chrome.accentBorder,
+        color: chrome.foreground,
+        py: 0.5,
+        zIndex: (theme) => theme.zIndex.drawer,
+        fontFamily: '"IBM Plex Sans", "Helvetica Neue", sans-serif',
+        fontSize: '0.9rem',
+      }}>
       <Container>
         <Grid container>
-          <Grid item sm={4}>
-            מהדורה דיגיטלית Digital Critical Edition
+          <Grid item xs={12} sm={4} sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+            <Box
+              sx={{
+                display: 'inline-flex',
+                direction: 'ltr',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: { xs: 'center', sm: 'flex-start' },
+                gap: 0.75,
+                rowGap: 0,
+                whiteSpace: 'nowrap',
+                fontSize: { xs: '0.78rem', sm: '0.9rem' },
+              }}>
+              <Box component="span" sx={{ direction: 'rtl' }}>
+                מהדורה דיגיטלית גמישה
+              </Box>
+              <Box component="span" sx={{ opacity: 0.45, userSelect: 'none' }}>
+                ·
+              </Box>
+              <Box component="span">Dynamic Critical Flexible Edition</Box>
+            </Box>
           </Grid>
-          <Grid item sm={4}>
+          <Grid item xs={12} sm={4} sx={{ textAlign: 'center' }}>
             אתר בהקמה
           </Grid>
-          <Grid item sm={4}>
+          <Grid item xs={12} sm={4} sx={{ position: 'relative', textAlign: 'center' }}>
             {fullYear}
-            <img
+            <Box
+              component="img"
               src={cc}
               alt="cc"
-              style={{
+              sx={{
                 top: '0.15rem',
-                paddingRight: '0.3rem',
+                pr: '0.3rem',
                 height: '1.5rem',
                 position: 'absolute',
-              }}></img>
+              }}
+            />
           </Grid>
         </Grid>
       </Container>
-    </footer>
+    </Box>
   );
 };
