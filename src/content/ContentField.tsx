@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ContentField = (props: Props) => {
-  const { fieldName, fieldValue } = props;
+  const { fieldValue } = props;
   return <>{isFieldDocument(fieldValue) ? <DocumentField fieldValue={fieldValue} /> : null}</>;
 };
 

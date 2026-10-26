@@ -3,6 +3,7 @@ import { Box, Container, Paper, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Contentful from '../../content/Contentful';
 import { getFuturisticHomeVisual } from './homeThemeConfig';
+import HomeTractateSelect from './HomeTractateSelect';
 
 /** Homepage copy and links — futuristic / tech styling only. */
 const HomeSharedContent: React.FC = () => {
@@ -139,7 +140,7 @@ const HomeSharedContent: React.FC = () => {
               v.whiteLinkSx,
               { direction: 'rtl', textDecoration: 'none', lineHeight: 1.6 },
             ]}>
-            שאר המסכתות – ממסכת ברכות עד מסכת נידה בשלבי פיתוח
+            כדי לגשת לשאר המסכתות - אנא בחר מסכת
           </Typography>
           <Typography
             sx={[
@@ -147,8 +148,9 @@ const HomeSharedContent: React.FC = () => {
               v.whiteLinkSx,
               { direction: 'ltr', textDecoration: 'none', lineHeight: 1.6 },
             ]}>
-            From Tractate Berakhot to Tractate Niddah — In Development
+            To access the other tractates, please select a tractate
           </Typography>
+          <HomeTractateSelect />
         </Box>
 
         <Box component={Link} to="/introduction" sx={[v.introLinkSx, { mt: 2 }]}>
